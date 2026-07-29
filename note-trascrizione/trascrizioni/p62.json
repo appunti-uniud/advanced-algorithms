@@ -1,0 +1,98 @@
+{
+ "pagina": 62,
+ "latex": "\\scan{62}\n\n\\subsection{Applicazione: il \\emph{painter's algorithm}}\n\nUna prima applicazione delle partizioni binarie del piano è il \\emph{painter's\nalgorithm}: si usa l'albero della BPP come struttura dati per disegnare una scena.\n\nFissata la posizione dell'osservatore, l'albero viene visitato ricorsivamente: in\nogni nodo interno $(r,\\ell)$ si disegna per prima la regione figlia che sta dalla\nparte di $\\ell$ \\emph{opposta} all'osservatore e poi l'altra. Si ottiene così un\nordine di disegno dal più lontano al più vicino, in cui gli oggetti vicini\nsovrascrivono quelli lontani e la rimozione delle superfici nascoste è automatica.\nIl tempo di disegno è proporzionale a $\\abs{\\mathrm{BPP}}$, cioè al numero di foglie\ndell'albero: da qui l'interesse per partizioni di dimensione piccola.\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/p62-painter.tikz}\n\\caption{La scena, con i suoi segmenti, e l'osservatore. I tagli della BPP\nsuddividono la scena in regioni; l'albero della partizione fornisce, per ogni\nposizione dell'osservatore, un ordine di disegno dal più lontano al più vicino.}\n\\end{figure}\n\n\\subsection{Autopartizione}\n\n\\begin{definizione}[Autopartizione]\nUna \\emph{autopartizione} è una BPP tale che ogni retta $\\ell_i$ che compare nei suoi\nnodi interni $(r_i,\\ell_i)$ è una delle rette su cui giace un segmento di $S$, o una\nparte di esso.\n\\end{definizione}\n\nPer $s\\in S$ scriviamo $\\ell(s)$ per la retta su cui giace $s$, cioè il prolungamento\ndi $s$ a tutta la retta.\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/p62-autopartizione.tikz}\n\\caption{Il segmento $s$ giace sulla retta $\\ell=\\ell(s)$: tagliando con $\\ell$, $s$\nfinisce sulla frontiera comune alle due regioni $r_\\ell$ e $r_\\ell'$ e va assegnato\nall'una oppure all'altra.}\n\\end{figure}\n\n\\begin{osservazione}\nDefinita la retta $\\ell$ su cui giace $s$, il segmento $s$ si trova esattamente sulla\nfrontiera comune alle due regioni in cui $\\ell$ divide la regione corrente. Sceglierò\nallora di posizionare $s$ nella regione a destra oppure in quella a sinistra, a\nseconda di dove mi conviene: per esempio nella regione con meno porzioni di segmenti.\nIn particolare $\\ell(s)$ non taglia mai $s$, e quindi in una autopartizione un\nsegmento può essere spezzato soltanto dalle rette \\emph{degli altri} segmenti.\n\\end{osservazione}\n\nL'algoritmo randomizzato che costruisce una autopartizione è il seguente.\n\n\\begin{algorithm}[H]\n\\caption{\\textsc{RandAuto}}\n\\begin{algorithmic}[1]\n\\Require $S=\\set{s_1,\\dots,s_n}$, segmenti a due a due non intersecanti.\n\\Ensure $P_\\pi$, una autopartizione binaria del piano (\\emph{binary planar\nautopartition}) di $S$.\n\\State scegli uniformemente a caso una permutazione $\\pi$ di $\\set{1,\\dots,n}$;\n\\While{esiste una regione $r$ che contiene più di una porzione di segmento}\n    \\State taglia $r$ usando $\\ell(s_i)$, dove $s_i$ è il primo segmento\n    nell'ordine dato da $\\pi$ tale che $s_i$ (o una sua porzione) sia contenuto\n    in $r$.\n\\EndWhile\n\\end{algorithmic}\n\\end{algorithm}\n\nTutte le scelte casuali sono concentrate nel passo~1: una volta estratta $\\pi$, il\nresto dell'esecuzione è completamente deterministico, e per questo la partizione\nprodotta si indica con $P_\\pi$.",
+ "note": [
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 62,
+   "testo": "Il titolo in alto e scritto in corsivo inglese e si legge ambiguamente come \"Pointers algorithm\" oppure \"Painters algorithm\". Ho scritto \"il painter's algorithm\" perche e il nome standard dell'algoritmo del pittore, coerente con la figura (occhio/osservatore + scena) e con Gli appunti del corso dell'anno precedente (L15, sez. 2.2, \"Applicazione: Painter's algorithm\"). Risolto con certezza.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 62,
+   "testo": "Il quaderno scrive nel corpo del while: \"Taglio usando l(s_i), con i minimo tale che s_i (o una sua porzione) sia in r\". Letto alla lettera, \"i minimo\" significherebbe l'indice intero piu piccolo, il che renderebbe l'algoritmo deterministico e la permutazione pi inutile. Ho scritto \"dove s_i e il primo segmento nell'ordine dato da pi\", che e la formulazione di Motwani-Raghavan (\"where i is first in the ordering pi\") e l'unica che rende sensata la dimostrazione di p.63-64.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 62,
+   "testo": "Il quaderno, sotto \"Applicazione / Painter's algorithm\", ha solo l'annotazione telegrafica \"Usa l'albero BPP come struttura dati\" e il disegno della scena con l'occhio. Ho aggiunto due frasi che spiegano la visita back-to-front dell'albero (si disegna prima il figlio dal lato di l opposto all'osservatore) e il costo proporzionale a |BPP|, ricostruite daGli appunti del corso dell'anno precedente (L15, sez. 2.2) e dalla teoria standard. Contenuto aggiunto per colmare una lacuna, segnalato qui.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 62,
+   "testo": "Ho aggiunto alla fine dell'osservazione la frase \"In particolare l(s) non taglia mai s, e quindi in una autopartizione un segmento puo essere spezzato soltanto dalle rette degli altri segmenti\". Non e scritta nel quaderno, ma e la conseguenza immediata del NB (s giace su l, dunque sta sulla frontiera) ed e il fatto usato implicitamente in tutta la dimostrazione di p.63-64. Segnalata come integrazione.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 62,
+   "testo": "Ho aggiunto la frase finale \"Tutte le scelte casuali sono concentrate nel passo 1 ... per questo la partizione prodotta si indica con P_pi\". Serve a giustificare la notazione P_pi che il quaderno usa nell'Output senza spiegarla; corrisponde all'annotazione dell'anno precedente \"faccio tutte le scelte (random) all'inizio\" (L15, sez. 3.3).",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 62,
+   "testo": "La guardia del while nel quaderno e \"esiste una regione con piu di una porzione di segmenti\", mentre Motwani-Raghavan e Gli appunti del corso dell'anno precedente scrivono \"while a region contains more than one segment\". La versione dello studente e piu precisa (dopo i tagli una regione contiene frammenti, non segmenti interi) e l'ho mantenuta.",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 62,
+   "testo": "Il NB del quaderno aggiunge un criterio che non compare in Motwani-Raghavan ne neGli appunti del corso dell'anno precedente: assegnare s \"nella regione con meno porzioni di segmenti\". E una euristica di comodo che non incide sul bound O(n log n) (il conteggio dei tagli non dipende da questa scelta). L'ho trascritta come esempio (\"per esempio\"), non come prescrizione.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 62,
+   "testo": "Non esiste la macro \\RandAuto nel preambolo (esiste solo \\RandQS). Ho scritto \\textsc{RandAuto} per esteso nel caption dell'algoritmo, come previsto dalle convenzioni.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 62,
+   "testo": "Il quaderno ha due titoli sottolineati espliciti (\"Autopartizione\" e \"Algorithm: RandAuto\") piu l'intestazione non sottolineata \"Applicazione\". Ho reso \"Applicazione\" e \"Autopartizione\" con \\subsection e \"Algorithm: RandAuto\" con il caption del float algorithm, per non moltiplicare i livelli di titolo.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 62,
+   "testo": "Nella definizione di autopartizione il quaderno scrive \"ogni l_i\" senza dire dove vivono le l_i: si riferisce alle rette dei nodi interni (r,l) definiti a p.61. Ho esplicitato \"che compare nei suoi nodi interni (r_i, l_i)\".",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 62,
+   "testo": "Figura 1 (alto): il quaderno disegna una macchia chiusa a mano libera (la scena) con dentro ~7 segmenti brevi in tratto spesso, attraversata da due corde che partono quasi dallo stesso punto del bordo superiore (una quasi verticale fino al bordo inferiore, una obliqua fino al bordo destro). Fuori, in basso a sinistra, un occhio stilizzato con tre frecce che puntano verso la macchia. Nessuna etichetta testuale nel disegno originale. Ho interpretato le due corde come tagli della BPP e l'occhio+frecce come l'osservatore con le direzioni di vista; nella specifica TikZ ho chiesto di aggiungere le etichette in italiano \"osservatore\" e \"scena\", che nell'originale non ci sono.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 62,
+   "testo": "Figura 2 (centro): le due etichette delle regioni sembrano scritte entrambe come \"r_l\" (r con pedice l corsivo), sopra e sotto la retta. Poiche indicano le DUE regioni distinte prodotte dal taglio con l, le ho rese come r_l (regione sopra/sinistra) e r'_l (regione sotto/destra) per poterle distinguere. Lettura del pedice non perfettamente certa (potrebbe essere un altro grafema), ma la semantica e univoca.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "p62-painter",
+   "pagina": 62,
+   "didascalia": "La scena, con i suoi segmenti, e l'osservatore. I tagli della BPP suddividono la scena in regioni; l'albero della partizione fornisce, per ogni posizione dell'osservatore, un ordine di disegno dal piu lontano al piu vicino.",
+   "tipo": "schema geometrico (scena 2D + osservatore)",
+   "specifica": "Disegno a mano libera, tratto blu, senza assi. Riferimento: coordinate normalizzate (u,v) in [0,1]x[0,1] sul bounding box della macchia, origine in basso a sinistra; larghezza consigliata ~7 cm, altezza ~6.5 cm.\n\n1) LA SCENA. Una curva CHIUSA irregolare, tipo macchia/blob, tratto medio (line width ~1pt), con contorno mosso: bordo superiore che sale da (0.05,0.72) a un picco in (0.40,0.98), poi scende leggermente e risale a un secondo lobo in (0.72,1.00)-(0.90,0.95), rientranza a (0.93,0.80), sporgenza destra a (1.00,0.62), rientro a (0.95,0.45), discesa a (0.85,0.20) e (0.62,0.08); bordo inferiore con una piccola dentellatura fra (0.42,0.05) e (0.30,0.12) (due-tre gradini a zig-zag, tipici del disegno a mano), poi risalita sul lato sinistro passando per (0.12,0.30), (0.02,0.50), (0.10,0.62), (0.05,0.72). L'aspetto deve restare quello di uno schizzo, non di un poligono regolare.\n\n2) I DUE TAGLI (rette/corde della BPP), stesso tratto della macchia o leggermente piu sottile, tratto CONTINUO (nell'originale non sono tratteggiati):\n   - taglio A: dal punto del bordo superiore (0.40,0.94) scende con leggera curvatura a S fino al bordo inferiore in (0.57,0.08); divide la macchia in una parte sinistra e una destra;\n   - taglio B: parte praticamente dallo stesso punto (0.41,0.93) e scende obliquo verso destra fino al bordo destro in (0.99,0.65); divide la parte destra in una porzione superiore e una inferiore.\n   Risultano tre regioni: sinistra, destra-alta, destra-bassa.\n\n3) I SEGMENTI DELLA SCENA: 7 segmenti brevi, tratto SPESSO (line width ~1.6pt), rettilinei, orientamenti diversi, senza etichette. Coordinate (estremi):\n   s(a) (0.23,0.58)-(0.35,0.67)   [regione sinistra]\n   s(b) (0.13,0.47)-(0.21,0.40)   [regione sinistra]\n   s(c) (0.35,0.43)-(0.41,0.55)   [regione sinistra]\n   s(d) (0.43,0.31)-(0.50,0.22)   [regione sinistra, in basso]\n   s(e) (0.64,0.86)-(0.83,0.77)   [regione destra-alta]\n   s(f) (0.55,0.39)-(0.73,0.59)   [regione destra-bassa]\n   s(g) (0.79,0.45)-(0.91,0.44)   [regione destra-bassa]\n   (Nell'originale c'e anche un tratto scuro a ~(0.92,0.66)-(0.99,0.63) sovrapposto all'estremo del taglio B; e ambiguo e puo essere omesso.)\n\n4) L'OSSERVATORE: fuori dalla macchia, in basso a sinistra, centrato attorno a (-0.28,0.05) rispetto allo stesso sistema di coordinate. E un occhio stilizzato visto di lato: due archi che si incontrano in un vertice in alto, formando una specie di triangolo curvo di ~0.5 cm di lato con l'apice in alto e la base concava aperta verso destra-basso.\n   Dall'occhio partono TRE frecce corte (lunghezza ~1 cm) con punta piena, che si aprono a ventaglio verso la macchia:\n   - freccia 1: direzione ~55 gradi (verso l'alto a destra);\n   - freccia 2: direzione ~30 gradi;\n   - freccia 3: direzione ~15 gradi (quasi orizzontale, verso destra).\n\n5) ETICHETTE (in italiano, NON presenti nell'originale, da aggiungere in tondo piccolo): \"osservatore\" sotto l'occhio; \"scena\" appena fuori dal bordo sinistro della macchia in alto, oppure omesse se il disegno resta leggibile.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "p62-autopartizione",
+   "pagina": 62,
+   "didascalia": "Il segmento $s$ giace sulla retta $\\ell=\\ell(s)$: tagliando con $\\ell$, $s$ finisce sulla frontiera comune alle due regioni $r_\\ell$ e $r_\\ell'$ e va assegnato all'una oppure all'altra.",
+   "tipo": "schema di segmenti e rette",
+   "specifica": "Disegno lineare, tratto blu, senza assi. Larghezza consigliata ~7 cm, altezza ~4 cm.\n\n1) LA RETTA l: una retta TRATTEGGIATA (dash pattern a trattini corti e ben staccati) che sale da sinistra verso destra con pendenza ~30 gradi, dagli estremi (0.00,0.05) a (1.00,0.95) in coordinate normalizzate. Etichetta $\\ell$ in corsivo matematico appena sopra l'estremo destro, a (1.03,0.98).\n\n2) IL SEGMENTO s: sulla stessa retta, tratto CONTINUO e piu spesso (line width ~1.4pt), fra i punti A=(0.33,0.35) e B=(0.66,0.65). Su A e su B una crocetta \"x\" (due trattini incrociati, ~2mm) a marcare gli estremi del segmento. Etichetta $s$ in corsivo matematico sopra-a-sinistra del punto medio del segmento, a circa (0.40,0.47).\n\n3) LE DUE FRECCE (la scelta del lato): entrambe partono dall'estremo superiore B=(0.66,0.65) e sono perpendicolari a l:\n   - freccia verso l'ALTO: da (0.65,0.70) a (0.65,0.86), punta piena in alto (indica il semipiano/regione al di sopra di l);\n   - freccia verso il BASSO-DESTRA: da (0.70,0.62) a (0.78,0.52), punta piena in basso a destra (indica il semipiano/regione al di sotto di l).\n\n4) ETICHETTE DELLE REGIONI (matematica):\n   - $r_\\ell$ sopra la retta, a sinistra della freccia verso l'alto, in posizione ~(0.44,0.80);\n   - $r_\\ell'$ sotto la retta, sotto la freccia verso il basso, in posizione ~(0.70,0.38).\n   Nell'originale entrambe sembrano scritte \"r_l\": l'apice sulla seconda e un'aggiunta editoriale per distinguerle.\n\n5) Nessun altro elemento: niente riquadri, niente ombreggiature delle regioni.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina si chiude subito dopo lo pseudocodice di RandAuto: e stata definita l'autopartizione, e stato dato l'algoritmo e introdotta la notazione $P_\\pi$, ma non e ancora stato detto nulla sulla sua dimensione. Restano in sospeso: (i) la garanzia di terminazione dell'algoritmo, (ii) il costo in tempo, (iii) soprattutto la dimensione attesa di $P_\\pi$, che e la ragione per cui l'algoritmo e stato introdotto (p.61 si chiudeva promettendo \\\"un algoritmo randomizzato RandAuto che dimostra che esiste sempre una BPP(S) con $O(|S|\\log|S|)$ foglie\\\"). La pagina 63 riprende esattamente da li: enuncia il Teorema (valore atteso della dimensione dell'autopartizione prodotta da RandAuto pari a $O(|S|\\log|S|)$), l'osservazione sulla complessita in tempo $O(n^2\\log n)$, il Corollario del metodo probabilistico, e apre la dimostrazione con la definizione di $\\mathrm{index}(u,v)$ e della relazione $u\\dashv v$, insieme alla stima $\\Pr[u\\dashv v]\\le 1/(i+1)$.",
+ "confidenza": "alta"
+}

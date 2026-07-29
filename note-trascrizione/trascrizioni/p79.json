@@ -1,0 +1,136 @@
+{
+ "pagina": 79,
+ "latex": "\\scan{79}\n\n\\begin{enumerate}\n\\setcounter{enumi}{3}\n\\item detto $N(i,t)$ il numero medio di volte in cui la catena visita lo stato $i$ nei\n      primi $t$ passi, vale\n      \\[\n        \\lim_{t\\to\\infty}\\frac{N(i,t)}{t} \\;=\\; \\pi_i .\n      \\]\n\\end{enumerate}\n\n\\begin{osservazione}\nIl punto~4 è la lettura «frequentista» della distribuzione stazionaria: $\\pi_i$ è la\nfrazione di tempo che la catena trascorre, alla lunga, nello stato $i$. È coerente con il\npunto~3: se il tempo medio di ritorno in $i$ è $h_{ii}=1/\\pi_i$, in $t$ passi lo stato $i$\nviene visitato circa $t\\,\\pi_i$ volte.\n\\end{osservazione}\n\n% ---------------------------------------------------------------------------\n% Nel quaderno comincia qui, con titolo esplicito sottolineato, «Graph\n% Isomorphism»: il titolo è omesso perché coincide con quello del capitolo\n% (deciso in fase di cucitura). Accanto al titolo il quaderno annota fra\n% parentesi un nome proprio, di lettura incerta («Francesco Nassimbeni»),\n% verosimilmente chi ha tenuto questa parte del corso.\n% ---------------------------------------------------------------------------\n\n\\subsection{WL-1}\n\nIl test di Weisfeiler--Leman di dimensione~1 — il classico \\emph{raffinamento dei colori}\n(\\emph{color refinement}) — assegna un colore a ogni vertice e lo raffina iterativamente:\na ogni passo il nuovo colore di un vertice è determinato dal suo colore corrente e dal\nmulti-insieme dei colori dei suoi vicini. La colorazione partiziona l'insieme dei vertici\nin classi di colore, e il procedimento si arresta quando la partizione non si raffina più.\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/wl1-partizione-colori.tikz}\n\\caption{Il raffinamento dei colori partiziona l'insieme dei vertici in classi di colore.}\n\\label{fig:wl1-partizione}\n\\end{figure}\n\nIl colore che WL-1 assegna a un vertice dopo $r$ raffinamenti codifica il suo \\emph{albero\ndi srotolamento} (\\emph{unrolling}) di profondità $r$: l'albero che ha per radice il\nvertice, per figli della radice i suoi vicini, per figli di questi i vicini dei vicini, e\ncosì via.\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/wl1-grafo-e-unrolling.tikz}\n\\caption{A sinistra un grafo i cui vertici portano quattro colori distinti $R$, $B$, $G$,\n$N$; a destra l'albero di srotolamento di profondità~2 radicato nel vertice $N$.}\n\\label{fig:wl1-unrolling}\n\\end{figure}\n\nPer decidere l'isomorfismo di due grafi $G$ e $H$ si esegue il raffinamento su entrambi e\nsi confrontano i multi-insiemi dei colori finali: il test ha esito \\emph{vero} quando i due\nmulti-insiemi coincidono. Valgono allora\n\\begin{align*}\n  G \\cong H &\\;\\Longrightarrow\\; \\text{WL-1}(G,H) = \\text{vero},\\\\\n  \\text{WL-1}(G,H) = \\text{vero} &\\;\\nRightarrow\\; G \\cong H,\\\\\n  \\text{WL-1}(G,H) = \\text{falso} &\\;\\Longrightarrow\\; G \\ncong H.\n\\end{align*}\n\n\\begin{osservazione}\nWL-1 è dunque un test con errore \\emph{unilatero}: la risposta negativa è una prova di non\nisomorfismo, mentre la risposta positiva non permette di concludere nulla. La terza\nimplicazione è la contronominale della prima.\n\\end{osservazione}\n\n\\subsection{WL-\\texorpdfstring{$k$}{k}}\n\nIl potere discriminante del test si accresce colorando non più i singoli vertici, ma le\n$k$-uple di vertici. Servono due ingredienti.\n\n\\paragraph{Tipi atomici (\\emph{atomic types}).}\nIl colore iniziale di una $k$-upla $\\bar v = \\langle u,v,w,\\dots\\rangle \\in V^{k}$ è il suo\n\\emph{tipo atomico}\n\\[\n  \\operatorname{atp}\\langle u,v,w,\\dots\\rangle ,\n\\]\ncioè l'informazione puramente locale sulla $k$-upla: quali componenti coincidono e quali\ncoppie di componenti sono collegate da un arco — in altri termini, il tipo di isomorfismo\ndel sottografo ordinato indotto da $\\bar v$.\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/wlk-tipo-atomico.tikz}\n\\caption{Il tipo atomico della tripla $\\langle u,v,w\\rangle$ registra le coincidenze fra le\ncomponenti e le adiacenze: qui $u \\to v$ e $v \\to w$.}\n\\label{fig:wlk-tipo-atomico}\n\\end{figure}\n\n\\paragraph{Vicinati (\\emph{neighborhoods}).}\nIl passo di raffinamento userà i \\emph{vicinati} di una $k$-upla, cioè le $k$-uple che si\nottengono da essa sostituendo una componente alla volta con un qualunque vertice del grafo.\n",
+ "note": [
+  {
+   "tipo": "altro",
+   "pagina": 79,
+   "risolto": true,
+   "testo": "La pagina si apre completando il punto 4) del «Teorema fondamentale sulle M.C.» enunciato a p.78. Attenzione: p.78 termina con una prima stesura abbozzata e in parte illeggibile dello stesso punto («4) sia N(i,t) il numero π_i di volte che lo stato viene visto i in t passi = lim N(i,t)/t = π_i»), che lo studente riscrive in pulito in testa a p.79. Ho trascritto qui la versione pulita: in fase di cucitura il punto 4) va tenuto una sola volta (togliendolo da p.78, dove è un falso avvio)."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 79,
+   "risolto": true,
+   "testo": "Il punto 4) è reso come voce di un enumerate con \\setcounter{enumi}{3}, così da agganciarsi ai punti 1)-3) del teorema che stanno a p.78 (stessa tecnica già usata a p.40 per l'algoritmo di query dell'lca)."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 79,
+   "risolto": true,
+   "testo": "Il quaderno scrive «Detto N(i,t) il numero medio di volte che la catena visita i in t passi». Ho espanso in «... in cui la catena visita lo stato i nei primi t passi», mantenendo «medio»: in Motwani–Raghavan (Thm 6.2, punto 4) N(i,t) è semplicemente «the number of times the chain visits state i in t steps» e il limite vale quasi certamente; la versione con il valore atteso, quella scritta dallo studente, è anch'essa corretta (segue dal teorema ergodico per convergenza dominata) e l'ho lasciata invariata."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 79,
+   "risolto": true,
+   "testo": "Ho aggiunto l'osservazione che chiude la parte sulle catene di Markov (π_i come frazione asintotica di tempo passata in i, e coerenza con h_ii = 1/π_i del punto 3). Non c'è nel quaderno: serve a dare un senso al punto 4), che altrimenti resta una formula isolata a inizio pagina."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 79,
+   "risolto": false,
+   "testo": "Accanto al titolo sottolineato «Graph Isomorphism» il quaderno riporta fra parentesi un nome proprio in corsivo. Lettura più probabile: «(Francesco Nassimbeni)» — il primo termine ha la struttura ?-r-a-n-c-e-s-c-o (in italiano solo «Francesco» è compatibile, benché la maiuscola somigli a una B), il secondo ha profilo N/R + a/o + ss + i puntata + m + asta alta + e + n + i, compatibile con il cognome friulano «Nassimbeni». Non l'ho messo nel corpo del testo (non è contenuto matematico e la lettura resta incerta): l'ho lasciato in un commento LaTeX subito prima di \\subsection{WL-1}, dove segnalo anche l'ipotesi che si tratti di chi ha tenuto questa parte del corso."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 79,
+   "risolto": true,
+   "testo": "Il titolo esplicito sottolineato «Graph Isomorphism» è stato omesso dal LaTeX (sostituito da un commento), perché coincide con il titolo del capitolo, deciso in fase di cucitura: stessa scelta già fatta a p.72 per il titolo «Catene di Markov»."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 79,
+   "risolto": true,
+   "testo": "Il quaderno intitola la seconda sezione «WL-K» con la K maiuscola. Ho scritto «WL-$k$» (con \\texorpdfstring per l'hyperref), perché il parametro è una variabile e la notazione standard in letteratura è k-WL / WL-k; p.80 usa infatti gli apici k minuscoli in C_0^k, M_i^k."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 79,
+   "risolto": true,
+   "testo": "La sezione WL-1 nel quaderno è fatta solo di tre disegni e di sei parole («WL-1 true / if isomorphic / false → not isomorphic»). Ho ricostruito in prosa: (a) la definizione del raffinamento dei colori (nuovo colore = colore corrente + multi-insieme dei colori dei vicini) e la sua stabilizzazione; (b) il fatto che il colore dopo r raffinamenti codifica l'albero di srotolamento di profondità r; (c) la definizione dell'esito del test come confronto dei multi-insiemi dei colori finali dei due grafi. Sono i contenuti standard senza i quali i disegni e le frecce non sarebbero leggibili; nessuno dei tre è però scritto per esteso nel quaderno."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 79,
+   "risolto": true,
+   "testo": "Lo schema di frecce del quaderno («WL-1 true ← if isomorphic», con la freccia → sbarrata, e «false → not isomorphic») è stato reso come tre implicazioni in align* anziché come figura: è materia logica, non un disegno. Ho usato \\nRightarrow per la freccia sbarrata e \\ncong per «non isomorfo» (entrambi da amssymb/unicode-math, caricati dalla classe). Ho aggiunto l'osservazione che il test ha errore unilatero e che la terza implicazione è la contronominale della prima: nel quaderno le due righe sono semplicemente giustapposte."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 79,
+   "risolto": false,
+   "testo": "Il primo disegno (cerchio tagliato da un diametro quasi orizzontale, da un raggio verticale verso l'alto e da un raggio obliquo verso l'alto a sinistra; crocette in tre dei quattro settori) non è commentato nel quaderno. Lo interpreto come «la colorazione partiziona V in classi di colore» — è l'unica lettura coerente con il titolo WL-1 sovrastante e con il fatto che il color refinement produce una partizione. Resta non spiegato perché le crocette siano tre e i settori quattro (probabilmente le crocette marcano semplicemente le celle, e il quarto settore è rimasto senza per distrazione): nella specifica TikZ ho chiesto di riprodurre fedelmente 4 settori e 3 crocette."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 79,
+   "risolto": true,
+   "testo": "Il secondo e il terzo disegno sono in realtà un'unica cosa e li ho fusi in una sola figura a due pannelli. Verifica: nel grafo (2° disegno) il vertice N ha per vicini R, B (due foglie) e il secondo centro B; l'albero (3° disegno) ha radice N con figli R, B, B, dove il figlio B intermedio ha a sua volta i tre figli G, R, N e gli altri due figli hanno un solo figlio N. Questo coincide esattamente con lo srotolamento di profondità 2 del grafo radicato in N (i vicini di R e della foglia B sono il solo N; i vicini del centro B sono G, R, N). 6 nodi nel grafo, 1+3+5=9 nell'albero: non sono due grafi da confrontare, ma un grafo e il suo albero di srotolamento."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 79,
+   "risolto": true,
+   "testo": "Le etichette dei vertici nei due disegni sono R, B, G, N: sono con ogni evidenza iniziali di colori italiani (rosso, blu, giallo o verde, nero) — nessuna parola inglese comincia per N fra i colori. Nel testo e nella didascalia non ho sciolto le iniziali (non è dirimente per il contenuto) e ho parlato solo di «quattro colori distinti»; nella specifica TikZ ho lasciato la colorazione dei nodi come opzione."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 79,
+   "risolto": true,
+   "testo": "Il quaderno scrive «Otomic tuples»: letto «Atomic tuples» (la A iniziale è chiusa come una O nel corsivo dello studente, cfr. la stessa forma in «atp» sulla riga sotto). Reso in italiano come «tipi atomici», con il termine inglese in emph."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 79,
+   "risolto": true,
+   "testo": "Per «atp» non esiste una macro nel preambolo: come da convenzione non l'ho inventata e ho scritto \\operatorname{atp}. Le parentesi del quaderno sono angolari (⟨…⟩) e le ho rese con \\langle…\\rangle; p.80 usa poi atp(v̄) con parentesi tonde, ma l'uniformazione spetta alla cucitura."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 79,
+   "risolto": true,
+   "testo": "La definizione di tipo atomico (quali componenti coincidono, quali coppie sono adiacenti = tipo di isomorfismo del sottografo ordinato indotto) non è scritta nel quaderno, che riporta solo l'intestazione «Atomic tuples», la scrittura atp⟨u,v,w,…⟩ e il piccolo digrafo u→v→w. L'ho esplicitata perché è il minimo per rendere leggibile il disegno; il disegno con le frecce conferma che il contesto è quello dei grafi orientati (come i disegni di p.80)."
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 79,
+   "risolto": true,
+   "testo": "L'ultima riga della pagina è la sola parola «Neighborhoods», senza nulla dopo: la pagina finisce lì. Ho aggiunto una frase di glossa (i vicinati di una k-upla si ottengono sostituendo una componente alla volta con un vertice qualsiasi) perché è esattamente ciò che p.80 formalizza nel «Refinement step» M_i^k e nell'esempio WL-2, M_i^2(u,v) = {{ (C_{i-1}^2(u,w), C_{i-1}^2(w,v)) : w ∈ V }}. Non ho anticipato le formule, che sono contenuto di p.80. Nessun marcatore lacuna nel LaTeX: il buco è colmato dalla pagina successiva."
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 79,
+   "risolto": true,
+   "testo": "Gli appunti del corso dell'anno precedente forniti (L16_sintesi.md, «Complessità randomizzata» 2024: MdT probabilistiche, RP/coRP/ZPP/PP/BPP, random walk di Gamow, SAT/CNF) non trattano né il teorema fondamentale sulle catene di Markov né Graph Isomorphism/Weisfeiler–Leman. Per questa pagina non c'è dunque alcun supporto dalla fonte dell'anno precedente: la verifica è stata fatta sulla teoria standard (Motwani–Raghavan cap. 6 per il punto 4; letteratura standard su color refinement e gerarchia k-WL, Cai–Fürer–Immerman, per il resto)."
+  }
+ ],
+ "figure": [
+  {
+   "id": "wl1-partizione-colori",
+   "pagina": 79,
+   "didascalia": "Il raffinamento dei colori partiziona l'insieme dei vertici in classi di colore.",
+   "tipo": "schema insiemistico (cerchio suddiviso in settori)",
+   "specifica": "Schizzo a mano libera, stile lavagna, monocromatico (blu penna o nero), tratto spesso e leggermente irregolare. Nessun testo (nel manoscritto non ce n'è).\n\n1) CERCHIO. Un cerchio quasi regolare ma disegnato a mano libera (leggermente ovalizzato, schiacciato in alto a destra), raggio ~1.6 cm, centro C.\n\n2) DIAMETRO. Una corda passante per il centro, quasi orizzontale ma inclinata di ~5 gradi verso l'alto andando da sinistra a destra: entra sul bordo sinistro leggermente SOTTO l'altezza del centro ed esce sul bordo destro leggermente SOPRA. Divide il disco in una metà superiore e una inferiore.\n\n3) RAGGIO VERTICALE. Dal centro C un segmento rettilineo verso l'ALTO fino al bordo (posizione ore 12).\n\n4) RAGGIO OBLIQUO. Dal centro C un secondo segmento verso l'ALTO A SINISTRA fino al bordo, a circa 145 gradi (posizione ore 10.30 circa).\n\nRisultano quattro settori: (a) metà inferiore; (b) quarto superiore destro (fra il raggio verticale e l'estremo destro del diametro); (c) settore superiore centrale-sinistro (fra il raggio verticale e il raggio obliquo); (d) settore piccolo in alto a sinistra (fra il raggio obliquo e l'estremo sinistro del diametro).\n\n5) CROCETTE. Una piccola x a due tratti incrociati (~4 mm, tratti non perfettamente simmetrici, come scritte a penna) al centro di TRE settori: in (a), circa a metà fra il centro e il bordo inferiore, leggermente a sinistra dell'asse verticale; in (b), poco sopra il diametro e poco a destra del raggio verticale; in (c), a metà del settore. Il settore (d), il più piccolo, resta VUOTO. Riprodurre fedelmente questa asimmetria: è quella del manoscritto.\n\nSIGNIFICATO: il disco è l'insieme dei vertici V, i settori sono le classi di colore prodotte dal color refinement, le crocette marcano le celle della partizione.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "wl1-grafo-e-unrolling",
+   "pagina": 79,
+   "didascalia": "A sinistra un grafo i cui vertici portano quattro colori distinti R, B, G, N; a destra l'albero di srotolamento di profondità 2 radicato nel vertice N.",
+   "tipo": "due pannelli affiancati: grafo non orientato con vertici etichettati + albero radicato",
+   "specifica": "UNA SOLA figura con DUE PANNELLI affiancati orizzontalmente (nel manoscritto sono due disegni distinti, il 2° e il 3° della pagina, ma rappresentano lo stesso oggetto: un grafo e il suo srotolamento). Stile a mano libera, tratto spesso; vertici = pallini pieni di ~2.5 mm; etichette in corsivo matematico maiuscolo ($R$, $B$, $G$, $N$) accostate al pallino, MAI dentro. Archi non orientati (nessuna punta di freccia) in entrambi i pannelli.\n\n=== PANNELLO SINISTRO: il grafo G (6 vertici, 5 archi, è un albero a due centri) ===\nCoordinate suggerite (cm):\n  c1 = (0, 0)      centro superiore, etichetta $N$ posta appena SOPRA-A-DESTRA del pallino\n  r1 = (-1.3, 1.1) foglia, etichetta $R$ SOPRA-A-SINISTRA\n  b1 = (1.2, 1.2)  foglia, etichetta $B$ SOPRA-A-DESTRA\n  c2 = (0.1, -1.8) centro inferiore, etichetta $B$ a DESTRA del pallino, staccata\n  g  = (-0.8, -2.8) foglia, etichetta $G$ SOTTO-A-SINISTRA\n  r2 = (1.1, -2.7) foglia, etichetta $R$ a DESTRA\nArchi: c1-r1, c1-b1, c1-c2, c2-g, c2-r2. L'arco c1-c2 è un segmento lungo, quasi verticale, leggermente ondulato. Il disegno complessivo ha la forma di due 'Y' opposte (una a V aperta verso l'alto in c1, una a V aperta verso il basso in c2), unite dall'arco centrale.\n\n=== PANNELLO DESTRO: l'albero di srotolamento di profondità 2, radicato in c1 ===\nAlbero radicato disegnato dall'alto verso il basso, chioma larga e schiacciata (nel manoscritto ha la sagoma di un triangolo molto largo). 9 nodi su 3 livelli.\n  radice  = (0, 0),  etichetta $N$ SOPRA il pallino\n  livello 1 (tre figli della radice, in ordine da sinistra a destra):\n     n_R = (-1.5, -1.1)  etichetta $R$ a SINISTRA\n     n_B1 = (0.1, -1.3)  etichetta $B$ a SINISTRA (fra n_R e n_B1)\n     n_B2 = (2.0, -1.0)  etichetta $B$ a SINISTRA\n  livello 2 (cinque foglie, in ordine da sinistra a destra):\n     f1 = (-2.4, -2.4)   figlio di n_R,   etichetta $N$ SOTTO-A-SINISTRA\n     f2 = (-0.9, -2.5)   figlio di n_B1,  etichetta $G$ a SINISTRA\n     f3 = (-0.1, -2.5)   figlio di n_B1,  etichetta $R$ SOPRA (fra f2 e f3, un po' alzata)\n     f4 = (0.6, -2.5)    figlio di n_B1,  etichetta $N$ a DESTRA\n     f5 = (2.9, -2.5)    figlio di n_B2,  etichetta $N$ a DESTRA\nArchi: radice-n_R, radice-n_B1, radice-n_B2; n_R-f1; n_B1-f2, n_B1-f3, n_B1-f4; n_B2-f5.\nIl nodo n_B1 è quindi l'unico interno con tre figli; n_R e n_B2 ne hanno uno solo. I segmenti radice-n_R e n_R-f1 sono quasi allineati (formano una lunga diagonale che scende a sinistra), così come radice-n_B2 e n_B2-f5 (lunga diagonale che scende a destra): è questa la sagoma a 'tenda' del manoscritto.\n\nSIGNIFICATO (da rispettare, serve a controllare la correttezza del disegno): il pannello destro è lo srotolamento del pannello sinistro a partire da c1. I figli della radice sono i vicini di c1, cioè R, B (le due foglie) e il centro B; sotto ciascuno compaiono i suoi vicini, compreso il ritorno al padre: sotto n_R e sotto n_B2 c'è solo N (unico vicino delle due foglie), sotto n_B1 ci sono G, R e N (i vicini del secondo centro).\n\nOPZIONALE: si possono colorare i pallini con i colori corrispondenti alle iniziali (R rosso, B blu, G verde, N nero) mantenendo comunque le lettere come etichette; se si sceglie questa via, usare tinte sature e leggibili anche in stampa in scala di grigi.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "wlk-tipo-atomico",
+   "pagina": 79,
+   "didascalia": "Il tipo atomico della tripla ⟨u,v,w⟩ registra le coincidenze fra le componenti e le adiacenze: qui u → v e v → w.",
+   "tipo": "piccolo digrafo (3 nodi, 2 archi orientati)",
+   "specifica": "Disegno molto piccolo (larghezza ~2 cm, altezza ~2 cm), a mano libera, tratto spesso, 3 pallini pieni e 2 archi ORIENTATI con punta di freccia ben visibile.\n\nCoordinate suggerite (cm):\n  u = (0, 0)      pallino, etichetta $u$ appena SOPRA-A-SINISTRA\n  v = (1.1, 0.9)  pallino, etichetta $v$ SOPRA il pallino\n  w = (1.15, -0.35) pallino, etichetta $w$ a DESTRA del pallino\nArchi: u -> v (segmento obliquo che sale verso destra, freccia sulla punta in v);\n       v -> w (segmento che scende quasi verticalmente, leggermente inclinato a destra, freccia sulla punta in w).\nNessun arco fra u e w.\n\nNel manoscritto il pallino w è staccato dalla punta della freccia di un paio di millimetri: nella resa pulita far arrivare la freccia a toccare il nodo.\n\nSIGNIFICATO: è la 'fotografia locale' di una k-upla di vertici — quali componenti coincidono e quali coppie sono collegate, con la direzione degli archi — cioè il tipo atomico atp⟨u,v,w,…⟩ che fa da colore iniziale nel test WL-k.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina si apre completando il «Teorema fondamentale sulle catene di Markov» iniziato a p.78: i punti 1)-3) (ergodicità degli stati, esistenza della distribuzione stazionaria π con π_i > 0, f_ii = 1 e h_ii = 1/π_i) sono a p.78, qui c'è solo il punto 4) sul limite di N(i,t)/t. ATTENZIONE alla duplicazione: p.78 termina con una prima stesura abbozzata dello stesso punto 4), che lo studente riscrive in pulito in testa a p.79; in cucitura va tenuta solo questa. Con il punto 4) il capitolo sulle catene di Markov si chiude. Subito dopo, con titolo esplicito sottolineato, si apre il capitolo nuovo: «Graph Isomorphism». La pagina ne introduce solo l'impianto: WL-1 (raffinamento dei colori, albero di srotolamento, le tre implicazioni sul rapporto fra esito del test e isomorfismo) e l'inizio di WL-k (tipi atomici e vicinati, enunciati come i due ingredienti). La pagina si interrompe sulla parola «Neighborhoods», che p.80 sviluppa immediatamente: colorazione iniziale C_0^k(v̄) = atp(v̄) per ogni v̄ ∈ V^k, refinement step M_i^k, esempio WL-2 con M_i^2(u,v) = {{ (C_{i-1}^2(u,w), C_{i-1}^2(w,v)) : w ∈ V }}, e poi FWL vs OWL e i minori esclusi. Nessun elemento resta sospeso oltre a questo.",
+ "confidenza": "media"
+}

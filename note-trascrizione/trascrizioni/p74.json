@@ -1,0 +1,116 @@
+{
+ "pagina": 74,
+ "latex": "\\scan{74}\n\nSiano $X_0, X_1, \\dots, X_n$ una catena di Markov e siano $A$ e $B$ due\nsottoinsiemi di stati.\n\n\\begin{domanda}\n\\begin{enumerate}\n  \\item È vero che\n  \\[\n    \\Pr\\bigl\\{\\, X_2 \\in B \\;\\big|\\; X_1 = x_1 \\,\\wedge\\, X_0 \\in A \\,\\bigr\\}\n    \\;=\\;\n    \\Pr\\bigl\\{\\, X_2 \\in B \\;\\big|\\; X_1 = x_1 \\,\\bigr\\}\\;?\n  \\]\n  \\item È vero che\n  \\[\n    \\Pr\\bigl\\{\\, X_2 \\in B \\;\\big|\\; X_1 \\in A \\,\\wedge\\, X_0 = x_0 \\,\\bigr\\}\n    \\;=\\;\n    \\Pr\\bigl\\{\\, X_2 \\in B \\;\\big|\\; X_1 \\in A \\,\\bigr\\}\\;?\n  \\]\n\\end{enumerate}\n\\end{domanda}\n\n\\noindent\nLa prima uguaglianza è vera; la seconda, in generale, no.\n\n\\begin{dubbio}\nA margine della (2) il quaderno annota: «sì, nel caso in cui la probabilità di\npassare da $x_0$ a qualche stato di $A$ è $0$». La si può leggere come il caso\ndegenere in cui l'evento condizionante $\\{X_1 \\in A \\wedge X_0 = x_0\\}$ è\nimpossibile e quindi non c'è nulla da verificare; ma è anche esattamente la\nsituazione che, in generale, fa \\emph{fallire} la (2) — si veda l'osservazione\nqui sotto.\n\\end{dubbio}\n\n\\begin{osservazione}\nNella (1) il condizionamento fissa \\emph{esattamente} lo stato presente\n($X_1 = x_1$): per la proprietà di Markov l'informazione aggiuntiva sul passato\n($X_0 \\in A$) è irrilevante e l'uguaglianza vale.\n\nNella (2), invece, l'evento $X_1 \\in A$ non individua un singolo stato presente.\nCondizionando e poi decomponendo su quale stato di $A$ sia stato effettivamente\nraggiunto,\n\\[\n  \\Pr\\bigl\\{X_2 \\in B \\mid X_1 \\in A \\wedge X_0 = x_0\\bigr\\}\n  \\;=\\;\n  \\sum_{a \\in A}\n    \\Pr\\bigl\\{X_1 = a \\mid X_1 \\in A \\wedge X_0 = x_0\\bigr\\}\\;\n    \\Pr\\bigl\\{X_2 \\in B \\mid X_1 = a\\bigr\\},\n\\]\nsi vede che sapere $X_0 = x_0$ cambia i \\emph{pesi} con cui gli stati di $A$\nentrano nella media (basta che da $x_0$ qualche stato di $A$ sia irraggiungibile\nperché i pesi cambino): il passato torna a contare e l'uguaglianza cade. La\nproprietà di Markov si applica al presente \\emph{puntuale}, non al presente\n«sfocato» in un insieme di stati.\n\\end{osservazione}\n\n\\begin{esempio}\nPasseggiata aleatoria pigra sul ciclo a sei stati $\\{0,1,2,3,4,5\\}$: da ogni\nstato ci si sposta al vicino precedente, si resta fermi, oppure ci si sposta al\nvicino successivo, ciascuna cosa con probabilità $1/3$.\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/p74-ciclo6.tikz}\n\\caption{La catena dell'esempio: sei stati disposti in cerchio, ciascuno con un\ncappio e due archi (uno per verso) verso i due vicini; ogni arco ha probabilità\n$1/3$.}\n\\label{fig:p74-ciclo6}\n\\end{figure}\n\nPartendo da $i$, qual è la probabilità del passaggio $i \\to j$?\n\\[\n  \\Pr(i,j) \\;=\\;\n  \\begin{cases}\n    \\tfrac13 & j = i-1,\\\\[2pt]\n    \\tfrac13 & j = i,\\\\[2pt]\n    \\tfrac13 & j = i+1,\\\\[2pt]\n    0        & \\text{altrimenti,}\n  \\end{cases}\n\\]\ndove gli indici sono intesi modulo $6$.\n\nFacendo partire la catena dallo stato $2$, la distribuzione\n$\\pi^{(t)}$ su $\\{0,\\dots,5\\}$ evolve così:\n\\begin{align*}\n  \\pi^{(0)} &= \\bigl(0,\\;0,\\;1,\\;0,\\;0,\\;0\\bigr), \\\\\n  \\pi^{(1)} &= \\bigl(0,\\;\\tfrac13,\\;\\tfrac13,\\;\\tfrac13,\\;0,\\;0\\bigr)\n               && \\text{in $1$ passo,}\\\\\n  \\pi^{(2)} &= \\bigl(\\tfrac19,\\;\\tfrac29,\\;\\tfrac13,\\;\\tfrac29,\\;\\tfrac19,\\;0\\bigr)\n               && \\text{in $2$ passi,}\\\\\n  &\\;\\;\\;\\vdots \\\\\n  \\pi^{(t)} &\\;\\xrightarrow[\\;t\\to\\infty\\;]{}\\;\n               \\bigl(\\tfrac16,\\;\\tfrac16,\\;\\tfrac16,\\;\\tfrac16,\\;\\tfrac16,\\;\\tfrac16\\bigr).\n\\end{align*}\n\\end{esempio}\n\n\\begin{osservazione}\nLa matrice $P = \\bigl(\\Pr(i,j)\\bigr)$ è doppiamente stocastica (ogni riga e ogni\ncolonna somma a $1$); la catena è irriducibile, perché il ciclo è connesso, e\naperiodica, perché i cappi danno periodo $1$. La distribuzione limite esiste\ndunque ed è quella uniforme, come mostra l'ultima riga.\n\\end{osservazione}\n\n\\begin{osservazione}\nIl passo elementare $\\pi^{(t+1)} = \\pi^{(t)}P$ è una \\emph{convoluzione}: per\nogni stato $j$\n\\[\n  \\pi^{(t+1)}[j] \\;=\\;\n  \\tfrac13\\Bigl(\\pi^{(t)}[j-1] + \\pi^{(t)}[j] + \\pi^{(t)}[j+1]\\Bigr),\n\\]\ncioè si fa scorrere sulla distribuzione corrente la finestra di pesi\n$\\bigl(\\tfrac13,\\tfrac13,\\tfrac13\\bigr)$ e si sommano i tre contributi.\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/p74-convoluzione.tikz}\n\\caption{Lo schema della convoluzione: i tre valori adiacenti, pesati $1/3$\nciascuno, si sommano nel valore nuovo; la finestra $(1/3,1/3,1/3)$ scorre lungo\nla distribuzione.}\n\\label{fig:p74-convoluzione}\n\\end{figure}\n\\end{osservazione}\n\nIn termini matriciali il primo passo è la semplice estrazione di una riga: se\n$e_2 = (0,0,1,0,0,0)$ è il vettore che concentra tutta la massa nello stato $2$,\nallora\n\\[\n  e_2\\,P \\;=\\; \\bigl(0,\\;\\tfrac13,\\;\\tfrac13,\\;\\tfrac13,\\;0,\\;0\\bigr),\n\\]\novvero, essendo $P$ simmetrica, la colonna di indice $2$ di $P$.\n",
+ "note": [
+  {
+   "tipo": "correzione",
+   "pagina": 74,
+   "risolto": true,
+   "testo": "Terza distribuzione: il quaderno scrive «(1/9 ; 1/3 ; 1/9 ; 2/9 ; 1/9 ; 0)» (letta glifo per glifo, con confronto diretto delle cifre '3' e '9' contro la riga precedente, che è certa). Quella riga somma a 8/9 e non è simmetrica: è sbagliata. Ho scritto la distribuzione corretta dopo 2 passi partendo dallo stato 2, cioè (1/9, 2/9, 1/3, 2/9, 1/9, 0): dal vettore (0,1/3,1/3,1/3,0,0) si ottiene stato0=1/9, stato1=1/9+1/9=2/9, stato2=1/9+1/9+1/9=1/3, stato3=2/9, stato4=1/9, stato5=0. Somma 1, profilo simmetrico attorno allo stato 2. Sembra che lo studente abbia trascritto i primi tre valori sfalsati/permutati."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 74,
+   "risolto": false,
+   "testo": "La glossa sotto le graffe della domanda (2): la prima parola, sottolineata, è leggibile come «Sì» (S corsiva + i con puntino) ma potrebbe essere «Se». Il resto è sicuro: «nel caso in cui la probabilità di passare da x0 a qualche stato in A è 0» (lo zero è scritto come 0 barrato, come tutti gli zeri della pagina). Il problema è semantico: con «Sì» la nota indica un caso in cui la (2) varrebbe, ma se Pr[X1∈A | X0=x0]=0 la probabilità condizionata a sinistra è addirittura indefinita; con «Se» la nota indicherebbe invece proprio il meccanismo per cui la (2) fallisce (qualche stato di A irraggiungibile da x0 ⇒ i pesi dentro A cambiano). Ho riportato la glossa alla lettera dentro un ambiente dubbio, offrendo entrambe le letture, e ho aggiunto un'osservazione con l'analisi corretta."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 74,
+   "risolto": true,
+   "testo": "L'osservazione che spiega perché la (1) è vera e la (2) falsa (decomposizione della probabilità condizionata sugli stati a ∈ A) non è nel quaderno: il quaderno mette solo un ✓ accanto alla (1) e una grossa ✗ accanto alla (2). L'ho aggiunta perché è il contenuto della domanda e senza di essa la pagina resta muta; è teoria standard sulla proprietà di Markov."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 74,
+   "risolto": true,
+   "testo": "La domanda a destra del disegno: «Partendo da i qual è la prob. di ⟨s⟩cambio  •—→ j?». La parola dopo «prob. di» si legge come «scambio» o «cambio» (la 'm' porta un trattino sovrascritto), e la riga successiva è un pallino con una freccia verso «j?». Ho reso con «Partendo da i, qual è la probabilità del passaggio i → j?», che è ciò che la risposta (la legge di transizione) effettivamente calcola, e che è coerente con «prob. di transizione da i a j» usato a p.75."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 74,
+   "risolto": true,
+   "testo": "L'annotazione accanto al primo vettore (0,0,1,0,0,0) si legge «In 1 passo»: la prima parola è una I corsiva seguita da 'n'. L'ho collocata come commento a destra della riga π^(1), che è dove ha senso (il vettore che si ottiene dopo un passo)."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 74,
+   "risolto": true,
+   "testo": "Nella (1) il membro destro del quaderno è scritto «Pr{x2∈B | X1 = x}»: il pedice della x finale non è tracciato. Ho scritto X1 = x1, l'unica lettura coerente con il membro sinistro. Nella (2) il membro destro è scritto «Pr{X2∈B | X1 = A}» con un segno che sembra '=': ho scritto X1 ∈ A, coerente con il membro sinistro (A è un insieme di stati, non uno stato)."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 74,
+   "risolto": true,
+   "testo": "Il quaderno alterna maiuscole e minuscole per le variabili aleatorie (scrive a volte «x2 ∈ B», a volte «X2 ∈ B»). Ho uniformato a X maiuscola per le variabili aleatorie e x minuscola per i valori (x0, x1), come a p.75."
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 74,
+   "risolto": true,
+   "testo": "La legge di transizione è scritta come «Pr(i,j) = 1/3 se j=i-1, j=i, j=i+1; altrimenti 0» senza precisare che gli indici vanno presi modulo 6. È indispensabile, perché il disegno è un ciclo (0 e 5 sono vicini): l'ho aggiunto esplicitamente."
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 74,
+   "risolto": true,
+   "testo": "Il quaderno mostra solo il vettore limite (1/6,…,1/6) senza giustificarlo. Ho aggiunto un'osservazione breve con i tre ingredienti standard: P doppiamente stocastica ⇒ l'uniforme è stazionaria; catena irriducibile (ciclo connesso) e aperiodica (i cappi danno periodo 1) ⇒ convergenza. È contenuto aggiunto, minimo e standard."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 74,
+   "risolto": true,
+   "testo": "Il disegno a sinistra è un ciclo di 6 nodi numerati in senso orario 0 (in alto), 1, 2, 3 (in basso), 4, 5. Ogni nodo ha un cappio rivolto verso l'esterno e ogni coppia di nodi adiacenti è collegata da due archi curvi opposti (uno per verso). Nel quaderno gli archi non portano etichette: le probabilità stanno nella formula accanto. Nella didascalia ho esplicitato che ogni arco vale 1/3."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 74,
+   "risolto": true,
+   "testo": "Lo schizzo a matita in basso a destra («CONV:») è stato interpretato come schema della convoluzione: tre posizioni adiacenti X0, X1, X2, ciascuna con un trattino verticale e il valore 1/3 sotto; una graffa che le abbraccia con un '+' a destra; sotto, un rettangolo diviso in tre celle contenenti 1/3, 1/3, 1/3, cioè la finestra/nucleo che scorre. «CONV» potrebbe in astratto stare anche per «convergenza», ma il contenuto del disegno (somma di tre contributi pesati 1/3) è inequivocabilmente la convoluzione π^(t+1)[j] = (1/3)(π^(t)[j-1] + π^(t)[j] + π^(t)[j+1])."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 74,
+   "risolto": true,
+   "testo": "Lo schizzo a matita in fondo alla pagina è un prodotto matrice-vettore: una grande parentesi con una riga di zeri in alto e, sotto la terza posizione, la colonna (1/3, 1/3, 1/3, 0, 0); accanto, la colonna (0,0,1,0,0,0)^T. È schematico (gli zeri della prima riga non sono la vera riga 0 di P). L'ho reso come formula pulita e nella convenzione riga-per-matrice usata nel corso, e_2 P = (0,1/3,1/3,1/3,0,0), osservando che per simmetria di P è anche la colonna di indice 2. Non l'ho reso come figura perché è matematica, non un disegno."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 74,
+   "risolto": true,
+   "testo": "Il quaderno scrive «Pr(i,j)» per la probabilità di transizione, mentre p.73 introduce la matrice P = (p_ij) e p.75 usa P_ij. Ho mantenuto la notazione Pr(i,j) della pagina e, dove serviva la matrice, l'ho chiamata P = (Pr(i,j)) per raccordare le due notazioni."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 74,
+   "risolto": true,
+   "testo": "L'intestazione dell'esempio nel quaderno è una parola sottolineata leggibile come «Esempi:» o «Esempio:». Poiché l'esempio è uno solo, ho usato l'ambiente esempio (singolare) senza titolo. Il ✓ accanto alla (1) e la ✗ sovrapposta al membro destro della (2) sono stati resi in prosa («La prima uguaglianza è vera; la seconda, in generale, no»)."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 74,
+   "risolto": true,
+   "testo": "Espansioni di abbreviazioni: «m.c.» → «catena di Markov»; «sottoinsiemi di stati» già per esteso; «prob.» → «probabilità». Nessuna macro inventata: sono usate solo \\scan, \\Pr, gli ambienti domanda/esempio/osservazione/dubbio e amsmath standard."
+  }
+ ],
+ "figure": [
+  {
+   "id": "p74-ciclo6",
+   "pagina": 74,
+   "didascalia": "La catena dell'esempio: sei stati disposti in cerchio, ciascuno con un cappio e due archi (uno per verso) verso i due vicini; ogni arco ha probabilità 1/3.",
+   "tipo": "grafo diretto / diagramma di transizione di catena di Markov",
+   "specifica": "Sei nodi circolari disposti su una circonferenza di raggio ~2.2 cm, etichettati con le cifre 0,1,2,3,4,5 in senso ORARIO partendo dall'alto: 0 a 90°, 1 a 30°, 2 a -30°, 3 a -90° (in basso), 4 a 210°, 5 a 150°. Ogni nodo è un cerchietto (diametro ~7 mm) con dentro la cifra. (a) Cappi: ogni nodo ha un cappio diretto su se stesso, disegnato all'ESTERNO del cerchio, radialmente (il cappio di 0 punta verso l'alto, quello di 3 verso il basso, quello di 1 e 2 verso destra, quello di 4 e 5 verso sinistra). (b) Archi fra vicini: per ogni coppia di nodi adiacenti sul ciclo (0-1, 1-2, 2-3, 3-4, 4-5, 5-0) si disegnano DUE archi curvi distinti, uno per ciascun verso, incurvati in senso opposto (bend left / bend right ~20°), ciascuno con la freccia alla propria estremità. Nel manoscritto gli archi non hanno etichette numeriche (le probabilità stanno nella formula a fianco): si può lasciare il grafo senza etichette e affidare il valore 1/3 alla didascalia, oppure etichettare un solo arco rappresentativo con 1/3. Tratto: schematico, uniforme; nessun colore. Tutto il testo eventuale in italiano.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "p74-convoluzione",
+   "pagina": 74,
+   "didascalia": "Lo schema della convoluzione: i tre valori adiacenti, pesati 1/3 ciascuno, si sommano nel valore nuovo; la finestra (1/3,1/3,1/3) scorre lungo la distribuzione.",
+   "tipo": "schema/diagramma esplicativo (nel quaderno è a matita)",
+   "specifica": "Parte alta: tre posizioni equispaziate orizzontalmente (passo ~1.6 cm). Sopra ciascuna, l'etichetta X_0, X_1, X_2 (da sinistra a destra). Sotto ciascuna etichetta un breve trattino verticale (~5 mm) e, sotto il trattino, il valore 1/3 (frazione impilata). Parte centrale: una graffa orizzontale rivolta verso il basso che abbraccia le tre posizioni, con un segno + posto in alto a destra della graffa, a indicare che i tre contributi vengono sommati. Parte bassa: un rettangolo orizzontale (~4.5 x 1 cm) diviso da due linee verticali in tre celle uguali; ciascuna cella contiene 1/3. Il rettangolo rappresenta la finestra/nucleo di convoluzione ed è allineato sotto le tre posizioni; una piccola freccia orizzontale verso destra sopra o sotto il rettangolo suggerisce che la finestra scorre. A sinistra dell'insieme, l'etichetta CONV: (maiuscoletto). Stile: linee sottili, aspetto di schizzo; nessun colore. Testo in italiano (le uniche parole sono l'etichetta CONV:, che può diventare «convoluzione»).",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina prosegue direttamente da p.73, dove sono stati introdotti la definizione di catena di Markov come successione di trials con Pr{(E_{j0},…,E_{jn})} = a_{j0}·p_{j0j1}·…, la proprietà MEMORYLESS, la matrice di transizione P = (p_ij) con righe (e colonne) a somma 1 e lo slogan «a condizione del presente, il futuro non dipende dal passato». P.74 mette alla prova proprio quello slogan con due domande: la proprietà di Markov vale se si condiziona sullo stato presente puntuale (vero), non se si condiziona su un insieme di stati presenti (falso). Poi introduce l'esempio-guida della passeggiata aleatoria pigra sul ciclo a 6 stati, calcola l'evoluzione della distribuzione per due passi e ne annuncia il limite uniforme (1/6,…,1/6), con le due glosse a matita su convoluzione e forma matriciale. P.75 riparte formalizzando: «(Discrete) M.C.», processo stocastico su un insieme finito di stati S, la proprietà di Markov nella forma Pr[X_{t+1}=j | X_0=i_0,…,X_t=i_t] = Pr[X_{t+1}=j | X_t=i_t], la notazione P_ij e P_ij^(t), lo stato iniziale fisso o generato da una distribuzione, e poi r_ij^(t) (first transition into j), f_ij e l'hitting time h_ij = Σ_t t·r_ij^(t). Restano in sospeso da questa pagina: la dimostrazione della convergenza alla distribuzione stazionaria (qui solo annunciata con i puntini) e l'uso della simmetria/doppia stocasticità, che verranno ripresi quando si parlerà di distribuzione stazionaria.",
+ "confidenza": "alta"
+}

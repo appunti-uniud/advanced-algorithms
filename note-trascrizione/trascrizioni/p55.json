@@ -1,0 +1,106 @@
+{
+ "pagina": 55,
+ "latex": "\\scan{55}\n\n\\begin{definizione}[Taglio]\nUn \\emph{taglio} (\\emph{cut}) $C$ di un grafo $G=(V,E)$ è un insieme di archi tale che\n\\begin{itemize}\n  \\item $C\\subseteq E$;\n  \\item $(V,\\,E\\setminus C)$ è \\emph{sconnesso}.\n\\end{itemize}\n\\end{definizione}\n\n\\begin{definizione}[Taglio minimo]\nUn \\emph{taglio minimo} (\\emph{min-cut}) è un taglio $C$ tale che $\\abs{C}$ è minima.\n\\end{definizione}\n\n\\paragraph{Probabilità condizionale.}\nÈ lo strumento per minimizzare la probabilità di errore relativa a una \\emph{sequenza} di scelte.\n\n\\begin{itemize}\n  \\item Se $\\mathcal{E}_1$ ed $\\mathcal{E}_2$ sono \\emph{indipendenti}:\n  \\[\n    \\Pr[\\mathcal{E}_1\\cap\\mathcal{E}_2]\\;=\\;\\Pr[\\mathcal{E}_1]\\cdot\\Pr[\\mathcal{E}_2]\n  \\]\n  \\item Se non sono indipendenti (caso generale):\n  \\[\n    \\Pr[\\mathcal{E}_1\\cap\\mathcal{E}_2]\\;=\\;\\Pr[\\mathcal{E}_1\\mid\\mathcal{E}_2]\\cdot\\Pr[\\mathcal{E}_2]\n  \\]\n  dove $\\Pr[\\mathcal{E}_1\\mid\\mathcal{E}_2]$ è la \\emph{probabilità condizionata}: è ciò che ci consente\n  di misurare la probabilità di due eventi \\emph{consecutivi}.\n\\end{itemize}\n\n\\begin{figure}[H]\\centering\\input{tikz/prob-condizionata-venn.tikz}\n\\caption{A sinistra due eventi «che non si influenzano»; a destra il caso generale, con\n$\\mathcal{E}_1\\cap\\mathcal{E}_2\\neq\\emptyset$ evidenziata.}\n\\end{figure}\n\n\\begin{osservazione}\nNel disegno di sinistra i due eventi indipendenti sono rappresentati come regioni\n\\emph{disgiunte}: è solo un modo per suggerire che «non si influenzano a vicenda».\nAttenzione però che l'indipendenza non ha una controparte insiemistica: due eventi disgiunti\ndi probabilità non nulla non sono mai indipendenti, perché\n$\\Pr[\\mathcal{E}_1\\cap\\mathcal{E}_2]=0\\neq\\Pr[\\mathcal{E}_1]\\Pr[\\mathcal{E}_2]$.\n\\end{osservazione}\n\nSe invece di due eventi ne vogliamo misurare $k$, si itera la formula precedente e si ottiene la\n\\emph{regola della catena} (\\emph{chain rule}):\n\\begin{align*}\n  \\Pr\\!\\left[\\bigcap_{i=1}^{k}\\mathcal{E}_i\\right]\n  ={}& \\Pr[\\mathcal{E}_1]\\cdot\\Pr[\\mathcal{E}_2\\mid\\mathcal{E}_1]\\cdot\n       \\Pr[\\mathcal{E}_3\\mid\\mathcal{E}_2\\cap\\mathcal{E}_1]\\cdot{}\\\\\n     & \\cdots\\cdot\n       \\Pr\\!\\left[\\mathcal{E}_k\\;\\middle|\\;\\bigcap_{i=1}^{k-1}\\mathcal{E}_i\\right].\n\\end{align*}\n\n\\paragraph{Idea per introdurre le «scelte» (random).}\nSi sceglie a caso un arco del grafo e lo si \\emph{contrae}: i due estremi $u$ e $v$ vengono fusi\nin un unico nodo $uv$, che eredita tutti gli archi incidenti a $u$ o a $v$. Due accorgimenti:\n\\begin{itemize}\n  \\item se la contrazione forma un \\emph{self-loop}, lo si ignora (viene eliminato);\n  \\item gli archi paralleli fra due nodi distinti si mantengono invece tutti: si lavora perciò\n        su \\emph{multigrafi}, cioè su grafi in cui fra due nodi possono esserci più archi.\n\\end{itemize}\n\n\\begin{figure}[H]\\centering\\input{tikz/karger-contrazione.tikz}\n\\caption{Un passo dell'algoritmo: si sceglie a caso l'arco $(u,v)$ e lo si contrae. Gli archi\n$u$--$z$ e $v$--$z$ diventano due archi paralleli fra $uv$ e $z$; l'arco contratto diventa un\nself-loop e viene eliminato.}\n\\end{figure}\n\n\\begin{figure}[H]\\centering\\input{tikz/multigrafo-archi-paralleli.tikz}\n\\caption{Multigrafo: fra due nodi possono esserci più archi.}\n\\end{figure}",
+ "note": [
+  {
+   "tipo": "correzione",
+   "pagina": 55,
+   "risolto": true,
+   "testo": "Nella definizione di taglio il quaderno scrive «G = (V, E\\C) è sconnesso», riusando il nome G per il grafo privato degli archi del taglio. Ho scritto «(V, E∖C) è sconnesso», senza ribattezzarlo G, per non generare collisione di notazione con il grafo di partenza."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 55,
+   "risolto": true,
+   "testo": "In «Def.: Min cut ≡ cut t.c. |C| è minimale» il grafema fra le barre di valore assoluto ha uno svolazzo che lo fa somigliare a una K maiuscola. Ingrandendo la banda b1 al 240% si riconosce una C con occhiello; inoltre l'unico oggetto in gioco è il taglio C. Letto quindi |C|, senza marcatore."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 55,
+   "risolto": true,
+   "testo": "La regola della catena è scritta nel quaderno come «Pr[ ⋂_{i=1}^{K} Pr(E_i) ] = ...»: il Pr interno è un lapsus (una probabilità non può stare dentro un'intersezione di eventi). Ho scritto Pr[⋂_{i=1}^{k} E_i]. Ho inoltre uniformato l'indice a k minuscolo, che nel quaderno alterna con K maiuscola nella stessa formula."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 55,
+   "risolto": true,
+   "testo": "Il quaderno alterna Pr(...) con parentesi tonde (prime due formule) e Pr[...] con quadre (chain rule). Ho uniformato tutto a Pr[...]. La condizionata è scritta Pr(E1|E2): mantenuta la barra verticale ma resa con \\mid per la spaziatura corretta."
+  },
+  {
+   "tipo": "errore-anno-prec",
+   "pagina": 55,
+   "risolto": true,
+   "testo": "Il disegnino a margine della prima formula rappresenta i due eventi indipendenti come due cerchi DISGIUNTI. È un'illustrazione fuorviante: eventi disgiunti di probabilità positiva sono massimamente dipendenti (Pr[E1∩E2]=0 ≠ Pr[E1]Pr[E2]). Ho mantenuto il disegno (è quello che c'è) ma ho aggiunto un'osservazione esplicita che chiarisce il punto. NeGli appunti del corso dell'anno precedente (L14 §1.1) la formula è data senza figura, quindi l'imprecisione è dello studente/della lavagna."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 55,
+   "risolto": true,
+   "testo": "La freccia che parte da sotto il fattore Pr(E1|E2) porta l'annotazione «ci consente di misurare la prob. di due eventi consecutivi». L'ho resa come frase in prosa subito dopo la formula, chiamando esplicitamente Pr[E1|E2] «probabilità condizionata» (nome che La fonte dell'anno precedenteusa nei suoi appunti, cfr. L14 §1.2)."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 55,
+   "risolto": true,
+   "testo": "La parte finale della pagina è solo un disegno con annotazioni telegrafiche («arco scelto», «scelgo un arco e lo contraggo», «se formo un self-loop, lo ignoro», «multi-grafi (più archi tra i nodi)»). Ho steso in prosa la descrizione della contrazione (fusione dei due estremi in un nodo che eredita gli archi incidenti), riprendendo il vocabolario che il quaderno stesso usa a p.56 («fondendo u e v», «un nuovo nodo uv», «elimino i self-loop»). NON ho anticipato la definizione formale di G/e né il numero n−2 di contrazioni, che compaiono a p.56."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 55,
+   "risolto": true,
+   "testo": "Il verbo nella riga «strumento per minimizzare la prob. di errore relativa a una sequenza di scelte» è lungo e potrebbe leggersi «misurare»; ma nella stessa pagina «misurare» compare due volte con un tracciato nettamente più corto («ci consente di misurare la prob.», «vogliamo misurare k eventi»). Ho letto «minimizzare» e l'ho riportato fedelmente. Nota semantica: a rigore la probabilità condizionata serve ad ANALIZZARE/maggiorare la probabilità di errore; la minimizzazione vera arriva dall'amplificazione per ripetizione (pagine successive). Non ho corretto perché è la formulazione dello studente e non è falsa nel contesto."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 55,
+   "risolto": true,
+   "testo": "Il grafo di sinistra ha 5 nodi e 7 archi; la coppia di archi paralleli in alto (la «lente») è disegnata con due tratti che non toccano perfettamente il nodo sinistro (un puntino pieno): l'ho interpretata come arco doppio, lettura confermata dal grafo di destra dove la stessa lente è riprodotta identica. L'arco etichettato «arco scelto» è la diagonale che va dal nodo in basso a sinistra a quello a destra in alto."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 55,
+   "risolto": true,
+   "testo": "Verifica di coerenza del disegno: contraendo l'arco diagonale (u,v) si ottiene esattamente il grafo di destra — la lente in alto resta invariata, i due archi che andavano da u e da v verso il nodo in basso a destra diventano una seconda lente sul super-nodo, e l'arco contratto diventa un self-loop, disegnato TRATTEGGIATO accanto al super-nodo con la linea di richiamo verso «se formo un self-loop, lo ignoro». Il disegno è quindi corretto in ogni dettaglio."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 55,
+   "risolto": true,
+   "testo": "Nel quaderno i nodi dei due grafi sono anonimi. Ho aggiunto le etichette u, v (estremi dell'arco scelto), uv (super-nodo) e z (nodo in basso a destra) per rendere leggibile la didascalia; la scelta dei nomi u, v, uv è quella usata dal quaderno stesso a p.56."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 55,
+   "risolto": true,
+   "testo": "«Prob. condizionale» e «Idea per introdurre le \"scelte\" (random)» sono sottolineati nel quaderno come titoli: li ho resi con \\paragraph, non con \\subsection, per non forzare la struttura del capitolo in fase di cucitura. Non ho usato la macro \\E per gli eventi (nel preambolo \\E è il valore atteso): gli eventi sono scritti \\mathcal{E}_i."
+  }
+ ],
+ "figure": [
+  {
+   "id": "prob-condizionata-venn",
+   "pagina": 55,
+   "didascalia": "A sinistra due eventi «che non si influenzano»; a destra il caso generale, con l'intersezione evidenziata.",
+   "tipo": "altro",
+   "specifica": "Due pannelli affiancati (separati da ~3 cm), ciascuno un piccolo diagramma di Venn a mano libera, tratto blu sottile, senza rettangolo esterno per lo spazio campionario (negli appunti non c'è).\n\nPANNELLO SINISTRO (caso indipendente): due cerchi di raggio uguale (~0.55 cm), centri a distanza ~1.6 cm sull'orizzontale, quindi COMPLETAMENTE DISGIUNTI, non riempiti. Etichetta $\\mathcal{E}_1$ in alto a sinistra del cerchio sinistro (fuori dal cerchio, appoggiata al bordo nord-ovest); etichetta $\\mathcal{E}_2$ in alto a destra del cerchio destro (fuori, bordo nord-est). Sotto il pannello, in piccolo: «eventi indipendenti».\n\nPANNELLO DESTRO (caso generale): due cerchi di raggio uguale (~0.6 cm) con centri a distanza ~0.75 cm, quindi con SOVRAPPOSIZIONE AMPIA (la lente occupa circa un terzo della larghezza di ciascun cerchio). La lente d'intersezione è RIEMPITA (negli appunti è annerita a penna con tratteggio incrociato fitto): usare un riempimento a tinta piatta chiara o un pattern di tratteggio. Etichetta $\\mathcal{E}_1$ a sinistra, fuori dal cerchio sinistro, all'altezza del centro; etichetta $\\mathcal{E}_2$ a destra, fuori dal cerchio destro, all'altezza del centro. Sotto il pannello, in piccolo: «caso generale».\n\nSignificato: la prima coppia illustra (in modo volutamente informale, e formalmente scorretto) l'indipendenza; la seconda illustra che, quando l'intersezione non è vuota, per misurarla serve la probabilità condizionata.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "karger-contrazione",
+   "pagina": 55,
+   "didascalia": "Un passo dell'algoritmo: si sceglie a caso l'arco $(u,v)$ e lo si contrae; l'arco contratto diventa un self-loop e viene eliminato.",
+   "tipo": "grafo",
+   "specifica": "Due multigrafi affiancati, uniti da una freccia ondulata orizzontale che punta a destra, collocata in basso fra i due grafi. Nodi: cerchietti vuoti (diametro ~2 mm), tratto blu; archi a tratto pieno, spessore medio, leggermente curvi (aspetto a mano libera).\n\n--- GRAFO DI SINISTRA (multigrafo di partenza $G$), 5 nodi, 7 archi ---\nPosizioni (cm, origine in basso a sinistra del pannello):\n  a  = (0.0, 2.6)   [negli appunti è un puntino pieno più piccolo degli altri]\n  b  = (1.5, 3.4)   [in alto]\n  v  = (3.4, 2.2)   [a destra, in alto]\n  u  = (0.1, 0.6)   [in basso a sinistra]\n  z  = (3.2, -0.5)  [in basso a destra]\nArchi:\n  1) a--b DOPPIO (due archi paralleli): due archi incurvati in senso opposto che formano una «lente» ben visibile, asse maggiore inclinato di ~25 gradi verso l'alto a destra, apertura ~0.5 cm.\n  2) b--v singolo, quasi rettilineo, in discesa verso destra.\n  3) a--u singolo, quasi verticale, sul lato sinistro.\n  4) u--v singolo, DIAGONALE lunga dal basso a sinistra verso l'alto a destra: è l'ARCO SCELTO. Evidenziarlo (tratto più spesso o colore d'accento) ed etichettarlo con la scritta su due righe «arco scelto», posta appena sopra/a sinistra dell'arco e allineata alla sua inclinazione. Etichettare gli estremi $u$ (in basso) e $v$ (in alto a destra).\n  5) v--z singolo, quasi verticale, sul lato destro.\n  6) u--z singolo, quasi orizzontale, lungo il bordo inferiore.\n\n--- FRECCIA CENTRALE ---\nFreccia ONDULATA (sinusoide con 4-5 oscillazioni) orizzontale, testa piena triangolare rivolta a destra, all'altezza y ≈ -0.6 cm, fra i due pannelli. Sotto la freccia, su due righe, la didascalia «scelgo un arco e lo contraggo».\n\n--- GRAFO DI DESTRA (multigrafo contratto $G/(u,v)$), 4 nodi, 5 archi + 1 self-loop eliminato ---\nPosizioni (stesso sistema, traslato a destra di ~6.5 cm):\n  a' = (0.0, 2.6)\n  b' = (1.2, 3.6)\n  uv = (1.6, 1.3)   [SUPER-NODO, etichettato $uv$, in posizione centrale]\n  z' = (2.9, -0.4)\nArchi:\n  1) a'--b' DOPPIO: la stessa «lente» del grafo di sinistra, invariata.\n  2) b'--uv singolo, rettilineo, quasi verticale (erede di b--v).\n  3) a'--uv singolo, rettilineo in discesa verso destra (erede di a--u).\n  4) uv--z' DOPPIO: due archi paralleli incurvati in senso opposto, che formano una lente verticale allungata (uno bomba verso sinistra, l'altro verso destra). Sono gli eredi di v--z e u--z.\n  5) SELF-LOOP ELIMINATO: piccolo cappio TRATTEGGIATO (trattini corti) attaccato al super-nodo $uv$ sul lato destro, diametro ~0.6 cm. Da esso parte una linea di richiamo obliqua verso l'alto a destra che termina nell'annotazione su tre righe «se formo un self-loop, lo ignoro».\n\nSignificato algoritmico: la contrazione riduce di 1 il numero di nodi, fonde $u$ e $v$ nel super-nodo $uv$, conserva TUTTI gli archi paralleli (creando molteplicità) e cancella i self-loop generati. È il passo elementare dell'algoritmo randomizzato di Karger per il min-cut.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "multigrafo-archi-paralleli",
+   "pagina": 55,
+   "didascalia": "Multigrafo: fra due nodi possono esserci più archi.",
+   "tipo": "grafo",
+   "specifica": "Piccolo schema isolato, largo ~3 cm. Due nodi (cerchietti vuoti, diametro ~2 mm) sull'orizzontale, a distanza ~2.6 cm; negli appunti sono anonimi, si possono lasciare senza etichetta.\n\nFra i due nodi TRE archi paralleli, disegnati a mano libera:\n  - uno incurvato verso l'alto (freccia di curvatura ~30 gradi),\n  - uno quasi rettilineo al centro (negli appunti leggermente curvo verso l'alto),\n  - uno incurvato verso il basso (~30 gradi).\nL'insieme forma una figura a «occhio/lente» allungata orizzontalmente, attraversata dalla corda centrale.\n\nAccanto (a destra, o sopra) la scritta su due righe: «multi-grafi (più archi tra i nodi)». Nessun altro elemento.\n\nSignificato: motiva perché la contrazione porta a lavorare su multigrafi anziché su grafi semplici — la molteplicità degli archi conta quanti archi originali attraversano la bipartizione corrispondente.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina chiude sull'idea del passo elementare (scegliere un arco a caso e contrarlo, ignorando i self-loop e conservando gli archi paralleli), ma non dice ancora che cosa si ottiene iterando l'operazione ne quante volte va iterata. Restano in sospeso: (a) il criterio di arresto; (b) il fatto che gli archi residui costituiscano un taglio di G; (c) tutta l'analisi probabilistica, per la quale qui e stata preparata la sola arma necessaria, la regola della catena. La pagina 56 riprende esattamente da qui: «Ripetendo l'operazione di prima, dopo n-2 contrazioni, ovvero a: [figura con due nodi a e b uniti da un fascio di archi paralleli] — questo e un taglio», poi lo pseudocodice «Algoritmo Randomizzato Mincut» (|V|-2 contrazioni, ciascuna O(1) secondo l'annotazione a margine) e il Lemma di correttezza con dimostrazione. Gli eventi E_i («l'arco contratto all'i-esimo passo e fuori da C») e il calcolo di Pr[intersezione degli E_i] arrivano nelle pagine successive e useranno letteralmente la chain rule enunciata in questa pagina.",
+ "confidenza": "alta"
+}

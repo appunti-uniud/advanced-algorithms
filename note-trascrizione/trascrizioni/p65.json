@@ -1,0 +1,104 @@
+{
+ "pagina": 65,
+ "latex": "\\scan{65}\n\nIl riferimento è il libro divulgativo di George Gamow \\emph{One, Two, Three\\dots\\ Infinity}\n(1947), e in particolare il capitolo dedicato alla \\emph{legge del disordine} (\\emph{The Law of\nDisorder}, detta anche \\emph{Law of Statistical Behaviour}): anche da un comportamento\ncompletamente disordinato si riesce a estrarre una legge quantitativa precisa.\n\nL'esempio classico è il \\emph{drunkard's walk}: un ubriaco $u$ parte da un lampione al centro di\nuna piazza e cammina senza meta, cambiando direzione a ogni passo in modo del tutto casuale. È il\nprototipo di \\textbf{random walk}; qui lo consideriamo in due dimensioni, su una griglia.\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/ubriaco-griglia.tikz}\n  \\caption{Random walk in $2$D su una griglia: l'ubriaco $u$ parte dal lampione e vaga sul piano\n  $xy$ seguendo un cammino del tutto irregolare. Arriverà a casa?}\n\\end{figure}\n\n\\begin{domanda}\nL'ubriaco $u$ si allontanerà \\emph{arbitrariamente} dal lampione?\n\\end{domanda}\n\nLa risposta è \\textbf{sì}, e il conto che segue dice anche \\emph{quanto}: dopo $N$ passi la\ndistanza dal lampione è dell'ordine di $\\sqrt{N}$.\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/passo-griglia-2d.tikz}\n  \\caption{Un passo del random walk sulla griglia bidimensionale: dal punto corrente ci si sposta\n  in una delle quattro direzioni, ciascuna con la stessa probabilità $p$ (dunque $p = 1/4$).}\n\\end{figure}\n\nSiano $x_i$ e $y_i$ le proiezioni sui due assi dell'$i$-esimo tratto, con segno positivo o\nnegativo a seconda del verso in cui l'ubriaco si muove lungo quell'asse. Se $R$ è la distanza dal\nlampione dopo $N$ passi, per il teorema di Pitagora\n\\[\n  R^{2} \\;=\\; (x_1 + x_2 + \\dots + x_N)^{2} \\;+\\; (y_1 + y_2 + \\dots + y_N)^{2}.\n\\]\n\nSviluppiamo il primo quadrato:\n\\begin{align*}\n  (x_1 + x_2 + \\dots + x_N)^{2}\n    &\\;=\\; (x_1 + x_2 + \\dots + x_N)\\,(x_1 + x_2 + \\dots + x_N)\\\\[2pt]\n    &\\;=\\; x_1^{2} + x_2^{2} + x_3^{2} + \\dots + x_N^{2}\n       \\;+\\; 2\\underbrace{\\bigl(x_1x_2 + \\dots + x_1x_N + x_2x_3 + \\dots + x_{N-1}x_N\\bigr)}_{\\text{prodotti misti}} .\n\\end{align*}\n\n\\begin{osservazione}\nPer ogni termine misto $x_i x_j$, al crescere di $N$ troverò lo stesso termine con segno opposto\ncon probabilità che tende a $1$: i passi sono indipendenti ed è ugualmente probabile che la\nproiezione di un tratto sia positiva o negativa, quindi i prodotti misti si compensano a due a\ndue. Restano solo i quadrati, che sono tutti positivi.\n\\end{osservazione}\n\nDunque\n\\begin{align*}\n  (x_1 + x_2 + \\dots + x_N)^{2} &\\;\\longrightarrow\\; x_1^{2} + x_2^{2} + \\dots + x_N^{2} \\;\\approx\\; N X^{2},\\\\\n  (y_1 + y_2 + \\dots + y_N)^{2} &\\;\\longrightarrow\\; y_1^{2} + y_2^{2} + \\dots + y_N^{2} \\;\\approx\\; N Y^{2},\n\\end{align*}\ndove $X$ e $Y$ denotano le lunghezze \\emph{medie} delle proiezioni di un passo, rispettivamente\nsull'asse $x$ e sull'asse $y$. Sostituendo,\n\\[\n  R \\;=\\; \\sqrt{N\\,(X^{2} + Y^{2})} \\;=\\; \\sqrt{N}\\cdot\\underbrace{\\sqrt{X^{2} + Y^{2}}}_{=\\,1} \\;=\\; \\sqrt{N},\n\\]\nperché $\\sqrt{X^{2}+Y^{2}}$ non è altro che la lunghezza media di un passo, che sulla griglia\nvale $1$.\n\n\\begin{osservazione}\nL'argomento della cancellazione è euristico: i prodotti misti non si annullano algebricamente,\nquello che si annulla è il loro \\emph{valore atteso}. Essendo i passi indipendenti e a media\nnulla, $\\E[x_i x_j] = \\E[x_i]\\,\\E[x_j] = 0$ per $i \\neq j$, e quindi\n$\\E[R^{2}] = N\\bigl(\\E[x^{2}] + \\E[y^{2}]\\bigr)$. Il $\\sqrt{N}$ che si ottiene è perciò la\ndistanza \\emph{quadratica media} $\\sqrt{\\E[R^{2}]}$, non la distanza «più probabile». Il fatto\nqualitativo, che è quello che ci servirà, resta: la distanza cresce come $\\sqrt{N}$ e non come\n$N$.\n\\end{osservazione}",
+ "note": [
+  {
+   "tipo": "correzione",
+   "pagina": 65,
+   "risolto": true,
+   "testo": "Il quaderno scrive «Gamon» (titolo sottolineato in alto a sinistra). Ho scritto «George Gamow»: è l'autore di One, Two, Three... Infinity, citato anche neGli appunti del corso dell'anno precedente (L16 sintesi, §4.1). Errore di trascrizione del cognome, corretto silenziosamente."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 65,
+   "risolto": true,
+   "testo": "Il quaderno scrive il titolo come «One, Two,...,Infinity». Il titolo esatto del libro (1947) è «One, Two, Three... Infinity»: ho ripristinato «Three», omesso nella presa di appunti."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 65,
+   "risolto": true,
+   "testo": "L'annotazione con freccia sotto il disegno è di lettura difficile. Ho letto «arriverà a casa?». Disambiguazione: (a) i grafemi iniziali (ovale + asta con occhiello) coincidono esattamente con l'inizio di «arbitrariamente» nella riga sotto, cioè «ar»; (b) la desinenza «-erà» ha la stessa forma di quella di «allontanerà»; (c) la larghezza del tratto (~250 px a 300 DPI) sta a quella di «arbitrariamente» (~470 px) come 8 sta a 15 caratteri, compatibile con «arriverà» e non con «ritornerà» (9-10 caratteri); (d) l'ultima parola è leggibile con certezza come «casa» (c-a-s-a). Risolto senza marcatore nel LaTeX."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 65,
+   "risolto": true,
+   "testo": "Nello sviluppo del quadrato il quaderno scrive «x1^2+x2^2+x3^2+...+xn^2 + (x1x2+...+x1xn+x2x3+...+x_{n-1}x_n)», cioè elenca le coppie non ordinate SENZA il fattore 2. Poiché (somma x)^2 = somma x^2 + 2*somma_{i<j} x_i x_j, ho aggiunto il fattore 2. Non cambia la conclusione (i prodotti misti si cancellano comunque), ma l'identità come scritta sul quaderno è falsa."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 65,
+   "risolto": true,
+   "testo": "Il quaderno mescola le notazioni: gli indici delle somme sono in n (x_1..x_n, y_1..y_n) mentre il numero di passi nelle conclusioni è N (N X^2, N Y^2, sqrt(N)). Ho unificato tutto su N = numero di passi, coerentemente col testo di Gamow. La stessa incoerenza è segnalata neGli appunti del corso dell'anno precedente (L16, anomalia 11)."
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 65,
+   "risolto": true,
+   "testo": "Sotto l'ultimo radicale il quaderno mette solo una graffa con «1», senza spiegazione. Ho colmato la lacuna esplicitando che sqrt(X^2+Y^2) è la lunghezza media di un passo (il parametro l di Gamow, che nella formula generale dà R = l*sqrt(N)) e che su una griglia a passo unitario vale 1, da cui R = sqrt(N)."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 65,
+   "risolto": true,
+   "testo": "Il quaderno usa la sola lettera «u» sia nel disegno (accanto all'omino) sia nella domanda («u si allontanerà...»). L'ho interpretata come abbreviazione di «ubriaco» e l'ho introdotta esplicitamente nel testo («un ubriaco $u$»), mantenendo poi il simbolo nella domanda."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 65,
+   "risolto": true,
+   "testo": "Aggiunta editoriale: la seconda osservazione (rigore probabilistico, E[x_i x_j] = 0, distanza quadratica media anziché «più probabile») non è sugli appunti dello studente. La aggiungo perché corregge un punto realmente impreciso della derivazione di Gamow, già segnalato neGli appunti del corso dell'anno precedente (L16, anomalie 9 e 10), ed è tenuta ben separata dal contenuto trascritto."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 65,
+   "risolto": true,
+   "testo": "Il quaderno è telegrafico: «Gamow / One,Two,...,Infinity», «↳ La legge del disordine», «Random walk» (cerchiato), «(2D su una griglia)». Ho espanso in prosa scorrevole aggiungendo solo il contesto minimo (drunkard's walk, Law of Statistical Behaviour, piazza/lampione) che compare neGli appunti del corso dell'anno precedente sullo stesso argomento (L16 §4.1-4.2)."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 65,
+   "risolto": true,
+   "testo": "Sotto la parola «arbitrariamente» (sottolineata) c'è un piccolo segno a zig-zag a forma di freccia seguito da «sì»: è la risposta alla domanda. L'ho resa come frase («La risposta è sì») anziché riprodurre il marcatore grafico."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 65,
+   "risolto": true,
+   "testo": "Nel disegno della griglia, il fumetto cerchiato «Random walk» e la glossa «(2D su una griglia)» sono annotazioni a lato collegate da una freccia all'angolo del piano: le ho incluse nella specifica della figura come callout, invece di lasciarle nel corpo del testo. Ho inoltre interpretato l'oggetto verticale con il rombo in cima come il LAMPIONE (coerente con la domanda successiva), e il doppio contorno attorno all'omino (ellisse continua + curva tratteggiata irregolare) come la rappresentazione del vagabondaggio casuale."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 65,
+   "risolto": true,
+   "testo": "Nella crocetta con le quattro frecce il quaderno etichetta tutte e quattro le direzioni con la stessa «p», senza dire quanto vale. Nella didascalia ho aggiunto «(dunque p = 1/4)», che segue immediatamente dal fatto che le quattro probabilità sono uguali e sommano a 1."
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 65,
+   "risolto": true,
+   "testo": "Gli appunti del corso dell'anno precedente (L16 §4.3) concludono con R = l*sqrt(N), con l lunghezza media del tratto; questa pagina specializza al caso della griglia (l = 1) e conclude R = sqrt(N). Non è una divergenza sostanziale, è lo stesso risultato con passo unitario; lo segnalo per chi confronta le due fonti."
+  }
+ ],
+ "figure": [
+  {
+   "id": "ubriaco-griglia",
+   "pagina": 65,
+   "didascalia": "Random walk in 2D su una griglia: l'ubriaco u parte dal lampione e vaga sul piano xy seguendo un cammino del tutto irregolare. Arriverà a casa?",
+   "tipo": "schema prospettico (piano in prospettiva con figura stilizzata e annotazioni)",
+   "specifica": "Schizzo a mano libera, stile lavagna, monocromatico, tutto il testo in italiano.\n\n1) PIANO. Un parallelogramma disegnato in prospettiva (il piano / la piazza), largo circa il doppio dell'altezza: vertice A in basso a sinistra, B in basso a destra (lato inferiore quasi orizzontale), C in alto a destra, D in alto a sinistra (lato superiore quasi orizzontale, leggermente piu' corto e piu' in alto). I due lati obliqui AD e BC salgono verso destra con la stessa pendenza (circa 50 gradi). Tratto spesso e leggermente irregolare (a mano libera).\n\n2) ASSI. Il lato AD prosegue oltre D di un tratto breve e termina con una punta di freccia; accanto alla punta l'etichetta $y$. Sul lato BC, a circa un terzo dell'altezza a partire da B, una punta di freccia rivolta verso C (verso positivo); l'etichetta $x$ e' posta appena SOTTO il vertice B, fuori dal parallelogramma. Interpretazione: i due lati obliqui sono gli assi cartesiani visti in prospettiva; nel manoscritto le etichette sono collocate in modo approssimativo e la resa descritta e' quella coerente.\n\n3) UBRIACO. Al centro del parallelogramma, un omino stilizzato (stick figure): testa = cerchietto, busto = segmento verticale, due braccia oblique verso il basso, due gambe divaricate. Alla sua sinistra, all'altezza delle braccia, la lettera minuscola $u$ (etichetta dell'ubriaco).\n\n4) LAMPIONE. Subito a destra dell'omino, alla sua stessa altezza: un palo verticale (due linee parallele ravvicinate, oppure una linea spessa) che sale fino a poco sotto il lato superiore del parallelogramma, sormontato da una lanterna a forma di rombo/diamante allungato (quadrilatero con vertice in alto e in basso). Il piede del palo poggia sul piano, accanto ai piedi dell'omino.\n\n5) CAMMINO. Attorno a omino e lampione: (a) una ELLISSE a tratto continuo, inclinata di ~10-15 gradi, larga circa un terzo della larghezza del parallelogramma e alta circa un terzo della sua altezza, che racchiude i piedi dell'omino e la base del lampione; (b) all'esterno e attorno a questa ellisse, una CURVA CHIUSA IRREGOLARE disegnata a TRATTEGGIO (una quindicina di trattini corti, ondulati, di lunghezza disuguale) che ne segue grossolanamente il contorno allargandolo. Il tratteggio deve dare l'idea del vagabondaggio disordinato, non di una curva regolare.\n\n6) ANNOTAZIONE. Dal bordo inferiore del piano, sotto l'omino, parte una linea curva che scende, esce dal parallelogramma, piega verso destra e termina con una punta di freccia; subito a destra della punta il testo in corsivo: \\emph{arriver\\`a a casa?}\n\n7) CALLOUT. In alto a destra, fuori dal piano: un ovale disegnato a mano libera contenente il testo \\textsf{random walk}; dal bordo sinistro-basso dell'ovale parte una linea che scende verso sinistra e termina con una punta di freccia sul vertice C (angolo in alto a destra del parallelogramma). Poco sotto e a destra del vertice C, il testo tra parentesi: (2D su una griglia).\n\nColori: monocromatico (nero o blu scuro); il tratteggio del cammino e l'ellisse possono essere resi con tratto leggermente piu' chiaro del piano.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "passo-griglia-2d",
+   "pagina": 65,
+   "didascalia": "Un passo del random walk sulla griglia bidimensionale: dal punto corrente ci si sposta in una delle quattro direzioni, ciascuna con la stessa probabilita' p (dunque p = 1/4).",
+   "tipo": "schema (crocetta di quattro frecce con etichette di probabilita')",
+   "specifica": "Figura molto piccola e semplice, centrata nel testo.\n\n- Al centro un PUNTO pieno (piccolo disco), che rappresenta la posizione corrente sulla griglia.\n- Dal punto partono QUATTRO FRECCE di uguale lunghezza (circa 1 cm ciascuna) nelle quattro direzioni cardinali: su, giu', sinistra, destra. Ogni freccia ha la punta all'estremita' esterna e NON tocca il punto centrale: parte a piccola distanza da esso, come nel manoscritto.\n- ETICHETTE, tutte uguali, la lettera $p$ in corsivo matematico, poste accanto alla punta di ciascuna freccia:\n  * freccia SU: $p$ alla destra della punta;\n  * freccia DESTRA: $p$ appena sotto la punta;\n  * freccia SINISTRA: $p$ appena sotto la punta;\n  * freccia GIU': $p$ alla sinistra della punta.\n- Nessun altro elemento: niente griglia di sfondo, niente assi, nessun valore numerico dentro la figura (il fatto che p = 1/4 sta solo nella didascalia).\n- Tratto a mano libera, monocromatico.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina chiude il discorso sul random walk di Gamow con il risultato R = sqrt(N): la distanza dall'origine cresce come la radice del numero di passi, non linearmente. Restano esplicitamente in sospeso: (a) il caso d-dimensionale e il teorema di Polya sulla ricorrenza/transienza (ricorrente per d <= 2, transiente per d >= 3), che neGli appunti del corso dell'anno precedente compare subito dopo la derivazione di Gamow e che sul quaderno non appare in questa pagina; (b) soprattutto, il motivo per cui il random walk viene introdotto in un corso di algoritmi, cioe' il suo uso come «visita randomizzata» in spazio O(1) e come modello dell'algoritmo randomizzato per 2-SAT. La pagina 66 infatti riparte con il setup logico (titolo «SAT 3-SAT 2-SAT»: calcolo proposizionale, formule, QBF, CNF/DNF, definizione di k-SAT); il ponte fra le due meta' del capitolo — il processo stocastico f(A) sulla linea 0..n, con Pr[destra] >= 1/2 — arrivera' solo alcune pagine dopo. In fase di cucitura questa pagina va tenuta come premessa probabilistica del capitolo, prima del blocco logico.",
+ "confidenza": "alta"
+}

@@ -1,0 +1,18 @@
+{
+ "pagina": 64,
+ "esito": "ok",
+ "problemi": [],
+ "verificato": {
+  "fedelta": "Tutti e sei i blocchi manoscritti sono presenti e nell'ordine originale: (1) «Introduco una variabile indicatrice C_uv per u ⊣ v»; (2) E[C_uv] = P[u ⊣ v] ≤ 1/(index(u,v)+1); (3) «Dimensione attesa di P_pi è n + n.ro di tagli in valore atteso»; (4) la catena n + E[ΣΣ C] = n + ΣΣ E[C] = n + ΣΣ P[u ⊣ v] ≤ n + ΣΣ 1/(index+1); (5) «Fissato u ci sono al più 2 v t.c. index(u,v)=i (uno a dx e uno a sx di l(u))» con Σ_{v≠u} 1/(index+1) < Σ_{i=1}^{n-1} 2/(i+1); (6) la conclusione n + ΣΣ 2/(i+1) ≤ ... ∈ O(n log n). La metà inferiore del foglio è bianca e la pagina non contiene disegni: coerente con l'assenza di figure nel tratto di file corrispondente.",
+  "correzioni-silenziose-verificate": [
+   "Ultima riga: il quaderno scrive «≤ n + n H_n», che è falso (manca il fattore 2). Il file scrive n + 2n(H_n - 1) ≤ n + 2n H_n. Ricontrollato: Σ_{i=1}^{n-1} 2/(i+1) = 2(H_n - 1), sommato su n segmenti dà 2n(H_n - 1) ≤ 2n H_n. Correzione giusta e coerente con L15_sintesi.md §4.6.",
+   "Il quaderno scrive C_{v,u} nella prima riga della catena e C_{uv} nelle successive; il file uniforma a C_{u,v}, coerente con la definizione di u ⊣ v. Corretto.",
+   "L'indice della sommatoria esterna nel manoscritto è tracciato come «n» (privo di senso come indice); il file scrive Σ_{u∈S}. Corretto.",
+   "Il simbolo di relazione è tracciato in modo incoerente sul foglio (⊢ nella riga di intestazione, ⊣ nella riga successiva); il file usa \\dashv ovunque, coerente con p.63, con Motwani–Raghavan e con Gli appunti del corso dell'anno precedente",
+   "«uno a dx e uno a sx di l(u)» è reso con «uno a destra e uno a sinistra di u lungo l(u)»: è la lettura semanticamente corretta (i due versi di percorrenza di l(u) a partire da u), non i due semipiani."
+  ],
+  "matematica": "Ricontrollati tutti i passaggi. Σ_{i=1}^{n-1} 1/(i+1) = 1/2+...+1/n = H_n - 1 (giusto). n + 2n(H_n-1) ≤ n + 2n H_n ∈ O(n log n) (giusto). Range i ∈ [1, n-1] giustificato (i segmenti diversi da u sono n-1). Bound «al più 2 v per ogni i» corretto. Verso delle disuguaglianze corretto ovunque; il passaggio da < a ≤ rispetto al manoscritto è conservativo e lecito. La linearità del valore atteso è invocata correttamente (nessuna indipendenza richiesta) e il commento sul punto è esatto. Il caso index = ∞ è reso ben definito dall'osservazione aggiunta, che rende legittimo il raggruppamento sui soli i finiti.",
+  "coerenza": "Notazione allineata al resto del capitolo: |P_pi|, index(u,v) in \\mathrm, u \\dashv v (def. a riga 238), \\textsc{RandAuto} (il capitolo non usa una macro \\RandAuto, che infatti non esiste in preamble.tex), \\indic/\\E/\\Pr/\\defeq/\\Oh/\\Th tutte definite nel preambolo. Il riferimento \\ref{oss:primo-in-pi} punta all'osservazione giusta di p.63. Il testo compila senza errori (algoritmi.log, pagine 113–114, nessun warning oltre a quelli di font globali).",
+  "figure": "Nessuna figura nel tratto di p.64: la pagina manoscritta non contiene disegni. Corretto."
+ }
+}

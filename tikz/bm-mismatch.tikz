@@ -1,0 +1,48 @@
+% Un passo di Boyer--Moore: confronti da destra a sinistra, mismatch x/y, shift.
+\begin{tikzpicture}[x=0.38cm,y=0.38cm,
+    testo/.style   = {line width=0.9pt},
+    patt/.style    = {line width=0.9pt,deepsea},
+    taccaT/.style  = {line width=0.8pt},
+    taccaP/.style  = {line width=0.8pt,deepsea},
+    forte/.style   = {line width=1.8pt,deepsea},
+    et/.style      = {font=\footnotesize},
+    ets/.style     = {font=\scriptsize,graydark}]
+
+  %% ------------------------------------------------- riga 1: il testo T
+  \draw[testo] (0,0) -- (25,0);
+  \node[et,anchor=west] at (25.5,0) {$T$};
+  \draw[taccaT] (11,-0.7) -- (11,0.7);
+  \draw[taccaT] (12,-0.7) -- (12,0.7);
+  \draw[taccaT] (15,-0.7) -- (15,0.7);
+  \node[et,anchor=south] at (11.5,0.75) {$x$};
+  \node[et,anchor=south] at (13.5,0.75) {$\alpha$};
+
+  %% ------------------------- direzione dei confronti (da destra a sinistra)
+  \draw[graydark,line width=0.6pt,-{Latex[length=4pt]}] (15,-2.2) -- (11,-2.2);
+  \node[ets,anchor=south] at (13,-2.1) {confronti};
+
+  %% ---------------------------- riga 2: il pattern P, allineamento corrente
+  \draw[patt] (6,-4.6) -- (15,-4.6);
+  \draw[taccaP] (6,-5.25) -- (6,-3.95);
+  \draw[taccaP] (11,-5.25) -- (11,-3.95);
+  \draw[taccaP] (12,-5.25) -- (12,-3.95);
+  \draw[forte]  (15,-5.5) -- (15,-3.7);
+  \node[et,anchor=south] at (11.5,-3.9) {$y$};
+  \node[et,anchor=south] at (13.5,-3.9) {$\alpha$};
+  \node[et,anchor=north] at (15,-5.75) {$P$};
+
+  %% --------------------------------- porzione di P non ancora confrontata
+  \draw[graydark,line width=0.6pt]
+        (6.8,-5.9) .. controls (8.2,-6.8) and (9.6,-5.2) .. (11,-5.9);
+  \node[ets,anchor=north] at (8.9,-6.9) {non ancora confrontata};
+
+  %% ------------------------------- riga 2: il pattern P dopo lo shift
+  \draw[patt] (15.8,-4.6) -- (24.8,-4.6);
+  \draw[taccaP] (15.8,-5.25) -- (15.8,-3.95);
+  \draw[forte]  (24.8,-5.5) -- (24.8,-3.7);
+  \node[et,anchor=north] at (24.8,-5.75) {$P$};
+
+  %% ------------------------------------------------- annotazione a destra
+  \node[et,anchor=west,align=left] at (26.1,-2.4)
+       {ci sono casi\\[2pt] $\Oh(m/n)$};
+\end{tikzpicture}

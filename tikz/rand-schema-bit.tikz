@@ -1,0 +1,28 @@
+% rand-schema-bit -- pag. 51
+% Un algoritmo randomizzato riceve, accanto al proprio input, un flusso di bit
+% casuali; poiche' le scelte compiute dipendono da quei bit, la complessita'
+% dell'esecuzione (e in generale anche il risultato) e' una variabile aleatoria.
+\begin{tikzpicture}[
+    x=1cm, y=1cm, >=Latex,
+    filo/.style={draw=black!80,line width=0.7pt},
+    et/.style={font=\small}
+  ]
+
+  % ---- la scatola dell'algoritmo -------------------------------------------
+  \node[draw=black!80,line width=1pt,minimum width=2.2cm,minimum height=1.5cm,
+        inner sep=2pt,font=\small] (alg) at (0,0) {algoritmo};
+
+  % ---- il flusso di bit casuali --------------------------------------------
+  \node[et,align=center,anchor=south] (bit) at (-3.55,1.30)
+        {\texttt{010110}\\[-2pt] \emph{random}};
+  \draw[filo,->] (bit.south) to[out=-90,in=180] (-1.15,0.35);
+
+  % ---- l'input ordinario ---------------------------------------------------
+  \node[et,anchor=east] (in) at (-3.00,-0.40) {input};
+  \draw[filo,->] (in.east) -- (-1.15,-0.40);
+
+  % ---- l'uscita: la complessita' e' una variabile aleatoria -----------------
+  \draw[filo,->] (1.15,0.20) to[out=0,in=90] (2.90,-1.40);
+  \node[et,anchor=west] at (3.05,-0.60) {complessit\`a};
+
+\end{tikzpicture}

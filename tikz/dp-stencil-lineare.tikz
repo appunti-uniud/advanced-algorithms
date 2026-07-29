@@ -1,0 +1,57 @@
+% dp-stencil-lineare -- pag. 45
+% Stencil "all'indietro": le tre celle da cui dipende (i,j) sono (i-1,j-1),
+% (i-1,j) e (i,j-1); stanno tutte nelle colonne j-1 e j, quindi per la sola
+% distanza bastano due colonne in memoria (l'ovale racchiude "tutto cio' che serve").
+\begin{tikzpicture}[
+    font=\footnotesize,
+    >={Stealth[length=4.5pt,width=3.5pt]},
+    cella/.style={circle,fill=black,inner sep=0pt,minimum size=3.4pt},
+    obiettivo/.style={circle,draw,line width=0.8pt,fill=black!12,
+                      inner sep=0pt,minimum size=6.5pt},
+    griglia/.style={black!45,line width=0.4pt},
+    dipende/.style={->,line width=0.7pt},
+    et/.style={font=\scriptsize,inner sep=0pt},
+  ]
+
+  \def\d{1.35}   % lato del blocco 2x2
+
+  % ---- le quattro celle ----------------------------------------------------
+  \coordinate (dd) at (0,0);        % (i-1,j-1)
+  \coordinate (du) at (\d,0);       % (i-1,j)
+  \coordinate (sd) at (0,-\d);      % (i,j-1)
+  \coordinate (ij) at (\d,-\d);     % (i,j)   <- cella da calcolare
+
+  % ---- residuo della griglia della matrice ---------------------------------
+  \draw[griglia] (dd) -- (du);
+  \draw[griglia] (dd) -- (sd);
+
+  % ---- le tre dipendenze, tutte convergenti su (i,j) -----------------------
+  \draw[dipende] (dd) -- ($(ij)+(-0.12,0.12)$);
+  \draw[dipende] (du) -- ($(ij)+(0,0.17)$);
+  \draw[dipende] (sd) -- ($(ij)+(-0.17,0)$);
+
+  % ---- i nodi --------------------------------------------------------------
+  \node[cella] at (dd) {};
+  \node[cella] at (du) {};
+  \node[cella] at (sd) {};
+  \node[obiettivo] at (ij) {};
+
+  % ---- etichette delle celle -----------------------------------------------
+  \node[et,anchor=south east] at ($(dd)+(-0.18,0.16)$) {$(i-1,j-1)$};
+  \node[et,anchor=south west] at ($(du)+(0.18,0.16)$)  {$(i-1,j)$};
+  \node[et,anchor=north east] at ($(sd)+(-0.18,-0.16)$) {$(i,j-1)$};
+  \node[et,anchor=west]       at ($(ij)+(0.22,-0.02)$)  {$(i,j)$};
+
+  % ---- l'ovale: "tutto cio' che serve sta qui dentro" ----------------------
+  \draw[black!55,dashed,line width=0.5pt,rotate around={-20:(0.5*\d,-0.5*\d)}]
+        (0.5*\d,-0.5*\d) ellipse [x radius=1.02, y radius=1.40];
+
+  % ---- le due sole colonne coinvolte ---------------------------------------
+  \node[et,black!60] at (0,-\d-1.02)  {$j-1$};
+  \node[et,black!60] at (\d,-\d-1.02) {$j$};
+  \draw[decorate,decoration={brace,mirror,amplitude=4pt,raise=1pt},
+        draw=black!55,line width=0.5pt]
+        (-0.28,-\d-1.22) -- (\d+0.28,-\d-1.22);
+  \node[et,black!60,anchor=north] at (0.5*\d,-\d-1.64) {due colonne};
+
+\end{tikzpicture}

@@ -1,0 +1,93 @@
+{
+ "pagina": 44,
+ "latex": "\\scan{44}\n\n\\subsection{Algoritmo ricorsivo esponenziale}\n\nLa ricorrenza sui quattro casi si traduce direttamente in un algoritmo ricorsivo:\nper allineare $\\pre{\\sigma_1}{i}$ con $\\pre{\\sigma_2}{j}$ si provano le tre mosse\npossibili sull'ultima colonna dell'allineamento e si tiene la migliore.\n\n\\begin{algorithm}[H]\n\\caption{\\textsc{allineamento\\_exp}: allineamento globale, versione ricorsiva}\n\\begin{algorithmic}[1]\n\\Function{allineamento\\_exp}{$\\sigma_1,\\sigma_2,i,j$}\n  \\If{$i=0$ \\textbf{oppure} $j=0$}\n    \\State \\Return $i+j$ \\Comment{casi base}\n  \\EndIf\n  \\If{$\\sigma_1[i]=\\sigma_2[j]$}\n    \\State $c_S \\gets \\Call{allineamento\\_exp}{\\sigma_1,\\sigma_2,i-1,j-1}$\n           \\Comment{match: costo $0$}\n  \\Else\n    \\State $c_S \\gets 1+\\Call{allineamento\\_exp}{\\sigma_1,\\sigma_2,i-1,j-1}$\n           \\Comment{sostituzione}\n  \\EndIf\n  \\State $c_D \\gets 1+\\Call{allineamento\\_exp}{\\sigma_1,\\sigma_2,i-1,j}$\n         \\Comment{cancellazione di $\\sigma_1[i]$}\n  \\State $c_I \\gets 1+\\Call{allineamento\\_exp}{\\sigma_1,\\sigma_2,i,j-1}$\n         \\Comment{inserzione di $\\sigma_2[j]$}\n  \\State \\Return $\\min(c_S,c_D,c_I)$\n\\EndFunction\n\\end{algorithmic}\n\\end{algorithm}\n\nLe tre variabili raccolgono i costi delle tre mosse: $c_S$ per la mossa diagonale\n(match, gratuito, oppure sostituzione, di costo $1$), $c_D$ per la cancellazione di\n$\\sigma_1[i]$ --- si consuma un carattere di $\\sigma_1$ e si apre un gap su $\\sigma_2$ ---\ne $c_I$ per l'inserzione di $\\sigma_2[j]$. I casi base sono corretti: se $i=0$ resta da\nallineare $\\vuota$ con $\\pre{\\sigma_2}{j}$ e servono esattamente $j$ inserzioni, e\nsimmetricamente per $j=0$; da cui \\textbf{return} $i+j$.\n\n\\bigskip\n\n\\noindent$\\leadsto$\\; \\textbf{Il costo è esponenziale!}\n\n\\begin{osservazione}\n  Se $T(n)$ è il numero di chiamate su un'istanza con $n=i+j$, le tre chiamate\n  ricorsive hanno taglia $n-2$ (diagonale), $n-1$ e $n-1$, quindi\n  \\[\n    T(n) \\;=\\; 2\\,T(n-1) + T(n-2), \\qquad T(0)=T(1)=\\Oh(1),\n  \\]\n  la cui equazione caratteristica $x^2=2x+1$ dà $x=1\\pm\\sqrt2$ e dunque\n  \\[\n    T(n)\\;=\\;\\Th\\!\\big((1+\\sqrt{2})^{\\,n}\\big),\n    \\qquad n=\\abs{\\sigma_1}+\\abs{\\sigma_2}.\n  \\]\n  Una stima più grossolana ($3$ chiamate di taglia $n-1$) dà $\\Oh(3^{\\,n})$: in\n  entrambi i casi il costo è esponenziale nella somma delle lunghezze.\n\\end{osservazione}\n\nMa i possibili valori della coppia $(i,j)$ sono solo $\\abs{\\sigma_1}\\times\\abs{\\sigma_2}$:\ni sottoproblemi distinti sono pochi e la ricorsione li ricalcola un numero esponenziale\ndi volte. Conviene allora \\emph{tabulare} i risultati $\\leadsto$ una matrice di\ndimensione quadratica. Da qui il \\emph{lower bound}\n\\[\n  \\Om\\big(\\abs{\\sigma_1}\\times\\abs{\\sigma_2}\\big).\n\\]\n\n\\begin{osservazione}\n  Due precisazioni. (i) Le coppie $(i,j)$ ammissibili sono in realtà\n  $(\\abs{\\sigma_1}+1)(\\abs{\\sigma_2}+1)$, perché gli indici partono da $0$ (prefisso\n  vuoto): la stima $\\abs{\\sigma_1}\\times\\abs{\\sigma_2}$ è corretta come ordine di\n  grandezza. (ii) Il \\emph{lower bound} $\\Om(\\abs{\\sigma_1}\\cdot\\abs{\\sigma_2})$ è un\n  limite inferiore \\emph{del metodo}, non del problema: riempire tutta la matrice costa\n  almeno quanto il numero delle sue celle. Che non si possa fare sostanzialmente meglio\n  per la distanza di edit è noto solo come risultato \\emph{condizionale}\n  (sotto l'ipotesi SETH).\n\\end{osservazione}\n\n\\subsection{Allineamento locale}\n\nInvece di allineare tutto $\\sigma_1$ con tutto $\\sigma_2$, cerco le porzioni più piccole\ndel pattern che si allineano in modo ottimo con il testo.\n\n\\begin{osservazione}\n  È il passaggio dal problema \\emph{globale} (prefisso contro prefisso) a quello\n  \\emph{locale}. Nella versione che useremo i ruoli delle due stringhe si separano:\n  $\\sigma_1$ è il \\emph{pattern} e $\\sigma_2$ il \\emph{testo}, e si vuole allineare\n  \\emph{tutto} $\\sigma_1$ con una \\emph{sottostringa} di $\\sigma_2$, cioè con un\n  suffisso di un prefisso di $\\sigma_2$.\n\\end{osservazione}",
+ "note": [
+  {
+   "tipo": "altro",
+   "pagina": 44,
+   "testo": "La pagina ha due titoli espliciti sottolineati: «Algoritmo ricorsivo esponenziale» (in alto) e «Allineamento locale» (in basso). Li ho resi con \\subsection, l'unico livello consentito dalle convenzioni; in fase di cucitura potranno essere promossi/declassati. Nessun disegno sulla pagina: il campo `figure` è vuoto.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 44,
+   "testo": "Nomi delle variabili dello pseudocodice: il quaderno scrive una «c» corsiva molto chiusa che a prima vista sembra una «i» o una «ι»; i pedici sono S, D, I. Ho letto quindi c_S, c_D, c_I (c = «costo»), coerente con la nomenclatura c_m/c_s/c_i/c_d usata dagli appunti dell'anno precedente nelle slide (L10 p.11, L11 p.1). Confermato ingrandendo la riga «return min(c_S, c_D, c_I)».",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 44,
+   "testo": "Riga «if σ1[i] == σ2[j]»: l'indice dentro le parentesi quadre di σ1 è ripassato/macchiato (sembra una «j» corretta in «i»). Ho scritto σ1[i], l'unica lettura sensata dato che il confronto è fra il carattere i-esimo di σ1 e il j-esimo di σ2.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 44,
+   "testo": "Ramo `then` (match): fra «c_S =» e «allineamento_exp» c'è un frammento cancellato/scolorito (verosimilmente un «1 +» scritto e poi depennato). Ho trascritto senza il «+1», che è la lettura corretta: il match ha costo 0. Nel ramo `else` il «1+» è invece scritto in nero marcato e resta.",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 44,
+   "testo": "Lo studente usa una sola variabile c_S assegnata in ENTRAMBI i rami (senza +1 se match, con +1 se mismatch). Questo corregge l'errore delle materiali dell'anno precedente (L10 anomalia 2 / L11 anomalia A1), dove c_m e c_s sono assegnate in rami mutuamente esclusivi ma usate entrambe nel min finale, lasciandone sempre una non inizializzata. Ho mantenuto la versione dello studente, che è formalmente corretta, senza segnalarlo nel testo.",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 44,
+   "testo": "Convenzione insertion/deletion: lo studente scrive c_D = 1 + allineamento_exp(σ1,σ2,i-1,j) e c_I = 1 + allineamento_exp(σ1,σ2,i,j-1). È la convenzione di Gusfield (§11.6.1): D(i-1,j)+1 = cancellazione di σ1[i], D(i,j-1)+1 = inserzione di σ2[j]. Le materiali dell'anno precedente hanno le due etichette SCAMBIATE (L10 anomalia 1, L11 anomalia A5). Ho tenuto la versione dello studente ed esplicitato le due etichette nei commenti dello pseudocodice, perché è quella corretta per il traceback.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 44,
+   "testo": "Lo pseudocodice del quaderno è in stile C con graffe e senza commenti; l'ho reso con algorithm/algorithmic (algpseudocode, come da preambolo) aggiungendo i commenti «casi base», «match: costo 0», «sostituzione», «cancellazione di σ1[i]», «inserzione di σ2[j]» e un paragrafo di prosa che spiega le tre variabili e giustifica il caso base `return i+j` (se i=0 servono esattamente j inserzioni). Contenuto implicito negli appunti, esplicitato.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 44,
+   "testo": "Gli appunti affermano «Il costo è esponenziale!» senza alcuna giustificazione. Ho colmato la lacuna con un'osservazione che riporta la ricorrenza fine T(n)=2T(n-1)+T(n-2) (le tre chiamate hanno taglia i+j-2, i+j-1, i+j-1), la sua soluzione Θ((1+√2)^n) con n=|σ1|+|σ2| (numeri di Pell) e la stima grossolana O(3^n). Entrambe compaiono nelle materiali dell'anno precedente (L11 p.2-p.3), quindi il contenuto è del corso, ma NON è su questa pagina del quaderno.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 44,
+   "testo": "Il quaderno scrive «lower bound O(|σ1| × |σ2|)» con la O grande. Un limite INFERIORE richiede Ω: ho scritto Ω(|σ1| × |σ2|). Ho inoltre aggiunto un'osservazione che precisa che si tratta di un lower bound del METODO (riempire una matrice di |σ1|·|σ2| celle), non del problema: per la distanza di edit un lower bound quadratico è noto solo condizionatamente a SETH (Backurs–Indyk 2015).",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 44,
+   "testo": "«i possibili valori di i,j sono solo |σ1| × |σ2|»: il conteggio esatto è (|σ1|+1)(|σ2|+1), perché gli indici partono da 0 (prefisso vuoto). Ho lasciato l'enunciato del quaderno nel testo corrente (è corretto come ordine di grandezza) e ho aggiunto la precisazione nell'osservazione. Stessa imprecisione nelle materiali dell'anno precedente (L11 anomalia A10).",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 44,
+   "testo": "«Tabulo i risultati ⤳ matrice quadratica»: reso in prosa come «Conviene allora tabulare i risultati ⤳ una matrice di dimensione quadratica», aggiungendo la motivazione (i sottoproblemi distinti sono pochi e la ricorsione li ricalcola un numero esponenziale di volte) che è il senso della freccia negli appunti.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 44,
+   "testo": "Ultimo capoverso, corsivo molto stretto. Lettura ottenuta ingrandendo parola per parola: «Invece di allineare tutto σ1 con tutto σ2, cerco le più piccole porzioni del pattern che si allineano ottimamente col testo». Le parole critiche verificate una a una: «cerco» (fine riga 1), «piccole», «porzioni», «del pattern» (la doppia t barrata è netta), «allineano», «col testo». L'ho resa in italiano scorrevole come «cerco le porzioni più piccole del pattern che si allineano in modo ottimo con il testo».",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 44,
+   "testo": "La frase dello studente mette le «porzioni» sul lato del PATTERN. Nella formulazione del corso (L11 §10, allineamento locale alla Sellers) si allinea invece TUTTO il pattern σ1 con una SOTTOSTRINGA del testo σ2 (= suffisso di un prefisso di σ2); solo lo Smith–Waterman «pieno» prende sottostringhe da entrambe le parti. Non ho modificato la frase del quaderno (fonte primaria, e la lettura è certa), ma ho aggiunto un'osservazione con la formulazione standard, così che la pagina non induca in errore.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 44,
+   "testo": "Nessun disegno sulla pagina 44: solo testo, due titoli sottolineati, lo pseudocodice e due frecce «⤳» usate come connettivi (rese con \\leadsto). Nessuna voce in `figure`.",
+   "risolto": true
+  }
+ ],
+ "figure": [],
+ "continuita": "La pagina 43 si chiudeva con la «regola di massima» (stringhe lunghe → Levenshtein, corte → Hamming) e con lo schizzo dello stencil della ricorrenza (da (i,j) verso i+1, j+1, i+1/j+1): la pagina 44 ne è la conseguenza diretta, cioè la traduzione della ricorrenza in codice ricorsivo, la constatazione che è esponenziale e la decisione di tabulare in una matrice quadratica. Resta in sospeso a fine pagina: (a) l'algoritmo di programmazione dinamica vero e proprio non è ancora scritto (c'è solo la decisione di tabulare e il lower bound Ω(|σ1|·|σ2|)); (b) il titolo «Allineamento locale» è aperto ma sviluppato in sole tre righe, senza definizione formale né ricetta operativa. La pagina 45 non prosegue subito sul locale: torna sulla matrice globale («mi basta spazio lineare!», con lo schizzo della matrice a due colonne) e raccoglie la «lettura dei risultati» — la matrice dà d_L(σ1,σ2) in O(n1×n2) tempo e spazio, dà TUTTI gli allineamenti ottimi, si può ridurre lo spazio a O(min(|σ1|,|σ2|)) rinunciando a produrre η, e per riavere anche η serve l'algoritmo di Hirschberg — chiudendo con il Remark che la matrice dà anche le distanze fra prefissi. L'allineamento locale annunciato qui va quindi ripreso nelle pagine 46–47 (definizione, prima riga di zeri, lettura dei minimi sull'ultima riga). Attenzione, in cucitura, a non duplicare il titolo «Allineamento locale» se ricompare più avanti.",
+ "confidenza": "alta"
+}

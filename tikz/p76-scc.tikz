@@ -1,0 +1,77 @@
+% p76-scc -- pag. 76
+% Decomposizione di un grafo orientato nelle sue componenti fortemente connesse.
+% Quattro bolle: dentro ciascuna un ciclo orientato che tocca tutti i suoi nodi
+% (quindi ogni bolla e' davvero fortemente connessa); fra bolle diverse gli archi
+% vanno tutti in un solo verso, cosi' che la condensazione
+%   C1 -> C2 -> C4,  C1 -> C3
+% sia un DAG (C3 e C4 sono le SCC finali).
+\begin{tikzpicture}[x=1.1cm,y=1.05cm,line join=round,line cap=round,
+    font=\footnotesize,
+    nodo/.style={circle,fill=black,inner sep=0pt,minimum size=3.4pt},
+    arco/.style={line width=0.5pt,-{Latex[length=1.5mm,width=1.2mm]}},
+    arcone/.style={line width=0.7pt,-{Latex[length=2mm,width=1.5mm]}},
+    bolla/.style={line width=0.6pt,black!45,fill=black!3},
+    etic/.style={inner sep=1pt,text=black!60}]
+
+  % ----------------------------------------------------------------- bolle --
+  \draw[bolla] plot[smooth cycle,tension=0.75] coordinates {
+    (1.05,3.02) (0.86,3.64) (0.28,3.86) (-0.34,3.52) (-0.56,2.86)
+    (-0.40,2.24) (0.18,2.00) (0.70,2.36)};
+
+  \draw[bolla] plot[smooth cycle,tension=0.75] coordinates {
+    (6.60,1.55) (6.30,2.78) (5.40,3.48) (4.20,3.76) (3.00,3.62)
+    (2.40,2.90) (2.28,1.90) (2.54,0.94) (3.30,0.34) (4.50,0.14)
+    (5.70,0.20) (6.45,0.74)};
+
+  \draw[bolla] plot[smooth cycle,tension=0.75] coordinates {
+    (-0.66,0.86) (-0.80,1.56) (-1.36,1.82) (-1.86,1.46) (-2.02,0.76)
+    (-1.86,0.10) (-1.36,-0.16) (-0.86,0.24)};
+
+  \draw[bolla] plot[smooth cycle,tension=0.75] coordinates {
+    (3.76,-1.44) (3.46,-0.74) (2.70,-0.48) (1.84,-0.54) (1.30,-1.04)
+    (1.24,-1.80) (1.76,-2.36) (2.56,-2.56) (3.36,-2.20)};
+
+  % ----------------------------------------------------------------- nodi ---
+  \node[nodo] (n1) at ( 0.58, 3.38) {};
+  \node[nodo] (n2) at (-0.04, 2.48) {};
+
+  \node[nodo] (m1) at ( 3.30, 3.05) {};
+  \node[nodo] (m2) at ( 5.60, 2.75) {};
+  \node[nodo] (m3) at ( 5.95, 0.70) {};
+  \node[nodo] (m4) at ( 3.15, 1.15) {};
+
+  \node[nodo] (p1) at (-1.35, 0.30) {};
+  \node[nodo] (p2) at (-1.05, 1.25) {};
+
+  \node[nodo] (q1) at ( 1.95,-1.05) {};
+  \node[nodo] (q2) at ( 3.15,-1.25) {};
+  \node[nodo] (q3) at ( 2.45,-2.10) {};
+
+  % --------------------------------------------------- cicli interni (SCC) --
+  \draw[arco] (n2) to[bend left=36] (n1);
+  \draw[arco] (n1) to[bend left=36] (n2);
+
+  \draw[arco] (m1) to[bend left=12] (m2);
+  \draw[arco] (m2) to[bend left=24] (m3);
+  \draw[arco] (m3) to[bend left=20] (m4);
+  \draw[arco] (m4) to[bend left=22] (m1);
+
+  \draw[arco] (p1) to[bend left=36] (p2);
+  \draw[arco] (p2) to[bend left=36] (p1);
+
+  \draw[arco] (q1) to[bend left=20] (q2);
+  \draw[arco] (q2) to[bend left=20] (q3);
+  \draw[arco] (q3) to[bend left=20] (q1);
+
+  % ------------------------------------------------ archi fra le componenti --
+  \draw[arcone] (n1) to[bend right=10] (m1);
+  \draw[arcone] (n2) to[bend right=14] (p2);
+  \draw[arcone] (m4) to[bend left=12]  (q1);
+
+  % ------------------------------------------------------------- etichette --
+  \node[etic,anchor=south east] at (-0.34,3.56) {$C_1$};
+  \node[etic,anchor=south west] at ( 6.24,2.90) {$C_2$};
+  \node[etic,anchor=east]       at (-2.10,1.10) {$C_3$};
+  \node[etic,anchor=west]       at ( 3.62,-2.10) {$C_4$};
+
+\end{tikzpicture}

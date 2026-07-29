@@ -1,0 +1,45 @@
+% Lettura grafica di L'(i): la stessa stringa P[i..n] occorre due volte in P
+% (come suffisso e come occorrenza interna che termina in L'(i)) e i due
+% caratteri che la precedono sono diversi.
+\begin{tikzpicture}[x=1.3cm,font=\footnotesize,
+    tacca/.style = {line width=1pt},
+    barra/.style = {line width=2.4pt,graydark},
+    ets/.style   = {font=\scriptsize,graydark}]
+
+  %% il pattern P: posizione 1 in x=0, posizione n in x=10.4
+  \draw[deepsea,line width=2.2pt,-{Latex[length=5pt,width=4.5pt]}] (0,0) -- (10.6,0);
+  \node[anchor=west] at (10.9,0) {$P$};
+
+  %% tacche
+  \foreach \t in {2.4,3.6,6.0,6.8,8.0} \draw[tacca] (\t,-0.3) -- (\t,0.3);
+
+  %% i due caratteri che precedono le due occorrenze
+  \node[anchor=south] at (3.0,0.16) {$z$};
+  \node[anchor=south] at (7.4,0.16) {$y$};
+
+  %% le due occorrenze della stessa stringa P[i..n], di uguale lunghezza
+  \draw[barra] (3.6,0.55) -- (6.0,0.55);
+  \draw[tacca,graydark] (3.6,0.38) -- (3.6,0.72);
+  \draw[tacca,graydark] (6.0,0.38) -- (6.0,0.72);
+  \draw[barra] (8.0,0.55) -- (10.4,0.55);
+  \draw[tacca,graydark] (8.0,0.38) -- (8.0,0.72);
+  \draw[tacca,graydark] (10.4,0.38) -- (10.4,0.72);
+  \node[anchor=south] at (4.8,0.68) {$\sub{P}{i}{n}$};
+  \node[anchor=south] at (9.2,0.68) {$\sub{P}{i}{n}$};
+
+  %% condizione 2): i caratteri che precedono le due occorrenze sono diversi
+  \draw[gray,dashed,line width=0.7pt]
+        (3.0,0.6) .. controls (3.9,2.6) and (6.5,2.6) .. (7.4,0.6);
+  \node[fill=white,inner sep=3pt] at (5.2,2.1) {$\neq$};
+
+  %% etichette delle posizioni
+  \node[ets,anchor=north] at (3.0,-0.34) {$L'(i)-(n-i)-1$};
+  \node[anchor=north] at (6.0,-0.34) {$L'(i)$};
+  \node[anchor=north] at (7.4,-0.34) {$i-1$};
+  \node[anchor=north west] at (8.0,-0.34) {$i$};
+
+  %% condizione 1): P[i..n] e' un suffisso di P[1..L'(i)]
+  \draw[decorate,decoration={brace,mirror,amplitude=5pt},gray,line width=0.7pt]
+        (0,-1.05) -- (6.0,-1.05);
+  \node[ets,anchor=north] at (3.0,-1.32) {$\sub{P}{1}{L'(i)}$};
+\end{tikzpicture}

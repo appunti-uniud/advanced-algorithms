@@ -1,0 +1,14 @@
+{
+ "pagina": 12,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "figura",
+   "dove": "tikz/keyword-tree-panoramica.tikz (righe 36-39, stile 'marcato') e didascalia di \\label{fig:keyword-tree-panoramica} in lezioni/04-aho-corasick.tex (righe 61-68)",
+   "descrizione": "I quattro tratti in accento della figura codificano le due coppie di sottocammini che portano la stessa stringa (alpha per il failure link C->A, beta per B->D): e' l'informazione centrale del disegno manoscritto, dove i tratti ripassati a zig-zag hanno esattamente la funzione dell'evidenziatore giallo/rosa delle figure dell'anno precedente. Nel risultato pero' (a) ne' la didascalia ne' il testo li menzionano, e (b) sul ramo destro beta = root->D e alpha = D->F->C sono disegnati con lo stesso stile e sono contigui, per cui nel PDF si fondono in un unico tratto spesso continuo root->C. Nel manoscritto fra i due c'e' invece un segmento NON evidenziato che li separa (verificato a 300 dpi: dal nodo con la punta di freccia parte un tratto a penna sottile e solo dopo riprende lo zig-zag scuro che scende fino al nodo profondo). Verificato anche compilando il .tikz in standalone: il lettore vede due cammini evidenziati piu' un frammento e non puo' ricostruire l'accoppiamento alpha-alpha / beta-beta.",
+   "correzione": "1) Ripristinare la separazione del manoscritto facendo partire il tratto marcato di destra da un punto intermedio fra D e F (es. \\coordinate (H2) at ($(D)!0.35!(F)$); \\draw[marcato] (H2) -- (F) -- (C);) invece che da D; in alternativa distinguere le due coppie con due colori/stili diversi (accent per alpha, un secondo colore per beta). 2) Aggiungere alla didascalia una frase come: \"I tratti in evidenza sono, per ciascun failure link <v, n_v>, il cammino radice->n_v e il suffisso di pari lunghezza del cammino radice->v: portano la stessa stringa.\""
+  }
+ ],
+ "note": "Verificate e risultate corrette: il testo effettivamente presente a p.12 (solo 'p.to' come falsa partenza, 'p.to debole: stiamo scandendo T per z volte', il titolo 'Keyword Tree', il N.B. 'z foglie / dimensione del K.T. <= Sum n_i = n' e il disegno) e' interamente reso; la ricostruzione dell'enunciato di exact set matching, della notazione n_i / n e della soluzione naive O(z|T|+n) e' assente dal foglio ma e' registrata in NOTE-EDITORIALI.md e la formula e' matematicamente corretta; la topologia del keyword tree disegnato (8 foglie, tre sottoalberi, punti di biforcazione, due failure link tratteggiati che vanno sempre verso nodi di profondita' minore) e' riprodotta fedelmente nel TikZ; il doppio \\scan{12} e' coerente con la prassi del documento (cfr. \\scan{19} e \\scan{15} ripetuti); \\mathcal{P} al posto di \\P e' obbligato perche' preamble.tex ridefinisce \\P come \\mathsf{P}."
+}

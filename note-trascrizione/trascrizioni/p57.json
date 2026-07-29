@@ -1,0 +1,104 @@
+{
+ "pagina": 57,
+ "latex": "\\scan{57}\n\n\\begin{domanda}\nQual è la probabilità che l'insieme $C$ restituito dall'algoritmo sia un \\emph{min-cut}, e non semplicemente un taglio qualunque?\n\\end{domanda}\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/mincut-schema-taglio.tikz}\n\\caption{Il grafo $G$ e un suo taglio (la linea ondulata): la grande maggioranza degli archi è \\emph{interna} alle due parti, pochissimi attraversano il taglio. È questo squilibrio a rendere probabile che una contrazione scelta a caso \\emph{non} distrugga il taglio.}\n\\end{figure}\n\n\\begin{dubbio}\nAccanto al disegno, a matita e ormai quasi cancellata, c'è un'annotazione di quattro righe collegata alla figura da una linea di richiamo. Se ne leggono con ragionevole sicurezza solo l'inizio, «alta prob.\\ che contra\\dots», e l'ultima riga, «\\dots\\ da solo»; il resto non è ricostruibile. Il senso, coerente con il disegno e con il resto della pagina, è che con alta probabilità la contrazione cade su un arco \\emph{interno} a una delle due parti e non su un arco del taglio.\n\\end{dubbio}\n\n\\paragraph{Calcolo.}\n\n\\begin{definizione}[Scelta positiva o negativa; evento $\\mathcal{E}_i$]\nSia $\\mathcal{E}_i$ l'evento «la scelta dell'$i$-esimo arco da contrarre è \\emph{positiva}», dove una scelta si dice\n\\begin{itemize}\n  \\item \\emph{positiva} se dopo la contrazione rimango dentro un min-cut, cioè se l'arco estratto \\emph{non} appartiene al min-cut che voglio preservare;\n  \\item \\emph{negativa} altrimenti.\n\\end{itemize}\n\\end{definizione}\n\nQuello che serve calcolare è dunque la probabilità di rimanere dentro un min-cut al passo $i$, cioè la probabilità dell'evento $\\mathcal{E}_i$ (che, come si vedrà, va condizionata all'esito positivo di tutte le scelte precedenti: le contrazioni successive non sono fra loro indipendenti).\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/mincut-c-in-e.tikz}\n\\caption{Il min-cut $C$ come sottoinsieme di $E$: l'arco da contrarre viene estratto uniformemente a caso da $E$, quindi la probabilità di colpire proprio un arco di $C$ è $\\abs{C}/\\abs{E}$.}\n\\end{figure}\n\nNel caso peggiore il grafo ha un \\emph{unico} min-cut $C$: la probabilità di scegliere proprio un arco di quel taglio è\n\\[\n  \\frac{\\abs{C}}{\\abs{E}} ,\n\\]\ne di $C$ interessa soltanto la cardinalità. Se i min-cut fossero più d'uno, per sbagliare occorrerebbe distruggerli tutti e la probabilità di errore sarebbe minore: il caso di un unico min-cut è quindi davvero il peggiore.\n\nPoniamo allora\n\\begin{itemize}\n  \\item $k = \\abs{C}$, la cardinalità di un min-cut per $G$;\n  \\item $n = \\abs{V}$, il numero di vertici.\n\\end{itemize}\n\n\\begin{osservazione}\nPer ogni vertice $v$ vale $d(v) \\ge k$.\n\nAltrimenti l'insieme degli archi incidenti a $v$ — che è già un taglio, quello che «taglia fuori» il solo nodo $v$ — avrebbe cardinalità $d(v) < k$: assurdo, perché $k$ è la cardinalità minima di un taglio di $G$.\n\\end{osservazione}\n\nSommando i gradi di tutti i vertici ogni arco viene contato due volte, quindi $2\\abs{E} = \\sum_{v \\in V} d(v) \\ge n\\,k$, da cui\n\\[\n  \\abs{E} \\;\\ge\\; \\frac{k \\cdot n}{2}\n  \\qquad\\Longrightarrow\\qquad\n  \\frac{\\abs{C}}{\\abs{E}} \\;\\le\\; \\frac{k}{\\dfrac{k \\cdot n}{2}} \\;=\\; \\frac{2}{n} .\n\\]\n\nIl valore $2/n$ è dunque un'approssimazione per eccesso — un maggiorante — della probabilità dell'evento complementare $\\overline{\\mathcal{E}_1}$, cioè della probabilità di distruggere il min-cut già alla prima contrazione:\n\\[\n  \\Pr\\bigl[\\,\\overline{\\mathcal{E}_1}\\,\\bigr] \\;\\le\\; \\frac{2}{n} .\n\\]",
+ "note": [
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 57,
+   "testo": "Il quaderno scrive la cardinalita del min-cut con la K maiuscola («K sia la cardinalita di un min-cut per G», e poi K nelle formule). Ho normalizzato a $k$ minuscolo, coerentemente con Gli appunti del corso dell'anno precedente, con Motwani-Raghavan e con l'uso di $n$ minuscolo per $|V|$.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 57,
+   "testo": "Nelle due formule finali il quaderno scrive un glifo che si legge come una M maiuscola marcata ($|E| \\ge \\frac{k\\cdot M}{2}$, $=\\frac{2}{M}$), con una piccola «n» scritta sopra fra virgolette come autocorrezione. Si tratta certamente di $n=|V|$: p.58 apre infatti con $\\Pr[\\mathcal{E}_1]\\ge(1-\\frac{2}{|V|})$ e poco sotto esplicita «(n = |V|)». Ho scritto $n$ ovunque e ho introdotto esplicitamente $n=|V|$.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 57,
+   "testo": "Il quaderno passa direttamente da «$\\forall v\\ d(v)\\ge k$» a «$\\Rightarrow |E| \\ge \\frac{k\\cdot n}{2}$» senza giustificazione. Ho aggiunto il passaggio mancante (handshake lemma): $2|E| = \\sum_{v\\in V} d(v) \\ge nk$. Aggiunta mia, non presente nel manoscritto ne neGli appunti del corso dell'anno precedente",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 57,
+   "testo": "Il quaderno scrive «la probabilita che scelga proprio quello e: |C|/|E|», dove «quello» sta per «quel min-cut»: letteralmente si sceglie un arco, non un taglio. Ho riformulato in «la probabilita di scegliere proprio un arco di quel taglio e |C|/|E|», che e cio che il calcolo usa davvero. Ho inoltre esplicitato l'ipotesi implicita (mai scritta ne dallo studente ne dagli appunti dell'anno precedente) che l'arco sia estratto uniformemente a caso da E.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 57,
+   "testo": "«Nel caso peggiore ho un unico min-cut» e nel quaderno un'affermazione secca. Ho aggiunto una frase di giustificazione («se i min-cut fossero piu d'uno, per sbagliare occorrerebbe distruggerli tutti e la probabilita di errore sarebbe minore»), che chiarisce anche il punto segnalato come ambiguo neGli appunti del corso dell'anno precedente (l'annotazione rossa «almeno un» sotto «fuori da C»): l'analisi fissa un min-cut e stima la probabilita che quello sopravviva.",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 57,
+   "testo": "Gli appunti del corso dell'anno precedente scrivono la catena in forma formalmente scorretta, $\\frac{|C|}{|E|}\\le\\frac{k}{nk}\\cdot 2 = \\frac{2}{n}$ (il fattore 2 «migra» dal denominatore). Lo studente scrive invece la forma corretta $\\frac{|C|}{|E|}\\le\\frac{k}{(k\\cdot n)/2}=\\frac{2}{n}$: ho mantenuto quest'ultima, che e quella giusta.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 57,
+   "testo": "L'annotazione a margine del quaderno dice «e una approx per eccesso della prob. $\\overline{\\mathcal{E}_1}$» (con la barra sopra la E). L'ho resa come $\\Pr[\\overline{\\mathcal{E}_1}]\\le 2/n$ ed esplicitata a parole («maggiorante», «probabilita di distruggere il min-cut gia alla prima contrazione»), perche e esattamente il punto da cui riparte p.58 con $\\Pr[\\mathcal{E}_1]\\ge 1-\\frac{2}{n}$.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 57,
+   "testo": "L'osservazione del quaderno «altrimenti tagliando fuori solo il nodo v avrei un taglio < k ~> assurdo» e stata espansa esplicitando che l'insieme degli archi incidenti a v e gia di per se un taglio (isola v dal resto), che e la giustificazione standard del lemma sul grado minimo.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 57,
+   "testo": "Il quaderno usa E_i per l'evento; la macro \\E del preambolo e riservata al valore atteso, e la classe non fornisce una E calligrafica fra \\A\\B\\C\\F\\G\\L\\P\\T\\V. Ho scritto $\\mathcal{E}_i$ per esteso (LaTeX standard, nessuna macro inventata). Analogamente non ho usato la macro \\mincut, che presumibilmente indica il nome dell'algoritmo, per il sostantivo «min-cut» del testo.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 57,
+   "testo": "Titoli espliciti del quaderno resi con gli ambienti/comandi corrispondenti: «Domanda:» (sottolineato) -> ambiente domanda; «Calcolo:» (sottolineato) -> \\paragraph{Calcolo.}; «Osservazione:» (sottolineato) -> ambiente osservazione. Le parole «positiva» e «negativa» sono sottolineate nel manoscritto: rese con \\emph.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 57,
+   "testo": "L'annotazione a matita in alto a destra (4 righe, collegata alla figura da una linea di richiamo) resta illeggibile. Letture parziali sicure: riga 1 «alta prob.», riga 2 «che contra...» (parola con doppia asta ascendente, plausibilmente «contraggo»/«contrarlo»), riga 4 «da solo» seguita da una punta di freccia; la riga 3 contiene una parola lunga che potrebbe essere «diametro», «perimetro» o «all'interno». Ho tentato la separazione dei canali RGB, la rimozione della griglia per apertura morfologica e il render a 600 DPI dal PDF originale senza riuscire a risolverla. Marcata con l'ambiente dubbio nel LaTeX.",
+   "risolto": false
+  },
+  {
+   "tipo": "figura",
+   "pagina": 57,
+   "testo": "Prima figura (matita, molto sbiadita): grande macchia = G, linea ondulata verticale = il taglio, 4 nodi radi a sinistra e 4 nodi in un cerchietto denso (K4 completo) a destra, esattamente 2 archi attraversano l'ondulata. L'ho interpretata come l'illustrazione del motivo per cui la contrazione «di solito» non rompe il taglio (pochi archi nel taglio, tantissimi interni), che e la premessa del conto |C|/|E| fatto poco sotto. Nel disegno originale non ci sono etichette: ho suggerito di aggiungere $G$ e $C$ nella ricostruzione TikZ.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 57,
+   "testo": "Seconda figura (penna): due curve chiuse a mano libera, la interna etichettata C e la esterna etichettata E (la E cursiva e in basso al centro dentro la macchia grande). Interpretata come il diagramma insiemistico $C\\subseteq E$ che giustifica $\\Pr[\\text{arco scelto} \\in C] = |C|/|E|$; la didascalia lo esplicita.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "mincut-schema-taglio",
+   "pagina": 57,
+   "didascalia": "Il grafo $G$ e un suo taglio (la linea ondulata): la grande maggioranza degli archi e interna alle due parti, pochissimi attraversano il taglio. E questo squilibrio a rendere probabile che una contrazione scelta a caso non distrugga il taglio.",
+   "tipo": "grafo",
+   "specifica": "Schema di un grafo non orientato con un taglio evidenziato, disegnato nel quaderno a matita con tratto sbiadito e irregolare; va ricostruito PULITO in TikZ.\n\nCONTORNO ESTERNO: una grande macchia chiusa (ellisse deformata a mano libera, larga circa il doppio dell'altezza, stile `decorate/random steps` oppure curva di Bezier chiusa irregolare) che rappresenta il grafo G. Etichetta $G$ da aggiungere all'esterno, in alto a sinistra, vicino al bordo (nell'originale NON c'e ma serve alla leggibilita).\n\nLINEA DI TAGLIO: una linea ondulata/a zig-zag stretto (stile `decorate,decoration={snake}` o `zigzag`), verticale, che attraversa tutta la macchia dall'alto in basso, posizionata circa al 45% della larghezza (quindi leggermente a sinistra del centro). E il taglio C. Etichetta $C$ da aggiungere in alto, all'estremita superiore dell'ondulata, appena fuori dalla macchia (nell'originale NON c'e).\n\nPARTE SINISTRA (rada), 4 nodi = cerchietti piccoli vuoti:\n  A in alto a sinistra (circa x=0.15, y=0.55 della bounding box della macchia)\n  B in alto a destra della zona sinistra (x=0.32, y=0.62)\n  D in basso a sinistra (x=0.17, y=0.20)\n  F in basso al centro-sinistra (x=0.34, y=0.22)\nArchi della parte sinistra: A-B, A-F, B-D, D-F. Gli archi A-F e B-D si INCROCIANO al centro del quadrilatero (e la caratteristica visiva del disegno originale: due diagonali che si tagliano). Nessun arco A-D e nessun arco B-F.\n\nPARTE DESTRA (densa): un secondo contorno chiuso piu piccolo, un cerchio/ovale a tratto sottile, tutto contenuto nella meta destra della macchia grande (centro circa x=0.68, y=0.45; raggio circa 0.2 della larghezza totale). Dentro, 4 nodi disposti ai vertici di un quadrilatero quasi quadrato:\n  P in alto a sinistra (x=0.56, y=0.62)\n  Q in alto a destra (x=0.78, y=0.62)\n  R in basso a destra (x=0.79, y=0.32)\n  S in basso a sinistra (x=0.56, y=0.28)\nArchi: TUTTI e sei, cioe il quadrilatero P-Q, Q-R, R-S, S-P piu le due diagonali P-R e Q-S che si incrociano al centro (un K4 disegnato in modo classico). E il \"cluster denso\".\n\nARCHI DEL TAGLIO: esattamente DUE archi attraversano la linea ondulata, e sono gli unici a farlo:\n  B-P (in alto, quasi orizzontale, leggermente in salita da sinistra a destra)\n  F-S (in basso, quasi orizzontale)\nVanno disegnati passando visibilmente sopra/attraverso l'ondulata, in modo che si conti \"|C| = 2\".\n\nLINEA DI RICHIAMO: dal bordo superiore-destro del cerchietto denso parte un segmento obliquo verso l'alto a destra che ESCE dalla macchia grande e termina fuori dal disegno, verso destra: nell'originale porta a un'annotazione a matita illeggibile. Nella ricostruzione TikZ conviene OMETTERLA (l'annotazione non e trascrivibile) oppure renderla come una freccia grigia con l'etichetta in italiano \"pochi archi attraversano il taglio: quasi ogni contrazione e interna\" — scelta preferibile: ometterla e lasciare che sia la didascalia a dire la stessa cosa.\n\nSTILE: nodi come piccoli cerchi pieni o vuoti di raggio uniforme; archi a tratto sottile continuo; contorni delle macchie a tratto piu spesso e grigio; linea del taglio in tratto marcato (eventualmente rosso o comunque distinto). Nessun'altra etichetta.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "mincut-c-in-e",
+   "pagina": 57,
+   "didascalia": "Il min-cut $C$ come sottoinsieme di $E$: l'arco da contrarre viene estratto uniformemente a caso da $E$, quindi la probabilita di colpire proprio un arco di $C$ e $|C|/|E|$.",
+   "tipo": "schema insiemistico (diagramma di Venn a due insiemi annidati)",
+   "specifica": "Diagramma insiemistico semplicissimo, a penna nell'originale, tratto a mano libera.\n\nMACCHIA ESTERNA: una curva chiusa grande, irregolare, tipo \"patata\"/ameba, larga circa 1.6 volte l'altezza, con qualche rientranza sul bordo superiore e su quello inferiore-destro (nell'originale il contorno e chiaramente disegnato a mano libera: usare `decorate,decoration={random steps}` oppure una curva chiusa con controlli irregolari). Rappresenta l'insieme $E$ degli archi del grafo corrente. ETICHETTA: la lettera $E$ scritta DENTRO la macchia, in basso al centro, non sul bordo.\n\nMACCHIA INTERNA: una seconda curva chiusa molto piu piccola (circa 1/5 dell'area), anch'essa irregolare, collocata NON al centro ma spostata verso sinistra e verso l'alto rispetto al centro della macchia esterna (circa al 30% della larghezza e al 60% dell'altezza). Deve stare interamente dentro quella esterna, senza toccarne il bordo. Rappresenta il min-cut $C$. ETICHETTA: la lettera $C$ scritta al centro della macchia piccola.\n\nNessun altro elemento: niente punti, niente frecce, niente ombreggiature nell'originale. Opzionalmente, per la versione pulita, si puo riempire la macchia interna con un grigio molto tenue per rendere visivo il rapporto di aree $|C|/|E|$ (piccolo), ma non e nell'originale.\n\nSTILE: due soli tratti chiusi, spessore uniforme, aspetto volutamente \"a mano libera\"; etichette in matematica corsiva.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina si chiude sul maggiorante $\\Pr[\\overline{\\mathcal{E}_1}] \\le 2/n$ per la PRIMA contrazione: resta in sospeso il passaggio all'evento complementare e l'estensione ai passi successivi. La pagina 58 riparte esattamente da li: «la prob. che dopo la prima contrazione esista ancora un min-cut che l'algoritmo puo determinare e $\\Pr[\\mathcal{E}_1] \\ge (1 - \\frac{2}{|V|})$», poi esplicita $n=|V|$, tratta la seconda contrazione ($|E_1| \\ge \\frac{k(n-1)}{2} \\Rightarrow \\Pr[\\overline{\\mathcal{E}_2}\\mid\\mathcal{E}_1] \\le \\frac{2}{n-1}$), il passo $i$-esimo, applica la chain rule al prodotto telescopico ottenendo $\\Pr[\\bigcap_{i=1}^{n-2}\\mathcal{E}_i] \\ge \\frac{2}{n(n-1)}$ e infine l'amplificazione dopo $h$ ripetizioni con il tradeoff complessita/probabilita di errore. Da notare per la cucitura: la definizione di $\\mathcal{E}_i$ e il lemma sul grado minimo introdotti in questa pagina sono usati senza essere richiamati in p.58; il numero di contrazioni $n-2$ e il lemma «C e un taglio» vengono invece da p.56.",
+ "confidenza": "alta"
+}

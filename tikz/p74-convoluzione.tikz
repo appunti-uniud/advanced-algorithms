@@ -1,0 +1,35 @@
+% p74-convoluzione -- il passo q^(t+1) = q^(t) P della passeggiata sul ciclo
+% letto come convoluzione (quaderno, pag. 74, schizzo a matita).
+% Sopra: i tre valori adiacenti della distribuzione corrente, pesati 1/3 e
+% sommati nel valore nuovo.  Sotto: la finestra (1/3,1/3,1/3) che scorre.
+\begin{tikzpicture}[
+    font=\footnotesize,
+    linea/.style={line width=0.7pt},
+    freccia/.style={line width=0.7pt,-{Stealth[length=4.5pt,width=3.5pt]}}]
+
+  %% ---------- le tre posizioni adiacenti della distribuzione al tempo t --
+  \foreach \i/\et in {0/{q^{(t)}_{j-1}}, 1/{q^{(t)}_{j}}, 2/{q^{(t)}_{j+1}}} {
+    \node at ({1.7*\i},2.55) {$\et$};
+    \draw[linea] ({1.7*\i},2.25) -- ({1.7*\i},1.95);   % trattino verticale
+    \node at ({1.7*\i},1.72) {$\tfrac13$};             % peso
+  }
+  \node at (0.85,1.72) {$+$};
+  \node at (2.55,1.72) {$+$};
+
+  %% ---------- la graffa che raccoglie i tre contributi -------------------
+  \draw[linea,decorate,decoration={brace,amplitude=5pt,mirror,raise=1pt}]
+        (-0.55,1.40) -- (3.95,1.40);
+  \draw[freccia] (1.7,1.02) -- (1.7,0.62);
+  \node at (1.7,0.38) {$q^{(t+1)}_{j}$};
+
+  %% ---------- la finestra di convoluzione --------------------------------
+  \draw[linea] (-0.85,-1.20) rectangle (4.25,-0.50);
+  \draw[linea] (0.85,-1.20) -- (0.85,-0.50);
+  \draw[linea] (2.55,-1.20) -- (2.55,-0.50);
+  \foreach \i in {0,1,2} \node at ({1.7*\i},-0.85) {$\tfrac13$};
+
+  \node[anchor=east] at (-1.05,-0.85) {finestra};
+  \draw[freccia] (4.45,-0.85) -- (5.15,-0.85);
+  \node[anchor=west] at (5.25,-0.85) {scorre};
+
+\end{tikzpicture}

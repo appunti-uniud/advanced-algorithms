@@ -1,0 +1,20 @@
+{
+ "pagina": 74,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "errore-logico",
+   "dove": "lezioni/15-catene-markov.tex, ambiente dubbio, righe 138-145 (blocco \\scan{74}, prima parte)",
+   "descrizione": "Il dubbio sulla glossa marginale della domanda (2) afferma due cose incompatibili sulla stessa lettura: prima che si tratta del «caso degenere in cui l'evento condizionante {X_1 in A and X_0 = x_0} e impossibile e quindi non c'e nulla da verificare», poi che «e anche esattamente la situazione che, in generale, fa fallire la (2)». Se Pr[X_1 in A | X_0 = x_0] = 0 la (2) non e falsa: il membro sinistro e indefinito. Cio che fa fallire la (2) e la situazione diversa (e piu debole) in cui solo ALCUNI stati di A sono irraggiungibili da x_0, che e quella descritta dall'osservazione precedente. Le due letture di «qualche stato di A» (tutto A / un particolare stato di A) vengono fuse in una sola frase autocontraddittoria. Nota: NOTE-EDITORIALI.md (righe 90 e 1574) distingue correttamente le due letture («Si» vs «Se»), ma il .tex non la riporta.",
+   "correzione": "Riscrivere il dubbio separando le due letture, p.es.: «Se la si legge come Pr[X_1 in A | X_0 = x_0] = 0, l'evento condizionante e impossibile e la (2) non e ne vera ne falsa: il membro sinistro non e definito. Se invece «qualche stato di A» va inteso come «un particolare stato di A», la nota descrive proprio il meccanismo per cui la (2) fallisce (i pesi con cui gli stati di A entrano nella media cambiano). Il quaderno non permette di decidere fra le due (la prima parola, sottolineata, si legge «Si» ma potrebbe essere «Se»).»"
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "errore-logico",
+   "dove": "lezioni/15-catene-markov.tex, riga 306 (osservazione dopo l'Esempio~\\ref{es:ciclo6}, blocco \\scan{74})",
+   "descrizione": "Si scrive che «il Teorema~\\ref{thm:mc-fondamentale} garantisce l'esistenza del limite scritto sopra», cioe di lim_t q^(t) = (1/6,...,1/6). Ma il teorema fondamentale, cosi come e enunciato nello stesso capitolo (righe 544-560), non contiene alcuna affermazione sulla convergenza di q^(t): i suoi quattro punti sono ergodicita degli stati, esistenza di pi con pi_i > 0, f_ii = 1 e h_ii = 1/pi_i, e il limite di Cesaro N(i,t)/t -> pi_i (che vale anche per catene irriducibili periodiche e quindi non implica la convergenza della distribuzione). Il rimando promette piu di quanto il teorema citato dica.",
+   "correzione": "O aggiungere al Teorema~\\ref{thm:mc-fondamentale} il punto mancante («per ogni distribuzione iniziale q^(0) si ha q^(t) -> pi»), oppure riformulare l'osservazione senza appoggiarsi al teorema, p.es.: «...si tratta dunque di una catena ergodica, e per le catene ergodiche finite la distribuzione converge alla stazionaria, il che giustifica il limite scritto sopra; la doppia stocasticita dice che tale limite e la distribuzione uniforme.»"
+  }
+ ]
+}

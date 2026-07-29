@@ -1,0 +1,21 @@
+{
+ "pagina": 3,
+ "esito": "problemi-minori",
+ "file_scritto": "/home/rob/UNI/algoritmi_avanzati/.build/verifica/p03.json",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "figura",
+   "dove": "tikz/kmp-shift.tikz, righe 33 e 48/51 (rettangoli della riga 2 e della riga 3)",
+   "descrizione": "Le due barre che rappresentano lo STESSO pattern P hanno lunghezze diverse: la riga 2 (P nell'allineamento corrente) va da x=1 a x=12 (11 unita), la riga 3 (P dopo lo scorrimento) va da x=3.5 a x=15.5 (12 unita). Nel manoscritto le due barre sono entrambe lunghe esattamente 11 quadretti (riga 2: da 455 a 1100 px; riga 3: da 575 a 1225 px), come deve essere dato che si tratta della stessa stringa. Nel PDF compilato la barra inferiore risulta visibilmente piu lunga di quella centrale.",
+   "correzione": "In tikz/kmp-shift.tikz sostituire 15.5 con 14.5 in \\draw[barra] (3.5,-0.35) rectangle (15.5,0.10); e in \\node[right,inner sep=3pt] at (15.5,-0.125) {$P$}; cosi la riga 3 e' [3.5,14.5], lunga 11 unita come la riga 2 [1,12]."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "figura",
+   "dove": "tikz/kmp-shift.tikz, righe 35-41 (blocco tratteggiato) e 57-59 (arco + etichetta alpha)",
+   "descrizione": "Il blocco tratteggiato della riga 2 e' disegnato largo 2.5 unita, cioe' esattamente quanto il blocco alpha, e l'arco con l'etichetta alpha lo marca come 'il prefisso alpha di P'. Ne segue P[1..i] = alpha alpha, con spostamento = 2.5 = |alpha|: la figura suggerisce visivamente 'mi sposto di |alpha|', che e' proprio l'imprecisione che la didascalia corregge ('mi sposto di i-|alpha|'). Il manoscritto e' disegnato sui quadretti e le misure sono deliberate: tratteggio = 2 quadretti (= lo spostamento i-|alpha|), blocco alpha = 3 quadretti, e l'arco sotto la riga 2 e' lungo 3 quadretti, cioe' marca il prefisso P[1..|alpha|] che si estende OLTRE la zona tratteggiata (nel disegno i=5, |alpha|=3, spostamento=2, con i due alpha sovrapposti).",
+   "correzione": "Disaccoppiare la larghezza del tratteggio da |alpha|. Fix minimo e coerente con lo standard (Gusfield): portare la riga 2 a \\draw[barra] (0,0.95) rectangle (11,1.40) con il clip del tratteggio su (0,0.95)-(3.5,1.40) e \\node ... at (11,1.175) {$P$}; conseguentemente la riga 3 diventa (3.5,-0.35) rectangle (14.5,0.10) con la P a 14.5 (risolve anche il problema precedente). Cosi i=6, |alpha|=2.5, spostamento=3.5=i-|alpha|. Spostare poi l'annotazione del prefisso alpha da \\draw[guida,->] (1.05,0.78) to[bend right=18] (3.45,0.78) a (0.05,0.78) to[bend right=18] (2.45,0.78) (lunghezza pari a |alpha|), e la freccia/etichetta da x=1.50/1.65 a x=1.10/1.25, in modo che l'etichetta alpha marchi il solo prefisso P[1..|alpha|] e non l'intera zona tratteggiata."
+  }
+ ]
+}

@@ -1,0 +1,102 @@
+{
+ "pagina": 9,
+ "latex": "\\scan{9}\n\n\\begin{definizione*}[$\\spv{i,c}(P)$]\nSiano $i\\in\\{1,\\dots,n\\}$ e $c\\in\\alfa$. Allora $\\spv{i,c}(P)$ è la lunghezza del massimo\nprefisso-suffisso proprio di $\\sub{P}{1}{i}$ \\emph{seguito da $c$}, cioè\n\\[\n  \\spv{i,c}(P) \\defeq \\max\\set{k \\mid 0\\le k<i,\\ \\ \\pre{P}{k}=\\sub{P}{i-k+1}{i},\\ \\ P[k+1]=c}.\n\\]\nSe nessun prefisso-suffisso di $\\sub{P}{1}{i}$ è seguito da $c$ l'insieme è vuoto: si pone allora\nper convenzione $\\spv{i,c}(P)=-1$.\n\\end{definizione*}\n\n\\paragraph{KMP real-time.}\nChiedere una versione \\emph{real-time} di KMP significa \\textbf{non} assumere che $T$ sia dato\ncompletamente in input: i caratteri del testo arrivano uno per volta, come in uno \\emph{stream},\ne per ciascuno di essi si vuole rispondere in tempo costante \\emph{nel caso peggiore}.\n\nUsando $\\spv{i,c}(P)$ questo è immediato: se sono già stati riconosciuti i primi $i$ caratteri di\n$P$ e arriva il carattere $c$, aggiorno la posizione di $P$ nel confronto con $T$ in $\\Oh(1)$,\npassando allo stato\n\\[\n  \\delta(i,c) \\;=\\;\n  \\begin{cases}\n    i+1 & \\text{se } P[i+1]=c,\\\\[3pt]\n    \\spv{i,c}(P)+1 & \\text{altrimenti}\n  \\end{cases}\n\\]\n(con la convenzione appena fissata, quando nessun prefisso-suffisso è seguito da $c$ si ricade\nnello stato $0$).\n\nCon il solo $\\spv{i}(P)$, invece, l'arrivo di un singolo carattere può innescare la cascata di\nfallimenti $i\\to\\spv{i}\\to\\spv{\\spv{i}}\\to\\cdots$ e potrei impiegare $\\Oh(n)$: il costo per\ncarattere resta $\\Oh(1)$ \\emph{ammortizzato}, ma non nel caso peggiore.\n\n\\begin{osservazione}\nIl prezzo si paga in spazio: la tabella dei valori $\\spv{i,c}(P)$ ha $\\Th(n\\abs{\\alfa})$ celle,\ncontro le $\\Th(n)$ del solo vettore $\\spv{i}(P)$. È, di fatto, la tabella di transizione\ndell'automa deterministico associato a $P$.\n\\end{osservazione}\n\n\\subsection{Boyer--Moore}\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/bm-mismatch.tikz}\n\\caption{Un passo di Boyer--Moore: i confronti procedono da destra a sinistra, $\\alpha$ è il\nsuffisso di $P$ già riconosciuto e il mismatch è fra il carattere $x$ del pattern e il\ncorrispondente carattere $y$ del testo; il pattern viene poi fatto scorrere verso destra, nel\ndisegno addirittura di tutta la propria lunghezza.}\n\\end{figure}\n\n\\paragraph{Caratteristica principale.}\nIl testo $T$ viene percorso da sinistra a destra (come nel caso classico), mentre il pattern $P$\nviene confrontato \\emph{da destra a sinistra}: è questa l'idea che si aggiunge rispetto\nall'algoritmo naive e a KMP.\n\nEseguo i confronti e, quando trovo un mismatch, applico la \\emph{più conveniente} fra le due\nregole seguenti, cioè quella che produce il \\emph{massimo shift}.\n\n\\begin{osservazione}\nPoiché dopo un mismatch il pattern può scorrere anche di tutta la propria lunghezza, ci sono casi\nin cui il costo complessivo è $\\Oh(m/n)$ (come sempre $m=\\abs{T}$ e $n=\\abs{P}$): l'algoritmo può\nessere \\emph{sublineare}, cioè non leggere affatto alcuni caratteri di $T$.\n\\end{osservazione}",
+ "note": [
+  {
+   "tipo": "correzione",
+   "pagina": 9,
+   "testo": "Il titolo della nuova sezione è vergato «Bayer - Moore» (la prima vocale è chiaramente una «a»). Ho scritto «Boyer--Moore» (R. S. Boyer e J S. Moore, 1977). Nessun marcatore nel LaTeX.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 9,
+   "testo": "ERRORE SOSTANZIALE DEGLI APPUNTI, corretto silenziosamente. Il quaderno scrive: «Caratteristica principale: scandisco { T da dx a sx (classico) ; P da sx a dx (aggiunto) }». Le due direzioni sono scambiate: in Boyer--Moore il TESTO viene percorso da sinistra a destra (gli allineamenti avanzano come nel naive/KMP: è questo il comportamento «classico»), mentre il PATTERN viene confrontato da destra a sinistra (è questa la novità «aggiunta»). Che la lettura dei grafemi sia quella indicata è certo (la «d» di «dx» sulla prima riga e la «s» di «sx» sulla seconda sono nitide); che il contenuto sia da invertire è imposto sia dalla teoria sia dalla figura della stessa pagina, in cui il suffisso già confrontato è α (la parte DESTRA della finestra) e il mismatch x/y sta alla sua sinistra. Nel LaTeX ho scritto la versione corretta senza marcatori.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 9,
+   "testo": "La parola fra parentesi che chiude la riga «P da sx a dx (…)» non è del tutto leggibile: la lettura più probabile è «(aggiunto)» (si distinguono una «a», un puntino di «i», un'asta discendente tipo «g» e la desinenza «-to/-o»), in contrapposizione a «(classico)» della riga precedente. La misura della parola (circa i 2/3 di «classico») rende però l'ipotesi non certa. Risolta rendendola in prosa: «è questa l'idea che si aggiunge rispetto all'algoritmo naive e a KMP», senza marcatore nel testo.",
+   "risolto": true
+  },
+  {
+   "tipo": "errore-anno-prec",
+   "pagina": 9,
+   "testo": "Divergenza (a favore dello studente) rispetto aGli appunti del corso dell'anno precedente: L02 §9.2 definisce «sp'_{i,x}(P): max pre-suff proprio e t.c. P[i+1]=x», formulazione mal posta (P[i+1] non dipende da x e la condizione non vincola il bordo) — è l'anomalia A8 della sintesi. Il quaderno dello studente riquadra invece la formulazione CORRETTA: «sp_{i,c}(P) = max pref./suff. di P[1,i] seguito da c», cioè il vincolo è P[k+1]=c sul bordo. Ho trascritto quella dello studente e l'ho formalizzata.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 9,
+   "testo": "Notazione: lo studente non mette l'apice su sp_{i,c} (a p.8 usa invece sp'_i). Ho mantenuto sp_{i,c} senza apice, che è anche la scelta corretta: l'apice denota la variante con la condizione di DISUGUAGLIANZA (P[i+1] ≠ P[sp'_i+1]), mentre qui la condizione è di uguaglianza a c. Reso con la macro \\spv{i,c}.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 9,
+   "testo": "La definizione riquadrata negli appunti è solo verbale («max pref./suff. di P[1,i] seguito da c»). Ho aggiunto la scrittura insiemistica esplicita max{k : 0≤k<i, P[1..k]=P[i-k+1..i], P[k+1]=c} e la convenzione sp_{i,c}=-1 per insieme vuoto (serve a far tornare la formula di transizione: stato 0). La convenzione è mia, non del quaderno.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 9,
+   "testo": "Gli appunti dicono soltanto «usando sp_{i,c}(P) aggiorno P nel confronto con T in O(1)». Ho esplicitato la funzione di transizione δ(i,c) = i+1 se P[i+1]=c, altrimenti sp_{i,c}(P)+1 (con caduta nello stato 0 se sp_{i,c} è indefinito): è ciò che rende visibile il costo O(1) worst case e coincide con L02 §9.2. Aggiunta annotata.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 9,
+   "testo": "L'osservazione sul costo in spazio Θ(n|Σ|) della tabella sp_{i,c} (contro Θ(n) del solo vettore sp_i) e l'identificazione con la tabella di transizione dell'automa deterministico NON sono sulla pagina: le ho aggiunte da L02 §9.2, perché la pagina 9 introduce sp_{i,c} senza mai dirne il prezzo, e p.8 chiudeva proprio con «con lo stesso costo…». Aggiunta annotata.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 9,
+   "testo": "Ho aggiunto la precisazione «il costo per carattere resta O(1) ammortizzato, ma non nel caso peggiore»: il quaderno scrive solo «(con sp_i(P) potrei impiegare O(n))». Senza la precisazione la frase sembrerebbe contraddire la complessità O(m+n) di KMP dimostrata alle pagine precedenti.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 9,
+   "testo": "Convenzione sulle lunghezze. Lo studente (come La fonte dell'anno precedentein L01 §3.2) usa m=|T| e n=|P|; lo si verifica a p.4 («per i ∈ {1,…,n}» riferito ai prefissi di P) e a p.10 («T=a^m, P=a^n»). Con questa convenzione entrambe le complessità della pagina 9 sono CORRETTE così come scritte: O(n) per la cascata dei fallimenti su sp_i (= O(|P|)) e O(m/n) per il caso favorevole di Boyer--Moore (= O(|T|/|P|)). ATTENZIONE: la sintesi degli appunti dell'anno precedente L02 usa la convenzione OPPOSTA (n=|T|, m=|P|); non l'ho seguita. Ho aggiunto nel LaTeX il promemoria «(come sempre m=|T| e n=|P|)» dentro l'osservazione su O(m/n).",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 9,
+   "testo": "Interpretazione della figura di Boyer--Moore. Il disegno mostra due righe: T (in alto) e, in basso, DUE copie di P sulla stessa retta (la seconda comincia subito dopo la fine della prima). Ho letto la seconda copia come il pattern DOPO lo shift, e lo shift disegnato è pari all'intera lunghezza di P: è esattamente l'illustrazione dell'annotazione a destra «ci sono casi O(m/n)» (se ogni allineamento fallisce subito e la regola consente di scorrere di n, si esaminano solo m/n allineamenti con un confronto ciascuno). La linea ondulata sotto la prima copia marca la porzione di P non ancora esaminata (a sinistra del mismatch). α è il suffisso già riconosciuto, x il carattere di P e y quello di T in cui avviene il mismatch (x≠y).",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 9,
+   "testo": "NON trascritto: nella fascia centrale della pagina (fra il blocco su KMP real-time e il titolo Boyer--Moore) c'è uno schizzo A MATITA semicancellato — tre segmenti orizzontali con tacche e caratteri minuscoli («a a a…»), più due righe di testo a matita IN INGLESE: «find next match of matching string in pattern / if none found, advance entire string». È una bozza preliminare della Good Suffix Rule, poi riscritta a penna e sviluppata a p.10 («Good Suffix Rule (GSR): dopo un mismatch che riconosce il suffisso α in P, riposiziono P cercando l'occorrenza di α più a dx che non sia un suffisso di P»). Essendo cancellata, in gran parte illeggibile e ridondante rispetto a p.10, l'ho omessa dal LaTeX e non ho prodotto una voce in `figure`.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 9,
+   "testo": "Il quaderno ha un titolo esplicito sottolineato «Boyer-Moore»: l'ho reso con \\subsection, come previsto dalle convenzioni. Va però tenuto presente che secondo capitoli.json la pagina 9 è condivisa fra il capitolo 02 (kmp-z) e il capitolo 03 (boyer-moore): in fase di cucitura questa \\subsection andrà con ogni probabilità sostituita dall'apertura del capitolo 03.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 9,
+   "testo": "Espansioni di abbreviazioni telegrafiche: «real-time ⟸ NON assumo che T sia dato completamente in input» reso in prosa con la nozione di stream e di caso peggiore per singolo carattere; «la più conveniente … ↳ max shift» (con «più conveniente» sottolineato e freccia verso «max shift») reso con «la più conveniente fra le due regole seguenti, cioè quella che produce il massimo shift».",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "bm-mismatch",
+   "pagina": 9,
+   "didascalia": "Un passo di Boyer--Moore: i confronti procedono da destra a sinistra, $\\alpha$ è il suffisso di $P$ già riconosciuto e il mismatch è fra il carattere $x$ del pattern e il corrispondente carattere $y$ del testo; il pattern viene poi fatto scorrere verso destra, nel disegno addirittura di tutta la propria lunghezza.",
+   "tipo": "schema di stringhe",
+   "specifica": "Schema a due righe di segmenti orizzontali con tacche verticali (stile \"barre di stringa\" a mano libera, come nelle altre figure del quaderno). Tutte le misure sono in \"unità\" = un quadretto della scansione; le proporzioni riportate sono quelle misurate sull'originale e vanno rispettate almeno qualitativamente.\n\nRIGA 1 — il testo T (in alto).\n- Un unico segmento orizzontale lungo (circa 24 unità), che parte a sinistra senza tacca terminale e prosegue fino a destra; alla sua destra, staccata, la lettera maiuscola $T$ come etichetta della riga.\n- A circa 11 unità dall'inizio, due tacche verticali corte e ravvicinate (distanza ~1 unità) delimitano una singola cella; SOPRA la cella, la lettera $y$ (nel manoscritto è scritta proprio come «|y|», cioè fra le due tacche).\n- Subito a destra della seconda tacca, un tratto di ~3 unità sopra il quale è scritta la lettera greca $\\alpha$; il tratto termina con una tacca verticale corta.\n- Dopo tale tacca il segmento prosegue ancora ~8 unità fino alla fine (dove sta l'etichetta $T$). Non ci sono altre tacche.\n\nRIGA 2 — il pattern P (circa 2 unità più in basso), disegnato in DUE copie sulla stessa retta orizzontale.\n- Copia 1 (allineamento corrente), lunga ~9,5 unità: comincia con una tacca verticale e finisce con una tacca verticale PIÙ MARCATA (tratto più spesso/più alto) che è allineata verticalmente con la tacca che chiude $\\alpha$ nella riga 1. Suddivisione interna, da sinistra: ~5 unità senza etichette (parte di $P$ non ancora esaminata); poi due tacche corte che delimitano una cella di ~1 unità, allineata verticalmente con la cella di $y$ della riga 1, con SOPRA la lettera $x$ (di nuovo scritta come «|x|»); poi ~3 unità con SOPRA la lettera $\\alpha$, di estensione identica e verticalmente allineata all'$\\alpha$ della riga 1, fino alla tacca marcata finale.\n- SOTTO la tacca marcata finale della copia 1, l'etichetta $P$.\n- SOTTO la copia 1, una linea ondulata tracciata a mano libera (una sola ondulazione morbida, non una graffa) che va da poco dopo l'estremo sinistro del pattern fino alla tacca sinistra della cella $x$: marca la porzione di $P$ non ancora confrontata.\n- Copia 2 (pattern dopo lo shift), sulla STESSA retta orizzontale: comincia con un piccolo stacco immediatamente a destra della tacca finale della copia 1 e ha (idealmente) la stessa lunghezza della copia 1 — nell'originale è disegnata un po' più corta per fretta di tratto; termina con una tacca verticale marcata, sotto la quale c'è di nuovo l'etichetta $P$. La copia 2 non porta né tacche interne né etichette $x$/$\\alpha$. Il suo estremo destro cade all'incirca dove finisce il segmento di $T$.\n\nANNOTAZIONE A DESTRA (fuori dai due segmenti, all'altezza fra riga 1 e riga 2, in colonna a destra): due righe di testo,\n  «ci sono casi»\n  «$\\Oh(m/n)$»\n(nel manoscritto $m/n$ è scritto come frazione in linea, con $m$ sopra e $n$ sotto).\n\nSIGNIFICATO ALGORITMICO (da rendere leggibile dal disegno, non da scrivere nella figura): il pattern è allineato sotto il testo; i confronti partono dall'estremo DESTRO e procedono verso sinistra; $\\alpha$ è il suffisso di $P$ già riconosciuto (uguale al corrispondente fattore di $T$); il primo confronto che fallisce è quello fra il carattere $x$ di $P$ e il carattere $y$ di $T$ immediatamente a sinistra di $\\alpha$, con $x\\neq y$; la parte di $P$ a sinistra di $x$ (sottolineata dall'ondulazione) non è mai stata guardata; dopo il mismatch il pattern viene fatto scorrere verso destra, e lo shift può arrivare fino a tutta la lunghezza di $P$ — da cui l'annotazione sui casi con costo $\\Oh(m/n)$ (comportamento sublineare).\n\nTutte le etichette testuali sono in italiano; le uniche etichette simboliche sono $T$, $P$, $\\alpha$, $x$, $y$.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina chiude a metà di un enunciato: annuncia che, al mismatch, si applica «la più conveniente fra le due regole seguenti» (quella di massimo shift) ma NON le enuncia. La pagina 10 riparte esattamente da lì, con il titolo «Regole» e le due definizioni attese: Bad Character Rule (BCR) e Good Suffix Rule (GSR, con il rimando «← Z»), seguite dall'osservazione su T=a^m, P=a^n (l'algoritmo ridiventa naive/quadratico), dalla N.B. su Apostolico--Giancarlo e dall'implementazione della BCR. Resta inoltre in sospeso la giustificazione dell'annotazione «ci sono casi O(m/n)»: la discussione di quando il comportamento sublineare si realizza e quando invece degenera è appunto quella di p.10. Attenzione infine al confine di capitolo: la prima metà della pagina (definizione di sp_{i,c} e KMP real-time) chiude il capitolo su KMP/Z, la seconda metà apre il capitolo su Boyer--Moore.",
+ "confidenza": "alta"
+}

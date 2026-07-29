@@ -1,0 +1,27 @@
+{
+ "pagina": 9,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "figura",
+   "dove": "tikz/bm-mismatch.tikz (nodi $x$ alla riga 17, $y$ alla riga 30) e didascalia della figura in lezioni/03-boyer-moore.tex, righe 25-28",
+   "descrizione": "Nel disegno del quaderno la lettera y sta sulla riga di T (cella |y| sulla linea superiore, quella etichettata T) e la x sta sulla riga di P (cella x sulla linea inferiore, davanti al suffisso alfa gia riconosciuto). La figura TikZ e la didascalia invertono le due lettere: il nodo $x$ e posto sopra la linea di T e il nodo $y$ sopra la linea di P, e la didascalia recita 'il mismatch e fra il carattere y del pattern e il corrispondente carattere x del testo'. L'inversione contraddice sia il disegno sia la specifica di figura registrata dal trascrittore in NOTE-EDITORIALI.md (voce p.9 riga 1684: 'x il carattere di P e y quello di T'), sia la notazione usata due pagine prima in lezioni/02-kmp-z.tex (sezione sp'_i, riga 523-524: 'T presenta il carattere y, mentre P presenta x=P[i+1]'), che e la stessa del quaderno. La scelta attuale e coerente con p.10 (dove il quaderno scrive 'dopo un mismatch con x in T') e con Gusfield, quindi nulla diventa falso, ma resta una divergenza dalla fonte non dichiarata e uno scambio di lettere fra il capitolo 02 e il capitolo 03 che il lettore incontra proprio sulla stessa facciata.",
+   "correzione": "Scegliere una convenzione e renderla esplicita. Opzione consigliata (fedelta al disegno): in tikz/bm-mismatch.tikz scambiare le etichette, cioe mettere {$y$} nel nodo sopra la linea di T (riga 17) e {$x$} nel nodo sopra la linea di P (riga 30), e riscrivere la didascalia come 'il mismatch e fra il carattere y del testo e il corrispondente carattere x del pattern'; in tal caso allineare anche la riga 51 di 03-boyer-moore.tex ('il carattere y=P[i-1] del pattern e il carattere x del testo'), che va invertita, e verificare l'uso di x in R_j(x). Opzione minima (se si vuole tenere x = carattere di T per tutto il capitolo 03, come a p.10): lasciare figura e didascalia come sono ma aggiungere subito dopo la figura una frase del tipo 'in questo capitolo x denota il carattere del testo e y quello del pattern, al contrario di quanto fatto nel capitolo precedente' e registrare la divergenza dal disegno nelle note editoriali."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "errore-logico",
+   "dove": "lezioni/02-kmp-z.tex, Definizione def:sp-ic (riga 563) e formula di transizione delta(i,c) (righe 585-591)",
+   "descrizione": "La formula di transizione usa il test 'se P[i+1]=c' anche per i=n=|P|, dove P[i+1] non esiste: proprio il caso che serve dopo un'occorrenza completa, in cui l'automa deve ripartire da sp_{n,c}(P)+1. Il capitolo tratta esplicitamente questo bordo nella definizione di sp'_i (riga 547: 'i=|P| oppure P[k+1]!=P[i+1]'), quindi qui l'omissione stona. Inoltre il dominio dichiarato i in {1,...,n} non comprende lo stato iniziale 0 dell'automa, benche la formula funzioni correttamente anche per i=0 (P[1]=c da lo stato 1, altrimenti sp_{0,c}=-1 da lo stato 0).",
+   "correzione": "Nella formula scrivere il primo ramo come 'i+1 se i<n e P[i+1]=c' (l'altro ramo copre allora anche i=n, dando delta(n,c)=sp_{n,c}(P)+1), e nella definizione estendere il dominio a i in {0,1,...,n} (oppure aggiungere una riga: 'per i=n il carattere P[i+1] non esiste e si ricade sempre nel secondo caso; lo stato iniziale e 0')."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "errore-matematico",
+   "dove": "lezioni/03-boyer-moore.tex, osservazione righe 35-39 ('ci sono casi in cui il costo complessivo e O(m/n)')",
+   "descrizione": "Il quaderno annota accanto alla figura solo 'ci sono casi O(m/n)'. Detto del 'costo complessivo', l'enunciato e impreciso: il preprocessing del pattern costa comunque Theta(n), quindi il costo totale in quei casi e Theta(n+m/n), che non e O(m/n) quando n supera sqrt(m) (p.es. m=10^6, n=10^5: m/n=10 ma il preprocessing e 10^5). Cio che vale davvero e che il numero di confronti, e quindi di caratteri di T letti, e Theta(m/n) - ed e esattamente cosi che il capitolo stesso lo enuncia piu avanti nell'esempio T=a^m, P=b^n ('cioe Theta(m/n) caratteri di T in tutto').",
+   "correzione": "Riformulare: 'ci sono casi in cui i confronti eseguiti - e quindi i caratteri di T effettivamente letti - sono soltanto Theta(m/n): l'algoritmo puo essere sublineare nella lunghezza del testo, cioe terminare senza aver mai letto alcuni caratteri di T (il preprocessing del pattern, Theta(n), resta ovviamente da pagare).'"
+  }
+ ]
+}

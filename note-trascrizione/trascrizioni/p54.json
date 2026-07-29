@@ -1,0 +1,106 @@
+{
+ "pagina": 54,
+ "latex": "\\scan{54}\n\n\\paragraph{Taglio minimo.}\nIl prossimo problema è quello del \\emph{taglio minimo} (\\mincut): dato un grafo, individuare\nun insieme di archi la cui rimozione lo sconnette e che abbia cardinalità minima.\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/p54-taglio.tikz}\n  \\caption{Un taglio di $G$: la linea spezzata separa i vertici in due parti (da un lato $x$,\n  dall'altro $y$); il taglio è l'insieme degli archi che la attraversano.}\n  \\label{fig:p54-taglio}\n\\end{figure}\n\n\\begin{itemize}\n  \\item esistono algoritmi deterministici, ma estremamente complicati;\n  \\item c'è un algoritmo randomizzato di prestazioni comparabili e molto semplice.\n\\end{itemize}\n\n\\noindent Dopo ancora: il \\emph{metodo probabilistico}.\n\n\\paragraph{\\RandQS: elementi ripetuti.}\nL'analisi svolta finora suppone che gli elementi da ordinare siano \\emph{a due a due distinti}.\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/p54-randqs-pivot.tikz}\n  \\caption{Un passo di \\RandQS: il pivot è scelto uniformemente a caso fra gli elementi del\n  segmento corrente.}\n  \\label{fig:p54-randqs-pivot}\n\\end{figure}\n\nSe l'input contiene ripetizioni basta sostituire la sequenza $a_1,\\dots,a_n$ con la sequenza\ndi coppie\n\\[\n  \\tuple{a_1,1},\\ \\tuple{a_2,2},\\ \\dots,\\ \\tuple{a_n,n},\n\\]\nordinate lessicograficamente: la seconda componente rende le coppie a due a due distinte e\nnon altera l'ordine relativo dei valori $a_i$. È una soluzione pulita e semplice per ripulire\nl'analisi in presenza di copie ripetute.\n\n\\paragraph{Min-Cut.}\nIl \\mincut si risolve con un algoritmo randomizzato di tipo \\MonteCarlo; lo strumento\nprobabilistico su cui si regge l'analisi è la \\emph{probabilità condizionata}.\n\nL'input è un grafo $G=(V,E)$ \\emph{non orientato} e \\emph{connesso}.\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/p54-grafo-blob.tikz}\n  \\caption{Il grafo di input $G=(V,E)$, non orientato e connesso.}\n  \\label{fig:p54-grafo-blob}\n\\end{figure}",
+ "note": [
+  {
+   "tipo": "altro",
+   "pagina": 54,
+   "risolto": true,
+   "testo": "La pagina è di apertura di lezione e ha tre blocchi distinti, che ho mantenuto nell'ordine del quaderno: (1) annuncio del problema del taglio minimo con figura e due bullet; (2) coda su RandQS (ipotesi di elementi distinti e trucco delle coppie); (3) inizio vero e proprio di Min-Cut. Nessun titolo inventato: 'RandQS' e 'Min Cut' sono titoli espliciti nel quaderno ('Min Cut' è sottolineato), mentre 'Taglio minimo' è la domanda scritta in alto a destra, che ho usato come \\paragraph."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 54,
+   "risolto": true,
+   "testo": "I due bullet sono telegrafici: «Esistono algoritmi deterministici estremamente complicati» e «C'è un algoritmo randomizzato comparabile molto semplice». Ho scritto «esistono algoritmi deterministici, ma estremamente complicati» e «c'è un algoritmo randomizzato di prestazioni comparabili e molto semplice»: ho esplicitato che 'comparabile' si riferisce alle prestazioni rispetto ai deterministici (unica lettura sensata), aggiungendo la sola parola 'prestazioni'."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 54,
+   "risolto": true,
+   "testo": "Il commento fra parentesi accanto alle coppie ⟨a_i,i⟩ si legge «(soluzione pulito/semplice per ??? l'analisi per copie ripetute)». Il verbo è l'unico grafema davvero incerto: parola di ~7 lettere, con una 'l' alta in quinta posizione e quello che sembra un discendente di 'p' all'inizio; candidate compatibili: 'ripulire' (scelta) e 'riusare'. Ho scritto «per ripulire l'analisi in presenza di copie ripetute»: in entrambe le letture il senso è identico (rendere valida l'analisi anche con elementi ripetuti), quindi non ho messo marcatori. Ho anche concordato l'aggettivo con 'soluzione' ('pulita' invece del 'pulito' scritto). Il sostantivo finale della riga precedente è sicuramente 'analisi' (terminazione '-isi' con due puntini)."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 54,
+   "risolto": true,
+   "testo": "Il quaderno scrive solo «a_1 ... a_n» e sotto «⟨a_1,1⟩,...,⟨a_n,n⟩». Ho aggiunto la mezza riga di giustificazione standard («ordinate lessicograficamente: la seconda componente rende le coppie a due a due distinte e non altera l'ordine relativo dei valori»), che è il motivo per cui il trucco funziona e che collega esplicitamente il tutto all'ipotesi «elementi a due a due distinti» scritta sotto la figura dell'array."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 54,
+   "risolto": true,
+   "testo": "Nel quaderno l'ultima coppia sembra scritta ⟨a_n, h⟩: il secondo simbolo ha la forma di una 'h', ma deve essere 'n' (la coppia i-esima è ⟨a_i,i⟩ e la sequenza ha n elementi). Trascritto ⟨a_n,n⟩."
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 54,
+   "risolto": true,
+   "testo": "Lo studente scrive «G=(V,E) grafo non orientato e connesso», con 'non orientato' e 'e connesso' sottolineati; Gli appunti del corso dell'anno precedente (L14) chiedono solo 'non orientato'. La condizione di connessione è corretta e necessaria: su un grafo sconnesso il taglio minimo è vuoto (k=0) e l'analisi di Karger (grado minimo ≥ k, |E| ≥ nk/2) diventa vacua. Ho mantenuto la versione dello studente, rendendo con il corsivo le due sottolineature."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 54,
+   "risolto": true,
+   "testo": "«Montecarlo» → «Monte Carlo» (macro \\MonteCarlo). «Prob. condizionata» espanso in «probabilità condizionata»; a p.55 lo stesso concetto è intitolato 'Prob. condizionale', ho uniformato alla forma standard italiana 'condizionata'."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 54,
+   "risolto": true,
+   "testo": "Figura in alto: sagoma amorfa etichettata G attraversata da una spezzata verticale che la divide in due; quattro trattini corti attraversano la spezzata (sono gli archi tagliati) e la spezzata è etichettata 'cut'. Due vertici (pallini pieni) con etichetta x a sinistra e y a destra. Ho tradotto l'etichetta 'cut' in 'taglio' nella specifica TikZ (regola: testo delle figure in italiano) e ho interpretato i quattro trattini come gli archi del taglio, non come parte del contorno."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 54,
+   "risolto": true,
+   "testo": "Figura centrale (RandQS): rettangolo allungato = array, con un trattino verticale vicino a ciascuna estremità (prima e ultima cella). Una freccia ad arco parte da sopra l'estremità sinistra e punta in basso su un punto a ~45% della lunghezza; una freccia ondulata dal basso punta a ~35%, con etichetta 'pivot'. I due punti indicati non coincidono nel disegno: li ho unificati nella specifica (entrambe le frecce indicano lo stesso elemento estratto a caso), leggendo l'arco come 'scelgo a caso una posizione' e la serpentina come etichettatura del pivot."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 54,
+   "risolto": true,
+   "testo": "Figura in fondo: grande sagoma amorfa completamente VUOTA, disegnata accanto a 'G=(V,E) grafo non orientato e connesso'. Non contiene né vertici né archi: è il pittogramma del grafo generico di input, lasciato in bianco a fine pagina (i grafi concreti compaiono a p.55 con la contrazione). L'ho comunque inserita, chiedendo nella specifica TikZ di etichettarla $G=(V,E)$ perché altrimenti sarebbe muta; in fase di cucitura è la figura più facilmente sacrificabile."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 54,
+   "risolto": true,
+   "testo": "Sopra la riga «Dopo ancora: metodo probabilistico» c'è un breve trattino ondulato: l'ho interpretato come segno di separazione fra il blocco della figura e la riga successiva (non è una sottolineatura né un simbolo matematico) e non l'ho trascritto."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 54,
+   "risolto": true,
+   "testo": "«Dopo ancora: metodo probabilistico» è l'annuncio dell'argomento che verrà dopo il min-cut (il metodo probabilistico di Erdős). L'ho reso con una riga a sé senza espandere, perché il quaderno non dice altro. Ho usato le macro \\mincut, \\MonteCarlo, \\RandQS e \\tuple{} previste dal preambolo; nessuna macro inventata."
+  }
+ ],
+ "figure": [
+  {
+   "id": "p54-taglio",
+   "pagina": 54,
+   "didascalia": "Un taglio di $G$: la linea spezzata separa i vertici in due parti (da un lato $x$, dall'altro $y$); il taglio è l'insieme degli archi che la attraversano.",
+   "tipo": "schema/grafo (sagoma amorfa con taglio)",
+   "specifica": "Disegno a mano libera, tratto spesso, da ridisegnare in stile 'schizzo'. (1) Una grande sagoma chiusa amorfa (blob/nuvola irregolare, larga ~9 cm e alta ~5 cm, con 6-8 rientranze e sporgenze morbide) che rappresenta il grafo G; all'interno NON sono disegnati archi. (2) Etichetta $G$ in corsivo matematico appena fuori dal contorno, in basso a sinistra. (3) Una linea spezzata a zig-zag verticale (segmentini alternati, ampiezza ~0.3 cm) che parte dal bordo superiore del blob, leggermente a destra del centro, e scende fino al bordo inferiore, dividendo la sagoma in una regione sinistra (più grande) e una destra. (4) Quattro trattini rettilinei corti (~1 cm) attraversano trasversalmente la spezzata, a quote circa equispaziate (a ~10%, ~35%, ~60%, ~80% dell'altezza), disegnati a cavallo della spezzata con inclinazioni leggermente diverse: sono gli archi del grafo che attraversano il taglio. (5) Etichetta 'taglio' in corsivo accanto alla spezzata, in basso, appena alla sua destra (nel quaderno è scritto 'cut'). (6) Due vertici come pallini pieni: uno nella regione sinistra, a metà altezza e a circa un terzo della larghezza, con etichetta $x$ subito SOTTO il pallino; uno nella regione destra, alla stessa altezza circa, con etichetta $y$ subito sotto. Significato algoritmico: un taglio è un insieme C di archi la cui rimozione sconnette il grafo; i quattro trattini sono gli archi di C, la spezzata è la frontiera fra le due parti della bipartizione dei vertici e x, y finiscono in parti opposte.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "p54-randqs-pivot",
+   "pagina": 54,
+   "didascalia": "Un passo di RandQS: il pivot è scelto uniformemente a caso fra gli elementi del segmento corrente.",
+   "tipo": "schema di array",
+   "specifica": "(1) Un rettangolo orizzontale molto allungato (circa 7 cm x 0.6 cm), tratto spesso e leggermente ondulato, come disegnato a mano: è l'array / segmento corrente. (2) Un trattino verticale interno vicino all'estremità sinistra (a ~5% della lunghezza) che delimita la prima cella e un secondo trattino verticale interno vicino all'estremità destra (a ~95%) che delimita l'ultima cella; nessun'altra suddivisione interna. (3) Sopra il rettangolo, una freccia ad arco ampio (concavità verso il basso) che parte da un punto appena sopra l'estremità sinistra e termina con la punta rivolta in basso a destra su un punto del bordo superiore a circa il 40% della lunghezza: è la scelta casuale dell'elemento che farà da pivot. (4) Sotto il rettangolo, una freccia ondulata (linea a serpentina) che sale e tocca con la punta il bordo inferiore nello stesso punto (~40% della lunghezza); alla base della serpentina l'etichetta in corsivo 'pivot'. Nota: nell'originale l'arco punta al ~45% e la serpentina al ~35%; nel ridisegno i due punti vanno fatti coincidere. Significato: il pivot è estratto uniformemente a caso fra gli elementi del segmento, che si assumono a due a due distinti.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "p54-grafo-blob",
+   "pagina": 54,
+   "didascalia": "Il grafo di input $G=(V,E)$, non orientato e connesso.",
+   "tipo": "schema (sagoma amorfa)",
+   "specifica": "Una sola grande sagoma chiusa amorfa (blob/nuvola irregolare a mano libera, larga ~8 cm e alta ~5,5 cm, contorno morbido con 7-8 lobi e insenature, di cui una marcata al centro del bordo inferiore e una sul bordo destro), tratto spesso, completamente VUOTA all'interno: nel quaderno non ci sono né vertici né archi (è il pittogramma del grafo generico di input, lasciato in bianco a fine pagina). Aggiungere soltanto l'etichetta $G=(V,E)$ in corsivo matematico appena fuori dal contorno, in alto a sinistra, per non lasciare la figura muta. Significato: il grafo su cui si applicherà l'algoritmo di Karger, non orientato e connesso.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina si chiude annunciando l'input del problema ($G=(V,E)$ non orientato e connesso) e lascia in sospeso: (a) la definizione formale di taglio e di taglio minimo, (b) il richiamo alla probabilità condizionata (qui solo nominata come strumento), (c) l'algoritmo vero e proprio. La sagoma vuota in fondo alla pagina è il grafo generico su cui si lavorerà. Pagina 55 riprende esattamente da qui: «Def: Cut C di un grafo G=(V,E): C ⊆ E, (V, E\\\\C) è sconnesso», «Def: Min cut ≡ cut t.c. |C| è minimo», poi «Prob. condizionale» con Pr(E1∩E2)=Pr(E1)·Pr(E2) per eventi indipendenti, la formula generale con la condizionata, la chain rule su k eventi, e infine «Idea per introdurre le scelte (random)» con i disegni di multigrafi, self-loop e archi paralleli (la contrazione). Per la cucitura: il blocco RandQS di questa pagina è una coda del capitolo precedente (quicksort randomizzato) e non appartiene concettualmente al capitolo Min-Cut; la notazione fissata qui e usata poi è $G=(V,E)$, con $n=|V|$ introdotto a p.56-57.",
+ "confidenza": "alta"
+}

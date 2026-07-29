@@ -1,0 +1,20 @@
+{
+ "pagina": 18,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "media",
+   "categoria": "errore-matematico",
+   "dove": "lezioni/05-suffix-tree.tex, righe 158-162 (frase-ponte dopo \\scan{18}) e riga 167 (caption di fig:compattazione-abb); nota editoriale 1710",
+   "descrizione": "Il frammento disegnato in testa a p.18 viene attribuito al suffix trie di T = a^m b^m («Riprendiamo il suffix trie di T = a^m b^m e guardiamone da vicino un ramo… fra due nodi branching consecutivi si trova sempre una catena di nodi con un solo figlio»; caption: «Contrazione di una catena unaria in un ramo del suffix trie di a^m b^m»). L'attribuzione e' impossibile. Nel trie di a^m b^m i nodi sono le sottostringhe a^p b^q; un nodo a^p con p<m ha esattamente due figli (a e b) ed e' branching, mentre ogni nodo a^p b^q con q>=1 ha esattamente un figlio (b) se q<m ed e' foglia se q=m: nessun nodo raggiunto da un cammino che termina in b e' branching. Ne segue che (i) il nodo terminale w del disegno, che ha due figli dopo il cammino abb, non puo' esistere in quel trie; (ii) fra due nodi branching consecutivi (a^p e a^{p+1}) c'e' un solo arco, quindi non c'e' alcuna catena unaria intermedia; (iii) la catena abb uscente da un nodo branching passerebbe per a^{p+1}, che e' branching e non unario. La ripetizione della stessa attribuzione anche nel commento di tikz/compattazione-abb.tikz (riga 1) rende l'errore visibile in tre punti.",
+   "correzione": "Togliere il riferimento ad a^m b^m: presentare il disegno come frammento generico di suffix trie. Es. riga 158: «Guardiamo da vicino un frammento di suffix trie: lungo i rami si formano catene di nodi con un solo figlio, ed e' la proliferazione di questi nodi a rendere quadratica la dimensione della struttura.» Caption riga 167: «Contrazione di una catena unaria in un frammento di suffix trie: i due nodi con un solo figlio vengono cancellati e il cammino abb diventa un unico arco…». Correggere di conseguenza il commento in tikz/compattazione-abb.tikz e la nota 1710 di NOTE-EDITORIALI.md. In particolare va eliminato l'avverbio «sempre» nella frase «fra due nodi branching consecutivi si trova sempre una catena di nodi con un solo figlio», falso anche per un trie generico (due nodi branching possono essere adiacenti)."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "figura",
+   "dove": "lezioni/05-suffix-tree.tex, caption di fig:lemma-branching (righe 241-246) vs tikz/lemma-branching.tikz, riga 36",
+   "descrizione": "La didascalia e l'etichetta stampata dentro la figura si contraddicono: la caption dice «A sinistra: ogni nodo interno viene addebitato a una foglia distinta del proprio sottoalbero, da cui $I \\le \\ell$», mentre il pannello sinistro del TikZ stampa «addebito nodo interno -> foglia / $I \\le \\ell-1$». L'addebito iniettivo nodo interno -> foglia del proprio sottoalbero da' di per se' solo I <= l; il -1 arriva dal pannello destro (contrazione della ciliegia / induzione), che e' proprio quello che la caption attribuisce al secondo pannello. Il lettore vede due disuguaglianze diverse per lo stesso disegno.",
+   "correzione": "Allineare i due testi: in tikz/lemma-branching.tikz riga 36 scrivere «addebito nodo interno $\\to$ foglia\\\\[1pt] $I \\le \\ell$», lasciando al pannello destro (riga 63, $(I,\\ell) \\to (I-1,\\ell-1)$) la conclusione $I \\le \\ell-1$; in alternativa, se si vuole tenere $I\\le\\ell-1$ nel pannello sinistro, esplicitare in caption l'addebito raffinato (nodo interno -> foglia piu' a sinistra del sottoalbero del suo secondo figlio, che lascia scoperta la foglia piu' a sinistra dell'albero)."
+  }
+ ]
+}

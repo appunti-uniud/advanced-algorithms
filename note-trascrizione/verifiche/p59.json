@@ -1,0 +1,13 @@
+{
+ "pagina": 59,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "errore-logico",
+   "dove": "12-min-cut.tex, blocco \\scan{59}, ambiente osservazione subito dopo la formula (1-1/(n^2/2))^{n^2/2} < 1/e",
+   "descrizione": "L'osservazione afferma la disuguaglianza STRETTA (1-1/m)^m < e^{-1} presentandola come \"conseguenza immediata di 1-x <= e^{-x} posto x = 1/m\". Dalla maggiorazione non stretta 1-x <= e^{-x} segue soltanto (1-1/m)^m <= e^{-1}: la strettezza richiede 1-x < e^{-x}, valida per ogni x != 0. Inoltre \"limite notevole\" e usato per denotare una disuguaglianza, non un limite.",
+   "correzione": "Riformulare l'osservazione come: \"La disuguaglianza e il caso m = n^2/2 della stima (1-1/m)^m < e^{-1}, valida per ogni m > 1 e conseguenza immediata di 1-x < e^{-x} per x != 0, posto x = 1/m.\" (in alternativa, mantenere 1-x <= e^{-x} e osservare che la disuguaglianza e stretta perche l'uguaglianza vale solo in x = 0)."
+  }
+ ]
+}

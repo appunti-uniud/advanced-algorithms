@@ -1,0 +1,20 @@
+{
+ "pagina": 17,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "notazione",
+   "dove": "lezioni/05-suffix-tree.tex, riga 111 e riga 118: \\mathcal{S}(T) = \\set{T_i : i \\in \\set{1,\\dots,n}} e \\STrie{}(T) \\defeq K(\\mathcal{S}(T))",
+   "descrizione": "Il manoscritto scrive l'insieme dei suffissi con una sigma minuscola: «con \\sigma(T) = {T_i : i \\in [1,...,|T|]}» e «Suffix-Trie(T) e il Keyword-Tree di \\sigma(T)» (il glifo e chiaramente un cerchietto chiuso con uncino a destra, cioe sigma, non una S calligrafica). Il file usa invece \\mathcal{S}(T). La sostituzione e innocua sul piano matematico (e anzi coincide con la notazione dell'anno precedente, L05 sintesi §0) ma diverge dalla fonte primaria, e soprattutto contraddice quanto registrato in NOTE-EDITORIALI.md riga 1330, dove si dichiara esplicitamente «Ho mantenuto \\sigma(T) perche e la scrittura dello studente [...] segnalo la divergenza notazionale». Log e file dicono cose opposte.",
+   "correzione": "Scegliere una delle due strade e allinearle: (a) ripristinare \\sigma(T) nel .tex (righe 111 e 118), oppure (b) tenere \\mathcal{S}(T) per uniformita con La fonte dell'anno precedentee riscrivere la nota editoriale di riga 1330 di NOTE-EDITORIALI.md come «lo studente scrive \\sigma(T); ho normalizzato in \\mathcal{S}(T)»."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "errore-logico",
+   "dove": "lezioni/05-suffix-tree.tex, riga 142: «poiche i nodi di un trie sono in biiezione con le sottostringhe distinte del testo (alla radice corrisponde la stringa vuota \\vuota)»",
+   "descrizione": "E il passo portante del conteggio (m+1)^2, ed e contenuto aggiunto dal trascrittore (il quaderno disegna il trie ma non conta i nodi). Enunciato cosi com'e, pero, l'asserto e falso per «un trie» generico: i nodi di un trie sono in biiezione con i prefissi delle stringhe che contiene, e solo perche qui le stringhe sono TUTTI i suffissi di T quei prefissi coincidono con le sottostringhe di T. Il conteggio resta corretto ((m+1)^2 = |T|^2/4 + |T| + 1 con |T| = 2m: verificato), ma la giustificazione va ancorata al suffix trie.",
+   "correzione": "Sostituire con: «poiche i nodi del suffix trie di $T$ sono in biiezione con le sottostringhe distinte di $T$ --- ogni nodo e individuato dalla stringa che il cammino dalla radice compita, e tali stringhe sono esattamente i prefissi dei suffissi di $T$, cioe le sottostringhe di $T$ (alla radice corrisponde $\\vuota$)»."
+  }
+ ]
+}

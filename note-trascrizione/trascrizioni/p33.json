@@ -1,0 +1,74 @@
+{
+ "pagina": 33,
+ "latex": "\\scan{33}\n\n\\paragraph{Prerequisito: modifico il modello di calcolo.}\nPrima di attaccare il problema devo mettere in discussione il modello di calcolo,\ncioè dichiarare esplicitamente quali operazioni considero a costo unitario.\nIn effetti non lo sto davvero modificando: quelle che seguono sono le assunzioni\nstandard del modello RAM con parole di lunghezza logaritmica.\n\nGli assegnamenti\n\\[\n  i \\leftarrow i+j, \\qquad\n  i \\leftarrow k, \\qquad\n  i \\leftarrow i/k, \\qquad \\dots\n\\]\ncostano $\\Oh(1)$ \\emph{se} gli interi coinvolti sono esprimibili mediante $c\\log n$\nbit, dove $n$ è la dimensione dell'input.\n\nAssumo inoltre di poter eseguire in tempo $\\Oh(1)$ le seguenti operazioni su array\ndi $c\\log n$ bit:\n\\begin{itemize}\n  \\item \\texttt{AND}, \\texttt{OR}, \\texttt{XOR} (bit a bit);\n  \\item \\texttt{SHIFT} (\\emph{left}/\\emph{right});\n  \\item costruzione di una \\texttt{MASK};\n  \\item individuazione della posizione dell'1 significativo più a sinistra\n        (\\emph{leftmost}) o più a destra (\\emph{rightmost}).\n\\end{itemize}\n\n\\paragraph{1) Risolvo il problema su $\\B$, albero binario completo.}\nÈ il caso facile del piano. Se $\\B$ ha $n$ foglie, i suoi livelli contengono\nrispettivamente $1, 2, 4, 8, \\dots$ nodi e sono in numero logaritmico: l'altezza\ndi $\\B$ è $\\log n$.\n\n\\begin{figure}[H]\\centering\n\\input{tikz/b-albero-completo.tikz}\n\\caption{L'albero binario completo $\\B$: $n$ foglie, livelli di $1,2,4,8,\\dots$ nodi,\naltezza $\\log n$.}\n\\end{figure}\n\nOgni nodo $v$ di $\\B$ è individuato dal cammino che lo raggiunge a partire dalla\nradice. Detta $\\alpha$ la stringa di bit che descrive tale cammino (un bit per arco:\n$0$ = scendo a sinistra, $1$ = scendo a destra), codifico $v$ con il numero\n\\[\n  \\alpha \\; 1 \\; \\underbrace{0\\,0\\cdots 0}_{\\text{riempimento}}\n\\]\ncioè $\\alpha$ seguita da un 1 e da tanti 0 quanti ne servono per raggiungere la\nlunghezza di parola fissata: in questo modo tutti i nodi di $\\B$, a qualunque\nprofondità si trovino, sono codificati con lo stesso numero di bit.\n\n\\begin{figure}[H]\\centering\n\\input{tikz/path-number-alpha.tikz}\n\\caption{Codifica di un nodo $v$ di $\\B$: gli $\\alpha$ bit del cammino radice--$v$,\npoi un 1, poi tutti 0.}\n\\end{figure}",
+ "note": [
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 33,
+   "testo": "In questa calligrafia la lettera «n» è tracciata come una «h». Ho letto «n» in tutte le occorrenze: «c.log(h)» -> $c\\log n$, «h dimensione dell'input» -> «n dimensione dell'input», «log h» -> $\\log n$, e la lettera sotto la base del triangolo (figura 1). La lettura è confermata dal contesto (n = dimensione dell'input) e dal resto del capitolo.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 33,
+   "testo": "Il quaderno scrive il titolo «Prerequisito: Modifico il modello di calcolo» con una freccia che risale da «(In effetti non è vero!)» verso «modello di calcolo». L'annotazione è telegrafica: significa che il modello non viene realmente modificato. L'ho resa in prosa come «In effetti non lo sto davvero modificando: quelle che seguono sono le assunzioni standard del modello RAM con parole di lunghezza logaritmica», coerentemente con Gli appunti del corso dell'anno precedente (L08, §3: «anche se non sembra, è standard nel modello RAM»; L09, p.5: read/write/address/add/subtract/multiply/divide in O(1) su parole di log n bit).",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 33,
+   "testo": "L'elenco delle operazioni nel quaderno è puramente telegrafico su due colonne: «AND / OR / XOR» e «SHIFT (left/right) / MASK / Leftmost/Rightmost significant 1». Ho esplicitato «costruzione di una MASK» e «individuazione della posizione dell'1 significativo più a sinistra/più a destra», come neGli appunti del corso dell'anno precedente (L08 §3, tabella: «creazione di una MASK», «determinazione della posizione del bit LEFTMOST/RIGHTMOST»). Nessun contenuto aggiunto, solo espansione delle abbreviazioni.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 33,
+   "testo": "Gli assegnamenti a costo unitario sono, nel quaderno, «i <- i+j», «i <- k», «i <- i/k», seguiti da puntini verticali e da una graffa con O(1). Ho reso i puntini con «\\dots» in linea. Si noti che la divisione compare fra le operazioni O(1): è coerente con L09 p.5, dove gli shift sono ottenuti proprio come moltiplicazione/divisione per 2^i.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 33,
+   "testo": "Figura 1 (triangolo con l'albero binario in cima, colonna 1/2/4/8/... e graffa «log n», base ondulata etichettata «n»). Interpretazione: n è il numero di FOGLIE di B (larghezza dell'ultimo livello), mentre log n è l'altezza. C'è una collisione notazionale con la n usata poco sopra per la dimensione dell'input; a p.34 lo studente ribattezza il numero di foglie con p (p foglie, 2p-1 nodi, d = log_2 p). Ho mantenuto la lettera n del quaderno per fedeltà, esplicitando in prosa «se B ha n foglie», così che il conflitto sia innocuo.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 33,
+   "testo": "Figura 2 (sagoma irregolare con apice, cammino ondulato etichettato alpha che scende fino a un nodo pieno etichettato v; a destra un array di bit con il tratto sinistro etichettato alpha, poi un 1, poi sette 0). Interpretazione: alpha è la stringa di bit del cammino radice->v (0 = sinistra, 1 = destra) e l'array è il path number di v, cioè alpha 1 0...0. Nel quaderno la formula non è scritta: l'ho ricavata dal disegno e resa esplicita con una display, coerentemente con p.34 («path number», d+1 bits) e con Gusfield §8.4. La definizione formale (d = log_2 p, path number su d+1 bit) arriva a p.34: qui ho tenuto la formulazione volutamente informale per non anticiparla.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 33,
+   "testo": "A metà della fascia destra si intravede una scritta a matita poi cancellata: «XOR ... leftmost ... -> shift». È una bozza dell'algoritmo di lca su B che compare in bella copia a p.34 («1 XOR / 1 leftmost 1 / 2 shift, tutte O(1)»). Non trascritta.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 33,
+   "testo": "Ho usato \\paragraph per i due titoli che nel quaderno sono espliciti: «Prerequisito:» (sottolineato) e la voce numerata «1) Risolvo il problema su B albero binario completo», che riprende il punto 1 del «Piano» enunciato a p.32.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "b-albero-completo",
+   "pagina": 33,
+   "didascalia": "L'albero binario completo $\\B$: $n$ foglie, livelli di $1,2,4,8,\\dots$ nodi, altezza $\\log n$.",
+   "tipo": "albero",
+   "specifica": "Schema a mano libera di un albero binario completo B, disegnato come un TRIANGOLO con base ondulata di cui sono esplicitati solo i primi tre livelli.\n\nGEOMETRIA. Triangolo isoscele, apice in alto al centro, base orizzontale in basso. Larghezza della base circa 2,5 volte l'altezza del triangolo disegnato. I due lati obliqui e la base sono tracciati a mano libera con leggere irregolarita/ondulazioni (la base e' una linea chiaramente ondulata, stile 'sagoma disegnata a mano'); si puo' rendere con decorate/random steps oppure con una linea leggermente ondulata (snake).\n\nNODI ESPLICITI (piccoli cerchietti vuoti, non pieni):\n- livello 0: radice, sull'apice del triangolo;\n- livello 1: due figli, uno a sinistra e uno a destra, posti sui due lati obliqui del triangolo (cioe' l'arco radice->figlio sinistro giace sul lato sinistro del triangolo, quello radice->figlio destro sul lato destro);\n- livello 2: quattro nipoti. Il figlio sinistro ha: un figlio piu' a sinistra e piu' in basso, posto ancora sul lato sinistro del triangolo (prosecuzione del bordo), e un figlio interno, spostato verso il centro e piu' in basso; il figlio destro ha simmetricamente un figlio interno (verso il centro) e un figlio esterno posto sul lato destro del triangolo. I due nodi interni del livello 2 stanno leggermente piu' in alto dei due esterni (disegno irregolare): non serve allinearli perfettamente, ma se si preferisce l'ordine si possono allineare sullo stesso livello.\n- Gli archi sono segmenti dritti; quelli esterni coincidono con i lati del triangolo, che poi PROSEGUONO verso il basso fino alla base (a indicare che l'albero continua), senza altri nodi disegnati.\n\nANNOTAZIONE SOTTO LA BASE: la lettera 'n' centrata sotto la linea ondulata (= numero di foglie / larghezza dell'ultimo livello).\n\nCOLONNA A DESTRA DEL TRIANGOLO: una colonna verticale di etichette allineate ai livelli dell'albero, dall'alto in basso: 1, 2, 4, 8, poi tre puntini verticali. Alla destra della colonna una GRANDE GRAFFA (parentesi graffa destra) che abbraccia tutta la colonna, con etichetta 'log n' posta al centro, alla destra della graffa. Significato: il numero di livelli e' log n, cioe' l'altezza di B.\n\nSEMANTICA: e' il primo passo del piano (risolvere lca su un albero binario completo); il disegno serve solo a fissare che B ha n foglie, livelli di taglia 1,2,4,8,... e altezza logaritmica. Testo nella figura in italiano (qui compaiono solo simboli: n, 1, 2, 4, 8, log n).",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "path-number-alpha",
+   "pagina": 33,
+   "didascalia": "Codifica di un nodo $v$ di $\\B$: gli $\\alpha$ bit del cammino radice--$v$, poi un 1, poi tutti 0.",
+   "tipo": "schema di stringhe",
+   "specifica": "Figura a DUE PANNELLI affiancati (nel quaderno stanno sulla stessa fascia orizzontale: sagoma a sinistra, array di bit a destra, leggermente piu' in basso).\n\nPANNELLO SINISTRO - sagoma dell'albero.\nUna SAGOMA IRREGOLARE a mano libera che rappresenta l'albero binario completo B (nel quaderno e' un profilo tipo 'montagna', non un triangolo regolare): partendo dal basso a sinistra il contorno sale con pendenza irregolare fino a un APICE appuntito posto a circa un terzo della larghezza, poi scende con un gradino/spalla verso destra e prosegue in discesa fino all'estremo destro, molto piu' in basso; la BASE e' una linea ondulata orizzontale che chiude la sagoma. L'apice e' il vertice/radice.\nDall'APICE scende una linea VERTICALE leggermente ondulata (a zigzag morbido) che termina con una piccola punta di freccia su un NODO PIENO (pallino) etichettato 'v' (etichetta a destra del pallino). La linea rappresenta il cammino radice->v.\nA destra, a meta' di questa linea verticale, l'etichetta greca 'alpha' ($\\alpha$): e' la stringa di bit che descrive il cammino radice->v.\n\nPANNELLO DESTRO - array di bit (path number di v).\nUn segmento orizzontale spesso, con due piccoli tratti verticali alle estremita' (delimitatori sinistro e destro), che rappresenta una parola di bit. Il segmento e' diviso da tratti verticali in tre zone, da sinistra a destra:\n1) zona lunga (circa meta' della larghezza totale) senza cifre, con l'etichetta '$\\alpha$' scritta sopra al centro: sono i bit del cammino;\n2) una cella stretta contenente la cifra '1' (il bit di stop);\n3) la zona rimanente contenente una fila di cifre '0' equispaziate (nel quaderno sono sette zeri) fino al delimitatore destro.\nQuindi la parola letta e': alpha | 1 | 0 0 0 0 0 0 0.\n\nCollegare idealmente i due pannelli (facoltativo: una freccia tratteggiata dal nodo v all'array, oppure nessun collegamento come nell'originale, dove i due disegni sono semplicemente affiancati).\n\nSEMANTICA: e' l'introduzione grafica del path number di Gusfield (§8.4): un nodo a profondita' |alpha| e' codificato dai bit del suo cammino, seguiti da un 1 e da zeri di riempimento, cosi' che tutti i nodi abbiano codifiche della stessa lunghezza (d+1 bit, come formalizzato a p.34). Testo nella figura in italiano; qui compaiono solo i simboli alpha, v, 1, 0.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina 32 si chiudeva con il «Piano» in tre punti (1: risolvere lca su B binario completo; 2: definire la mappa I: T -> B; 3: usare mappa + soluzione O(1) su B per risolvere il problema su T). La pagina 33 premette il prerequisito sul modello di calcolo (operazioni O(1) su parole di c log n bit) e apre il punto 1, arrivando a introdurre GRAFICAMENTE la codifica di un nodo di B (alpha bit del cammino, poi 1, poi zeri) senza pero' formalizzarla: restano in sospeso il numero esatto di bit della codifica, il legame fra numero di foglie e altezza, e naturalmente l'algoritmo di lca su B. La pagina 34 riprende esattamente da qui: parametri di B (p foglie, 2p-1 nodi di cui p-1 interni, d = log_2 p altezza), definizione del «path number» su d+1 bit, esempio con d = 2 e le codifiche 001,010,011,100,101,110,111 (con l'osservazione che il path number coincide con la numerazione in-order), il pre-processing lineare che assegna il path number a ogni nodo, e infine la DOMANDA «lca?» risolta con 1 XOR + 1 leftmost 1 + 2 shift, tutte operazioni O(1) nel nuovo modello. Il simbolo alpha introdotto qui e' lo stesso che a p.34 etichetta la parte «cammino» del path number.",
+ "confidenza": "alta"
+}

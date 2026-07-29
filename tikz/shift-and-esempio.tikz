@@ -1,0 +1,92 @@
+% La matrice M dello Shift--And per P = aab e T = baab.
+% M[i,j] = 1  sse  P[1..i] e' suffisso di T[1..j].
+\begin{tikzpicture}[
+    x=1cm, y=1cm,
+    font=\small,
+    gl/.style={font=\scriptsize, text=black!60, inner sep=1pt},
+    dia/.style={black!55, dashed, -{Stealth[length=4pt,width=3pt]}, line width=0.5pt},
+  ]
+
+  % --- fondo tenue sull'ultima riga (i = n) ---
+  \fill[black!8] (0,-1.5) rectangle (3.75,-2.25);
+
+  % --- griglia 3 x 5 (celle di 0.75 cm) ---
+  \draw[gray!55, line width=0.4pt, step=0.75] (0,-2.25) grid (3.75,0);
+  % separatore fra la colonna di inizializzazione j=0 e le colonne j>=1
+  \draw[black!70, line width=1pt] (0.75,0.02) -- (0.75,-2.27);
+
+  % --- intestazioni di colonna: indice j e carattere T[j] ---
+  \node[gl, anchor=south] at (0.375,0.44) {$0$};
+  \node[gl, anchor=south] at (1.125,0.44) {$1$};
+  \node[gl, anchor=south] at (1.875,0.44) {$2$};
+  \node[gl, anchor=south] at (2.625,0.44) {$3$};
+  \node[gl, anchor=south] at (3.375,0.44) {$4$};
+
+  \node[gl, anchor=south] at (0.375,0.06) {$M_0$};
+  \node[anchor=south, inner sep=1pt] at (1.125,0.06) {\texttt{b}};
+  \node[anchor=south, inner sep=1pt] at (1.875,0.06) {\texttt{a}};
+  \node[anchor=south, inner sep=1pt] at (2.625,0.06) {\texttt{a}};
+  \node[anchor=south, inner sep=1pt] at (3.375,0.06) {\texttt{b}};
+
+  % --- intestazioni delle due colonnine di sinistra ---
+  \node[gl, anchor=south] at (-1.05,0.06) {$i$};
+  \node[gl, anchor=south] at (-0.42,0.06) {$P[i]$};
+
+  % --- etichette di riga: indice i e carattere P[i] ---
+  \node[gl] at (-1.05,-0.375) {$1$};
+  \node[gl] at (-1.05,-1.125) {$2$};
+  \node[gl] at (-1.05,-1.875) {$3$};
+  \node[inner sep=1pt] at (-0.42,-0.375) {\texttt{a}};
+  \node[inner sep=1pt] at (-0.42,-1.125) {\texttt{a}};
+  \node[inner sep=1pt] at (-0.42,-1.875) {\texttt{b}};
+
+  % --- contenuto della matrice ---
+  % riga i=1
+  \node at (0.375,-0.375) {$0$};
+  \node at (1.125,-0.375) {$0$};
+  \node at (1.875,-0.375) {$1$};
+  \node at (2.625,-0.375) {$1$};
+  \node at (3.375,-0.375) {$0$};
+  % riga i=2
+  \node at (0.375,-1.125) {$0$};
+  \node at (1.125,-1.125) {$0$};
+  \node at (1.875,-1.125) {$0$};
+  \node at (2.625,-1.125) {$1$};
+  \node at (3.375,-1.125) {$0$};
+  % riga i=3
+  \node at (0.375,-1.875) {$0$};
+  \node at (1.125,-1.875) {$0$};
+  \node at (1.875,-1.875) {$0$};
+  \node at (2.625,-1.875) {$0$};
+  \node at (3.375,-1.875) {$1$};
+
+  % --- propagazione in diagonale del prefisso che cresce (lo shift) ---
+  \draw[dia] (2.05,-0.55) -- (2.45,-0.95)
+     node[pos=0.5, sloped, above=3pt, fill=white, inner sep=1pt,
+          font=\scriptsize\itshape, text=black!60] {shift};
+  \draw[dia] (2.80,-1.30) -- (3.13,-1.63);
+
+  % --- l'ultima riga: gli 1 qui sono occorrenze ---
+  \draw[decorate, decoration={brace, amplitude=4pt}, black!60]
+        (3.85,-1.5) -- (3.85,-2.25);
+  \node[gl, anchor=west, align=left] at (4.18,-1.875)
+       {riga $n$: gli $1$ qui\\sono occorrenze di $P$};
+
+  % --- l'occorrenza trovata ---
+  \draw[accentdark, line width=0.9pt] (3.375,-1.875) circle (0.29);
+  \draw[accentdark, -{Stealth[length=4pt,width=3pt]}, line width=0.5pt]
+        (3.55,-2.14) to[out=300,in=170] (4.30,-2.82);
+  \node[anchor=west, align=left, font=\scriptsize, text=accentdark] at (4.38,-2.82)
+       {occorrenza: $\sub{T}{2}{4}=\str{aab}=P$,\\inizio in $j-n+1=2$};
+
+  % --- maschere applicate colonna per colonna ---
+  \node[gl, anchor=north] at (1.125,-2.36) {$U_{\str{b}}$};
+  \node[gl, anchor=north] at (1.875,-2.36) {$U_{\str{a}}$};
+  \node[gl, anchor=north] at (2.625,-2.36) {$U_{\str{a}}$};
+  \node[gl, anchor=north] at (3.375,-2.36) {$U_{\str{b}}$};
+
+  % --- promemoria delle maschere ---
+  \node[gl, anchor=north west, align=left] at (-1.20,-2.50)
+       {$U_{\str{a}}=110$\\$U_{\str{b}}=001$};
+
+\end{tikzpicture}

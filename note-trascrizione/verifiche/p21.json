@@ -1,0 +1,20 @@
+{
+ "pagina": 21,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "media",
+   "categoria": "notazione",
+   "dove": "lezioni/05-suffix-tree.tex: il blocco \\scan{21} va dalla riga 359 alla riga 389 (definizione di f + osservazione sul boundary path + figura); tutto il resto di p.21 sta invece sotto \\scan{22} (righe 404-464: \\subsection{Costruzione del suffix trie}, formula Q(T^i), algorithm alg:ukkonen-trie, \\paragraph{Costo.})",
+   "descrizione": "Il rimando alla scansione e' mal ancorato. Il blocco marcato \\scan{21} contiene solo il terzo superiore del foglio (la definizione di f -- «sia x = a y, f(x-bar) = y-bar» -- e il riquadro «la funzione f mi consente di costruire un cammino che visita tutti i suffissi di T» -> boundary path, con la figura della montagna). Piu' della meta' di p.21 -- il capoverso «Intuizione: passero' da STrie(T^{i-1}) a STrie(T^i) visitando il boundary path ed aggiungendo una transizione (quando necessario) ad ogni passo» con la formula a destra, l'intero pseudocodice intitolato «Algoritmo 1», e l'analisi «Per costruire STrie(T) eseguiro' |T|-volte l'operazione ... ognuna ha costo i per i in {1,...,n} => algoritmo quadratico O(|T|^2) -> ottimo!» -- si trova invece dopo il marcatore \\scan{22}, mentre p.22 contiene tutt'altro (f^j(t_1...t_{i-1}) per j in {0,...,i-1}, «non e' sempre necessario visitarlo tutto», «STrie -> STree: 2 ingredienti»). Il contenuto non e' perso e l'ordine espositivo scelto e' sensato, ma per quel tratto la nota a margine rinvia alla pagina sbagliata. Il file usa gia' questo idioma altrove (\\scan{19} compare due volte, righe 260 e 282), quindi la correzione e' a costo zero. (Nota minore della stessa natura, ma legittima come consolidamento editoriale: la clausola f(x-bar)=y-bar / f(root)=perp inserita nella definizione def:strie-automa a riga 340-341, cioe' nel blocco \\scan{20}, e' scritta a p.21, non a p.20.)",
+   "correzione": "Inserire un secondo \\scan{21} subito dopo \\subsection{Costruzione del suffix trie} (riga 404, prima di «Passero' da $\\STrie{}(T^{\\,i-1})$...») e ripristinare \\scan{22} subito dopo \\subsection[Il boundary path si puo' accorciare]{...} (riga 466, prima della \\begin{osservazione} «Non e' sempre necessario visitarlo tutto!»)."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "errore-logico",
+   "dove": "lezioni/05-suffix-tree.tex, \\begin{algorithm} alg:ukkonen-trie (contenuto di p.21, attualmente sotto \\scan{22}), riga 434: \\Comment{alla prima iterazione $\\mathit{oldr}'$ non e' ancora definito}",
+   "descrizione": "Il commento -- aggiunto dal trascrittore, non presente nel manoscritto -- da' una motivazione della guardia «if $r \\neq \\mathit{top}$» che e' vera solo al primo passo del ciclo esterno. Per $i \\ge 2$, alla prima iterazione del while la variabile oldr' E' definita: e' l'ultimo stato creato al passo $i-1$, e il suo suffix link e' gia' stato assegnato dall'istruzione $f(\\mathit{oldr}') \\gets g(r,t_i)$ eseguita alla fine di quel passo. La guardia serve proprio a non sovrascrivere quel valore corretto con uno sbagliato: il primo stato creato nel passo $i$ (figlio di top) non ha, in questo passo, un predecessore a cui attaccare il suffix link, perche' i suffix link vengono assegnati all'indietro (f(t_j...t_i) = t_{j+1}...t_i, cioe' allo stato creato subito dopo). Cosi' com'e', il commento puo' far credere che oldr' sia indefinita all'inizio di ogni passo.",
+   "correzione": "Sostituire il commento con: «nel passo $i$ il primo stato creato non ha un predecessore cui assegnare il suffix link; per $i>1$ $\\mathit{oldr}'$ e' ancora quello del passo precedente, il cui $f$ e' gia' stato assegnato» (oppure, piu' compatto, «$\\mathit{oldr}'$ appartiene ancora al passo precedente»)."
+  }
+ ]
+}

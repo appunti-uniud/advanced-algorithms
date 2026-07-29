@@ -1,0 +1,253 @@
+\chapter{Shift--And}
+\label{cap:shift-and}
+
+\scan{29}
+Karp--Rabin ci insegna che, guardando con attenzione il \emph{modello di calcolo} --- e
+scegliendo bene il numero primo $q$ ---, si possono disegnare algoritmi nuovi: là la ricetta era
+\emph{codifico in numeri e manipolo numeri}. L'algoritmo \emph{Shift--And} nasce dalla stessa
+idea, con una codifica diversa: \emph{codifico in stringhe di bit e manipolo stringhe di bit}.
+Il guadagno verrà dal parallelismo che la parola di macchina regala sulle operazioni bit a bit.
+
+Fissiamo le notazioni per tutto il capitolo: il pattern è $P=\sub{P}{1}{n}$ e il testo è
+$T=\sub{T}{1}{m}$, entrambi sull'alfabeto $\alfa$; dunque $\abs{P}=n$ e $\abs{T}=m$. In tutte le
+matrici che seguono il pattern indicizza le \emph{righe} e il testo le \emph{colonne}.
+
+
+\section{La matrice di bit (dot-plot)}
+
+\begin{definizione}[Matrice di bit, o \emph{dot-plot}]
+\label{def:shift-and-dotplot}
+La \emph{matrice di bit} di $P$ contro $T$ è la matrice $D$ con $n$ righe --- una per ogni
+posizione del pattern --- e $m$ colonne --- una per ogni posizione del testo --- definita da
+\[
+  D[i,j]\;=\;
+  \begin{cases}
+    1 & \text{se } P[i]=T[j] \quad \text{(\emph{match})},\\[2pt]
+    0 & \text{se } P[i]\neq T[j] \quad \text{(\emph{mismatch})},
+  \end{cases}
+  \qquad 1\le i\le n,\quad 1\le j\le m .
+\]
+\end{definizione}
+
+\begin{figure}[H]
+\centering
+\input{tikz/shift-and-dotplot.tikz}
+\caption{La matrice di bit (\emph{dot-plot}) di $P$ contro $T$: righe indicizzate dal pattern,
+colonne dal testo. La cella $(i,j)$ vale $1$ se e solo se $P[i]=T[j]$.}
+\label{fig:shift-and-dotplot}
+\end{figure}
+
+\begin{osservazione}
+Il dot-plot è l'oggetto con cui, in bioinformatica, si confrontano a occhio due sequenze: un
+tratto \emph{diagonale} di $1$ --- che scende verso destra --- segnala un match fra un fattore di
+$P$ e un fattore di $T$, mentre un tratto \emph{antidiagonale} --- che sale verso destra ---
+segnala un match \emph{invertito}, cioè un match fra un fattore di $P$ e un fattore di $T$ letto
+al contrario.
+\end{osservazione}
+
+Costruire la matrice per intero costa
+\[
+  \text{tempo per costruirla}\;\longrightarrow\;\Oh(n\cdot m),
+  \qquad
+  \text{spazio occupato}\;\longrightarrow\;\Oh(n\cdot m)\ \text{bit}.
+\]
+
+\begin{dubbio}
+Accanto alla parola «bit», sottolineata, il quaderno riporta un'annotazione marginale di una o
+due parole che non è stato possibile decifrare.
+\end{dubbio}
+
+E allora: questa matrice serve davvero a fare \emph{pattern matching}? Sì, ma non così com'è. Il
+punto è che non occorre tenere in memoria un'intera matrice: basta muoversi \emph{per colonne},
+un carattere di testo alla volta.
+
+\begin{figure}[H]
+\centering
+\input{tikz/shift-and-colonne.tikz}
+\caption{Dall'array al tempo $j$ all'array al tempo $j+1$: uno \textsc{shift} verso il basso, che
+fa scendere di una posizione gli $1$ già accesi, seguito da un \textsc{and}. L'$1$ disegnato
+sull'ultima riga corrisponde a un'occorrenza del pattern. Le colonne disegnate sono quelle della
+matrice $M$ della Sezione~\ref{sec:shift-and-matrice}, non del dot-plot $D$.}
+\label{fig:shift-and-colonne}
+\end{figure}
+
+Ogni colonna del dot-plot è un array di $n$ bit, uno per ciascuna posizione del pattern, e non
+costa nulla ottenerla: la colonna $j$ dipende dal solo carattere $T[j]$. Non è però questa la
+colonna che conviene far evolvere --- in $D$ un $1$ dice soltanto che due singoli caratteri
+coincidono, non che un'occorrenza del pattern è arrivata fin lì. Quello che l'algoritmo tiene in
+vita è un unico array di $n$ bit che riassume lo stato dell'intera ricerca: la colonna della
+matrice $M$ che definiremo nella Sezione~\ref{sec:shift-and-matrice}. Per passare dall'array al
+tempo $j$ a quello al tempo $j+1$ bastano allora due operazioni bit a bit: uno \textsc{shift},
+che fa scendere di una posizione tutti gli $1$ già accesi, e un \textsc{and} con una maschera che
+dipende dal carattere di testo appena letto --- la maschera della
+Definizione~\ref{def:shift-and-maschere}. Un $1$ che arrivi fino all'ultima riga segnalerà
+un'occorrenza di $P$ in $T$.
+
+
+\section{Le maschere del pattern}
+
+\scan{30}
+Il pattern è «assimilabile» a una sequenza di $n$ bit, e questo suggerisce di precalcolare, una
+volta per tutte, dove ciascun carattere dell'alfabeto compare in $P$.
+
+\begin{definizione}[Maschere del pattern]
+\label{def:shift-and-maschere}
+Per ogni carattere $x\in\alfa$ si definisce il vettore di bit $U_x\in\set{0,1}^n$ ponendo
+\[
+  U_x[i]\;=\;
+  \begin{cases}
+    1 & \text{se } P[i]=x,\\[2pt]
+    0 & \text{altrimenti,}
+  \end{cases}
+  \qquad i=1,\dots,n .
+\]
+\end{definizione}
+
+La tabella $\set{U_x}_{x\in\alfa}$ mi dice \emph{quale} carattere occorre in $P[i]$: fissata la
+posizione $i$, c'è un solo $x$ per cui $U_x[i]=1$, ed è $x=P[i]$. Le maschere si costruiscono una
+volta per tutte in preprocessing, a partire dal solo pattern, e occupano $\abs{\alfa}\cdot n$ bit.
+
+Uso allora $\vec{P}$ (il pattern visto come vettore di bit), $T[j]$ e le maschere $U_x[i]$ per
+determinare tutte le occorrenze di $P$ in $T$ \emph{senza} costruire il dot-plot: la $j$-esima
+colonna del dot-plot è esattamente $U_{T[j]}$, quindi è già precalcolata e la matrice $D$ non va
+mai materializzata.
+
+
+\section{La matrice dello Shift--And}
+\label{sec:shift-and-matrice}
+
+Consideriamo ora la matrice $M$ dello Shift--And, matrice che \emph{non} costruiamo per intero ma
+che ci permette di risolvere il problema:
+\[
+  M[i,j]=1 \iff \pre{P}{i}\ \text{è un suffisso di}\ \pre{T}{j},
+  \qquad 0\le i\le n,\quad 0\le j\le m ,
+\]
+con la convenzione $\pre{P}{0}=\vuota$: la riga $i=0$ è allora identicamente $1$ --- la stringa
+vuota è suffisso di ogni $\pre{T}{j}$ --- e la colonna $j=0$ è nulla dalla riga $1$ in giù.
+Detto altrimenti, $M[i,j]=1$ se e solo se c'è un'occorrenza del prefisso $\pre{P}{i}$ che termina
+esattamente in posizione $j$; in particolare gli $1$ dell'ultima riga, quelli con $i=n$, sono
+tutte e sole le occorrenze complete di $P$ in $T$. Attenzione a non confondere $M$ con il
+dot-plot $D$: dove entrambe sono definite, cioè per $i,j\ge 1$, da $M[i,j]=1$ segue in
+particolare $P[i]=T[j]$, quindi $M\le D$ componente per componente, ma non vale il viceversa.
+
+Le condizioni per scrivere correttamente un $1$ in $M[i,j]$ sono due:
+\begin{itemize}
+  \item[a)] devo avere un $1$ in $M[i-1,\,j-1]$ \quad$\longrightarrow$\quad \textsc{shift};
+  \item[b)] deve essere $P[i]=T[j]$ \quad$\longrightarrow$\quad \textsc{and}.
+\end{itemize}
+Le due condizioni non sono che la lettura ricorsiva della definizione: una stringa di lunghezza
+$i$ è suffisso di $\pre{T}{j}$ se e solo se il suo ultimo carattere è $T[j]$ e il suo prefisso di
+lunghezza $i-1$ è suffisso di $\pre{T}{j-1}$.
+
+Lette colonna per colonna --- sia $M_j\in\set{0,1}^n$ la $j$-esima colonna di $M$ ristretta alle
+righe $1,\dots,n$, cosicché $M_j[i]=M[i,j]$ per $i=1,\dots,n$ --- le due condizioni diventano due
+sole operazioni su vettori di bit:
+\begin{itemize}
+  \item la (a) chiede, per ogni $i$, il bit di riga $i-1$ della colonna precedente: basta far
+    scorrere $M_{j-1}$ di una posizione verso il basso, immettendo in testa (\emph{pad}) un $1$,
+    \[ \operatorname{shift}(b_1b_2\cdots b_n)\;=\;1\,b_1b_2\cdots b_{n-1}\,; \]
+  \item la (b) chiede, per ogni $i$, che sia $P[i]=T[j]$: è esattamente l'\textsc{and} bit a bit
+    con la maschera $U_{T[j]}$.
+\end{itemize}
+In forma vettoriale la ricorrenza è dunque
+\[
+  M_j\;=\;\operatorname{shift}\bigl(M_{j-1}\bigr)\ \mathbin{\textsc{and}}\ U_{T[j]},
+  \qquad j=1,\dots,m ,
+\]
+ed è da qui che l'algoritmo prende il nome: \emph{uno} shift e \emph{un} and per ogni carattere
+del testo.
+
+\begin{osservazione}
+Il $1$ immesso in testa dallo \emph{shift} non è un dettaglio implementativo: è la riga $i=0$ di
+$M$, quella che i vettori $M_j$ non contengono e che vale costantemente $1$, cioè il fatto che in
+\emph{ogni} posizione del testo può iniziare una nuova occorrenza. Con uno shift che immette $0$
+la colonna diventerebbe identicamente nulla e l'algoritmo non troverebbe mai nulla. Per la ragione simmetrica la colonna iniziale è nulla, $M_0=0^n$: nessun prefisso non
+vuoto di $P$ è suffisso di $\pre{T}{0}=\vuota$.
+\end{osservazione}
+
+
+\section{L'algoritmo}
+
+\begin{algorithm}[H]
+\caption{\textsc{Shift-And}}\label{alg:shift-and}
+\begin{algorithmic}[1]
+\Require $P[1\,..\,n]$, $T[1\,..\,m]$
+\Ensure le posizioni di inizio delle occorrenze di $P$ in $T$
+\ForAll{$x\in\alfa$}
+  \State $U_x \gets 0^n$
+\EndFor
+\For{$i \gets 1$ \textbf{to} $n$}
+  \State $U_{P[i]}[i] \gets 1$ \Comment{$U_x[i]=1$ sse $P[i]=x$}
+\EndFor
+\State $M_0 \gets 0^n$
+\For{$j \gets 1$ \textbf{to} $m$}
+  \State $M_j \gets \operatorname{shift}\bigl(M_{j-1}\bigr) \mathbin{\textsc{and}} U_{T[j]}$
+  \If{$M_j[n]=1$}
+    \State \textbf{output} $j-n+1$
+  \EndIf
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+\begin{esempio}
+Siano $P=\str{aab}$ (quindi $n=3$) e $T=\str{baab}$ (quindi $m=4$). Scrivendo i vettori di bit
+dall'alto in basso, da $P[1]$ a $P[3]$, le maschere sono
+\[
+  U_{\str{a}}=110,\qquad U_{\str{b}}=001,
+\]
+e la matrice $M$ è quella della Figura~\ref{fig:shift-and-esempio}. Si parte da $M_0=000$ e:
+\[
+  \begin{aligned}
+    M_1 &= \operatorname{shift}(000)\mathbin{\textsc{and}}U_{\str{b}} = 100\mathbin{\textsc{and}}001 = 000, \\
+    M_2 &= \operatorname{shift}(000)\mathbin{\textsc{and}}U_{\str{a}} = 100\mathbin{\textsc{and}}110 = 100, \\
+    M_3 &= \operatorname{shift}(100)\mathbin{\textsc{and}}U_{\str{a}} = 110\mathbin{\textsc{and}}110 = 110, \\
+    M_4 &= \operatorname{shift}(110)\mathbin{\textsc{and}}U_{\str{b}} = 111\mathbin{\textsc{and}}001 = 001 .
+  \end{aligned}
+\]
+L'unico $1$ dell'ultima riga sta in colonna $j=4$: c'è un'occorrenza di $P$ che termina in $4$ e
+comincia in $j-n+1=2$, e infatti $\sub{T}{2}{4}=\str{aab}=P$.
+\end{esempio}
+
+\begin{figure}[H]
+\centering
+\input{tikz/shift-and-esempio.tikz}
+\caption{La matrice $M$ dello Shift--And per $P=\str{aab}$ e $T=\str{baab}$. Ogni colonna si
+ottiene dalla precedente con uno \emph{shift} (che immette un $1$ in testa) seguito da un
+\textsc{and} con la maschera del carattere letto; l'unico $1$ dell'ultima riga segnala
+l'occorrenza $\sub{T}{2}{4}=P$.}
+\label{fig:shift-and-esempio}
+\end{figure}
+
+
+\section{Complessità}
+
+\[
+  \Oh(n\cdot m)\ \text{tempo},\qquad \Oh(n)\ \text{bit di spazio (\emph{working space})} .
+\]
+
+\begin{osservazione}
+La stima $\Oh(n\cdot m)$ è una \emph{sovrastima}: conta le celle di $M$, che però non viene mai
+costruita. Il ciclo esegue $m$ iterazioni, ciascuna con \emph{uno} shift e \emph{un} and su
+vettori di $n$ bit; nel modello word-RAM con parola di $w$ bit il costo della ricerca è
+\[
+  \Th\!\left(m\left\lceil \frac{n}{w}\right\rceil\right),
+\]
+che vale $\Th(m)$ non appena $n\le w$, cioè quando il pattern ha «una lunghezza ragionevole»
+(a margine, a matita, una nota in gran parte illeggibile richiama proprio questo:
+\lacunainl{\dots\ \str{/64}\ \dots}, la parola di macchina da $64$ bit).
+Analogamente, lo spazio $\Oh(n)$ bit è quello della sola colonna corrente $M_j$: va aggiunta la
+tabella delle maschere, $\abs{\alfa}\cdot n$ bit, trascurabile per alfabeti di dimensione
+costante. Il testo viene letto in \emph{streaming}, un carattere alla volta.
+\end{osservazione}
+
+
+\section{Variazioni sul tema}
+
+Lo Shift--And è la prima delle due variazioni sul tema del pattern matching annunciate dopo
+Karp--Rabin: quella che sfrutta il parallelismo della parola di macchina, impacchettando in una
+stringa di bit lo stato dell'intera ricerca e facendolo avanzare con una sola istruzione di shift
+e una sola di and. La seconda variazione è la \emph{ricerca approssimata}, cioè il pattern con
+errori: non viene sviluppata qui e sarà ripresa più avanti, con le nozioni di distanza e di
+allineamento. L'estensione bit-parallela naturale in quella direzione consiste nel mantenere
+$k+1$ vettori invece di uno --- uno per ogni numero di errori ammessi da $0$ a $k$ --- ed è la
+famiglia Shift-Add / Wu--Manber.

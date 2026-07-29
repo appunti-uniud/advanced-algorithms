@@ -1,0 +1,20 @@
+{
+ "pagina": 63,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "media",
+   "categoria": "errore-matematico",
+   "dove": "lezioni/13-randauto.tex, ambiente osservazione subito dopo \\begin{teorema}[dimensione attesa di RandAuto] (righe 194-197): «Il tempo di esecuzione di RandAuto su S e invece O(n^2 log n), posto n=|S|.»",
+   "descrizione": "La stima O(n^2 log n) e un bound sul tempo IN VALORE ATTESO (media su pi), non sul tempo di esecuzione tout court. Cosi come e scritta la frase si legge come un bound deterministico/nel caso peggiore, che e falso: per una permutazione sfortunata l'autopartizione prodotta puo avere dimensione Theta(n^2) (ogni segmento puo essere spezzato fino a n-1 volte) e il tempo corrispondente supera n^2 log n. Gli appunti del corso dell'anno precedente (L15_sintesi.md, sez. 3.5, esercizio 2) dicono esplicitamente «complessita in valore atteso (tempo) di RandAuto e O(n^2 log n)».",
+   "correzione": "Riscrivere: «Il teorema riguarda la dimensione dell'output. Il tempo di esecuzione di RandAuto su S e invece, sempre in valore atteso, O(n^2 log n), posto n=|S|.»"
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "omissione",
+   "dove": "lezioni/13-randauto.tex, righe 194-197 (stesso blocco): la riga manoscritta «(Es.: RandAuto(|S|) ha complessita O(n^2 log n) per n=|S|)»",
+   "descrizione": "Sul foglio la riga e introdotta dall'etichetta sottolineata «Es.:» (esercizio) - lo stesso stile con cui sono sottolineate le altre etichette della pagina (Teorema, Corollario, Dimostrazione, Intuizione, Def, Oss). Gli appunti del corso dell'anno precedente confermano che si tratta di un esercizio assegnato («Dimostrare che la complessita in valore atteso di RandAuto e O(n^2 log n)»). La trascrizione lo trasforma in una osservazione che asserisce il fatto, perdendo la natura di esercizio; il progetto dispone dell'ambiente esercizio, usato in altri capitoli (08-lca.tex, 14-random-walk-2sat.tex, 16-random-walk-grafi.tex).",
+   "correzione": "Sostituire l'ambiente osservazione con \\begin{esercizio} ... \\end{esercizio}, per esempio: «Il teorema riguarda la dimensione dell'output. Dimostrare che il tempo di esecuzione atteso di RandAuto su S e O(n^2 log n), posto n=|S|.»"
+  }
+ ]
+}

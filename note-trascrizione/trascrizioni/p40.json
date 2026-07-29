@@ -1,0 +1,90 @@
+{
+ "pagina": 40,
+ "latex": "\\scan{40}\n\n\\begin{enumerate}\n\\setcounter{enumi}{3}\n\\item Determino $\\bar y$ in modo del tutto analogo, scambiando i ruoli di $x$ e $y$.\n\\item Pongo\n\\[\n  z \\;=\\; \\min(\\bar x,\\bar y),\n\\]\ndove il minimo è calcolato rispetto alla numerazione DFS (\\emph{dfs-numbering}).\n\\end{enumerate}\n\n\\begin{osservazione}\nIl confronto fra i due numeri DFS basta perché $\\bar x$ e $\\bar y$ stanno entrambi sul run di\n$z=\\lca(x,y)$, e un run è un cammino verticale di $\\T$: lungo un cammino verticale «più vicino\nalla radice» equivale a «numero DFS più piccolo». Poiché $z$ è il più alto fra $\\bar x$ e $\\bar y$,\nil minimo dei due numeri DFS è esattamente $z$.\n\\end{osservazione}\n\n\\medskip\n\nTorniamo sul \\emph{modello di calcolo}: posso implementare, usando le sole operazioni standard,\ntutte le operazioni sugli array di $\\log n$ bit (le \\emph{parole} del modello) che mi servono.\n\nGli shift si ottengono dall'aritmetica:\n\\[\n  \\text{shift di } i \\text{ posizioni}\n  \\;\\rightsquigarrow\\;\n  \\text{moltiplico / divido per } 2^{i}.\n\\]\nEssendo $i\\le\\log n$, il fattore $2^{i}$ è $\\Oh(n)$, sta cioè in una parola: prodotto e quoziente\nsono operazioni elementari.\n\nLe operazioni che invece non si riducono all'aritmetica --- tipicamente quelle bit a bit ---\nsi realizzano per \\textbf{tabulazione}: costruisco tabelle di output per tutti i possibili\n\\[\n  2^{\\log n} \\;=\\; n\n\\]\ninput, una per ognuna delle operazioni. Si ottiene così un array per ogni operazione\n\\underline{unaria}: spazio $\\Oh(n)$ per tabella, accesso in $\\Oh(1)$.\n\n\\begin{esempio}\nSia $j = 1011010_{2}$. Allora $j-1 = 1011001_{2}$ e\n\\[\n  j \\mathbin{\\text{AND}} (j-1) \\;=\\; 1011000_{2},\n\\]\ncioè l'AND con il predecessore azzera l'1 più a destra di $j$, quello in posizione $h(j)=2$.\nÈ il tipico esempio di operazione bit a bit che non si ottiene dalle sole operazioni aritmetiche\ne che conviene quindi precalcolare in tabella.\n\\end{esempio}\n\nPer le operazioni \\emph{binarie} --- AND, XOR, \\dots\\ --- la tabulazione ingenua non funziona:\nindicizzare la tabella con la coppia di operandi richiederebbe\n\\[\n  2^{\\log n} \\times 2^{\\log n} \\;=\\; n \\times n \\;=\\; n^{2}\n\\]\nentrate. Il trucco è spezzare ogni parola in due metà da $\\tfrac{\\log n}{2}$ bit e tabulare\nl'operazione sulle mezze parole: la tabella, indicizzata da una coppia di mezze parole, ha\n\\[\n  2^{\\frac{\\log n}{2}} \\times 2^{\\frac{\\log n}{2}}\n  \\;=\\; \\sqrt{n}\\times\\sqrt{n} \\;=\\; n\n\\]\nentrate, cioè spazio $\\Oh(n)$. I due risultati parziali (metà alta e metà bassa) si ricompongono\ncon uno shift e un OR, dunque ancora in $\\Oh(1)$.\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/tabella-op-binarie.tikz}\n\\caption{Tabella di un'operazione binaria indicizzata da una coppia di \\emph{mezze} parole:\n$2^{(\\log n)/2}\\times 2^{(\\log n)/2}=\\sqrt n\\times\\sqrt n=n$ entrate, cioè spazio $\\Oh(n)$.\nIn basso, i due operandi di $\\log n$ bit, ciascuno spezzato nelle due metà che indicizzano\nla tabella.}\n\\end{figure}\n\n\\begin{osservazione}\nTutte le primitive usate nell'algoritmo di query --- $\\lca$ in $\\B$, AND, XOR, posizione dell'1\npiù a sinistra e dell'1 più a destra, maschere --- rientrano in questo schema: sono quindi\n$\\Oh(1)$, e le tabelle costano complessivamente $\\Oh(n)$ di pre-processing. L'algoritmo per\n$\\lca$ ha dunque pre-processing $\\Oh(n)$ e query in tempo $\\Oh(1)$.\n\\end{osservazione}",
+ "note": [
+  {
+   "tipo": "ricostruzione",
+   "pagina": 40,
+   "testo": "La pagina si apre con «4) Determino ȳ (analogo)» e «5) z = min(x̄, ȳ)»: sono i due passi finali dell'algoritmo di query iniziato in fondo a p.39 (punti 1–3c). Ho quindi aperto un enumerate con \\setcounter{enumi}{3} in modo che la numerazione prosegua correttamente da 4; in fase di cucitura andrà unita alla lista di p.39.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 40,
+   "testo": "Sotto il «min» del punto 5 il quaderno ha una freccetta verso l'alto e la scritta corsiva che ho letto «dfs-numbering» (il tratto sopra la «s» è la freccia, non un apostrofo). Reso come «dove il minimo è calcolato rispetto alla numerazione DFS (dfs-numbering)». Coerente con Gusfield e con Gli appunti del corso dell'anno precedente (L09 §3: «z = min(x̄,ȳ) — confronto sui numeri DFS»).",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 40,
+   "testo": "Il quaderno non giustifica perché il confronto sui numeri DFS individui z. Ho aggiunto un'osservazione con la motivazione standard (x̄ e ȳ stanno sullo stesso run, che è un cammino verticale, quindi «più alto» ⟺ «numero DFS minore»), presente neGli appunti del corso dell'anno precedente (L09 §3, osservazione chiave del Teorema 1).",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 40,
+   "testo": "Il quaderno scrive «Sul modello di calcolo: posso implementare tutte le operazioni sugli array di log(n) bit che mi servono, usando op. standard». Ho espanso l'abbreviazione («op. standard» → «operazioni standard») e ho glossato «array di log n bit» con «(le parole del modello)», perché è il modello RAM a parole logaritmiche introdotto nelle pagine precedenti.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 40,
+   "testo": "Alla riga dello shift il quaderno scrive telegraficamente «shift i ⟿ moltiplico/divido per 2^i». Ho aggiunto la giustificazione «essendo i ≤ log n, 2^i è O(n) e sta in una parola», che è la N.B. blu presente neGli appunti del corso dell'anno precedente (L09 §6, «N.B. 2^i ∈ O(n)») e che manca nel quaderno.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 40,
+   "testo": "A matita, sotto la riga dello shift, compare «j & (j-1)»; poco più sotto, sempre a matita, le due sequenze «1011010» e «1011001». Ho verificato che sono esattamente j e j-1 per j = 1011010₂ = 90 (89 = 1011001₂), e che j AND (j-1) = 1011000₂: l'AND col predecessore azzera l'1 più a destra, quello in posizione h(j)=2. Ho quindi ricomposto le due annotazioni sparse in un unico ambiente esempio, esplicitando il risultato dell'AND (che nel quaderno non è scritto) e il legame con h(·). L'esempio motiva il passaggio alla tabulazione: è un'operazione bit a bit non ottenibile dall'aritmetica.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 40,
+   "testo": "La frase «Altrimenti costruisco tabelle di output per tutti i possibili 2^{log n} = n input, per ognuna delle operazioni» ha una freccia verso l'annotazione a destra «array per tutte le operazioni unarie» (con «unarie» sottolineato). Ho fuso le due cose in un periodo unico, mantenendo la sottolineatura di «unaria» con \\underline, e ho aggiunto esplicitamente costo di spazio O(n) per tabella e accesso O(1) (implicito nel quaderno, esplicito neGli appunti del corso dell'anno precedente, L09 §6).",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 40,
+   "testo": "Il quaderno riporta a matita, in basso a destra, «2^{log n} × 2^{log n}» e sotto «n × n = n²», senza commento; nella figura invece compaiono in blu i due 2^{(log n)/2}. Ho esplicitato la struttura logica del passaggio, che il quaderno lascia implicita: n² è la stima della tabulazione INGENUA (da scartare), √n × √n = n quella della soluzione a mezze parole. NeGli appunti del corso dell'anno precedente (L09 §6) la tabella n² è marcata «NO» in rosso.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 40,
+   "testo": "Il quaderno non dice come si ricompone il risultato dalle due metà. Ho aggiunto «i due risultati parziali si ricompongono con uno shift e un OR, dunque in O(1)», ricostruzione presente neGli appunti del corso dell'anno precedente (L09 §6, «Come»: si spezza la parola in due metà, i due risultati parziali si ricompongono con uno shift e un OR).",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 40,
+   "testo": "Osservazione finale (pre-processing O(n) / query O(1)) NON presente nella pagina: l'ho aggiunta perché la pagina chiude il capitolo su LCA e il modello di calcolo serve proprio a garantire che ogni passo della query sia O(1). È il riepilogo che si trova neGli appunti del corso dell'anno precedente (L09, «Complessità»). Segnalata qui perché è contenuto aggiunto.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 40,
+   "testo": "Il quaderno scrive «Per le operazioni binarie AND, XOR, ...» con un gruppo di scarabocchi a matita sovrascritti (parzialmente cancellati, illeggibili e privi di contenuto: sembrano cifre isolate «2 8 6»). Non trascritti perché sono residui di cancellature, non contenuto.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 40,
+   "testo": "Il disegno in fondo alla pagina è unico: quadrato grande con due graffe (sopra e a sinistra) entrambe etichettate 2^{(log n)/2}, freccia da destra con «spazio √n × √n = n», e sotto due barre orizzontali ciascuna divisa in due da un tratto verticale. Ho interpretato il quadrato come la tabella dell'operazione binaria sulle mezze parole (righe e colonne = mezze parole) e le due barre come i due operandi di log n bit spezzati a metà (il tratto verticale è il punto di taglio); l'etichetta a matita «log n» appena sopra le barre conferma che si tratta della lunghezza della parola. Le formule a matita n × n = n² NON sono state messe in figura ma nel testo, per non appesantire il disegno.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "tabella-op-binarie",
+   "pagina": 40,
+   "didascalia": "Tabella di un'operazione binaria indicizzata da una coppia di mezze parole: 2^{(log n)/2} x 2^{(log n)/2} = sqrt(n) x sqrt(n) = n entrate, cioe spazio O(n). In basso, i due operandi di log n bit, ciascuno spezzato nelle due meta che indicizzano la tabella.",
+   "tipo": "schema (matrice/tabella + parole di bit)",
+   "specifica": "Figura unica, due blocchi impilati verticalmente e centrati, piu un'annotazione a destra.\n\nBLOCCO A (in alto) - la tabella:\n- Un QUADRATO a tratto pieno, lato circa 4,5 cm, disegnato con linea di spessore medio (nel quaderno e a mano libera, leggermente irregolare: in TikZ va bene un rettangolo netto). Il quadrato e VUOTO all'interno (non e una griglia: nessuna linea interna).\n- Sopra il lato superiore, una GRAFFA orizzontale (decorate/brace) rivolta verso il basso, che copre l'intera larghezza del quadrato, con un piccolo distacco verticale (~4 mm). Etichetta centrata sopra la graffa: $2^{\\frac{\\log n}{2}}$.\n- A sinistra del lato sinistro, una GRAFFA verticale rivolta verso destra, che copre l'intera altezza del quadrato, con distacco orizzontale (~4 mm). Etichetta a sinistra della graffa, centrata verticalmente: $2^{\\frac{\\log n}{2}}$.\n- Le due graffe indicano che righe e colonne sono indicizzate dalle mezze parole di (log n)/2 bit; il numero di righe e di colonne e 2^{(log n)/2} = sqrt(n).\n\nANNOTAZIONE a destra:\n- Testo su una riga, in alto a destra rispetto al quadrato, all'incirca all'altezza del bordo superiore: \\emph{spazio} $\\sqrt{n}\\times\\sqrt{n}=n$.\n- Da subito sotto tale testo parte una FRECCIA obliqua che punta in basso a sinistra, verso il bordo destro del quadrato (poco sotto lo spigolo superiore destro). Nel quaderno la freccia e disegnata a doppio tratto con punta triangolare piena e grande; in TikZ basta una freccia -{Stealth[length=4mm]} inclinata di circa 30 gradi sotto l'orizzontale.\n\nBLOCCO B (sotto il quadrato, leggermente spostato a destra rispetto al suo centro) - i due operandi:\n- DUE rettangoli orizzontali molto schiacciati (larghezza ~4 cm, altezza ~0,5 cm), uno sopra l'altro, separati da uno spazio verticale pari a circa un'altezza di rettangolo.\n- Ciascun rettangolo e diviso da UN segmento verticale a meta della sua larghezza (nel quaderno il taglio e a circa il 60%, ma semanticamente deve essere a meta): le due meta della parola.\n- I due rettangoli rappresentano i due OPERANDI dell'operazione binaria, ciascuno di log n bit.\n- Etichetta (graffa sottile o semplice testo) sopra il primo rettangolo, o a destra dei due: $\\log n$ bit. Etichette opzionali sotto le meta del primo rettangolo: $\\frac{\\log n}{2}$ e $\\frac{\\log n}{2}$.\n- Opzionale, per chiarire il legame con il blocco A: due sottili frecce tratteggiate che dalla meta sinistra del primo operando e dalla meta sinistra del secondo operando salgono rispettivamente verso il lato sinistro e verso il lato superiore del quadrato (\"le meta indicizzano righe e colonne\"). Nel quaderno non ci sono, ma rendono leggibile la figura: usarle solo se non appesantiscono.\n\nTutto il testo in italiano. NON riportare in figura le formule a matita $2^{\\log n}\\times 2^{\\log n}$ e $n\\times n=n^2$ (stima ingenua, gia discussa nel testo).",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina chiude definitivamente il capitolo su LCA in tempo costante: i punti 4) e 5) completano l'algoritmo di query iniziato a p.39 (punti 1-3c) e la digressione sul modello di calcolo giustifica a posteriori che ogni passo costi O(1) (shift dall'aritmetica; tabelle per le operazioni unarie; trucco delle mezze parole per quelle binarie). Nulla resta in sospeso, salvo il fatto che il quaderno non riepiloga esplicitamente il bilancio finale pre-processing O(n) / query O(1): l'ho aggiunto io come osservazione di chiusura. La pagina 41 apre un argomento nuovo, con titolo esplicito \\\"Allineamento con errori\\\" (pattern matching approssimato, distanze di Hamming e di Levenshtein): in fase di cucitura il capitolo su LCA termina qui.",
+ "confidenza": "alta"
+}

@@ -1,0 +1,47 @@
+% kr-finestra-testo -- pag. 26
+% Il testo T con la finestra corrente T[s+1..s+m] e la finestra successiva,
+% traslata di una sola posizione; il pattern P ha la stessa lunghezza m.
+\begin{tikzpicture}[
+    >=Latex,
+    et/.style={font=\footnotesize},
+    graffa/.style={decorate,decoration={brace,amplitude=4pt,raise=1pt},
+                   draw=black!70,line width=0.5pt}
+  ]
+
+  % ---- il testo T -----------------------------------------------------------
+  % la finestra corrente, evidenziata sul testo
+  \draw[line width=3.2pt,black!18] (1.00,0) -- (3.20,0);
+  \draw[line width=0.9pt,black!80] (0,0) -- (8.40,0);
+  \draw[line width=1.6pt,black]    (7.95,0) -- (8.40,0);
+  \node[et,right=3pt] at (8.40,0) {$T$};
+
+  \draw[black!60,line width=0.4pt] (1.00,-0.11) -- (1.00,0.11);
+  \draw[black!60,line width=0.4pt] (3.20,-0.11) -- (3.20,0.11);
+  \node[et,below=1pt] at (1.00,-0.11) {$s+1$};
+  \node[et,below=1pt] at (3.20,-0.11) {$s+m$};
+
+  % ---- finestra corrente  t_s = T[s+1..s+m] --------------------------------
+  \draw[graffa] (1.00,0.10) -- (3.20,0.10);
+  \node[et] at (2.10,0.60) {$\sub{T}{s+1}{s+m}$};
+
+  % ---- finestra successiva: la stessa, traslata di una posizione ------------
+  \draw[graffa] (1.45,1.40) -- (3.65,1.40);
+  \node[et] at (2.55,1.90) {$\sub{T}{s+2}{s+m+1}$};
+
+  % ---- lo scorrimento di una sola posizione --------------------------------
+  \draw[->,black!70,line width=0.5pt] (3.20,1.05) -- (3.65,1.05);
+  \node[et,right=3pt,black!70] at (3.65,1.05) {shift di una posizione};
+
+  % ---- il pattern P, allineato sotto la finestra corrente ------------------
+  \draw[black!35,dashed,line width=0.4pt] (1.00,-0.55) -- (1.00,-1.15);
+  \draw[black!35,dashed,line width=0.4pt] (3.20,-0.55) -- (3.20,-1.15);
+  \draw[line width=0.9pt,black!80] (1.00,-1.15) -- (3.20,-1.15);
+  \draw[line width=1.6pt,black]    (2.85,-1.15) -- (3.20,-1.15);
+  \node[et,right=3pt] at (3.20,-1.15) {$P$};
+
+  % ---- la lunghezza comune e' m --------------------------------------------
+  \draw[decorate,decoration={brace,mirror,amplitude=4pt,raise=1pt},
+        draw=black!70,line width=0.5pt] (1.00,-1.25) -- (3.20,-1.25);
+  \node[et] at (2.10,-1.72) {$m$};
+
+\end{tikzpicture}

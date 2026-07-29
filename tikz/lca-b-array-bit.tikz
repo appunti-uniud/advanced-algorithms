@@ -1,0 +1,77 @@
+% lca-b-array-bit -- i path number di x, y e z=lca_B(x,y) come array di d+1 bit:
+% la prima colonna in cui x e y differiscono e' quella del terminatore di z
+% (quaderno, pag. 34).
+\begin{tikzpicture}[
+    >={Stealth[length=4.5pt,width=3.5pt]},
+    font=\small,
+    parola/.style={thick},
+    tacca/.style={semithick},
+    etichetta/.style={anchor=east,font=\footnotesize},
+    guida/.style={dashed,draw=black!55,thin},
+  ]
+
+  %% ---- geometria comune ---------------------------------------------
+  \def\xa{0.00}   % delimitatore sinistro
+  \def\xb{2.80}   % fine del prefisso comune
+  \def\xc{3.30}   % fine della colonna di divergenza
+  \def\xd{5.20}   % fine del blocco di bit arbitrari
+  \def\xe{5.70}   % fine del terminatore di x e di y
+  \def\xf{8.40}   % delimitatore destro
+  \def\ra{3.60}   % riga di x
+  \def\rb{2.10}   % riga di y
+  \def\rc{0.30}   % riga di z
+
+  % la colonna in cui x e y divergono, evidenziata su tutte e tre le righe
+  \fill[black!6] (\xb,\rc-0.45) rectangle (\xc,\ra+0.90);
+
+  % una parola: linea spessa con i due delimitatori agli estremi
+  \newcommand{\parolabit}[1]{%
+    \draw[parola] (\xa,#1) -- (\xf,#1);
+    \draw[parola] (\xa,#1-0.16) -- (\xa,#1+0.16);
+    \draw[parola] (\xf,#1-0.16) -- (\xf,#1+0.16);}
+  % una tacca interna di separazione fra celle
+  \newcommand{\tacca}[2]{\draw[tacca] (#1,#2-0.10) -- (#1,#2+0.34);}
+  % contenuto di una cella, scritto sopra il segmento
+  \newcommand{\cella}[4]{\node[above] at ({0.5*(#1+#2)},#3+0.04) {#4};}
+
+  %% ---- riga 1: path number di x -------------------------------------
+  \parolabit{\ra}
+  \tacca{\xb}{\ra} \tacca{\xc}{\ra} \tacca{\xd}{\ra} \tacca{\xe}{\ra}
+  \cella{\xa}{\xb}{\ra}{$\a$}
+  \cella{\xb}{\xc}{\ra}{$0$}
+  \cella{\xc}{\xd}{\ra}{$*\cdots*$}
+  \cella{\xd}{\xe}{\ra}{$1$}
+  \cella{\xe}{\xf}{\ra}{$0\cdots 0$}
+  \node[etichetta] at (\xa-0.25,\ra) {p.n.\ di $x$};
+
+  %% ---- riga 2: path number di y -------------------------------------
+  \parolabit{\rb}
+  \tacca{\xb}{\rb} \tacca{\xc}{\rb} \tacca{\xd}{\rb} \tacca{\xe}{\rb}
+  \cella{\xa}{\xb}{\rb}{$\b$}
+  \cella{\xb}{\xc}{\rb}{$1$}
+  \cella{\xc}{\xd}{\rb}{$*\cdots*$}
+  \cella{\xd}{\xe}{\rb}{$1$}
+  \cella{\xe}{\xf}{\rb}{$0\cdots 0$}
+  \node[etichetta] at (\xa-0.25,\rb) {p.n.\ di $y$};
+
+  %% ---- riga 3: path number di z = lca(x,y) --------------------------
+  \parolabit{\rc}
+  \tacca{\xb}{\rc} \tacca{\xc}{\rc}
+  \cella{\xa}{\xb}{\rc}{$\y$}
+  \cella{\xb}{\xc}{\rc}{$1$}
+  \cella{\xc}{\xf}{\rc}{$0\cdots\cdots\cdots 0$}
+  \node[etichetta] at (\xa-0.25,\rc) {p.n.\ di $z$};
+
+  %% ---- la colonna di divergenza attraversa le tre righe -------------
+  \draw[guida] (\xb,\rc-0.45) -- (\xb,\ra+0.90);
+  \draw[guida] (\xc,\rc-0.45) -- (\xc,\ra+0.90);
+  \node[font=\footnotesize] at ({0.5*(\xb+\xc)},\ra+1.12) {colonna $\ell$};
+
+  %% ---- il prefisso comune di x e y e' esattamente gamma -------------
+  \draw[decorate,decoration={brace,amplitude=5pt,mirror,raise=2pt},draw=black!65]
+      (\xa,\rb-0.16) -- (\xb,\rb-0.16)
+      node[midway,below=8pt,font=\footnotesize] (gm) {$\a=\b=\y$};
+  \coordinate (divg) at ({0.5*(\xb+\xc)},\rb-0.32);
+  \draw[->,semithick,draw=black!65] (gm.east) to[out=0,in=250] (divg);
+
+\end{tikzpicture}

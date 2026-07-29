@@ -1,0 +1,13 @@
+{
+ "pagina": 37,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "errore-matematico",
+   "dove": "lezioni/08-lca.tex, sezione \\scan{37}, passo 3 del pre-processing (frase aggiunta in fase di cucitura: «In questo modo i path number di $\\B$ occupano $d+1=\\lceil \\log n\\rceil$ bit, esattamente quanti ne servono per scrivere i numeri DFS di $\\T$: le due numerazioni si possono identificare.»)",
+   "descrizione": "La giustificazione aggiunta (non presente nel quaderno, che scrive solo «Costruisco B di altezza ceil(log n) - 1») e' falsa quando n e' una potenza di 2. Con d = ceil(log n) - 1 i path number di B stanno in [1, 2^{d+1}-1] = [1, 2^{ceil(log n)}-1]; per n = 2^k si ha 2^{ceil(log n)}-1 = n-1 < n, quindi il nodo con dfs-numero n non ha alcun path number in B e le due numerazioni NON si possono identificare (es. n=8: B ha profondita' 2, path number 1..7, ma serve 1000 per il nodo 8; idem n=16, n=32). Per scrivere 1..n servono floor(log2 n)+1 bit, che coincide con ceil(log2 n) solo se n non e' potenza di 2. L'off-by-one e' ereditato da Gusfield/sintesi degli appunti dell'anno precedente (L08 §9), ma la frase aggiunta lo trasforma in un'affermazione esplicita e verificabilmente falsa nel caso limite.",
+   "correzione": "Sostituire la frase con una formulazione corretta, per esempio: «In questo modo i path number di $\\B$ occupano $d+1=\\lceil \\log n\\rceil$ bit, tanti quanti ne servono per scrivere i numeri DFS di $\\T$, e le due numerazioni si possono identificare» seguita da una nota a pie' di pagina / osservazione: «per $n$ potenza di $2$ serve un bit in piu': in generale si prende $d=\\lceil\\log_2(n+1)\\rceil-1$, cioe' il minimo $d$ con $2^{d+1}-1\\ge n$». In alternativa, eliminare semplicemente la clausola «esattamente quanti ne servono ... si possono identificare» lasciando solo «$d+1=\\lceil\\log n\\rceil$ bit», che e' quanto serve al resto del capitolo."
+  }
+ ]
+}

@@ -1,0 +1,23 @@
+% grafo-lineare-L4 -- il grafo lineare (cammino) L_4 (quaderno, pag. 69).
+% Cammino orizzontale con 4 nodi e 3 archi di lunghezza uguale, senza etichette
+% sui nodi; a destra, staccata e leggermente piu' in basso, l'etichetta $L_4$.
+\begin{tikzpicture}[
+    font=\footnotesize,
+    nodo/.style={circle,draw,line width=0.7pt,fill=white,
+                 inner sep=0pt,minimum size=4.5pt},
+    arco/.style={line width=0.7pt}]
+
+  % --- i quattro nodi del cammino, equispaziati ---
+  \foreach \i in {0,1,2,3}{
+    \node[nodo] (v\i) at (\i*1.1,0) {};
+  }
+
+  % --- i tre archi ---
+  \draw[arco] (v0) -- (v1);
+  \draw[arco] (v1) -- (v2);
+  \draw[arco] (v2) -- (v3);
+
+  % --- etichetta del grafo ---
+  \node[anchor=west] at (4.3,-0.22) {$L_4$};
+
+\end{tikzpicture}

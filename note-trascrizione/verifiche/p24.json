@@ -1,0 +1,34 @@
+{
+ "pagina": 24,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "media",
+   "categoria": "errore-logico",
+   "dove": "lezioni/05-suffix-tree.tex, \\begin{osservazione}\\label{oss:propagazione-ti} (riga ~625): «allora $t_j\\cdots t_{i-1}t_i$ è sottostringa di $T^{\\,i}$»",
+   "descrizione": "Il prefisso su cui si ragiona è sbagliato: gli stati $s_j$ sono stati di $\\STree(T^{i-1})$, quindi «$s_j$ ha un arco uscente etichettato $t_i$» equivale a «$t_j\\cdots t_{i-1}t_i$ è sottostringa di $T^{\\,i-1}$». Scritto con $T^{\\,i}$ l'affermazione è vera ma vacua (ogni $t_j\\cdots t_i$ è per definizione sottostringa di $T^{\\,i}$) e la catena deduttiva collassa: dalla sola appartenenza a $T^{\\,i}$ non segue affatto che $s_{j+1}$ possieda già una $t_i$-transizione in $\\STree(T^{i-1})$ — se seguisse, l'avrebbero tutti gli stati del boundary path, e non ci sarebbe nulla da costruire. La versione corretta è già usata correttamente più sopra nello stesso capitolo (riga ~473: «allora $s\\,t_i$ occorre in $T^{\\,i-1}$»), quindi qui c'è anche incoerenza interna.",
+   "correzione": "Sostituire $T^{\\,i}$ con $T^{\\,i-1}$: «se $s_j$ ha un arco uscente etichettato con $t_i$, allora $t_j\\cdots t_{i-1}t_i$ è sottostringa di $T^{\\,i-1}$, quindi lo è anche $t_{j+1}\\cdots t_{i-1}t_i$ e dunque anche $s_{j+1}=f(s_j)$ ha una $t_i$-transizione»."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "errore-logico",
+   "dove": "lezioni/05-suffix-tree.tex, riga ~577 («la successione di stati $s_1,\\dots,s_i$») e \\begin{definizione}[Active point ed end point]\\label{def:active-end-point}",
+   "descrizione": "Il boundary path viene qui ridefinito come la sola successione $s_1,\\dots,s_i$, senza lo stato ausiliario $\\bot$ (mentre a p.22, riga ~400, e nella didascalia della fig. \\ref{fig:boundary-path-tripartizione} il cammino arriva fino a $\\bot$). Con questa definizione l'end point può non esistere: se $t_i$ non compare in $T^{\\,i-1}$ (in particolare per $i=1$) nessuno degli $s_1,\\dots,s_i$ ha una $t_i$-transizione, e il «minimo indice $j''$» della definizione è indefinito. È proprio $\\bot$, con $g(\\bot,t_i)=\\mathit{root}$ definita per ogni carattere, a garantire l'esistenza dell'end point (fatto già osservato a riga ~448 per l'algoritmo sul trie).",
+   "correzione": "Estendere la successione a $s_1,\\dots,s_i,s_{i+1}=\\bot$ (ponendo $f(\\mathit{root})=\\bot$) e aggiungere alla definizione una frase del tipo: «l'end point esiste sempre, al più coincide con $\\bot$, dove $g(\\bot,t_i)=\\mathit{root}$ è definita per ogni $t_i\\in\\Sigma$»."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "figura",
+   "dove": "tikz/coppia-canonica.tikz, nodo (fin) at (5.20,-4.16), stile \\texttt{esplicito} — e didascalia di \\ref{fig:coppia-canonica}",
+   "descrizione": "Il nodo terminale della seconda catena è disegnato con lo stesso stile dei nodi espliciti (identico a $s'$), mentre il punto individuato dalla coppia canonica $(s,abcd)$ è disegnato come stato implicito. Se il nodo finale è esplicito, la forma canonica di $(s,abcdeabc)$ non è $(s',abc)$ come afferma la didascalia, bensì $(\\text{nodo finale},\\varepsilon)$ — proprio per l'osservazione «se $s$ è branching, $(s,\\vuota)$ è la rappresentazione canonica» che sta pochi capoversi sopra. Figura e didascalia si contraddicono. (Nel manoscritto il cerchio finale non ha alcun secondo figlio, a differenza di $s'$ che ne ha uno disegnato esplicitamente: è solo un marcatore del punto indicato, non un nodo branching.)",
+   "correzione": "Disegnare (fin) con lo stile \\texttt{implicito} (eventualmente evidenziato con un \\texttt{\\textbackslash fill ... circle (1.7pt)} come si fa per (i4)), così che l'unico branching point interno alla catena resti $s'$ e la didascalia «la sua forma canonica è $(s',abc)$» sia coerente con il disegno."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "notazione",
+   "dove": "lezioni/05-suffix-tree.tex, \\begin{enumerate} finale di p.24 (righe ~639–645), confrontato con «\\textbf{3) Dettagli.}» a riga ~651",
+   "descrizione": "Nel quaderno i tre punti formano un'unica lista numerata 1), 2), 3). Nella trascrizione i primi due sono un \\texttt{enumerate} standard (che stampa «1.» e «2.») mentre il terzo è testo in grassetto «3)» dopo un \\subsection: il lettore vede «1. 2. … 3)», con marcatori disomogenei e lista spezzata.",
+   "correzione": "Uniformare i marcatori usando \\texttt{\\textbackslash item[1)]} e \\texttt{\\textbackslash item[2)]} nell'\\texttt{enumerate} di p.24 (oppure, in fase di assemblaggio, riunire i tre punti in un'unica lista con \\texttt{resume})."
+  }
+ ]
+}

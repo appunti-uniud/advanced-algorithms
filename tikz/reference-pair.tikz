@@ -1,0 +1,30 @@
+% Due esempi di reference pair (s,w): stesso s, stringhe w di lunghezza diversa,
+% quindi due stati impliciti distinti dello stesso arco.
+% Il nodo pieno e' lo stato esplicito (branching) s; lungo l'arco lungo stanno
+% gli stati impliciti (cerchietti vuoti); la graffa misura la stringa w.
+\begin{tikzpicture}[
+    scale=1.2,
+    font=\footnotesize,
+    esplicito/.style={circle,fill,inner sep=0pt,minimum size=5pt},
+    implicito/.style={circle,draw,fill=white,inner sep=0pt,minimum size=4pt},
+    graffa/.style={decorate,decoration={brace,amplitude=4pt},gray}]
+
+  % il secondo schizzo e' identico al primo: cambia solo dove finisce la graffa
+  \foreach \dx/\tfin/\lx/\ly in {0/0.42/0.87/-0.25, 3.6/0.82/1.13/-0.77}{%
+    \begin{scope}[xshift=\dx cm]
+      % l'altro figlio di s: s e' un branching point
+      \draw (0,0) -- (-0.85,-0.85);
+      % arco lungo, con gli stati impliciti che il trie ha e l'albero no
+      \draw (0,0) -- (1.30,-2.60);
+      \foreach \t in {0.22,0.42,0.62,0.82}
+        \node[implicito] at ({1.30*\t},{-2.60*\t}) {};
+      % stato esplicito
+      \node[esplicito] at (0,0) {};
+      \node[above left=-3pt and -3pt] at (0,0) {$s$};
+      % la stringa w della reference pair
+      \draw[graffa] (0.34,0.17) -- ({1.30*\tfin+0.34},{-2.60*\tfin+0.17});
+      \node at (\lx,\ly) {$w$};
+      % entrambe le coppie sono rappresentazioni lecite
+      \node at (1.85,-1.35) {$\checkmark$};
+    \end{scope}}
+\end{tikzpicture}

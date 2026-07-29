@@ -1,0 +1,20 @@
+{
+ "pagina": 80,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "errore-logico",
+   "dove": "lezioni/A-weisfeiler-leman.tex, righe 193-198 (prima osservazione della sottosezione «FWL contro OWL»), in contrasto con le righe 200-213 (osservazione «Il caso k = 1 va letto a parte»)",
+   "descrizione": "L'equivalenza «FWL-$k$ distingue esattamente cio' che distingue OWL-$(k+1)$» e' enunciata senza restrizioni su $k$, ma presa alla lettera e' falsa per $k = 1$, come dimostra l'osservazione successiva della stessa pagina: con la formula folklore data alle righe 128-137 si ha $M_i^1(v) = \\{\\{C_{i-1}^1(w) : w \\in V\\}\\}$, che non dipende da $v$, quindi FWL-1 non raffina mai e non distingue nulla; OWL-2, invece, ha il potere del color refinement (lo dice la riga 211). Le due osservazioni, lette in sequenza, danno FWL-1 == OWL-2 == WL-1 == niente. L'equivalenza standard vale per $k \\ge 2$, oppure per $k = 1$ solo se si conviene che FWL-1 denoti il WL-1 definito a parte (con $w$ ristretto ai vicini), convenzione che il testo usa implicitamente anche a riga 289-294 ma non dichiara mai.",
+   "correzione": "Qualificare l'enunciato: «FWL-$k$ distingue esattamente cio' che distingue OWL-$(k+1)$ (per $k \\ge 2$; il livello $k = 1$ va letto con la convenzione dell'osservazione seguente, dove WL-1 e' il raffinamento dei colori definito a parte)». In alternativa, aggiungere in coda alla seconda osservazione una riga del tipo «con questa convenzione l'equivalenza FWL-$k$ / OWL-$(k+1)$ vale anche per $k = 1$, dove FWL-1 e' per definizione WL-1»."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "figura",
+   "dove": "lezioni/A-weisfeiler-leman.tex, righe 113-114 (didascalia di fig:wlk-tipo-atomico) rispetto a tikz/wlk-tipo-atomico.tikz, riga 15",
+   "descrizione": "La didascalia parla della «tripla $(u,v,w)$», ma sia il quaderno (p.79: «atp<u,v,w,...>») sia il TikZ scrivono nell'etichetta $\\operatorname{atp}(u,v,w,\\dots)$ con i puntini di sospensione, cioe' una $k$-upla di cui il disegno mostra solo le prime tre componenti. Didascalia e figura si contraddicono, e la dicitura «tripla» stride con il contesto, che e' la colorazione delle $k$-uple.",
+   "correzione": "Sostituire nella didascalia «della tripla $(u,v,w)$» con «della $k$-upla $(u,v,w,\\dots)$» (lasciando invariato il resto: «... registra le coincidenze fra le componenti e le adiacenze: qui $u \\to v$ e $v \\to w$»)."
+  }
+ ]
+}

@@ -1,0 +1,114 @@
+{
+ "pagina": 3,
+ "latex": "\\scan{3}\n\nL'algoritmo naive costa $\\Oh(n\\cdot m)$, mentre il lower bound del problema è $\\Om(n+m)$\n(ricordiamo la convenzione fissata sopra: $\\abs{P}=n$, $\\abs{T}=m$, con $n\\le m$).\nResta quindi aperta la domanda:\n\n\\begin{center}\n  \\emph{esiste un algoritmo \\underline{sub}-quadratico?}\n\\end{center}\n\n\\noindent Il bersaglio è il lower bound stesso, cioè un algoritmo che lavori in tempo\n\\[\n  \\Th(n+m).\n\\]\n\n\\subsection*{Knuth--Morris--Pratt (KMP)}\n\nL'idea è di non buttare via l'informazione raccolta dai confronti già eseguiti. Supponiamo di\naver allineato $P$ su $T$, di aver riconosciuto correttamente i primi $j-1$ caratteri del\npattern e di incontrare un mismatch in posizione $i$ del testo:\n\\[\n  \\sub{T}{i-j+1}{i-1} \\;=\\; \\sub{P}{1}{j-1}, \\qquad T[i] = y \\;\\neq\\; x = P[j].\n\\]\nIl tratto già verificato è noto \\emph{a priori} — è un prefisso di $P$, indipendente da $T$ —\ne quindi tutta l'informazione riutilizzabile può essere ricavata dal solo pattern.\n\nSia $\\alfa$ il più lungo \\emph{prefisso-suffisso} (proprio) di $\\sub{P}{1}{j-1}$, cioè la più\nlunga stringa che ne è simultaneamente prefisso proprio e suffisso proprio. Poiché $\\alfa$\ncompare sia in testa a $P$ sia in coda al tratto già riconosciuto, posso far scivolare il\npattern verso destra finché il suo prefisso $\\alfa$ non si sovrappone all'occorrenza di\n$\\alfa$ che in $T$ termina in posizione $i-1$: lo spostamento è di $(j-1)-\\abs{\\alfa}$\nposizioni e il confronto riprende dalla \\emph{stessa} posizione $T[i]$, ora contro\n$P[\\abs{\\alfa}+1]$. In particolare l'indice sul testo non torna mai indietro.\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/kmp-shift.tikz}\n  \\caption{Regola di spostamento di KMP. Al mismatch $T[i]=y\\neq x=P[j]$ il pattern scivola\n  fino a sovrapporre il proprio prefisso $\\alfa$ all'occorrenza di $\\alfa$ che in $T$ termina\n  in posizione $i-1$: mi sposto in base al più lungo prefisso-suffisso.}\n  \\label{fig:kmp-shift}\n\\end{figure}\n\n\\paragraph{Algoritmo KMP.}\n\\begin{enumerate}\n  \\item \\emph{Pre-processing del pattern} (che di solito è molto più piccolo del testo), che\n    mi consenta, per ogni prefisso $\\sub{P}{1}{j}$, di determinare il più lungo\n    prefisso-suffisso, cioè\n    \\[\n      \\max\\bigl\\{\\, k<j \\;\\bigm|\\; \\sub{P}{1}{k} = \\sub{P}{j-k+1}{j} \\,\\bigr\\}.\n    \\]\n    (\\emph{Come farlo?})\n  \\item Uso il pre-processing del punto~1 per eseguire una scansione di $T$ in cui, ad ogni\n    passo, posso\n    \\begin{itemize}\n      \\item o avanzare il punto di confronto,\n      \\item oppure avanzare il pattern.\n    \\end{itemize}\n\\end{enumerate}\n\n\\noindent Poiché ad ogni passo almeno una delle due quantità avanza, e nessuna delle due può\nsuperare la lunghezza del testo, si ottiene\n\\[\n  \\implies \\quad \\Th(m+n).\n\\]\n\n\\begin{osservazione}\n  È più efficiente preprocessare il \\emph{testo} piuttosto che il pattern\n  (controintuitivamente): così il tempo di ricerca di pattern diversi sullo stesso testo è\n  proporzionale alla lunghezza del pattern, e non a quella del testo.\n\\end{osservazione}",
+ "note": [
+  {
+   "tipo": "correzione",
+   "pagina": 3,
+   "testo": "Il quaderno scrive l'acronimo «KNP» (nel titolo «Knuth--Morris--Pratt (KNP)» e in «Algoritmo KNP»); lo stesso refuso ricorre a p.4. Ho scritto KMP, che è l'acronimo standard di Knuth--Morris--Pratt (1977). Correzione silenziosa, ma da uniformare su tutte le pagine del capitolo.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 3,
+   "testo": "Gli appunti non dicono di quanto si sposta il pattern né da dove riprende il confronto: la figura lo mostra solo graficamente. Ho esplicitato in prosa lo shift $(j-1)-|\\alpha|$ e la ripresa del confronto da $T[i]$ contro $P[|\\alpha|+1]$, e ho esplicitato l'invariante $T[i-j+1,i-1]=P[1,j-1]$, $T[i]=y\\neq x=P[j]$ (è esattamente ciò che la figura disegna; cfr. anche L01 §5.2 dell'anno precedente, che segnala la stessa lacuna come anomalia A7).",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 3,
+   "testo": "La didascalia manoscritta sotto la figura è «mi sposto del più lungo prefisso-suffisso». Presa alla lettera sarebbe sbagliata (lo shift vale $(j-1)-|\\alpha|$, non $|\\alpha|$). L'ho resa come «mi sposto in base al più lungo prefisso-suffisso» e ho quantificato lo shift nel testo.",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 3,
+   "testo": "Il punto 1) definisce il più lungo prefisso-suffisso del prefisso $P[1,j]$ ($\\max\\{k<j \\mid P[1,k]=P[j-k+1,j]\\}$, che è $sp_j(P)$): la definizione è corretta. Nella regola di shift, però, la quantità che serve è quella relativa a $P[1,j-1]$ (mismatch \\emph{in} $P[j]$). Ho usato $P[1,j-1]$ nella spiegazione della figura e $P[1,j]$ nella definizione del pre-processing, mantenendo entrambe corrette; è lo stesso off-by-one che La fonte dell'anno precedentemescola (anomalia A3 di L01).",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 3,
+   "testo": "Nella formula $\\max\\{k<j \\mid P[1,k]=P[j-k+1,j]\\}$ manca il vincolo implicito $k\\ge 0$; il massimo è comunque ben definito perché $k=0$ (bordo vuoto) soddisfa sempre la condizione. Ho lasciato la formula come negli appunti perché non ambigua, senza appesantirla.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 3,
+   "testo": "Nella colonna del mismatch, fra la riga di $T$ e la riga di $P$, c'è un grafema fortemente ripassato, di lettura difficile (potrebbe essere una «y» sbarrata oppure un «$\\neq$» ruotato). Semanticamente l'unico significato possibile è «$y \\neq x$»: l'ho reso come $\\neq$ nella figura e nel testo.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 3,
+   "testo": "Interpretazione della figura: il blocco tratteggiato all'inizio della seconda barra (il pattern nell'allineamento corrente) è l'occorrenza di $\\alpha$ come \\emph{prefisso} di $P$; lo dimostra l'annotazione «$\\uparrow\\ \\alpha$» scritta sotto di esso in basso a sinistra. Nel manoscritto il blocco tratteggiato è disegnato più corto (circa 2 quadretti) della cella $\\alpha$ che precede il mismatch (circa 3 quadretti): è un'imprecisione di disegno, nella ricostruzione TikZ le due occorrenze di $\\alpha$ hanno la stessa lunghezza.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 3,
+   "testo": "Nella terza barra (pattern dopo lo shift) la cella nella colonna del mismatch riporta di nuovo «y», non un carattere nuovo del pattern. L'ho interpretato come indicazione della \\emph{posizione del testo} da cui riprende il confronto (il puntatore su $T$ non arretra), non come affermazione che $P[|\\alpha|+1]=y$; la freccia $\\uparrow$ sotto quella cella conferma la lettura.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 3,
+   "testo": "Nella prima barra ($T$) il sotto-riquadro a sinistra contiene una linea ondulata: l'ho interpretato come «porzione di testo già scandita / non specificata», non come una sottostringa marcata.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 3,
+   "testo": "A margine sinistro del punto 1), racchiuso da una graffa, il quaderno annota «come farlo?». L'ho riportato in linea come domanda in corsivo alla fine del punto 1: è esattamente la domanda a cui risponde p.4 («pre-processing di $P$ ... come?»).",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 3,
+   "testo": "Il punto 2) inizia con «Uso $\\uparrow$ per eseguire una scansione $T$...»: la freccia è un rimando grafico al punto 1). L'ho reso con «Uso il pre-processing del punto~1 per eseguire una scansione di $T$» (aggiunta la preposizione «di», assente nel manoscritto).",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 3,
+   "testo": "Il quaderno passa dai due bullet («avanzare il punto di confronto» / «avanzare il pattern») direttamente a «$\\Rightarrow \\Theta(m+n)$». Ho aggiunto la frase-ponte che rende esplicito l'argomento di potenziale («ad ogni passo almeno una delle due quantità avanza e nessuna può superare la lunghezza del testo»), che è l'invariante «almeno un indice avanza sempre» dell'anno precedente (L01 §5.4, L02 §7.4).",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 3,
+   "testo": "L'osservazione finale dice «il tempo di ricerca di pattern diversi è proporzionale al pattern». Ho scritto «proporzionale alla lunghezza del pattern, e non a quella del testo», che è il senso (è l'anticipazione dei suffix tree/suffix array, dove il preprocessing del testo rende la query $O(|P|)$).",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 3,
+   "testo": "Ho richiamato in apertura la convenzione $|P|=n$, $|T|=m$ (fissata a p.2 degli appunti dello studente) e il costo $O(n\\cdot m)$ del naive con il lower bound $\\Omega(n+m)$: la pagina 3 li dà per noti e li usa subito. Nota: la convenzione dello studente ($|P|=n$, $|T|=m$) è l'opposta di quella dell'anno precedente in L02 ($|T|=n$, $|P|=m$); ho seguito lo studente, che è la fonte primaria, ed è anche coerente con p.4.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 3,
+   "testo": "La parola «sub» in «sub-quadratico» è sottolineata nel manoscritto con una freccia che punta al riquadro «$\\Theta(n+m)$» (a sua volta sottolineato). Ho reso la sottolineatura con \\\\underline e il collegamento mettendo la formula subito dopo, come obiettivo dichiarato.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 3,
+   "testo": "Ho usato \\\\subsection* per il titolo sottolineato «Knuth--Morris--Pratt (KMP)» e \\\\paragraph per «Algoritmo KMP», che nel quaderno sono titoli espliciti. In fase di cucitura il primo potrebbe coincidere con il titolo del capitolo: eventualmente va rimosso.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "kmp-shift",
+   "pagina": 3,
+   "didascalia": "Regola di spostamento di KMP. Al mismatch $T[i]=y\\neq x=P[j]$ il pattern scivola fino a sovrapporre il proprio prefisso $\\alpha$ all'occorrenza di $\\alpha$ che in $T$ termina in posizione $i-1$: mi sposto in base al più lungo prefisso-suffisso.",
+   "tipo": "schema di stringhe",
+   "specifica": "Schema a tre barre orizzontali sovrapposte (stringhe disegnate come rettangoli lunghi e bassi), tutte attraversate da una stessa COLONNA DEL MISMATCH: un rettangolo alto e stretto, largo una cella, che parte sopra la prima barra e scende fino sotto la terza, marcando la stessa posizione di testo in tutte e tre le righe.\n\nSistema di coordinate consigliato (unita' = una cella di carattere; x cresce verso destra; le tre barre hanno la stessa altezza e sono equispaziate verticalmente, con circa un'altezza di barra di spazio fra l'una e l'altra):\n- colonna del mismatch: x da 6 a 7 (una cella).\n\nRIGA 1 (in alto) = il TESTO $T$.\n  Rettangolo da x=0 a x=20, chiuso a sinistra e a destra; subito a destra dell'estremo destro l'etichetta $T$.\n  Contenuto, da sinistra a destra:\n   * x in [0, 3.5]: sotto-riquadro vuoto contenente una LINEA ONDULATA orizzontale (denota la porzione di testo gia' scandita / non specificata); a x=3.5 un trattino verticale di separazione;\n   * x in [3.5, 6]: cella etichettata $\\alpha$ (lettera centrata a x=4.75, dentro la barra) -- e' l'occorrenza di $\\alpha$ in $T$ che termina in posizione $i-1$;\n   * x in [6, 7]: cella contenente il carattere $y$ (cioe' $T[i]$);\n   * x in [7, 20]: resto di $T$, vuoto.\n  Sopra la cella $y$, staccata dalla barra, una FRECCIA VERTICALE che punta verso il basso ($\\downarrow$), centrata a x=6.5: indica il punto di confronto corrente sul testo.\n\nFRA RIGA 1 E RIGA 2, dentro la colonna del mismatch (x centrato a 6.5), il simbolo $\\neq$: i due caratteri allineati, $y$ (in $T$) e $x$ (in $P$), sono diversi.\n\nRIGA 2 (centrale) = il PATTERN $P$ nell'allineamento corrente.\n  Rettangolo da x=1 a x=12; a destra dell'estremo destro l'etichetta $P$.\n  Contenuto:\n   * x in [1, 3.5]: BLOCCO TRATTEGGIATO (riempito con linee oblique fitte, hatching) -- e' l'occorrenza di $\\alpha$ come PREFISSO di $P$. Deve avere ESATTAMENTE la stessa larghezza della cella $\\alpha$ successiva (nel manoscritto e' disegnato piu' corto: e' un'imprecisione da correggere);\n   * x in [3.5, 6]: cella etichettata $\\alpha$ -- occorrenza di $\\alpha$ come SUFFISSO di $P[1,j-1]$, immediatamente prima del mismatch;\n   * x in [6, 7]: cella contenente il carattere $x$ (cioe' $P[j]$);\n   * x in [7, 12]: resto di $P$, vuoto.\n  ATTENZIONE alla larghezza: perche' i due $\\alpha$ abbiano la stessa lunghezza, il blocco tratteggiato deve andare da x=1 a x=3.5 e la cella $\\alpha$ da x=3.5 a x=6 (entrambe larghe 2.5).\n\nRIGA 3 (in basso) = il PATTERN $P$ dopo lo spostamento.\n  Rettangolo da x=3.5 a x=15.5 (inizia esattamente dove inizia l'$\\alpha$ della riga 1: e' il punto chiave del disegno); a destra l'etichetta $P$.\n  Contenuto:\n   * x in [3.5, 6]: cella etichettata $\\alpha$ -- il prefisso $\\alpha$ del pattern e' ora sovrapposto all'occorrenza di $\\alpha$ in $T$;\n   * x in [6, 7]: cella contenente il carattere $y$ (nel manoscritto e' scritto proprio $y$: indica la posizione del testo da cui riprende il confronto, non un carattere del pattern);\n   * x in [7, 15.5]: resto di $P$, vuoto.\n  Sotto la cella in x in [6,7], una FRECCIA VERTICALE che punta verso l'alto ($\\uparrow$), centrata a x=6.5: il confronto riprende da qui.\n\nANNOTAZIONI DELLO SPOSTAMENTO (a sinistra e sotto le barre):\n  * un ARCO (curva a mo' di sottolineatura) sotto la riga 2, da x=1 a x=3.5 circa, che sottolinea il blocco tratteggiato e termina con una punta di freccia rivolta verso destra;\n  * da li' un ARCO TRATTEGGIATO che sale verso destra e termina con una punta di freccia sull'estremo sinistro della riga 3 (x=3.5): rappresenta lo scorrimento del pattern, cioe' il fatto che il prefisso $\\alpha$ va a finire dove si trova l'$\\alpha$ di $T$;\n  * a sinistra, all'altezza della riga 3, l'annotazione \"$\\uparrow\\ \\alpha$\" (piccola freccia verso l'alto seguita dalla lettera $\\alpha$) posta sotto il blocco tratteggiato, che lo etichetta come $\\alpha$;\n  * un ARCO analogo sotto la riga 3, da x=3.5 a x=6.5, che sottolinea la cella $\\alpha$ della riga 3 e termina con una punta di freccia rivolta verso la colonna del mismatch.\n\nTutto il testo delle etichette e' in italiano/matematico: $T$, $P$, $\\alpha$, $x$, $y$, $\\neq$. Nessun'altra scritta dentro la figura (la frase \"mi sposto del piu' lungo prefisso-suffisso\", che nel quaderno sta sotto il disegno, e' passata in didascalia).",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina si chiude lasciando aperta esattamente una domanda, annotata a margine del punto 1: «come farlo?», cioè come si calcola in modo efficiente, per ogni prefisso $P[1,j]$, il più lungo prefisso-suffisso $\\max\\{k<j \\mid P[1,k]=P[j-k+1,j]\\}$. Restano inoltre non dimostrate: (a) la correttezza dello shift (che non fa perdere occorrenze) e (b) l'affermazione «ad ogni passo o avanza il punto di confronto o avanza il pattern», da cui discende il $\\Theta(m+n)$ dichiarato. Anche l'osservazione finale (conviene preprocessare il testo) è un'anticipazione che verrà ripresa molto più avanti, con suffix tree/suffix array. La pagina 4 riparte proprio da qui: ricapitola naive $O(n\\cdot m)$ / lower bound $\\Omega(n+m)$ ← KMP, riformula il pre-processing di $P$ come «calcolo, per ogni prefisso di $P$, il massimo prefisso/suffisso» con di nuovo l'annotazione «come?», afferma che «il pre-processing prende tempo lineare», introduce la notazione $sp_i(S)$ per $S_i = S[1,i]$, i due casi della ricorsione (estendo di un carattere $sp_{i-1}(S)$, oppure ricado su $sp_{sp_{i-1}}(S)$) e il problema della catena di chiamate ricorsive, risolto con l'analisi ammortizzata. La lettera $\\alpha$ per il prefisso-suffisso massimo introdotta qui viene riusata a p.4.",
+ "confidenza": "alta"
+}

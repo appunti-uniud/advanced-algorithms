@@ -1,0 +1,20 @@
+{
+ "pagina": 31,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "notazione",
+   "dove": "lezioni/08-lca.tex, righe 41, 43, 46-48 (formula T_1 \\$ T_2 \\# e frase 'In preprocessing si etichetta ogni foglia...') e tikz/stree-generalizzato.tikz (commento iniziale, etichetta $\\STree(T_1\\,\\$\\,T_2\\,\\#)$ e nota 'lettura delle foglie')",
+   "descrizione": "Il secondo terminatore scritto nel quaderno e il simbolo euro: sulla p.31 si legge 'T_1 $ T_2 EURO' e 'STree(T_1 $ T_2 EURO)', e l'annotazione a destra della seconda figura e '...$ vs. $...EURO in preprocessing'. La trascrizione lo ha sostituito con '#'. La sostituzione non e sbagliata in se, ma rompe la coerenza con il resto del documento: lezioni/10-landau-vishkin.tex (righe 83, 90, 98, 109-110, 133, 147, 260, 317) usa sistematicamente $S_1\\,\\text{\\$}\\,S_2\\,\\text{\\texteuro}$ per la stessa identica costruzione (suffix tree generalizzato di due stringhe con due terminatori distinti), citando anche Harel--Tarjan. Il lettore che confronta il cap. 8 con il cap. 10 trova due convenzioni diverse per lo stesso oggetto.",
+   "correzione": "Uniformare al cap. 10 usando il glifo del quaderno: sostituire ovunque \\# con \\text{\\texteuro} nelle righe 41, 43, 46-48 di 08-lca.tex (p.es. 'T_1\\,\\text{\\$}\\,T_2\\,\\text{\\texteuro} \\longrightarrow \\STree(T_1\\,\\text{\\$}\\,T_2\\,\\text{\\texteuro})') e nell'etichetta e nella nota di tikz/stree-generalizzato.tikz. In alternativa, se si preferisce '#', allinearvi anche 10-landau-vishkin.tex."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "notazione",
+   "dove": "lezioni/08-lca.tex, righe 45-48 ('a seconda della forma del suo suffisso: $\\dots\\$\\dots\\#$ ... oppure $\\dots\\#$ ...') e la nota corrispondente in tikz/stree-generalizzato.tikz ('suffisso $\\dots\\#$ $\\Rightarrow$ dentro $T_2$')",
+   "descrizione": "Il criterio di etichettatura delle foglie, cosi come e scritto, non discrimina: nella concatenazione non troncata T_1 $ T_2 # OGNI suffisso termina con #, quindi la forma '...#' e soddisfatta anche dai suffissi che cominciano dentro T_1 (che hanno forma '...$...#'). Nel corpo del testo la parentesi esplicativa ('il suffisso sta tutto dopo il separatore') salva la lettura, ma nella nota della figura, che sta da sola, il criterio resta ambiguo. Il quaderno usa invece la forma troncata: scrive '...$' (leaf-label che termina al primo separatore, quindi suffisso di T_1) contrapposta a '$...€' (la porzione dopo il separatore, quindi suffisso di T_2), che e la convenzione del suffix tree generalizzato di Gusfield (APL4) e non presenta l'ambiguita.",
+   "correzione": "Rendere il criterio discriminante. Opzione A (fedele al quaderno, convenzione con troncamento): 'ogni foglia porta un leaf-label che termina in $ --- e allora il suffisso comincia dentro T_1 --- oppure in EURO --- e allora comincia dentro T_2', con la nota della figura che diventa 'suffisso ...$ => dentro T_1 / suffisso ...EURO => dentro T_2'. Opzione B (convenzione senza troncamento, quella attuale): esplicitare la presenza/assenza del separatore, p.es. 'il suffisso contiene il separatore $ (forma ...$...#) => comincia dentro T_1; non lo contiene (forma ...# senza $) => comincia dentro T_2', riportando lo stesso chiarimento nella nota del TikZ."
+  }
+ ]
+}

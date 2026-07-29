@@ -1,0 +1,42 @@
+% L'albero generico T con i dfs-numeri e la loro codifica binaria su 4 bit.
+\begin{tikzpicture}[
+    x=1.22cm, y=1.20cm,
+    nodo/.style={circle, fill=black, inner sep=0pt, minimum size=3.4pt},
+    ramo/.style={line width=0.5pt, black!70},
+    et/.style={align=center, inner sep=1.2pt, font=\footnotesize}
+  ]
+
+  % --- posizioni dei nodi (dfs-numbering in preordine) ---
+  \coordinate (v1)  at ( 0.00,  0.00);
+  \coordinate (v2)  at (-1.50, -1.20);
+  \coordinate (v5)  at ( 2.40, -1.00);
+  \coordinate (v3)  at (-2.50, -2.40);
+  \coordinate (v4)  at (-1.10, -2.40);
+  \coordinate (v6)  at ( 1.20, -2.40);
+  \coordinate (v7)  at ( 2.45, -2.40);
+  \coordinate (v8)  at ( 3.90, -2.20);
+  \coordinate (v9)  at ( 3.45, -3.45);
+  \coordinate (v10) at ( 5.00, -3.20);
+
+  % --- archi ---
+  \draw[ramo] (v1) -- (v2) (v1) -- (v5)
+              (v2) -- (v3) (v2) -- (v4)
+              (v5) -- (v6) (v5) -- (v7) (v5) -- (v8)
+              (v8) -- (v9) (v8) -- (v10);
+
+  % --- nodi ---
+  \foreach \n in {1,2,3,4,5,6,7,8,9,10} { \node[nodo] at (v\n) {}; }
+
+  % --- etichette: dfs-numero (interno) e codifica binaria (esterna) ---
+  \node[et, anchor=south]      at ($(v1)+(0,0.10)$)      {$0001$\\$1$};
+  \node[et, anchor=south east] at ($(v2)+(-0.08,0.02)$)  {$0010$\\$2$};
+  \node[et, anchor=south west] at ($(v5)+(0.10,0.02)$)   {$0101$\\$5$};
+  \node[et, anchor=north]      at ($(v3)+(0,-0.10)$)     {$3$\\$0011$};
+  \node[et, anchor=north]      at ($(v4)+(0,-0.10)$)     {$4$\\$0100$};
+  \node[et, anchor=north]      at ($(v6)+(0,-0.10)$)     {$6$\\$0110$};
+  \node[et, anchor=north]      at ($(v7)+(0,-0.10)$)     {$7$\\$0111$};
+  \node[et, anchor=south west] at ($(v8)+(0.08,0.10)$)   {$8$\\$1000$};
+  \node[et, anchor=north]      at ($(v9)+(0,-0.10)$)     {$9$\\$1001$};
+  \node[et, anchor=north]      at ($(v10)+(0,-0.10)$)    {$10$\\$1010$};
+
+\end{tikzpicture}

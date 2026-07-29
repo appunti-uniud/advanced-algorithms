@@ -1,0 +1,29 @@
+% wl1-partizione-colori -- pag. 79
+% Il disco e' l'insieme dei vertici V; i settori sono le classi di colore
+% prodotte dal raffinamento e le crocette i vertici che vi cadono dentro.
+% NB: nel quaderno la crocetta manca nel settore piu' piccolo (in alto a
+% sinistra) -- quattro settori, tre crocette -- e qui la si riproduce cosi'
+% com'e', come da specifica registrata nelle note editoriali.
+\begin{tikzpicture}[x=1cm,y=1cm,line join=round,line cap=round,font=\footnotesize]
+
+  % ---- il disco V ----------------------------------------------------------
+  \draw[line width=0.9pt] (0,0) circle (1.5);
+
+  % ---- il diametro, leggermente inclinato ----------------------------------
+  \draw[line width=0.8pt] (185:1.5) -- (5:1.5);
+
+  % ---- i due raggi che suddividono la meta' superiore ----------------------
+  \draw[line width=0.8pt] (0,0) -- (90:1.5);
+  \draw[line width=0.8pt] (0,0) -- (145:1.5);
+
+  % ---- i vertici, come nel manoscritto (tre crocette in quattro settori) ---
+  \foreach \ang/\rad in {266/0.80, 47/0.80, 117/0.78}{
+    \draw[line width=0.7pt]
+      ([shift={(\ang:\rad)}]-0.09,-0.09) -- ([shift={(\ang:\rad)}]0.09,0.09)
+      ([shift={(\ang:\rad)}]-0.09, 0.09) -- ([shift={(\ang:\rad)}]0.09,-0.09);
+  }
+
+  % ---- nome dell'insieme ---------------------------------------------------
+  \node[anchor=south west,inner sep=1pt] at (38:1.60) {$V$};
+
+\end{tikzpicture}

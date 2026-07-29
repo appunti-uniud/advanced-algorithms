@@ -1,0 +1,120 @@
+{
+ "pagina": 85,
+ "latex": "\\scan{85}\n\nResta da verificare che il vettore $\\pi$ di componenti $\\pi_v = d(v)/2m$ soddisfi\n$\\pi = \\pi P$, cioè che per ogni $u \\in V$ valga $\\pi_u = \\sum_{v} \\pi_v \\, P_{v,u}$.\nPoiché $P_{v,u} \\neq 0$ soltanto se $(v,u) \\in E$, e in tal caso $P_{v,u} = 1/d(v)$,\n\\[\n  \\frac{d(u)}{2m}\n  \\;\\stackrel{?}{=}\\;\n  \\sum_{(v,u) \\in E} \\frac{d(v)}{2m} \\cdot P_{v,u}\n  \\;=\\;\n  \\sum_{(v,u) \\in E} \\frac{d(v)}{2m} \\cdot \\frac{1}{d(v)}\n  \\;=\\;\n  \\frac{1}{2m} \\sum_{(v,u) \\in E} 1\n  \\;=\\;\n  \\frac{d(u)}{2m} \\,,\n\\]\nperché gli archi incidenti a $u$ sono esattamente $d(u)$. \\hfill$\\square$\n\nErgo, per ogni $v \\in V$, il tempo medio di ritorno in $v$ --- che in una catena\nirriducibile e aperiodica è il reciproco della probabilità stazionaria --- vale\n\\[\n  h_{v,v} \\;=\\; \\frac{1}{\\pi_v} \\;=\\; \\frac{2m}{d(v)} \\,.\n\\]\n\n\\begin{definizione}[Hitting time, commute time, cover time]\nSia $G = (V,E)$ un grafo connesso e non orientato, e si consideri il random walk su $G$.\n\\begin{itemize}\n  \\item $h_{u,v}$ --- \\emph{hitting time}: numero medio di passi per andare da $u$ a $v$.\n  \\item $C_{u,v}$ --- \\emph{commute time}:\n    \\[\n      h_{u,v} + h_{v,u} \\;=\\; C_{u,v} \\;=\\; C_{v,u} \\,.\n    \\]\n  \\item $C_u(G)$ --- tempo medio per tornare a $u$ dopo aver visitato l'intero $G$\n    partendo da $u$.\n  \\item $C(G)$ --- \\emph{cover time} di $G$:\n    \\[\n      C(G) \\;=\\; \\max_{u} \\, C_u(G) \\,.\n    \\]\n\\end{itemize}\n\\end{definizione}\n\n\\begin{domanda}\nVale $h_{u,v} = h_{v,u}$?\n\\end{domanda}\n\nSi consideri il \\emph{lollipop graph} $L_n$.\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/p85-lollipop.tikz}\n\\caption{Il \\emph{lollipop graph} $L_n$: una clique $K_{n/2}$ alla quale è incollato,\nnel vertice $u$, un cammino di $n/2$ vertici che termina in $v$; in tutto $n$ vertici.}\n\\end{figure}\n",
+ "note": [
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 85,
+   "risolto": true,
+   "testo": "Primo membro della catena di uguaglianze: il grafema fra parentesi in «d(·)/2m» è ambiguo (la «u» e la «v» dello studente si somigliano molto). Ho scritto d(u)/2m perché la condizione di stazionarietà verificata è π_u = Σ_v π_v P_{v,u} e tutte e tre le sommatorie della riga hanno indice (v,u)∈E con u fissato: se il primo membro fosse d(v)/2m la riga sarebbe priva di senso (v è la variabile muta della somma)."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 85,
+   "risolto": true,
+   "testo": "Il quaderno si ferma a «= 1/2m Σ_{(v,u)∈E} 1» e chiude subito col box □ di fine dimostrazione. Ho aggiunto l'ultimo membro «= d(u)/2m» e la giustificazione «perché gli archi incidenti a u sono esattamente d(u)», altrimenti la catena non chiude il cerchio e il □ resta ingiustificato."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 85,
+   "risolto": true,
+   "testo": "Frase introduttiva («Resta da verificare che il vettore π … Poiché P_{v,u} ≠ 0 soltanto se (v,u)∈E, e in tal caso P_{v,u} = 1/d(v)») aggiunta da me: nel quaderno la pagina si apre a metà formula, senza testo, perché il lemma «∀v π_v = d(v)/2m» e l'inizio della dimostrazione («dobbiamo trovare π soluzione di π = πP») stanno in fondo a p. 84. La sostituzione P_{v,u} = 1/d(v) è esplicitata perché nel quaderno è solo implicita nel passaggio."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 85,
+   "risolto": true,
+   "testo": "Nel terzo membro il quaderno barra con un tratto obliquo il d(v) al numeratore e il d(v) al denominatore (semplificazione). Non ho reso le barrature: il preambolo non carica il pacchetto cancel e la semplificazione è già evidente dal passaggio successivo."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 85,
+   "risolto": true,
+   "testo": "Il «?» che il quaderno scrive sopra il primo segno di uguale (è la tesi da verificare, non ancora un'uguaglianza acquisita) è reso con \\stackrel{?}{=}."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 85,
+   "risolto": true,
+   "testo": "La pagina contiene la coda di una dimostrazione aperta a p. 84 (Lemma: ∀v π_v = d(v)/2m). Non ho aperto qui l'ambiente \\begin{dimostrazione}, per non lasciare un ambiente sbilanciato nella trascrizione di pagina: ho usato prosa e display, chiudendo con \\hfill$\\square$ come fa il quaderno. In fase di assemblaggio questo blocco va inglobato nella dimostrazione aperta a p. 84."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 85,
+   "risolto": true,
+   "testo": "«h_{v,v}»: il secondo pedice è graficamente ambiguo fra u e v. Ho letto v perché la riga è quantificata ∀v∈V e il membro di destra è 1/π_v: si tratta del tempo medio di ritorno h_{v,v} = 1/π_v, il fatto standard sulle catene finite irriducibili e aperiodiche (h_{v,u} non avrebbe alcun legame con 1/π_v)."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 85,
+   "risolto": true,
+   "testo": "All'«Ergo» del quaderno ho aggiunto l'inciso «il tempo medio di ritorno in v --- che in una catena irriducibile e aperiodica è il reciproco della probabilità stazionaria --- vale»: senza di esso il passaggio da π_v = d(v)/2m a h_{v,v} = 1/π_v resta un salto non motivato. Il fatto era già disponibile nel capitolo (cfr. p. 76 e seguenti, dove si introducono h_{ii} e la distribuzione stazionaria)."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 85,
+   "risolto": true,
+   "testo": "Sopra la riga dell'«Ergo», all'altezza di «∀v», c'è una piccola «v» blu isolata: sembra un ripasso/segno di inserimento della stessa lettera, senza contenuto proprio. Non trascritta."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 85,
+   "risolto": true,
+   "testo": "Fra l'«Ergo» e il titolo «Definizioni» c'è uno schizzo a matita, poi cancellato con la gomma (resta solo l'impronta). Si riconoscono: due «nastri» orizzontali sottili (vettori riga 1×n) con una cella marcata da due barrette verticali, separati da un «=»; sotto il primo la scritta «(1, u)» e la lettera «v», sotto il secondo di nuovo «v», e a destra una barra verticale alta (il bordo di una matrice); più in basso un arco che congiunge due vertici etichettati v e u. È evidentemente il disegno di supporto per π = πP (vettore riga per matrice, con la componente u-esima evidenziata) e per l'arco (v,u) su cui corre la somma. Poiché è cancellato e completamente ridondante rispetto alla formula in testa alla pagina, non l'ho inserito fra le figure da ridisegnare."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 85,
+   "risolto": true,
+   "testo": "Il quaderno ha il titolo sottolineato «Definizioni» seguito da quattro voci in due colonne (simbolo | glossa). Non ho usato \\subsection: ho raccolto le quattro voci in un unico ambiente definizione intitolato «Hitting time, commute time, cover time», che conserva il raggruppamento senza introdurre livelli di sezionamento (la struttura viene decisa in assemblaggio)."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 85,
+   "risolto": true,
+   "testo": "Commute time: la colonna di sinistra definisce C_{u,v}, ma a destra il quaderno scrive «h_{u,v} + h_{v,u} = C_{v,u}». Non è un errore, è la simmetria del commute time; l'ho resa esplicita scrivendo h_{u,v} + h_{v,u} = C_{u,v} = C_{v,u}, che raccorda i due pedici usati dal quaderno."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 85,
+   "risolto": true,
+   "testo": "Per C_u(G) il quaderno dà solo la glossa italiana («tempo medio per tornare a u dopo aver visitato l'intero G partendo da u») e per C(G) solo la formula max_u C_u(G), senza nominare il «cover time». Ho aggiunto la dicitura «cover time di G» accanto a C(G): è il nome standard, coerente col titolo del capitolo e con l'uso dell'anno precedente (L17, §4: cover time di K_n, C_G ≤ 2m(n-1)). La glossa di C_u(G) è riportata alla lettera."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 85,
+   "risolto": true,
+   "testo": "Notazione dei pedici: mantengo la virgola del quaderno (h_{u,v}, C_{u,v}, P_{v,u}), mentre alle pp. 75--76 gli stessi oggetti per le catene di Markov sono scritti h_{ij}, f_{ij}, r_{ij}. La virgola qui è necessaria perché gli indici sono nomi di vertici e non cifre; da segnalare in fase di uniformazione globale (Motwani--Raghavan scrive h_{uv})."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 85,
+   "risolto": true,
+   "testo": "L'annotazione a sinistra del disegno è «L_n» seguito da una freccia verso il basso e da due parole molto compresse, che leggo «lollipop graph»: la lettura è confermata dal disegno stesso (clique + «bastoncino»), che è esattamente il lollipop graph, il controesempio classico all'asimmetria dell'hitting time. Nel LaTeX è diventato «Si consideri il lollipop graph L_n»."
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 85,
+   "risolto": true,
+   "testo": "Attenzione al simbolo L_n: neGli appunti del corso dell'anno precedente dell'anno precedente (L17, §5.2) L_n indica il «grafo lineare» con n nodi (C_{L_n} ≤ 2n²), qui invece indica il lollipop graph. Ho mantenuto la scelta dello studente (fonte primaria), ma la collisione di notazione va tenuta presente in assemblaggio."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 85,
+   "risolto": true,
+   "testo": "La «Domanda» del quaderno è scritta come h_{u,v} ≟ h_{v,u} (il «?» sopra l'uguale). L'ho resa in prosa («Vale h_{u,v} = h_{v,u}?») dentro l'ambiente domanda, che è previsto dal preambolo. La risposta è a p. 86 (no: sul lollipop h_{u,v} = Θ(n³) mentre h_{v,u} = Θ(n²)) e non è anticipata qui."
+  }
+ ],
+ "figure": [
+  {
+   "id": "p85-lollipop",
+   "pagina": 85,
+   "didascalia": "Il lollipop graph L_n: una clique K_{n/2} alla quale è incollato, nel vertice u, un cammino di n/2 vertici che termina in v; in tutto n vertici.",
+   "tipo": "grafo",
+   "specifica": "Disegno schematico in orizzontale, sviluppo circa 10 cm di larghezza e 3 cm di altezza.\n(1) A SINISTRA: un cerchio (solo la circonferenza, tratto blu spesso, raggio ~1,3 cm), che rappresenta in modo astratto la clique; NON vanno disegnati i vertici interni né gli archi della clique. Al centro del cerchio l'etichetta matematica $K_{n/2}$ (nel manoscritto è scritta grande, con il pedice n/2 in frazione obliqua; in TikZ basta $K_{n/2}$).\n(2) SUL BORDO DESTRO del cerchio, esattamente all'estremità destra della circonferenza, un nodo PIENO (disco riempito, l'unico pieno del disegno) etichettato $u$; l'etichetta sta sotto/sotto-destra del nodo.\n(3) A DESTRA: un cammino orizzontale che parte da $u$ e procede verso destra sulla stessa quota. Nodi: $u$ (pieno), poi tre nodi VUOTI (cerchietti non riempiti) equispaziati, poi un tratto punteggiato (nel manoscritto quattro trattini corti che continuano la linea, a indicare i vertici omessi), infine un ultimo nodo VUOTO etichettato $v$, con l'etichetta sotto/sotto-destra. Gli archi sono segmenti orizzontali sottili fra nodi consecutivi.\n(4) SOPRA IL CAMMINO: una graffa orizzontale (decorations.pathreplacing, brace) che parte subito a destra di $u$ e arriva sopra $v$, con la punta al centro; sopra la punta l'etichetta $n/2$ (nel manoscritto in frazione obliqua). La graffa misura la parte a bastoncino, cioè gli n/2 vertici del cammino esclusa la clique.\n(5) Nessun'altra etichetta. Tutto in blu (o nel colore accent del documento); testo delle etichette in italiano/matematica come sopra.\nSemantica da preservare: u è il punto di attacco (appartiene alla clique ed è l'estremo del cammino), v è l'estremo libero del bastoncino; la clique ha n/2 vertici, il bastoncino altri n/2, per un totale di n.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina si apre a metà dimostrazione: a p. 84 erano stati enunciati il Lemma «M_G associato a G connesso, non orientato, non bipartito ⇒ ∀v π_v = d(v)/2m» e l'inizio della prova («dobbiamo trovare π soluzione di π = πP; mi basta verificare che…»). Qui viene svolta la verifica componente per componente e chiusa col □, e se ne trae il corollario h_{v,v} = 1/π_v = 2m/d(v). Segue il blocco di definizioni (hitting time h_{u,v}, commute time C_{u,v} = h_{u,v}+h_{v,u}, C_u(G), cover time C(G) = max_u C_u(G)) e la Domanda «h_{u,v} = h_{v,u}?», illustrata dal disegno del lollipop graph L_n. La risposta sta a p. 86, che riprende esattamente da qui: «Dimostreremo: h_{u,v} è Θ(n³) mentre h_{v,u} è Θ(n²)» (dunque l'hitting time NON è simmetrico), poi «dimostreremo anche che in K_n ∀u,v h_{u,v} = Θ(n log n)», l'osservazione che non è ovvio come ragionare per stimare C_u(G) e C(G), il riferimento a «random walks and electric networks» e il Lemma «(u,v)∈E ⇒ h_{u,v}+h_{v,u} ≤ 2m» con la catena di Markov ausiliaria sugli archi orientati. Nulla resta in sospeso su questa pagina, tranne la Domanda, che è volutamente lasciata aperta.",
+ "confidenza": "alta"
+}

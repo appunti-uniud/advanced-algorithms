@@ -1,0 +1,101 @@
+{
+ "pagina": 15,
+ "latex": "\\scan{15}\n\n\\subsection{Algoritmo per la determinazione dei failure link}\n\n\\noindent\\emph{(ricorsione $+$ analisi ammortizzata della complessità)}\n\n\\medskip\n\nVogliamo calcolare $\\nv{v}$ per ogni nodo $v$ del keyword tree $K(\\mathcal{P})$: procediamo\nper ricorsione sulla profondità dei nodi.\n\n\\paragraph{Caso base.} $v = \\mathrm{root}$: banale, si pone $\\nv{\\mathrm{root}} = \\mathrm{root}$.\nBanale è anche il caso dei figli della radice: se $\\mathrm{depth}(v) = 1$ allora $\\L(v)$ è un\nsingolo carattere e il suo unico suffisso proprio è $\\vuota = \\L(\\mathrm{root})$, dunque\n$\\nv{v} = \\mathrm{root}$.\n\n\\paragraph{Passo induttivo.} Se devo determinare $\\nv{v}$, sia $w = \\mathrm{parent}(v)$ e sia\n$\\ell$ l'etichetta dell'arco $\\langle w, v\\rangle$, cosicché $\\L(v) = \\L(w)\\,\\ell$. Poiché\n\\[\n  \\mathrm{depth}(w) < \\mathrm{depth}(v)\n  \\quad\\Longrightarrow\\quad\n  \\text{ho già } \\nv{w},\n\\]\nposso ragionare per casi:\n\\begin{itemize}\n  \\item se $\\nv{w}$ ha un figlio $n$ raggiunto da un arco etichettato $\\ell$,\n        allora $\\nv{v}$ sarà $n$;\n  \\item altrimenti passo a $\\nv{\\nv{w}}$ e determino se \\emph{questo} ha un figlio\n        etichettato $\\ell$, e così via\\dots\n\\end{itemize}\nSi risale cioè la catena dei failure link\n\\[\n  \\nv{w},\\quad \\nv{\\nv{w}},\\quad \\nv{\\nv{\\nv{w}}},\\quad \\dots\n\\]\nfinché o si trova un nodo con un arco uscente etichettato $\\ell$ --- e $\\nv{v}$ è il figlio\ncosì raggiunto --- oppure si arriva alla radice senza trovarlo, e in tal caso\n$\\nv{v} = \\mathrm{root}$. La risalita termina sempre, perché lungo la catena la profondità\ndecresce strettamente.\n\n\\paragraph{Complessità.} Osservo che il numero di nodi analizzati per determinare un singolo\n$\\nv{v}$ è $\\le \\mathrm{depth}(v)$: da qui, mediante un'\\textbf{analisi ammortizzata}, si\nottiene una complessità \\textbf{lineare}.\n\n\\begin{osservazione}\nIl conto per singolo nodo darebbe soltanto il limite pessimistico\n$\\Oh\\bigl(m \\cdot \\max_i m_i\\bigr)$. L'analisi ammortizzata va fatta lungo un intero cammino\nradice--foglia, cioè lungo un pattern $P_i$: passando da un nodo al figlio successivo la\nprofondità del candidato $\\nv{\\cdot}$ cresce al più di $1$, mentre ogni risalita lungo la\ncatena dei failure link la fa calare di almeno $1$. Il numero complessivo di risalite lungo\nil cammino è dunque $\\le m_i$: al peggio si paga il doppio dei passi. Sommando su tutti i\npattern,\n\\[\n  T_{\\text{preprocessing}} = \\Oh\\Bigl(\\sum_{i=1}^{z} m_i\\Bigr) = \\Oh(m),\n\\]\nnel modello in cui l'accesso al figlio dato il carattere costa $\\Oh(1)$.\n\\end{osservazione}\n\n\\begin{domanda}\nChe succede se una stringa è \\emph{fattore} di un'altra stringa?\n\\end{domanda}\n\nSi consideri\n\\[\n  \\mathcal{P} = \\{\\str{acatt},\\ \\str{ca}\\},\n  \\qquad\n  T = \\str{acatg}.\n\\]\nQui $\\str{ca}$ è sottostringa di $\\str{acatt}$ (posizioni $2$--$3$): l'ipotesi semplificativa\n«nessun $P_i$ è sottostringa di un altro $P_j$» è violata.\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/ac-output-link.tikz}\n\\caption{Keyword tree di $\\mathcal{P} = \\{\\str{acatt}, \\str{ca}\\}$. Scandendo\n$T = \\str{acatg}$ la discesa segue gli archi $\\str{a}, \\str{c}, \\str{a}, \\str{t}$ e si arresta\nsul carattere $\\str{g}$ ($\\times$): la foglia di \\str{ca} non viene mai visitata e\nl'occorrenza di \\str{ca} in $\\sub{T}{2}{3}$ va perduta.}\n\\end{figure}\n\n\\noindent\nPercorrendo il cammino di \\str{acatt} si passa «sopra» un'occorrenza di \\str{ca} senza mai\nvisitare la foglia corrispondente: ho perso l'occorrenza di \\str{ca}!\n\n\\medskip\n\n\\noindent\\textbf{Sol.:} aggiungo a ogni nodo un \\emph{output list}\\,/\\,\\emph{output link} di\noccorrenze da riportare (per le sottostringhe).",
+ "note": [
+  {
+   "tipo": "ricostruzione",
+   "pagina": 15,
+   "testo": "La riga \"Se n_w ha un figlio n raggiunto da un arco etichettato ℓ =\" si interrompe letteralmente dopo il segno \"=\" (verificato a 300 dpi nativi: dopo il \"=\" la riga è vuota fino al margine). La definizione di ℓ è quindi rimasta in sospeso. L'ho completata come \"ℓ = etichetta dell'arco ⟨w,v⟩\" e l'ho spostata nell'introduzione del passo induttivo, perché è l'unica lettura matematicamente possibile: la regola di Aho–Corasick è \"v = figlio di w tramite ℓ e n_w ha un figlio tramite ℓ ⟹ n_v = quel figlio\". Ho aggiunto anche l'identità L(v) = L(w)·ℓ, che rende evidente la regola.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 15,
+   "testo": "Il quaderno scrive solo \"Caso base: root → banale\". Così com'è il passo induttivo è scorretto per i nodi di profondità 1: se v è figlio della radice, w = root, n_w = root e root HA un figlio raggiunto dall'arco etichettato ℓ (cioè v stesso), da cui si otterrebbe n_v = v invece di n_v = root. Ho quindi esteso esplicitamente il caso base ai figli della radice, con la giustificazione (L(v) è un solo carattere, il cui unico suffisso proprio è ε). È lo stesso punto che neGli appunti del corso dell'anno precedente viene coperto dal test \"w'' ≠ v'\" (cfr. L04_sintesi §11 e Anomalie 8a).",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 15,
+   "testo": "Nota a margine sinistro, in fondo alla freccia tratteggiata che parte dal blocco della ricorsione: due parole su due righe, lette \"peggio: il\" / \"doppio\". \"peggio\" e \"doppio\" sono leggibili con buona sicurezza (p-e-gg-i-o e d-o-pp-i-o, entrambe con i discendenti caratteristici); il glifo intermedio, preceduto da un puntino, è quasi certamente \"il\" ma potrebbe anche essere un \"2\". Poiché il senso è comunque univoco (nell'analisi ammortizzata si paga al più il doppio dei passi), non ho messo un marcatore nel testo ma ho assorbito la glossa nella frase \"al peggio si paga il doppio dei passi\" dell'osservazione sulla complessità.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 15,
+   "testo": "Gli appunti dichiarano \"analisi ammortizzata ⇒ complessità lineare\" senza svolgere l'argomento e senza dire lineare *in che cosa*. Ho colmato la lacuna con una breve osservazione (potenziale = profondità del candidato n_·: +1 per ogni passo di discesa, −1 per ogni risalita lungo la catena dei failure link ⟹ O(m_i) risalite per pattern ⟹ O(m) totali), specificando che la linearità è in m e vale nel modello con accesso O(1) ai figli. Fonte: Gusfield §3.4 e appunti del corso dell'anno precedente L04 §11.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 15,
+   "testo": "Gli appunti scrivono la catena come \"passo ad n_{n_w} e determino se questo ha un figlio etichettato ...\" con puntini di sospensione. Ho esplicitato le due condizioni di uscita della ricorsione (si trova un nodo con arco uscente ℓ, oppure si raggiunge la radice e allora n_v = root) e la ragione della terminazione (la profondità decresce strettamente lungo la catena): entrambe mancano in pagina 15 ma la seconda è enunciata a p.14/neGli appunti del corso dell'anno precedente come \"N.B. l'algoritmo non può andare in loop\".",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 15,
+   "testo": "La stringa scritta sotto \"P = {acatt, ca}\" è \"acat\" seguito da un glifo con occhiello discendente: NON è una \"t\" (le t di \"acatt\" sono aste con barra trasversale), ma una \"g\". Ho quindi trascritto T = acatg. La lettura è confermata dalla semantica: la figura sottostante mostra un mismatch (×) alla fine della discesa, che con T = acatt non ci sarebbe (si arriverebbe alla foglia). L'alfabeto {a,c,g,t} conferma l'ambientazione tipo DNA.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 15,
+   "testo": "Nel quaderno T = acatg è scritto isolato, senza il simbolo \"T =\". Ho aggiunto esplicitamente \"T = acatg\" accanto a P = {acatt, ca} perché è il testo scandito nella figura sottostante.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 15,
+   "testo": "Interpretazione del disegno: keyword tree di {acatt, ca} con radice in alto. Ramo sinistro root -a-> v1 -c-> v2 -a-> v3 -t-> v4 -t-> v5 (foglia acatt); ramo destro root -c-> u1 -a-> u2 (foglia ca). L'etichetta del secondo arco del ramo sinistro, a prima vista ambigua fra 'a' e 'c', è una 'c' (confronto grafemico con la 'c' del ramo destro): il cammino deve leggere a-c-a-t-t. La curva spessa azzurra che affianca il ramo sinistro, con tre piccole punte di freccia rivolte verso v1, v2, v3, è l'evidenziazione del cammino di discesa durante la scansione di T (non sono failure link: i failure link di v2 e v3 andrebbero sul ramo destro, verso u1 e u2). La curva termina, sotto v4, in una freccia verticale verso il basso sbarrata da una × marcata: è il mismatch sul carattere g. A destra della × l'annotazione \"~ ho perso l'occorrenza di / ca!\".",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 15,
+   "testo": "Fra la riga \"⇒ analisi ammortizzata ⇒ complessità lineare\" e la domanda \"Che succede se una stringa è fattore...\" compare un disegno grigio molto tenue (una barra orizzontale con due graffe ondulate sotto). NON è un disegno di questa pagina: è la trasparenza dal retro del foglio, cioè la figura della stringa S con le due occorrenze di β che si trova a p.16. Non trascritto.",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 15,
+   "testo": "Gli appunti del corso dell'anno precedente (L04) non contengono lo pseudocodice dell'algoritmo, e nemmeno il quaderno dello studente lo contiene. In fase di trascrizione avevo scelto di NON aggiungere un blocco algorithm/algorithmic e di lasciare la ricorsione nella sola forma discorsiva/per casi usata dallo studente; in fase di cucitura la scelta e stata rovesciata e lo pseudocodice E' stato inserito (algoritmo «Calcolo dei failure link di K(P)», visita per livelli, ricostruito su L04_sintesi §11 e Gusfield §3.4). Motivo: il capitolo enuncia esplicitamente l'ordine di elaborazione per profondita crescente, e senza il blocco la visita per livelli e l'inizializzazione di n_root e dei figli della radice restavano implicite. La forma discorsiva «Caso base / Passo induttivo» del quaderno e stata comunque conservata e precede lo pseudocodice. [Voce aggiornata dopo la verifica avversariale di p.15, che l'aveva trovata in contraddizione con il deliverable.]",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 15,
+   "testo": "Notazione: nel preamble.tex \\P è ridefinito come \\mathsf{P} (classe di complessità), quindi per l'insieme dei pattern ho scritto \\mathcal{P} per esteso e non \\P. Usate invece le macro esistenti \\nv{}, \\L, \\vuota, \\str{}, \\sub{}{}{}, \\Oh. Non esistono macro per depth/parent/root: scritti come \\mathrm{depth}, \\mathrm{parent}, \\mathrm{root}.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 15,
+   "testo": "Titoli espliciti presenti nel quaderno: «Algoritmo per la determinazione dei failure link (Ricorsione + analisi ammortizzata della complessita)», «Caso base», «Passo induttivo» (questi ultimi due sottolineati nell'originale). «Caso base» e «Passo induttivo» sono resi come \\paragraph; il titolo lungo e stato invece accorciato in fase di cucitura nella \\subsection «Calcolo dei failure link», perche i due contenuti annunciati fra parentesi (ricorsione e analisi ammortizzata) sono diventati blocchi distinti della sottosezione: i due \\paragraph, lo pseudocodice e il \\paragraph «Complessita» con l'osservazione sull'analisi ammortizzata. La domanda finale «Che succede se una stringa e fattore di un'altra stringa?» e la risposta «Sol.:» sono rese con l'ambiente domanda e con un paragrafo in evidenza, come nell'impaginazione manoscritta. [Voce aggiornata dopo la verifica avversariale di p.15.]",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 15,
+   "testo": "Gli appunti non spiegano *perché* si perde l'occorrenza; scrivono solo \"ho perso l'occorrenza di ca!\" accanto alla ×. Ho aggiunto una frase di raccordo («si passa sopra un'occorrenza di ca senza mai visitare la foglia corrispondente») e la precisazione che ca è sottostringa di acatt alle posizioni 2–3, così l'esempio si lega all'ipotesi semplificativa introdotta a p.13.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 15,
+   "testo": "La sezione «La fase di ricerca» del cap. 04 (invariante L(v) = T[l..c-1], posizioni l e c, aggiornamento l <- c - lp(v) e v <- n_v al mismatch, complessita O(|T|+k)) NON e sul foglio: p.15 si ferma a «analisi ammortizzata => complessita lineare» e passa subito alla domanda sui fattori. E' una ricostruzione fatta in fase di cucitura su Gusfield §3.4 e L04_sintesi §12, necessaria perche altrimenti il capitolo definirebbe i failure link senza mai usarli: il quaderno non formalizza mai come si scandisce T. Nel sorgente la sezione e preceduta da un commento LaTeX che la marca come ricostruzione; nel PDF resta fra i due \\scan{15}, quindi la sua collocazione non corrisponde a contenuto manoscritto. Aggiunta dopo la verifica avversariale di p.15, che ne segnalava la mancata registrazione."
+  }
+ ],
+ "figure": [
+  {
+   "id": "ac-output-link",
+   "pagina": 15,
+   "didascalia": "Keyword tree di P = {acatt, ca}: scandendo T = acatg la discesa si arresta su g e l'occorrenza di ca in T[2..3] va perduta.",
+   "tipo": "albero (keyword tree / trie) con cammino di scansione evidenziato",
+   "specifica": "ALBERO. Radice r, disegnata come piccolo disco pieno blu scuro, in alto al centro, in (0,0).\n\nRAMO DESTRO (pattern 'ca'), due archi che scendono verso destra:\n  r --c--> u1 in (1.2,-1.1);  u1 --a--> u2 in (2.2,-2.2).\n  u2 è foglia. Etichette poste a destra dei rispettivi archi: 'c' vicino a (1.15,-0.45), 'a' vicino a (2.15,-1.55).\n\nRAMO SINISTRO (pattern 'acatt'), cinque archi che scendono verso sinistra con pendenza costante:\n  r --a--> v1 in (-1.0,-1.1);  v1 --c--> v2 in (-1.9,-2.2);  v2 --a--> v3 in (-2.8,-3.3);  v3 --t--> v4 in (-3.7,-4.4);  v4 --t--> v5 in (-4.6,-5.5).\n  v5 è foglia. Etichette poste a SINISTRA dei rispettivi archi, subito sopra il punto medio: 'a' a (-1.05,-0.45), 'c' a (-1.95,-1.55), 'a' a (-2.85,-2.65), 't' a (-3.75,-3.75), 't' a (-4.65,-4.85).\n\nStile: nodi = piccoli dischi pieni blu scuro (raggio ~1.6pt); archi = segmenti dritti in blu medio, tratto sottile; etichette in blu medio, corsivo/typewriter minuscolo (a, c, g, t sono caratteri dell'alfabeto).\nOpzionale (non presente nell'originale, aggiungere solo se migliora la leggibilità): accanto a v5 la scritta grigia piccola 'acatt', accanto a u2 la scritta grigia piccola 'ca'.\n\nEVIDENZIAZIONE DEL CAMMINO DI SCANSIONE (elemento centrale della figura).\nUna curva spessa (spessore ~3x quello degli archi), azzurro chiaro semitrasparente, leggermente ondulata, che corre PARALLELA e appena a DESTRA del ramo sinistro: parte poco sotto la radice (circa (0.15,-0.35)) e scende passando accanto a v1, v2, v3 fino a poco sotto v4 (circa (-3.5,-4.6)).\nLungo questa curva, tre piccole punte di freccia a chevron ('<') rivolte verso SINISTRA, collocate immediatamente a destra di v1, v2 e v3 (circa (-0.55,-1.05), (-1.45,-2.15), (-2.35,-3.25)): indicano il verso della discesa, cioè la scansione che entra via via in v1, v2, v3.\n\nPUNTO DI FALLIMENTO.\nSotto v4 la curva evidenziata prosegue in un breve segmento VERTICALE verso il basso, da circa (-3.4,-4.6) a (-3.4,-5.4), terminato da una punta di freccia piena rivolta in basso.\nSu questo segmento, all'altezza di circa (-3.4,-5.0), una '×' marcata in blu scuro, tratto spesso, che lo sbarra.\nSignificato: dopo aver letto 'acat' ci si trova in v4, il carattere corrente di T è 'g' e l'unico arco uscente da v4 è etichettato 't' — mismatch, la discesa si ferma.\n\nANNOTAZIONE.\nA destra della × e alla sua stessa altezza, un piccolo trattino ondulato '∼' seguito dal testo manoscritto su due righe (in italiano, come nell'originale):\n  riga 1, a circa (-2.4,-5.0): «ho perso l'occorrenza di»\n  riga 2, leggermente rientrata a destra, a circa (-1.5,-5.7): «ca!»\n\nNOTA PER CHI DISEGNA: l'originale è tutto a penna blu; nodi in blu scuro, archi/etichette in blu più chiaro, evidenziazione del cammino in azzurro chiaro spesso, × in blu scuro. Non c'è nel disegno alcuna etichetta 'T = acatg' (la stringa è scritta sopra la figura, nel testo). Non vanno disegnati failure link: nell'originale non ce ne sono.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina chiude il capitolo su keyword tree e Aho--Corasick: l'algoritmo ricorsivo per i failure link è completo (caso base + passo induttivo + terminazione + complessità ammortizzata O(m)), mentre resta in sospeso il rilassamento dell'ipotesi semplificativa: gli \\emph{output link}/\\emph{output list} sono soltanto nominati come \\enquote{soluzione}, senza definizione formale (out(v) = n_v se n_v è fine di un pattern, altrimenti out(n_v)), senza l'integrazione nella visita che calcola i failure link e senza la complessità finale della ricerca O(n+k) né il totale O(m+n+k) --- cioè manca la risposta esplicita alla \\enquote{SFIDA} di p.12 (eliminare il fattore z). Manca inoltre qualunque pseudocodice della fase di ricerca su T. La pagina 16 non riprende nulla di questo: cambia argomento e apre la parte sui suffissi (usare i suffissi di T come collezione di pattern, keyword tree dei suffissi = suffix trie, preprocessing del testo, problema della più lunga sottostringa ripetuta, verso il suffix tree). In sede di cucitura, se si vuole chiudere il discorso sugli output link bisognerà attingere a fonte esterna (Gusfield §3.4 / appunti del corso dell'anno precedente L04 §13).",
+ "confidenza": "alta"
+}

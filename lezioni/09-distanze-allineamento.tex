@@ -1,0 +1,568 @@
+\chapter{Pattern matching inesatto: distanze e allineamento}
+
+\scan{41}%
+Il pattern matching \emph{esatto}, di cui ci siamo occupati finora, ha due volti
+opposti: da un lato è \emph{matematicamente elegante}, dall'altro è \emph{poco
+realistico per le applicazioni}. Il dominio applicativo di riferimento è la
+bioinformatica (cfr.\ i corsi di \emph{Bioinformatica I} e \emph{Bioinformatica
+II}), dove i dati sono intrinsecamente rumorosi: \emph{voglio poter gestire
+errori}.
+
+\begin{domanda}
+  Cosa significa fare pattern matching \emph{con errori}?
+\end{domanda}
+
+Significa, prima di tutto, introdurre una (o più) nozioni di \emph{distanza}
+$d(\a,\b)$ fra stringhe. Le due nozioni principali sono la \emph{distanza di
+Levenshtein} e la \emph{distanza di Hamming}.
+
+
+\section{Distanze fra stringhe}
+
+\subsection{Distanza di Hamming}
+
+Le due stringhe vengono sovrapposte e confrontate \emph{posizione per
+posizione}: la distanza è il numero di posizioni in cui i caratteri
+corrispondenti differiscono.
+
+\begin{figure}[H]
+  \centering
+  \input{tikz/hamming-posizioni.tikz}
+  \caption{Confronto posizione per posizione fra $\a$ e $\b$: le due stringhe
+  hanno la stessa lunghezza e ogni segmento verticale accoppia la $i$-esima
+  posizione di $\a$ con la $i$-esima posizione di $\b$.}
+  \label{fig:hamming-posizioni}
+\end{figure}
+
+\begin{definizione}[Distanza di Hamming]
+  \label{def:hamming}
+  Siano $\a$ e $\b$ due stringhe della \emph{stessa} lunghezza $n$. Allora
+  \[
+    \dham(\a,\b)\;=\;\#\set{\, i \in \set{1,\dots,n} \;:\; \a[i] \neq \b[i] \,}.
+  \]
+\end{definizione}
+
+Su alfabeto binario la definizione si riscrive in modo particolarmente
+compatto: la distanza di Hamming è il \emph{numero di $1$ nella}
+$\mathrm{XOR}(\a,\b)$, perché lo XOR bit a bit vale $1$ esattamente nelle
+posizioni in cui le due stringhe non concordano.
+
+\begin{osservazione}
+  È il punto in cui si salda il discorso sul modello di calcolo del capitolo
+  precedente: lo XOR e il conteggio degli $1$ di una parola di $\log n$ bit
+  costano $\Oh(1)$ grazie alle tabelle precalcolate, quindi la distanza di
+  Hamming fra due stringhe binarie di $n$ bit si calcola in tempo $\Oh(n/\log
+  n)$ anziché $\Oh(n)$.
+\end{osservazione}
+
+\subsection{Distanza di Levenshtein}
+
+Cerchiamo ora una nozione che consenta di catturare la \emph{similarità} tra
+stringhe: accanto a una distanza voglio anche una \emph{misura di similarità}.
+È questo il ruolo della distanza di Levenshtein, che a differenza di quella di
+Hamming non richiede stringhe di uguale lunghezza.
+
+\scan{42}%
+La introduciamo misurando il \emph{lavoro} da fare per ottenere una stringa
+dall'altra.
+
+\begin{esempio}
+  Due sequenze di DNA:
+  \[
+    \sigma_1 = \str{acgtcatca},
+    \qquad
+    \sigma_2 = \str{taagtgtca}.
+  \]
+\end{esempio}
+
+Le operazioni elementari sono quattro; a ciascuna associamo un costo:
+\[
+  \begin{array}{r@{\quad}c@{\qquad}l}
+    \text{costo } 0 & \mathbf{m} & \textit{match}\\[8pt]
+    \text{costo } 1 &
+      \left\{
+        \begin{array}{@{}c@{}}
+          \mathbf{i}\\[3pt] \mathbf{d}\\[3pt] \mathbf{s}
+        \end{array}
+      \right. &
+      \begin{array}{@{}l@{}}
+        \textit{insert}\\[3pt] \textit{delete}\\[3pt] \textit{substitute}
+      \end{array}
+  \end{array}
+\]
+cioè, rispettivamente, corrispondenza, inserzione, cancellazione e
+sostituzione.
+
+Qual è il costo minimo di una sequenza di operazioni in
+$\set{\mathbf{m},\mathbf{i},\mathbf{d},\mathbf{s}}$ che permetta di ottenere
+$\sigma_2$ da $\sigma_1$?
+
+\begin{osservazione}
+  Rispondendo a questa domanda stiamo in realtà definendo il \emph{costo
+  dell'allineamento} di $\sigma_1$ e $\sigma_2$.
+\end{osservazione}
+
+\begin{definizione}[Allineamento]
+  \label{def:allineamento}
+  Un \emph{allineamento} (o \emph{edit string}) di $\sigma_1$ e $\sigma_2$ è una
+  stringa
+  \[
+    \eta \;\in\; \set{\mathbf{m},\mathbf{i},\mathbf{d},\mathbf{s}}^{*}
+  \]
+  che, letta come programma, converte $\sigma_1$ in $\sigma_2$. Il suo
+  \emph{costo} è la somma dei costi delle operazioni che la compongono.
+\end{definizione}
+
+\begin{figure}[H]
+  \centering
+  \input{tikz/allineamento-esempio.tikz}
+  \caption{Un allineamento di $\sigma_1=\str{acgtcatca}$ e
+  $\sigma_2=\str{taagtgtca}$: la riga centrale, riquadrata, è l'allineamento
+  $\eta=\mathbf{i}\,\mathbf{m}\,\mathbf{s}\,\mathbf{m}\,\mathbf{m}\,\mathbf{s}\,\mathbf{d}\,\mathbf{m}\,\mathbf{m}\,\mathbf{m}$;
+  sopra e sotto stanno i caratteri di $\sigma_1$ e di $\sigma_2$ che ciascuna
+  operazione mette in corrispondenza. È il migliore possibile?}
+  \label{fig:allineamento-esempio}
+\end{figure}
+
+\begin{definizione}[Distanza di Levenshtein]
+  \label{def:levenshtein}
+  La \emph{distanza di Levenshtein} (o \emph{distanza di edit}) fra $\sigma_1$ e
+  $\sigma_2$ è il costo minimo di un allineamento che converte $\sigma_1$ in
+  $\sigma_2$:
+  \[
+    \dedit(\sigma_1,\sigma_2)\;=\;\min\set{\,\mathrm{costo}(\eta)\;:\;
+      \eta \text{ converte } \sigma_1 \text{ in } \sigma_2\,}.
+  \]
+\end{definizione}
+
+\begin{domanda}[Problema]
+  Come determino $\eta$, date $\sigma_1$ e $\sigma_2$, in modo che il costo sia
+  \emph{minimo} (e che $\eta$ converta $\sigma_1$ in $\sigma_2$)?
+\end{domanda}
+
+Le due distanze non sono indipendenti. Un allineamento che non usi mai
+$\mathbf{i}$ né $\mathbf{d}$ è esattamente un confronto posizione per posizione,
+cioè un allineamento di tipo Hamming; poiché la distanza di Levenshtein è il
+minimo del costo su \emph{tutti} gli allineamenti, si ha
+\[
+  \dham(\sigma_1,\sigma_2) \;\ge\; \dedit(\sigma_1,\sigma_2)
+\]
+per ogni coppia di stringhe di uguale lunghezza (l'unico caso in cui $\dham$ è
+definita).
+
+
+\section{Costi e punteggi}
+
+\scan{43}%
+Un allineamento si può valutare in due modi \emph{duali}: gli si può associare
+un \emph{costo}, che vogliamo minimizzare, oppure un \emph{punteggio}, che
+vogliamo massimizzare.
+\[
+  \underset{\displaystyle\downarrow}{\text{costo}}
+  \qquad\text{---}\qquad
+  \underset{\displaystyle\uparrow}{\text{punteggio}}
+\]
+
+\subsection{Matrici di costo e di punteggio}
+
+Non tutte le sostituzioni devono pesare allo stesso modo: posso assegnare costi
+(o punteggi) diversi alle diverse sostituzioni, raccogliendoli in una matrice
+indicizzata dalle coppie di caratteri dell'alfabeto.
+
+\begin{esempio}
+  Nel DNA le due purine $(a,g)$ sono simili tra loro, e così le due pirimidine
+  $(c,t)$: una sostituzione interna a una delle due classi va quindi penalizzata
+  meno di una sostituzione fra classi diverse. Una possibile matrice di
+  \emph{punteggio} è allora
+  \[
+    \begin{array}{c|rrrr}
+         &  a &  c &  g &  t \\ \hline
+       a &  2 & -1 &  1 & -1 \\
+       c & -1 &  2 & -1 &  1 \\
+       g &  1 & -1 &  2 & -1 \\
+       t & -1 &  1 & -1 &  2
+    \end{array}
+  \]
+\end{esempio}
+
+\begin{esempio}
+  Posso penalizzare in modo specifico l'\emph{apertura} di un $\gap$: nel DNA è
+  infatti molto probabile che un gap, una volta aperto, si estenda.
+\end{esempio}
+
+\subsection{Funzioni di costo per i gap}
+
+\scan{47}%
+In un allineamento chiamiamo \emph{gap} un blocco massimale di spazi
+consecutivi e indichiamo con $\gamma(n)$ il costo di un gap di lunghezza $n$.
+I modelli di costo che si usano sono tre.
+
+\begin{description}
+  \item[Lineare:] un gap di lunghezza $n$ ha costo
+    \[
+      \gamma(n)\;\equiv\;n\cdot g .
+    \]
+  \item[Convesso:] un gap di lunghezza $n$ ha costo $\gamma(n)$ tale che
+    \[
+      \gamma(i+1)-\gamma(i)\;\le\;\gamma(i)-\gamma(i-1)
+      \qquad \forall\, i\ge 1
+    \]
+    (gli incrementi non crescono: allungare un gap già lungo costa
+    marginalmente meno).
+  \item[Affine:]
+    \[
+      \gamma(n)\;\equiv\;g_o+(n-1)\cdot g_e ,
+    \]
+    dove $g_o$ è il costo di \emph{apertura} del gap e $g_e$ quello di
+    \emph{estensione}.
+\end{description}
+
+Nel seguito, salvo avviso contrario, useremo lo schema di costi \emph{unitari}
+introdotto sopra --- $0$ per il match, $1$ per ciascuna delle altre tre
+operazioni --- che è il caso lineare con $g=1$: né la matrice di punteggio né la
+penalizzazione dell'apertura dei gap intervengono negli algoritmi che seguono.
+
+\subsection{Quale distanza usare?}
+
+\scan{43}%
+Come regola di massima:
+\begin{align*}
+  \text{stringhe lunghe} &\;\longleftrightarrow\; \text{Levenshtein},\\
+  \text{stringhe corte}  &\;\longleftrightarrow\; \text{Hamming}.
+\end{align*}
+
+
+\section{Programmazione dinamica}
+
+\subsection{La ricorrenza}
+
+Poniamo $n_1=\abs{\sigma_1}$ e $n_2=\abs{\sigma_2}$ e indichiamo con
+\[
+  \Dm{i}{j}\;=\;\dedit\bigl(\pre{\sigma_1}{i},\ \pre{\sigma_2}{j}\bigr)
+\]
+la distanza fra i due prefissi di lunghezza $i$ e $j$. Un allineamento ottimo
+dei due prefissi termina necessariamente con una delle tre mosse possibili
+sull'ultima colonna, e questo dà la ricorrenza.
+
+\begin{figure}[H]
+  \centering
+  \input{tikz/dp-stencil.tikz}
+  \caption{Le tre transizioni elementari della ricorsione: dalla coppia di
+  indici $(i,j)$ si passa a $(i+1,j)$ (avanza solo $\sigma_1$: cancellazione), a
+  $(i,j+1)$ (avanza solo $\sigma_2$: inserzione) oppure a $(i+1,j+1)$ (avanzano
+  entrambe: match o sostituzione).}
+  \label{fig:dp-stencil}
+\end{figure}
+
+Posto $\mathrm{cost}(x,y)=0$ se $x=y$ e $\mathrm{cost}(x,y)=1$ altrimenti, si
+ha dunque
+\[
+  \Dm{i}{0}=i \quad \forall i, \qquad \Dm{0}{j}=j \quad \forall j,
+\]
+\[
+  \Dm{i}{j}=\min\bigl\{\,\Dm{i-1}{j-1}+\mathrm{cost}(\sigma_1[i],\sigma_2[j]),\;
+  \Dm{i-1}{j}+1,\; \Dm{i}{j-1}+1 \,\bigr\},
+\]
+e la distanza cercata è $\Dm{n_1}{n_2}$. I casi base dicono semplicemente che
+per allineare un prefisso con la stringa vuota $\vuota$ non si può fare altro
+che cancellarne (o inserirne) tutti i caratteri.
+
+\subsection{Algoritmo ricorsivo esponenziale}
+
+\scan{44}%
+La ricorrenza si traduce direttamente in un algoritmo ricorsivo: per allineare
+il prefisso $\pre{\sigma_1}{i}$ con il prefisso $\pre{\sigma_2}{j}$ basta
+provare le tre mosse possibili sull'ultima colonna dell'allineamento e tenere
+la migliore.
+
+\begin{algorithm}[H]
+\caption{\textsc{allineamento\_exp}: allineamento globale, versione ricorsiva}
+\begin{algorithmic}[1]
+\Function{allineamento\_exp}{$\sigma_1,\sigma_2,i,j$}
+  \If{$i=0$ \textbf{oppure} $j=0$}
+    \State \Return $i+j$ \Comment{casi base}
+  \EndIf
+  \If{$\sigma_1[i]=\sigma_2[j]$}
+    \State $c_S \gets \Call{allineamento\_exp}{\sigma_1,\sigma_2,i-1,j-1}$
+           \Comment{match: costo $0$}
+  \Else
+    \State $c_S \gets 1+\Call{allineamento\_exp}{\sigma_1,\sigma_2,i-1,j-1}$
+           \Comment{sostituzione}
+  \EndIf
+  \State $c_D \gets 1+\Call{allineamento\_exp}{\sigma_1,\sigma_2,i-1,j}$
+         \Comment{cancellazione di $\sigma_1[i]$}
+  \State $c_I \gets 1+\Call{allineamento\_exp}{\sigma_1,\sigma_2,i,j-1}$
+         \Comment{inserzione di $\sigma_2[j]$}
+  \State \Return $\min(c_S,c_D,c_I)$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+Le tre variabili raccolgono i costi delle tre mosse: $c_S$ per la mossa
+diagonale (match, gratuito, oppure sostituzione, di costo $1$), $c_D$ per la
+cancellazione di $\sigma_1[i]$ --- si consuma un carattere di $\sigma_1$ e si
+apre un gap su $\sigma_2$ --- e $c_I$ per l'inserzione di $\sigma_2[j]$. I casi
+base sono corretti: se $i=0$ resta da allineare $\vuota$ con
+$\pre{\sigma_2}{j}$ e servono esattamente $j$ inserzioni, e simmetricamente per
+$j=0$; da cui \textbf{return} $i+j$.
+
+\medskip
+\noindent$\leadsto$\; \textbf{Il costo è esponenziale!}
+
+\begin{osservazione}
+  Sia $C(n)$ il massimo numero di chiamate su un'istanza con $i+j=n$. Le tre
+  chiamate ricorsive hanno taglia $n-2$ (diagonale), $n-1$ e $n-1$, quindi
+  \[
+    C(n) \;\le\; 2\,C(n-1) + C(n-2) + 1, \qquad C(0)=C(1)=1 .
+  \]
+  È una maggiorazione e non un'uguaglianza, perché i casi base scattano non
+  appena \emph{uno} dei due indici si annulla, e non quando $n$ diventa piccolo.
+  L'equazione caratteristica $x^2=2x+1$ dà $x=1\pm\sqrt2$, dunque
+  \[
+    C(n)\;=\;\Oh\!\big((1+\sqrt{2})^{\,n}\big),
+    \qquad n=n_1+n_2 .
+  \]
+  Una stima più grossolana ($3$ chiamate di taglia $n-1$) dà $\Oh(3^{\,n})$: in
+  entrambi i casi il costo è esponenziale nella somma delle lunghezze.
+\end{osservazione}
+
+\subsection{Tabulazione e lower bound}
+
+Ma i possibili valori della coppia $(i,j)$ sono solo $n_1\times n_2$: i
+sottoproblemi distinti sono pochi e la ricorsione li ricalcola un numero
+esponenziale di volte. Conviene allora \emph{tabulare} i risultati $\leadsto$
+una matrice di dimensione quadratica. Da qui il \emph{lower bound}
+\[
+  \Om\big(n_1\times n_2\big).
+\]
+
+\begin{osservazione}
+  Due precisazioni. (i) Le coppie $(i,j)$ ammissibili sono in realtà
+  $(n_1+1)(n_2+1)$, perché gli indici partono da $0$ (prefisso vuoto): la stima
+  $n_1\times n_2$ è corretta come ordine di grandezza. (ii) Il \emph{lower
+  bound} $\Om(n_1\cdot n_2)$ è un limite inferiore \emph{del metodo}, non del
+  problema: riempire tutta la matrice costa almeno quanto il numero delle sue
+  celle. Che non si possa fare sostanzialmente meglio per la distanza di edit è
+  noto solo come risultato \emph{condizionale} (sotto l'ipotesi SETH).
+\end{osservazione}
+
+Tabulando i valori $\Dm{i}{j}$ in una matrice $(n_1+1)\times(n_2+1)$ e
+riempiendola per righe (o per colonne) crescenti, ogni cella si calcola in
+tempo costante dalle tre celle già note: la distanza cercata è $\Dm{n_1}{n_2}$,
+e l'allineamento ottimo $\eta$ si recupera con un \emph{backtracking} dalla
+cella finale verso $(0,0)$, seguendo a ritroso le mosse che hanno realizzato il
+minimo.
+
+\subsection{Che cosa dà la matrice}
+
+\scan{45}%
+Per calcolare la cella $(i,j)$ servono soltanto le tre celle $(i-1,j-1)$,
+$(i-1,j)$ e $(i,j-1)$: stanno tutte nella colonna corrente o in quella
+immediatamente precedente. Mi basta dunque \emph{spazio lineare}! \dots\ ma solo
+per la \emph{distanza} (senza la stringa di edit).
+
+\begin{figure}[H]
+  \centering
+  \input{tikz/dp-stencil-lineare.tikz}
+  \caption{Le tre celle da cui dipende $(i,j)$ cadono tutte fra la colonna $j-1$
+  e la colonna $j$: per calcolare la sola distanza basta tenere in memoria due
+  colonne.}
+  \label{fig:dp-stencil-lineare}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \input{tikz/dp-due-colonne.tikz}
+  \caption{La stessa osservazione letta sulla matrice: si conservano la colonna
+  $j-1$ (già completata) e la colonna $j$ riempita fino alla riga $i-1$; le tre
+  celle marcate sono esattamente quelle da cui dipende $(i,j)$.}
+  \label{fig:dp-due-colonne}
+\end{figure}
+
+\begin{itemize}
+  \item La matrice consente di calcolare la distanza di Levenshtein fra
+        $\sigma_1$ e $\sigma_2$, cioè $\dedit(\sigma_1,\sigma_2)$, in
+        $\Oh(n_1\times n_2)$ tempo \emph{e} spazio.
+  \item La matrice mi permette di calcolare \emph{tutti} gli allineamenti di
+        costo $\dedit(\sigma_1,\sigma_2)$.
+  \item Se riduco la matrice \dubbioinl{all'ultima colonna calcolata} riduco lo
+        spazio a $\Oh(\min(n_1,n_2))$ --- facendo scorrere la matrice lungo il
+        lato più lungo --- \emph{ma non sono più in grado di produrre $\eta$}.
+\end{itemize}
+
+\subsection{Algoritmo di Hirschberg}
+
+Per ottenere \emph{anche} $\eta$ restando in spazio lineare: \textbf{algoritmo
+di Hirschberg}.
+
+\begin{osservazione}
+  La matrice non mi dà soltanto $\dedit(\sigma_1,\sigma_2)$: mi consente di
+  avere
+  \[
+    \dedit\bigl(\sub{\sigma_1}{i}{j},\ \sub{\sigma_2}{i'}{j'}\bigr),
+  \]
+  cioè la distanza fra due \emph{sottostringhe} qualsiasi. Ogni sottorettangolo
+  della matrice è a sua volta un problema di allineamento fra due sottostringhe:
+  è questa la proprietà che permette di spezzare il problema.
+\end{osservazione}
+
+\begin{figure}[H]
+  \centering
+  \input{tikz/hirschberg-divide.tikz}
+  \caption{Schema divide et impera di Hirschberg. La riga mediana $i^{*}$ taglia
+  la matrice in due metà; il cammino ottimo la attraversa in una colonna
+  $j^{*}$, individuata riempiendo l'\emph{intero} rettangolo --- in avanti sopra
+  la riga $i^{*}$, all'indietro sotto di essa. Fatto questo, il problema si
+  spezza nei due sottorettangoli $[0,i^{*}]\times[0,j^{*}]$ e
+  $[i^{*},n_1]\times[j^{*},n_2]$, sui quali si ricorre; le altre due regioni,
+  attraversate una sola volta a questo livello, non entrano nelle chiamate
+  ricorsive.}
+  \label{fig:hirschberg-divide}
+\end{figure}
+
+Poiché a ogni livello della ricorsione l'area complessiva da riempire si
+dimezza, il tempo resta $\Th(n_1 n_2)$ mentre lo spazio scende a
+$\Th(\min(n_1,n_2))$, questa volta \emph{senza} perdere l'allineamento $\eta$.
+
+
+\section{Allineamento locale}
+
+\scan{44}%
+Invece di allineare tutto $\sigma_1$ con tutto $\sigma_2$, cerco le porzioni più
+piccole del pattern che si allineano in modo ottimo con il testo.
+
+\begin{osservazione}
+  È il passaggio dal problema \emph{globale} (prefisso contro prefisso) a quello
+  \emph{locale}. Nella versione che useremo i ruoli delle due stringhe si
+  separano: la prima stringa è il \emph{pattern} e la chiamiamo $\sigma$, la
+  seconda è il \emph{testo} e la chiamiamo $T$; si vuole allineare \emph{tutto}
+  $\sigma$ con una \emph{sottostringa} di $T$, cioè con un suffisso di un
+  prefisso di $T$.
+\end{osservazione}
+
+\scan{46}%
+\begin{figure}[H]
+  \centering
+  \input{tikz/allineamento-locale-prima-riga.tikz}
+  \caption{Matrice dell'allineamento locale: la prima riga vale $0$ in
+  \emph{ogni} colonna. Un allineamento locale è un cammino di backtracking che
+  risale fino a una cella qualsiasi della riga $0$; le due verticali delimitano
+  la porzione di $T$ effettivamente allineata contro tutto $\sigma$.}
+  \label{fig:all-locale-prima-riga}
+\end{figure}
+
+Assegno costo $0$ al gap iniziale e uso lo stesso algoritmo!
+
+\begin{definizione}[Allineamento locale]
+  \label{def:allineamento-locale}
+  L'\emph{allineamento locale} (a distanza $\le d$) del pattern $\sigma$ nel
+  testo $T$ è l'insieme delle coppie $\langle i,\eta_i\rangle$ in cui $\eta_i$ è
+  l'edit string di costo minimo --- e tale costo è $\le d$ --- che allinea tutto
+  $\sigma$ con un suffisso del prefisso $\pre{T}{i}$, cioè con una sottostringa
+  di $T$ che termina in posizione $i$.
+\end{definizione}
+
+\begin{osservazione}
+  Basta quindi compilare la stessa matrice di programmazione dinamica
+  dell'allineamento globale cambiando una sola condizione al contorno. Ne
+  indichiamo ancora le celle con $\Dm{i}{j}$, che d'ora in poi denota la matrice
+  \emph{locale} così reinizializzata:
+  \[
+    \Dm{0}{j}=0 \quad \forall j, \qquad \Dm{i}{0}=i \quad \forall i,
+  \]
+  \[
+    \Dm{i}{j}=\min\bigl\{\,\Dm{i-1}{j-1}+\mathrm{cost}(\sigma[i],T[j]),\;
+    \Dm{i-1}{j}+1,\; \Dm{i}{j-1}+1 \,\bigr\}.
+  \]
+  Con questa inizializzazione ogni cella soddisfa l'invariante
+  \[
+    \Dm{i}{j}=\min_{0\le k\le j}\ \dedit\bigl(\pre{\sigma}{i},\ \sub{T}{k+1}{j}\bigr),
+  \]
+  cioè contiene la distanza fra il prefisso $\pre{\sigma}{i}$ e il
+  \emph{migliore} suffisso del prefisso $\pre{T}{j}$: è esattamente il gap
+  iniziale gratuito.
+\end{osservazione}
+
+Costo dell'allineamento locale:
+\[
+  \abs{\sigma}\times\abs{T},
+\]
+proporzionale all'area della matrice.
+
+\begin{figure}[H]
+  \centering
+  \input{tikz/allineamento-locale-ultima-riga.tikz}
+  \caption{La matrice $\sigma\times T$ dell'allineamento locale. I minimi
+  dell'ultima riga (le tacche in basso) individuano le posizioni finali delle
+  occorrenze approssimate di $\sigma$ in $T$.}
+  \label{fig:all-locale-ultima-riga}
+\end{figure}
+
+\[
+  \text{cerco i minimi costi}\ \iff\ \text{allineamento locale \emph{ottimo}}
+\]
+
+\begin{domanda}
+  Cambia qualcosa se mi accontento della risposta alla domanda «esistono
+  allineamenti locali a costo $\le d$?»
+\end{domanda}
+
+Sì: se il numero $d$ di differenze ammesse è una costante --- $d=\Oh(1)$ ---
+si può fare molto meglio che riempire tutta la matrice.
+
+
+\section{Verso Landau--Vishkin}
+
+\scan{47}%
+Limitandosi agli allineamenti con al più $d$ differenze, infatti, il cammino di
+allineamento non può allontanarsi di più di $d$ diagonali da quella di
+partenza: basta quindi calcolare una banda di $\Oh(d)$ diagonali.
+
+\begin{figure}[H]
+  \centering
+  \input{tikz/landau-vishkin-banda.tikz}
+  \caption{Landau--Vishkin: ogni mossa non diagonale sposta il cammino di
+  esattamente una diagonale, quindi con al più $d$ differenze il cammino non si
+  scosta di più di $d$ diagonali da quella di partenza e resta confinato nella
+  banda di $2d+1$ diagonali delimitata dalle due rette grigie. Le tre frecce
+  marcate $d$ misurano questo scostamento massimo, contato in colonne (mosse
+  orizzontali) o in righe (mosse verticali).}
+  \label{fig:landau-vishkin-banda}
+\end{figure}
+
+Il costo complessivo dell'algoritmo di Landau--Vishkin (1985--1989) è
+\[
+  \Oh\bigl(d\,(\abs{\sigma}+\abs{T})\bigr),
+\]
+cioè $\Oh(\abs{\sigma}+\abs{T})$ --- lineare --- quando il numero $d$ di
+differenze ammesse è costante, invece dei $\abs{\sigma}\times\abs{T}$ della
+programmazione dinamica. La ricetta è:
+\[
+  \text{allineamento locale} \;+\; \text{suffix tree} \;+\; \text{Harel--Tarjan},
+\]
+ossia $\lca$ in tempo costante. L'algoritmo è ripreso e sviluppato nel capitolo
+seguente.
+
+
+\section{Riepilogo}
+
+\scan{47}%
+\begin{itemize}
+  \item $\Oh(m+n)$ --- pattern matching \textbf{esatto}:
+    \begin{itemize}
+      \item KMP;
+      \item Boyer--Moore;
+      \item Aho--Corasick;
+      \item Ukkonen $\Rightarrow$ \STree.
+    \end{itemize}
+  \item $\Oh(m\times n)$ --- pattern matching \textbf{approssimato}:
+    \begin{itemize}
+      \item algoritmo di \dubbioinl{Miller};
+      \item distanze: Hamming e Levenshtein, quest'ultima calcolata per
+        programmazione dinamica.
+    \end{itemize}
+\end{itemize}
+
+\noindent
+dove, come di consueto, $n=\abs{P}$ è la lunghezza del pattern e $m=\abs{T}$
+quella del testo.

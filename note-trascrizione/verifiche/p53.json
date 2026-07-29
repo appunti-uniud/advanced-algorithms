@@ -1,0 +1,13 @@
+{
+ "pagina": 53,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "errore-matematico",
+   "dove": "lezioni/11-randqs.tex, sottosezione \"Il numero armonico\", frase introduttiva alle due stime (riga ~233): «Raggruppando i termini a blocchi di lunghezza 1,2,4,8,... --- i blocchi sono \\lfloor\\log_2 n\\rfloor+1, ciascuno di somma compresa fra 1/2 e 1 ---»",
+   "descrizione": "Affermazione aggiunta dal trascrittore (non presente nel quaderno) e imprecisa su due punti. (a) L'ultimo blocco e in generale troncato a 1/n e la sua somma puo essere < 1/2: per n=5 i blocchi sono {1}, {1/2,1/3}, {1/4,1/5} con somme 1, 0.833, 0.45. Il 'ciascuno' e quindi falso per ogni n che non sia della forma 2^k-1. (b) Il raggruppamento descritto (lunghezze 1,2,4,8,...) e quello della sola prima riga dell'align*; la seconda riga usa il raggruppamento traslato 1 | 1/2 | (1/3+1/4) | (1/5+...+1/8), di lunghezze 1,1,2,4. Le due stime restano comunque valide (la maggiorazione usa solo il <=1 per blocco, la minorazione solo i blocchi completi), quindi non c'e alcun enunciato falso a valle.",
+   "correzione": "Riformulare la frase, per es.: «Raggruppando i termini a blocchi di lunghezza 1,2,4,8,... --- i blocchi sono \\lfloor\\log_2 n\\rfloor+1 e ogni blocco completo ha somma compresa fra 1/2 e 1 (l'ultimo puo essere parziale) --- si ottengono le due stime, la seconda con i blocchi traslati di un posto:»"
+  }
+ ]
+}

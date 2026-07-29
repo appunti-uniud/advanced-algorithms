@@ -1,0 +1,28 @@
+{
+ "pagina": 67,
+ "esito": "problemi-minori",
+ "file_scritto": "/home/rob/UNI/algoritmi_avanzati/lezioni/14-random-walk-2sat.tex",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "notazione",
+   "dove": "lezioni/14-random-walk-2sat.tex, righe 203-225 (ambiente esempio «da DNF a CNF introducendo una variabile»), in relazione alla riga 194",
+   "descrizione": "A riga 194 si dichiara che i letterali sono gli $\\ell^j_i$; quattro righe dopo l'esempio usa $\\varphi_1,\\dots,\\varphi_4$ per gli stessi oggetti. Nel manoscritto non c'e conflitto (tutta la pagina usa $\\varphi/\\Phi$), ma la trascrizione ha normalizzato a $\\ell$ solo il primo display, lasciando $\\varphi$ nell'esempio. Il problema concreto e' alla riga 216-219: «cioe la CNF $(\\varphi_1\\vee u)\\wedge\\cdots$» e' letteralmente una CNF solo se i $\\varphi_i$ sono letterali, mentre nel resto del capitolo $\\varphi$ denota una formula intera (cfr. riga 127, «SAT $\\exists x_1,\\dots,x_n\\ \\varphi$»).",
+   "correzione": "Esplicitare l'ipotesi alla riga 204-207, p.es.: «Si parta dalla DNF $(\\varphi_1\\wedge\\varphi_2)\\vee(\\varphi_3\\wedge\\varphi_4)$, dove $\\varphi_1,\\dots,\\varphi_4$ sono letterali» (in alternativa, usare $\\ell_1,\\dots,\\ell_4$ in tutto l'esempio, coerentemente con la riga 194)."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "errore-logico",
+   "dove": "lezioni/14-random-walk-2sat.tex, righe 279-283 (osservazione sul criterio delle CFC), subito dopo le righe 260-261 che inquadrano APT come risultato su 2-QBF",
+   "descrizione": "Il criterio enunciato («la formula e' insoddisfacibile se e solo se esiste una variabile $x$ tale che $x$ e $\\neg x$ cadono nella stessa CFC di $G$») e' quello corretto per 2-SAT, cioe' per il caso puramente esistenziale; non e' il criterio di Aspvall-Plass-Tarjan per 2-QBF, che richiede in piu' una condizione sull'ordine dei quantificatori. Poiche' l'osservazione segue immediatamente la frase che presenta il risultato come relativo alle 2-QBF, e la stessa osservazione chiude con «si ottiene l'algoritmo $\\Oh(n)$ annunciato» (annunciato per 2-QBF a riga 258), il criterio viene di fatto attribuito anche al caso quantificato.",
+   "correzione": "Restringere esplicitamente l'ambito: «Nel caso puramente esistenziale (2-SAT) il criterio e' il seguente: la formula 2-CNF e' insoddisfacibile se e solo se esiste una variabile $x$ tale che $x$ e $\\neg x$ cadono nella stessa componente fortemente connessa di $G$.» (Eventualmente aggiungere che per 2-QBF serve una condizione ulteriore sull'ordine dei quantificatori.)"
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "figura",
+   "dove": "tikz/grafo-implicazioni-2sat.tikz, righe 14-18 (coordinate del contorno chiuso), in particolare la terna (2.58,0.70) (2.38,0.10) (2.58,-0.45)",
+   "descrizione": "Compilata, la macchia che rappresenta $G$ presenta sul lato destro una rientranza concava netta (una specie di strozzatura a due lobi) prodotta dal punto (2.38,0.10) arretrato rispetto ai due vicini. Nel manoscritto il contorno di $G$ e' una curva chiusa convessa e liscia anche sul lato destro; la rientranza sembra un elemento intenzionale del disegno e non lo e'. Il resto della figura (nodi $\\overline{\\ell_1}\\to\\ell_2$ verso sinistra, $\\overline{\\ell_2}\\to\\ell_1$ verso destra, etichetta $G$ in alto a destra sul bordo, sigla CFC fuori a destra) e' invece fedele al disegno.",
+   "correzione": "Eliminare il punto (2.38,0.10) dall'elenco di coordinate, oppure spostarlo verso l'esterno (p.es. (2.70,0.12)), in modo che il lato destro del contorno resti convesso."
+  }
+ ]
+}

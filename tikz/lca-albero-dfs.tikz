@@ -1,0 +1,45 @@
+% Albero generico T con i nodi numerati in dfs-numbering (preordine).
+% Accanto ai nodi 1, 2, 5 e' indicato l'intervallo dei numeri DFS del
+% sottoalbero radicato in quel nodo: e' sempre un intervallo contiguo.
+\begin{tikzpicture}[
+    nodo/.style={circle,fill,inner sep=0pt,minimum size=3.6pt},
+    arco/.style={line width=0.7pt},
+    num/.style={inner sep=1.5pt},
+    ran/.style={inner sep=1.5pt,text=gray,font=\scriptsize}]
+  \footnotesize
+
+  % ---- nodi ----------------------------------------------------------------
+  \node[nodo] (n1)  at (3.00, 0.00) {};
+  \node[nodo] (n2)  at (1.30,-1.05) {};
+  \node[nodo] (n5)  at (4.40,-0.95) {};
+  \node[nodo] (n3)  at (0.10,-2.05) {};
+  \node[nodo] (n4)  at (1.40,-2.10) {};
+  \node[nodo] (n6)  at (3.35,-2.10) {};
+  \node[nodo] (n7)  at (4.15,-2.00) {};
+  \node[nodo] (n8)  at (5.65,-1.90) {};
+  \node[nodo] (n9)  at (5.15,-2.90) {};
+  \node[nodo] (n10) at (5.95,-2.90) {};
+
+  % ---- archi ---------------------------------------------------------------
+  \draw[arco] (n1) -- (n2)  (n1) -- (n5)
+              (n2) -- (n3)  (n2) -- (n4)
+              (n5) -- (n6)  (n5) -- (n7)  (n5) -- (n8)
+              (n8) -- (n9)  (n8) -- (n10);
+
+  % ---- numeri DFS ----------------------------------------------------------
+  \node[num,anchor=south east] at ([shift={(-0.04,0.06)}]n1.center)  {$1$};
+  \node[num,anchor=south east] at ([shift={(-0.04,0.06)}]n2.center)  {$2$};
+  \node[num,anchor=south west] at ([shift={( 0.06,0.02)}]n5.center)  {$5$};
+  \node[num,anchor=north east] at ([shift={(-0.04,-0.06)}]n3.center) {$3$};
+  \node[num,anchor=north west] at ([shift={( 0.06,-0.06)}]n4.center) {$4$};
+  \node[num,anchor=north east] at ([shift={(-0.04,-0.06)}]n6.center) {$6$};
+  \node[num,anchor=north]      at ([shift={( 0.00,-0.08)}]n7.center) {$7$};
+  \node[num,anchor=west]       at ([shift={( 0.10,0.02)}]n8.center)  {$8$};
+  \node[num,anchor=north]      at ([shift={( 0.00,-0.08)}]n9.center) {$9$};
+  \node[num,anchor=north west] at ([shift={( 0.02,-0.08)}]n10.center){$10$};
+
+  % ---- intervalli dei sottoalberi ------------------------------------------
+  \node[ran,anchor=south west] at ([shift={( 0.08,0.10)}]n1.center) {$[1,10]$};
+  \node[ran,anchor=south east] at ([shift={(-0.32,0.10)}]n2.center) {$[2,4]$};
+  \node[ran,anchor=south west] at ([shift={( 0.30,0.06)}]n5.center) {$[5,10]$};
+\end{tikzpicture}

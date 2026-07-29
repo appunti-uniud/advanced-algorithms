@@ -1,0 +1,90 @@
+{
+ "pagina": 76,
+ "latex": "\\scan{76}\n\n\\begin{definizione}[Stato transiente, stato persistente]\nSia $i$ uno stato di una catena di Markov.\n\\begin{itemize}\n  \\item $i$ si dice \\emph{transiente} se\n    \\[\n      f_{ii} \\;<\\; 1 \\qquad (\\text{e dunque } h_{ii} = \\infty);\n    \\]\n  \\item $i$ si dice \\emph{persistente} se\n    \\[\n      f_{ii} \\;=\\; 1 .\n    \\]\n    Uno stato persistente si dice inoltre\n    \\begin{itemize}\n      \\item \\emph{persistente non nullo} se $h_{ii} < \\infty$;\n      \\item \\emph{persistente nullo} se $h_{ii} = \\infty$.\n    \\end{itemize}\n\\end{itemize}\n\\end{definizione}\n\n\\begin{osservazione}\nLe tre situazioni si leggono così.\n\\begin{itemize}\n  \\item $i$ \\emph{transiente}: non è certo che si ripassi da $i$. Con probabilità\n    $1-f_{ii} > 0$ la catena, partita da $i$, non vi fa mai più ritorno, e per questo\n    il tempo medio di ritorno vale $h_{ii} = \\infty$.\n  \\item $i$ \\emph{persistente non nullo}: il ritorno in $i$ è certo e avviene, in media,\n    dopo un numero finito di passi.\n  \\item $i$ \\emph{persistente nullo}: il ritorno in $i$ è certo ($f_{ii}=1$) eppure il\n    numero atteso di passi diverge. Ciò accade quando esistono \\emph{primi ritorni} in $i$\n    arbitrariamente lunghi --- cammini da $i$ a $i$ che non passano per $i$ nei vertici\n    intermedi --- con probabilità che non decresce abbastanza in fretta da rendere\n    convergente la serie\n    \\[\n      h_{ii} \\;=\\; \\sum_{t>0} t\\, r_{ii}^{(t)} .\n    \\]\n\\end{itemize}\n\\end{osservazione}\n\n\\begin{proposizione}\nNel caso che interessa a noi, cioè quando l'insieme degli stati è \\emph{finito}, ogni stato è\ntransiente oppure persistente non nullo: non esistono stati persistenti nulli.\n\\end{proposizione}\n\n\\begin{definizione}[Componenti fortemente connesse]\nLe \\emph{componenti fortemente connesse} (\\emph{strongly connected components}, SCC) di un\ngrafo orientato sono le classi di equivalenza della relazione di \\emph{mutua raggiungibilità}\n\\[\n  i \\sim j\n  \\quad\\iff\\quad\n  \\text{$j$ è raggiungibile da $i$\\; e\\; $i$ è raggiungibile da $j$.}\n\\]\n\\end{definizione}\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/p76-scc.tikz}\n\\caption{Le componenti fortemente connesse di un grafo orientato: ogni bolla è una classe di\nequivalenza della relazione di mutua raggiungibilità. All'interno di una bolla ogni nodo\nraggiunge ogni altro (e infatti un ciclo orientato li attraversa tutti); fra bolle distinte\ngli archi vanno tutti in un solo verso, altrimenti le due bolle sarebbero un'unica SCC.}\n\\end{figure}",
+ "note": [
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 76,
+   "testo": "Prima riga: il quaderno scrive «Def.:  • f_ii ⌐1  (h_ii = ∞) → i transiente». Il segno fra f_ii e 1 è tracciato in modo angoloso e a bassa risoluzione sembra una «T»; ingrandito a 2x è il simbolo «<» chiuso in punta. Ho scritto f_ii < 1: è l'unica lettura compatibile con la teoria (Motwani–Raghavan §6.5: i è transiente sse f_ii < 1) e con la parentesi h_ii = ∞ che la segue, nonché con la riga successiva f_ii = 1 che definisce il caso complementare.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 76,
+   "testo": "La pagina non è prosa ma un diagramma ad albero: due bullet («f_ii < 1» e «f_ii = 1») con frecce a destra verso le etichette sottolineate «i transiente» e «i persistente», e da «i persistente» due frecce (una diagonale verso sinistra-basso, una verticale verso il basso) che portano ai due casi «h_ii < ∞ / non nulla» (a sinistra) e «h_ii = ∞ / nulla» (a destra). Ho reso l'albero come un ambiente definizione con elenco puntato e sotto-elenco, conservando esattamente le stesse quattro condizioni e la stessa gerarchia (i due sotto-casi pendono da «persistente», non da «transiente»).",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 76,
+   "testo": "Concordanza grammaticale: il quaderno etichetta i due rami con «non nulla» e «nulla» (femminile) e conclude «ogni stato è transiente o persistente non-nulla». Poiché il soggetto è «stato» (maschile) ho scritto «persistente non nullo» e «persistente nullo». Il femminile del manoscritto si spiega con la sottintesa «persistenza» (o con il calco dall'inglese null/non-null persistent di Motwani–Raghavan, dove l'aggettivo non ha genere). Nessuna conseguenza sul contenuto.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 76,
+   "testo": "Glossa del ramo «h_ii = ∞ / nulla»: il quaderno scrive, in piccolo, «cammini da i a i arbitrariamente lunghi (che non passano da i)». Presa alla lettera è contraddittoria (un cammino da i a i passa per i agli estremi). Il significato è quello di r_ii^(t): il PRIMO ritorno in i al tempo t, cioè un cammino da i a i che non tocca i nei vertici intermedi. L'ho esplicitato («cammini da i a i che non passano per i nei vertici intermedi») e ho aggiunto la formula h_ii = Σ_{t>0} t·r_ii^(t), già definita a p.75, per rendere chiaro perché la serie possa divergere pur essendo Σ_t r_ii^(t) = 1.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 76,
+   "testo": "Glossa del ramo «transiente»: il quaderno ha una freccia che sale da «non è certo che ripasso da i» verso l'etichetta «i transiente». L'ho resa in prosa nell'osservazione e ho esplicitato la quantificazione (con probabilità 1 - f_ii > 0 la catena non torna mai più in i), che nel manoscritto è sottintesa ma segue direttamente dalla definizione di f_ii = Σ_{t>0} r_ii^(t) data a p.75.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 76,
+   "testo": "La parentesi «(h_ii = ∞)» accanto a f_ii < 1 è coerente con la convenzione già fissata a p.75 («f_ij < 1 ⟹ j non raggiungibile da i ⟹ h_ij = ∞»). Tecnicamente la serie Σ t·r_ii^(t) può essere finita anche con f_ii < 1: Motwani–Raghavan pone per convenzione h_ij = ∞ quando f_ij < 1. Ho scritto «e dunque h_ii = ∞» seguendo il quaderno e la convenzione già introdotta, senza aprire la questione nel testo; l'intuizione (con probabilità positiva non si torna mai, quindi il tempo medio di ritorno è infinito) è data nell'osservazione.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 76,
+   "testo": "L'enunciato «Nel nostro caso (numero finito di stati) ogni stato è transiente o persistente non nullo» è corretto ed è il Lemma 6.4 / Teorema 6.5 di Motwani–Raghavan (in una catena di Markov finita esiste almeno uno stato persistente e nessuno stato persistente è nullo). L'ho promosso ad ambiente proposizione. Il quaderno non ne dà dimostrazione e non l'ho aggiunta, per non introdurre contenuto assente.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 76,
+   "testo": "Ultima riga in blu: «SCC» cerchiato, con «strongly connected components» scritto in verticale nel margine sinistro, seguito da «classi di eq. della rel. di mutua raggiungibilità». Ho espanso le abbreviazioni (eq. → equivalenza, rel. → relazione) e ho esplicitato la relazione in formula (i ∼ j sse j è raggiungibile da i e i è raggiungibile da j), che nel quaderno non compare.",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 76,
+   "testo": "Sigla: qui il quaderno usa «SCC» (con la glossa inglese nel margine) e l'ho mantenuta, anche perché p.77 continua a scrivere SCC. Attenzione però che nella trascrizione di p.67 (2-SAT, Aspvall–Plass–Tarjan) la stessa nozione era stata resa con la sigla italiana «CFC». In fase di cucitura conviene uniformare le due pagine su una sola sigla (suggerisco SCC, che è quella effettivamente usata nel manoscritto in entrambi i punti).",
+   "risolto": false
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 76,
+   "testo": "Gli appunti del corso dell'anno precedente dell'anno precedente (L17_sintesi.md) NON contengono la classificazione transiente/persistente/nullo: la loro sezione sulle catene di Markov si ferma a matrice stocastica, memoryless property, esempio dell'orologio e Basic Limit Theorem. La fonte di questa pagina è Motwani–Raghavan, cap. 6.5 «Markov Chains» (definizioni di f_ij, h_ij, transient/persistent/null persistent, e il teorema sulle catene finite), coerentemente con la notazione r_ij^(t), f_ij, h_ij introdotta a p.75. Nessuna divergenza da segnalare, ma nessun riscontro possibile suGli appunti del corso dell'anno precedente",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 76,
+   "testo": "La metà inferiore della pagina è occupata da un disegno a MATITA, tratto leggero e in buona parte cancellato/sbiadito (la scritta blu «strongly connected components» gli è sovrapposta a sinistra). Per leggerlo ho estratto il canale acromatico (pixel a bassa saturazione) separandolo dalla quadrettatura azzurra. È un grafo orientato con quattro «bolle» (curve chiuse) che raggruppano i nodi: dentro ogni bolla i nodi sono percorsi da un ciclo orientato, fra bolle diverse gli archi vanno in un solo verso. È esattamente l'illustrazione della definizione di SCC scritta appena sopra, e prepara p.77 («se penso alla catena come a un grafo, le SCC che ottengo sono etichettate con le nozioni di transiente/persistente»). Nel manoscritto i nodi non hanno etichette e le bolle non hanno nome; nella specifica TikZ ho proposto di etichettare le bolle C1..C4 per poterle citare nella didascalia: è un'aggiunta mia. Il numero esatto di nodi delle due bolle più piccole (in basso a sinistra e in basso al centro) non è determinabile con certezza per via della cancellatura; le due bolle grandi in alto sono invece leggibili (2 nodi con 2-ciclo; 4 nodi con ciclo orientato).",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 76,
+   "testo": "Notazione mantenuta coerente con p.75: r_ij^(t) (probabilità di prima transizione in j al tempo t partendo da i), f_ij = Σ_{t>0} r_ij^(t), h_ij = Σ_{t>0} t·r_ij^(t) (hitting time). Nessuna macro nuova introdotta; ho usato solo \\scan, gli ambienti definizione/osservazione/proposizione e figure+\\input, tutti previsti dalle convenzioni.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "p76-scc",
+   "pagina": 76,
+   "didascalia": "Le componenti fortemente connesse di un grafo orientato: ogni bolla è una classe di equivalenza della relazione di mutua raggiungibilità. All'interno di una bolla ogni nodo raggiunge ogni altro (e infatti un ciclo orientato li attraversa tutti); fra bolle distinte gli archi vanno tutti in un solo verso, altrimenti le due bolle sarebbero un'unica SCC.",
+   "tipo": "grafo orientato con decomposizione in componenti fortemente connesse (bolle)",
+   "specifica": "Disegno a mano libera (nell'originale è a matita, tratto sottile e in parte cancellato). Rappresenta un grafo orientato decomposto nelle sue SCC. Riquadro di riferimento: larghezza 1, altezza 0,85; le coordinate qui sotto sono relative, (0,0) in basso a sinistra.\n\nBOLLE (curve chiuse a mano libera, tratto sottile, forma di ameba/ovale irregolare, NON ellissi perfette; possono sfiorarsi ma non sovrapporsi):\n\n• C1 — piccola, in alto a sinistra, centro ≈ (0,25 ; 0,86), semiassi ≈ 0,10 × 0,11. Contiene 2 nodi (dischetti pieni, senza etichetta): n1 ≈ (0,27 ; 0,93) in alto, n2 ≈ (0,21 ; 0,80) in basso a sinistra. Archi interni: freccia curva n2 → n1 che sale piegando a sinistra, e freccia curva n1 → n2 che scende piegando a destra (2-ciclo).\n\n• C2 — la più grande, occupa il centro-destra, centro ≈ (0,62 ; 0,55), larghezza ≈ 0,62, altezza ≈ 0,72. Contiene 4 nodi disposti lungo un ciclo orientato: m1 ≈ (0,46 ; 0,86) in alto a sinistra, m2 ≈ (0,78 ; 0,76) in alto a destra, m3 ≈ (0,88 ; 0,35) in basso a destra, m4 ≈ (0,45 ; 0,50) al centro-basso. Archi interni (frecce curve, tutte concordi nel verso del ciclo): m1 → m2 (arco che scende dolcemente verso destra), m2 → m3 (arco lungo che segue il bordo destro della bolla scendendo), m3 → m4 (arco che risale verso sinistra, punta rivolta a sinistra), m4 → m1 (arco quasi verticale che risale, punta rivolta in alto). Il ciclo m1→m2→m3→m4→m1 è ciò che rende la bolla fortemente connessa.\n\n• C3 — piccola, in basso a sinistra, centro ≈ (0,13 ; 0,40), semiassi ≈ 0,07 × 0,13. Contiene 2 nodi: p1 ≈ (0,12 ; 0,34), p2 ≈ (0,15 ; 0,48), con una coppia di frecce curve p1 → p2 e p2 → p1 (2-ciclo). Nel manoscritto questa bolla è quasi del tutto cancellata: si distinguono un nodo e archi curvi; ricostruirla come 2-ciclo per coerenza semantica.\n\n• C4 — media, in basso al centro, centro ≈ (0,42 ; 0,14), larghezza ≈ 0,32, altezza ≈ 0,28. Contiene 3 nodi: q1 ≈ (0,33 ; 0,20), q2 ≈ (0,52 ; 0,17), q3 ≈ (0,41 ; 0,05), con frecce q1 → q2, q2 → q3, q3 → q1 (ciclo orientato di lunghezza 3).\n\nARCHI FRA LE BOLLE (frecce più lunghe e più marcate; tutti in un solo verso, così che la condensazione sia un DAG):\n• una freccia lunga entra da fuori, dal margine sinistro all'altezza ≈ 0,80, curva verso l'alto a destra e punta su n2 di C1 (nell'originale parte dal bordo sinistro del foglio, accanto alla scritta «strongly connected components»);\n• C1 → C2: freccia da n2 (bordo destro di C1) verso m1;\n• C1 → C3: freccia che scende verso sinistra dal bordo inferiore di C1 fino al bordo superiore di C3;\n• C2 → C4: freccia che scende dal bordo inferiore-sinistro di C2 verso il bordo superiore di C4.\n\nETICHETTE: nel manoscritto non ce ne sono (né sui nodi né sugli archi né sulle bolle). Per la versione pulita: nessuna etichetta sui nodi e sugli archi; etichettare invece le quattro bolle, in piccolo e appena fuori dal contorno, con $C_1$ (in alto a sinistra), $C_2$ (in alto a destra), $C_3$ (a sinistra), $C_4$ (in basso), così che la didascalia possa citarle. Nessuna probabilità sugli archi: qui il grafo serve solo come supporto combinatorio, non come catena di Markov con pesi.\n\nSTILE: nodi = dischetti pieni piccoli; archi = frecce curve sottili con punta piccola; bolle = curve chiuse a tratto sottile (eventualmente tratteggiato o grigio chiaro) per distinguerle dagli archi. Nessun riempimento colorato, oppure un grigio molto tenue dentro le bolle.\n\nSEMANTICA DA PRESERVARE (vincoli che la ricostruzione non deve violare): (i) ogni bolla è fortemente connessa, quindi deve contenere un ciclo orientato che tocca tutti i suoi nodi; (ii) fra due bolle distinte gli archi devono andare tutti nella stessa direzione, altrimenti le due bolle collasserebbero in un'unica SCC; (iii) il grafo delle bolle (condensazione) dev'essere aciclico: con gli archi indicati risulta C1 → C2 → C4 e C1 → C3, che è un DAG.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina prosegue senza soluzione di continuità da p.75, dove erano state introdotte, per una catena di Markov discreta, le quantità r_ij^(t) (probabilità che la prima transizione in j avvenga al tempo t partendo da i), f_ij = Σ_{t>0} r_ij^(t) (probabilità di raggiungere mai j da i) e h_ij = Σ_{t>0} t·r_ij^(t) (hitting time), con la convenzione «f_ij < 1 ⟹ j non raggiungibile da i ⟹ h_ij = ∞». Qui quelle quantità vengono specializzate al caso i = j e usate per classificare gli stati: transiente (f_ii < 1), persistente (f_ii = 1) con i due sotto-casi non nullo (h_ii < ∞) e nullo (h_ii = ∞); segue il fatto che in una catena finita gli stati persistenti nulli non esistono. Nell'ultima riga si apre il punto di vista grafico con la definizione di SCC come classi di equivalenza della mutua raggiungibilità, illustrata dal disegno a matita in fondo alla pagina. Il seguito è a p.77, che riprende esattamente da lì: «se penso alla catena come a un grafo, le SCC che ottengo sono etichettate con le nozioni di transiente / persistente», poi definisce SCC finale (priva di archi uscenti), M.C. irriducibile (una sola SCC finale), lo state probability vector q^(t) = (q_1^(t), …, q_n^(t)) con q^(t+1) = q^(t) P e q^(t) = q^(0) P^t, e infine la distribuzione stazionaria π = πP. Nulla resta in sospeso su questa pagina, salvo il fatto che la proposizione sulle catene finite è enunciata senza dimostrazione.",
+ "confidenza": "alta"
+}

@@ -1,0 +1,30 @@
+# output LaTeX
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.synctex.gz
+*.bbl
+*.bcf
+*.blg
+*.run.xml
+*.fdb_latexmk
+*.fls
+algoritmi.pdf
+
+# materiale di lavoro della trascrizione: scansioni renderizzate, prove di
+# compilazione, cache. Rigenerabile con note-trascrizione/pipeline/render.sh
+.build/
+
+# repository di un altro corso, che si trovava in questa cartella
+validation-and-verification/
+
+# Materiale del corso di anni precedenti, usato localmente come fonte di
+# supporto. Non viene ridistribuito qui.
+old_2024/
+
+# scansione originale a 300 DPI, conservata solo in locale
+# (nel repo va la versione a 150 DPI, leggibile e sei volte piu leggera)
+appunti-300dpi.pdf

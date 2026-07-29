@@ -1,0 +1,20 @@
+{
+ "pagina": 29,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "media",
+   "categoria": "errore-logico",
+   "dove": "lezioni/07-shift-and.tex, righe 60-77 (paragrafo «E allora: questa matrice serve davvero a fare pattern matching?» + didascalia di fig:shift-and-colonne + commento iniziale di tikz/shift-and-colonne.tikz)",
+   "descrizione": "Il paragrafo attribuisce al dot-plot D la ricorrenza SHIFT+AND e il criterio di occorrenza che valgono invece per la matrice M dello Shift-And (introdotta solo a p.30, sezione 3). L'antecedente di «La j-esima colonna» e' inequivocabilmente D («questa matrice ... non occorre tenerla in memoria per intero: basta muoversi per colonne»), ma per D si ha D[.,j] = U_{T[j]} e le due affermazioni sono false: (i) shift(D_{j}) AND U_{T[j+1]} != D_{j+1} in generale (controesempio: P=aa, T=ba: D_1 = U_b = 00, shift(D_1) = 10, 10 AND U_a = 10, mentre D_2 = U_a = 11); (ii) «Un 1 che arrivi fino all'ultima riga segnala un'occorrenza di P in T» e' falso per D, dove D[n,j]=1 significa solo P[n]=T[j] (stesso controesempio: D[2,2]=1 ma T[1..2]=ba non contiene aa). Il capitolo introduce D vs M proprio per evitare la confusione segnalata come piu' pericolosa neGli appunti del corso dell'anno precedente (L07, anomalia 5), e qui la ricrea.",
+   "correzione": "Rendere esplicito che l'array di n bit che si fa evolvere NON e' la colonna del dot-plot. Sostituire il paragrafo di riga 72-77 con qualcosa come: «Ogni colonna del dot-plot e' un array di n bit, uno per ciascuna posizione del pattern; non e' pero' questo array che conviene far evolvere. L'algoritmo mantiene un solo vettore di n bit alla volta --- la colonna della matrice M che definiremo nella Sezione~\\ref{...} --- e per passare dal vettore al tempo j a quello al tempo j+1 gli bastano due operazioni bit a bit: uno \\textsc{shift}, che fa scendere di una posizione gli 1 gia' accesi, e un \\textsc{and} con la maschera del carattere di testo appena letto (Definizione~\\ref{def:shift-and-maschere}). Un 1 che arrivi fino all'ultima riga segnalera' un'occorrenza di P in T.» Adeguare la didascalia di fig:shift-and-colonne (parlare di «vettore di stato» / «colonna di M», non di colonna del dot-plot) e il commento iniziale di tikz/shift-and-colonne.tikz, che oggi recita «Il dot-plot letto per colonne»."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "notazione",
+   "dove": "lezioni/07-shift-and.tex, righe 11-13 (paragrafo «Fissiamo le notazioni per tutto il capitolo»)",
+   "descrizione": "La convenzione qui fissata (|P|=n, |T|=m) e' l'opposto di quella dichiarata nel capitolo precedente, 06-karp-rabin.tex riga 31 («poniamo m = |P|, n = |T|»), che e' anche la convenzione delle etichette originali della figura di p.29 (T[n] sulle colonne, P[m] sulle righe). La scelta e' deliberata e documentata in NOTE-EDITORIALI.md (p.29/p.30) ed e' quella giusta per il capitolo, ma nel documento assemblato il lettore passa senza preavviso da O(n) = testo a O(n) = pattern.",
+   "correzione": "Aggiungere una nota a pie' di pagina o un inciso al paragrafo di riga 11-13, per esempio: «(attenzione: nel capitolo su Karp--Rabin le due lettere sono scambiate, m = |P| e n = |T|)». In alternativa, uniformare la convenzione fra i capitoli 06 e 07 in fase di cucitura."
+  }
+ ]
+}

@@ -1,0 +1,20 @@
+{
+ "pagina": 6,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "notazione",
+   "dove": "lezioni/02-kmp-z.tex, sez. \\subsection{Riduzione dell'exact matching alla funzione Z} (\\label{sec:z-riduzione}), righe 284-286, prima frase dopo \\scan{6}",
+   "descrizione": "Si scrive che «c'e bisogno di avere $\\Zv{i}(A)$ per ogni $i\\in\\set{1,\\dots,\\abs{A}}$», ma la Definizione~\\ref{def:funzione-z} dello stesso capitolo (riga 251) definisce $\\Zv{i}(S)$ solo per $2\\le i\\le\\abs{S}$, e l'osservazione successiva (righe 275-276) dice esplicitamente «La posizione $i=1$ va invece esclusa a mano». Anche l'\\Ensure di \\textsc{Zcalc} (riga 425) produce i soli $\\Zv{2},\\dots,\\Zv{\\abs{S}}$. Il testo rinvia dunque a un valore $\\Zv{1}(A)$ che il capitolo dichiara non definito. Il manoscritto scrive «$i\\in[1,\\dots,|A|]$», ma la policy prevede di correggere in silenzio cio di cui si e certi, e qui l'incoerenza e interna al capitolo.",
+   "correzione": "Sostituire $i\\in\\set{1,\\dots,\\abs{A}}$ con $i\\in\\set{2,\\dots,\\abs{A}}$ (in alternativa: $i\\in\\set{2,\\dots,\\abs{A}}$, essendo $\\Zv{1}$ escluso per convenzione)."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "omissione",
+   "dove": "lezioni/02-kmp-z.tex, riga 307: \\subsection{Calcolo di Z} (\\label{sec:z-calcolo}) porta solo \\scan{7}",
+   "descrizione": "Tutta la meta inferiore della pagina 6 e confluita in una sezione marcata solo \\scan{7}: il titolo esplicito del quaderno «Calcolo di $Z_i$» (sottolineato), il punto 1) «mantengo un intervallo (blocco) $[\\ell,r]$ con $r$ max t.c. $A[\\ell,r]$ e un prefisso di $A$», il punto 2) con la corrispondenza $i\\mapsto i'$, i sottocasi 2a/2b e le due figure della pagina non hanno alcun rimando alla scansione 6. La sequenza dei marcatori nel file e 3,4,5,5,6,7,6,8. Il contenuto non e perso (pagina 7 ripresenta gli stessi punti in forma piu dettagliata, con $\\alpha,\\beta,x,y$), ma la tracciabilita richiesta dalla convenzione «\\scan{NN} all'inizio del contenuto di ogni pagina» si.",
+   "correzione": "Inserire \\scan{6} subito dopo \\subsection{Calcolo di Z} (riga 308, prima di «La risposta e: per ricorsione...») e spostare il \\scan{7} al punto in cui inizia il materiale proprio della pagina 7, cioe al capoverso «Scandiamo $i=2,3,\\dots,\\abs{S}$» (riga 322)."
+  }
+ ]
+}

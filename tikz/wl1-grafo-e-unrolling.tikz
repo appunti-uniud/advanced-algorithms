@@ -1,0 +1,64 @@
+% wl1-grafo-e-unrolling -- pag. 79
+% Due pannelli: a sinistra il grafo G (un albero con due centri, sei vertici
+% colorati R, B, G, N); a destra il suo srotolamento di profondita' 2 radicato
+% nel vertice N.
+% Controllo semantico: i figli della radice sono i vicini di N, cioe' R, B
+% (foglia) e B (il secondo centro); sotto ciascuno compaiono i suoi vicini,
+% compreso il ritorno al padre. Le due foglie R e B hanno il solo vicino N; il
+% secondo centro B ha per vicini G, R e N.
+% NB: nel quaderno i pallini non sono colorati, solo etichettati con l'iniziale
+% del colore (Rosso, Blu, Giallo, Nero): si mantiene questa scelta.
+\begin{tikzpicture}[x=1cm,y=1cm,line join=round,line cap=round,font=\footnotesize,
+    nodo/.style={circle,fill,inner sep=0pt,minimum size=3.6pt},
+    arco/.style={line width=0.7pt},
+    col/.style={inner sep=2.5pt}]
+
+  % ======================= pannello sinistro: il grafo G ===================
+  \begin{scope}[shift={(0,0)}]
+    \node[nodo] (c1) at ( 0.00, 0.00) {};   % centro superiore, colore N
+    \node[nodo] (r1) at (-1.10, 1.05) {};   % foglia R
+    \node[nodo] (b1) at ( 1.10, 1.05) {};   % foglia B
+    \node[nodo] (c2) at ( 0.00,-1.60) {};   % centro inferiore, colore B
+    \node[nodo] (g)  at (-0.90,-2.60) {};   % foglia G
+    \node[nodo] (r2) at ( 0.90,-2.60) {};   % foglia R
+
+    \draw[arco] (c1) -- (r1)  (c1) -- (b1)  (c1) -- (c2)
+                (c2) -- (g)   (c2) -- (r2);
+
+    \node[col,anchor=west,inner sep=4pt] at (c1.east) {$N$};
+    \node[col,anchor=south east] at (r1.north west) {$R$};
+    \node[col,anchor=south west] at (b1.north east) {$B$};
+    \node[col,anchor=west]       at (c2.east)       {$B$};
+    \node[col,anchor=north east] at (g.south west)  {$G$};
+    \node[col,anchor=north west] at (r2.south east) {$R$};
+  \end{scope}
+
+  % ============ pannello destro: lo srotolamento radicato in N =============
+  \begin{scope}[shift={(5.30,0.45)}]
+    \node[nodo] (t)   at ( 0.00, 0.00) {};   % radice: il vertice N
+    \node[nodo] (tR)  at (-1.60,-1.20) {};   % vicino R (foglia)
+    \node[nodo] (tB)  at ( 0.00,-1.20) {};   % vicino B (secondo centro)
+    \node[nodo] (tB2) at ( 1.60,-1.20) {};   % vicino B (foglia)
+    \node[nodo] (l1)  at (-2.60,-2.50) {};   % vicino di R: N
+    \node[nodo] (l2)  at (-0.80,-2.50) {};   % vicini del secondo centro: G
+    \node[nodo] (l3)  at ( 0.00,-2.50) {};   %                            R
+    \node[nodo] (l4)  at ( 0.80,-2.50) {};   %                            N
+    \node[nodo] (l5)  at ( 2.60,-2.50) {};   % vicino di B (foglia): N
+
+    \draw[arco] (t) -- (tR)  (t) -- (tB)  (t) -- (tB2)
+                (tR) -- (l1)
+                (tB) -- (l2)  (tB) -- (l3)  (tB) -- (l4)
+                (tB2) -- (l5);
+
+    \node[col,anchor=south]      at (t.north)      {$N$};
+    \node[col,anchor=south east] at (tR.north west) {$R$};
+    \node[col,anchor=south east] at (tB.north west) {$B$};
+    \node[col,anchor=south west] at (tB2.north east){$B$};
+    \node[col,anchor=north]      at (l1.south)     {$N$};
+    \node[col,anchor=north]      at (l2.south)     {$G$};
+    \node[col,anchor=north]      at (l3.south)     {$R$};
+    \node[col,anchor=north]      at (l4.south)     {$N$};
+    \node[col,anchor=north]      at (l5.south)     {$N$};
+  \end{scope}
+
+\end{tikzpicture}

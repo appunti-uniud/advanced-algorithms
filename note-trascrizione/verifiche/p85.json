@@ -1,0 +1,13 @@
+{
+ "pagina": 85,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "notazione",
+   "dove": "lezioni/16-random-walk-grafi.tex, riga 222 (dentro la dimostrazione del Lemma sulla distribuzione stazionaria, subito dopo la catena di uguaglianze)",
+   "descrizione": "La frase «perché i vicini di $u$ --- cioè gli archi incidenti a $u$ --- sono esattamente $d(u)$» identifica esplicitamente («cioè») i vicini di $u$ (vertici) con gli archi incidenti a $u$ (archi): sono due insiemi diversi, in bijezione solo perché $G$ è semplice. È un residuo del fatto che il manoscritto somma su $(v,u)\\in E$ mentre la trascrizione ha (giustamente) riscritto l'indice come $v\\in\\Gamma(u)$: una volta cambiato l'indice, il riferimento agli archi non serve più e confonde.",
+   "correzione": "Sostituire con: «perché i vicini di $u$ sono esattamente $\\abs{\\Gamma(u)} = d(u)$.» (oppure «perché la somma ha esattamente $d(u)$ addendi, uno per ogni vicino di $u$»)."
+  }
+ ]
+}

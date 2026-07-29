@@ -1,0 +1,75 @@
+{
+ "pagina": 71,
+ "latex": "\\scan{71}\n\nSommando i contributi dei singoli incrementi si ottiene il valore atteso del numero di\npassi necessari a visitare tutto $K_n$:\n\\[\n  \\E(\\tau_n) \\;=\\; \\sum_{i=0}^{n-1} \\frac{1}{p_i}\n  \\;=\\; \\sum_{i=0}^{n-1} \\frac{n-1}{n-i}\n  \\;=\\; (n-1) \\sum_{i=0}^{n-1} \\frac{1}{n-i}\n  \\;\\approx\\; \\underbrace{n\\,H_n}_{\\Oh(n\\log n)},\n\\]\ndove $H_n = \\sum_{k=1}^{n} 1/k$ è l'$n$-esimo numero armonico. Il cover time di $K_n$\ncresce dunque come $\\Th(n \\log n)$: è il classico conto del \\emph{coupon collector}.\n\n\\begin{osservazione}\n  L'addendo con $i=0$ è spurio, perché $p_0 = n/(n-1)$ non è una probabilità (il primo\n  passo porta con certezza su un nodo non ancora visitato); il valore esatto è\n  $(n-1)H_{n-1}$. La differenza è di un solo passo e non cambia l'ordine di grandezza.\n\\end{osservazione}\n\nIl conto appena fatto è però un valore \\emph{medio}, e questo è esattamente il punto\ndelicato della visita randomizzata:\n\\begin{center}\n  Cover $\\iff$ Visita $\\iff$ \\dots\\ \\emph{valore atteso}?\n\\end{center}\nLa copertura del grafo da parte del random walk fa le veci di una visita, ma di essa non\nconosciamo il costo esatto: sappiamo soltanto quanti passi servono \\emph{in media}. Nasce\nallora la domanda:\n\\begin{center}\n  \\textbf{quando mi fermo?}\n\\end{center}\nLa risposta viene dalla disuguaglianza di Markov: è mediante Markov che siamo in grado di\nstimare l'errore che si commette fermandosi dopo un numero prefissato di passi.\n\n\\begin{teorema}[Disuguaglianza di Markov]\\label{thm:markov}\n  Sia $X$ una variabile aleatoria a valori interi non negativi e sia $a > 0$. Allora\n  \\[\n    \\Pr[X \\ge a] \\;\\le\\; \\frac{\\E[X]}{a}.\n  \\]\n\\end{teorema}\n\n\\begin{dimostrazione}\n  \\begin{align*}\n    \\E[X] \\;=\\; \\sum_{t=0}^{\\infty} t \\Pr[X = t]\n      &\\;\\ge\\; \\sum_{t \\ge a} t \\Pr[X = t] \\\\\n      &\\;\\ge\\; \\sum_{t \\ge a} a \\Pr[X = t]\n      \\;=\\; a \\sum_{t \\ge a} \\Pr[X = t]\n      \\;=\\; a \\Pr[X \\ge a].\n  \\end{align*}\n  La prima disuguaglianza vale perché si stanno buttando via addendi non negativi ($X$ è\n  a valori $\\ge 0$), la seconda perché nel dominio di somma si ha $t \\ge a$. Dividendo per\n  $a > 0$ si ottiene l'enunciato.\n\\end{dimostrazione}\n\nSulla base delle precedenti osservazioni posso ridurre arbitrariamente l'errore\n(trade-off tempo/correttezza) relativamente alla mia visita. Basta leggere la\ndisuguaglianza nel modo seguente:\n\\begin{itemize}\n  \\item $X$ rappresenta la complessità (numero di passi) della mia visita \\emph{corretta},\n        cioè di quella che copre effettivamente tutto il grafo;\n  \\item fisso $a$ uguale al numero di passi eseguiti dalla mia visita, cioè al numero di\n        passi che decido di spendere.\n\\end{itemize}\nAllora l'evento $X \\ge a$ è esattamente l'evento «mi fermo prima di aver coperto il\ngrafo», e Markov ne stima la probabilità:\n\\[\n  \\underbrace{\\Pr[X \\ge a]}_{\\text{probabilità di errore}} \\;\\le\\; \\frac{\\E[X]}{a}.\n\\]\nAumentando $a$ (cioè lavorando di più) la stima dell'errore scende quanto si vuole.",
+ "note": [
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 71,
+   "testo": "La riga «Cover ⟺ Visita ⟺ … ??? ?» conteneva due parole quasi illeggibili (traccia ripassata due volte, sottolineate con un ghirigoro). Ingrandendo a 1200 dpi e confrontando i grafemi con p.70 (dove ricorre più volte «valore atteso») ho stabilito che si tratta di «valore atteso»: la 'v' dello studente ha la forma di una 'u/n' e la 'a' iniziale di «atteso» è attaccata alla doppia 't' con barra lunga. Trascritto quindi «Cover ⟺ Visita ⟺ … valore atteso?».",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 71,
+   "testo": "Somma del cover time: il quaderno scrive Σ_{i=0}^{n-1} 1/p_i = Σ_{i=0}^{n-1} (n-1)/(n-i) = (n-1)Σ_{i=0}^{n-1} 1/(n-i) ≈ n H_n. Ho mantenuto gli indici del manoscritto (coerenti con p.70, dove la decomposizione telescopica è scritta con i da 0 a n-1), perché il risultato asintotico è corretto, ma ho aggiunto una breve `osservazione`: per i=0 si avrebbe p_0 = n/(n-1) > 1, quindi quell'addendo non corrisponde a nessun passo reale e il valore esatto del cover time di K_n è (n-1)H_{n-1}. La fonte dell'anno precedente (L17 §4) scrive infatti Σ_{i=1}^{n-1} = (n-1)H_{n-1}.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 71,
+   "testo": "Ultimo passaggio della dimostrazione di Markov: il quaderno scrive «⩾ a Pr[X ⩾ a]», ma subito sopra, sotto la riga precedente, lo studente ha tracciato il simbolo ‖ (cioè '='), a marcare che Σ_{t≥a} a Pr[X=t] è *uguale* ad a Pr[X≥a]. Ho scritto '=' (relazione esatta), esplicitando anche il passaggio intermedio a Σ_{t≥a} Pr[X=t]. Il '⩾' scritto a penna non è falso, ma è una svista di inerzia sulla catena precedente.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 71,
+   "testo": "Gli estremi inferiori della seconda e terza sommatoria sono scritti 't ⩾ a' (non 't = a'), con il simbolo ripassato; l'estremo superiore è ∞. Ho trascritto Σ_{t ≥ a}, che è anche la forma più chiara.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 71,
+   "testo": "L'annotazione a destra, collegata da una lunga freccia diagonale alla domanda «quando mi fermo?», recita testualmente «(mediante M. siamo in grado di stimare l'errore di)»: la frase resta sospesa su un 'di' senza complemento. L'ho resa in prosa come «è mediante Markov che siamo in grado di stimare l'errore che si commette fermandosi dopo un numero prefissato di passi», che è l'unico completamento sensato alla luce dell'uso fatto subito dopo (a = passi eseguiti, Pr[X≥a] = probabilità di errore). 'M.' = Markov.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 71,
+   "testo": "Formula finale: il manoscritto scrive Pr[X ⩾ a] ≤ E[X]/a con l'etichetta «pb. di errore» sotto Pr[X⩾a] e una freccia curva che parte dalla parola «stimo» (scritta sopra a destra, con 't' barrata e puntino della 'i': all'inizio l'avevo letta 'fino') e punta alla disuguaglianza. Ho reso l'etichetta con \\underbrace{...}_{probabilità di errore} (abbreviazione espansa come da policy) e la parola «stimo» con la frase «Markov ne stima la probabilità».",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 71,
+   "testo": "Le tre frasi telegrafiche finali del quaderno («Sulla base delle precedenti osservazioni posso ridurre arbitrariamente (trade-off tempo/correttezza) l'errore, relativamente alla mia visita»; «X rappresenta la complessità (num. di passi) della mia visita corretta»; «Fisso a uguale al numero di passi eseguiti dalla mia visita») sono state riorganizzate in un capoverso con elenco puntato, aggiungendo solo il collante logico («l'evento X ≥ a è l'evento: mi fermo prima di aver coperto il grafo»), che è la lettura implicita e obbligata delle due definizioni date.",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 71,
+   "testo": "Gli appunti del corso dell'anno precedente (L17 §4.1) glossano l'osservazione «Cover ⟺ Visita» con «… in O(1) spazio». Sulla pagina 71 dello studente questa precisazione NON compare (compare invece il richiamo al 'valore atteso'), quindi non l'ho importata: ho scritto solo che del random walk conosciamo il costo in media. La motivazione dello spazio costante appartiene alle pagine precedenti del blocco.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 71,
+   "testo": "Nell'enunciato di Markov ho scritto «variabile aleatoria a valori interi non negativi»: il quaderno non enuncia le ipotesi (scrive solo la formula), ma la dimostrazione riportata usa somme discrete su t = 0, 1, 2, … e la non negatività per scartare la coda iniziale. È la versione discreta del teorema, coerente con l'uso (X = numero di passi).",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 71,
+   "testo": "La pagina non contiene disegni veri e propri: solo frecce di collegamento (dalla riga «Cover ⟺ Visita ⟺ … valore atteso?» alla domanda «quando mi fermo?»; dalla disuguaglianza di Markov all'annotazione fra parentesi; da «stimo» alla formula finale) e due sottolineature/graffe di enfasi. Ho reso tutto in prosa e con \\underbrace, quindi non produco alcuna voce in `figure`. In alto a destra, accanto a «≈ n H_n», c'è una macchia tonda di inchiostro trasparso dal foglio opposto: non è un simbolo, ignorata.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 71,
+   "testo": "L'indicazione «O(n log n)» è scritta sotto una freccetta '∧' che punta a «n H_n»: l'ho resa con \\underbrace{n H_n}_{O(n log n)} e ho aggiunto la frase di chiusura sul coupon collector (già presente come nome del problema nel blocco precedente degli appunti).",
+   "risolto": true
+  }
+ ],
+ "figure": [],
+ "continuita": "La pagina si chiude con la disuguaglianza di Markov applicata alla visita randomizzata: Pr[X ≥ a] ≤ E[X]/a, dove X è il numero di passi della visita completa e a il numero di passi effettivamente eseguiti, cioè con la stima della probabilità di errore. Resta in sospeso la quantificazione numerica del trade-off e il valore di E[X]. La pagina 72 riprende esattamente da lì con l'«Esempio»: E[X] = n², a = 2n² ⟹ Pr[X ≥ 2n²] ≤ 1/2, e con 100n² passi errore ≤ 1/100; poi il rilancio con K run indipendenti da 2n² passi tenendo il massimo numero di nodi visitati (errore 1/2^K); quindi il teorema sul cover time C_G ≤ 2m(n-1) per il random walk su grafi, il caso lineare C_{L_n} ≤ 2n² usato per 2-SAT, e infine l'apertura del blocco «Catene di Markov» con il riferimento a Feller, vol. I, cap. XV.",
+ "confidenza": "alta"
+}

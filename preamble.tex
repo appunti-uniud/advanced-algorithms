@@ -1,0 +1,258 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Preambolo -- Algoritmi Avanzati
+%% Classe: academica (Airy).  Compilare con lualatex.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% academica carica gia': tikz, pgfplots, mathtools, amssymb, tcolorbox, xcolor,
+% graphicx, float, caption/subcaption, listings, hyperref, xspace, unicode-math.
+
+\usetikzlibrary{automata,positioning,trees,arrows.meta,calc,fit,shapes.geometric,
+                decorations.pathreplacing,decorations.markings,matrix,backgrounds,chains}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{marginnote}
+
+% Localizzazione italiana.
+% NB: non si puo' usare babel/polyglossia perche' academica carica biblatex
+% (che pretende di essere caricato DOPO il pacchetto di lingua). Rinominiamo
+% quindi a mano le poche stringhe che compaiono nel documento.
+\renewcommand{\chaptername}{Capitolo}
+\renewcommand{\contentsname}{Indice}
+\renewcommand{\listfigurename}{Elenco delle figure}
+\renewcommand{\listtablename}{Elenco delle tabelle}
+\renewcommand{\figurename}{Figura}
+\renewcommand{\tablename}{Tabella}
+\renewcommand{\bibname}{Bibliografia}
+\renewcommand{\indexname}{Indice analitico}
+\renewcommand{\appendixname}{Appendice}
+\renewcommand{\partname}{Parte}
+
+\providecommand{\qedhere}{}
+
+% academica scrive "List of Figures"/"List of Tables" dentro una tikzpicture,
+% quindi \listfigurename non basta: va ridefinito il comando.
+\makeatletter
+\renewcommand{\listoffigures}{%
+  \chapter*{%
+    \vspace*{-20\p@}%
+    \begin{tikzpicture}[overlay]
+      \draw[fill=accent,draw=accent,rounded corners] (10,-0.65) rectangle (20,1);
+      \pgftext[right,x=16.7cm,y=0.2cm]{\Huge\sc\bfseries\textcolor{white}{\listfigurename}}
+    \end{tikzpicture}%
+  }%
+  \@starttoc{lof}%
+}
+\renewcommand{\listoftables}{%
+  \chapter*{%
+    \vspace*{-20\p@}%
+    \begin{tikzpicture}[overlay]
+      \draw[fill=accent,draw=accent,rounded corners] (10.5,-0.65) rectangle (20,1);
+      \pgftext[right,x=16.7cm,y=0.2cm]{\Huge\sc\bfseries\textcolor{white}{\listtablename}}
+    \end{tikzpicture}%
+  }%
+  \@starttoc{lot}%
+}
+\makeatother
+
+\setlength{\parindent}{0pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% AMBIENTI IN ITALIANO
+%% academica definisce gli ambienti colorati in inglese (Definition, Theorem,
+%% ...). Qui aggiungiamo gli alias italiani, numerati e non, riusando gli
+%% stessi contatori e colori della classe.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\makeatletter
+% versione numerata (riusa i contatori della classe: stessa numerazione
+% degli ambienti inglesi, così i due stili non divergono)
+\newcommand{\aa@num}[4]{% #1 nome env, #2 contatore, #3 etichetta, #4 colore
+  \newenvironment{#1}[1][]{%
+    \refstepcounter{#2}\def\@currentlabelname{##1}%
+    \begin{accentbox}[##1]{#3}{\csname the#2\endcsname}{#4}%
+  }{\end{accentbox}}%
+  \expandafter\newcommand\csname #1autorefname\endcsname{#3}%
+}
+\aa@num{definizione}{definition}{Definizione}{lilla}
+\aa@num{teorema}{theorem}{Teorema}{blue}
+\aa@num{proposizione}{proposition}{Proposizione}{deepsea}
+\aa@num{corollario}{corollary}{Corollario}{deepsea}
+\aa@num{dimostrazione}{proof}{Dimostrazione}{pink}
+\aa@num{esempio}{example}{Esempio}{orange}
+\aa@num{esercizio}{exercise}{Esercizio}{orange}
+\aa@num{domanda}{question}{Domanda}{green}
+\makeatother
+
+% versioni non numerate
+\newenvironment{definizione*}[1][]{\begin{accentbox*}[#1]{Definizione}{lilla}}{\end{accentbox*}}
+\newenvironment{teorema*}[1][]{\begin{accentbox*}[#1]{Teorema}{blue}}{\end{accentbox*}}
+\newenvironment{proposizione*}[1][]{\begin{accentbox*}[#1]{Proposizione}{deepsea}}{\end{accentbox*}}
+\newenvironment{corollario*}[1][]{\begin{accentbox*}[#1]{Corollario}{deepsea}}{\end{accentbox*}}
+\newenvironment{dimostrazione*}[1][]{\begin{accentbox*}[#1]{Dimostrazione}{pink}}{\end{accentbox*}}
+\newenvironment{esempio*}[1][]{\begin{accentbox*}[#1]{Esempio}{orange}}{\end{accentbox*}}
+\newenvironment{esercizio*}[1][]{\begin{accentbox*}[#1]{Esercizio}{orange}}{\end{accentbox*}}
+\newenvironment{domanda*}[1][]{\begin{accentbox*}[#1]{Domanda}{green}}{\end{accentbox*}}
+\newenvironment{lemma*it}[1][]{\begin{accentbox*}[#1]{Lemma}{deepsea}}{\end{accentbox*}}
+
+% "Osservazione" non numerata (equivalente italiano di \begin{note})
+\newenvironment{osservazione}[1][]{\begin{accentbox*}[#1]{Osservazione}{gray}}{\end{accentbox*}}
+
+% autoref in italiano per gli ambienti della classe
+\renewcommand{\lemmaautorefname}{Lemma}
+\renewcommand{\chapterautorefname}{Capitolo}
+\renewcommand{\sectionautorefname}{Sezione}
+
+\hyphenation{suf-fis-so suf-fis-si pre-fis-so pre-fis-si strin-ga strin-ghe}
+\hyphenation{al-li-nea-men-to ran-do-miz-za-to ran-do-miz-za-ti com-pres-se}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% MARCATORI EDITORIALI
+%% Usati SOLO quando il dubbio resta irrisolto. Ogni scelta e' comunque
+%% registrata in NOTE-EDITORIALI.md.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Riferimento alla pagina della scansione originale (appunti.pdf).
+% Usa \marginnote e non \marginpar: quest'ultimo e' un float e va perso se
+% invocato dentro un tcolorbox (cioe' dentro definizione/teorema/...).
+%
+% NB: academica non riserva spazio a margine (\marginparwidth vale 0pt), per cui
+% senza queste due righe ogni \scan produce un Overfull \hbox di ~20pt. Il
+% margine destro utile e' 44.8pt (597.5 - 72.27 - 2.42 - 478.01), quindi si sta
+% larghi con 34+4 = 38pt.
+\setlength{\marginparwidth}{34pt}
+\setlength{\marginparsep}{4pt}
+
+\newcommand{\scan}[1]{%
+  \marginnote{%
+    \raggedright\scriptsize\color{gray!140}\textsf{scan\\p.\,#1}%
+  }%
+}
+
+% Blocco: lettura del manoscritto non determinabile con certezza
+\newenvironment{dubbio}[1][Lettura incerta]{%
+  \begin{accentbox*}[#1]{Dubbio}{red}%
+}{%
+  \end{accentbox*}%
+}
+
+% Blocco: buco negli appunti, ricostruzione non conclusiva
+\newenvironment{lacuna}[1][Lacuna negli appunti]{%
+  \begin{accentbox*}[#1]{Lacuna}{yellow}%
+}{%
+  \end{accentbox*}%
+}
+
+% Versioni inline
+\newcommand{\dubbioinl}[1]{{\color{red}[?\,\textit{#1}]}}
+\newcommand{\lacunainl}[1]{{\color{orange}[\dots\,\textit{#1}]}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% STRINGHE E STRING MATCHING
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\alfa}{\S}                    % alfabeto (\S = \Sigma da academica)
+\newcommand{\str}[1]{\texttt{#1}}         % stringa letterale
+\newcommand{\sub}[3]{#1[#2\,..\,#3]}      % sottostringa S[i..j]
+\newcommand{\suf}[2]{#1[#2\,..\,]}        % suffisso S[i..]
+\newcommand{\pre}[2]{#1[1\,..\,#2]}       % prefisso S[1..i]
+\newcommand{\conc}{\cdot}                 % concatenazione
+\newcommand{\vuota}{\varepsilon}          % stringa vuota
+
+\DeclareMathOperator{\lcp}{lcp}
+\DeclareMathOperator{\lcs}{lcs}
+\DeclareMathOperator{\lca}{lca}
+\DeclareMathOperator{\lcey}{lce}
+
+% KMP / Z
+\newcommand{\spv}[1]{\mathit{sp}_{#1}}     % sp_i
+\newcommand{\spp}[1]{\mathit{sp}'_{#1}}    % sp'_i
+\newcommand{\Zv}[1]{Z_{#1}}                % Z_i
+\newcommand{\Zbox}{Z\text{-box}\xspace}
+\newcommand{\fail}{\mathit{fail}}
+
+% Boyer-Moore
+\newcommand{\bc}[1]{R(#1)}                 % bad character rule
+\newcommand{\Lp}[1]{L(#1)}                 % good suffix (strong) rule
+\newcommand{\lp}[1]{\ell(#1)}
+
+% Aho-Corasick
+\newcommand{\goto}{\mathit{goto}}
+\newcommand{\out}{\mathit{output}}
+\newcommand{\nv}[1]{n_{#1}}                % failure link
+
+% Suffix tree / trie
+\newcommand{\STrie}{\textsf{STrie}\xspace}
+\newcommand{\STree}{\textsf{STree}\xspace}
+\newcommand{\albero}[1]{\mathcal{T}(#1)}
+\newcommand{\slink}{\mathit{sl}}           % suffix link
+\newcommand{\etich}[1]{\mathit{label}(#1)}
+\newcommand{\cammino}[1]{\mathit{path}(#1)}
+
+% Allineamento / distanze
+\newcommand{\dedit}{d_{\mathrm{edit}}}
+\newcommand{\dham}{d_{\mathrm{H}}}
+\newcommand{\Dm}[2]{D(#1,#2)}
+\newcommand{\Vm}[2]{V(#1,#2)}
+\newcommand{\gap}{\mathit{gap}}
+\newcommand{\indel}{\mathit{indel}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ALGORITMI RANDOMIZZATI
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\E}{\mathbb{E}}
+\renewcommand{\Pr}{\operatorname{Pr}}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\newcommand{\indic}[1]{\mathbf{1}_{\{#1\}}}
+\newcommand{\RandQS}{\textsc{RandQS}\xspace}
+\newcommand{\LasVegas}{Las~Vegas\xspace}
+\newcommand{\MonteCarlo}{Monte~Carlo\xspace}
+\newcommand{\mincut}{\textsc{MinCut}\xspace}
+\newcommand{\contract}{\textsc{Contract}\xspace}
+% classi di complessita' randomizzate
+\newcommand{\RP}{\mathsf{RP}}
+\newcommand{\coRP}{\mathsf{coRP}}
+\newcommand{\ZPP}{\mathsf{ZPP}}
+\newcommand{\BPP}{\mathsf{BPP}}
+\newcommand{\PP}{\mathsf{PP}}
+\newcommand{\PSPACE}{\mathsf{PSPACE}}
+\newcommand{\NP}{\mathsf{NP}}
+\renewcommand{\P}{\mathsf{P}}   % nota: academica definiva \P = \mathcal{P}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% STRUTTURE DATI COMPRESSE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\select}{select}
+\DeclareMathOperator{\access}{access}
+\newcommand{\BWT}{\textsf{BWT}\xspace}
+\newcommand{\FMindex}{\textsf{FM-index}\xspace}
+\newcommand{\SA}{\mathit{SA}}
+\newcommand{\LF}{\mathit{LF}}
+\newcommand{\entropia}[1]{H_{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% VARIE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\Oh}{\mathcal{O}}
+\newcommand{\Th}{\Theta}
+\newcommand{\Om}{\Omega}
+\newcommand{\defeq}{\vcentcolon=}
+\renewcommand{\emptyset}{\varnothing}
+
+% Ambienti algoritmo in italiano
+\algrenewcommand\algorithmicrequire{\textbf{Input:}}
+\algrenewcommand\algorithmicensure{\textbf{Output:}}
+\algrenewcommand\algorithmicwhile{\textbf{while}}
+\algrenewcommand\algorithmicfor{\textbf{for}}
+\algrenewcommand\algorithmicif{\textbf{if}}
+\algrenewcommand\algorithmicreturn{\textbf{return}}
+\floatname{algorithm}{Algoritmo}

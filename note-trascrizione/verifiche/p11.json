@@ -1,0 +1,41 @@
+{
+ "pagina": 11,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "errore-logico",
+   "dove": "lezioni/03-boyer-moore.tex, osservazione dopo la Definizione di L'(i) (riga 164): «La sola condizione~1) definirebbe $L(i)$»",
+   "descrizione": "La condizione 1) da sola non definisce L(i): poiche' P[i..n] e' sempre suffisso di P[1..n], il massimo j che soddisfa la sola 1) e' j = n, non l'occorrenza interna piu' a destra. Serve il vincolo j <= n-1. La stessa osservazione, tre righe piu' sotto, dice esplicitamente che e' la 2) a escludere j = n: le due affermazioni si contraddicono se non si esplicita il vincolo.",
+   "correzione": "Scrivere «La sola condizione~1), con il vincolo $j\\le n-1$, definirebbe $L(i)$ ...» (oppure «La sola condizione~1), imponendo che l'occorrenza termini prima di $n$, definirebbe $L(i)$»)."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "errore-matematico",
+   "dove": "lezioni/03-boyer-moore.tex, formula incorniciata $N_j[P]=\\Zv{n-j+1}[P^r]$ (riga 239) e osservazione seguente",
+   "descrizione": "$N_j[P]$ e' definito per $j=1,\\dots,n$ (riga 196), ma per $j=n$ il membro destro diventa $Z_1[P^r]$, che nel cap. 02 (Definizione «Funzione Z», $2\\le i\\le\\abs{S}$) e' esplicitamente escluso («La posizione $i=1$ va invece esclusa a mano»). Cosi' com'e' l'identita' e' mal posta in un estremo. La restrizione e' innocua: nel seguito $N_j$ serve solo per $j\\le n-1$ (Teorema, e formule di $L'$ e $\\ell$).",
+   "correzione": "Enunciare l'identita' per $1\\le j\\le n-1$ (p.es. «per ogni $1\\le j\\le n-1$» accanto al box), ricordando che il caso residuo e' $N_n[P]=n$, gia' osservato a riga 201."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "notazione",
+   "dove": "lezioni/03-boyer-moore.tex, Definizione di $\\lp{i}$ (righe 261-265) e usi successivi (righe 267-289, algoritmo)",
+   "descrizione": "La macro \\lp stampa $\\ell(i)$ senza apice, mentre la grandezza gemella e' scritta ovunque $L'(i)$ con apice; in Gusfield (e nella sintesi degli appunti dell'anno precedente) le due si chiamano $L'(i)$ e $\\ell'(i)$. L'asimmetria e' incoerente e suggerisce (a torto) l'esistenza di una versione «debole» $\\ell$ contrapposta a una forte. La stessa nota editoriale sul preambolo (NOTE-EDITORIALI riga 1992) segnala che \\Lp/\\lp sono definite senza apice e che per questo $L'(i)$ e' stato scritto per esteso: la stessa scelta va fatta per $\\ell'$.",
+   "correzione": "Scrivere $\\ell'(i)$ per esteso (come gia' fatto per $L'(i)$) al posto di \\lp{i}, oppure ridefinire \\lp in \\ell'(#1) nel preambolo; aggiornare di conseguenza il titolo della definizione e le occorrenze nello pseudocodice."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "figura",
+   "dove": "tikz/bm-lprimo.tikz, etichette delle posizioni: nodi $i-1$ (x=7.4) e $i$ (x=8.0)",
+   "descrizione": "Le due etichette sono centrate a soli 0.6 di distanza e nel PDF si toccano quasi («i-1 i»), rendendo poco leggibile quale tacca corrisponda a quale posizione; e' l'unico punto della figura in cui le etichette si accavallano.",
+   "correzione": "Allargare la cella di $y$ (p.es. tacche a 6.6 e 8.2 con $y$ a 7.4 e la stessa lunghezza per le due barre grigie), oppure ancorare l'etichetta $i$ leggermente a destra (anchor=north west) per separarla da $i-1$."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "omissione",
+   "dove": "lezioni/03-boyer-moore.tex, sezione «Lo spostamento della GSR e il ciclo di ricerca» (righe 254-336), che ricade sotto \\scan{11}",
+   "descrizione": "Il contenuto della pagina 11 finisce con la formula incorniciata e con il disegno abbandonato (gia' motivato in NOTE-EDITORIALI riga 668); la pagina 12 apre Aho--Corasick. Tutta la sezione successiva (definizione di $\\ell(i)$, formule di $L'$ e $\\ell$ da $N$, spostamento $\\sigma(i)$, pseudocodice del ciclo di ricerca, tabella dei costi) e' quindi un'integrazione che non ha riscontro in alcuna scansione, ma resta attribuita a \\scan{11} perche' e' l'ultimo rimando del capitolo. La matematica e' stata verificata ed e' corretta (coincide con Gusfield 2.2.5: shift $n-L'(i)$, $n-\\ell'(i)$, $n-\\ell'(2)$ dopo un'occorrenza, 1 se il primo confronto fallisce), ma l'integrazione non risulta registrata in NOTE-EDITORIALI, contrariamente alla policy 3 e alla linea tenuta altrove nel progetto (cfr. NOTE-EDITORIALI righe 544, 616, 696, dove lo pseudocodice assente e' stato deliberatamente NON aggiunto).",
+   "correzione": "Registrare l'integrazione in NOTE-EDITORIALI (e/o segnalarla nel testo con una nota del tipo «Integrazione: negli appunti la GSR si ferma al calcolo di $L'(i)$»), in modo che il rimando \\scan{11} non attribuisca alla pagina materiale che non contiene."
+  }
+ ]
+}

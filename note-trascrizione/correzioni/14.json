@@ -1,0 +1,118 @@
+{
+ "capitolo": "14-random-walk-2sat",
+ "compila": true,
+ "applicate": [
+  {
+   "pagina": 65,
+   "categoria": "errore-matematico",
+   "cosa": "X e Y erano definiti come «lunghezze medie delle proiezioni», ma tutti i passaggi (x_1^2+...+x_N^2 ~ N X^2 e l'underbrace «=1») li usano come medie dei quadrati. Riscritto: «dove X^2 e Y^2 denotano i valori medi di x_i^2 e di y_i^2, cioe le lunghezze quadratiche medie delle proiezioni di un passo»; e la giustificazione finale «perche sqrt(X^2+Y^2) non e altro che la lunghezza media di un passo» sostituita con «perche sulla griglia ogni passo ha lunghezza unitaria, cioe x_i^2+y_i^2=1 a ogni passo, e dunque X^2+Y^2=1». Con la vecchia formulazione veniva sqrt(1/4+1/4)=1/sqrt(2), non 1, e il testo contraddiceva l'osservazione successiva (E[R^2]=N(E[x^2]+E[y^2]))."
+  },
+  {
+   "pagina": 65,
+   "categoria": "trascrizione-errata",
+   "cosa": "Tolto l'inciso «detta anche Law of Statistical Behaviour». Verificato sulla scansione p.65: il quaderno riporta soltanto «Gamow — One, Two,..., Infinity» e «-> La legge del disordine»; il titolo alternativo era contenuto aggiunto e non confermabile."
+  },
+  {
+   "pagina": 66,
+   "categoria": "errore-logico",
+   "cosa": "Riscritta la distinzione formule/enunciati con il criterio corretto: «le formule, che possono contenere variabili libere; ammettendo anche i quantificatori forall ed exists sulle variabili proposizionali, una formula in cui nessuna variabile resta libera si dice enunciato». La versione precedente («se in piu si ammettono i quantificatori si ottengono gli enunciati») e falsa: exists P (P and Q) ha Q libera ed e una formula, non un enunciato."
+  },
+  {
+   "pagina": 66,
+   "categoria": "errore-logico",
+   "cosa": "Dopo il display delle tre forme aggiunta la convenzione mancante: «come d'uso, in k-SAT si richiede che ogni clausola abbia AL PIU k letterali, e i display qui sopra ne mostrano il caso pieno». Senza di essa la catena 2-SAT ⊆ 3-SAT ⊆ SAT non segue dal display, che definisce 3-SAT con clausole di esattamente tre letterali."
+  },
+  {
+   "pagina": 66,
+   "categoria": "notazione",
+   "cosa": "Tolte dal display «SAT -> CNF / DNF» di p.67 le glosse «(congiunzione di disgiunzioni di letterali)» e «(disgiunzione di congiunzioni di letterali)», che ripetevano parola per parola l'itemize della sottosezione «Forme normali» quattro righe sopra e non sono nel manoscritto."
+  },
+  {
+   "pagina": 67,
+   "categoria": "notazione",
+   "cosa": "Nell'esempio «da DNF a CNF introducendo una variabile» esplicitato che varphi_1,...,varphi_4 sono letterali: solo cosi il risultato (varphi_1 v u) and ... e davvero una CNF, mentre nel resto del capitolo varphi denota una formula intera."
+  },
+  {
+   "pagina": 67,
+   "categoria": "errore-logico",
+   "cosa": "Il criterio delle CFC («x e not x nella stessa componente») e stato ristretto esplicitamente al caso puramente esistenziale, aggiungendo che «per il caso quantificato (2-QBF) al criterio va aggiunta una condizione sull'ordine dei quantificatori». Prima seguiva la frase che presenta Aspvall–Plass–Tarjan come risultato su 2-QBF e gli veniva percio attribuito."
+  },
+  {
+   "pagina": 67,
+   "categoria": "figura",
+   "cosa": "tikz/grafo-implicazioni-2sat.tikz: il punto di contorno (2.38,0.10) spostato a (2.80,0.12), eliminando la rientranza concava a due lobi sul lato destro della macchia che rappresenta G. Sul manoscritto (p.67) il contorno di G e una curva chiusa liscia e convessa. Verificato ricompilando la figura e ispezionando il PDF."
+  },
+  {
+   "pagina": 68,
+   "categoria": "notazione",
+   "cosa": "Uniformata la convenzione su L: adottata quella del quaderno («L_n -> grafo lineare con n nodi»), quindi «scriviamo L_m per il cammino con m nodi, cosicche la linea degli stati 0,1,...,n e L_{n+1}». Prima il testo definiva L_n come il cammino sugli stati 0..n (n+1 nodi) mentre la figura mostrava L_4 con 4 nodi e 3 archi. La caption e diventata «Il grafo lineare L_4: il cammino con 4 nodi e 3 archi» e la figura non e stata toccata. I conti a valle restano identici (m=n archi, n+1 nodi, bound 2n^2)."
+  },
+  {
+   "pagina": 68,
+   "categoria": "errore-logico",
+   "cosa": "Eliminata la contraddizione interna del paragrafo sul tempo. Ora: «vedremo che il numero atteso di passi necessari a percorrere tutta la linea e O(n^2), e che il numero di passi che rende alta la probabilita di aver visitato tutto il grafo e di poco superiore a questo». Prima la stessa frase diceva che O(n^2) passi «bastano a rendere alta la probabilita» e subito dopo che il numero che la rende alta e superiore a quello."
+  },
+  {
+   "pagina": 69,
+   "categoria": "trascrizione-errata",
+   "cosa": "Nel display «CNF 3-CNF 2-CNF { ... }» la prima riga «riconoscimento di 2-QBF» sostituita con «Aspvall–Plass–Tarjan (2-QBF)». Riletta la scansione p.69: la freccia porta a «Tarjan et al. (2-QBF) O(n)»; la lettura e confermata dal confronto con p.67, dove lo stesso scrivente scrive «Apsvall Plass Tarjan» in stampatello. Usata la forma per esteso gia adottata nella sottosezione precedente."
+  },
+  {
+   "pagina": 69,
+   "categoria": "errore-logico",
+   "cosa": "Riformulata la frase di raccordo sul punto debole dei due algoritmi deterministici: «costruiscono in modo esplicito una struttura di dimensione almeno lineare nel numero dei letterali — il grafo delle implicazioni ha un nodo per letterale, mentre l'insieme dei risolventi puo arrivare a Theta(n^2) clausole». Prima diceva che entrambe le strutture hanno «dimensione pari al numero dei letterali», il che rendeva inspiegabile l'O(n^2) della riga precedente."
+  },
+  {
+   "pagina": 70,
+   "categoria": "notazione",
+   "cosa": "Battezzata la variabile aleatoria prima del suo primo uso: «Detta X la variabile aleatoria geometrica che conta il numero di tentativi fino al primo successo — qui: il numero di passi necessari a raggiungere v — quello che serve e dunque il suo valore atteso». Prima E[X] compariva senza che X fosse mai stato definito."
+  },
+  {
+   "pagina": 70,
+   "categoria": "omissione",
+   "cosa": "Reintrodotto il secondo valore della colonna del manoscritto: la catena e ora tau_1 = 0 < tau_2 = 1 < tau_3 < ... < tau_n, con l'inciso «(il primo passo raggiunge sempre un nodo nuovo, quindi tau_2 = 1 con certezza)». Coerente con p_1 = (n-1)/(n-1) = 1."
+  },
+  {
+   "pagina": 70,
+   "categoria": "notazione",
+   "cosa": "«e tau_n e proprio il cover time» sostituito con «tau_n e il numero, aleatorio, di passi necessari a coprire tutto il grafo: il cover time e il suo valore atteso E[tau_n]». Allinea la frase alla definizione data nell'esercizio e al C(G) del teorema."
+  },
+  {
+   "pagina": 71,
+   "categoria": "errore-matematico",
+   "cosa": "«la somma diventa (n-1)H_n, che si scrive di solito come n H_n» sostituito con «la somma diventa (n-1)H_n ≈ n H_n, la forma in cui di solito si scrive il coupon collector». Le due quantita differiscono di H_n e il manoscritto usa infatti il simbolo di circa."
+  },
+  {
+   "pagina": 72,
+   "categoria": "errore-logico",
+   "cosa": "Colmato il buco di un fattore 2 fra il bound sul cover time e l'esempio. Dopo il display C(L_{n+1}) <= 2n^2 e stata aggiunta un'osservazione: il cover time da E[X] <= 2n^2 e con a = 2n^2 Markov darebbe la stima banale 1; per 2-SAT pero non serve coprire la linea, basta raggiungere lo stato n, e il tempo atteso di raggiungimento nel caso peggiore (probabilita 1/2 in entrambe le direzioni, rimbalzo obbligato in 0) risolve h_n=0, h_0=h_1+1, h_k=1+(h_{k-1}+h_{k+1})/2, cioe h_k = n^2-k^2, da cui E[X] <= h_0 = n^2. E questo il valore usato nell'esempio, e giustifica sia il 2n^2 del ciclo interno dello pseudocodice sia il Pr[errore] <= 1/2 per round. Verificata a mano la soluzione della ricorrenza."
+  },
+  {
+   "pagina": 72,
+   "categoria": "trascrizione-errata",
+   "cosa": "Riscritto il passaggio finale nella convenzione del quaderno: «la versione randomizzata di 2-SAT e un random walk sulla retta {0,1,...,n} ... Quella retta e il cammino L_{n+1}, che ha n+1 nodi ed m = n archi», con C(L_{n+1}) <= 2n((n+1)-1) = 2n^2. Il numero finale 2n^2 e quello del manoscritto e resta invariato; sparisce la contraddizione con la figura di L_4 e con il Cap. 16 (cammino su n vertici, m = n-1). L'osservazione che duplicava questo contenuto e stata fusa nel testo corrente."
+  },
+  {
+   "pagina": 72,
+   "categoria": "omissione",
+   "cosa": "Dopo il teorema sul cover time aggiunto il rimando mancante: «La dimostrazione, che richiede il linguaggio delle catene di Markov, e rimandata al capitolo sui random walk su grafi (Teorema~\\ref{thm:cover-time})» — recupera il «Dimostr...» sottolineato del quaderno. Uniformata inoltre la notazione del cover time a quella del Cap. 16: C_G -> C(G), C_{L_n} -> C(L_{n+1}). Il rimando e al solo teorema perche il Cap. 16 non ha un'etichetta di capitolo e non l'ho aggiunta, per non toccare un file fuori dal capitolo assegnato."
+  },
+  {
+   "pagina": 72,
+   "categoria": "trascrizione-errata",
+   "cosa": "Riscritta per esteso l'osservazione finale sull'errore unilaterale, che era monca: «Poiche ogni flip avvicina all'assegnamento soddisfacente f* con probabilita almeno 1/2, ciascun round di 2n^2 passi fallisce con probabilita al piu 1/2; essendo i k round indipendenti, la risposta «insoddisfacibile» e sbagliata con probabilita al piu 1/2^k»."
+  }
+ ],
+ "respinte": [
+  {
+   "pagina": 68,
+   "cosa": "Rimarcare i blocchi trascritti sotto \\scan{68} che sul quaderno stanno a p.69 (l'osservazione su f* e k, il passaggio sulla visita randomizzata con la figura di L_4), o registrarli come fusione.",
+   "perche": "Il contenuto delle pagine 68 e 69 del quaderno non e semplicemente duplicato: e interlacciato. Il display «CNF 3-CNF 2-CNF -> Tarjan / risoluzione» (p.69) apre la sezione, poi vengono clausola/assegnamento f/FLIP (p.68), poi l'osservazione su f* (p.69), poi la linea degli stati con k-1,k,k+1,n e il box SPAZIO O(n) bit (p.68), poi L_n e L_4 (p.69), poi di nuovo l'annotazione O(n^2) e l'osservazione di chiusura (p.68). Una marcatura fedele richiederebbe sette \\scan alternati 69/68/69/68/69/68 nel giro di due pagine di trascrizione, con note a margine che zigzagano: sarebbe meno leggibile e meno utile della fusione attuale. Entrambi i verificatori riconoscono che la fusione e editorialmente sensata (la p.68 usa k senza averlo definito, la p.69 lo definisce). Ho quindi lasciato la struttura com'e; la cosa e registrata qui perche finisca nelle note editoriali."
+  },
+  {
+   "pagina": 69,
+   "cosa": "Aggiungere un \\scan{69} subito prima dell'osservazione su f*, lasciando \\scan{68} a coprire solo lo schema «assegnamento f / FLIP» e il box SPAZIO.",
+   "perche": "Stessa segnalazione della p.68 vista dall'altro lato, e stessa decisione. In piu, questa correzione produrrebbe da sola tre marcatori \\scan{69} (righe 287, 310 e 376) separati da un \\scan{68}, cioe esattamente lo zigzag che si voleva evitare, senza risolvere il problema per gli altri due blocchi di p.68 che restano dopo (linea degli stati, box SPAZIO, annotazione O(n^2))."
+  }
+ ]
+}

@@ -1,0 +1,22 @@
+% randqs-pivot-array -- un passo di RandQS: scelta uniforme del pivot nel segmento.
+\begin{tikzpicture}[x=1cm,y=1cm,line join=round,line cap=round]
+  \footnotesize
+  % --- il segmento corrente: rettangolo allungato, prima e ultima cella marcate
+  \draw[thick] (0,0) rectangle (8.4,0.55);
+  \draw[thick] (0.6,0) -- (0.6,0.55);
+  \draw[thick] (7.8,0) -- (7.8,0.55);
+
+  % --- posizione del pivot (~45% del segmento)
+  \coordinate (P) at (3.8,0.61);
+
+  % --- scelta casuale: arco dall'inizio del segmento alla cella del pivot
+  \draw[thick,-{Stealth[length=2.4mm,width=2mm]}]
+    (0.35,0.75) .. controls (1.1,1.85) and (3.0,1.9) .. (P);
+  \node[gray,anchor=south] at (2.1,1.62) {scelta uniforme a caso};
+
+  % --- freccia ondulata dal basso che indica la cella del pivot
+  \draw[thick,-{Stealth[length=2.2mm,width=1.8mm]}]
+    plot[domain=0:1,samples=90,smooth,variable=\t]
+      ({3.8-0.30*(1-\t)+0.10*(1-\t)*sin(\t*1080)},{-1.15+1.03*\t});
+  \node[anchor=north east] at (3.62,-1.12) {pivot};
+\end{tikzpicture}

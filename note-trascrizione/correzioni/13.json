@@ -1,0 +1,58 @@
+{
+ "capitolo": "13-randauto",
+ "compila": true,
+ "applicate": [
+  {
+   "pagina": 60,
+   "categoria": "figura",
+   "cosa": "tikz/p60-bpp-esempio.tikz: scambiati ruolo ed estensione dei due tagli di sinistra, che nella ricostruzione erano invertiti rispetto al manoscritto. Ora l_2 e la retta lunga che scende da l_1 (1.45,4.10) fino al bordo inferiore (3.438,0) e spezza s_3, mentre l_3 e la quasi-verticale corta (2.75,4.10)-(2.4683,2.00) che termina con una giunzione a T su l_2; l'estremo sinistro di l_5 e stato riportato sul nuovo confine, da (2.361,1.20) a (2.856,1.20). Verificato sulla scansione (p60_b1/b2 ingrandite): sul foglio la retta che attraversa s_0 e quella lunga, la quasi-verticale si ferma a T su di essa. Verificato analiticamente che ogni taglio agisce ora su una regione con almeno due porzioni di segmento (l_1: {s_5}|resto; l_2: r_4={s_3 basso}|resto; l_3: r_6={s_3 alto}|resto; l_4: r_2={s_1}|resto; l_5: r_5={s_4}|r_3={s_2}), cosa che prima non valeva: l_3 tagliava una regione gia risolta, contraddicendo la condizione del while di RandAuto. Il punto di rottura di s_3 resta (2.059,2.844) perche la nuova l_2 giace sulla stessa retta della vecchia l_3. Spostate per leggibilita anche due etichette di regione (r_6 da (2.15,3.50) a (2.20,3.55), r_3 da (3.30,0.60) a (3.90,0.60), che sarebbe finita sopra la nuova l_2) e le etichette l_2/l_3; aggiornato il commento di testa del file. Testo e didascalia non hanno richiesto modifiche."
+  },
+  {
+   "pagina": 60,
+   "categoria": "figura",
+   "cosa": "tikz/p60-tre-segmenti-quattro-regioni.tikz: arretrato l'estremo sinistro di s_2 da (3.55,2.35) a (3.80,2.3459), restando su l(s_2). Prima distava 0.036 cm dal punto in cui l(s_2) spezza s_3 e il pallino bianco di raggio 1.7pt se lo mangiava: nel PDF s_2 e s_3 sembravano incidenti, contraddicendo l'ipotesi «a due a due non intersecanti» enunciata due righe sopra. Ora il distacco e 0.286 cm (circa 8pt) ed e ben visibile nel rendering. Controllato che la configurazione resti «a girandola»: l(s_2) taglia s_3, l(s_3) taglia s_1 e l(s_1) taglia s_2 in x=4.712, che resta interno a s_2 (il vincolo vero e x < 4.712, non 4.05 come indicava il referto)."
+  },
+  {
+   "pagina": 60,
+   "categoria": "omissione",
+   "cosa": "Il capoverso di raccordo in fondo al blocco \\scan{60} ora enuncia la domanda con cui si chiude il foglio: «La domanda interessante diventa allora di quanto lo puo eccedere: bastano sempre O(n) regioni? E una domanda tutt'altro che facile, e per porla in modo preciso conviene prima darsi una rappresentazione formale delle partizioni.» Applicata una versione piu leggera di quella proposta dal referto (niente rinvio esplicito, niente anticipazione dell'ambiente domanda) per non duplicare a quaranta righe di distanza il box domanda[problema aperto] di p.61."
+  },
+  {
+   "pagina": 61,
+   "categoria": "errore-logico",
+   "cosa": "«Le foglie sono piu di $n$.» sostituita con «Le foglie sono almeno $n$, e possono essere di piu.» Come enunciato assoluto la frase era falsa (con zero tagli le foglie sono esattamente n) e contraddiceva la formula #foglie = n + #tagli tre righe dopo; il manoscritto e telegrafico e la sintesi degli appunti dell'anno precedente la rende come possibilita («ci sono casi in cui...»)."
+  },
+  {
+   "pagina": 61,
+   "categoria": "errore-matematico",
+   "cosa": "Corretta la giustificazione di #foglie = n + #tagli: da «ogni segmento spezzato produce una porzione in piu» a «ogni taglio che spezza un segmento produce una porzione in piu, e quindi una foglia in piu (un segmento attraversato da $k$ tagli da origine a $k+1$ porzioni)». La formula conta i tagli, non i segmenti spezzati: con la lettura letterale precedente sarebbe stata falsa non appena un segmento viene tagliato piu volte. Il manoscritto e corretto (la freccia glossa «i tagli di segmenti che sono stati spezzati»)."
+  },
+  {
+   "pagina": 61,
+   "categoria": "errore-logico",
+   "cosa": "«Il problema e tuttora aperto.» sostituita con «Negli appunti il problema e dato per aperto, come in Motwani--Raghavan da cui la domanda e ripresa.» La frase originale non e sul foglio (il manoscritto scrive solo «Problema aperto (Clark)») ed e un'asserzione al presente che il testo non e in grado di sostenere. Lasciato intatto il box domanda[problema aperto], che e fedele al quaderno, e il \\dubbioinl su «Clark» (la parola fra parentesi si legge in effetti «Clark», ma l'identificazione del riferimento resta incerta e il referto non la contestava)."
+  },
+  {
+   "pagina": 61,
+   "categoria": "aggiunta-editoriale",
+   "cosa": "Aggiunta, in coda al capitolo (fine del blocco \\scan{64}), una osservazione che colma il vuoto lasciato dalla correzione precedente: «Il risultato e di Paterson e Yao, e il fattore logaritmico non e un artefatto dell'analisi: si sa che esistono insiemi di $n$ segmenti in cui ogni autopartizione ha $\\Om(n\\log n/\\log\\log n)$ foglie, e dunque per questa via non si arriva a $\\Oh(n)$.» E esattamente il contenuto della nota storica gia presente in .build/supporto/L15_sintesi.md (riga 303). Senza di essa il lettore resterebbe con l'impressione che O(n) sia ancora alla portata del metodo."
+  },
+  {
+   "pagina": 63,
+   "categoria": "errore-matematico",
+   "cosa": "La stima sul tempo di esecuzione era formulata come bound assoluto: «Il tempo di esecuzione di RandAuto su S e invece O(n^2 log n)». E un bound in valore atteso (media su pi): per una permutazione sfortunata l'autopartizione puo avere dimensione Theta(n^2) e il tempo sfonda n^2 log n. Ora si dice esplicitamente «anch'esso in valore atteso», in accordo con L15_sintesi.md."
+  },
+  {
+   "pagina": 63,
+   "categoria": "omissione",
+   "cosa": "L'ambiente osservazione e stato spezzato in una frase di raccordo («Il teorema riguarda la dimensione dell'output, non il tempo di esecuzione.») piu un ambiente esercizio («Dimostrare che il tempo di esecuzione di RandAuto su S e, anch'esso in valore atteso, O(n^2 log n), posto n=|S|»). Sul foglio la riga e introdotta dall'etichetta sottolineata «Es.:» (verificato su p63_b1) e Gli appunti del corso dell'anno precedente la danno come esercizio assegnato; l'ambiente esercizio esiste in preamble.tex ed e usato in 08-lca, 14 e 16."
+  }
+ ],
+ "respinte": [
+  {
+   "pagina": 61,
+   "cosa": "La parte del referto secondo cui il problema aperto sarebbe oggi chiuso in senso negativo per le BPP arbitrarie (lower bound Theta(n log n / log log n) di Toth), da riportare in nota a pie di pagina.",
+   "perche": "Respinta in due punti. (a) La forma: nel progetto non compare un solo \\footnote in tutti i capitoli di lezioni/, e la classe usa il margine per i soli \\scan; introdurre note a pie di pagina qui romperebbe lo stile della casa. Il contenuto e stato quindi reso con un ambiente osservazione, che il capitolo gia usa. (b) La sostanza: la sintesi degli appunti dell'anno precedente (L15_sintesi.md, riga 303) enuncia il lower bound Omega(n log n / log log n) per OGNI AUTOPARTIZIONE, non per ogni BPP; il salto alle BPP arbitrarie, che sarebbe l'unico modo di chiudere davvero la domanda del box, non e verificabile con le fonti a disposizione e non me la sento di asserirlo in un testo di studio. Ho quindi tenuto l'affermazione forte solo dove e certa (autopartizioni) e mi sono limitato, sulla domanda generale, a non spacciarla piu per aperta al presente ma ad attribuirne l'apertura agli appunti e a Motwani--Raghavan. Se l'utente vuole spingersi oltre, il riferimento da controllare e C. D. Toth, lower bound su BSP di segmenti disgiunti nel piano."
+  }
+ ]
+}

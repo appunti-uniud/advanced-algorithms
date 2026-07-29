@@ -1,0 +1,33 @@
+% wl2-esempio -- pag. 80
+% WL-2: la coppia (u,v) viene guardata «attraverso» un terzo vertice w.
+% Frecce continue = archi del grafo diretto (w->v, x->v, u->v, u->w, u->x);
+% triangolo tratteggiato = le tre COPPIE in gioco nel passo di raffinamento,
+% cioe' (u,v), (u,w) e (w,v).  Il tratteggio non e' un arco del grafo.
+\begin{tikzpicture}[
+    >=Latex,
+    font=\footnotesize,
+    nodo/.style={circle,fill=black,inner sep=0pt,minimum size=3.4pt},
+    arco/.style={->,line width=0.7pt},
+    coppia/.style={dashed,dash pattern=on 2.4pt off 1.8pt,
+                   line width=0.6pt,draw=black!55},
+    et/.style={font=\footnotesize,text=black!60,inner sep=1.5pt}]
+
+  %% ---- vertici ------------------------------------------------------------
+  \node[nodo,label={[inner sep=2pt]above left:$v$}]  (v) at ( 0.00, 2.00) {};
+  \node[nodo,label={[inner sep=2pt]right:$w$}]       (w) at ( 2.80, 1.60) {};
+  \node[nodo,label={[inner sep=3pt]below:$u$}]       (u) at ( 1.25, 0.00) {};
+  \node[nodo,label={[inner sep=2pt]left:$x$}]        (x) at (-1.40,-0.10) {};
+
+  %% ---- archi del grafo (continui, orientati) ------------------------------
+  \draw[arco] (w) -- (v);
+  \draw[arco] (x) -- (v);
+  \draw[arco] (u) -- (v);
+  \draw[arco] (u) -- (w);
+  \draw[arco] (u) -- (x);
+
+  %% ---- le tre coppie coinvolte nel passo (tratteggio, senza punte) --------
+  \draw[coppia] (v) to[bend left=22]  node[et,above=1pt]           {$(w,v)$} (w);
+  \draw[coppia] (w) to[bend left=22]  node[et,pos=0.45,right=1pt]  {$(u,w)$} (u);
+  \draw[coppia] (v) to[bend right=18] node[et,pos=0.55,left=1pt]   {$(u,v)$} (u);
+
+\end{tikzpicture}

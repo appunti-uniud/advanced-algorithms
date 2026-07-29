@@ -1,0 +1,35 @@
+% Convenzione di numerazione delle diagonali della tabella di programmazione
+% dinamica.  Si disegna solo l'angolo in alto a sinistra: il bordo superiore
+% (riga 0) e il bordo sinistro (colonna 0); la tabella resta aperta a destra e
+% in basso.  La diagonale che parte da (0,c) porta il numero c, quella che
+% parte da (l,0) porta il numero -l: la cella (l,c) sta sulla diagonale c-l.
+\begin{tikzpicture}[
+    scale=0.72,
+    font=\footnotesize,
+    bordo/.style={semithick},
+    diag/.style={thin,black!60},
+    diagprinc/.style={semithick,black}]
+
+  % ---- i due bordi tracciati ------------------------------------------------
+  \draw[bordo] (0,0) -- (14,0);      % riga 0
+  \draw[bordo] (0,0) -- (0,-7.2);    % colonna 0
+
+  % ---- numeri delle diagonali non negative (sopra la riga 0) ----------------
+  \foreach \c in {0,1,2,3}
+    \node[anchor=south,inner sep=3pt] at (\c,0) {$\c$};
+  \node[anchor=south,inner sep=3pt] at (4.5,0) {$\cdots$};
+
+  % ---- numeri delle diagonali negative (a sinistra della colonna 0) ---------
+  \node[anchor=east,inner sep=5pt] at (0, 0)   {$0$};
+  \node[anchor=east,inner sep=5pt] at (0,-1)   {$-1$};
+  \node[anchor=east,inner sep=5pt] at (0,-2)   {$-2$};
+  \node[anchor=east,inner sep=5pt] at (0,-3)   {$-3$};
+  \node[anchor=east,inner sep=5pt] at (0,-4.3) {$\vdots$};
+  \node[anchor=east,inner sep=5pt] at (0,-5.6) {$-n$};
+
+  % ---- le diagonali ---------------------------------------------------------
+  \draw[diagprinc] (0,0) -- ++(4.6,-4.6);          % diagonale principale
+  \foreach \c in {1,2,3} \draw[diag] (\c,0)  -- ++(4,-4);
+  \foreach \r in {1,2,3} \draw[diag] (0,-\r) -- ++(4,-4);
+
+\end{tikzpicture}

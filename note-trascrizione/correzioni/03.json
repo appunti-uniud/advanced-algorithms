@@ -1,0 +1,64 @@
+{
+ "capitolo": "03-boyer-moore",
+ "compila": true,
+ "applicate": [
+  {
+   "pagina": 9,
+   "categoria": "errore-matematico",
+   "cosa": "Osservazione sul comportamento sublineare (righe 35-42). Diceva 'ci sono casi in cui il costo complessivo e $\\Oh(m/n)$': falso come costo complessivo, perche il preprocessing del pattern costa comunque $\\Th(n)$ e il totale e $\\Th(n+m/n)$ (per m=10^6, n=10^5 il preprocessing e 10^5, non 10). Cio che vale davvero e che i confronti eseguiti - e quindi i caratteri di T letti - sono $\\Th(m/n)$, ed e esattamente come lo enuncia l'esempio T=a^m, P=b^n poche righe piu sotto e la tabella dei costi a fine capitolo. Riscritta in: 'ci sono casi in cui i confronti eseguiti --- e quindi i caratteri di $T$ effettivamente letti --- sono soltanto $\\Th(m/n)$: l'algoritmo puo essere sublineare nella lunghezza del testo, cioe terminare senza aver mai letto alcuni caratteri di $T$. Il preprocessing del pattern, $\\Th(n)$, resta ovviamente da pagare.' L'annotazione 'ci sono casi $\\Oh(m/n)$' dentro la figura bm-mismatch e stata lasciata com'e: sono le parole del quaderno."
+  },
+  {
+   "pagina": 9,
+   "categoria": "notazione",
+   "cosa": "Dichiarata esplicitamente la convenzione su x e y (righe 54-59). Il capitolo 03 usa x = carattere 'cattivo' del testo, y = carattere del pattern; il capitolo 02 usa le stesse due lettere con i ruoli scambiati (righe 41, 60, 528, 536 di 02-kmp-z.tex: 'T presenta il carattere y, mentre P presenta x=P[i+1]'), e le due figure finiscono sulla stessa facciata. Aggiunto un inciso dopo la definizione del mismatch: '...con $x\\neq y$: in tutto il capitolo $x$ e dunque il carattere «cattivo» del testo --- i due ruoli sono scambiati rispetto al capitolo precedente, dove $x$ era il carattere del pattern.' E' l'opzione minima proposta dal referto p09; la figura NON e stata invertita (v. respinte)."
+  },
+  {
+   "pagina": 10,
+   "categoria": "errore-logico",
+   "cosa": "Osservazione 'Di quanto si sposta il pattern' (righe 84-88). Il testo prometteva che $j_\\alpha$ (posizione finale dell'occorrenza individuata dalla GSR come enunciata in def:gsr) 'e esattamente il valore $L'(i)$', ma def:gsr - fedele al quaderno - e la versione DEBOLE della regola, la cui occorrenza termina in $L(i)$, non in $L'(i)$: per P=babcbab e i=6 si ha alpha='ab', L(6)=3 (occorrenza in P[2..3], non suffisso) mentre L'(6)=0, perche P[5]='b'=P[1] viola la condizione 2). Il capitolo stesso, a p.11, dice che 'la sola condizione 1) definirebbe L(i), cioe la versione debole'. Riscritto in: '...dove $j_\\alpha$ e la posizione finale dell'occorrenza di $\\alpha$ individuata dalla regola. Nella \\autoref{sec:bm-gsr} rafforzeremo la regola, chiedendo in piu che il carattere che precede l'occorrenza interna sia diverso da quello che ha provocato il mismatch, e vedremo che allora $j_\\alpha$ e esattamente il valore $L'(i)$.' Cosi def:gsr resta fedele al manoscritto e il passaggio debole -> forte e annunciato dove serve."
+  },
+  {
+   "pagina": 11,
+   "categoria": "errore-logico",
+   "cosa": "Osservazione dopo def:bm-lprimo (righe 176-179). 'La sola condizione 1) definirebbe $L(i)$' e falso: $\\sub{P}{i}{n}$ e sempre suffisso di $\\sub{P}{1}{n}$, quindi il massimo j che soddisfa la sola 1) e j=n per ogni i, non l'occorrenza interna piu a destra; e la stessa osservazione, tre righe sotto, dice che e la 2) a escludere j=n. Riscritto in: 'La sola condizione 1), con il vincolo $j\\le n-1$, definirebbe $L(i)$, cioe la versione «debole» della regola: l'occorrenza interna piu a destra del suffisso gia riconosciuto (il vincolo e indispensabile: $\\sub{P}{i}{n}$ e sempre suffisso di $P$, quindi senza di esso il massimo sarebbe banalmente $j=n$).' Il contrasto con il seguito ('la 2) esclude automaticamente j=n ... senza bisogno di imporlo') diventa cosi il punto della frase invece di una contraddizione."
+  },
+  {
+   "pagina": 11,
+   "categoria": "errore-matematico",
+   "cosa": "Formula incorniciata $N_j[P]=\\Zv{n-j+1}[P^r]$ (righe 251-258). Era enunciata per tutti i $j=1,\\dots,n$, ma per j=n il membro destro e $\\Zv{1}[P^r]$, che la Definizione della funzione Z nel cap. 02 esclude esplicitamente ('sia $2\\le i\\le\\abs{S}$', riga 251, e riga 275: 'la posizione i=1 va invece esclusa a mano'). Aggiunta la restrizione 'per ogni $1\\le j\\le n-1$' prima del box e, dopo il box, la frase: 'Il solo valore escluso e $j=n$: chiamerebbe in causa $\\Zv{1}[P^r]$, che la definizione della funzione $Z$ non contempla. Non e una perdita, perche $N_n[P]=n$ e noto a priori e nel seguito $N_j$ serve soltanto per $j\\le n-1$.' Coerente con il teorema (dove j=n e escluso perche $N_n[P]=n>n-i+1$) e con le formule di $L'$ e $\\ell'$, che usano gia $j\\le n-1$."
+  },
+  {
+   "pagina": 11,
+   "categoria": "notazione",
+   "cosa": "Sostituita ovunque la macro \\lp{...} (che stampa $\\ell(i)$, senza apice) con $\\ell'(i)$ scritto per esteso: titolo di def:bm-lminuscolo, corpo della definizione (3 occorrenze), frase 'Anche $L'$ e $\\ell'$ si leggono...', formula in align*, due rami della definizione di $\\sigma(i)$, la frase su $\\sigma(i)\\ge 1$ e la riga 1 dello pseudocodice. Motivo: la grandezza gemella e scritta $L'(i)$ con apice in tutto il capitolo (perche anche \\Lp e definita senza apice, cfr. NOTE-EDITORIALI p.11), Gusfield e la sintesi degli appunti dell'anno precedente usano $L'(i)$ e $\\ell'(i)$, e l'asimmetria suggeriva a torto l'esistenza di una versione 'debole' $\\ell$. Non ho toccato il preambolo: \\lp e \\Lp non sono usate da nessun altro capitolo (verificato con grep), quindi la correzione della macro resta una scelta di chi mantiene preamble.tex."
+  },
+  {
+   "pagina": 11,
+   "categoria": "figura",
+   "cosa": "tikz/bm-lprimo.tikz: le etichette di posizione $i-1$ (x=7.4) e $i$ (x=8.0) distavano 0.6 cm e nel PDF quasi si toccavano ('i-1 i'). Invece di spostare le tacche (provato: avvicina la tacca di $i-1$ a quella di $L'(i)$ e sposta il $\\neq$ fuori dal suo mascherino bianco) ho dilatato l'intera figura in orizzontale con l'opzione x=1.3cm sulla tikzpicture e ancorato l'etichetta $i$ con anchor=north west, cosi da farla partire dalla tacca invece che centrarla. Geometria e semantica invariate, tutte le etichette respirano di piu. Larghezza: da 329.5pt a 422.5pt su 478.0pt di testo disponibile; verificato con .build/prova-tikz.sh e visivamente sul PDF del capitolo (figura 1.3, pagina 4)."
+  }
+ ],
+ "respinte": [
+  {
+   "pagina": 9,
+   "cosa": "Invertire le etichette $x$ e $y$ nella figura tikz/bm-mismatch.tikz e nella didascalia, per fedelta al disegno del quaderno (dove y sta sulla riga di T e x su quella di P).",
+   "perche": "La segnalazione descrive correttamente il disegno, ma la correzione proposta romperebbe il capitolo. Il quaderno stesso e incoerente: a p.9 il disegno mette x su P e y su T, ma a p.10 la BCR e scritta a parole 'dopo un mismatch con x in T' (riletto direttamente la scansione p10_b1.png: la riga e inequivocabile). Tutta la macchina della BCR - definizione, $R_j(x)$ come posizione di x dentro P, il preprocessing, lo pseudocodice - presuppone x = carattere del TESTO, ed e la convenzione di Gusfield. Invertire la figura la metterebbe in contraddizione con le tre pagine successive; invertire anche il resto significherebbe riscrivere il capitolo contro la sua fonte principale (p.10) e contro la letteratura. Ho quindi tenuto x = carattere di T e applicato l'opzione minima del referto, cioe dichiarare la convenzione nel testo (v. applicate). Da registrare in NOTE-EDITORIALI: la figura di p.9 diverge deliberatamente dal disegno del manoscritto sullo scambio x/y, per uniformarla a p.10."
+  },
+  {
+   "pagina": 9,
+   "cosa": "Correggere in lezioni/02-kmp-z.tex la formula di transizione $\\delta(i,c)$ (primo ramo 'se $i<n$ e $P[i+1]=c$') ed estendere a $i\\in\\set{0,1,\\dots,n}$ il dominio della Definizione def:sp-ic.",
+   "perche": "Non respinta nel merito - il rilievo e fondato: per i=n il test $P[i+1]=c$ chiama in causa un carattere che non esiste, proprio nel caso che serve dopo un'occorrenza completa, e lo stato iniziale 0 resta fuori dal dominio dichiarato (benche la formula funzioni anche li). E' pero fuori dal perimetro di questo lavoro: la riga sta in lezioni/02-kmp-z.tex, capitolo 02, e il mio incarico e il capitolo Boyer--Moore; il referto p09 la intercetta solo perche la pagina 9 del quaderno contiene la coda di KMP real-time e l'inizio di Boyer--Moore. Non ho toccato il file di un altro capitolo per non sovrascrivere lavoro altrui. Correzione suggerita, pronta da applicare a mano: primo ramo '$i+1$ se $i<n$ e $P[i+1]=c$' (il secondo ramo copre allora anche i=n, dando $\\delta(n,c)=\\spv{n,c}(P)+1$) e dominio $i\\in\\set{0,1,\\dots,n}$ nella definizione."
+  },
+  {
+   "pagina": 11,
+   "cosa": "Segnalare nel testo (con una nota tipo 'Integrazione: negli appunti la GSR si ferma al calcolo di $L'(i)$') che la sezione sec:bm-ricerca non ha riscontro in alcuna scansione, pur ricadendo sotto \\scan{11}.",
+   "perche": "Respinta come modifica al LaTeX, accolta come registrazione. La policy editoriale 1 vuole che il documento finale si legga come appunti buoni, senza marcatori, e la linea tenuta in tutto il progetto e esattamente questa: le integrazioni si registrano in NOTE-EDITORIALI e non lasciano traccia nel sorgente (cfr. NOTE-EDITORIALI righe 722, 748, 750, 780, 782, 804, 1134, 2090, e in particolare 'aggiunta segnalata qui perche non e nel manoscritto; il fatto in se e certo, quindi non ho lasciato marcatori nel LaTeX'). Nessun capitolo usa \\footnote. La registrazione richiesta e questa: la sezione 'Lo spostamento della GSR e il ciclo di ricerca' (definizione di $\\ell'(i)$, formule di $L'$ e $\\ell'$ da $N$, spostamento $\\sigma(i)$, pseudocodice del ciclo di ricerca, tabella dei costi) e un'integrazione del trascrittore: il quaderno si ferma alla formula incorniciata $N_j[P]=\\Zv{n-j+1}[P^r]$ (piu il disegno abbandonato gia annotato) e p.12 apre Aho--Corasick. La matematica segue Gusfield 2.2.5 (shift $n-L'(i)$, $n-\\ell'(i)$, $n-\\ell'(2)$ dopo un'occorrenza, 1 se il primo confronto fallisce) ed e stata riverificata: corretta. Senza di essa il capitolo resterebbe senza algoritmo, e il caso $L'(i)=0$ - quello che rende non safe lo shift $n-L'(i)$, gia segnalato a p.10 - resterebbe irrisolto."
+  }
+ ],
+ "note": [
+  "Verificate presenti e NON rifatte le correzioni gia applicate a mano che toccano questo capitolo: 03 righe 89-92 segnalano che lo shift della GSR non e safe quando $L'(i)=0$, con il controesempio P=aca / T=bcaca e il rimando a sec:bm-ricerca. Verificato anche che il controesempio e giusto: con P=aca su T=bcaca, nell'allineamento che finisce in T[3] si riconosce alpha=P[2..3]='ca', il mismatch e P[1]='a' contro T[1]='b', L'(2)=0, shift_GSR=3-0=3 e shift_BCR=1-R_1(b)=1, quindi il massimo 3 porta a k=6>m e perde l'occorrenza T[3..5]='aca'; lo shift corretto e $n-\\ell'(2)=3-1=2$.",
+  "Le altre correzioni manuali elencate (p.4 tikz/kmp-alfa-S.tikz, p.7 e p.8 cap. 02, p.18 e p.20 cap. 05) non riguardano il capitolo 03: non le ho toccate.",
+  "Riverificati a mano tutti i conti del capitolo rimasti in piedi: BCR shift $(i-1)-R_{i-1}(x)\\ge 1$ perche $R_j(x)<j$ per definizione; $L'(i)\\le n-1$ per la condizione 2); $\\ell'(i)\\le n-i+1\\le n-1$ per $i\\ge 2$; teorema $L'(i)=\\max\\set{j: N_j[P]=n-i+1}$ e sua dimostrazione; invariante del ciclo interno $\\sub{P}{i}{n}=\\sub{T}{h}{k}$. Nessun altro errore trovato.",
+  "Compilazione finale: 'OK: 03-boyer-moore.tex compila (7 pagine, 1 riferimenti indefiniti)'. L'unico riferimento indefinito e il rimando a un altro capitolo, atteso compilando il capitolo da solo. Figura verificata a parte: 'OK: bm-lprimo.tikz compila (larghezza 422.54997pt su 478.00813pt disponibili)'."
+ ]
+}

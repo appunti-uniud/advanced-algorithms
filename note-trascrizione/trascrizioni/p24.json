@@ -1,0 +1,106 @@
+{
+ "pagina": 24,
+ "latex": "\\scan{24}\n\nNella coppia di riferimento $(s,w)$ lo stato esplicito $s$ non è determinato\nunivocamente: uno stesso punto dell'albero è individuato da \\emph{tutti} gli stati\nespliciti che lo precedono sul cammino dalla radice. Fra queste rappresentazioni ne\nscegliamo una sola.\n\n\\begin{definizione}[Coppia di riferimento canonica]\\label{def:coppia-canonica}\nUna coppia di riferimento $(s,w)$ è \\emph{canonica} quando, leggendo $w$ a partire da\n$s$, non si incontra alcun branching point; equivalentemente, quando $s$ è il branching\npoint \\emph{più profondo possibile} fra quelli dai quali il punto in questione si\nraggiunge leggendo una stringa (e dunque $w$ è la più corta possibile).\n\\end{definizione}\n\n\\begin{osservazione}\nSe $s$ è branching, $(s,\\vuota)$ è la rappresentazione canonica dello stato $s$.\n\\end{osservazione}\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/p24-coppia-canonica.tikz}\n\\caption{Coppie di riferimento canoniche e non canoniche. Da $s$ parte una catena di\nstati impliciti etichettata $abcde$ che termina nel branching point $s'$; da $s'$\nprosegue una seconda catena etichettata $abc$. La coppia $(s,abcd)$ è canonica, perché\nfra $s$ e il punto indicato non si incontra alcun branching point; la coppia\n$(s,abcdeabc)$ non lo è, perché attraversa $s'$: la sua forma canonica è $(s',abc)$.}\n\\label{fig:p24-coppia-canonica}\n\\end{figure}\n\n\\begin{osservazione}[Notazione]\nManteniamo la convenzione già usata per lo \\STrie{}: la sopralineatura distingue lo\n\\emph{stato} dalla \\emph{stringa} che lo compita, cioè $\\bar{x}$ è lo stato raggiunto\ndalla radice leggendo la stringa $x$.\n\\end{osservazione}\n\n\\medskip\n\nRiprendiamo ora il \\emph{boundary path} di $\\STree{}(T^{\\,i-1})$, cioè la successione di\nstati\n\\[\n  s_1,\\; s_2,\\; \\dots,\\; s_i,\n  \\qquad\n  s_j \\;=\\; \\overline{t_j t_{j+1}\\cdots t_{i-1}}\n        \\;=\\; f^{\\,j-1}\\bigl(\\overline{t_1\\cdots t_{i-1}}\\bigr),\n\\]\nin cui ogni stato è immagine del precedente tramite la funzione suffisso, $s_{j+1}=f(s_j)$.\nPassare da $\\STree{}(T^{\\,i-1})$ a $\\STree{}(T^{\\,i})$ significa garantire che ciascuno di\nquesti stati abbia una $t_i$-transizione; il punto è che \\emph{non è necessario\npercorrere tutto} il boundary path.\n\n\\begin{definizione}[Active point ed end point]\\label{def:active-end-point}\nSul boundary path di $\\STree{}(T^{\\,i-1})$:\n\\begin{itemize}\n  \\item l'\\emph{active point} è $s_{j'}$, dove $j'$ è il minimo indice tale che $s_{j'}$\n        \\textbf{non è una foglia};\n  \\item l'\\emph{end point} è $s_{j''}$, dove $j''$ è il minimo indice tale che $s_{j''}$\n        \\textbf{ha già un arco uscente etichettato con $t_i$}.\n\\end{itemize}\n\\end{definizione}\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/p24-active-end-point.tikz}\n\\caption{Il boundary path di $\\STree{}(T^{\\,i-1})$, percorso da sinistra a destra\nseguendo i suffix link $f$. L'\\emph{active point} $s_{j'}$ è il primo stato che non è\nuna foglia, l'\\emph{end point} $s_{j''}$ è il primo stato che possiede già una\n$t_i$-transizione: fra i due sta la regione in cui si deve effettivamente lavorare.}\n\\label{fig:p24-active-end-point}\n\\end{figure}\n\nGli stati $s_1,\\dots,s_{j'-1}$ sono foglie e si aggiornano da soli (l'etichetta\ndell'arco entrante è aperta a destra), mentre da $s_{j''}$ in poi non c'è nulla da fare:\nresta solo il tratto $s_{j'},\\dots,s_{j''-1}$, dove occorre creare le nuove foglie\netichettate $t_i$ (e, se il punto è implicito, spezzare l'arco introducendo un nuovo\nbranching point).\n\n\\begin{osservazione}\\label{oss:p24-propagazione-ti}\nChe da $s_{j''}$ in poi non ci sia più nulla da fare segue dal fatto che la proprietà\n«avere una $t_i$-transizione» si propaga lungo i suffix link: se $s_j$ ha un arco\nuscente etichettato con $t_i$, allora $t_j\\cdots t_{i-1}t_i$ è sottostringa di\n$T^{\\,i}$, quindi lo è anche $t_{j+1}\\cdots t_{i-1}t_i$ e dunque anche\n$s_{j+1}=f(s_j)$ ha una $t_i$-transizione.\n\\end{osservazione}\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/p24-propagazione-ti.tikz}\n\\caption{Le $t_i$-transizioni si propagano lungo i suffix link: una volta comparse sul\nboundary path non spariscono più.}\n\\label{fig:p24-propagazione-ti}\n\\end{figure}\n\n\\medskip\n\nModifico quindi la costruzione descritta per $\\STrie{}(T^{\\,i})$, adattandola a\n$\\STree{}(T^{\\,i})$:\n\n\\begin{enumerate}\n  \\item $\\STree{}(T^{\\,i})$ è un automa (senza insieme degli stati finali $F$) i cui\n        stati sono sempre branching, oppure foglie: in questo modo si riduce il numero\n        di stati e diventa possibile un algoritmo lineare;\n  \\item uso active point ed end point per limitare il lavoro alla regione\n        $\\text{active}\\longrightarrow\\text{end}$.\n\\end{enumerate}",
+ "note": [
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 24,
+   "testo": "Nelle due annotazioni della figura centrale il quaderno abbrevia «b.p.» («primo nodo nel b.p. che non è una foglia», «primo nodo nel b.p. che ha un arco uscente etichettato con t_i»). Ho sciolto l'abbreviazione in «boundary path» e non in «branching point»: (a) la reggenza «nel b.p.» richiede un cammino/insieme, non un nodo; (b) p.22 scrive per esteso «boundary path (definisce i nodi finali): f^j(t_1...t_{i-1}) per j in {0,...,i-1}»; (c) le due frasi coincidono letteralmente con le definizioni di active point ed end point di Ukkonen (1995).",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 24,
+   "testo": "I due stati cerchiati nella figura centrale sono scritti in modo poco leggibile: si intravede «s» con pedice «j» seguito da uno (a sinistra) e da due (a destra) trattini verticali. Ho trascritto active point = s_{j'} ed end point = s_{j''}, come in Ukkonen: gli indici DEVONO essere distinti perche' j' e j'' sono definiti da due condizioni di minimalita' diverse (primo non-foglia / prima t_i-transizione) e in generale j' <= j''. Scrivere s_j per entrambi renderebbe la figura incoerente.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 24,
+   "testo": "In alto a sinistra della figura centrale c'e' una piccola legenda: una «x» sopralineata con sotto la parola «stato», e una «x» semplice con sotto «stringa». Le due parole sono quasi illeggibili; le ho lette «stato» e «stringa» perche' la coppia e' confermata da p.22, dove La fonte dell'anno precedentescrive g(x-sopralineato, w) = xw-sopralineato, cioe' usa la sopralineatura proprio per denotare lo stato individuato da una stringa (notazione di Ukkonen). Ho reso la legenda come un'osservazione di notazione nel testo invece che dentro la figura.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 24,
+   "testo": "Il quaderno scrive «modifico la costruzione attribuita a STrie(T^i) adattandola a STree(T^i)». «attribuita a» e' una svista/italiano telegrafico: il senso e' la costruzione (naive, incrementale) data nelle pagine precedenti PER lo STrie. Ho scritto «Modifico quindi la costruzione descritta per STrie(T^i), adattandola a STree(T^i)».",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 24,
+   "testo": "La pagina nomina il boundary path solo tramite l'abbreviazione «b.p.», dandolo per noto. Ho reinserito la definizione esplicita s_j = t_j...t_{i-1} sopralineato = f^{j-1}(t_1...t_{i-1} sopralineato), con s_{j+1} = f(s_j), ripresa da p.22 (dove compare nella forma «f^j(t_1...t_{i-1}) per j in {0,...,i-1}»), per rendere la pagina autosufficiente.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 24,
+   "testo": "Il paragrafo «Gli stati s_1,...,s_{j'-1} sono foglie e si aggiornano da soli ... resta solo il tratto s_{j'},...,s_{j''-1}» non e' scritto a parole: e' la lettura dell'annotazione «regione in cui devo \"lavorare\"» posta fra i due punti cerchiati, unita a quanto annotato a p.23 («appendiamo nuove foglie» / «non serve applicare nulla» / «appendiamo a foglia»). L'ho esplicitato perche' altrimenti l'annotazione della figura resterebbe priva di significato.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 24,
+   "testo": "L'osservazione sulla propagazione delle t_i-transizioni lungo i suffix link non e' scritta a parole: e' esattamente cio' che dice la figurina in basso a sinistra (tre stati consecutivi sul boundary path, ciascuno con un arco uscente t_i, collegati da frecce f). Ho aggiunto la dimostrazione in una riga (se t_j...t_{i-1}t_i e' sottostringa di T^i lo e' anche t_{j+1}...t_{i-1}t_i) perche' e' cio' che giustifica la definizione stessa di end point e il fermarsi li'.",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 24,
+   "testo": "La definizione di canonicita' del quaderno («da s, leggendo w, non ci sono branching points») e' ambigua sull'estremo finale. L'ho intesa in senso inclusivo — nessun branching point da s (escluso) fino al punto individuato (incluso) — perche' e' l'unica lettura compatibile con l'osservazione immediatamente successiva del quaderno stesso («se s branching, (s,eps) e' la rappresentazione canonica per lo stato s»): altrimenti anche (s, abcde) sarebbe canonica, mentre la canonica di quel punto e' (s', eps).",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 24,
+   "testo": "Espansioni di abbreviazioni telegrafiche: «Oss.» -> osservazione; «rappr. canonica» -> «rappresentazione canonica»; «(senza F)» -> «(senza insieme degli stati finali F)»; «riduco il numero di stati» reso in forma impersonale «si riduce il numero di stati». Ho usato \\vuota per la stringa vuota (macro effettivamente presente in preamble.tex) e la forma \\STree{}/\\STrie{} con graffe vuote per neutralizzare lo \\xspace delle macro, altrimenti si otterrebbe «STree (T^i)».",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 24,
+   "testo": "Figura 1: nella scansione il secondo nodo esplicito (quello raggiunto da s leggendo abcde) e' disegnato senza etichetta. L'ho battezzato s' nella didascalia e nella specifica TikZ, perche' serve a enunciare che la forma canonica di (s, abcdeabc) e' (s', abc). Nella scansione la non-canonicita' e' solo suggerita dal disegno (la lunga freccia che scavalca il branching point), non scritta.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 24,
+   "testo": "Figura 3: nella scansione solo i primi due archi uscenti sono etichettati t_i, il terzo e' un semplice segmento verticale non etichettato. Ho chiesto di etichettarlo t_i anche nel disegno, perche' e' evidentemente lo stesso arco (e' proprio il punto della figura: la t_i-transizione si propaga).",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 24,
+   "testo": "Figura 2: i due connettori a zig-zag («lampo») che nella scansione salgono dai nodi verso i due ovali con s_{j'} e s_{j''} sono, a mio giudizio, semplici richiami grafico-annotativi (etichetta -> nodo), non archi dell'albero; li ho specificati come linee di richiamo tratteggiate. Analogamente i tre archi corti verso pallini pieni sotto il nodo di sinistra servono solo a mostrare che quello stato e' branching (non e' una foglia), non a rappresentare figli specifici.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "p24-coppia-canonica",
+   "pagina": 24,
+   "didascalia": "Coppie di riferimento canoniche e non canoniche: (s,abcd) e' canonica, (s,abcdeabc) no (la sua forma canonica e' (s',abc)).",
+   "tipo": "albero",
+   "specifica": "Frammento di suffix trie/tree disegnato in diagonale, dall'alto a sinistra verso il basso a destra (come nella scansione).\n\nNODI E ARCHI:\n1. In alto a sinistra: nodo esplicito ‹s›, disegnato come CERCHIO A DOPPIO BORDO (o cerchio con bordo spesso) di raggio medio, etichettato «s» in alto a destra del cerchio. Da esso esce verso l'alto-sinistra un breve segmento non etichettato (l'arco entrante che viene dal padre).\n2. Da ‹s› scende verso il basso-destra una CATENA DI STATI IMPLICITI: piccoli cerchietti VUOTI di raggio piccolo, collegati da segmenti; la catena e' disegnata tratteggiata/punteggiata per suggerire che si tratta di stati impliciti (nella scansione i cerchietti sono minuscoli e i segmenti sottili). Le etichette dei cinque archi, in ordine dall'alto, sono: a, b, c, d, e (una lettera per arco, posta a lato dell'arco).\n3. Dopo l'arco etichettato ‹e› si trova un secondo nodo ESPLICITO ‹s'›: CERCHIO SEMPLICE di raggio medio, etichettato «s'» (etichetta assente nella scansione, va aggiunta). Da ‹s'› esce anche un SECONDO arco, un breve segmento verso il basso-sinistra senza etichetta: serve solo a mostrare che ‹s'› e' un branching point (grado uscente >= 2).\n4. Da ‹s'› prosegue verso il basso-destra una seconda catena di stati impliciti (stessi cerchietti piccoli vuoti, stesso tratteggio) con tre archi etichettati a, b, c.\n5. La seconda catena termina in un CERCHIO SEMPLICE di raggio medio, non etichettato: e' il punto individuato dalla coppia (s,abcdeabc).\n\nANNOTAZIONI (in colore chiaro/secondario, come nella scansione):\nA. Etichetta «$(s,abcd)$» posta a SINISTRA della figura, all'incirca all'altezza dell'arco ‹d›. Da essa parte una curva sottile che sale, gira attorno alla catena e termina con una PICCOLA FRECCIA che punta al cerchietto implicito situato SUBITO DOPO l'arco ‹d› (cioe' fra ‹d› ed ‹e›). Questa e' la coppia canonica.\nB. Etichetta «$(s,abcdeabc)$» posta in ALTO A DESTRA, ben staccata dall'albero. Da essa parte una LUNGA curva che scende scavalcando a destra tutta la figura (passa a destra di ‹s'›) e termina con una FRECCIA che punta al cerchio terminale in basso. Questa e' la coppia NON canonica: il cammino attraversa il branching point ‹s'›.\n\nSTILE: tutto in un unico colore d'accento tenue per le annotazioni e nero/blu per l'albero; le etichette degli archi sono lettere minuscole in corsivo matematico. Facoltativo ma utile: un piccolo segno grafico (es. un pallino pieno) sul punto puntato dall'annotazione A, per rendere evidente che si tratta di uno stato implicito interno alla catena.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "p24-active-end-point",
+   "pagina": 24,
+   "didascalia": "Boundary path di STree(T^{i-1}) con active point s_{j'} ed end point s_{j''}; fra i due sta la regione in cui si deve lavorare.",
+   "tipo": "schema",
+   "specifica": "Schema del boundary path percorso da SINISTRA a DESTRA (la profondita' degli stati diminuisce spostandosi a destra, perche' si seguono i suffix link). NON riprodurre la legenda «x-sopralineato / stato, x / stringa» che nella scansione sta in alto a sinistra: e' resa nel testo come osservazione di notazione.\n\nELEMENTI, da sinistra a destra:\n1. NODO A (active point): pallino PIENO, posto in basso a sinistra. Vi arriva da sinistra una FRECCIA CURVA etichettata «$f$» (il suffix link che proviene dallo stato precedente del boundary path).\n2. Da NODO A escono verso il basso tre brevi segmenti non etichettati, che terminano in pallini pieni piu' piccoli (uno in basso-sinistra, uno verticale, uno in basso-destra): servono solo a mostrare che A e' branching, cioe' NON e' una foglia.\n3. Da NODO A sale, verso l'alto-destra, una LINEA DI RICHIAMO tratteggiata (nella scansione e' disegnata a zig-zag, come un lampo) che raggiunge un OVALE contenente «$s_{j'}$».\n4. A SINISTRA dell'ovale, su due righe, la scritta «active point».\n5. A DESTRA dell'ovale, la nota su due-tre righe «primo nodo nel boundary path che non e' una foglia», con una piccola freccia che punta all'ovale.\n6. Da NODO A parte verso l'alto-destra una FRECCIA DRITTA che termina appena prima di una fila di puntini «$\\cdots$» disposti in diagonale ascendente: sono gli stati intermedi del boundary path, non disegnati.\n7. NODO B (end point): pallino PIENO, posto in alto a destra rispetto ad A. Vi arriva una LUNGA CURVA MORBIDA che parte da NODO A, scende leggermente, poi risale verso destra e termina con una freccia su B.\n8. Da NODO B sale una LINEA DI RICHIAMO tratteggiata (zig-zag nella scansione) fino a un OVALE contenente «$s_{j''}$», posto in alto a destra.\n9. Sopra/a destra dell'ovale la scritta «end point».\n10. Sotto/a destra, la nota su piu' righe «primo nodo nel boundary path che ha un arco uscente etichettato con $t_i$», con una freccia che punta all'ovale.\n11. Sotto la lunga curva che va da A a B, una GRAFFA orizzontale (o una parentesi graffa rivolta verso il basso) che abbraccia il tratto fra A e B, con sotto la scritta «regione in cui devo \"lavorare\"» (virgolette incluse, come nella scansione).\n\nSTILE: nodi come pallini pieni; ovali disegnati a mano libera nella scansione, in TikZ vanno bene ellissi con bordo sottile; le note esplicative in corpo piccolo. Usare un colore d'accento tenue per la lunga curva A->B e per la graffa, in modo che si distinguano dagli archi dell'albero.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "p24-propagazione-ti",
+   "pagina": 24,
+   "didascalia": "Le t_i-transizioni si propagano lungo i suffix link: una volta comparse sul boundary path non spariscono piu'.",
+   "tipo": "schema",
+   "specifica": "Schema piccolo e compatto, tre stati consecutivi del boundary path disposti da sinistra a destra e a quote CRESCENTI (ognuno un po' piu' in alto del precedente), come nella scansione.\n\nELEMENTI:\n1. STATO 1: pallino pieno, in basso a sinistra. Da esso scende un SEGMENTO VERTICALE etichettato «$t_i$» (etichetta a destra del segmento) che termina in un pallino pieno piu' piccolo (il figlio raggiunto dalla t_i-transizione).\n2. STATO 2: pallino pieno, a destra e piu' in alto dello STATO 1. Anch'esso ha un segmento verticale verso il basso etichettato «$t_i$» che termina in un pallino pieno.\n3. STATO 3: pallino pieno, ancora piu' a destra e piu' in alto. Anch'esso ha un segmento verticale verso il basso, terminante in un pallino pieno; nella scansione questo terzo segmento e' privo di etichetta, ma va etichettato «$t_i$» come gli altri due (e' il senso della figura).\n4. FRECCIA CURVA da STATO 1 a STATO 2, etichettata «$f$» sopra la curva.\n5. FRECCIA CURVA da STATO 2 a STATO 3, etichettata «$f$» sopra la curva.\n6. Facoltativo (presente nella scansione): dallo STATO 1 sale verso l'alto-sinistra un breve tratto di linea sottile, che suggerisce la prosecuzione del cammino verso la radice.\n\nSTILE: figura piccola, larga circa mezza colonna; frecce dei suffix link in colore d'accento tenue, archi dell'albero in nero/blu.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina si chiude con i due \"ingredienti\" della modifica (1: STree come automa i cui stati sono solo branching o foglie, per avere un algoritmo lineare; 2: uso di active/end point per limitare il lavoro alla regione active -> end), enunciati ma non ancora dettagliati. Restano in sospeso: (a) come si rappresentano concretamente gli stati impliciti/espliciti tramite reference pair e coppie di interi; (b) il legame fra le fasi successive, cioe' che l'end point di STree(T^{i-1}) e' l'active point di STree(T^i); (c) la procedura di canonizzazione di una coppia di riferimento e l'analisi ammortizzata del costo. Coerentemente, p.25 apre con \"3. Dettagli: i) definisco stati impliciti/espliciti e identificabili con reference pair (s,w) = (s,[k,p]); ii) end-point di STree(T^{i-1}) e' active-point di STree(T^i)\", con le figure dei suffix link f fra stati espliciti e fra reference pair.",
+ "confidenza": "alta"
+}

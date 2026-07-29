@@ -1,0 +1,140 @@
+{
+ "pagina": 7,
+ "latex": "\\scan{7}\n\nRiprendiamo la funzione $Z$, che si calcola su una singola stringa.\n\n\\begin{definizione}[Funzione $Z$]\\label{def:funzione-Z}\nSia $S\\in\\alfa^{*}$ e sia $2\\le i\\le\\abs{S}$. Si pone\n\\[\n  \\Zv{i}(S)\\;=\\;\\max\\bigl\\{\\,j \\ge 0 \\;:\\; \\pre{S}{j}=\\sub{S}{i}{i+j-1}\\,\\bigr\\},\n\\]\ncon la convenzione $\\max\\emptyset=0$. Dunque $\\Zv{i}(S)$ è la lunghezza del più lungo prefisso di $S$ che ricorre in $S$ anche a partire dalla posizione $i$; se $\\Zv{i}(S)>0$, il fattore $\\sub{S}{i}{i+\\Zv{i}(S)-1}$ si dice \\Zbox di inizio $i$.\n\\end{definizione}\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/z-def-Zi.tikz}\n\\caption{La funzione $Z$: $\\Zv{i}(S)$ è la lunghezza $\\abs{\\alpha}$ del più lungo prefisso $\\alpha$ di $S$ che ricorre anche a partire dalla posizione $i$.}\n\\end{figure}\n\nAvendo un algoritmo per $Z$ siamo a posto: il pattern matching esatto si risolve calcolando $Z$ sulla stringa $P\\,\\$\\,T$. Resta dunque una sola domanda: \\emph{come calcolo $Z$?}\n\nLa risposta è: \\emph{per ricorsione}, con un'analisi ammortizzata della complessità. L'idea è di mantenere --- inizializzandolo e aggiornandolo a ogni passo --- un intervallo $[\\ell,r]$ tale che $\\sub{S}{\\ell}{r}$ sia un prefisso di $S$, con $r$ \\emph{massimo} fra tutti quelli calcolati fino a quel momento.\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/z-blocco-lr.tikz}\n\\caption{L'invariante dell'algoritmo: il blocco $[\\ell,r]$, con $\\sub{S}{\\ell}{r}$ prefisso di $S$ e $r$ massimo fra quelli già calcolati; l'indice corrente $i$ cade dentro il blocco.}\n\\end{figure}\n\nScandiamo $i=2,3,\\dots,\\abs{S}$ e supponiamo di aver già calcolato $\\Zv{2},\\dots,\\Zv{i-1}$; il caso interessante è quello in cui $\\ell\\le i\\le r$. Poniamo\n\\[\n  \\alpha \\;=\\; \\sub{S}{\\ell}{r}\\;=\\;\\pre{S}{r-\\ell+1},\n  \\qquad \\abs{\\alpha}=r-\\ell+1=\\Zv{\\ell}.\n\\]\nLe due occorrenze di $\\alpha$ --- quella iniziale, che è un prefisso di $S$, e quella nel blocco --- sono copie l'una dell'altra: la posizione $i$ del blocco corrisponde alla posizione $i-\\ell+1$ del prefisso. È questa corrispondenza a \\emph{suggerire} il valore di $\\Zv{i}$, perché $\\Zv{i-\\ell+1}$ è già stato calcolato. Chiamiamo\n\\[\n  \\beta\\;=\\;\\sub{S}{i-\\ell+1}{\\,i-\\ell+\\Zv{i-\\ell+1}},\n  \\qquad \\abs{\\beta}=\\Zv{i-\\ell+1},\n\\]\nla \\Zbox che comincia in $i-\\ell+1$; per copia la stessa $\\beta$ compare a partire dalla posizione $i$. Indichiamo infine con\n\\[\n  x \\;=\\; S[\\abs{\\alpha}+1], \\qquad y \\;=\\; S[r+1]\n\\]\ni due caratteri che seguono le due occorrenze di $\\alpha$: la massimalità di $\\Zv{\\ell}$ dice esattamente che $x\\neq y$.\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/z-alfa-beta.tikz}\n\\caption{Il prefisso $\\alpha=\\pre{S}{r-\\ell+1}$ e la sua copia $\\sub{S}{\\ell}{r}$. La posizione $i-\\ell+1$ della copia di sinistra corrisponde alla posizione $i$ della copia di destra: il valore già noto $\\Zv{i-\\ell+1}$ suggerisce $\\Zv{i}$. I caratteri $x$ e $y$ che seguono le due copie sono diversi, per la massimalità di $\\Zv{\\ell}$.}\n\\end{figure}\n\nSi presentano allora due casi, a seconda di dove termina $\\beta$ rispetto alla fine di $\\alpha$.\n\n\\begin{description}\n  \\item[Caso 1 \\textnormal{($\\Zv{i-\\ell+1}<r-i+1$).}] La \\Zbox $\\beta$ termina strettamente prima della fine di $\\alpha$: tutto ciò che serve sta dentro la copia già nota e si ha subito il valore cercato,\n  \\[\n    \\Zv{i}\\;=\\;\\Zv{i-\\ell+1}.\n  \\]\n  \\item[Caso 2 \\textnormal{($\\Zv{i-\\ell+1}\\ge r-i+1$).}] $\\beta$ arriva almeno fino alla fine di $\\alpha$: la copia garantisce soltanto $\\sub{S}{i}{r}=\\pre{S}{r-i+1}$, mentre di ciò che accade oltre $r$ non si sa nulla. Si riprendono allora (ricorsivamente) i confronti espliciti fra le posizioni $r+1$ e $(r-i+1)+1$, e\n  \\[\n    \\Zv{i}\\;=\\;(r-i+1)+q,\n    \\qquad\n    q=\\max\\bigl\\{\\,j\\ge 0 \\;:\\; \\sub{S}{r+1}{r+j}=\\sub{S}{r-i+2}{\\,r-i+1+j}\\,\\bigr\\}.\n  \\]\n\\end{description}\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/z-caso1.tikz}\n\\caption{Caso 1: $\\abs{\\beta}=\\Zv{i-\\ell+1}<r-i+1$. La \\Zbox\\ $\\beta$ è strettamente contenuta in $\\alpha$, quindi si copia tale e quale in posizione $i$: $\\Zv{i}=\\Zv{i-\\ell+1}$.}\n\\end{figure}\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/z-caso2.tikz}\n\\caption{Caso 2: $\\abs{\\beta}=\\Zv{i-\\ell+1}\\ge r-i+1$. Nella copia di sinistra $\\beta$ compare sia come prefisso di $S$ sia a partire da $i-\\ell+1$, dove raggiunge la fine di $\\alpha$; nella copia di destra $\\beta$ arriva fino a $r$, ma se prosegua oltre è incognito ($a\\overset{?}{=}y$).}\n\\end{figure}\n\n\\begin{osservazione}\nNel caso disegnato negli appunti vale $\\Zv{i-\\ell+1}=r-i+1$ esattamente: $\\beta$ è il suffisso di $\\alpha$ che comincia in $i-\\ell+1$, la posizione da cui riprendere i confronti è $\\abs{\\beta}+1=\\Zv{i-\\ell+1}+1$ e il carattere da confrontare con $y=S[r+1]$ è $a=S[\\abs{\\beta}+1]$: è il confronto marcato con «\\,?\\,» nella figura. Se invece $\\Zv{i-\\ell+1}>r-i+1$ strettamente, la \\Zbox\\ $\\beta$ oltrepassa la fine di $\\alpha$, cioè $S[r-\\ell+2]=S[r-i+2]$; il primo confronto mette allora $y=S[r+1]$ contro $S[r-i+2]=S[\\abs{\\alpha}+1]=x$ e fallisce, perché $x\\neq y$. In tal caso $q=0$ e $\\Zv{i}=r-i+1$: il valore corretto non è $\\Zv{i-\\ell+1}$.\n\\end{osservazione}",
+ "note": [
+  {
+   "tipo": "altro",
+   "pagina": 7,
+   "risolto": true,
+   "testo": "La pagina è un ripasso/approfondimento: la definizione di $Z_i$ compare già a p.5 (con la stringa chiamata $A$) e l'idea dell'intervallo $[\\ell,r]$ già a p.6. A p.7 lo studente usa $S$ come nome della stringa e sviluppa la casistica in dettaglio con tre figure. Ho mantenuto $S$ e ho riscritto la definizione in forma unificata con $\\max\\emptyset=0$, invece della definizione a due rami «$0$ se $i=0$ oppure $A[1]\\neq A[i]$» usata a p.5, che contiene anche il refuso $i=0$ al posto di $i=1$."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 7,
+   "risolto": true,
+   "testo": "La riga «Se ??? un algoritmo per Z» ha il verbo illeggibile: due aste alte centrali (plausibilmente «bb») e un puntino verso la fine; la lettura più probabile è «Se abbiamo», ma non è certa. Ho aggirato il problema scrivendo «Avendo un algoritmo per $Z$ siamo a posto», che è la formulazione dell'anno precedente («Avendo $Z$ sarei a posto con $A=P\\$T$», L02 §3): il senso è certo anche se il grafema non lo è, quindi nessun marcatore nel testo."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 7,
+   "risolto": true,
+   "testo": "Sotto la $Z$ del titolo, con una freccetta, gli appunti riportano «Ziv»: verosimilmente l'attribuzione del nome detta a voce a lezione (Jacob Ziv). L'algoritmo $Z$ come presentato da Gusfield non è però attribuito a Ziv nella letteratura standard, quindi ho omesso l'annotazione dal LaTeX per non asserire un'attribuzione dubbia. Se la si vuole recuperare, va messa in nota a piè di pagina come «annotazione degli appunti»."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 7,
+   "risolto": true,
+   "testo": "Off-by-one sistematico sull'indice della copia: gli appunti scrivono ovunque $i-\\ell$ (etichetta della tacca nella figura principale, «calcolo $Z$ su $(i-\\ell)$», condizione «$Z_{i-\\ell}<r-i$», formula finale «$|\\beta|=Z_{i-\\ell}$»). Con indicizzazione da 1 e $\\alpha=S[\\ell..r]=S[1..r-\\ell+1]$ vale $S[\\ell+t]=S[1+t]$, quindi la posizione $i$ del blocco corrisponde a $i-\\ell+1$ del prefisso (il $k'$ di Gusfield). Ho corretto ovunque in $i-\\ell+1$. Lo stesso errore è neGli appunti del corso dell'anno precedente (p.6: «vado in posizione $i-l=i'$»)."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 7,
+   "risolto": true,
+   "testo": "La condizione del caso 1 negli appunti è «$Z_{i-\\ell}<r-i$». Con gli indici corretti diventa $Z_{i-\\ell+1}<r-i+1$ (equivalentemente $Z_{i-\\ell+1}\\le r-i$), cioè «la Z-box $\\beta$ finisce strettamente prima della fine di $\\alpha$», che è esattamente ciò che il disegno del «Caso 1» mostra. Ho scritto $Z_{i-\\ell+1}<r-i+1$."
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 7,
+   "risolto": true,
+   "testo": "La fonte dell'anno precedente (ricopiato dallo studente a p.6, cfr. L02) scrive la condizione dei sottocasi come «$Z_{i'}(A)<r-l$» / «$>r-l$»: $r-\\ell$ è (quasi) la lunghezza di $\\alpha$, non quella del tratto $S[i..r]$, ed è sbagliato. Lo studente a p.7 scrive $r-i$, che è la versione giusta a meno del $+1$. Ho adottato $r-i+1$ e segnalo la divergenza."
+  },
+  {
+   "tipo": "errore-anno-prec",
+   "pagina": 7,
+   "risolto": true,
+   "testo": "Caso 2: gli appunti dicono «riprendo i confronti da $r+1$ e $Z_{i-\\ell}+1$». La posizione corretta nel prefisso è $(r-i+1)+1=r-i+2$, non $Z_{i-\\ell+1}+1$: le due coincidono solo quando $Z_{i-\\ell+1}=r-i+1$, che è però esattamente il caso disegnato nella figura «Caso 2» (dove $\\beta$ termina sulla fine di $\\alpha$). Nel sottocaso stretto $Z_{i-\\ell+1}>r-i+1$ la regola degli appunti dà un valore troppo grande. Ho scritto la versione corretta nel testo e aggiunto un'osservazione che chiude il sottocaso stretto (il primo confronto fallisce subito perché è proprio $x\\neq y$, quindi $Z_i=r-i+1$). È lo stesso errore segnalato come anomalia A6 in L02, con controesempio $S=aaa$."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 7,
+   "risolto": true,
+   "testo": "Interpretazione chiave delle tre figure: la $\\beta$ dello studente NON è la $\\beta$ di Gusfield (che è $S[i..r]$), bensì la Z-box che comincia in $i-\\ell+1$, di lunghezza $Z_{i-\\ell+1}$. Lo conferma la formula scritta sotto la figura «Caso 2»: $|\\beta|=Z_{i-\\ell}$ (corretto: $Z_{i-\\ell+1}$). Con questa lettura le tre figure diventano coerenti: nel «Caso 1» $\\beta$ finisce strettamente dentro $\\alpha$, nel «Caso 2» $\\beta$ arriva fino alla fine di $\\alpha$. Ho misurato le posizioni delle tacche sulla scansione per verificarlo: lunghezze di $\\beta$ e distanze $i-\\ell$ coincidono nelle due copie a meno di 2--3 px."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 7,
+   "risolto": true,
+   "testo": "Nella figura principale i due archi in alto uniti dal segno «$=$» sono un connettore fra il gruppo di sinistra (prefisso) e quello di destra (blocco $[\\ell,r]$): esprimono che le due copie di $\\alpha$ coincidono e quindi che la posizione $i-\\ell+1$ della prima corrisponde alla posizione $i$ della seconda. È l'equivalente della freccia arancione nella figura dell'anno precedente (L02 §4.2). Le ascisse degli archi sono disegnate in modo impreciso (l'ancoraggio di destra cade prima di $\\ell$): ho ricostruito il significato, non la geometria letterale."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 7,
+   "risolto": true,
+   "testo": "I caratteri $x$ e $y$ compaiono in tutte e tre le figure subito dopo la fine delle due copie di $\\alpha$: $x=S[|\\alpha|+1]$ nella copia-prefisso, $y=S[r+1]$ nel blocco. Gli appunti non dicono a cosa servano; la loro funzione è la massimalità di $Z_\\ell$, cioè $x\\neq y$, ed è proprio ciò che serve a chiudere il sottocaso stretto del Caso 2. L'ho esplicitato nel testo e nell'osservazione."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 7,
+   "risolto": true,
+   "testo": "Figura «Caso 2»: nella copia di sinistra ci sono DUE segmenti etichettati $\\beta$, uno che parte dalla posizione 1 e uno che parte da $i-\\ell+1$; è la traduzione grafica del fatto che una Z-box è una copia del prefisso, quindi $\\beta$ occorre sia in 1 sia in $i-\\ell+1$. Il carattere minuscolo «$a$» scritto vicino alla retta è $S[|\\beta|+1]$, cioè il carattere che segue l'occorrenza-prefisso di $\\beta$; l'arco in basso con il «?» collega la cella di $a$ a quella di $y=S[r+1]$ ed è il confronto da eseguire. Ho descritto tutto ciò nella specifica della figura e nell'osservazione."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 7,
+   "risolto": true,
+   "testo": "I due «1» e «2» isolati nel margine destro, accanto alle frecce che escono da «due casi», sono le etichette dei casi (rimandano alle figure «Caso 1» e «Caso 2» in fondo alla pagina) e non fanno parte del testo. In particolare la riga «(ricorsione) riprendo i 2 / confronti da $r+1$ e $Z_{i-\\ell}+1$» va letta «(ricorsione) riprendo i confronti da $r+1$ e $Z_{i-\\ell}+1$», con il «2» come etichetta marginale."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 7,
+   "risolto": true,
+   "testo": "Espansioni di ellissi telegrafiche: «Ricorsione (e analisi ammortizzata della complessità)» → frase piena; «mantengo (inizializzo e aggiorno) l'intervallo $I[\\ell,r]$ $\\sim$ prefisso di $S$ con $r$ max (tra quelli che ho calcolato)» → enunciato dell'invariante. La sigla «$I$» davanti a $[\\ell,r]$ è solo il nome dell'intervallo e l'ho omessa. La freccia «↑ mi suggerisce il valore di $Z$», che punta alla tacca $i-\\ell$, è resa nel testo con «è questa corrispondenza a suggerire il valore di $Z_i$»."
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 7,
+   "risolto": true,
+   "testo": "Gli appunti annunciano l'analisi ammortizzata della complessità ma non la svolgono, e non riportano alcuno pseudocodice per il calcolo di $Z$; manca inoltre del tutto, in questa pagina, il caso «naive» $i>r$ (la pagina discute solo $\\ell\\le i\\le r$). Non ho colmato la lacuna per non aggiungere contenuto: il caso $i>r$ è comunque già enunciato a p.6 («1) $r<i$ (naive)») e la complessità sarà da riprendere in fase di cucitura."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 7,
+   "risolto": true,
+   "testo": "Nella seconda figura (invariante $[\\ell,r]$) il tratto sopra la retta fra $\\ell$ e $r$ è disegnato come un semplice segmento, non come graffa; le annotazioni a margine («mantengo (inizializzo e aggiorno) l'intervallo $[\\ell,r]$» e «$\\sim$ prefisso di $S$ con $r$ max (tra quelli che ho calcolato)») sono collegate da frecce alla tacca $r$. Le ho riportate nella specifica come callout, e nel LaTeX sono confluite nel testo che precede la figura."
+  }
+ ],
+ "figure": [
+  {
+   "id": "z-def-Zi",
+   "pagina": 7,
+   "didascalia": "La funzione $Z$: $Z_i(S)$ è la lunghezza $|\\alpha|$ del più lungo prefisso $\\alpha$ di $S$ che ricorre anche a partire dalla posizione $i$.",
+   "tipo": "schema di stringhe",
+   "specifica": "Una singola retta orizzontale lunga (la stringa $S$), da x=0 a x=12, su una sola riga; etichetta «$S$» appena a destra dell'estremità destra. Tacche verticali corte che attraversano la retta: (a) all'estremo sinistro, x=0, = posizione 1; (b) a x=5.5, etichettata «$i$» SOPRA la retta. SOTTO la retta due graffe orizzontali (stile \\underbrace, aperte verso l'alto) di LUNGHEZZA IDENTICA: la prima da x=0 a x=2.4, etichettata «$\\alpha$» sotto il suo centro; la seconda da x=5.5 (esattamente dalla tacca $i$) a x=7.9, etichettata «$\\alpha$» sotto il suo centro, con una piccola freccia verticale che punta verso l'alto alla graffa (nel manoscritto la freccia sta subito a destra della lettera $\\alpha$). Più in basso, sotto la seconda graffa e leggermente a destra, l'etichetta «$Z_i(S)$»; da essa parte una freccia lunga, quasi orizzontale, che va verso SINISTRA e punta all'estremità destra della PRIMA graffa (quella del prefisso), a x=2.4. Significato: le due occorrenze di $\\alpha$ sono uguali e $Z_i(S)=|\\alpha|$; la freccia dice che $Z_i(S)$ misura la lunghezza del prefisso. Tutte le etichette testuali in italiano; nessun'altra annotazione.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "z-blocco-lr",
+   "pagina": 7,
+   "didascalia": "L'invariante dell'algoritmo: il blocco $[\\ell,r]$, con $S[\\ell..r]$ prefisso di $S$ e $r$ massimo fra quelli già calcolati; l'indice corrente $i$ cade dentro il blocco.",
+   "tipo": "schema di stringhe",
+   "specifica": "Una retta orizzontale (stringa $S$) da x=0 a x=10, etichetta «$S$» a destra dell'estremità. Tacca verticale all'estremo sinistro (posizione 1, x=0). Tre tacche verticali dentro la retta: a x=5.0 etichettata «$\\ell$» SOPRA; a x=5.6 etichettata «$i$» SOTTO; a x=6.9 etichettata «$r$» SOPRA. Sopra la retta, fra x=5.0 e x=6.9 e all'altezza delle etichette $\\ell$ e $r$, un segmento orizzontale sottile che collega $\\ell$ a $r$ (evidenzia il blocco; nel manoscritto è un tratto, non una graffa). A destra della figura, due callout in italiano collegati da frecce: (1) «mantengo (inizializzo e aggiorno) l'intervallo $[\\ell,r]$» con freccia che punta alla tacca $r$; (2) sotto di esso «$\\sim$ prefisso di $S$ con $r$ max» e, su una riga ulteriore, «(tra quelli che ho calcolato)». I callout possono essere resi come note a margine a destra, purché resti chiaro che il primo punta a $r$. Vincolo: $\\ell<i<r$.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "z-alfa-beta",
+   "pagina": 7,
+   "didascalia": "Il prefisso $\\alpha$ e la sua copia $S[\\ell..r]$: la posizione $i-\\ell+1$ della copia di sinistra corrisponde alla posizione $i$ di quella di destra.",
+   "tipo": "schema di stringhe",
+   "specifica": "Una sola retta orizzontale (stringa $S$) da x=0 a x=14, etichetta «$S$» a destra. Sulla retta due GRUPPI di tacche.\n\nGRUPPO SINISTRO (copia-prefisso di $\\alpha$): tacche a x=0 (posizione 1), x=1.2 etichettata SOTTO «$i-\\ell+1$», x=3.2 (fine di $\\alpha$), x=3.8. Fra x=3.2 e x=3.8 il carattere «$x$» scritto SOPRA la retta (è $S[|\\alpha|+1]$). SOPRA la retta una graffa (aperta verso il basso) da x=0 a x=3.2, etichettata «$\\alpha$» sopra il centro. Sotto la graffa $\\alpha$, più vicina alla retta, una seconda graffa più corta da x=1.2 a x=2.6 etichettata «$\\beta$» (nel manoscritto è tracciata a matita e sottolineata): è la Z-box che comincia in $i-\\ell+1$ e finisce STRETTAMENTE prima della fine di $\\alpha$.\n\nGRUPPO DESTRO (copia nel blocco): tacche a x=7.0 etichettata SOPRA «$\\ell$», x=8.2 etichettata SOTTO «$i$», x=10.2 etichettata SOPRA «$r$», x=10.8. Fra x=10.2 e x=10.8 il carattere «$y$» SOPRA la retta (è $S[r+1]$). Graffa sopra da x=7.0 a x=10.2 etichettata «$\\alpha$»; graffa più corta e più bassa da x=8.2 a x=9.6 etichettata «$\\beta$».\n\nVINCOLI GEOMETRICI (verificati sulla scansione): le due graffe $\\alpha$ hanno la stessa lunghezza (3.2); le due graffe $\\beta$ hanno la stessa lunghezza (1.4); la distanza inizio-gruppo → inizio-$\\beta$ è la stessa nei due gruppi (1.2, cioè $i-\\ell$).\n\nCONNETTORE: in alto, sopra tutto, due archi curvi uniti al centro dal segno «$=$»; il primo sale dal gruppo sinistro partendo sopra x$\\approx$1.2 (inizio di $\\beta$, cioè $i-\\ell+1$) verso il centro, il secondo scende dal centro verso il gruppo destro arrivando sopra x$\\approx$8.2 (la posizione $i$). Il segno «$=$» sta esattamente fra i due archi. Significato: le due copie coincidono, quindi ciò che accade in $i-\\ell+1$ si ripete in $i$ finché si resta dentro $\\alpha$.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "z-caso1",
+   "pagina": 7,
+   "didascalia": "Caso 1: $|\\beta|=Z_{i-\\ell+1}<r-i+1$, quindi $Z_i=Z_{i-\\ell+1}$.",
+   "tipo": "schema di stringhe",
+   "specifica": "Titolo «Caso 1» in alto a sinistra, fuori dalla retta. Una sola retta orizzontale (stringa $S$) da x=0 a x=14, etichetta «$S$» a destra.\n\nGRUPPO SINISTRO: tacche a x=0 (posizione 1), x=1.1 ($=i-\\ell+1$), x=2.3 (fine di $\\beta$), x=3.0 (fine di $\\alpha$), x=3.6. Fra x=3.0 e x=3.6 il carattere «$x$» SOPRA la retta. SOPRA la retta una graffa da x=0 a x=3.0 etichettata «$\\alpha$» sopra il centro. SOTTO la retta una graffa (aperta verso l'alto) da x=1.1 a x=2.3 etichettata «$\\beta$» sotto il centro.\n\nGRUPPO DESTRO: tacche a x=8.0 ($=\\ell$), x=9.1 ($=i$), x=10.3 (fine di $\\beta$), x=11.0 ($=r$), x=11.6. Fra x=11.0 e x=11.6 il carattere «$y$» SOPRA la retta. Graffa SOPRA da x=8.0 a x=11.0 etichettata «$\\alpha$»; graffa SOTTO da x=9.1 a x=10.3 etichettata «$\\beta$».\n\nNel manoscritto le tacche non sono etichettate (i nomi si intendono dalla figura precedente): per leggibilità aggiungere «$1$» e «$i-\\ell+1$» sotto le tacche del gruppo sinistro e «$\\ell$», «$i$», «$r$» sotto quelle del gruppo destro.\n\nVINCOLI: le due $\\alpha$ hanno uguale lunghezza (3.0), le due $\\beta$ uguale lunghezza (1.2), la distanza inizio-gruppo → inizio-$\\beta$ è la stessa (1.1). Punto essenziale del disegno: $\\beta$ finisce STRETTAMENTE prima della fine di $\\alpha$, e fra le due fini resta un tratto vuoto ben visibile.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "z-caso2",
+   "pagina": 7,
+   "didascalia": "Caso 2: $|\\beta|=Z_{i-\\ell+1}\\ge r-i+1$; oltre $r$ il proseguimento è incognito e va verificato con confronti espliciti.",
+   "tipo": "schema di stringhe",
+   "specifica": "Titolo «Caso 2» in alto a sinistra. Una sola retta orizzontale (stringa $S$) da x=0 a x=14, etichetta «$S$» a destra.\n\nGRUPPO SINISTRO: tacche a x=0 (posizione 1), x=2.0 (fine della prima occorrenza di $\\beta$), x=2.6, x=3.3 (fine di $\\alpha$), x=3.9. Fra x=2.0 e x=2.6 il carattere «$a$» scritto SOPRA la retta (è $S[|\\beta|+1]$). Fra x=3.3 e x=3.9 il carattere «$x$» SOPRA la retta (è $S[|\\alpha|+1]$).\nSOPRA la retta, in alto, una graffa da x=0 a x=3.3 etichettata «$\\alpha$».\nFra la graffa $\\alpha$ e la retta, DUE segmenti orizzontali a due livelli diversi, entrambi etichettati «$\\beta$» (nel manoscritto sono segmenti con una tacca a sinistra e un trattino a destra, non graffe):\n  – livello alto: da x=0 a x=2.0, etichetta «$\\beta$» sopra la sua parte sinistra → è l'occorrenza di $\\beta$ come PREFISSO di $S$;\n  – livello basso: da x=1.3 (posizione $i-\\ell+1$) a x=3.3, etichetta «$\\beta$» sopra la sua parte destra → è la Z-box che comincia in $i-\\ell+1$ e che qui ARRIVA ESATTAMENTE ALLA FINE DI $\\alpha$.\n\nGRUPPO DESTRO: tacche a x=8.0 ($=\\ell$), x=9.3 ($=i$), x=11.3 ($=r$), x=11.9. Fra x=11.3 e x=11.9 il carattere «$y$» SOPRA la retta. Graffa SOPRA da x=8.0 a x=11.3 etichettata «$\\alpha$». Fra la graffa e la retta un segmento orizzontale etichettato «$\\beta$» da x=9.3 a x=11.3, con una PICCOLA FRECCIA verso destra all'estremità destra (indica che potrebbe proseguire oltre $r$).\n\nARCO DEL CONFRONTO: un grande arco sottile SOTTO la retta che parte dalla cella del carattere «$a$» (x$\\approx$2.3) e arriva alla cella del carattere «$y$» (x$\\approx$11.6), con un «?» scritto sotto l'arco circa a metà. Significato: il confronto da eseguire è $S[|\\beta|+1]\\overset{?}{=}S[r+1]$, cioè $a\\overset{?}{=}y$.\n\nSOTTO tutta la figura, allineata a sinistra, la formula «$|\\beta| = Z_{i-\\ell+1}$» (il manoscritto scrive $Z_{i-\\ell}$: va corretto).\n\nVINCOLI: le due $\\alpha$ hanno uguale lunghezza (3.3); i tre segmenti $\\beta$ hanno tutti la stessa lunghezza (2.0); la distanza inizio-gruppo → inizio della seconda $\\beta$ è la stessa nei due gruppi (1.3, cioè $i-\\ell$). Aggiungere per leggibilità le etichette $1$, $i-\\ell+1$, $\\ell$, $i$, $r$ sotto le tacche corrispondenti.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina si chiude con la figura del Caso 2 e la formula $|\\beta|=Z_{i-\\ell+1}$. Restano in sospeso, annunciati ma non svolti: l'analisi ammortizzata della complessità del calcolo di $Z$, lo pseudocodice di Zcalc e il caso «naive» $i>r$ (enunciato solo a p.6); nel Caso 2 non viene nemmeno concluso esplicitamente il valore finale di $Z_i$, ci si ferma al punto da cui riprendere i confronti. La pagina 8 non riprende questi punti: cambia argomento e usa $Z$ per calcolare $sp_i(P)$ («$Z$ mi permette anche di calcolare $sp(x)$ (suffix-prefix di KMP) $\\to$ come?»), con la definizione di $sp_i(P)$, la relazione «$j$ mappa in $i$» ($i=j+Z_j(P)-1$) e poi $sp'_i$. Il filo che continua è dunque: $Z$ calcolabile $\\Rightarrow$ riduzione del preprocessing di KMP a $Z$.",
+ "confidenza": "alta"
+}

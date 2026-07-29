@@ -1,0 +1,104 @@
+{
+ "pagina": 8,
+ "latex": "\\scan{8}\n\nLa funzione $Z$ non serve soltanto a risolvere direttamente l'exact string\nmatching: permette anche di calcolare i valori $\\spv{i}(P)$, cioè i\nprefissi-suffissi su cui si regge KMP. Vediamo come.\n\n\\begin{definizione}[Prefisso-suffisso massimo]\\label{def:sp-i}\nSia $P$ un pattern e sia $1\\le i\\le\\abs{P}$. Poniamo\n\\[\n  \\spv{i}(P)\\;\\defeq\\;\\max\\set{k \\;:\\; 0\\le k<i,\\ \\sub{P}{1}{k}=\\sub{P}{i-k+1}{i}} ,\n\\]\ncioè $\\spv{i}(P)$ è la lunghezza del massimo prefisso \\emph{proprio} di $P$ che\nsia anche suffisso di $\\sub{P}{1}{i}$.\n\\end{definizione}\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/kmp-sp-def.tikz}\n\\caption{Il prefisso-suffisso massimo $\\alfa$ di $\\sub{P}{1}{i}$: $\\alfa$ compare\nsia come prefisso di $P$ sia come suffisso di $\\sub{P}{1}{i}$, e\n$\\abs{\\alfa}=\\spv{i}(P)$.}\n\\end{figure}\n\nIl valore $\\spv{i}(P)$ serve a riposizionare $P$ durante KMP senza perdere\npossibili occorrenze di $P$: dopo aver riconosciuto $\\sub{P}{1}{i}$ nel testo, il\npattern viene fatto scorrere di $i-\\spv{i}(P)$ posizioni, in modo che il prefisso\n$\\alfa=\\sub{P}{1}{\\spv{i}(P)}$ vada a sovrapporsi all'occorrenza di $\\alfa$ che\ntermina in $i$. Massimizzare $sp$ equivale a minimizzare lo shift:\n$\\text{max } sp \\iff \\text{min shift}$.\n\n\\begin{definizione}[$j$ mappa su $i$]\\label{def:mappa-su}\nDati $P$ e un indice $j$, diciamo che \\emph{$j$ mappa su $i$} se e solo se\n\\[\n  i \\;=\\; j+\\Zv{j}(P)-1 ,\n\\]\ncioè se la $\\Zbox$ che comincia in $j$ termina esattamente in $i$.\n\\end{definizione}\n\nSe so calcolare i valori $\\Zv{j}$, so allora calcolare anche gli $\\spv{i}(P)$.\n\n\\begin{osservazione}\nIl legame è il seguente: se $j\\ge 2$ mappa su $i$, allora $\\Zv{j}(P)=i-j+1$ e\n$\\sub{P}{j}{i}=\\sub{P}{1}{i-j+1}$, cioè $\\Zv{j}(P)$ è la lunghezza di un\nprefisso-suffisso proprio di $\\sub{P}{1}{i}$; fra tutti i $j$ che mappano su $i$,\nquello \\emph{minimo} è quello che dà il prefisso-suffisso più lungo. Attenzione\nperò: il valore così ottenuto è esattamente $\\spp{i}(P)$ (definito qui sotto) e\nnon $\\spv{i}(P)$, perché la massimalità della $\\Zbox$ impone in più\n$P[i+1]\\ne P[\\Zv{j}(P)+1]$. Dai valori $\\spp{i}(P)$ si risale poi agli\n$\\spv{i}(P)$ con una scansione all'indietro:\n\\[\n  \\spv{\\abs{P}}(P)=\\spp{\\abs{P}}(P),\n  \\qquad\n  \\spv{i}(P)=\\max\\bigl(\\spp{i}(P),\\ \\spv{i+1}(P)-1\\bigr)\n  \\quad\\text{per } i=\\abs{P}-1,\\dots,1 .\n\\]\n\\end{osservazione}\n\nPassiamo ora al punto successivo. Supponiamo di aver riconosciuto\n$\\sub{P}{1}{i}$ nel testo e di trovare un mismatch alla posizione successiva:\n$T$ presenta il carattere $y$, mentre $P$ presenta $x=P[i+1]$, con $x\\ne y$. Lo\nshift dettato da $\\spv{i}(P)$ porta il prefisso $\\alfa$ a sovrapporsi\nall'occorrenza di $\\alfa$ che termina in $i$; il carattere di $P$ che va a\nfinire sotto $y$ è quindi $z=P[\\spv{i}(P)+1]$.\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/kmp-sp-primo.tikz}\n\\caption{Mismatch fra $y$ (in $T$) e $x=P[i+1]$: dopo lo shift il carattere di\n$P$ allineato a $y$ è $z=P[\\spv{i}(P)+1]$. Se $z=x$ il mismatch si ripresenta\ncon certezza.}\n\\end{figure}\n\nSe $z$ non è $y$, dopo lo shift di $P$ avrò di nuovo un mismatch e lo\nspostamento sarà stato inutile. Di $y$ non so nulla, ma so che $x\\ne y$:\nquantomeno voglio allora che $z\\ne x$, perché se $z=x$ il mismatch dopo lo shift\nè garantito. Da qui la definizione della variante $\\spp{i}$.\n\n\\begin{definizione}[$\\spp{i}(P)$]\\label{def:sp-primo}\nPer $1\\le i\\le\\abs{P}$,\n\\[\n  \\spp{i}(P)\\;\\defeq\\;\\max\\set{k \\;:\\; 0\\le k<i,\\ \\sub{P}{1}{k}=\\sub{P}{i-k+1}{i},\\\n  \\bigl(i=\\abs{P}\\ \\text{oppure}\\ P[k+1]\\ne P[i+1]\\bigr)} ,\n\\]\ncioè il massimo prefisso-suffisso proprio di $\\sub{P}{1}{i}$ seguito da un\ncarattere diverso da $P[i+1]$. In particolare $\\spp{i}(P)\\le\\spv{i}(P)$ e\n$\\spp{\\abs{P}}(P)=\\spv{\\abs{P}}(P)$.\n\\end{definizione}\n\nSi può però ottimizzare ancora: con lo stesso costo posso chiedere una funzione\nche mi faccia avanzare $P$ più velocemente di $\\spp{i}(P)$.",
+ "note": [
+  {
+   "tipo": "correzione",
+   "pagina": 8,
+   "risolto": true,
+   "testo": "Notazione dell'argomento. Il quaderno scrive «$sp(x)$» nella prima riga e «$sp'_i(x)$», «$sp_i(x)$» in fondo alla pagina: il grafema fra parentesi e una x cursiva chiaramente distinta dalla P maiuscola usata poche righe piu sotto in «$sp_i(P)$», «$Z_j(P)$», «so calcolare $sp_i(P)$» (verificato ingrandendo entrambi i glifi). Si tratta di una x usata come segnaposto generico per la stringa. Ho normalizzato ovunque a $(P)$, per coerenza interna e con p.9, che apre con $sp'_{i,c}(P)$."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 8,
+   "risolto": true,
+   "testo": "Definizione di $sp'_i$. Il quaderno scrive «max prefisso/suffisso di $P[1,i]$ seguito da un carattere $\\ne P[i]$» (lettura confermata a forte ingrandimento: e P[i], non P[i+1]). E' un off-by-one: poiche $sp_i$ riguarda $P[1,i]$, il mismatch avviene in posizione $i+1$ e il carattere da escludere e $P[i+1]$. Lo conferma la figura della pagina stessa (la x sta nella cella immediatamente successiva al secondo alpha, cioe e $P[i+1]$) e Gli appunti del corso dell'anno precedente (L02 §9.1: «$sp'_i(P)$: max pre-suff proprio e t.c. $P[i+1]\\ne P[sp'_i(P)+1]$»). Ho scritto $P[k+1]\\ne P[i+1]$."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 8,
+   "risolto": true,
+   "testo": "Aggiunto l'aggettivo «proprio» alla definizione di prefisso-suffisso massimo (il quaderno dice solo «lunghezza del max prefisso-suffisso di $P[1,i]$»). Senza la richiesta $k<i$ la definizione e degenere: $P[1,i]$ e prefisso e suffisso di se stesso e si otterrebbe $sp_i=i$ per ogni $i$. La fonte dell'anno precedentelo scrive esplicitamente (L02 §8.1)."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 8,
+   "risolto": true,
+   "testo": "Aggiunto il caso limite $i=|P|$ nella definizione di $sp'_i$: per $i=|P|$ il carattere $P[i+1]$ non esiste, la condizione e vuota e $sp'_{|P|}=sp_{|P|}$. Il quaderno non lo menziona; e necessario perche la definizione sia ben posta."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 8,
+   "risolto": true,
+   "testo": "La frase dopo «...avro un mismatch» ha la prima parola in parte coperta da una macchia d'inchiostro: si leggono «Quanto...» + blot e poi «vo?lio che $z\\ne x$». Ho letto «Quantomeno voglio che $z\\ne x$» e reso in prosa come «quantomeno voglio allora che $z\\ne x$». La ricostruzione e forzata dalla matematica: sappiamo $x\\ne y$ ma non sappiamo quanto vale $y$; l'unica condizione utile imponibile a priori e $z\\ne x$, perche $z=x$ implica $z\\ne y$ e quindi mismatch garantito dopo lo shift. E' esattamente la motivazione di $sp'$, definito nella riga successiva."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 8,
+   "risolto": true,
+   "testo": "Il quaderno scrive «$j$ mappa su $i$ sse ...» (con «mappa» sottolineato e «sse» abbreviazione di «se e solo se»); La fonte dell'anno precedentescrive «$j$ mappa in $i$». Ho tenuto «mappa su» (fonte primaria) ed espanso «sse» in «se e solo se»."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 8,
+   "risolto": true,
+   "testo": "Il quaderno si limita a «se so calcolare $Z_j$ so calcolare $sp_i(P)$», senza enunciare il criterio. Ho aggiunto una osservazione che esplicita il legame: per $j\\ge2$ che mappa su $i$ si ha $Z_j=i-j+1$ e $P[j,i]=P[1,i-j+1]$, quindi $Z_j$ e la lunghezza di un prefisso-suffisso proprio di $P[1,i]$, e il $j$ minimo da il piu lungo. Senza questo passaggio la definizione di «$j$ mappa su $i$» resterebbe sospesa. Fonte: fonte dell'anno precedente L02 §8.3."
+  },
+  {
+   "tipo": "errore-anno-prec",
+   "pagina": 8,
+   "risolto": true,
+   "testo": "Nella stessa osservazione ho segnalato che il criterio «$Z_j$ con $j$ minimo che mappa su $i$» calcola $sp'_i$, non $sp_i$: la massimalita della Z-box impone $P[i+1]\\ne P[Z_j+1]$, che e proprio la condizione aggiuntiva di $sp'$. Gli appunti del corso dell'anno precedente (L02, formula evidenziata a p.2) enunciano l'identita per $sp$ ed e falsa (controesempio $P=aaa$: $Z=(0,2,1)$, il criterio da $(0,0,2)=sp'$ mentre $sp=(0,1,2)$). Ho quindi aggiunto anche il passo di recupero $sp_i=\\max(sp'_i,\\,sp_{i+1}-1)$. La pagina dello studente e comunque coerente con questa lettura, perche introduce $sp'$ subito dopo."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 8,
+   "risolto": true,
+   "testo": "Figura 1 (kmp-sp-def). Nel disegno la tacca sinistra del secondo alpha e etichettata «$i-sp_i(P)$» e quella destra «$i$». Le tacche sono confini fra celle, non posizioni di carattere, quindi l'etichetta e corretta cosi com'e (il bordo occupa $P[i-sp_i+1,\\,i]$): non ho corretto nulla, ma nella specifica TikZ ho chiesto di rendere esplicito che si tratta di confini."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 8,
+   "risolto": true,
+   "testo": "Figura 2 (kmp-sp-primo). Interpretazione: riga superiore = $T$ con la cella «y» indicata da una freccia verticale; riga inferiore = $P$ allineata sotto, con alpha prefisso seguito dalla cella «z» e, piu a destra, la seconda occorrenza di alpha seguita dalla cella «x» verticalmente allineata a «y». Dunque $z=P[sp_i(P)+1]$, $x=P[i+1]$, $y$ = carattere di $T$ nel punto di mismatch. Verificato per ingrandimento che le celle x e y sono incolonnate e che dopo la cella x la linea di P prosegue (quindi x non e l'ultimo carattere). L'annotazione sciolta «se $x\\ne y$» e l'ipotesi di mismatch; la freccia curva che risale alla cella «z» collega il commento «se $z$ non e $y$ allora dopo lo shift di $P$ avro un mismatch». Ho spostato entrambe le frasi nel testo corrente perche il disegno resti leggibile."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 8,
+   "risolto": true,
+   "testo": "Nella specifica della Figura 2 ho suggerito di aggiungere le etichette numeriche dei confini ($1$, $sp_i(P)$, $i-sp_i(P)$, $i$, $i+1$, $|P|$) che nel manoscritto non ci sono: senza di esse la figura non e autonoma. E' un'aggiunta editoriale, non contenuto degli appunti."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 8,
+   "risolto": true,
+   "testo": "La glossa fra parentesi della prima riga e in inglese («suffix-prefix di KMP»); l'ho resa con «i prefissi-suffissi su cui si regge KMP» per uniformita con il resto del testo, che usa sempre «prefisso-suffisso». La formula telegrafica «(max sp <=> min shift)» e stata mantenuta come tale, in coda alla spiegazione dello shift $i-sp_i(P)$, che nel quaderno e solo sottintesa dal disegno e dalla frase «serve a riposizionare P durante KMP senza perdere possibili occorrenze di P»."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 8,
+   "risolto": true,
+   "testo": "Macro usate secondo CONVENZIONI: \\spv{i}, \\spp{i}, \\Zv{j}, \\Zbox, \\sub, \\abs, \\set, \\defeq, \\alfa. Ho assunto che \\spv{i} renda $sp_i$ (senza argomento stringa) e ho scritto esplicitamente $(P)$ dopo la macro; se \\spv includesse gia l'argomento, il $(P)$ va rimosso. Analogamente \\Zbox e usata come sostantivo («la Z-box che comincia in $j$»)."
+  }
+ ],
+ "figure": [
+  {
+   "id": "kmp-sp-def",
+   "pagina": 8,
+   "didascalia": "Il prefisso-suffisso massimo $\\alpha$ di $P[1,i]$: $\\alpha$ compare sia come prefisso di $P$ sia come suffisso di $P[1,i]$, e $|\\alpha| = sp_i(P)$.",
+   "tipo": "schema di stringhe",
+   "specifica": "Schema a barra singola (una sola riga) che rappresenta il pattern P.\n\nGEOMETRIA (unita arbitrarie, coordinate x lungo la riga, y=0):\n- Una linea orizzontale spessa da x=0 a x=11, con punta di freccia all'estremo destro; subito a destra della freccia, fuori dalla linea, l'etichetta $P$.\n- Tacche verticali (segmentini che attraversano la linea, alti ~0.25 sopra e sotto) ai confini: x=0, x=2.2, x=5.0, x=7.2. Le tacche sono CONFINI fra caratteri, non posizioni: x=0 e il confine prima di P[1], x=7.2 e il confine dopo P[i].\n\nGRAFFE (sopra la linea; nel manoscritto sono graffe ondulate a mano libera, va bene anche una \\underbrace rovesciata):\n- graffa sopra il segmento [0, 2.2], etichettata $\\alpha$ centrata sopra: e il PREFISSO alpha = P[1, sp_i(P)];\n- graffa sopra il segmento [5.0, 7.2], della STESSA larghezza (2.2), etichettata $\\alpha$ centrata sopra: e il SUFFISSO alpha = P[i-sp_i(P)+1, i].\nLe due graffe devono essere visibilmente identiche in larghezza: e il punto della figura.\n\nETICHETTE SOTTO LA LINEA (piccole, sotto le tacche corrispondenti):\n- sotto x=5.0: $i-\\spv{i}(P)$\n- sotto x=7.2: $i$\n(le tacche x=0 e x=2.2 nel manoscritto sono prive di etichetta; opzionalmente si puo aggiungere $1$ sotto x=0 e $\\spv{i}(P)$ sotto x=2.2, resta piu chiaro)\n\nGRAFFA INFERIORE E ANNOTAZIONE:\n- una graffa rivolta verso il basso (\\underbrace) sotto il segmento [5.0, 7.2], posta sotto le etichette;\n- dalla graffa parte una freccia corta verso destra che punta a un nodo di testo su una riga: \\textit{riposizionamento di $P$}.\n(Nel manoscritto la freccia punta a un blocco di tre righe -- «serve a riposizionare P durante KMP senza perdere possibili occorrenze di P (max sp <=> min shift)» -- ma quel testo e gia riportato in prosa nel corpo, quindi nella figura va tenuta solo l'etichetta breve.)\n\nSIGNIFICATO ALGORITMICO: la figura definisce graficamente $sp_i(P)$ come lunghezza del piu lungo bordo proprio di $P[1,i]$; lo shift di KMP dopo un mismatch in $i+1$ vale $i-sp_i(P)$, cioe la distanza fra l'inizio della copia destra di alpha e l'inizio di P.\n\nSTILE: linea e tacche monocromatiche (colore del documento), etichette in matematica, larghezza ~0.8\\textwidth, altezza contenuta.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "kmp-sp-primo",
+   "pagina": 8,
+   "didascalia": "Mismatch fra $y$ (in $T$) e $x=P[i+1]$: dopo lo shift il carattere di $P$ allineato a $y$ e $z=P[sp_i(P)+1]$. Se $z=x$ il mismatch si ripresenta con certezza.",
+   "tipo": "schema di stringhe",
+   "specifica": "Schema a due barre orizzontali allineate verticalmente: testo T sopra, pattern P sotto (allineamento corrente di KMP).\n\nRIGA SUPERIORE (y=2), il TESTO T:\n- linea orizzontale spessa da x=-0.6 a x=11, punta di freccia a destra, etichetta $T$ subito a destra della freccia;\n- una tacca verticale a x=5.0 (nel manoscritto senza etichetta; segna in T il punto in cui comincia la copia di alpha);\n- una CELLA fra x=7.2 e x=8.0, delimitata da due tacche verticali, contenente il carattere $y$ scritto dentro la cella, sulla linea;\n- sopra la cella, una freccia verticale che punta verso il basso (da y=2.9 a y=2.15) centrata su x=7.6: e la posizione corrente di confronto in T.\n\nRIGA INFERIORE (y=0), il PATTERN P, allineato sotto T:\n- linea orizzontale spessa da x=0 a x=9.5, con tacche verticali agli estremi (x=0 inizio di P, x=9.5 fine di P); nessuna freccia (P e finito);\n- tacche verticali ai confini: x=0, x=2.2, x=3.0, x=5.0, x=7.2, x=8.0, x=9.5;\n- graffa ondulata SOPRA il segmento [0, 2.2] etichettata $\\alpha$: prefisso alpha = P[1, sp_i(P)];\n- CELLA fra x=2.2 e x=3.0 contenente il carattere $z$: z = P[sp_i(P)+1], il carattere che segue il prefisso alpha;\n- graffa ondulata SOPRA il segmento [5.0, 7.2] etichettata $\\alpha$, della STESSA larghezza (2.2) della prima: suffisso alpha = P[i-sp_i(P)+1, i];\n- CELLA fra x=7.2 e x=8.0 contenente il carattere $x$: x = P[i+1], carattere su cui avviene il mismatch;\n- il tratto da x=8.0 a x=9.5 e il resto di P (nessuna etichetta).\nLe celle di $y$ (riga T) e di $x$ (riga P) devono essere ESATTAMENTE incolonnate: entrambe in [7.2, 8.0].\n\nCOLLEGAMENTO FRA LE DUE RIGHE:\n- una seconda freccia verticale verso il basso, fra le due righe, centrata su x=7.6 (da y=1.3 a y=0.35): collega $y$ a $x$, cioe il confronto in corso.\n\nANNOTAZIONI:\n- sotto/a destra della riga di P, a circa (4.5, -1.0), il testo: \\textit{se } $x\\neq y$;\n- una freccia curva (spezzata/ondulata come nel manoscritto) che parte da circa (4.0, -2.2) e risale verso sinistra fino a puntare alla cella di $z$ (punta a circa (2.6, -0.35)); accanto al punto di partenza, un nodo di testo su 2-3 righe: \\textit{se $z$ non e $y$, dopo lo shift di $P$ avro un mismatch}.\n  (Se appesantisce troppo, si puo lasciare la sola freccia curva verso $z$ etichettata \\textit{shift}: il commento e comunque in prosa nel corpo.)\n\nETICHETTE DI POSIZIONE (non presenti nel manoscritto, consigliate per rendere la figura autonoma): sotto la riga di P, in piccolo, $1$ a x=0, $\\spv{i}(P)$ a x=2.2, $i-\\spv{i}(P)$ a x=5.0, $i$ a x=7.2, $i+1$ centrato sulla cella di $x$, $\\abs{P}$ a x=9.5.\n\nSIGNIFICATO ALGORITMICO: e stato riconosciuto $P[1,i]$ contro T; il confronto successivo fallisce ($x=P[i+1]\\neq y$). KMP fa scorrere P di $i-sp_i(P)$ posizioni, portando il prefisso alpha sotto la copia destra di alpha; il carattere di P che finisce sotto $y$ e allora $z=P[sp_i(P)+1]$. Se $z=x$ il nuovo confronto e certamente perdente: da qui la richiesta $z\\neq x$ che definisce $sp'_i(P)$.\n\nSTILE: due righe, distanza verticale ~2 unita, monocromatico coerente col resto del documento, larghezza ~0.85\\textwidth.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina si chiude con la richiesta esplicita di «una funzione che faccia avanzare $P$ piu velocemente di $sp'_i(P)$», a parita di costo. Restano in sospeso: (a) quale sia questa funzione; (b) come si calcolino concretamente $sp_i$ e $sp'_i$ a partire dai $Z_j$ (il criterio «$j$ minimo che mappa su $i$» e solo accennato, mai tradotto in algoritmo); (c) il costo del preprocessing. La pagina 9 risponde subito al punto (a): apre con la definizione riquadrata $sp'_{i,c}(P)$ = max pref./suff. di $P[1,i]$ seguito da $c$, la usa per KMP real-time (non si assume che $T$ sia dato completamente in input: con $sp'_{i,c}(P)$ si riposiziona $P$ nel confronto con $T$ in $O(1)$, mentre con $sp'_i(P)$ si potrebbe impiegare $O(n)$), e poi cambia argomento passando a Boyer--Moore. I punti (b) e (c) non vengono ripresi.",
+ "confidenza": "alta"
+}

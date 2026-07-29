@@ -1,0 +1,102 @@
+{
+ "pagina": 67,
+ "latex": "\\scan{67}\n\nIl problema SAT si affronta portando la formula in una delle due forme normali:\n\\[\n  \\text{SAT}\\;\n  \\begin{cases}\n    \\;\\longrightarrow\\;\\text{CNF} & \\text{(congiunzione di disgiunzioni di letterali)}\\\\[4pt]\n    \\;\\longrightarrow\\;\\text{DNF} & \\text{(disgiunzione di congiunzioni di letterali)}\n  \\end{cases}\n\\]\n\n\\begin{osservazione}\nLeggendo $\\vee$ come somma e $\\wedge$ come prodotto, una CNF è un \\emph{prodotto di somme}\nmentre una DNF è una \\emph{somma di prodotti}:\n\\[\n  \\underbrace{(a+b)\\cdot(c+d)\\cdots}_{\\text{CNF}}\n  \\qquad\\qquad\n  \\underbrace{(a\\cdot b)+(c\\cdot d)+\\cdots}_{\\text{DNF}}\n\\]\n\\end{osservazione}\n\n\\paragraph{Forma normale congiuntiva.}\nUna CNF ha la forma\n\\[\n  (\\varphi_1\\vee\\varphi_2)\\wedge(\\varphi_3\\vee\\varphi_4)\\wedge\\cdots\n  \\qquad\\text{ossia}\\qquad\n  \\Bigl(\\bigvee_{j=1}^{k}\\Phi_j\\Bigr)\\wedge\\Bigl(\\bigvee_{j'=1}^{k'}\\Phi_{j'}\\Bigr)\\wedge\\cdots\n\\]\ndove i $\\Phi$ sono letterali e clausole diverse possono avere lunghezze diverse ($k$, $k'$, \\dots).\n\nPer portare una formula in CNF si potrebbe procedere per pura distributività --- la\n«moltiplicazione» dell'analogia aritmetica --- ma questa strada va scartata, perché fa\nesplodere esponenzialmente il numero di clausole. Poiché però interessa soltanto\nl'\\emph{equisoddisfacibilità}, e non l'equivalenza logica, conviene invece\n\\textbf{introdurre nuove variabili}.\n\n\\begin{esempio}[da DNF a CNF introducendo una variabile]\nSi parta dalla DNF\n\\[\n  (\\varphi_1\\wedge\\varphi_2)\\vee(\\varphi_3\\wedge\\varphi_4)\\vee\\cdots\n\\]\nIntrodotta una variabile fresca $u$ si scrive\n\\[\n  \\bigl((\\varphi_1\\wedge\\varphi_2)\\vee u\\bigr)\\wedge\\bigl((\\varphi_3\\wedge\\varphi_4)\\vee\\neg u\\bigr)\n\\]\ne, distribuendo il $\\vee$ dentro ciascuna congiunzione,\n\\[\n  \\bigl((\\varphi_1\\vee u)\\wedge(\\varphi_2\\vee u)\\bigr)\\wedge\\bigl((\\varphi_3\\vee\\neg u)\\wedge(\\varphi_4\\vee\\neg u)\\bigr)\n\\]\ncioè la CNF\n\\[\n  (\\varphi_1\\vee u)\\wedge(\\varphi_2\\vee u)\\wedge(\\varphi_3\\vee\\neg u)\\wedge(\\varphi_4\\vee\\neg u).\n\\]\nIn notazione aritmetica lo stesso passaggio si legge\n\\[\n  (a\\cdot b)+(c\\cdot d)\\;\\equiv\\;(a+u)\\cdot(b+u)\\cdot(c+\\bar u)\\cdot(d+\\bar u).\n\\]\n\\end{esempio}\n\n\\begin{osservazione}\nLe due formule non sono logicamente equivalenti (la seconda parla anche di $u$), ma sono\nequisoddisfacibili: se è vera $\\varphi_1\\wedge\\varphi_2$ basta porre $u=0$, se è vera\n$\\varphi_3\\wedge\\varphi_4$ basta porre $u=1$; viceversa, in ogni assegnamento che soddisfa la\nCNF il valore di $u$ seleziona quale dei due termini deve risultare vero.\n\\end{osservazione}\n\n\\paragraph{Da CNF a 3-CNF.}\nLo stesso trucco permette di accorciare le clausole:\n\\[\n  \\text{CNF}\\;\\longrightarrow\\;\\text{3-CNF}.\n\\]\nUna clausola con $k>3$ letterali\n\\[\n  \\cdots\\wedge(\\ell_1\\vee\\ell_2\\vee\\cdots\\vee\\ell_k)\\wedge\\cdots\n\\]\n\\[\\Downarrow\\]\nsi sostituisce con la catena\n\\[\n  \\cdots\\wedge(\\ell_1\\vee\\ell_2\\vee u_1)\\wedge(\\neg u_1\\vee\\ell_3\\vee u_2)\\wedge(\\neg u_2\\vee\\ell_4\\vee u_3)\n  \\wedge\\cdots\\wedge(\\neg u_{k-3}\\vee\\ell_{k-1}\\vee\\ell_k)\\wedge\\cdots\n\\]\nin cui $u_1,\\dots,u_{k-3}$ sono variabili fresche. Ogni clausola prodotta ha esattamente\n$3$ letterali, e da una clausola di lunghezza $k$ se ne ottengono $k-2$: la trasformazione è\nlineare nella dimensione della formula e preserva la soddisfacibilità.\n\n\\paragraph{Aspvall--Plass--Tarjan.}\n\\[\n  \\Oh(n)\\qquad\\text{per 2-QBF}\n\\]\nIl risultato riguarda le formule booleane quantificate la cui matrice è in 2-CNF (2-QBF); il\ncaso puramente esistenziale è 2-SAT. L'idea è leggere ogni clausola binaria come una coppia di\nimplicazioni:\n\\[\n  (\\ell_1\\vee\\ell_2)\n  \\qquad\\text{si legge}\\qquad\n  \\overline{\\ell_1}\\to\\ell_2,\\qquad \\overline{\\ell_2}\\to\\ell_1 .\n\\]\nRaccogliendo gli archi generati da tutte le clausole si ottiene il \\emph{grafo delle\nimplicazioni} $G$, sul quale si calcolano le componenti fortemente connesse (CFC).\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/grafo-implicazioni-2sat.tikz}\n\\caption{Il grafo delle implicazioni $G$: la clausola $(\\ell_1\\vee\\ell_2)$ produce i due archi\n$\\overline{\\ell_1}\\to\\ell_2$ e $\\overline{\\ell_2}\\to\\ell_1$. Su $G$ si calcolano le componenti\nfortemente connesse (CFC).}\n\\end{figure}\n\n\\begin{osservazione}\nIl criterio è il seguente: la formula è insoddisfacibile se e solo se esiste una variabile $x$\ntale che $x$ e $\\neg x$ cadono nella stessa componente fortemente connessa di $G$. Poiché le\nCFC si calcolano con una visita in tempo lineare, si ottiene l'algoritmo $\\Oh(n)$ annunciato.\n\\end{osservazione}",
+ "note": [
+  {
+   "tipo": "correzione",
+   "pagina": 67,
+   "testo": "Catena CNF->3-CNF, prima clausola. Il quaderno scrive `(l_1 v l_2 v l_3)` (glifo di ell con pedice 3, verificato a forte ingrandimento). Ho scritto `(l_1 v l_2 v u_1)`: la catena deve introdurre la variabile fresca gia' nella prima clausola, altrimenti (i) per k>3 la trasformazione non sarebbe equisoddisfacibile e (ii) l_3 comparirebbe due volte, dato che il quaderno stesso lo rimette nella clausola successiva. E' un lapsus dello studente, che ha scritto il 'terzo letterale' invece della variabile ausiliaria.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 67,
+   "testo": "Catena CNF->3-CNF, seconda clausola. Il quaderno scrive `(¬u_1 v u_2 v l_3)`. E' la stessa clausola di `(¬u_1 v l_3 v u_2)` (l'ordine dei letterali dentro una clausola e' irrilevante); l'ho riordinata per rendere visibile lo schema ricorsivo `(¬u_{i-1} v l_{i+1} v u_i)`.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 67,
+   "testo": "Catena CNF->3-CNF, ultima clausola. Il quaderno scrive `(¬u_{k-2} v l_{k-1} v l_k)`. Con la numerazione u_1,...,u_{k-3} adottata nel testo (le variabili fresche sono k-3 e le clausole prodotte k-2) l'ultima ausiliaria e' u_{k-3}, quindi ho scritto `(¬u_{k-3} v l_{k-1} v l_k)`. L'indice del quaderno sarebbe corretto con la numerazione alternativa u_2,...,u_{k-2}, ma allora la seconda clausola dovrebbe essere (¬u_2 v l_3 v u_3) e non (¬u_1 v u_2 v l_3): gli appunti mescolano le due numerazioni, ho uniformato alla piu' comune.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 67,
+   "testo": "Clausola generica di partenza. Il quaderno scrive `∧(l_1 v ... v l_3)`: il pedice e' un '3' (glifo identico al '3' isolato scritto sotto la catena e a quello di '3-CNF'). Deve essere l_k, perche' l'espansione a destra termina con l_{k-1} v l_k e usa indici k-1, k-2. Ho scritto (l_1 v l_2 v ... v l_k) con k>3.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 67,
+   "testo": "Il quaderno scrive i tre autori come 'Apsuall Plass Tarjan' (sottolineato). Corretto in Aspvall--Plass--Tarjan: Bengt Aspvall, Michael F. Plass, Robert E. Tarjan, 'A linear-time algorithm for testing the truth of certain quantified boolean formulas' (1979), citata anche neGli appunti del corso dell'anno precedente (L17, sez. 2.2).",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 67,
+   "testo": "Annotazione a destra della CNF generica: una biforcazione con due frecce. Ramo superiore: una parola tra virgolette cancellata con una grande X, letta «moltiplicazione». Ramo inferiore: «(mi interessa la equisoddisfacibilita')» e, spostato a destra, «introduco variabili». Lettura confermata dal contesto (l'analogia aritmetica prodotto/somma e la trasformazione di Tseitin) e daGli appunti del corso dell'anno precedente (L16 sez. 5.4). Resa in prosa nel testo; la cancellatura e' resa dicendo che la strada per distributivita' «va scartata».",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 67,
+   "testo": "Lo schema in alto a sinistra e' 'SAT' seguito da due frecce curve a mano libera, una verso l'alto a destra (CNF) e una verso il basso a destra (DNF). Essendo un semplice schema a due rami l'ho reso tipograficamente con un `cases` invece che come figura TikZ; non compare quindi nell'elenco delle figure.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 67,
+   "testo": "Sul lato destro della pagina corre una traccia a matita (grafia piu' leggera, probabilmente una prima stesura): in alto `(a+b)(c+d)` e `(a·b)+(c·d)+...`; a meta' pagina `(a·b)+(c·d) = (a+u)·(b+u)·(c+ū)·(d+ū)`. E' l'analogia aritmetica CNF = prodotto di somme / DNF = somma di prodotti, e la versione 'booleana' della trasformazione con la variabile fresca. L'ho integrata nel testo (osservazione iniziale e riga finale dell'esempio) perche' e' esattamente il commento che accompagna le formule in penna.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 67,
+   "testo": "Gli appunti mostrano la trasformazione (φ1∧φ2)∨(φ3∧φ4) → ((φ1∧φ2)∨u)∧((φ3∧φ4)∨¬u) senza giustificarla. Ho aggiunto un'osservazione di due righe con la verifica dell'equisoddisfacibilita' (u=0 se e' vero il primo termine, u=1 se e' vero il secondo; viceversa il valore di u seleziona il termine da soddisfare). Contenuto aggiunto, standard e necessario per la comprensione.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 67,
+   "testo": "La pagina si interrompe sulla sigla 'CFC' accanto al grafo, senza enunciare il criterio di Aspvall--Plass--Tarjan; anche la pagina successiva (68) cambia argomento e non lo riprende. Ho aggiunto un'osservazione finale con l'enunciato standard (insoddisfacibile sse x e ¬x stanno nella stessa componente fortemente connessa) e la conseguenza sulla complessita' lineare, coerente con Gli appunti del corso dell'anno precedente (L17 sez. 2.2).",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 67,
+   "testo": "Il quaderno usa φ minuscola con pedici numerici nella CNF concreta e Φ maiuscola nella forma generica con i grandi ⋁. Ho mantenuto la distinzione (Φ_j = letterale generico) per non far collidere gli indici con φ_1..φ_4 dell'esempio.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 67,
+   "testo": "Il secondo grande operatore nella forma generica è tracciato con un doppio segno che a prima vista sembra una 'X'. L'ho interpretato come un ⋁ ripassato, coerente con il primo (⋁ con k sopra e j=1 sotto) e con la struttura CNF: la formula è una congiunzione di disgiunzioni.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 67,
+   "testo": "«O(n) per 2-QBF»: ho aggiunto una frase di chiarimento sul fatto che il risultato di Aspvall--Plass--Tarjan riguarda le formule booleane quantificate con matrice 2-CNF, di cui 2-SAT è il caso puramente esistenziale. Il quaderno scrive solo la sigla.",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 67,
+   "testo": "Gli appunti del corso dell'anno precedente dell'anno precedente (L17, sez. 2.1) inseriscono fra CNF→3CNF e Aspvall--Plass--Tarjan la regola di risoluzione e l'algoritmo quadratico per 2CNF, e mostrano la non-riduzione CNF→2CNF barrata in rosso. Nella pagina dello studente questi passaggi non compaiono: non li ho importati, per non aggiungere contenuto assente dalla fonte primaria.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "grafo-implicazioni-2sat",
+   "pagina": 67,
+   "didascalia": "Il grafo delle implicazioni $G$: la clausola $(\\ell_1\\vee\\ell_2)$ produce i due archi $\\overline{\\ell_1}\\to\\ell_2$ e $\\overline{\\ell_2}\\to\\ell_1$. Su $G$ si calcolano le componenti fortemente connesse (CFC).",
+   "tipo": "grafo",
+   "specifica": "Disegno a mano libera. ELEMENTO PRINCIPALE: una curva chiusa irregolare tipo 'ameba'/nuvola (contorno morbido, non un'ellisse regolare; larghezza circa 2,2 volte l'altezza; qualche rientranza e gobba lungo il bordo, in particolare una rientranza sul lato destro a metà altezza e una gobba in basso al centro). La macchia rappresenta il grafo delle implicazioni. ETICHETTA DEL GRAFO: la lettera $G$ scritta appena all'interno del bordo, in alto a destra, appoggiata al contorno (posizionarla sopra/dentro la curva, non staccata). CONTENUTO DELLA MACCHIA: due archi orientati, ciascuno con due estremi etichettati da nomi di letterale scritti come semplice testo matematico, SENZA cerchio o riquadro attorno.  (1) Coppia in alto a sinistra, collocata circa al 30% della larghezza e al 30% dell'altezza della macchia: a destra il nodo $\\overline{\\ell_1}$ (ell con pedice 1 e barra orizzontale sopra), a sinistra il nodo $\\ell_2$; una freccia curva leggermente concava verso l'alto va DA $\\overline{\\ell_1}$ VERSO $\\ell_2$, quindi la punta è a sinistra (arco che punta verso sinistra).  (2) Coppia in basso al centro, collocata circa al 50% della larghezza e al 70% dell'altezza: a sinistra il nodo $\\overline{\\ell_2}$ (ell con pedice 2 e barra sopra), a destra il nodo $\\ell_1$; una freccia curva leggermente concava verso l'alto va DA $\\overline{\\ell_2}$ VERSO $\\ell_1$, quindi la punta è a destra.  Le due coppie sono sfalsate in diagonale (quella superiore più a sinistra e più in alto, quella inferiore più a destra e più in basso) e non si toccano. FUORI DALLA MACCHIA: a destra del contorno, all'incirca a metà altezza, la scritta $\\mathrm{CFC}$ (acronimo di 'componenti fortemente connesse') come testo isolato, senza freccia di collegamento. SIGNIFICATO ALGORITMICO: per ogni clausola binaria $(\\ell_1\\vee\\ell_2)$ il grafo delle implicazioni contiene i due archi $\\overline{\\ell_1}\\to\\ell_2$ e $\\overline{\\ell_2}\\to\\ell_1$ (nodi = letterali, uno per ogni variabile e per la sua negazione); ripetendo per tutte le clausole si ottiene $G$, sul quale Aspvall--Plass--Tarjan calcolano le componenti fortemente connesse in tempo lineare. RESA SUGGERITA IN TIKZ: nodi come `\\node {$\\overline{\\ell_1}$};` senza `draw`; archi con `->` e `bend left=20`; contorno tracciato con `\\draw plot [smooth cycle, tension=0.9] coordinates {...}` su 8--10 punti irregolari; testo tutto in italiano.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina chiude la parte logica: SAT ridotto a CNF (con variabili fresche, non per distributività), CNF ridotta a 3-CNF, e 2-SAT/2-QBF risolto in tempo lineare da Aspvall–Plass–Tarjan costruendo il grafo delle implicazioni G e calcolandone le componenti fortemente connesse. Resta in sospeso il punto debole di questo schema deterministico: costruire e visitare G esplicitamente costa memoria proporzionale al numero di nodi, cioè al numero di letterali. La pagina 68 riparte proprio di lì con il titolo «Algoritmo randomizzato per 2-CNF»: dato un assegnamento f, se una clausola (ℓ1 ∨ ℓ2) non è soddisfatta si fa FLIP random di uno dei due valori di verità; si passa quindi a un random walk sulla linea 0..n dei valori di f (con i passi k−1 / k+1), con SPAZIO O(n) bit e O(n²) passi. Il grafo delle implicazioni disegnato qui è l'oggetto che l'algoritmo randomizzato evita di costruire.",
+ "confidenza": "alta"
+}

@@ -1,0 +1,326 @@
+\chapter{Landau--Vishkin}
+
+\scan{48}
+L'algoritmo di \textbf{Landau--Vishkin} è un esempio di \emph{programmazione
+dinamica ibrida}: mescola la tabella di programmazione dinamica
+dell'allineamento con le strutture dati per stringhe (i suffix tree), e arriva a
+\[
+  \Oh(m+n)
+\]
+per risolvere l'allineamento a distanza $\le k$, purché $k$ sia
+\emph{costante}. Nella notazione asintotica restano infatti nascoste delle
+costanti, e una di esse è proprio $k$: il costo effettivo è
+$\Oh\bigl(k\,(m+n)\bigr)$, che diventa lineare solo perché $k=\Oh(1)$.
+
+Come di consueto $T$ è il testo e $P$ è il pattern, con $m=\abs{T}$ e
+$n=\abs{P}$, e nelle applicazioni $\abs{P}\ll\abs{T}$. Il problema che vogliamo
+risolvere è il \emph{matching con al più $k$ differenze}: individuare tutte le
+posizioni di $T$ in cui termina un'occorrenza di $P$ a distanza di edit al
+più $k$.
+
+\begin{figure}[H]
+  \centering
+  \input{tikz/lv-testo-pattern.tikz}
+  \caption{Il testo $T$ e il pattern $P$: si cercano le occorrenze di $P$ in $T$
+  a distanza di edit $\le k$.}
+  \label{fig:lv-testo-pattern}
+\end{figure}
+
+\section{L'idea: restare dentro una banda di diagonali}
+
+La tabella di programmazione dinamica ha quindi $n+1$ righe (indicizzate dai
+caratteri di $P$) e $m+1$ colonne (indicizzate dai caratteri di $T$). Se
+guardassi tutta la matrice il costo sarebbe $\Oh(m\cdot n)$: l'idea è invece di
+non uscire mai da una \emph{banda} di diagonali.
+
+\begin{figure}[H]
+  \centering
+  \input{tikz/lv-banda-diagonali.tikz}
+  \caption{La banda di diagonali. Il cammino di allineamento parte lungo una
+  diagonale e, avendo a disposizione $k$ errori, può scostarsene di al più $k$
+  posizioni in ciascuna direzione: resta perciò confinato fra le due curve che
+  delimitano la banda.}
+  \label{fig:lv-banda-diagonali}
+\end{figure}
+
+Ogni mossa non diagonale --- orizzontale (spazio in $P$) o verticale (spazio in
+$T$) --- sposta il cammino di esattamente una diagonale, mentre le mosse
+diagonali, di match o di sostituzione, lasciano invariato il numero di
+diagonale. Disponendo di al più $k$ errori, il cammino resta dunque confinato in
+una banda di $2k+1$ diagonali attorno a quella di partenza, e il lavoro
+complessivo scende da $\Th(m\cdot n)$ a $\Oh\bigl(k\,(m+n)\bigr)$.
+
+Restano però da attraversare rapidamente i lunghi tratti di \emph{match} lungo
+una stessa diagonale: è esattamente a questo che serve l'intermezzo seguente.
+
+\section{Intermezzo: longest common extension}
+
+È uno dei \emph{by-product} del suffix tree.
+
+\begin{definizione}[Longest common extension]
+\label{def:lce}
+  Siano $S_1$ e $S_2$ due stringhe e siano
+  \[
+    i\in\set{1,\dots,\abs{S_1}}, \qquad j\in\set{1,\dots,\abs{S_2}}.
+  \]
+  Dati $S_1$, $S_2$, $i$ e $j$, si cerca il massimo $k$ tale che
+  \[
+    \sub{S_1}{i}{i+k-1} \;=\; \sub{S_2}{j}{j+k-1},
+  \]
+  cioè la lunghezza del più lungo prefisso comune dei due suffissi
+  $\suf{S_1}{i}$ e $\suf{S_2}{j}$. La indicheremo con $\lcey(S_1,S_2,i,j)$.
+\end{definizione}
+
+\begin{osservazione}
+  Il $k$ della definizione di longest common extension è un semplice riuso del
+  nome: non ha nulla a che vedere con il numero $k$ di errori ammessi
+  nell'allineamento.
+\end{osservazione}
+
+Lo strumento per rispondere è il suffix tree generalizzato delle due stringhe,
+concatenate per mezzo di due terminatori distinti:
+\[
+  \STree\bigl(S_1\,\text{\$}\,S_2\,\text{\texteuro}\bigr),
+\]
+la cui costruzione richiede tempo lineare.
+
+\begin{figure}[H]
+  \centering
+  \input{tikz/lv-stree-lce.tikz}
+  \caption{Nello \STree di $S_1\,\text{\$}\,S_2\,\text{\texteuro}$, la stringa
+  $\beta$ letta dalla radice fino a un nodo interno è l'estensione comune ai due
+  suffissi che scendono dai due rami sottostanti.}
+  \label{fig:lv-stree-lce}
+\end{figure}
+
+Ogni nodo dell'albero corrisponde infatti alla stringa $\beta$ che si legge
+lungo il cammino dalla radice al nodo, e ogni tale $\beta$ è un \emph{prefisso
+di un suffisso} di $S_1\,\text{\$}\,S_2\,\text{\texteuro}$. Posso allora
+etichettare l'albero indicando quali di questi prefissi di suffissi occorrono
+sia in $S_1$ sia in $S_2$: sono esattamente i candidati a essere estensioni
+comuni alle due stringhe.
+
+\scan{49}
+In definitiva, la longest common extension si risolve in tempo lineare
+procedendo in tre passi.
+
+\begin{enumerate}
+  \item Si costruisce il suffix tree generalizzato
+        $\STree\bigl(S_1\,\text{\$}\,S_2\,\text{\texteuro}\bigr)$: usando i due
+        terminatori distinti \$ e \texteuro{} ogni suffisso è associato a una
+        foglia (nessun suffisso è prefisso proprio di un altro, quindi la
+        corrispondenza fra suffissi e foglie è biunivoca).
+  \item Con una visita \emph{bottom-up} si identificano i nodi che corrispondono
+        a prefissi di suffissi sia di $S_1$ sia di $S_2$; nella stessa visita si
+        calcolano le profondità in caratteri di tutti i nodi.
+  \item Il valore cercato è la profondità massima di un nodo identificato da $i$
+        e da $j$: è cioè la profondità, misurata in caratteri, del più profondo
+        antenato comune delle due foglie corrispondenti.
+\end{enumerate}
+
+\begin{osservazione}
+  I primi due passi sono un preprocessing lineare, da eseguire una volta sola.
+  Aggiungendovi il preprocessing per le query di $\lca$ su
+  $\STree\bigl(S_1\,\text{\$}\,S_2\,\text{\texteuro}\bigr)$ --- anch'esso
+  lineare, per Harel--Tarjan --- il terzo passo diventa una singola query di
+  $\lca$: si risponde quindi a $\lcey(S_1,S_2,i,j)$ in tempo $\Oh(1)$.
+\end{osservazione}
+
+\begin{figure}[H]
+  \centering
+  \input{tikz/lce-lca.tikz}
+  \caption{La query $\lcey(S_1,S_2,i,j)$ si riduce a una query di $\lca$ sul
+  suffix tree generalizzato di $S_1\,\text{\$}\,S_2\,\text{\texteuro}$: la
+  profondità in caratteri del più profondo antenato comune delle foglie di $i$ e
+  di $j$ vale esattamente $k$.}
+  \label{fig:lce-lca}
+\end{figure}
+
+\begin{osservazione}
+  Perché il meccanismo funzioni devo mantenere i collegamenti fra ogni indice
+  $i$, $j$ e la corrispondente foglia dell'albero, e anche delle informazioni
+  sulla profondità di ogni nodo: il costo resta comunque proprio lineare.
+\end{osservazione}
+
+Nel seguito useremo la longest common extension con $S_1=P$ e $S_2=T$: il
+suffix tree generalizzato da costruire una volta per tutte è dunque quello di
+$P\,\text{\$}\,T\,\text{\texteuro}$, e da lì in poi ogni query
+$\lcey(P,T,v,u)$ --- il più lungo tratto di match che parte da $P[v]$ e da
+$T[u]$ --- costa $\Oh(1)$.
+
+\section{Diagonali e \texorpdfstring{$d$}{d}-path}
+
+Torniamo alla tabella di programmazione dinamica e fissiamo una convenzione per
+identificare le sue diagonali: la diagonale che parte dalla cella $(0,c)$ della
+prima riga porta il numero $c\ge 0$, quella che parte dalla cella $(l,0)$ della
+prima colonna porta il numero $-l$. Equivalentemente, la cella $(l,c)$
+appartiene alla diagonale $c-l$; i numeri di diagonale vanno da $-n$ a $m$, dove
+le righe sono numerate da $0$ a $n=\abs{P}$ e le colonne da $0$ a $m=\abs{T}$, e
+la diagonale $0$ è la diagonale principale. Si tratta appunto di una pura
+convenzione di nomi: le diagonali non le posso costruire davvero, impiegherei
+troppo tempo.
+
+\begin{figure}[H]
+  \centering
+  \input{tikz/diagonali-numerate.tikz}
+  \caption{Convenzione per la numerazione delle diagonali della tabella di
+  programmazione dinamica: la cella $(l,c)$ sta sulla diagonale $c-l$.}
+  \label{fig:diagonali-numerate}
+\end{figure}
+
+\begin{definizione}[$d$-path]
+\label{def:dpath}
+  Un \emph{$d$-path} è un cammino nella matrice che parte dalla riga $0$ e
+  ``usa'' esattamente $d$ errori, dove per errore si intende una mossa
+  \begin{itemize}
+    \item orizzontale;
+    \item verticale;
+    \item diagonale con caratteri diversi in riga e in colonna (cioè una
+          sostituzione).
+  \end{itemize}
+  Le mosse diagonali fra caratteri uguali sono invece gratuite e non vengono
+  contate.
+\end{definizione}
+
+Il legame fra i $d$-path e il problema che vogliamo risolvere è immediato.
+
+\scan{50}
+\begin{figure}[H]
+  \centering
+  \input{tikz/lv-dpath-riga-n.tikz}
+  \caption{Un $d$-path che parte dalla riga $0$ nella colonna $c$ e raggiunge
+  l'ultima riga nella colonna $j$. I tratti diagonali sono match gratuiti; le
+  mosse orizzontali e verticali (evidenziate dai pallini) sono gli errori.}
+  \label{fig:lv-dpath-riga-n}
+\end{figure}
+
+\begin{osservazione}
+  Se il $d$-path termina sull'ultima riga della tabella, allora ho trovato
+  un'occorrenza di $P$ in $T$. Più precisamente, se il cammino parte dalla cella
+  $(0,c)$ e termina nella cella $(n,j)$, esso descrive un allineamento fra $P$ e
+  la sottostringa $\sub{T}{c+1}{j}$ che impiega esattamente $d$ operazioni di
+  edit, e dunque
+  \[
+    \dedit\bigl(P,\;\sub{T}{c+1}{j}\bigr) \;\le\; d .
+  \]
+  In particolare, se $d\le k$ la colonna $j$ è la posizione finale di
+  un'occorrenza di $P$ in $T$ con al più $k$ differenze.
+\end{osservazione}
+
+Non serve però tenere traccia di tutti i $d$-path: su ogni diagonale ne basta
+uno, il più \emph{spinto in avanti}.
+
+\begin{definizione}[$d$-path farthest reaching]
+\label{def:fr-dpath}
+  Il $d$-path \emph{farthest reaching} sulla diagonale $i$, che indichiamo con
+  $\mathrm{f.r.}(d,i)$, è il $d$-path che termina sulla diagonale $i$ nella
+  colonna $j$ \textbf{massima} fra quelle di tutti i $d$-path che terminano su
+  quella diagonale.
+\end{definizione}
+
+\begin{osservazione}
+  Sulla diagonale $i$ riga e colonna differiscono per la costante $i$ (la cella
+  di colonna $j$ sta nella riga $j-i$): massimizzare la colonna equivale quindi
+  a massimizzare la riga, e un $d$-path farthest reaching resta individuato da
+  un \emph{solo} numero, la cella in cui termina.
+
+  Per $d=0$ la nozione si semplifica ulteriormente: un $0$-path non compie mosse
+  d'errore e quindi non cambia mai diagonale, cosicché la diagonale su cui
+  termina coincide con la colonna da cui parte sulla riga $0$.
+\end{osservazione}
+
+\section{L'algoritmo}
+
+Lo schema dell'algoritmo è il seguente.
+
+\begin{algorithm}[H]
+\caption{Landau--Vishkin: matching con al più $k$ differenze}
+\begin{algorithmic}[1]
+\Require $P$ con $\abs{P}=n$, $T$ con $\abs{T}=m$, soglia $k$
+\Statex \textit{Inizializzazione: i farthest reaching $0$-path.}
+\For{$i \gets 0$ \textbf{to} $m$}
+  \State calcola $\lcey(P,T,1,i+1)$: è la lunghezza del $0$-path farthest
+         reaching sulla diagonale $i$ \Comment{$\Oh(1)$}
+\EndFor
+\Statex \textit{Passo induttivo sul numero $d$ di errori.}
+\For{$d \gets 1$ \textbf{to} $k$}
+  \For{$i \gets -n$ \textbf{to} $m$}
+    \State dai $(d-1)$-path farthest reaching sulle diagonali $i-1$, $i$, $i+1$
+           ricava i tre cammini $R_1,R_2,R_3$ che terminano sulla diagonale $i$
+    \State il più lontano fra $R_1,R_2,R_3$ è $\mathrm{f.r.}(d,i)$
+           \Comment{$\Oh(1)$}
+  \EndFor
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+Il primo ciclo è l'\emph{inizializzazione}: determina i $d$-path farthest
+reaching per $d=0$. Ogni query di longest common extension costa $\Oh(1)$ grazie
+al preprocessing lineare descritto sopra (suffix tree generalizzato di
+$P\,\text{\$}\,T\,\text{\texteuro}$ più Harel--Tarjan per la $\lca$), quindi
+l'inizializzazione costa in tutto $\Oh(m)$.
+
+Il secondo ciclo esegue $k$ iterazioni: al passo $d$ si costruiscono i $d$-path
+farthest reaching per ognuna delle diagonali, prolungando in tre modi diversi i
+$(d-1)$-path farthest reaching delle diagonali $i-1$, $i$ e $i+1$ e prendendo il
+più lontano dei tre cammini $R_1,R_2,R_3$ così ottenuti.
+
+Le occorrenze si leggono strada facendo: ogni volta che $\mathrm{f.r.}(d,i)$
+raggiunge la riga $n$, la colonna $j=n+i$ in cui esso termina è la posizione
+finale di un'occorrenza di $P$ in $T$ con al più $d\le k$ differenze. E poiché
+il farthest reaching è quello che arriva più in basso sulla diagonale, se non
+raggiunge la riga $n$ nessun altro $d$-path di quella diagonale ci arriva:
+limitarsi ai farthest reaching non fa perdere occorrenze.
+
+\subsection{Il passo di estensione}
+
+\scan{51}
+Il passo centrale del ciclo interno è riassunto dalla figura seguente: dai
+$(d-1)$-path farthest reaching sulle tre diagonali $i-1$, $i$, $i+1$ si
+costruiscono i tre cammini $R_1$, $R_2$, $R_3$ che terminano sulla diagonale
+$i$, e il più lontano dei tre è il $d$-path farthest reaching sulla diagonale
+$i$.
+
+\begin{figure}[H]
+  \centering
+  \input{tikz/lv-fr-tre-path.tikz}
+  \caption{Costruzione del $d$-path farthest reaching sulla diagonale $i$ a
+  partire dai tre $(d-1)$-path farthest reaching sulle diagonali $i-1$, $i$,
+  $i+1$: una sola mossa d'errore porta sulla diagonale $i$, poi si scorre gratis
+  lungo la diagonale con una query di longest common extension.}
+  \label{fig:lv-fr-tre-path}
+\end{figure}
+
+Ciascuno dei tre cammini si ottiene prolungando il rispettivo $(d-1)$-path
+farthest reaching con \emph{una sola} mossa d'errore, quella che lo porta sulla
+diagonale $i$:
+\begin{itemize}
+  \item dalla diagonale $i-1$ con una mossa \emph{orizzontale} \quad ($R_1$);
+  \item dalla diagonale $i$ con una mossa \emph{diagonale con mismatch} \quad
+        ($R_2$);
+  \item dalla diagonale $i+1$ con una mossa \emph{verticale} \quad ($R_3$).
+\end{itemize}
+Dopo la mossa d'errore ci si trova nella cella di riga $v$ e colonna $u$ (con
+$u-v=i$) e da lì si prosegue lungo la diagonale $i$ finché i caratteri
+coincidono. Quello scorrimento è esattamente una query di longest common
+extension
+\[
+  \lcey\bigl(P,\,T,\,v+1,\,u+1\bigr),
+\]
+che costa $\Oh(1)$ dopo il preprocessing lineare. Confrontare i tre cammini e
+scegliere il più lontano richiede a sua volta tempo costante: il corpo del ciclo
+interno è quindi $\Oh(1)$.
+
+\section{Complessità}
+
+Il preprocessing --- costruzione del suffix tree generalizzato di
+$P\,\text{\$}\,T\,\text{\texteuro}$ e preparazione delle query di $\lca$ ---
+costa $\Oh(m+n)$. L'inizializzazione esamina $m+1$ diagonali con una query di
+longest common extension ciascuna, quindi $\Oh(m)$. Il ciclo principale esegue
+$k$ iterazioni, ognuna delle quali percorre le $n+m+1$ diagonali facendo lavoro
+costante su ciascuna, quindi $\Oh\bigl(k\,(n+m)\bigr)$. In totale
+\[
+  \Oh\bigl(k\,(m+n)\bigr),
+\]
+che è lineare non appena $k=\Oh(1)$: esattamente la promessa fatta all'inizio
+del capitolo.
