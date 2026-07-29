@@ -1,0 +1,122 @@
+{
+ "pagina": 51,
+ "latex": "\\scan{51}\n\nIl passo centrale del ciclo interno dell'algoritmo di Landau--Vishkin è\nriassunto dalla figura seguente: dai farthest-reaching $(d-1)$-path sulle tre\ndiagonali $i-1$, $i$, $i+1$ si costruiscono i tre cammini $R_1$, $R_2$, $R_3$\nche terminano sulla diagonale $i$, e il più lontano dei tre è il\nfarthest-reaching $d$-path sulla diagonale $i$.\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/lv-fr-tre-path.tikz}\n  \\caption{Costruzione del farthest-reaching $d$-path sulla diagonale $i$ a\n  partire dai tre farthest-reaching $(d-1)$-path sulle diagonali $i-1$, $i$,\n  $i+1$: una sola mossa d'errore porta sulla diagonale $i$, poi si scorre\n  gratis lungo la diagonale con una query di longest common extension.}\n  \\label{fig:lv-fr-tre-path}\n\\end{figure}\n\nCiascuno dei tre cammini si ottiene prolungando il rispettivo f.r.\\\n$(d-1)$-path con \\emph{una sola} mossa d'errore, quella che lo porta sulla\ndiagonale $i$:\n\\begin{itemize}\n  \\item dalla diagonale $i-1$ con una mossa \\emph{orizzontale} \\quad ($R_1$);\n  \\item dalla diagonale $i$ con una mossa \\emph{diagonale con mismatch} \\quad ($R_2$);\n  \\item dalla diagonale $i+1$ con una mossa \\emph{verticale} \\quad ($R_3$).\n\\end{itemize}\nDopo la mossa d'errore ci si trova in una cella di riga $v$ e colonna $u$ (con\n$u-v=i$) e da lì si prosegue lungo la diagonale $i$ finché i caratteri\ncoincidono. Quello scorrimento è esattamente una query di \\emph{longest common\nextension}\n\\[\n  \\lcey\\bigl(\\sub{P}{v}{n},\\ \\sub{T}{u}{m}\\bigr),\n\\]\nche costa $\\Oh(1)$ dopo il preprocessing lineare (suffix tree generalizzato di\n$P\\#T$ più Harel--Tarjan per la $\\lca$).\n\n\\begin{definizione}[Farthest-reaching $d$-path]\n\\label{def:farthest-reaching}\nIl \\emph{farthest-reaching} $d$-path sulla diagonale $i$, che indichiamo con\n$\\mathrm{f.r.}(d,i)$, è il $d$-path che termina sulla diagonale $i$ nella\ncolonna $j$ \\emph{massima}.\n\\end{definizione}\n\nSulla diagonale $i$ riga e colonna differiscono per la costante $i$ (la cella\ndi colonna $j$ sta nella riga $j-i$): massimizzare la colonna equivale quindi a\nmassimizzare la riga, e un f.r.\\ $d$-path resta individuato da un \\emph{solo}\nnumero.\n\n% Nel quaderno il titolo che segue è scritto a piena riga e sottolineato:\n% in fase di cucitura sarà verosimilmente l'inizio di un nuovo capitolo.\n\\subsection*{Algoritmi randomizzati}\n\nRiferimenti bibliografici:\n\\begin{itemize}\n  \\item \\emph{Randomized Algorithms} --- interessante, molti conti da fare;\n        libro di Motwani e Raghavan;\n  \\item \\emph{An introduction to randomized algorithms}, di Richard Karp.\n\\end{itemize}\n\n\\begin{definizione}[Algoritmo randomizzato]\n\\label{def:algoritmo-randomizzato}\nUn \\emph{algoritmo randomizzato} è un algoritmo che riceve, oltre al proprio\ninput, un \\emph{flusso} (\\emph{stream}) di \\emph{bit casuali} che utilizza per\ncompiere \\emph{scelte casuali}.\n\\end{definizione}\n\n\\begin{osservazione}\nIl flusso non deve essere casuale in senso stretto: basta che sia una sequenza\nche l'utente non è in grado di distinguere da una sequenza random.\n\\end{osservazione}\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/rand-schema-bit.tikz}\n  \\caption{Un algoritmo randomizzato riceve in ingresso, accanto all'input, un\n  flusso di bit casuali; di conseguenza anche la complessità dell'esecuzione\n  diventa una variabile aleatoria.}\n  \\label{fig:rand-schema-bit}\n\\end{figure}\n\nPoiché le scelte compiute dipendono dai bit casuali, sia il risultato prodotto\nsia la complessità dell'esecuzione diventano variabili aleatorie. Fissando\nl'una o l'altra si ottengono le due famiglie classiche:\n\\begin{itemize}\n  \\item \\MonteCarlo: risultato potenzialmente sbagliato, complessità fissa;\n  \\item \\LasVegas: complessità variabile, risultato sempre corretto.\n\\end{itemize}",
+ "note": [
+  {
+   "tipo": "figura",
+   "pagina": 51,
+   "risolto": true,
+   "testo": "Disegno in alto: il quaderno traccia solo il bordo superiore e il bordo sinistro della tabella DP, tre rette parallele discendenti etichettate sopra il bordo superiore i-1, i, i+1, una quarta verticale etichettata u, una orizzontale etichettata v sul bordo sinistro, tre curve ondulate che terminano ciascuna con un pallino su una delle tre diagonali, un pallino grosso all'incrocio riga v / colonna u, un tratto spesso lungo la diagonale i e una linea di richiamo verso l'etichetta LCE(P[v,n], T[u,m]). Ho interpretato il disegno come la figura di Gusfield (Thm 12.2.2) sui tre cammini R1, R2, R3 e ho aggiunto nella specifica TikZ le etichette R1, R2, R3 (assenti nel quaderno di p.51 ma presenti nello pseudocodice di p.50) per rendere leggibile la corrispondenza."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 51,
+   "risolto": true,
+   "testo": "L'etichetta a destra della figura si legge 'LCE (P[v,n], T[u,m])'. Ho letto le due lettere come v (riga) e u (colonna): coerente col disegno (la linea orizzontale sul bordo sinistro e' etichettata v, la verticale sul bordo superiore e' etichettata u) e con il fatto che P indicizza le righe e T le colonne. Ho normalizzato la notazione degli intervalli da 'P[v,n]' a 'P[v..n]' (macro \\sub)."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 51,
+   "risolto": true,
+   "testo": "La definizione manoscritta e': 'farthest-reaching(d,i) = d-path che termina in una diagonale i in una colonna j max (= riga j max)'. La chiosa fra parentesi confonde i due indici: sulla diagonale i la cella di colonna j sta nella RIGA j-i, non nella riga j. Ho scritto la definizione con 'colonna j massima' e ho reso la parentesi come osservazione corretta ('su una diagonale riga e colonna differiscono per la costante i, quindi massimizzare la colonna equivale a massimizzare la riga'). Nessun marcatore lasciato nel testo: la correzione e' certa."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 51,
+   "risolto": true,
+   "testo": "Il quaderno non scrive quale mossa d'errore porta da ciascuna delle tre diagonali alla diagonale i: lo si vede solo dal disegno (tratto orizzontale, tratto diagonale, tratto verticale). Ho esplicitato l'elenco puntato orizzontale / diagonale-con-mismatch / verticale seguendo il disegno, lo pseudocodice di p.50 e Gusfield (Thm 12.2.2); coincide con Gli appunti del corso dell'anno precedente (L12 par. 6.3)."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 51,
+   "risolto": true,
+   "testo": "Frase di raccordo iniziale ('Il passo centrale del ciclo interno ... e' riassunto dalla figura seguente'): non e' negli appunti, che passano direttamente dallo 'end for' di p.50 al disegno. Aggiunta per dare continuita' al testo."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 51,
+   "risolto": true,
+   "testo": "Ho aggiunto la precisazione 'che costa O(1) dopo il preprocessing lineare (suffix tree generalizzato di P#T piu' Harel-Tarjan per la lca)': e' cio' che il quaderno ha scritto a p.49-50 e che qui e' sottinteso dal richiamo LCE. Aggiunta minima, coerente con le pagine precedenti."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 51,
+   "risolto": false,
+   "testo": "Primo punto elenco bibliografico: 'Randomized algorithms -> interessante, molti conti da fare; libro di Motwani e Raghavan'. Le parole 'conti da fare' e soprattutto 'libro' sono scritte molto compresse; 'libro' e' la lettura meno sicura (si distinguono solo l + i + ricciolo finale). Il riferimento in se' e' certo: 'Motwani e Raghavan' e' sottolineato e leggibile ed e' il libro Randomized Algorithms in bibliografia del corso. Ho scritto la frase per esteso senza marcatore nel LaTeX perche' il senso non e' in dubbio, ma la singola parola resta una congettura."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 51,
+   "risolto": true,
+   "testo": "Secondo punto elenco: 'An introduction to randomized algorithms - Richard Karp' (sottolineato). E' l'articolo di R. M. Karp, Discrete Applied Mathematics 34 (1991). Ho solo aggiunto il corsivo al titolo; non ho aggiunto la citazione bibliografica completa perche' non e' negli appunti."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 51,
+   "risolto": true,
+   "testo": "La definizione di algoritmo randomizzato e' scritta in inglese nel quaderno, testualmente: 'A randomized algorithm is one that receives, in addition to its input, a stream of random bits that it uses for random choices' (sottolineati: 'stream', 'random bits', 'random choices'). E' la definizione di Karp. Per rispettare la regola 'tutto in italiano' l'ho tradotta conservando in corsivo i tre termini sottolineati (e riportando 'stream' fra parentesi)."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 51,
+   "risolto": true,
+   "testo": "La chiosa scritta a destra e collegata con una graffa a 'random bits' recita: 'che l'utente non e' in grado di distinguere da una sequenza random'. L'ho resa come blocco 'osservazione' aggiungendo il soggetto implicito ('Il flusso non deve essere casuale in senso stretto: basta che sia una sequenza ...'), altrimenti la frase resterebbe sospesa."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 51,
+   "risolto": true,
+   "testo": "Secondo disegno: freccia entrante etichettata con una stringa di bit e la parola 'random', rettangolo vuoto, freccia uscente etichettata 'complessita''. La stringa di bit si legge '010110' (sei cifre; il gruppo centrale e' scritto come un tratto a due punte che ho sciolto in '11'). Le cifre esatte sono irrilevanti: e' una stringa casuale d'esempio. Nella specifica TikZ ho proposto di scrivere 'algoritmo' dentro il rettangolo, che nel quaderno e' vuoto, per rendere lo schema leggibile una volta composto."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 51,
+   "risolto": true,
+   "testo": "La frase 'Poiche' le scelte compiute dipendono dai bit casuali, sia il risultato prodotto sia la complessita' dell'esecuzione diventano variabili aleatorie. Fissando l'una o l'altra si ottengono le due famiglie classiche' non e' negli appunti: e' il ponte fra lo schema (freccia uscente = 'complessita'') e le due righe finali Montecarlo / Las Vegas. Aggiunta per rendere esplicito il nesso che il disegno suggerisce."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 51,
+   "risolto": true,
+   "testo": "Il quaderno scrive 'Montecarlo' tutto attaccato e 'Los Vegas'; ho usato le macro \\MonteCarlo e \\LasVegas (Monte Carlo, Las Vegas)."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 51,
+   "risolto": true,
+   "testo": "Titolo 'Algoritmi Randomizzati': e' un titolo esplicito, scritto a piena riga e sottolineato, e segna l'inizio della parte 2 del corso. L'ho reso con \\subsection*{Algoritmi randomizzati} come consentito dalle convenzioni, lasciando un commento LaTeX: in fase di cucitura sara' verosimilmente da promuovere a \\chapter."
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 51,
+   "risolto": true,
+   "testo": "Gli appunti del corso dell'anno precedente (L12_sintesi.md) coprono Landau-Vishkin fino alla figura dei tre cammini R1,R2,R3 (loro p.5) ma non contengono nulla sugli algoritmi randomizzati: la seconda meta' di questa pagina non ha riscontro nella fonte di supporto. La prima meta' e' invece pienamente coerente con L12 par. 6.3 e 7.1."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 51,
+   "risolto": true,
+   "testo": "Notazione: ho usato la macro \\lcey (che compone 'lce') invece del 'LCE' maiuscolo del quaderno, per uniformita' con le macro del preambolo; e $\\mathrm{f.r.}(d,i)$ per 'farthest-reaching(d,i)', dato che non esiste una macro dedicata."
+  }
+ ],
+ "figure": [
+  {
+   "id": "lv-fr-tre-path",
+   "pagina": 51,
+   "didascalia": "Costruzione del farthest-reaching $d$-path sulla diagonale $i$ a partire dai tre farthest-reaching $(d-1)$-path sulle diagonali $i-1$, $i$, $i+1$: una sola mossa d'errore porta sulla diagonale $i$, poi si scorre gratis lungo la diagonale con una query di longest common extension.",
+   "tipo": "schema della tabella DP con diagonali e cammini (matrice DP + cammini di allineamento)",
+   "specifica": "SCENA: la tabella di programmazione dinamica di Landau-Vishkin, larga e bassa (rapporto larghezza:altezza circa 3:1, per esempio 12 cm x 4 cm). Nel manoscritto NON e' disegnata la griglia delle celle: ci sono solo due bordi.\n\nCORNICE\n- Bordo superiore: retta orizzontale che parte dall'angolo in alto a sinistra e prosegue verso destra sporgendo un poco oltre la larghezza utile della figura. Rappresenta la riga 0.\n- Bordo sinistro: retta verticale dall'angolo in alto a sinistra fino al fondo. Rappresenta la colonna 0.\n- Nessun bordo destro ne' inferiore: la tabella e' 'aperta' a destra e in basso.\n\nDIAGONALI\n- Tre rette parallele discendenti verso destra (pendenza 45 gradi). Partono da tre punti del bordo superiore distanziati fra loro di circa 1/8 della larghezza, collocati fra il 20% e il 45% della larghezza, ed escono dal bordo inferiore della figura.\n- Etichette poste SOPRA il bordo superiore, in corrispondenza del punto di partenza di ciascuna diagonale, da sinistra a destra: $i-1$, $i$, $i+1$.\n- Disegnarle sottili/chiare (nel manoscritto sono in azzurro): sono linee di riferimento, non cammini.\n\nRIGA v E COLONNA u\n- Retta verticale sottile dal bordo superiore a circa il 68% della larghezza, che scende fino a poco sotto la meta'-bassa della figura; etichetta $u$ SOPRA il bordo superiore, a destra di $i+1$.\n- Retta orizzontale sottile dal bordo sinistro a circa il 72% dell'altezza, che attraversa la figura verso destra oltrepassando la verticale $u$; etichetta $v$ a SINISTRA del bordo sinistro.\n- Le due rette si incontrano in un punto che deve cadere ESATTAMENTE sulla diagonale $i$ (vincolo geometrico: $u-v=i$). Ricavare quindi le coordinate scegliendo prima l'intersezione fra la diagonale $i$ e l'altezza voluta, e facendo poi passare di li' la verticale e l'orizzontale.\n\nI TRE f.r. (d-1)-PATH\n- Tre curve ondulate a serpentina (tratto medio, colore principale) che partono da tre punti vicini del bordo superiore, collocati fra il 5% e il 25% della larghezza, e scendono verso destra procedendo a gradini, alternando tratti quasi orizzontali ondulati e brevi discese. Nel manoscritto sono deliberatamente scarabocchiate, per dire 'un cammino qualunque'.\n- Ciascuna curva TERMINA con un pallino pieno appoggiato esattamente su una delle tre diagonali: la curva piu' in alto sulla diagonale $i-1$, quella intermedia sulla diagonale $i$, quella piu' in basso sulla diagonale $i+1$. I tre pallini stanno intorno alla meta' dell'altezza, in ordine di ascissa crescente da sinistra a destra.\n- Sotto la figura, in basso a sinistra (all'incirca sotto il 15-40% della larghezza), l'etichetta 'f.r.\\ $(d-1)$-path' collegata al fascio delle tre curve da una piccola graffa verticale rivolta verso l'alto (nel manoscritto e' un tratto scuro a forma di parentesi graffa che punta il gruppo delle tre curve).\n\nLE TRE MOSSE D'ERRORE (i cammini R1, R2, R3)\n- Dal pallino sulla diagonale $i-1$: freccia ORIZZONTALE verso destra lunga una cella, che approda sulla diagonale $i$; etichetta $R_1$.\n- Dal pallino sulla diagonale $i$: freccia DIAGONALE verso il basso-destra lunga una cella (mossa di mismatch), che resta sulla diagonale $i$; etichetta $R_2$.\n- Dal pallino sulla diagonale $i+1$: freccia VERTICALE verso il basso lunga una cella, che approda sulla diagonale $i$; etichetta $R_3$.\n- Le etichette $R_1,R_2,R_3$ non sono nel manoscritto di questa pagina ma compaiono nello pseudocodice di p.50: metterle in piccolo accanto alla rispettiva freccia.\n\nIL PUNTO (v,u) E L'ESTENSIONE LCE\n- Il piu' lontano dei tre arrivi coincide con l'incrocio riga $v$ / colonna $u$: marcarlo con un pallino pieno piu' GROSSO degli altri.\n- Da quel pallino parte un tratto rettilineo SPESSO lungo la diagonale $i$, verso destra-basso, lungo circa due celle, che termina con un altro pallino pieno: e' l'estensione di soli match trovata dalla query di longest common extension.\n- Dall'estremo di quel tratto parte una linea di richiamo sottile che sale verso destra e raggiunge, FUORI dalla figura sulla destra e all'incirca a un terzo dell'altezza, l'etichetta $\\lcey\\bigl(P[v\\,..\\,n],\\ T[u\\,..\\,m]\\bigr)$.\n\nSTILE\n- Testo tutto in italiano; le uniche scritte sono $i-1$, $i$, $i+1$, $u$, $v$, 'f.r.\\ $(d-1)$-path', $R_1$, $R_2$, $R_3$ e la formula lce.\n- Tre livelli grafici: linee di riferimento sottili e chiare (bordi, diagonali, riga $v$, colonna $u$); cammini ondulati a tratto medio; mosse d'errore ed estensione LCE a tratto spesso e scuro con pallini pieni.\n- Facoltativo ma utile: colorare diversamente $R_1$, $R_2$, $R_3$ (rosso / verde / blu, come nella figura deGli appunti del corso dell'anno precedente) mantenendo pero' l'estensione finale in un unico colore scuro.\n\nSIGNIFICATO: e' la traduzione grafica del lemma di Landau-Vishkin: il f.r. $d$-path sulla diagonale $i$ si ottiene prendendo il massimo fra i tre prolungamenti dei f.r. $(d-1)$-path sulle diagonali $i-1$, $i$, $i+1$ e applicando poi una sola query LCE, il tutto in tempo costante.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "rand-schema-bit",
+   "pagina": 51,
+   "didascalia": "Un algoritmo randomizzato riceve in ingresso, accanto all'input, un flusso di bit casuali; di conseguenza anche la complessità dell'esecuzione diventa una variabile aleatoria.",
+   "tipo": "schema a blocchi",
+   "specifica": "SCENA: schema a blocchi molto semplice, largo circa 10 cm e alto circa 4 cm, centrato.\n\nELEMENTI, da sinistra a destra\n1. In alto a sinistra un'etichetta su due righe: prima riga la stringa di bit \\texttt{010110} (nel manoscritto e' preceduta da una piccola freccia obliqua che la indica da sinistra; la freccetta si puo' omettere); seconda riga, allineata sotto, la parola \\emph{random}.\n2. Da sotto quell'etichetta parte una FRECCIA CURVA (arco morbido che scende e poi piega verso destra, terminando orizzontale) che entra nel lato SINISTRO del rettangolo centrale.\n3. Rettangolo centrale, circa 2 cm x 1,5 cm, bordo spesso, senza riempimento. Nel manoscritto e' VUOTO; per leggibilita' scriverci dentro in piccolo la parola \\textsc{algoritmo} (aggiunta editoriale, segnalata nelle note).\n4. Dal lato DESTRO del rettangolo parte una seconda FRECCIA CURVA che esce orizzontale e poi piega verso il basso-destra, terminando con la punta rivolta in basso.\n5. Accanto alla curvatura di quella freccia, in alto a destra rispetto alla sua punta, l'etichetta \\emph{complessita'} (con accento corretto: complessit\\`a).\n\nSTILE\n- Tratto stilizzato ma pulito; nessun riquadro esterno, nessuna griglia.\n- Testo in italiano; l'unico termine non italiano e' la parola \\emph{random}, che e' quella usata negli appunti.\n\nSIGNIFICATO: l'algoritmo riceve, oltre al proprio input, un flusso di bit casuali; poiche' le scelte dipendono da quei bit, la complessita' dell'esecuzione (e in generale anche il risultato) diventa una variabile aleatoria. E' l'immagine che introduce la distinzione Monte Carlo / Las Vegas riportata subito sotto.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina chiude il capitolo Landau--Vishkin (figura dei tre cammini R1/R2/R3 con l'estensione LCE, e definizione di farthest-reaching d-path) e apre la parte nuova del corso, \"Algoritmi randomizzati\": riferimenti bibliografici (Motwani--Raghavan; Karp), definizione di algoritmo randomizzato, schema bit casuali -> algoritmo -> complessità, e la dicotomia Monte Carlo (risultato potenzialmente sbagliato, complessità fissa) / Las Vegas (complessità variabile, risultato sempre corretto). Resta in sospeso: la dicotomia è solo enunciata, non ancora esemplificata, e non compaiono ancora né la nozione di variabile aleatoria né quella di valore atteso. La pagina 52 riparte infatti con \"Randomized QuickSort\" (RandQS), esempio prototipico di algoritmo Las Vegas, con la ricorrenza T(n)=O(n)+2T(n/2) e l'analisi nel caso medio tramite le variabili indicatrici X_ij. In fase di cucitura: il titolo \"Algoritmi randomizzati\" (qui reso con \\subsection*) va probabilmente promosso a \\chapter, e vanno prodotti i due file tikz/lv-fr-tre-path.tikz e tikz/rand-schema-bit.tikz.",
+ "confidenza": "alta"
+}

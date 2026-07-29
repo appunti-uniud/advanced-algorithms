@@ -1,0 +1,108 @@
+{
+ "pagina": 68,
+ "latex": "\\scan{68}\n\n\\paragraph{Algoritmo randomizzato per 2-CNF.}\nConsideriamo una formula in 2-CNF e isoliamone una clausola:\n\\[\n  \\cdots\\;\\wedge\\;(\\ell_1\\vee\\ell_2)\\;\\wedge\\;\\cdots\n\\]\n\nSi parte da un \\emph{assegnamento $f$ di valori di verità} e si itera il passo seguente:\nse $(\\ell_1\\vee\\ell_2)$ \\emph{non} è soddisfatta da $f$, si fa il \\textsc{flip} di\n\\emph{uno dei due valori di verità}, scelto \\emph{a caso} fra i due.\n\n\\begin{osservazione}\nIl senso del passo è questo: se la formula di partenza è soddisfacibile e $f^{*}$ è un\nassegnamento che la soddisfa, la clausola $(\\ell_1\\vee\\ell_2)$ --- falsa sotto $f$ e vera\nsotto $f^{*}$ --- garantisce che $f$ e $f^{*}$ differiscono su almeno uno dei due letterali.\nInvertendone uno scelto a caso, con probabilità almeno $\\tfrac12$ il numero\n\\[\n  k \\;=\\; \\#\\set{i \\;:\\; f(x_i)=f^{*}(x_i)}\n\\]\ndi variabili su cui $f$ coincide con $f^{*}$ aumenta di $1$; altrimenti diminuisce di $1$.\n\\end{osservazione}\n\nSi ottiene così una passeggiata aleatoria sulla linea degli stati $0,1,\\dots,n$, dove $n$ è\nil numero delle variabili proposizionali: da $k$ si passa a $k-1$ oppure a $k+1$.\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/random-walk-linea-2sat.tikz}\n\\caption{Il passo dell'algoritmo visto come passeggiata aleatoria sulla linea degli stati\n$0,1,\\dots,n$: dallo stato $k$ si passa a $k-1$ oppure a $k+1$, e $n$ è il numero delle\nvariabili proposizionali.}\n\\end{figure}\n\n\\begin{center}\n\\fbox{\\textsc{spazio}\\quad $\\Oh(n)$ bit}\n\\end{center}\n\nBasta infatti tenere in memoria l'assegnamento corrente: un bit per variabile.\n\nPer il tempo,\n\\[\n  \\Oh(n^{2})\\ \\text{passi},\n\\]\nperché il numero di passi che rende alta la probabilità di aver visitato tutto il grafo è\ndi poco superiore a questo.\n\n\\begin{osservazione}\nOgni volta che abbiamo un algoritmo che lavora su un grafo, nel random walk ritroviamo\nquello stesso algoritmo incarnato in forma probabilistica.\n\\end{osservazione}",
+ "note": [
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 68,
+   "testo": "Titolo. A 170 dpi l'ultima sigla sembra «2-CVF»; ingrandendo a 700 dpi si legge chiaramente «2-CNF» (la N è tracciata con la diagonale appena accennata). Ho scritto 2-CNF, coerente con p.67, con p.69 (che ripete lo stesso titolo) e con l'argomento.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 68,
+   "testo": "«Se (ℓ1 ∨ ℓ2) non è sodd… da f»: il participio è scritto in corsivo molto compresso e si legge solo il gruppo iniziale «sodd» più una coda. Ho scritto «soddisfatta», l'unica lettura possibile (la clausola è il soggetto femminile). La parola «non» è sottolineata nel quaderno: resa con \\emph.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 68,
+   "testo": "Sottolineature del quaderno rese con \\emph: «non» nella riga della condizione, «uno dei due valori» e «random» nella riga del FLIP. «FLIP» è scritto in stampatello maiuscolo: reso con \\textsc{flip}.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 68,
+   "testo": "La riga «↳ random» sotto «uno dei due valori di verità» è una glossa che specifica come va fatta la scelta; l'ho riassorbita nella frase («scelto a caso fra i due») invece di lasciarla come annotazione staccata.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 68,
+   "testo": "La pagina disegna la linea 0..n con i tre stati k-1, k, k+1 e la etichetta «n variabili prop.», ma non dice mai che cosa sia lo stato k: senza questo il disegno è incomprensibile. Ho aggiunto un'osservazione di tre righe con la definizione standard k = #{i : f(x_i)=f*(x_i)} e il motivo per cui Pr[k → k+1] ≥ 1/2 (la clausola scelta è falsa sotto f e vera sotto f*, quindi i due assegnamenti differiscono su almeno uno dei due letterali). Coincide con Gli appunti del corso dell'anno precedente (L17 §6, le quattro proprietà di f(A)) e con quanto lo studente stesso scrive a p.69. Contenuto aggiunto per colmare la lacuna.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 68,
+   "testo": "«n variabili prop.» (abbreviazione con punto finale, su due righe, a destra dell'estremo n della linea): espansa in «variabili proposizionali».",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 68,
+   "testo": "Il riquadro manoscritto «SPAZIO O(n) bit» (rettangolo a mano libera) è reso con un \\fbox centrato, come già fatto a p.61 per il riquadro «Goal». Ho aggiunto la riga di giustificazione «basta tenere in memoria l'assegnamento corrente: un bit per variabile», implicita nel quaderno ma necessaria perché la stima O(n) bit si capisca; è anche il punto di contrasto con la visita esplicita del grafo delle implicazioni di p.67.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 68,
+   "testo": "Annotazione a destra di O(n²), collegata da una linea ondulata. Lettura letterale: «probabilità di visitare tutto il grafo è poco più alta di questo». Così com'è la frase non sta in piedi (una probabilità non può essere «più alta» di O(n²)): è una nota telegrafica in cui manca il soggetto. Ho scritto «il numero di passi che rende alta la probabilità di aver visitato tutto il grafo è di poco superiore a questo», che è il senso corretto e coincide con il risultato usato dagli appunti dell'anno precedente (C_{L_n} ≤ 2n², cioè poco più di n², e soglia 2n² nello pseudocodice: L17 §5.2–5.3). L'aggettivo finale è ambiguo fra «alta» e «alto»: nella mia resa il soggetto è maschile.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 68,
+   "testo": "Ultimo capoverso, quarta parola: glifo con «T» maiuscola, letto «Troviamo». La sequenza dopo «Tro» è compressa e ammetterebbe anche «Tramite», ma «troviamo» è l'unica lettura che regge la sintassi della frase («ogni volta che abbiamo …, troviamo …»). Ho scritto «ritroviamo» per rendere naturale l'italiano.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 68,
+   "testo": "Ultimo capoverso: il quaderno scrive «troviamo random walk l'alg.mo incarnato …», senza preposizione. Ho aggiunto «nel» («nel random walk ritroviamo …»), che è ciò che la frase intende. «l'alg.mo» è l'abbreviazione manoscritta di «l'algoritmo», espansa.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 68,
+   "testo": "Ultima parola della pagina, di lettura difficile: comincia con «p» e prosegue con un gruppo compresso compatibile con «probabil-». Il confronto grafema per grafema con la parola «probabilità» scritta poche righe sopra sulla stessa pagina non è perfetto (lì dopo la «p» ci sono due «b» alte ravvicinate, qui l'asta alta arriva subito), e la lunghezza complessiva (~11 caratteri) escluderebbe «probabilisticamente». Le due letture plausibili sono «probabilisticamente» (compressa) e «probabilmente»; la seconda non ha senso in questo contesto. Ho reso il sintagma con «incarnato in forma probabilistica», che conserva il significato senza impegnarsi sulla forma esatta dell'avverbio.",
+   "risolto": false
+  },
+  {
+   "tipo": "figura",
+   "pagina": 68,
+   "testo": "L'estremo sinistro della linea è marcato con una lunga sbarra verticale che attraversa la linea, ma non è etichettato nel quaderno. Nella specifica TikZ ho chiesto di etichettarlo «0»: è lo stato iniziale peggiore della passeggiata (nessuna variabile in accordo con f*) e senza etichetta il disegno resterebbe muto. La linea prosegue per un breve tratto oltre il tacca di n e si interrompe; ho mantenuto questo dettaglio.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 68,
+   "testo": "Le due frecce curve sopra la linea partono entrambe dalla tacca centrale (k): una arcua verso sinistra con punta sulla tacca k−1, l'altra arcua verso destra con punta sulla tacca k+1. A bassa risoluzione sembravano entrambe rivolte a destra; a 900 dpi la punta della prima è inequivocabilmente rivolta a sinistra. È il passo ±1 della passeggiata.",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 68,
+   "testo": "Gli appunti del corso dell'anno precedente (L17 §5.3) danno a questo punto lo pseudocodice completo (start with x_i = TRUE; while … #steps < 2n²; …) e la natura 1-side error dell'algoritmo. Nella pagina dello studente non c'è: non l'ho importato. Lo studente riprende invece l'argomento da capo a p.69, dove la stessa idea è sviluppata con più dettaglio.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 68,
+   "testo": "La seconda riga della pagina è la formula «- - - - ∧ (ℓ1 ∨ ℓ2) ∧ - - - -», dove i trattini stanno per il resto della congiunzione: resi con \\cdots. La banda inferiore della pagina (p68_b3) è vuota a parte la coda dell'ultimo capoverso.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "random-walk-linea-2sat",
+   "pagina": 68,
+   "didascalia": "Il passo dell'algoritmo visto come passeggiata aleatoria sulla linea degli stati $0,1,\\dots,n$: dallo stato $k$ si passa a $k-1$ oppure a $k+1$, e $n$ è il numero delle variabili proposizionali.",
+   "tipo": "schema/linea degli stati di un random walk",
+   "specifica": "Disegno a mano libera, tutto in penna blu, su una sola riga orizzontale. LINEA: un segmento orizzontale lungo (circa 55% della larghezza del testo), tracciato a mano libera con una leggerissima ondulazione; va da sinistra verso destra e termina con un breve tratto ispessito poco oltre l'ultima tacca (nel quaderno la linea NON ha punta di freccia). ESTREMO SINISTRO: una sbarra verticale lunga (circa 3 volte le altre tacche) che attraversa la linea sporgendo sia sopra sia sotto; è l'origine della linea. Etichettarla $0$ sotto la sbarra (nel manoscritto non c'è etichetta: si veda la nota editoriale). GRUPPO CENTRALE: a circa il 38% della lunghezza della linea, tre tacche verticali corte e ravvicinate (distanza fra tacche consecutive pari a circa 1/12 della lunghezza della linea). La tacca di sinistra e quella di destra sporgono soprattutto sotto la linea; quella centrale è la più lunga e sporge sia sopra sia sotto. Sopra il gruppo, due frecce curve che partono entrambe dalla sommità della tacca centrale: (1) la prima arcua verso SINISTRA (concavità verso il basso) e termina con la punta rivolta verso sinistra/in basso, appena sopra la tacca di sinistra; (2) la seconda arcua verso DESTRA (concavità verso il basso) e termina con la punta rivolta verso destra/in basso, appena sopra la tacca di destra. ETICHETTE del gruppo centrale: $k-1$ scritto in alto a sinistra, sopra la prima freccia; $k+1$ scritto in alto a destra, sopra la seconda freccia (entrambe leggermente più in alto delle frecce); $k$ scritto sotto la tacca centrale, a una certa distanza dalla linea. ESTREMO DESTRO: a circa il 78% della lunghezza, una tacca verticale che attraversa la linea (sporge sopra e sotto, più corta della sbarra di sinistra); sotto di essa l'etichetta $n$. ANNOTAZIONE: a destra dell'etichetta $n$, spostata verso il basso, la scritta su due righe «$n$ variabili» / «proposizionali» (nel quaderno è abbreviata «prop.»; scriverla per esteso, in italiano, in corpo piccolo). SIGNIFICATO: la linea rappresenta gli stati $0,1,\\dots,n$ della passeggiata aleatoria associata all'algoritmo randomizzato per 2-CNF; lo stato $k$ è il numero di variabili sulle quali l'assegnamento corrente $f$ coincide con un assegnamento soddisfacente fissato $f^{*}$; ogni FLIP fa passare da $k$ a $k+1$ (con probabilità $\\ge 1/2$) o a $k-1$; lo stato $n$ (tutte le variabili in accordo) è assorbente. RESA SUGGERITA IN TIKZ: linea con \\draw plot[smooth] su 5-6 punti quasi allineati per l'effetto a mano libera; tacche come segmenti verticali; frecce con [->,bend left]/[->,bend right] fra i punti sopra la linea; etichette come nodi matematici senza riquadro.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina 67 si chiude sul grafo delle implicazioni di Aspvall–Plass–Tarjan, cioè sullo schema deterministico che per decidere 2-SAT costruisce e visita esplicitamente un grafo (con memoria proporzionale al numero di letterali). La pagina 68 è la risposta a quel punto debole: dato un assegnamento f, se una clausola (ℓ1 ∨ ℓ2) non è soddisfatta si fa il FLIP random di uno dei due valori di verità; il processo diventa una passeggiata aleatoria sulla linea degli stati 0..n (passi k → k±1), con SPAZIO O(n) bit e O(n²) passi. La chiusa («ogni volta che abbiamo un algoritmo su grafo, nel random walk ritroviamo quello stesso algoritmo in forma probabilistica») è il ponte concettuale verso tutta la parte su hitting time, cover time e catene di Markov. La pagina 69 riprende l'argomento DA CAPO: riparte da «CNF 3-CNF 2-CNF → Aspvall–Plass–Tarjan O(n) / Risoluzione O(n²)», ripete il titolo «Algoritmo randomizzato per 2-CNF» e la stessa clausola (ℓ1 ∨ ℓ2), poi esplicita l'osservazione sulla probabilità 1/2, ridisegna la linea 0,1,2,…,n e la identifica con il grafo lineare L_n, per poi passare all'esercizio 1 (hitting time su K_n) che prosegue a p.70. La p.68 va quindi letta come la versione sintetica/anticipata di ciò che p.69 svolge per esteso: in fase di cucitura le due pagine andranno fuse o messe in sequenza evitando la ripetizione dell'osservazione sul Pr ≥ 1/2 e del disegno della linea.",
+ "confidenza": "alta"
+}

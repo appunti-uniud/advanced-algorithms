@@ -1,0 +1,84 @@
+{
+ "pagina": 36,
+ "latex": "\\scan{36}\n\nPerché la mappa $I$ sia ben definita occorre che per ogni elemento del dominio\n$v \\in \\T$ ci sia \\emph{uno e un solo} elemento $w \\in \\B$ tale che $I(v) = w$.\nUn tale $w$ esiste sempre --- $\\T(v)$ è finito e non vuoto, dunque il massimo di\n$h$ su $\\T(v)$ viene certamente raggiunto: ovviamente c'è sempre almeno un\nelemento del codominio. Resta perciò da provare che non ne possono essere\n\\emph{due}.\n\n\\begin{proposizione}[buona definizione di $I$]\\label{prop:I-ben-definita}\nPer ogni nodo $v \\in \\T$ esiste un \\emph{unico} nodo $w \\in \\T(v)$ tale che\n\\[\n  h(w) \\;=\\; \\max_{q \\in \\T(v)} h(q).\n\\]\n\\end{proposizione}\n\n\\begin{dimostrazione}\nPer assurdo, assumiamo che esistano $u, w \\in \\T(v)$ con $u \\neq w$ e\n\\[\n  h(u) \\;=\\; h(w) \\;\\geq\\; h(q) \\qquad \\text{per ogni } q \\in \\T(v).\n\\]\nPoniamo $i \\defeq h(u) = h(w)$ e supponiamo, senza perdita di generalità,\n$w < u$ (il confronto è fra i numeri DFS). Sia $k$ la posizione del bit più\nsignificativo in cui $u$ e $w$ differiscono: poiché $w < u$, in posizione $k$ il\nnumero $u$ ha $1$ e il numero $w$ ha $0$. Inoltre $k > i$: infatti $u$ e $w$\nhanno entrambi l'$1$ meno significativo in posizione $i$ e tutti $0$ nelle\nposizioni $< i$, quindi non possono differire in una posizione $\\leq i$.\n\nCostruiamo allora il numero $N$ che coincide con $u$ e con $w$ in tutte le\nposizioni $> k$, vale $1$ in posizione $k$ ed è nullo in tutte le posizioni\n$< k$:\n\\[\n\\begin{array}{c||c|c|c|c|c}\n        & \\text{pos.} > k & k & k-1,\\dots,i+1 & i & i-1,\\dots,1\\\\\n\\hline\\hline\nu       & \\a & 1 & \\cdots      & 1 & 0\\cdots 0\\\\\n\\hline\nw       & \\a & 0 & \\cdots      & 1 & 0\\cdots 0\\\\\n\\hline\nN       & \\a & 1 & 0\\cdots 0   & 0 & 0\\cdots 0\n\\end{array}\n\\]\ndove $\\a$ denota il prefisso comune (i bit dalla posizione più significativa\nfino alla posizione $k+1$, uguali in $u$, $w$ e $N$) e i puntini nelle righe di\n$u$ e $w$ stanno per bit arbitrari.\n\nÈ ovvio che\n\\[\n  w \\;<\\; N \\;<\\; u :\n\\]\n$N$ e $w$ coincidono sopra la posizione $k$, dove però $N$ ha $1$ e $w$ ha $0$,\nda cui $N > w$; $N$ e $u$ coincidono da sinistra fino a $k$ incluso, ma sotto\n$k$ il numero $N$ ha solo zeri mentre $u$ ha un $1$ in posizione $i < k$, da cui\n$N < u$.\n\nPer la proprietà del DFS-numbering (i numeri dei nodi di $\\T(v)$ formano un\nintervallo contiguo, cioè sono assegnati \\emph{senza buchi}), da\n$w, u \\in \\T(v)$ e $w < N < u$ segue\n\\[\n  N \\in \\T(v).\n\\]\nMa per costruzione l'$1$ meno significativo di $N$ sta in posizione $k$, cioè\n$h(N) = k > i$, e quindi\n\\[\n  h(N) \\;>\\; h(u) \\;=\\; h(w),\n\\]\ncontro la massimalità di $h(u) = h(w)$ su $\\T(v)$: assurdo.\n\\end{dimostrazione}\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/lca-run-map.tikz}\n\\caption{A sinistra l'albero generico $\\T$ con la numerazione DFS (in binario su\n$4$ bit) e i sette \\emph{run} evidenziati; a destra l'albero binario completo\n$\\B$, in cui sono marcati i nodi che sono immagine di qualche nodo di $\\T$. La\nmappa $I$ collassa ogni run in un unico nodo di $\\B$.}\n\\end{figure}\n\nLa mappa $I$ definisce dei \\emph{run} di nodi in $\\T$.\n\n\\begin{definizione}[run]\\label{def:run}\nUn \\emph{run} è una collezione massimale di nodi di $\\T$ mappati nello stesso\n$I(v)$; equivalentemente, è una classe di equivalenza della relazione\n$u \\sim v \\iff I(u) = I(v)$.\n\\end{definizione}",
+ "note": [
+  {
+   "tipo": "ricostruzione",
+   "pagina": 36,
+   "testo": "Il quaderno enuncia la buona definizione di I solo come domanda discorsiva («Per ogni elem. del dominio v ∈ 𝒯 c'è uno e un solo elem. w ∈ ℬ tale che I(v)=w? … Devo provare che non possono essere 2!»). L'ho formalizzata in un ambiente `proposizione` (è il Lemma 8.5.2 di Gusfield, cfr. L08_sintesi §7), mantenendo in prosa la frase introduttiva del quaderno. Il testo del quaderno è telegrafico ma il contenuto è esattamente questo.",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 36,
+   "testo": "Nella domanda iniziale il quaderno scrive «w ∈ ℬ», mentre la dimostrazione lavora con «u, w ∈ 𝒯(v)». Non è un errore: a p.35 lo studente ha dichiarato I: 𝒯 → ℬ e ha identificato i nodi di 𝒯 con i loro numeri DFS, che sono anche i path number di ℬ. Ho lasciato «w ∈ ℬ» nella frase introduttiva (fedele) e ho enunciato la proposizione con «w ∈ 𝒯(v)» (formalmente corretto, come in Gusfield Lemma 8.5.2), senza marcatori.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 36,
+   "testo": "Riga «Dim.: Per assurd[o] assumo esistono u, w ∈ 𝒯(v) t.c. …»: c'è una parola parzialmente cancellata/riscritta fra «Per» e «assumo» (verosimilmente «assurdo» ripassato). Lettura risolta come «Per assurdo assumo che esistano», coerente con la struttura della dimostrazione (che si chiude con «⇒ assurdo»).",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 36,
+   "testo": "Il quaderno non dice esplicitamente né che si può supporre w < u, né come è definita la posizione k, né perché k > i: dà solo la tabella dei bit e poi «È ovvio che w < N < u». Ho esplicitato: (a) WLOG w < u; (b) k = posizione del bit più significativo in cui u e w differiscono, con u_k = 1, w_k = 0; (c) la giustificazione di k > i (u e w coincidono su tutte le posizioni ≤ i perché hanno entrambi rightmost-1 in posizione i); (d) la giustificazione delle due disuguaglianze w < N e N < u. Ricostruzione standard, coerente con Gusfield §8.5 e con L08_sintesi §7.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 36,
+   "testo": "La tabella disegnata a mano (griglia 3×5 con righe etichettate u, w, N) è la Fig. 8.5 di Gusfield («Numbers u, w and N»). Nel quaderno le colonne non hanno intestazione: la prima cella di ogni riga contiene solo «α» (il prefisso comune), la terza colonna contiene uno scarabocchio ondulato (= bit arbitrari) nelle righe di u e w, e nella riga di N le ultime tre celle sono fuse in un unico blocco «0 0 … 0 0». Ho reso la tabella come `array` LaTeX (non come figura TikZ: è una tabella, non un disegno) e ho AGGIUNTO una riga di intestazione con le posizioni dei bit (>k, k, k−1..i+1, i, i−1..1), che nel quaderno è implicita e senza la quale la tabella è illeggibile. Ho anche esplicitato in prosa il significato di α e dei puntini.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 36,
+   "testo": "Il disegno grande a metà pagina è la sovrapposizione delle Figg. 8.6 e 8.7 di Gusfield: a sinistra l'albero 𝒯 a 10 nodi con i run cerchiati, a destra l'albero binario completo ℬ con i nodi marcati, e sette curve lunghe che collegano ciascun run al proprio nodo immagine. Nel quaderno il tratto è molto intricato (le curve si incrociano); l'ho ricostruito usando i valori noti di I: I(1)=I(5)=I(8)=8, I(2)=I(4)=4, I(3)=3, I(6)=6, I(7)=7, I(9)=9, I(10)=10, che danno esattamente 7 run e 7 nodi marcati di ℬ (1000, 0100, 0011, 0110, 0111, 1001, 1010). Vedi campo `figure` per la specifica completa.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 36,
+   "testo": "Nel disegno, accanto al nodo 8 di 𝒯 lo studente ha annotato «8 – 1000» (cioè: il nodo 8 ha path number 1000, la radice di ℬ). L'ho riportata come annotazione nella specifica della figura, non nel testo.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 36,
+   "testo": "La glossa sotto «run» si legge «colezione/collezione mass?m? di nodi mappati nello stesso I(v)»: la desinenza dell'aggettivo è incerta fra «massima» e «massimale». Ho scritto «collezione massimale», sia perché è la lettura più probabile del tratto, sia perché è la formulazione usata dagli appunti dell'anno precedente («insieme massimale», L08_sintesi §10) ed è l'unica matematicamente corretta (si tratta di massimalità rispetto all'inclusione, non di cardinalità massima).",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 36,
+   "testo": "Alla definizione di run ho aggiunto la formulazione equivalente «classe di equivalenza della relazione u ∼ v ⟺ I(u)=I(v)». Non è nel testo di p.36, ma è esplicitamente preannunciata a p.35 («I: 𝒯 → ℬ definisce (implicitamente) una relazione di eq.»); è quindi un raccordo, non contenuto nuovo.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 36,
+   "testo": "Il quarto e ultimo blocco della pagina (circa 3 righe) è interamente cancellato con scarabocchi fitti. Sotto la cancellatura si intravedono due voci numerate ① e ②, la parola sottolineata «Leader» e frammenti «… il nodo più … del run» / «Definisco come Leader … il nodo più alto». Si tratta di una prima stesura di ciò che lo studente riscrive pulito in cima a p.37 («Oss.: ① max h è il nodo più basso del run» e «Def.: ② definisco come leader di un run il nodo più alto»). Poiché è materiale cancellato dall'autore e integralmente ripreso nella pagina successiva, NON l'ho trascritto: trascriverlo duplicherebbe p.37. Non lascia marcatori nel LaTeX.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 36,
+   "testo": "Espansione di abbreviazioni telegrafiche: «elem.» → «elemento», «t.c.» → «tale che», «Dim.» → ambiente `dimostrazione`, «prop. del dfs-numbering» → «proprietà del DFS-numbering (numeri senza buchi)». Il quadratino annerito a fine dimostrazione (∎) è reso dall'ambiente `dimostrazione`.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "lca-run-map",
+   "pagina": 36,
+   "didascalia": "A sinistra l'albero generico $\\T$ con la numerazione DFS (in binario su $4$ bit) e i sette \\emph{run} evidenziati; a destra l'albero binario completo $\\B$, in cui sono marcati i nodi che sono immagine di qualche nodo di $\\T$. La mappa $I$ collassa ogni run in un unico nodo di $\\B$.",
+   "tipo": "albero (due alberi affiancati con mappa fra di essi)",
+   "specifica": "Figura composta da DUE PANNELLI affiancati (sinistra: albero generico T; destra: albero binario completo B) più sette frecce/curve che collegano il primo al secondo. Nel quaderno i due alberi sono disegnati sovrapposti e le curve si incrociano molto: nel ridisegno TikZ vanno separati nettamente (pannello sinistro e pannello destro) e le curve vanno rese come archi tratteggiati puliti, meglio se leggermente incurvati (bend) per evitare sovrapposizioni.\n\n=== PANNELLO SINISTRO: albero T ===\nEtichetta '$\\T$' in alto a sinistra del pannello (nel quaderno è una T calligrafica isolata sul margine sinistro).\nAlbero radicato con 10 nodi (nodi = pallini pieni piccoli), numerazione DFS in preordine, layout come Fig. 8.1 di Gusfield:\n- livello 0: nodo 1 (radice), in alto;\n- livello 1: nodo 2 (a sinistra della radice) e nodo 5 (a destra della radice);\n- livello 2: figli di 2 = nodi 3 (sx) e 4 (dx); figli di 5 = nodi 6, 7, 8 (da sinistra a destra);\n- livello 3: figli di 8 = nodi 9 (sx) e 10 (dx).\nArchi (segmenti pieni): 1-2, 1-5, 2-3, 2-4, 5-6, 5-7, 5-8, 8-9, 8-10.\nEtichette dei nodi: accanto a ogni pallino il numero DFS in cifre decimali e, appena sotto o di fianco, la sua scrittura binaria a 4 bit. Precisamente:\n  1 = 0001,  2 = 0010,  3 = 0011,  4 = 0100,  5 = 0101,\n  6 = 0110,  7 = 0111,  8 = 1000,  9 = 1001, 10 = 1010.\nNel quaderno il decimale è scritto vicino al pallino e il binario appena più esterno (sopra per la radice e per il nodo 5, sotto per le foglie, a sinistra per i nodi 2 e 3).\nAnnotazione manoscritta da riportare: accanto al nodo 8, la scritta '$8 = 1000$' (nel quaderno '8 - 1000'), che sottolinea che il nodo 8 è quello di $h$ massimo e corrisponde alla radice di $\\B$.\n\nRUN (sovrapposti all'albero): sette contorni chiusi, nel quaderno tracciati a penna come ovali; nel ridisegno usare contorni TRATTEGGIATI (come i box tratteggiati della Fig. 8.6 di Gusfield) che racchiudono:\n  R1 = {1, 5, 8}  -> ovale/box allungato in diagonale, perché 1, 5, 8 formano un cammino discendente verso destra;\n  R2 = {2, 4}     -> ovale/box allungato verticalmente (2 sopra, 4 sotto);\n  R3 = {3}, R4 = {6}, R5 = {7}, R6 = {9}, R7 = {10} -> piccoli cerchi attorno al singolo nodo.\nIn totale 7 run.\n\n=== PANNELLO DESTRO: albero binario completo B ===\nEtichetta '$\\B$' in alto (nel quaderno una B grande sopra la radice).\nAlbero binario COMPLETO di profondità $d = 3$: 15 nodi, path number su 4 bit, disegnato con la forma triangolare regolare classica:\n- radice: 1000;\n- livello 1: 0100 (figlio sinistro), 1100 (figlio destro);\n- livello 2: 0010, 0110 (sotto 0100), 1010, 1110 (sotto 1100);\n- livello 3 (foglie, da sinistra a destra): 0001, 0011, 0101, 0111, 1001, 1011, 1101, 1111.\nNel quaderno sono scritte esplicitamente solo tre etichette: '1000' accanto alla radice, '0100' accanto al figlio sinistro, '1100' accanto al figlio destro. Nel ridisegno conviene etichettare almeno questi tre e i quattro nodi marcati rimanenti (0110, 0011, 0111, 1010, 1001), lasciando senza etichetta i nodi non marcati (oppure etichettandoli tutti in grigio chiaro).\nNODI MARCATI (nel quaderno cerchiati, alcuni ripassati più volte): esattamente i 7 nodi che sono immagine di un run, cioè\n  1000 (radice), 0100, 0110, 0011, 0111, 1010, 1001.\nGli altri 8 nodi restano pallini semplici, non marcati.\n\n=== MAPPA (frecce fra i due pannelli) ===\nSette curve/frecce tratteggiate, una per run, dal contorno del run in $\\T$ al corrispondente nodo marcato di $\\B$:\n  {1,5,8} -> 1000 (radice di B)\n  {2,4}   -> 0100\n  {3}     -> 0011\n  {6}     -> 0110\n  {7}     -> 0111\n  {9}     -> 1001\n  {10}    -> 1010\n\n=== SIGNIFICATO ALGORITMICO ===\nLa figura illustra che $I$ non è iniettiva: collassa ogni run (che è un cammino verticale di $\\T$) in un unico nodo di $\\B$, e che c'è una biiezione fra i run di $\\T$ e i nodi marcati di $\\B$. È l'unione delle Figg. 8.6 e 8.7 di Gusfield.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina si chiude con la definizione di run (collezione massimale di nodi con lo stesso $I(v)$) e con un blocco di tre righe interamente cancellato dallo studente, che conteneva in bozza le due osservazioni riprese pulite in cima a p.37. Restano quindi in sospeso: (i) la struttura interna di un run (il fatto che sia un cammino verticale, con il nodo di $h$ massimo in basso), (ii) la nozione di leader/head del run. La pagina 37 riparte esattamente da lì: elenca le tre quantità calcolate nel pre-processing per ogni nodo $v$ ($I(v)$, il leader $L(v)$ del suo run, l'array ausiliario $A_v$), poi l'osservazione «① max $h$ è il nodo più basso del run» e la definizione «② leader di un run = il nodo più alto», infine i quattro passi del pre-processing lineare (DFS + $h$, calcolo bottom-up di $I$ e dei leader, costruzione di $\\mathcal{B}$ di altezza $\\lceil\\log n\\rceil-1$, costruzione degli $A_v$ di $\\lceil\\log n\\rceil-1$ bit). Nella trascrizione di p.37 NON va ripetuta la definizione di run.",
+ "confidenza": "alta"
+}

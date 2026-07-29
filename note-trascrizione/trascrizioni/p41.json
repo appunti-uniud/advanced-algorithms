@@ -1,0 +1,90 @@
+{
+ "pagina": 41,
+ "latex": "\\scan{41}\n\nIl pattern matching \\emph{esatto}, di cui ci siamo occupati finora, ha due volti opposti:\nda un lato è \\emph{matematicamente elegante}, dall'altro è \\emph{poco realistico per le\napplicazioni}. Il dominio applicativo di riferimento è la bioinformatica (cfr.\\ i corsi di\n\\emph{Bioinformatica I} e \\emph{Bioinformatica II}), dove i dati sono intrinsecamente\nrumorosi: \\emph{voglio poter gestire errori}.\n\n\\begin{domanda}\nCosa significa fare pattern matching \\emph{con errori}?\n\\end{domanda}\n\nSignifica, prima di tutto, introdurre una (o più) nozioni di \\emph{distanza} $d(\\a,\\b)$ fra\nstringhe. Le due nozioni principali di distanza sono la \\emph{distanza di Levenshtein} e la\n\\emph{distanza di Hamming}.\n\n\\subsection{Distanza di Hamming}\n\nLe due stringhe vengono sovrapposte e confrontate \\emph{posizione per posizione}: la\ndistanza è il numero di posizioni in cui i caratteri corrispondenti differiscono.\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/hamming-posizioni.tikz}\n\\caption{Confronto posizione per posizione fra $\\a$ e $\\b$: le due stringhe hanno la\nstessa lunghezza e ogni segmento verticale accoppia la $i$-esima posizione di $\\a$ con la\n$i$-esima posizione di $\\b$.}\n\\end{figure}\n\n\\begin{definizione}[Distanza di Hamming]\nSiano $\\a$ e $\\b$ due stringhe della \\emph{stessa} lunghezza $n$. Allora\n\\[\n  \\dham(\\a,\\b)\\;=\\;\\#\\{\\, i \\in \\{1,\\dots,n\\} \\;:\\; \\a[i] \\neq \\b[i] \\,\\}.\n\\]\n\\end{definizione}\n\nSu alfabeto binario la definizione si riscrive in modo particolarmente compatto: la\ndistanza di Hamming è il \\emph{numero di $1$ nella} $\\mathrm{XOR}(\\a,\\b)$, perché lo XOR\nbit a bit vale $1$ esattamente nelle posizioni in cui le due stringhe non concordano.\n\n\\begin{osservazione}\nÈ il punto in cui si salda il discorso sul modello di calcolo della pagina precedente:\nlo XOR e il conteggio degli $1$ di una parola di $\\log n$ bit costano $\\Oh(1)$ grazie alle\ntabelle precalcolate, quindi la distanza di Hamming fra due stringhe binarie di $n$ bit si\ncalcola in tempo $\\Oh(n/\\log n)$ anziché $\\Oh(n)$.\n\\end{osservazione}\n\n\\subsection{Distanza di Levenshtein}\n\nCerchiamo ora una nozione che consenta di catturare la \\emph{similarità} tra stringhe:\naccanto a una distanza voglio anche una \\emph{misura di similarità}. È questo il ruolo\ndella distanza di Levenshtein, che a differenza di quella di Hamming non richiede stringhe\ndi uguale lunghezza.",
+ "note": [
+  {
+   "tipo": "altro",
+   "pagina": 41,
+   "testo": "Il quaderno apre la pagina con il titolo sottolineato «Allineamento con errori». Non l'ho reso come heading perché è di fatto il titolo di apertura del capitolo (che l'assemblaggio ha già intitolato «Pattern matching inesatto: distanze e allineamento»); lo segnalo qui perché in fase di cucitura si potrebbe volerlo usare come titolo di sezione.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 41,
+   "testo": "Lo schema a graffa del quaderno («Pattern matching esatto» → «matematicamente elegante» / «poco realistico per le applicazioni», con freccia-saetta dal basso «voglio poter gestire errori») è stato reso in prosa scorrevole invece che come diagramma: il contenuto informativo è integralmente conservato.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 41,
+   "testo": "Il riquadro «Bioinformatica» con due frecce verso «I» e «II» non è glossato nel quaderno. L'ho interpretato come rimando ai corsi di Bioinformatica I e Bioinformatica II (Udine, stesso docente), che sono l'ambito applicativo naturale del pattern matching inesatto. Interpretazione plausibile ma non certificabile dalla pagina; una lettura alternativa (meno probabile) sarebbe «bioinformatica di prima e seconda generazione».",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 41,
+   "testo": "L'annotazione a sinistra di $d(\\alpha,\\beta)$ recita «introdurremo una (più) nozione di distanza fra stringhe» (verificata su crop a 300 DPI). L'inciso «(più)» è chiaramente un «una o più» abbreviato; ho scritto «una (o più) nozioni di distanza» per renderlo grammaticale.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 41,
+   "testo": "Il quaderno scrive «Levensthein» (metatesi t/h, lo stesso refuso presente anche nelle materiali dell'anno precedente — cfr. L10 §6 e anomalia 10 della sintesi). Ho scritto la grafia corretta «Levenshtein».",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 41,
+   "testo": "«Nozione che mi consento/consenta di catturare la similarità tra stringhe»: il grafema finale è una piccola ansa chiusa, quindi «consenta» (congiuntivo, coerente con il valore desiderativo della frase). Reso in prosa come «Cerchiamo ora una nozione che consenta di catturare la similarità tra stringhe».",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 41,
+   "testo": "Il quaderno definisce la distanza di Hamming solo tramite il disegno e la glossa «numero di 1 nella XOR(α,β)». Ho aggiunto la definizione formale $\\dham(\\alpha,\\beta)=\\#\\{i:\\alpha[i]\\neq\\beta[i]\\}$ e la condizione $|\\alpha|=|\\beta|$ (implicita nel disegno, dove le due barre hanno la stessa lunghezza, ed esplicita nelle materiali dell'anno precedente, L09 p.14: «può essere usata esclusivamente su stringhe di uguale lunghezza»).",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 41,
+   "testo": "La formula «numero di 1 nella XOR(α,β)» è letteralmente corretta solo su alfabeto binario (o leggendo lo XOR come vettore caratteristico dei mismatch). Ho esplicitato l'ipotesi «su alfabeto binario» invece di lasciarla come definizione generale, che sarebbe scorretta per |Σ|>2.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 41,
+   "testo": "Ho aggiunto una breve `osservazione` che collega lo XOR alla digressione sul modello di calcolo della pagina precedente (p. 40: tabelle √n×√n per le operazioni binarie AND/XOR e per il conteggio/leftmost-1 su parole di log n bit), da cui $\\Oh(n/\\log n)$ per la distanza di Hamming fra stringhe binarie. Non è scritto nel quaderno: è una integrazione che motiva perché la glossa «XOR» compaia proprio qui, subito dopo p. 40. Da rimuovere se si vuole una trascrizione strettamente letterale.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 41,
+   "testo": "La chiusura «che a differenza di quella di Hamming non richiede stringhe di uguale lunghezza» non è sulla pagina: è un raccordo verso p. 42, dove la Levenshtein viene introdotta come «lavoro da fare per ottenere una stringa dall'altra». Aggiunta minima e vera; segnalata.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 41,
+   "testo": "L'elenco del quaderno cita nell'ordine «distanza di Levenshtein, distanza di Hamming», ma poi la pagina tratta prima Hamming e poi Levenshtein. Ho mantenuto entrambi gli ordini come nell'originale (elenco invariato, trattazione invariata): non è un errore, è solo l'ordine in cui La fonte dell'anno precedentele ha nominate.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 41,
+   "testo": "Il disegno della distanza di Hamming è schematico: due barre orizzontali di uguale lunghezza etichettate α (sopra) e β (sotto), attraversate da dieci segmenti verticali che sporgono da entrambi i lati, con barrette di chiusura agli estremi e «…» a destra. L'ho interpretato come la sovrapposizione posizionale di due stringhe di uguale lunghezza: ogni verticale è una «colonna» dell'allineamento posizione-contro-posizione, e i puntini indicano che le stringhe proseguono. Nessun carattere è scritto nelle celle. L'annotazione «numero di 1 nella XOR(α,β)» sta a destra del disegno e l'ho mantenuta dentro la figura (oltre a riprenderla in prosa) per fedeltà al layout.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "hamming-posizioni",
+   "pagina": 41,
+   "didascalia": "Confronto posizione per posizione fra $\\a$ e $\\b$: le due stringhe hanno la stessa lunghezza e ogni segmento verticale accoppia la $i$-esima posizione di $\\a$ con la $i$-esima posizione di $\\b$.",
+   "tipo": "schema di stringhe",
+   "specifica": "Schema a due nastri paralleli, tutto in nero (nell'originale è penna blu, tratto a mano libera; in TikZ va reso con tratto pulito).\n\nGEOMETRIA.\n- Due segmenti orizzontali paralleli, di uguale lunghezza L ≈ 8 cm, distanti verticalmente d ≈ 1.0 cm. Chiamiamo y_alpha = 0 (barra superiore) e y_beta = -1.0 (barra inferiore); entrambe vanno da x = 0 a x = L.\n- A sinistra di x = 0, a circa 0.6 cm di distanza, le due etichette: «$\\alpha$» all'altezza della barra superiore, «$\\beta$» all'altezza della barra inferiore (dimensione normale, in matematica).\n- Cappi di estremità: agli estremi sinistro e destro di CIASCUNA barra c'è una piccola barretta verticale, alta circa 0.25 cm, che parte dalla barra e va verso l'ALTO per la barra superiore e verso l'ALTO anche per quella inferiore (nell'originale disegnano due «parentesi» che chiudono i nastri). In pratica si ottengono due segmenti a forma di «⌐ … ¬» stilizzata. Vanno disegnati con lo stesso spessore delle barre.\n- Dieci segmenti verticali equispaziati attraversano ENTRAMBE le barre: x_k = L·k/11 per k = 1,…,10. Ogni verticale va da y = +0.35 (cioè sporge sopra la barra superiore) fino a y = -1.35 (sporge sotto la barra inferiore); le sporgenze sopra/sotto sono leggermente irregolari nell'originale ma vanno rese uniformi. Tratto un po' più sottile delle due barre orizzontali.\n- Subito a destra dell'estremità x = L, a circa 0.4 cm, tre puntini «$\\dots$» posti all'altezza intermedia fra le due barre (y ≈ -0.5), a indicare che le due stringhe proseguono.\n\nANNOTAZIONE.\n- Ancora più a destra, alla stessa altezza dei puntini (y ≈ -0.5) e a circa 1.2 cm da essi, il testo (in italiano, come nell'originale): «numero di $1$ nella $\\mathrm{XOR}(\\alpha,\\beta)$». Nell'originale non c'è freccia che lo colleghi al disegno: è una glossa affiancata.\n\nSIGNIFICATO ALGORITMICO.\nLe due barre sono due stringhe della STESSA lunghezza; ogni verticale è una «colonna» del confronto, cioè la coppia $(\\alpha[i],\\beta[i])$. La distanza di Hamming è il numero di colonne in cui i due caratteri differiscono; su alfabeto binario questo coincide con il peso di Hamming (numero di 1) di $\\alpha\\ \\mathrm{XOR}\\ \\beta$. Nessun carattere concreto è scritto nelle celle: il disegno è volutamente schematico e non va popolato con lettere inventate. Non vanno aggiunti simboli di match/mismatch: nell'originale non ci sono.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina si chiude annunciando la distanza di Levenshtein senza definirla: restano in sospeso (i) la definizione operativa della distanza di Levenshtein e (ii) la «misura di similarità» invocata dalla freccia in basso. La pagina 42 riprende esattamente da lì: «Introduciamo la distanza (di Levenshtein) misurando il lavoro da fare per ottenere una stringa dall'altra», con l'esempio su DNA $\\sigma_1 = acgtcatca$, $\\sigma_2 = taagtgtca$, le 4 operazioni elementari $\\{m,i,d,s\\}$ con costo $0$ per il match e $1$ per le altre, la definizione di allineamento/edit-string $\\eta \\in \\{m,i,d,s\\}^*$ e la disuguaglianza $d_H(\\sigma_1,\\sigma_2) \\ge d_L(\\sigma_1,\\sigma_2)$ — che è il seguito naturale del confronto fra le due distanze appena introdotte qui. Da p. 40 arriva invece il modello di calcolo con le tabelle per XOR/AND su parole di $\\log n$ bit, richiamato qui dalla glossa sullo XOR.",
+ "confidenza": "alta"
+}

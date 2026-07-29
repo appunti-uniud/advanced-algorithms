@@ -1,0 +1,125 @@
+% p62-painter -- il painter's algorithm sull'albero di una BPP.
+%
+% La scena e' una regione irregolare del piano che contiene 7 segmenti disgiunti
+% (tratto spesso).  Due tagli della BPP (tratteggiati, grigi) la suddividono in
+% tre regioni:
+%   ell_1  taglia la scena in una parte sinistra e una parte destra;
+%   ell_2  parte da un punto interno di ell_1 (pallino grigio) e taglia la sola
+%          parte destra in una porzione alta e una bassa.
+% L'osservatore sta fuori dalla scena, in basso a sinistra: e' quindi a sinistra
+% di ell_1 e sotto ell_2.  La visita ricorsiva dell'albero disegna per prima la
+% regione dalla parte di ell opposta all'osservatore, quindi nell'ordine
+%   (1) destra-alta, (2) destra-bassa, (3) sinistra,
+% cioe' dal piu' lontano al piu' vicino.  I numeri cerchiati nelle regioni e la
+% legenda in basso riportano quest'ordine; la gradazione del riempimento va dal
+% piu' scuro (disegnato per primo) al piu' chiaro (disegnato per ultimo).
+%
+% Nota: nel manoscritto i due tagli sono curvi e partono entrambi dallo stesso
+% punto del bordo; qui sono rettilinei (i tagli di una BPP sono rette) e ell_2
+% nasce nell'interno di ell_1, cosi' da rendere visibile la gerarchia.
+\begin{tikzpicture}[
+    x=7.30cm, y=7.00cm,
+    font=\footnotesize,
+    >={Stealth[length=4.2pt,width=3.2pt]},
+    bordo/.style={draw=black,line width=0.8pt,line join=round,line cap=round},
+    taglio/.style={draw=graydark,line width=0.7pt,line cap=round,
+                   dash pattern=on 3.2pt off 2.4pt},
+    segmento/.style={draw=black,line width=1.4pt,line cap=round},
+    etg/.style={text=graydark,inner sep=1.5pt},
+    ordine/.style={circle,draw=graydark,fill=white,line width=0.5pt,
+                   inner sep=0pt,minimum size=4.2mm,font=\scriptsize},
+    occhio/.style={draw=black,line width=0.8pt},
+    raggio/.style={->,draw=black,line width=0.6pt},
+    frecciaord/.style={->,draw=graydark,line width=0.5pt},
+  ]
+
+  % ---- il bordo della scena (curva chiusa irregolare, schizzo a mano) ------
+  \def\scenapath{plot[smooth cycle,tension=0.55] coordinates {
+      (0.393,0.941) (0.457,0.927) (0.530,0.929) (0.590,0.948) (0.650,0.979)
+      (0.713,0.996) (0.778,0.998) (0.838,0.984) (0.893,0.962) (0.918,0.949)
+      (0.905,0.888) (0.893,0.815) (0.888,0.762) (0.910,0.710) (0.948,0.665)
+      (0.996,0.626) (1.002,0.559) (0.996,0.488) (0.980,0.431) (0.957,0.357)
+      (0.923,0.294) (0.877,0.247) (0.824,0.216) (0.767,0.201) (0.712,0.201)
+      (0.666,0.182) (0.622,0.149) (0.575,0.100) (0.535,0.049) (0.471,0.011)
+      (0.402,0.000) (0.347,0.008) (0.310,0.035) (0.295,0.078) (0.285,0.120)
+      (0.243,0.116) (0.228,0.152) (0.194,0.172) (0.190,0.214) (0.157,0.240)
+      (0.156,0.288) (0.124,0.318) (0.116,0.356) (0.085,0.388) (0.062,0.437)
+      (0.043,0.457) (0.052,0.487) (0.030,0.532) (0.010,0.588) (0.002,0.645)
+      (0.015,0.689) (0.032,0.723) (0.081,0.781) (0.118,0.793) (0.175,0.803)
+      (0.246,0.853) (0.310,0.898)}}
+
+  % estremi dei due tagli
+  \coordinate (T)  at (0.3930,0.9410);   % ell_1 : bordo superiore
+  \coordinate (Bs) at (0.5750,0.1000);   % ell_1 : bordo inferiore
+  \coordinate (M)  at (0.4157,0.8360);   % ell_2 : punto interno di ell_1
+  \coordinate (R)  at (0.9960,0.6260);   % ell_2 : bordo destro
+
+  % ---- riempimento delle tre regioni (ritaglio scena + semipiani) ---------
+  % (3) regione sinistra -- la piu' vicina all'osservatore, disegnata per ultima
+  \begin{scope}
+    \clip \scenapath;
+    \clip (0.2838,1.4456) -- (0.6842,-0.4046) -- (-0.60,-0.4046) -- (-0.60,1.4456) -- cycle;
+    \fill[accent!9] (-0.60,-0.50) rectangle (1.80,1.60);
+  \end{scope}
+  % (1) regione destra-alta -- la piu' lontana, disegnata per prima
+  \begin{scope}
+    \clip \scenapath;
+    \clip (0.2838,1.4456) -- (0.6842,-0.4046) -- (1.80,-0.4046) -- (1.80,1.4456) -- cycle;
+    \clip (-0.0485,1.0040) -- (1.4602,0.4580) -- (1.80,1.60) -- (-0.60,1.60) -- cycle;
+    \fill[accent!38] (-0.60,-0.50) rectangle (1.80,1.60);
+  \end{scope}
+  % (2) regione destra-bassa
+  \begin{scope}
+    \clip \scenapath;
+    \clip (0.2838,1.4456) -- (0.6842,-0.4046) -- (1.80,-0.4046) -- (1.80,1.4456) -- cycle;
+    \clip (-0.0485,1.0040) -- (1.4602,0.4580) -- (1.80,-0.60) -- (-0.60,-0.60) -- cycle;
+    \fill[accent!21] (-0.60,-0.50) rectangle (1.80,1.60);
+  \end{scope}
+
+  % ---- il bordo della scena ----------------------------------------------
+  \draw[bordo] \scenapath;
+
+  % ---- i due tagli della BPP ---------------------------------------------
+  \draw[taglio] (T) -- (Bs);
+  \draw[taglio] (M) -- (R);
+  \fill[graydark] (M) circle (1.2pt);
+  \node[etg,anchor=south east] at (0.352,0.960) {$\ell_1$};
+  \node[etg,anchor=west]       at (1.012,0.646) {$\ell_2$};
+
+  % ---- i sette segmenti della scena --------------------------------------
+  \draw[segmento] (0.232,0.574) -- (0.356,0.662);
+  \draw[segmento] (0.138,0.453) -- (0.219,0.395);
+  \draw[segmento] (0.358,0.421) -- (0.416,0.540);
+  \draw[segmento] (0.453,0.283) -- (0.501,0.212);
+  \draw[segmento] (0.645,0.853) -- (0.828,0.779);
+  \draw[segmento] (0.556,0.376) -- (0.727,0.580);
+  \draw[segmento] (0.794,0.462) -- (0.915,0.431);
+
+  % ---- ordine di disegno delle tre regioni -------------------------------
+  \node[ordine] at (0.750,0.910) {1};
+  \node[ordine] at (0.820,0.335) {2};
+  \node[ordine] at (0.140,0.660) {3};
+
+  % ---- l'osservatore ------------------------------------------------------
+  \begin{scope}[shift={(-0.250,0.050)}]
+    % occhio stilizzato: due archi che formano una lente, con la pupilla
+    \draw[occhio] (-4.6mm,0mm) .. controls (-2.4mm, 3.5mm) and ( 2.4mm, 3.5mm)
+               .. ( 4.6mm,0mm) .. controls ( 2.4mm,-3.5mm) and (-2.4mm,-3.5mm)
+               .. cycle;
+    \fill[black] (0mm,0mm) circle (1.15mm);
+    % le tre direzioni di vista, a ventaglio verso la scena
+    \draw[raggio] (55:6.4mm) -- (55:21mm);
+    \draw[raggio] (33:6.4mm) -- (33:21mm);
+    \draw[raggio] (14:6.4mm) -- (14:21mm);
+  \end{scope}
+  \node[anchor=north,yshift=-5.0mm] at (-0.250,0.050) {osservatore};
+
+  % ---- legenda ------------------------------------------------------------
+  \node[anchor=east] at (0.452,-0.092) {ordine di disegno:};
+  \node[ordine] (o1) at (0.520,-0.092) {1};
+  \node[ordine] (o2) at (0.630,-0.092) {2};
+  \node[ordine] (o3) at (0.740,-0.092) {3};
+  \draw[frecciaord] (o1) -- (o2);
+  \draw[frecciaord] (o2) -- (o3);
+
+\end{tikzpicture}

@@ -1,0 +1,93 @@
+{
+ "capitolo": "05-suffix-tree",
+ "compila": true,
+ "applicate": [
+  {
+   "pagina": 17,
+   "categoria": "errore-logico",
+   "cosa": "Ancorato al suffix trie il passo portante del conteggio (m+1)^2. Era scritto «poiché i nodi di un trie sono in biiezione con le sottostringhe distinte del testo», falso per un trie generico (i nodi di un trie sono in biiezione con i prefissi delle stringhe contenute). Ora: «poiché i nodi del suffix trie di T sono in biiezione con le sottostringhe distinte di T --- ogni nodo è individuato dalla stringa che il cammino dalla radice compita, e tali stringhe sono esattamente i prefissi dei suffissi di T, cioè le sottostringhe di T (alla radice corrisponde la stringa vuota) ---». Il conteggio (m+1)^2 = |T|^2/4 + |T| + 1 era ed è corretto."
+  },
+  {
+   "pagina": 17,
+   "categoria": "notazione",
+   "cosa": "Risolta la contraddizione fra il .tex (che usa S(T) calligrafica) e NOTE-EDITORIALI.md riga 1330 (che dichiarava di aver mantenuto sigma(T)). Ho tenuto S(T) nel capitolo --- è la notazione dell'anno precedente, è coerente con K(P) del cap. 04 e quindi con STrie(T) = K(S(T)), e sigma in questo corso richiama l'alfabeto e le stringhe generiche del cap. 09 --- e ho riscritto la nota editoriale, che ora registra correttamente la normalizzazione e la divergenza dalla fonte primaria."
+  },
+  {
+   "pagina": 18,
+   "categoria": "figura",
+   "cosa": "tikz/lemma-branching.tikz: l'etichetta del pannello sinistro diceva «addebito nodo interno -> foglia / I <= l-1», mentre la didascalia della figura attribuisce a quel pannello «da cui I <= l». L'addebito iniettivo nodo interno -> foglia del proprio sottoalbero dà in effetti solo I <= l; il -1 viene dal pannello destro (contrazione della ciliegia, (I,l) -> (I-1,l-1)). Portata l'etichetta a «I <= l». Figura ricompilata."
+  },
+  {
+   "pagina": 18,
+   "categoria": "figura",
+   "cosa": "Completata la correzione già applicata a mano nel .tex (rimozione del riferimento ad a^m b^m): il commento in testa a tikz/compattazione-abb.tikz diceva ancora «Contrazione di una catena unaria nel suffix trie di a^m b^m» ed è ora «in un frammento di suffix trie»; corretta anche la nota di NOTE-EDITORIALI.md sulla figura di p.18, che dichiarava il frammento «un ramo del trie di a^m b^m» e ora spiega perché non può esserlo (in quel trie ogni nodo a^p con p<m è branching e nessun nodo il cui cammino termina in b lo è, quindi non esistono né il nodo finale con due figli né una catena unaria fra due branching consecutivi)."
+  },
+  {
+   "pagina": 21,
+   "categoria": "notazione",
+   "cosa": "Riancorati i marcatori di scansione: inserito un secondo \\scan{21} all'inizio di «Costruzione del suffix trie» (formula Q(T^i), Algoritmo 1, paragrafo Costo: tutto materiale della metà inferiore del foglio 21) e ripristinato \\scan{22} all'inizio di «Non serve percorrere tutto il boundary path». L'idioma dello \\scan ripetuto era già usato nel file (\\scan{19} compare due volte)."
+  },
+  {
+   "pagina": 21,
+   "categoria": "errore-logico",
+   "cosa": "Corretta la motivazione della guardia «if r != top» nell'Algoritmo 1. Il commento diceva «alla prima iterazione oldr' non è ancora definito», vero solo per i=1: per i>1, all'ingresso nel while, oldr' è l'ultimo stato creato al passo precedente e il suo suffix link è già stato assegnato dalla riga f(oldr') <- g(r,t_i). Il commento è ora «oldr' appartiene ancora al passo precedente» e nell'osservazione successiva è stata aggiunta la spiegazione completa (i suffix link si assegnano all'indietro; il primo stato creato nel passo i, figlio di top, non ha in quel passo un predecessore cui attaccarsi)."
+  },
+  {
+   "pagina": 22,
+   "categoria": "errore-logico",
+   "cosa": "Riscritta la frase circolare «Questo non cambia la complessità asintotica finché si costruisce il trie, che resta quadratico per la sola ragione di essere quadratico». Ora: «l'algoritmo resta quadratico per la sola ragione che già la dimensione di STrie(T) può essere Theta(|T|^2). È però l'osservazione su cui poggia tutto il guadagno del passaggio al suffix tree.»"
+  },
+  {
+   "pagina": 23,
+   "categoria": "figura",
+   "cosa": "Corretta la didascalia di fig:reference-pair, che diceva «Due reference pair per uno stesso stato implicito»: il disegno mostra lo stesso s con due w di lunghezza diversa, cioè due stati impliciti DIVERSI dello stesso arco. Nuova didascalia: «Due esempi di reference pair (s,w) [...] Le due coppie individuano due stati impliciti diversi dello stesso arco e sono entrambe rappresentazioni lecite». Allineato anche il commento in testa a tikz/reference-pair.tikz."
+  },
+  {
+   "pagina": 23,
+   "categoria": "notazione",
+   "cosa": "Riancorata la figura della tripartizione del boundary path, che è disegnata sul foglio 23 ma stava nel blocco \\scan{24}: inserito \\scan{23} all'inizio della sottosezione «Active point ed end point» (capoverso introduttivo + figura, cioè il contenuto del foglio 23) e \\scan{24} subito prima della definizione di active/end point, che è materiale del foglio 24. La figura NON è stata spostata (vedi respinte)."
+  },
+  {
+   "pagina": 24,
+   "categoria": "errore-matematico",
+   "cosa": "Nell'osservazione oss:propagazione-ti il prefisso era sbagliato: «se s_j ha un arco uscente etichettato con t_i, allora t_j...t_{i-1}t_i è sottostringa di T^i». Gli s_j sono stati di STree(T^{i-1}), quindi la condizione equivale a «t_j...t_{i-1}t_i è sottostringa di T^{i-1}»; con T^i l'affermazione è vera ma vacua e la deduzione collassa (ogni t_j...t_i è per definizione sottostringa di T^i). Sostituito T^i con T^{i-1}, in accordo con la formulazione già corretta della sottosezione «Non serve percorrere tutto il boundary path»."
+  },
+  {
+   "pagina": 24,
+   "categoria": "errore-logico",
+   "cosa": "Il boundary path era ridefinito come la sola successione s_1,...,s_i, senza lo stato ausiliario, e con quella definizione l'end point poteva non esistere (per i=1, o ogni volta che t_i non occorre in T^{i-1}, nessuno degli s_j ha una t_i-transizione). Esteso a s_1,...,s_i,s_{i+1} con s_{i+1} = f(root) = bot, e aggiunta alla definizione la clausola di esistenza: «Entrambi esistono sempre: la radice non è una foglia, e l'end point al più coincide con bot, dove g(bot,t_i) = root è definita per ogni t_i in Sigma». Ora coerente con la didascalia di fig:boundary-path-tripartizione, che già faceva arrivare il cammino fino a bot."
+  },
+  {
+   "pagina": 24,
+   "categoria": "figura",
+   "cosa": "tikz/coppia-canonica.tikz: il nodo terminale della seconda catena era disegnato con lo stile «esplicito», identico a s'. Se fosse esplicito, la forma canonica di (s,abcdeabc) sarebbe (nodo finale, epsilon) e non (s',abc) come dice la didascalia. Portato allo stile «implicito» ed evidenziato con un pallino pieno, come già si fa per il punto individuato da (s,abcd). Ora s' resta l'unico branching point interno alla catena e figura e didascalia concordano. Figura ricompilata e riletta a video."
+  },
+  {
+   "pagina": 24,
+   "categoria": "notazione",
+   "cosa": "Uniformati i marcatori della lista che nel quaderno va 1), 2), 3): l'enumerate di fine p.24 usava le etichette automatiche («1.», «2.») mentre il terzo punto è il testo in grassetto «3) Dettagli.» dopo il titolo di sottosezione. Ora \\item[1)] e \\item[2)], così che la numerazione della lista spezzata si legga 1), 2), 3)."
+  },
+  {
+   "pagina": 25,
+   "categoria": "notazione",
+   "cosa": "Risolta la collisione di nomi nel suffix link sulle coppie di riferimento: la formula f(s,[k,p]) = (f(s),[k,p]) usava s per il nodo di PARTENZA, mentre la frase successiva e la figura usano s per il nodo di ARRIVO (dopo la ri-canonizzazione), che in generale è un altro nodo con un'altra coppia di indici. La formula usa ora r --- f(r,[k,p]) = (f(r),[k,p]), con ri-canonizzazione a partire da f(r) --- e il testo dice esplicitamente che nella figura s denota il nodo esplicito ottenuto dopo la ri-canonizzazione e [k,p] la coppia aggiornata."
+  }
+ ],
+ "respinte": [
+  {
+   "pagina": 20,
+   "cosa": "Aggiungere una figura (o un rimando esplicito) per lo schizzo di metà p.20: barra del testo con le tacche i e i+1, il carattere t_i e una graffa etichettata STree(T^i) sul prefisso già letto.",
+   "perche": "Il disegno è la ripetizione di quello di p.19, già reso in tikz/ukkonen-passo-prefissi.tikz e discusso nel testo: rifarlo sarebbe una duplicazione. Il rimando esplicito proposto dal verificatore andrebbe inserito in mezzo alla definizione del suffix trie come automa aumentato, che parla d'altro (Q, root, F, g, f) e non della lettura on-line del testo: spezzerebbe il filo del discorso per riportare un'informazione già data due pagine prima. Quanto alla sola differenza sostanziale --- nel quaderno la graffa è etichettata STree, non STrie ---, il capitolo la copre per intero nelle sottosezioni successive, dove lo stesso schema di aggiornamento viene trasportato dallo STrie allo STree; non c'è contenuto perso."
+  },
+  {
+   "pagina": 22,
+   "cosa": "Spostare il blocco «Costruzione del suffix trie» + Algoritmo 1 + paragrafo «Costo» (circa 60 righe) prima di \\scan{22}, riportandolo fisicamente nella regione del foglio 21 a cui appartiene.",
+   "perche": "Il problema segnalato (contenuto del foglio 21 attribuito al foglio 22) è reale, ma la cura proposta è peggiore del male. Il capitolo definisce gli stati del boundary path s_j = f^{j-1}(t_1...t_{i-1}) --- materiale del foglio 22 --- subito prima della costruzione che li usa; anticipando l'Algoritmo 1 si userebbero top, s_j e il boundary path di STrie(T^{i-1}) prima di averli introdotti, e si perderebbe il raccordo con l'invariante top = t_1...t_i discusso nell'osservazione. La tracciabilità, che è il vero oggetto della segnalazione, è stata ripristinata a costo zero con i marcatori \\scan{21}/\\scan{22} ripetuti (soluzione proposta dal referto di p.21), lasciando intatto un ordine espositivo che è una riorganizzazione voluta e migliore di quella del quaderno."
+  },
+  {
+   "pagina": 23,
+   "cosa": "Spostare la figura della tripartizione del boundary path nel blocco \\scan{23}, subito dopo «...dovrò reintrodurre stati».",
+   "perche": "In quel punto si stanno introducendo gli stati espliciti e impliciti e le coppie di riferimento; la figura parla invece di active point, end point e delle tre zone del cammino, termini che vengono definiti due sottosezioni dopo. Anticiparla costringerebbe il lettore a una didascalia piena di nomi non ancora spiegati, mentre nella posizione attuale la figura precede di poche righe la definizione che la rende leggibile. Ho quindi conservato la collocazione tematica e risolto il solo problema effettivo --- il rimando alla scansione sbagliata --- con \\scan{23} sul capoverso e sulla figura e \\scan{24} sulla definizione che segue."
+  }
+ ]
+}

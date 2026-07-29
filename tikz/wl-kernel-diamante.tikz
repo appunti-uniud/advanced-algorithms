@@ -1,0 +1,25 @@
+% wl-kernel-diamante -- pag. 81
+% Il grafo a matita sotto il titolo «WL-kernel»: ciclo di lunghezza 4 con una
+% corda, cioe' K_4 privato di un lato (il «diamante»).  I quattro lati del
+% quadrato piu' la sola diagonale alto-destra / basso-sinistra: i due vertici
+% che essa collega hanno grado 3, gli altri due grado 2.
+% Il quadrato e' leggermente irregolare, come nel manoscritto; la corda e'
+% tracciata un filo piu' sottile perche' nella scansione ha tratto piu' leggero.
+\begin{tikzpicture}[
+    font=\footnotesize,
+    nodo/.style={circle,fill=black,inner sep=0pt,minimum size=3.2pt},
+    arco/.style={line width=0.65pt},
+    corda/.style={line width=0.5pt}]
+
+  \node[nodo] (a) at (0.00, 1.85) {};   % alto a sinistra   (grado 2)
+  \node[nodo] (b) at (1.90, 1.95) {};   % alto a destra     (grado 3)
+  \node[nodo] (c) at (0.10, 0.00) {};   % basso a sinistra  (grado 3)
+  \node[nodo] (d) at (1.85,-0.05) {};   % basso a destra    (grado 2)
+
+  \draw[arco]  (a) -- (b);
+  \draw[arco]  (a) -- (c);
+  \draw[arco]  (b) -- (d);
+  \draw[arco]  (c) -- (d);
+  \draw[corda] (b) -- (c);
+
+\end{tikzpicture}

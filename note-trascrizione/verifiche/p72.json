@@ -1,0 +1,34 @@
+{
+ "pagina": 72,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "media",
+   "categoria": "errore-logico",
+   "dove": "lezioni/14-random-walk-2sat.tex, righe 565-582 (\"Resta da giustificare il valore E[X]=O(n^2)...\" + Teorema thm:cover + C_{L_n} <= 2n^2), con ricaduta sull'algoritmo (riga 601, ciclo interno 2n^2) e sull'osservazione finale (riga 617)",
+   "descrizione": "La catena argomentativa ha un buco di un fattore 2. Il bound sul cover time da C_{L_n} <= 2n^2, cioe E[X] <= 2n^2; ma l'esempio (righe 537-553) usa E[X] = n^2 per concludere Pr[errore] <= 1/2 con a = 2n^2 passi. Se si prende davvero E[X] dal cover time, Markov con a = 2n^2 da la stima banale 2n^2/2n^2 = 1, e quindi non segue ne il 1/2 per singolo run ne il 1/2^k finale. Il quaderno accosta i due valori senza collegarli (come fa anche La fonte dell'anno precedente), ma la trascrizione rende esplicito il collegamento (\"Esso discende dal bound generale sul cover time\") e cosi rende visibile l'incoerenza.",
+   "correzione": "Aggiungere subito dopo C_{L_n} <= 2n^2 un'osservazione del tipo: \"Il bound sul cover time garantisce l'ordine di grandezza E[X] = O(n^2), ma con la costante 2: preso a = 2n^2, Markov darebbe solo la stima banale 1. Per il 2-SAT non serve pero coprire tutta la linea, basta raggiungere lo stato n, e il tempo atteso di raggiungimento sulla linea e <= n^2 --- e questo il valore E[X] = n^2 usato nell'esempio, da cui Pr[errore] <= 1/2 dopo 2n^2 passi. In alternativa, restando col solo bound sul cover time, si eseguono 4n^2 passi per round e si ottiene 2n^2/4n^2 = 1/2.\" Se si sceglie la seconda strada, allineare anche il ciclo interno dello pseudocodice (riga 601)."
+  },
+  {
+   "gravita": "media",
+   "categoria": "trascrizione-errata",
+   "dove": "lezioni/14-random-walk-2sat.tex, righe 578-582: \"per il grafo lineare $L_n$ --- il cammino sugli stati $0,1,\\dots,n$, che ha $n+1$ nodi ed $m = n$ archi --- ... $C_{L_n} \\le 2n((n+1)-1) = 2n^2$\"",
+   "descrizione": "La definizione di $L_n$ usata qui (n+1 nodi, n archi) contraddice il quaderno e la figura del capitolo. A p.69 il manoscritto scrive esplicitamente \"$L_n$ -> grafo lineare con n nodi\" e disegna $L_4$ con 4 nodi e 3 archi (riprodotto fedelmente in tikz/grafo-lineare-L4.tikz, che ha 4 nodi e 3 archi). Con la convenzione della pagina 72, $L_4$ dovrebbe avere 5 nodi: la figura del capitolo mostrerebbe $L_3$. Anche il Cap. 16 (esempio del cammino, riga 443) usa la convenzione standard m = n-1 per il cammino su n vertici.",
+   "correzione": "Uniformare alla convenzione del quaderno: \"$L_n$ e il cammino su $n$ nodi, quindi $m = n-1$ e il teorema da $C_{L_n} \\le 2(n-1)(n-1) = 2(n-1)^2 < 2n^2$. Il random walk di 2-SAT vive sugli $n+1$ stati $0,1,\\dots,n$, cioe su $L_{n+1}$, per il quale il teorema da esattamente $C_{L_{n+1}} \\le 2n\\cdot n = 2n^2$: e il bound scritto sul quaderno.\" In alternativa (se si vuole tenere la convenzione 0..n) va corretta la figura grafo-lineare-L4.tikz portandola a 5 nodi etichettati 0..4 e va riscritta la riga 340."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "omissione",
+   "dove": "lezioni/14-random-walk-2sat.tex, riga 569 (\\begin{teorema}[Cover time di un random walk su grafi]\\label{thm:cover})",
+   "descrizione": "Nel quaderno l'enunciato $C_G \\le 2m(n-1)$ e preceduto dalla parola sottolineata \"Dimostr...\" (Dimostrazione/Dimostriamo), cioe dall'annuncio che quel bound sara dimostrato --- cosa che avviene nel Cap. 16 (Teorema thm:cover-time, riga 423, con dimostrazione via spanning tree e commute time). La trascrizione perde l'annuncio e lascia due enunciati identici in due capitoli senza rimando incrociato, per giunta con notazione diversa: qui $C_G$, la nel Cap. 16 $C(G)$.",
+   "correzione": "Dopo il teorema aggiungere una riga tipo \"La dimostrazione, che richiede il linguaggio delle catene di Markov, e rimandata al Capitolo~\\ref{cap:random-walk-grafi} (Teorema~\\ref{thm:cover-time})\", e uniformare la notazione del cover time fra i due capitoli ($C_G$ oppure $C(G)$, ma la stessa)."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "trascrizione-errata",
+   "dove": "lezioni/14-random-walk-2sat.tex, riga 617 (osservazione finale sull'errore unilaterale)",
+   "descrizione": "La frase \"e per l'osservazione sulla probabilita almeno $\\tfrac12$ e per il Teorema~\\ref{thm:cover} lo e con probabilita al piu $1/2^{k}$\" e sgrammaticata/monca: l'inciso \"l'osservazione sulla probabilita almeno 1/2\" resta sospeso e non si capisce di quale probabilita si parli.",
+   "correzione": "Riscrivere per esteso, ad esempio: \"...l'unica risposta che puo essere sbagliata e «insoddisfacibile». Per l'osservazione che ogni flip avvicina all'assegnamento soddisfacente $f^{*}$ con probabilita almeno $\\tfrac12$, e per il bound sul cover time del Teorema~\\ref{thm:cover} combinato con Markov, ogni round fallisce con probabilita al piu $\\tfrac12$; essendo i $k$ round indipendenti, la risposta «insoddisfacibile» e sbagliata con probabilita al piu $1/2^{k}$.\""
+  }
+ ]
+}

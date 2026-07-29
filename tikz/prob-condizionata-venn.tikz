@@ -1,0 +1,33 @@
+% prob-condizionata-venn -- due diagrammi di Venn affiancati (quaderno, pag. 55).
+% A sinistra i due eventi sono disegnati disgiunti (rappresentazione informale
+% dell'indipendenza, discussa nell'osservazione che segue la figura);
+% a destra il caso generale, con l'intersezione non vuota evidenziata.
+\begin{tikzpicture}[
+    font=\footnotesize,
+    cerchio/.style={draw,line width=0.7pt},
+    didascalia/.style={font=\footnotesize,text=gray}]
+
+  % ---- pannello sinistro: eventi che "non si influenzano" -------------------
+  \begin{scope}[shift={(0,0)}]
+    \draw[cerchio] (0,0)   circle[radius=0.55];
+    \draw[cerchio] (1.6,0) circle[radius=0.55];
+    \node[anchor=south east] at (-0.28,0.36) {$\mathcal{E}_1$};
+    \node[anchor=south west] at ( 1.88,0.36) {$\mathcal{E}_2$};
+    \node[didascalia] at (0.8,-1.15) {eventi indipendenti};
+  \end{scope}
+
+  % ---- pannello destro: caso generale --------------------------------------
+  \begin{scope}[shift={(4.7,0)}]
+    % lente d'intersezione, evidenziata
+    \begin{scope}
+      \clip (0,0) circle[radius=0.60];
+      \fill[black!18] (0.78,0) circle[radius=0.60];
+    \end{scope}
+    \draw[cerchio] (0,0)    circle[radius=0.60];
+    \draw[cerchio] (0.78,0) circle[radius=0.60];
+    \node[anchor=east] at (-0.70,0.06) {$\mathcal{E}_1$};
+    \node[anchor=west] at ( 1.48,0.06) {$\mathcal{E}_2$};
+    \node[didascalia] at (0.39,-1.15) {caso generale};
+  \end{scope}
+
+\end{tikzpicture}

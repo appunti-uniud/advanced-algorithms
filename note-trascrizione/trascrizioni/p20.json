@@ -1,0 +1,90 @@
+{
+ "pagina": 20,
+ "latex": "\\scan{20}\n\n\\begin{definizione}[Suffix trie come automa aumentato]\\label{def:strie-automa}\nDato il testo $T$, il \\emph{suffix trie} di $T$ è la quintupla\n\\[\n  \\STrie(T)\\;=\\;\\bigl(\\,Q\\cup\\{\\bot\\},\\;\\mathit{root},\\;F,\\;g,\\;f\\,\\bigr),\n\\]\ndove\n\\begin{itemize}\n  \\item $Q$ è l'insieme degli stati, in corrispondenza biunivoca ($1{:}1$) con le\n        sottostringhe di $T$ (alla stringa vuota corrisponde $\\mathit{root}$);\n        $\\bot$ è uno stato «dummy» ausiliario;\n  \\item $\\mathit{root}$ è lo stato iniziale;\n  \\item $F$ è l'insieme degli stati finali;\n  \\item $g$ è la funzione di transizione;\n  \\item $f$ è la funzione dei \\emph{suffix link}.\n\\end{itemize}\nLe prime quattro componenti, $\\bigl(Q\\cup\\{\\bot\\},\\mathit{root},F,g\\bigr)$, sono\nesattamente quelle di un automa a stati finiti deterministico (DFA): è l'ultima\ncomponente $f$ a rendere la struttura un \\emph{automa aumentato}\n(\\emph{augmented automaton}).\n\\end{definizione}\n\n\\paragraph{Algoritmo di Ukkonen: costruzione dei suffix tree.}\nI suffix tree che vogliamo costruire sono automi deterministici a stati finiti\n\\emph{aumentati} che accettano tutti e soli i suffissi di un testo. La\ncostruzione procede in modo \\emph{online}, scorrendo il testo da sinistra a\ndestra: letto il prefisso $T^{\\,i}=t_1\\cdots t_i$ si dispone di\n$\\STree(T^{\\,i})$, e il passo generico consuma il carattere successivo per\npassare a $\\STree(T^{\\,i+1})$.\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/ukkonen-prefisso-online.tikz}\n\\caption{Costruzione online: dopo aver letto il prefisso $T^{\\,i}$ si dispone di\n$\\STree(T^{\\,i})$; il passo generico avanza di un carattere lungo il testo.}\n\\label{fig:ukkonen-prefisso-online}\n\\end{figure}\n\nEsplicitiamo le componenti di\n\\[\n  \\STrie(T)\\;=\\;\\bigl\\langle\\, Q\\cup\\{\\bot\\},\\;\\mathit{root},\\;F,\\;g,\\;f \\,\\bigr\\rangle .\n\\]\nSe $x$ è una stringa, denotiamo con $\\bar{x}$ lo stato associato ad $x$. Allora\n\\begin{align*}\n  Q            &= \\set{\\bar{x} \\;:\\; x \\text{ sottostringa di } T},\\\\\n  \\mathit{root}&= \\bar{\\vuota} \\quad\\text{(stato iniziale)},\\\\\n  F            &= \\set{\\bar{x} \\;:\\; x \\text{ è un suffisso di } T},\\\\\n  g(\\bar{x},a) &= \\overline{xa}, \\qquad g(\\bot,a)=\\mathit{root}\n                  \\quad \\text{per ogni } a\\in\\S .\n\\end{align*}\n\n\\begin{osservazione}\nAccanto alla riga di $F$ gli appunti annotano, con una freccia, la parola\n«necessario»: è $F$ a fare di $\\STrie(T)$ un automa che riconosce\n\\emph{esattamente} i suffissi di $T$, e non semplicemente le sue sottostringhe.\n\\end{osservazione}",
+ "note": [
+  {
+   "tipo": "altro",
+   "pagina": 20,
+   "testo": "Struttura della pagina. Il quaderno ripete il titolo grande «Algoritmo di Ukkonen», che compare gia a p.19 («Algoritmo di Ukkonen (1995)»), e definisce STrie(T) DUE volte: in alto come «Def.: STrie(T) = (Q u {perp}, root, F, g, (f))» con l'elenco discorsivo delle componenti, e in basso come «STrie(T) = <Q u {perp}, root, F, g, f>» con l'elenco formale (Q = insieme delle x-bar, ecc.). Interpretazione: il blocco «Def.» chiude il discorso della lezione precedente e il titolo ripetuto apre una nuova lezione che ricapitola. Ho mantenuto entrambi i blocchi (sono la fonte primaria) presentando il secondo come esplicitazione delle componenti del primo, e ho usato \\paragraph invece di \\subsection per non collidere in fase di cucitura con il titolo gia presente a p.19: se l'assemblatore preferisce, il \\paragraph puo essere eliminato.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 20,
+   "testo": "Ultima riga: il quaderno scrive «g(x-bar,a) = xa-bar    g(perp,a) = root    ∀ a ∈ T» (l'ultimo simbolo e inequivocabilmente una T, verificato a 600 dpi). Ho scritto «per ogni a ∈ Sigma». Motivo: in Ukkonen (1995, §3) lo stato ausiliario perp e collegato a root da una transizione per OGNI simbolo dell'alfabeto, g(perp,a) = root per ogni a ∈ Sigma; questo e cio che garantisce la terminazione del ciclo sul boundary path (Algoritmo 1, p.21). Scrivere «a ∈ T» e un abuso di notazione per «a carattere che occorre in T»: operativamente equivalente (si leggono solo caratteri di T), ma formalmente scorretto perche T e una stringa, non un insieme.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 20,
+   "testo": "Gli appunti scrivono solo «- root stato iniziale» (in entrambi i blocchi). Nell'elenco formale ho scritto «root = eps-bar (stato iniziale)» per rendere coerente la lista, che nelle altre voci e espressa nella notazione x-bar. E la definizione standard: root e lo stato associato alla stringa vuota, unico elemento di Q che non ha un predecessore proprio.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 20,
+   "testo": "Blocco «Def.» in alto: il quaderno scrive «Q insieme degli stati in corrispondenza 1:1 con le sottostringhe di T». Ho aggiunto la parentesi «(alla stringa vuota corrisponde root)». Motivo: la biiezione e con le sottostringhe DISTINTE di T inclusa la stringa vuota (cfr. appunti del corso dell'anno precedente, Lemma 2.3 della L05: #nodi = #sottostringhe distinte + 1, dove il +1 e proprio eps/root); senza la precisazione la corrispondenza 1:1 con l'elenco formale in fondo alla pagina (root = eps-bar) resterebbe implicita.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 20,
+   "testo": "Riga 1: nella quintupla la «f» finale e racchiusa in un cerchietto — «(Q u {perp}, root, F, g, (f))» — e sotto l'intera quintupla corre una sottolineatura ondulata con la glossa «Augmented Automaton (DFA)». Interpretazione (resa esplicita nel LaTeX): il cerchio isola f come la componente «aggiunta»; le prime quattro componenti sono quelle di un DFA ordinario, la quinta e l'aumento. Ho reso il cerchietto non con una decorazione ma con la frase finale della definizione.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 20,
+   "testo": "Riga «Costruzione dei Suffix tree»: sotto una graffa che abbraccia «Suffix tree» c'e la glossa, con «automi» cerchiato e la parola «aumentati» inserita sopra con un segno di richiamo: «aumentati / (automi) det. a stati finiti che accettano tutti e soli i suffissi di un testo». Letto e riordinato come «automi deterministici a stati finiti aumentati che accettano tutti e soli i suffissi di un testo», coerente con «Augmented Automaton (DFA)» in cima alla pagina e con «Aumentati/Aumentato» annotato a p.19.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 20,
+   "testo": "Riga «- x stringa, x-bar stato associato ad x»: sull'ultima «x» passa un tratto obliquo. Verificato a 600 dpi: e uno svolazzo/cancellatura di una falsa partenza, non un simbolo (non c'e nulla di riscritto sopra). Trascritto come «x-bar lo stato associato ad x». Analogamente, nella riga successiva «sottostringa» ha le prime lettere ripassate/corrette: la parola e comunque «sottostringa».",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 20,
+   "testo": "Annotazione a margine sulla riga di F: una freccia parte subito dopo «suffisso di T» e sale a destra verso una parola letta come «necessario» (grafemi n-e-c-e-s-s-a-r-i-o, ingrandimento 3,5x a 600 dpi; il puntino sopra l'ultima parte e quello della i). La LETTURA e sicura, il REFERENTE no: potrebbe riferirsi a F (perche l'automa riconosca esattamente i suffissi) oppure alla necessita di una sentinella su T. Ho scelto la prima interpretazione, che e quella coerente con la definizione appena data, e l'ho messa in una \\osservazione dichiarando che si tratta di un'annotazione del quaderno. Nessun marcatore lasciato nel testo.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 20,
+   "testo": "Nel disegno la graffa e etichettata «STree(T^i)» (due 'e', verificato a 600 dpi) mentre tutto il testo intorno parla di STrie e la definisce. Non e un errore: il titolo della sezione e «Costruzione dei Suffix tree» e la figura richiama l'obiettivo finale (l'albero compattato), mentre la definizione formale che segue e quella del trie, da cui Ukkonen parte. Mantenuto STree come nel manoscritto.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 20,
+   "testo": "Etichette del disegno (lette a 600 dpi con ingrandimento 6x): due tacche verticali sulla barra del testo, con «i» sotto la prima e «i+1» sotto la seconda; sopra, fra le due tacche, «t_i»; sotto il segmento iniziale, una graffa etichettata «STree(T^i)» che termina esattamente sulla prima tacca; in alto a sinistra una freccetta verso destra. C'e una lieve incoerenza di indice tipica degli schizzi (se le tacche marcano i confini i e i+1, la cella fra di esse contiene t_{i+1}, non t_i); l'ho riprodotta fedelmente nella specifica della figura perche il senso — «ho gia STree del prefisso T^i e avanzo di un carattere» — non e ambiguo, ed e lo stesso schema della figura di p.19 (STrie(T^{i-1}) --t_i--> STrie(T^i)).",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 20,
+   "testo": "La parola «online» e l'espressione «scorrendo il testo da sinistra a destra» non sono scritte in questa pagina: sono la lettura della freccetta verso destra sopra la barra del testo nel disegno. Sono comunque ancorate al quaderno, perche a p.19 il titolo dell'articolo di Ukkonen e citato per esteso: «On-line construction of suffix trees».",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 20,
+   "testo": "Confronto con Gli appunti del corso dell'anno precedente (L05_sintesi.md): la L05 si ferma alla definizione di suffix tree come K(S(T)) compattato + T e annuncia soltanto «Strategia per la costruzione di un Suffix Tree». La caratterizzazione automatistica di questa pagina (quintupla, stato ausiliario perp, suffix link f) non compare neGli appunti del corso dell'anno precedente: viene direttamente da Ukkonen 1995 e i dettagli combaciano con la fonte originale (Q in biiezione con le sottostringhe, F = suffissi, g(x-bar,a) = xa-bar, g(perp,a) = root). Nessuna divergenza da segnalare, solo un'integrazione.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "ukkonen-prefisso-online",
+   "pagina": 20,
+   "didascalia": "Costruzione online: dopo aver letto il prefisso $T^{\\,i}$ si dispone di $\\STree(T^{\\,i})$; il passo generico avanza di un carattere lungo il testo.",
+   "tipo": "schema di stringhe",
+   "specifica": "Schema lineare molto semplice, largo circa 10 cm e alto circa 2 cm, che rappresenta il testo T come una barra orizzontale.\n\nELEMENTI (coordinate suggerite in cm, origine in basso a sinistra):\n\n1. BARRA DEL TESTO. Un segmento orizzontale spesso (line width ~1.2pt) da (0,0) a (10,0). Nessuna testa di freccia alle estremita, nessuna etichetta 'T' sulla barra (nel manoscritto non c'e: il rigo termina semplicemente sfumando a destra). La barra prosegue ben oltre la zona etichettata, a indicare che il testo continua.\n\n2. FRECCIA DI PROGRESSIONE. Sopra la barra, in alto a sinistra, una freccetta orizzontale corta che punta a destra: da (0.6,0.55) a (2.0,0.55), con testa di freccia a destra (stile ->). Nessuna etichetta. Significato: la costruzione e online e procede da sinistra a destra sul testo.\n\n3. TACCHE. Due trattini verticali che attraversano la barra:\n   - tacca A in x = 4.3, da (4.3,-0.30) a (4.3,0.30);\n   - tacca B in x = 5.2, da (5.2,-0.30) a (5.2,0.30).\n   Spessore leggermente inferiore a quello della barra.\n\n4. ETICHETTE DELLE POSIZIONI (sotto la barra, dimensione \\small o \\footnotesize, in math mode):\n   - $i$ centrato sotto la tacca A, a circa (4.3,-0.55);\n   - $i+1$ centrato sotto la tacca B, a circa (5.25,-0.55).\n\n5. ETICHETTA DEL CARATTERE (sopra la barra): $t_i$ centrato fra le due tacche, a circa (4.75,0.5).\n\n6. GRAFFA DEL PREFISSO. Sotto la barra, una graffa orizzontale rivolta verso il basso (decorations.pathreplacing, brace, amplitude ~5pt, raise ~6pt) che va da x=0.15 a x=4.3, cioe dall'estremita sinistra della barra fino alla tacca A. Va disegnata a quota y ~ -0.35 in modo da NON collidere con l'etichetta $i$: nel manoscritto la graffa passa sotto la barra e il suo braccio destro risale proprio fino alla tacca A. Etichetta della graffa, centrata sotto di essa a circa (2.2,-1.05): $\\STree(T^{\\,i})$ (usare la macro \\STree del preambolo; T con apice i).\n\nCOLORI/STILE: monocromatico (nero o il grigio-blu di default del documento); nel manoscritto tutto e a penna blu, con barra e graffa in tratto piu chiaro e tacche/etichette in tratto piu marcato — se si vuole, si puo dare alla barra e alla graffa un grigio 60% e lasciare nere tacche ed etichette.\n\nSIGNIFICATO ALGORITMICO: la graffa isola il prefisso gia elaborato $T^{\\,i}=t_1\\cdots t_i$, per il quale si possiede gia il suffix tree $\\STree(T^{\\,i})$; la tacca successiva ($i+1$) e il carattere che il passo generico dell'algoritmo di Ukkonen sta per leggere per aggiornare la struttura. E la versione compatta della figura di p.19, dove lo stesso passo era scritto come $\\STrie(T^{\\,i-1}) \\xrightarrow{\\;t_i\\;} \\STrie(T^{\\,i})$.\n\nNOTA DI FEDELTA: nel quaderno l'etichetta $t_i$ sta fra le tacche marcate $i$ e $i+1$; e una piccola imprecisione di indice dello schizzo (rigorosamente quella cella conterrebbe $t_{i+1}$). Riprodurla come sopra, cioe come nel manoscritto: il senso e chiaro e la didascalia lo disambigua.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina 20 si interrompe a meta dell'elenco delle componenti di STrie(T): sono state definite x-bar, Q, root, F e g, ma NON f. La pagina 21 riprende esattamente da li, con «- f e definito nel modo seguente: sia x = ay, allora f(x-bar) = y-bar», accompagnata dal disegno del \"monte\" con i suffissi t_1...t_n = x, t_2...t_n, t_3...t_n e i suffix link che li collegano, e dal riquadro «la funzione f mi consente di costruire un cammino che visita tutti i suffissi di T» → boundary path. Seguono l'intuizione del passo STrie(T^{i-1}) → STrie(T^i) (visita del boundary path aggiungendo una transizione quando necessario, con S(T^i) = S(T^{i-1}) u {t_i-bar... }), il conteggio |T| ripetizioni ⟹ algoritmo quadratico O(|T|^2) e infine lo pseudocodice «Algoritmo 1». Chi trascrive la p.21 deve quindi continuare l'elenco puntato senza reintrodurre la quintupla, gia data qui, e puo riusare l'etichetta \\\\ref{def:strie-automa}. Resta inoltre aperto, dalla p.19, il confronto fra la strategia (a) sui suffix-trie e la strategia (b) sui suffix-tree: la p.20 sviluppa il lato (a).",
+ "confidenza": "alta"
+}

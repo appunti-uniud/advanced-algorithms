@@ -1,0 +1,116 @@
+{
+ "pagina": 19,
+ "latex": "\\scan{19}\n\n\\begin{domanda}\nCome costruisco il suffix tree?\n\\end{domanda}\n\n\\begin{osservazione}\nSoluzioni al problema esistono già dagli anni Settanta --- Weiner (1973) e\nMcCreight (1976) --- ma quella di Ukkonen è molto più chiara ed è quella che\ntutti citano.\n\\end{osservazione}\n\n\\subsection*{Algoritmo di Ukkonen (1995)}\n\n\\begin{center}\n  \\emph{«On-line construction of suffix trees»}\n\\end{center}\n\nL'algoritmo è \\emph{on-line} sul testo $T = t_1 t_2 \\cdots t_n$: ne legge un\ncarattere alla volta e mantiene in ogni istante la struttura relativa al\nprefisso già letto. Il passo generico trasforma la struttura del prefisso\n$\\pre{T}{j-1}$ in quella del prefisso $\\pre{T}{j}$ leggendo il carattere $t_j$:\n\\[\n  \\STrie(\\pre{T}{j-1}) \\;\\xrightarrow{\\ t_j\\ }\\; \\STrie(\\pre{T}{j}).\n\\]\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/ukkonen-passo-prefissi.tikz}\n\\caption{Un passo dell'algoritmo di Ukkonen. Il prefisso $\\pre{T}{j-1}$ è già\nstato processato; leggendo il carattere $t_j$ si passa a $\\STrie(\\pre{T}{j})$.\nLa riga superiore evidenzia un generico suffisso $\\suf{T}{i}$, che nel passo\ncorrente contribuisce con la sua parte $t_i \\cdots t_{j-1}$.}\n\\end{figure}\n\nLa strategia viene esposta in due tempi:\n\\begin{itemize}\n  \\item[(a)] si illustra la strategia nel caso dei \\emph{suffix trie};\n  \\item[(b)] si modifica la strategia e la si adatta ai \\emph{suffix tree}.\n\\end{itemize}\n\n\\begin{osservazione}\nA margine dei due punti gli appunti annotano «augmented / aumentato»: in\nentrambi i casi la struttura su cui si lavora è la versione \\emph{aumentata}\ndella struttura dati --- l'automa a stati finiti con lo stato ausiliario $\\bot$\ne la funzione dei suffix link --- che verrà definita subito dopo.\n\\end{osservazione}\n\n\\paragraph{«Cosa me ne faccio del suffix tree?»}\nUna volta costruito l'albero dei suffissi del testo, la ricerca di un pattern\n$P$ si riduce a compitare $P$ lungo l'unico cammino che parte dalla radice: se\nil cammino esiste e termina nel nodo (eventualmente implicito) $v$, le foglie\ndel sottoalbero radicato in $v$ sono esattamente le occorrenze di $P$ in $T$.\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/suffix-tree-ricerca-montagna.tikz}\n\\caption{Uso del suffix tree per la ricerca esatta: il cammino che compita $P$\ndalla radice termina nel nodo $v$; le foglie del sottoalbero appeso a $v$ sono\nle occorrenze di $P$ in $T$.}\n\\end{figure}\n\n\\begin{osservazione}\nA lato del disegno gli appunti richiamano Boyer--Moore («e anche\nBoyer--Moore»), senza ulteriori dettagli.\n\\end{osservazione}\n\n\\paragraph{Notazione.}\nPer $T = t_1 t_2 \\cdots t_n$ poniamo\n\\begin{align*}\n  \\pre{T}{i} &= t_1 t_2 \\cdots t_i, & &\\text{$i$-esimo prefisso,}\\\\\n  \\suf{T}{i} &= t_i t_{i+1} \\cdots t_n, & &\\text{$i$-esimo suffisso,}\n\\end{align*}\ne indichiamo con $\\mathcal{S}(T)$ l'insieme dei suffissi di $T$.\n\nCostruiremo dunque $\\STrie(\\pre{T}{j})$ per $j = 1, \\dots, n$ --- \\emph{in\nquest'ordine!} --- a partire da $\\STrie(\\pre{T}{j-1})$, appendendo $t_j$ sotto\nogni suffisso di $\\pre{T}{j-1}$; il caso base è $\\STrie(\\pre{T}{0})$, il trie\ndella stringa vuota, cioè il solo nodo radice.",
+ "note": [
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 19,
+   "testo": "Annotazione nel margine destro in alto: il quaderno scrive «ci sono soluzioni del '73  '76» con una freccia verso il titolo e «ma questo è molto più chiaro, tutti citano questo». Decifrata con sicurezza. Ho reso il tutto in un'osservazione e ho esplicitato che le due date sono Weiner (1973) e McCreight (1976): i nomi NON compaiono negli appunti, li ho aggiunti perché sono l'unico riferimento possibile per quelle due date nella letteratura sui suffix tree (Weiner, 'Linear pattern matching algorithms', 1973; McCreight, 'A space-economical suffix tree construction algorithm', 1976).",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 19,
+   "testo": "Sottotitolo del paragrafo: il quaderno scrive «Online construction of suffix trees» (una parola sola, senza trattino, e con le sole virgolette aperte). Ho scritto «On-line construction of suffix trees», che è il titolo esatto dell'articolo di E. Ukkonen, Algorithmica 14(3):249-260, 1995, e ho chiuso le virgolette.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 19,
+   "testo": "Le due parole in corsivo nel margine sinistro, accanto alla graffa che raggruppa i punti (a) e (b), sono di lettura difficile. Le ho decifrate come «Augmented» (riga a) e «Aumentato» (riga b): nella prima si riconoscono la 'g' con discendente e la terminazione '-ted'; la seconda finisce chiaramente in '-to'. La lettura è confermata dalla pagina 20, dove lo studente scrive in stampatello «Augmented Automaton (DFA)» e glossa a matita «aumentati» sopra la parola «automi». Si tratta quindi di una glossa terminologica (termine inglese + traduzione italiana) riferita a entrambi i punti del piano. L'ho resa come osservazione, senza attribuirle un contenuto tecnico che negli appunti non c'è, se non il rimando alla definizione della pagina successiva.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 19,
+   "testo": "L'annotazione a destra del disegno della «montagna» legge «e anche Boyer-Moore» (nella prima parola è ben visibile la 'y' con discendente, nella seconda il gruppo 'oo'). Il quaderno non spiega in che senso: potrebbe alludere al fatto che con il suffix tree si può fare anche il preprocessing di Boyer-Moore, oppure semplicemente ricordare che il matching esatto era già risolto da Boyer-Moore. Ho trascritto la nota senza interpretarla, per non attribuire agli appunti un contenuto che non hanno.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 19,
+   "testo": "Prima figura (schema a barre in alto). Interpretazione: la linea inferiore è tutto il testo T (etichetta 'T' a destra), la linea superiore parte dalla tacca marcata 'i' e prosegue fino alla fine del testo, quindi rappresenta il suffisso T_i (l'etichetta manoscritta sopra la tacca, 'T' con indice, è ambigua fra pedice e apice: ho scelto il pedice perché una linea che parte da i e arriva alla fine è per definizione un suffisso, mentre il prefisso T^i partirebbe dall'estremo sinistro). Le due tacche verticali più a destra delimitano il singolo carattere t_j; la graffa sotto la linea inferiore va dall'inizio del testo fino alla prima delle due tacche, cioè copre il prefisso T^{j-1}. Sotto: STrie(T^{j-1}) --t_j--> STrie(T^j).",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 19,
+   "testo": "Seconda figura (la «montagna»). È lo stesso disegno che compare neGli appunti del corso dell'anno precedente (L05, p.3): il grande triangolo a lati frastagliati è l'intero suffix tree di T, il cammino ondulato che scende dal vertice è il cammino che compita P (etichetta 'P' scritta grande accanto), il pallino pieno a metà altezza è il nodo raggiunto (locus di P) e il triangolino appeso sotto di esso, con i due pallini sulla base ondulata, è il sottoalbero delle occorrenze. Nel manoscritto il nodo NON è etichettato: nella specifica TikZ ho chiesto di aggiungere l'etichetta v, e analogamente T(v) per il sottoalbero, per rendere la figura leggibile e coerente con il testo. A sinistra restano i due segmenti orizzontali etichettati P (corto) e T (lungo), che sono lo schema pattern/testo.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 19,
+   "testo": "Il quaderno scrive solo «appendendo t_j sotto ogni suffisso»: ho completato in «sotto ogni suffisso di T^{j-1}», che è l'unica lettura corretta (i suffissi in questione sono quelli del prefisso già processato, cioè gli stati del 'boundary path' dell'automa, radice/stringa vuota inclusa).",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 19,
+   "testo": "Il caso base della ricorrenza non è scritto negli appunti. L'ho aggiunto («il caso base è STrie(T^0), il trie della stringa vuota, cioè il solo nodo radice») perché senza di esso la ricorrenza su j non è ben posta.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 19,
+   "testo": "Il disegno della «montagna» negli appunti non è accompagnato da alcun testo, solo dalla domanda «Cosa me ne faccio del suffix-tree?». Ho aggiunto una frase che esplicita ciò che il disegno vuole dire (compitare P dalla radice, nodo/locus v, foglie del sottoalbero = occorrenze). Il contenuto non è inventato: è esattamente quanto svolto neGli appunti del corso dell'anno precedente (L05, §5, Teor. 5.3) e già preparato nelle pagine 16-18 di questo quaderno.",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 19,
+   "testo": "Lo studente usa n per la lunghezza del testo (T = t_1...t_n, j ∈ {1,...,n}), mentre Gli appunti del corso dell'anno precedente (L05) usano m. Ho mantenuto n, che è la fonte primaria, e l'ho usato coerentemente in tutta la pagina.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 19,
+   "testo": "L'ultima riga della pagina, «σ(T) insieme dei suffissi di T», ha per simbolo un glifo che assomiglia a un sigma minuscolo ma è quasi certamente la S corsiva dello studente. L'ho reso con \\mathcal{S}(T), che è la notazione usata dagli appunti dell'anno precedente (L05, §0). Nota: la macro \\S della classe è Σ, quindi non è utilizzabile qui; ho scritto \\mathcal{S} per esteso, come previsto dalle convenzioni.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 19,
+   "testo": "Correzioni di forma, silenziose: «il STrie(T^j)» → riformulato senza articolo davanti alla macro; «(ordine!)» → «in quest'ordine!»; «a) illustra la strategia / b) modifica la strategia e la adatta» (soggetto sottinteso, verbi alla terza persona) → forma impersonale «si illustra / si modifica ... e la si adatta»; «suffix-tries» e «suffix-trees» → «suffix trie» e «suffix tree» al singolare tecnico, in corsivo. In (b) l'ultima parola del quaderno è ripassata sopra a un'altra ('tries' corretto in 'trees'): ho tenuto 'trees'.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 19,
+   "testo": "Struttura: «2) Come costruisco il suffix tree?» è nel quaderno una domanda numerata e sottolineata (la 2) di un elenco iniziato nelle pagine precedenti); l'ho resa con l'ambiente numerato `domanda`, perdendo il numero manoscritto 2 (che verrà rigenerato da LaTeX). «Algoritmo di Ukkonen (1995)» è un titolo esplicito in stampatello sottolineato: reso con \\subsection*{} (non numerato, perché lo stesso titolo si ripete a p. 20 e la struttura definitiva si decide in fase di cucitura). «Cosa me ne faccio del suffix-tree?» è pure sottolineato e virgolettato: reso con \\paragraph{}.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 19,
+   "testo": "Macro usate assumendo la semantica dichiarata nelle convenzioni: \\pre{T}{i} per il prefisso T^i, \\suf{T}{i} per il suffisso T_i, \\STrie senza argomento (scritto come \\STrie(...)). Se \\pre/\\suf rendessero invece la notazione T[1..i]/T[i..n] il significato resterebbe corretto ma la formula «T^i = t_1...t_i, i-esimo prefisso» diventerebbe tautologica: in tal caso conviene sostituirle con $T^{i}$ e $T_{i}$ scritti a mano.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 19,
+   "testo": "Non compare in questa pagina alcun accenno al carattere sentinella $. Per la costruzione del suffix TRIE non serve; diventerà rilevante solo quando si passerà al suffix tree e alle foglie. Non ho aggiunto nulla.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "ukkonen-passo-prefissi",
+   "pagina": 19,
+   "didascalia": "Un passo dell'algoritmo di Ukkonen: dal suffix trie del prefisso T^{j-1} a quello di T^j, leggendo il carattere t_j.",
+   "tipo": "schema di stringhe",
+   "specifica": "Schema a barre orizzontali che rappresenta il testo T e il modo in cui l'algoritmo lo consuma.\n\nGEOMETRIA (unità arbitrarie, larghezza totale ~12).\n- LINEA INFERIORE (spessa, tratto continuo): segmento orizzontale da x=0 a x=12, posto a y=0. È l'intero testo T. All'estremità destra, appena oltre x=12, l'etichetta 'T' in corsivo matematico (dimensione normale, non piccola).\n- LINEA SUPERIORE (spessa, tratto continuo, stesso spessore della precedente): segmento orizzontale da x=3 a x=12, posto a y=0.45. Rappresenta il suffisso T_i. Nell'originale è disegnata leggermente ondulata, a mano libera: va bene renderla dritta.\n- TACCA INIZIALE: piccolo segmento verticale a x=0, da y=-0.2 a y=+0.25, che taglia la linea inferiore (inizio del testo, posizione 1).\n- TACCA IN i: segmento verticale a x=3, da y=-0.35 a y=+0.65, che taglia entrambe le linee (è l'estremo sinistro della linea superiore). Sopra la sua estremità superiore, a y≈0.9, l'etichetta $T_i$. Sotto la linea inferiore, a y≈-0.55, l'etichetta $i$.\n- COPPIA DI TACCHE CHE ISOLA t_j: due segmenti verticali paralleli e ravvicinati a x=5.4 e x=5.9, entrambi da y=-0.35 a y=+1.15 (salgono chiaramente sopra la linea superiore). Fra loro c'è la cella del carattere t_j. Poco sopra e a destra della coppia, a circa (5.9, 0.95), l'etichetta $t_j$ con una piccola freccia o trattino che punta verso lo spazio fra le due tacche.\n- GRAFFA ORIZZONTALE: graffa (decorate/brace) sotto la linea inferiore, aperta verso l'alto, che va da x=0 a x=5.4, posta a y≈-0.55, cioè copre esattamente il prefisso T^{j-1} (dalla posizione 1 alla posizione j-1). Nell'originale è tracciata a mano come una linea curva ampia; una brace TikZ standard è più leggibile.\n\nRIGA DI TESTO SOTTO IL DISEGNO (a y≈-1.4, allineata orizzontalmente al disegno):\n  $\\STrie(\\pre{T}{j-1})$   posizionato sotto la graffa, con il suo centro circa a x=2.7 (la punta della graffa scende verso questa etichetta);\n  poi una FRECCIA orizzontale (->) da circa x=5.2 a x=6.4 alla stessa altezza, con sopra l'etichetta $t_j$;\n  poi $\\STrie(\\pre{T}{j})$ a partire da circa x=6.6.\nNell'originale la freccia è ondulata e parte da un piccolo gancio verticale che scende dalla tacca di sinistra della coppia: opzionalmente si può tracciare un sottile segmento verticale tratteggiato da (5.4,-0.35) a (5.4,-1.25) per collegare visivamente la tacca alla freccia.\n\nSIGNIFICATO: la parte di testo già letta è il prefisso T^{j-1}, di cui si possiede il suffix trie; leggendo il carattere successivo t_j si ottiene il suffix trie di T^j. La linea superiore ricorda che ogni suffisso T_i del testo attraversa questo passo: la sua porzione t_i...t_{j-1} è già nel trie corrente e viene estesa con t_j.\n\nSTILE: tratto blu scuro o nero, linee spesse per le due barre del testo, sottili per tacche e graffa; testo in italiano/matematica come indicato.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "suffix-tree-ricerca-montagna",
+   "pagina": 19,
+   "didascalia": "Uso del suffix tree per la ricerca esatta: il cammino di P termina in v, le foglie del sottoalbero appeso a v sono le occorrenze.",
+   "tipo": "albero",
+   "specifica": "Disegno schematico 'a montagna' del suffix tree di T, con il cammino del pattern P e il sottoalbero delle occorrenze. Nel manoscritto è tutto a mano libera, con profili frastagliati; in TikZ conviene una resa pulita ma che conservi l'idea di 'sagoma' (triangolo con lati leggermente irregolari o decorati).\n\nELEMENTI, da sinistra a destra.\n\n1) SCHEMA PATTERN/TESTO (in alto a sinistra, staccato dalla montagna):\n   - un segmento orizzontale corto (lunghezza ~1.2) a y=2.6, con l'etichetta $P$ scritta appena sopra la sua estremità sinistra;\n   - sotto, a y=1.9, un segmento orizzontale lungo (lunghezza ~3.2), con l'etichetta $T$ appena sopra la sua estremità sinistra.\n   Serve solo a ricordare che P è corto e T è lungo. Tratto spesso.\n\n2) LA MONTAGNA (a destra, occupa il resto della figura): un grande triangolo con vertice in alto, apice circa a (7.5, 3.2), base da (4.5, -1.6) a (10.5, -1.6). I due lati vanno disegnati come spezzate/onde irregolari (profilo di montagna), non come rette perfette; la base può essere lasciata aperta oppure tracciata leggera. Rappresenta l'INTERO suffix tree di T. Etichettare l'apice con 'radice' oppure con un piccolo pallino: nel manoscritto c'è solo un piccolo segno all'apice.\n\n3) CAMMINO DI P: dall'apice (7.5, 3.2) scende una linea ondulata (quasi verticale, con qualche piccola oscillazione) fino al punto v = (7.4, 0.9). Va disegnata più marcata degli altri tratti (nell'originale è ripassata). Accanto al cammino, a destra, a circa (8.1, 2.1), l'etichetta $P$ in carattere grande.\n\n4) NODO v: pallino pieno di raggio evidente in (7.4, 0.9). Etichetta $v$ posta appena a sinistra/sotto, a circa (7.0, 0.75). ATTENZIONE: nel manoscritto il nodo è disegnato ma NON etichettato; l'etichetta v va aggiunta per leggibilità.\n\n5) SOTTOALBERO T(v): appeso al nodo v, un secondo triangolo più piccolo, con tratto più sottile, vertice in v=(7.4,0.9) e base da (6.0,-1.4) a (8.9,-1.4); anche qui i lati leggermente irregolari. La base è una linea ONDULATA (nel manoscritto è una linea a onde). Sulla base, due pallini pieni, uno a circa (6.4,-1.45) e uno a circa (8.4,-1.45): sono le FOGLIE, cioè le occorrenze di P in T. Etichetta $\\albero{T}(v)$ (o T(v)) posta a destra del triangolino, a circa (9.4, -0.3), con una freccetta che punta al triangolino. ATTENZIONE: anche questa etichetta non c'è nel manoscritto, va aggiunta.\n\nSIGNIFICATO: compitando P dalla radice si arriva al nodo v; il sottoalbero appeso a v contiene tutte e sole le foglie che corrispondono ai suffissi di T che hanno P come prefisso, cioè alle occorrenze di P in T.\n\nNOTA: l'annotazione manoscritta «e anche Boyer-Moore», che nell'originale sta a destra della montagna alla stessa altezza dell'apice, NON va inserita nella figura: è resa nel testo come osservazione.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina si chiude con la notazione (T^i prefisso, T_i suffisso, S(T) insieme dei suffissi) e con l'enunciato della strategia incrementale: costruire STrie(T^j) per j = 1,...,n a partire da STrie(T^{j-1}) appendendo t_j sotto ogni suffisso di T^{j-1}. Restano in sospeso: (i) come si realizza concretamente il passo «appendi t_j sotto ogni suffisso» senza pagare O(n) per passo, cioè la struttura aumentata annunciata dalla glossa di margine «augmented / aumentato»; (ii) il punto (b) del piano, cioè l'adattamento della strategia dai suffix trie ai suffix tree. La pagina 20 riparte proprio da qui, con la definizione formale STrie(T) = (Q ∪ {⊥}, root, F, g, f) presentata come «Augmented Automaton (DFA)» e la descrizione delle sue componenti (Q in biiezione con le sottostringhe di T, ⊥ stato dummy ausiliario, root stato iniziale, F stati finali = suffissi, g funzione di transizione, f suffix link), seguita da una ripresa del titolo «Algoritmo di Ukkonen — Costruzione dei Suffix tree». Va tenuto presente il rischio di duplicazione del titolo «Algoritmo di Ukkonen» fra p. 19 e p. 20 in fase di cucitura.",
+ "confidenza": "alta"
+}

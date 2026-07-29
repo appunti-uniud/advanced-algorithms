@@ -1,0 +1,49 @@
+% z-caso1 -- Caso 1: beta finisce strettamente prima della fine di alpha.
+\begin{tikzpicture}[
+    x=0.78cm, y=1cm,
+    font=\footnotesize,
+    tacca/.style={gray!80!black, line width=0.5pt},
+    linea/.style={line width=0.7pt},
+    graffasu/.style={decorate, decoration={brace, amplitude=4pt}, gray!70!black},
+    graffagiu/.style={decorate, decoration={brace, amplitude=4pt, mirror}, gray!70!black},
+    carattere/.style={fill=white, inner sep=1pt},
+  ]
+
+  % --- titolo -----------------------------------------------------------
+  \node[right, inner sep=0pt] at (0,1.75) {\small Caso 1};
+
+  % --- la stringa S -----------------------------------------------------
+  \draw[linea] (0,0) -- (14,0);
+  \node[right, inner sep=2pt] at (14.15,0) {$S$};
+
+  % --- tacche -----------------------------------------------------------
+  % gruppo sinistro: 1, i', fine di beta, fine di alpha, fine della cella di x
+  % gruppo destro:   ell, i, fine di beta, r,            fine della cella di y
+  \foreach \x in {0,1.1,2.3,3.0,3.6,8.0,9.1,10.3,11.0,11.6}{%
+    \draw[tacca] (\x,-0.20) -- (\x,0.20);
+  }
+
+  % --- caratteri che seguono le due copie di alpha ----------------------
+  \node[carattere] at (3.3,0)  {$x$};
+  \node[carattere] at (11.3,0) {$y$};
+
+  % --- posizioni --------------------------------------------------------
+  \node[below, inner sep=3pt] at (0,-0.20)    {$1$};
+  \node[below, inner sep=3pt] at (1.1,-0.20)  {$i'$};
+  \node[below, inner sep=3pt] at (8.0,-0.20)  {$\ell$};
+  \node[below, inner sep=3pt] at (9.1,-0.20)  {$i$};
+  \node[below, inner sep=3pt] at (11.0,-0.20) {$r$};
+
+  % --- graffe alpha, sopra la retta -------------------------------------
+  \draw[graffasu] (3.0,0.60) -- (0,0.60)
+    node[midway, above=4pt, black] {$\alpha$};
+  \draw[graffasu] (11.0,0.60) -- (8.0,0.60)
+    node[midway, above=4pt, black] {$\alpha$};
+
+  % --- graffe beta, sotto la retta (strettamente dentro alpha) ----------
+  \draw[graffagiu] (1.1,-0.80) -- (2.3,-0.80)
+    node[midway, below=4pt, black] {$\beta$};
+  \draw[graffagiu] (9.1,-0.80) -- (10.3,-0.80)
+    node[midway, below=4pt, black] {$\beta$};
+
+\end{tikzpicture}

@@ -1,0 +1,60 @@
+% tabella-op-binarie -- tabulazione di un'operazione binaria sulle mezze parole.
+% In alto: la tabella (quadrato vuoto) indicizzata da una coppia di mezze parole.
+% In basso: i due operandi di log n bit, ciascuno spezzato a meta'.
+\begin{tikzpicture}[
+    >=Latex,
+    bordo/.style   = {line width=0.9pt, black},
+    parola/.style  = {line width=0.7pt, black},
+    graffa/.style  = {decorate, decoration={brace, amplitude=5pt, raise=3pt},
+                      line width=0.5pt, black!75},
+    graffina/.style= {decorate, decoration={brace, amplitude=3.5pt, raise=2.5pt},
+                      line width=0.4pt, black!65},
+    et/.style      = {font=\small, inner sep=1.5pt},
+    ann/.style     = {font=\footnotesize, text=black!55, inner sep=1.5pt},
+  ]
+
+  %====================== la tabella ======================
+  \draw[bordo] (0,0) rectangle (4.2,4.2);
+
+  % graffa superiore: numero di colonne
+  \draw[graffa] (0,4.2) -- (4.2,4.2);
+  \node[et, anchor=south] at (2.1,4.58) {$2^{\frac{\log n}{2}}$};
+
+  % graffa sinistra: numero di righe
+  \draw[graffa] (0,0) -- (0,4.2);
+  \node[et, anchor=east] at (-0.40,2.1) {$2^{\frac{\log n}{2}}$};
+
+  % contenuto (in grigio chiaro): l'entrata indicizzata da una coppia di mezze parole
+  \node[ann] at (2.1,2.1) {$T[a_i,b_i]=a_i \mathbin{\mathrm{op}} b_i$};
+
+  % annotazione a destra, con freccia verso il bordo destro della tabella
+  \node[et, anchor=west] at (4.95,4.20) {spazio $\sqrt n\times\sqrt n=n$};
+  \draw[-{Latex[length=3mm,width=2.2mm]}, line width=0.6pt]
+        (5.15,3.92) -- (4.32,3.42);
+
+  %====================== i due operandi ======================
+  % operando a
+  \draw[parola] (0.6,-1.70) rectangle (4.6,-1.25);
+  \draw[parola] (2.6,-1.70) -- (2.6,-1.25);
+  \node[ann] at (1.6,-1.475) {$a_1$};
+  \node[ann] at (3.6,-1.475) {$a_2$};
+  \node[et, anchor=east] at (0.44,-1.475) {$a$};
+
+  % operando b
+  \draw[parola] (0.6,-2.60) rectangle (4.6,-2.15);
+  \draw[parola] (2.6,-2.60) -- (2.6,-2.15);
+  \node[ann] at (1.6,-2.375) {$b_1$};
+  \node[ann] at (3.6,-2.375) {$b_2$};
+  \node[et, anchor=east] at (0.44,-2.375) {$b$};
+
+  % graffa: la parola intera e' lunga log n bit
+  \draw[graffa] (0.6,-1.25) -- (4.6,-1.25);
+  \node[et, anchor=south] at (2.6,-0.97) {$\log n$ bit};
+
+  % graffe: le due meta'
+  \draw[graffina] (2.6,-2.60) -- (0.6,-2.60);
+  \draw[graffina] (4.6,-2.60) -- (2.6,-2.60);
+  \node[et, anchor=north] at (1.6,-2.77) {$\frac{\log n}{2}$};
+  \node[et, anchor=north] at (3.6,-2.77) {$\frac{\log n}{2}$};
+
+\end{tikzpicture}

@@ -1,0 +1,108 @@
+{
+ "pagina": 73,
+ "latex": "\\scan{73}\n\n\\begin{definizione}[Catena di Markov, nella forma di Feller]\\label{def:mc-feller}\n  Si consideri una successione di prove (\\emph{trials}, esperimenti) i cui esiti\n  possibili sono $E_1, E_2, \\dots$\\,; le prove formano una \\emph{catena di Markov} se la\n  probabilità che gli esiti si verifichino, nell'ordine, $E_{j_0}, E_{j_1}, \\dots,\n  E_{j_t}$ si fattorizza come\n  \\[\n    \\Pr\\bigl\\{(E_{j_0}, E_{j_1}, \\dots, E_{j_t})\\bigr\\}\n      \\;=\\; a_{j_0} \\cdot P_{j_0 j_1} \\cdot P_{j_1 j_2} \\cdot P_{j_2 j_3}\n            \\cdots P_{j_{t-1} j_t},\n  \\]\n  dove\n  \\begin{itemize}\n    \\item $a_{j_0}$ è la probabilità che si verifichi $E_{j_0}$, cioè la distribuzione\n          iniziale sugli esiti;\n    \\item $P_{j_{k-1} j_k}$ è la probabilità che si verifichi $E_{j_k}$ \\emph{a\n          condizione che} si sia verificato $E_{j_{k-1}}$.\n  \\end{itemize}\n\\end{definizione}\n\n\\paragraph{Memoryless (property).}\nTutto il contenuto della definizione sta nella forma dei fattori: la probabilità del\n$k$-esimo esito è condizionata al solo esito immediatamente precedente, non all'intera\nstoria della successione. Oltre al presente, il passato non porta informazione.\n\n\\begin{osservazione}\n  Scrivendo la catena come successione di variabili aleatorie $X_0, X_1, X_2, \\dots$ a\n  valori nell'insieme degli esiti, la fattorizzazione equivale a chiedere che per ogni\n  $k$ e per ogni scelta di esiti $i_0, \\dots, i_{k-1}, j$\n  \\[\n    \\Pr\\bigl[X_k = j \\;\\big|\\; X_{k-1} = i_{k-1},\\, \\dots,\\, X_0 = i_0\\bigr]\n      \\;=\\; \\Pr\\bigl[X_k = j \\;\\big|\\; X_{k-1} = i_{k-1}\\bigr]\n      \\;=\\; P_{i_{k-1} j},\n  \\]\n  e che tale valore non dipenda da $k$ (catena \\emph{omogenea} nel tempo). È proprio\n  quest'ultima ipotesi che consente di raccogliere tutte le probabilità di transizione\n  in un'unica matrice.\n\\end{osservazione}\n\nSupponiamo dunque che gli esiti possibili siano in numero finito, $E_1, \\dots, E_n$, e\nraccogliamo le probabilità di transizione nella \\emph{matrice di transizione}\n\\[\n  P \\;=\\;\n  \\begin{pmatrix}\n    P_{11} & \\cdots & P_{1n} \\\\\n    \\vdots &        & \\vdots \\\\\n    P_{n1} & \\cdots & P_{nn}\n  \\end{pmatrix}.\n\\]\nOgni \\emph{riga} di $P$ è una distribuzione di probabilità sugli $n$ esiti — la riga\n$i$-esima dice dove si può andare a partire da $E_i$, e con quale probabilità — sicché\n\\[\n  \\sum_{j=1}^{n} P_{ij} \\;=\\; 1 \\qquad \\text{per ogni } i = 1, \\dots, n .\n\\]\nUna matrice quadrata a entrate non negative con questa proprietà si dice\n\\emph{stocastica}.\n\n\\begin{osservazione}\n  Il quaderno affianca a questa anche l'identità per colonne $\\sum_{i=1}^{n} P_{ij} = 1$.\n  Non è però una richiesta della definizione: vale soltanto per le matrici\n  \\emph{doppiamente stocastiche}, che sono un caso particolare. Lo è, per esempio, la\n  passeggiata aleatoria simmetrica sul ciclo dell'esempio che segue, ed è esattamente il\n  motivo per cui in quel caso la distribuzione limite risulta uniforme.\n\\end{osservazione}\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/p73-spazio-stati.tikz}\n  \\caption{L'insieme $S$ degli stati e alcune transizioni possibili fra di essi.}\n  \\label{fig:p73-spazio-stati}\n\\end{figure}\n\nLetta così, una catena di Markov è \\emph{una generalizzazione della nozione di\nfunzione}: a ogni stato non è associato un unico successore, ma una distribuzione di\nprobabilità sui successori possibili. Il caso deterministico si riottiene quando ogni\nriga di $P$ contiene un solo $1$ e tutti gli altri elementi nulli.\nL'osservazione è attribuita, nel quaderno, a \\dubbioinl{J.~T.~Schwartz}.\n\n\\begin{center}\n  \\emph{Condizionatamente al presente, il futuro non dipende dal passato.}\n\\end{center}\n",
+ "note": [
+  {
+   "tipo": "altro",
+   "pagina": 73,
+   "risolto": true,
+   "testo": "La pagina si apre con il titolo sottolineato «Catene di Markov», ripetuto da p.72 (dove era gia comparso in fondo). L'ho omesso, come gia fatto per p.72, perche coincide con il titolo del capitolo, che viene deciso in fase di cucitura."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 73,
+   "risolto": true,
+   "testo": "Il quaderno scrive telegraficamente «Def.: E_1, E_2, ... trials (esperimenti) / sono una M.C. SE la probabilita che si verifichino nell'ordine ...». Ho reso in prosa la formulazione di Feller (An Introduction to Probability Theory, vol. I, cap. XV, citato a p.72): gli E_k sono gli ESITI possibili, mentre «trials» sono le prove ripetute. Ho quindi scritto «una successione di prove (trials, esperimenti) i cui esiti possibili sono E_1, E_2, ...», che e cio che il quaderno intende."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 73,
+   "risolto": true,
+   "testo": "Nella formula del prodotto il quaderno scrive gli ultimi due fattori come «Pr_{j_{n-1}} Pr_{j_n}», cioe due simboli distinti con un solo indice ciascuno e senza punto di moltiplicazione. E chiaramente una contrazione della scrittura: il fattore corretto (Feller) e l'unico P_{j_{n-1} j_n}. Ho scritto ... P_{j_{t-1} j_t}."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 73,
+   "risolto": true,
+   "testo": "Conflitto di indici: il quaderno usa n sia per la lunghezza della sequenza di esiti (E_{j_0}, ..., E_{j_n}) sia per il numero di stati (matrice n x n, somme fino a n). Ho rinominato il numero di passi in t (E_{j_0}, ..., E_{j_t}), coerentemente con l'indicizzazione temporale X_t usata a p.75, riservando n al numero di esiti/stati."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 73,
+   "risolto": true,
+   "testo": "Notazione delle probabilita di transizione: il quaderno le scrive «Pr_{j_0 j_1}» (con il simbolo Pr e doppio pedice) nella formula, «P_{11} ... P_{nn}» maiuscolo nella matrice e «p_{ij}» minuscolo nelle due somme. Ho unificato tutto a P_{ij} maiuscolo, che e anche la notazione usata nella trascrizione di p.75 (P_{ij} = Pr[X_{t+1}=j | X_t=i]). La distribuzione iniziale resta a_{j_0} minuscolo, come nel quaderno e in Feller."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 73,
+   "risolto": true,
+   "testo": "Le due frecce sotto la formula portano le glosse «prob. che si verifichi E_{j_0}» (puntata ad a_{j_0}) e «prob. che si verifichi E_{j_K} a condizione che si sia verificato E_{j_{K-1}}» (puntata a P_{j_0 j_1}). Le ho rese come elenco puntato dentro la definizione, normalizzando la K maiuscola del pedice in k minuscola."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 73,
+   "risolto": true,
+   "testo": "«MEMORYLESS (property)» e scritto in stampatello maiuscolo e sottolineato, come un titoletto, subito sotto le glosse: l'ho reso con \\paragraph{Memoryless (property).}, mantenendo l'inglese del quaderno."
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 73,
+   "risolto": true,
+   "testo": "Il quaderno nomina la proprieta memoryless ma non la formalizza. Ho aggiunto un'osservazione con la scrittura standard Pr[X_k=j | X_{k-1}=i_{k-1}, ..., X_0=i_0] = Pr[X_k=j | X_{k-1}=i_{k-1}] = P_{i_{k-1} j}, piu l'ipotesi di omogeneita nel tempo (implicita nel fatto che i fattori non dipendono dal passo). E contenuto aggiunto, ma necessario: p.74 si apre proprio con due domande su questa formula (Pr{X_2 in B | X_1=x_1 and X_0 in A}) e p.75 la enuncia per esteso."
+  },
+  {
+   "tipo": "errore-anno-prec",
+   "pagina": 73,
+   "risolto": true,
+   "testo": "A destra della matrice il quaderno scrive DUE somme: sum_{j=1}^{n} p_{ij} = 1 e sum_{i=1}^{n} p_{ij} = 1. Ho verificato piu volte i pedici a 300 e 900 dpi: entrambi i sommandi sono p_{ij}, quindi la seconda identita e la stocasticita per colonne. Non e vera in generale per una catena di Markov (lo e solo per le matrici doppiamente stocastiche). Ho messo nel testo principale la sola condizione sulle righe (che e quella indicata anche dalla freccia «distr. di prob. tra n eventi», puntata alla PRIMA RIGA della matrice) e ho relegato la seconda in un'osservazione, spiegando quando vale. Non e un dettaglio ozioso: l'esempio di p.74 (passeggiata sul ciclo con probabilita 1/3, 1/3, 1/3) e doppiamente stocastico, ed e per questo che li la distribuzione limite viene uniforme (1/6, ..., 1/6)."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 73,
+   "risolto": true,
+   "testo": "La glossa a destra della matrice, «distr. di prob. tra n eventi», e stata espansa in «ogni riga di P e una distribuzione di probabilita sugli n esiti». Ho aggiunto il termine tecnico «matrice stocastica», che il quaderno non usa."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 73,
+   "risolto": true,
+   "testo": "Il disegno e una «patata» (curva chiusa irregolare) che rappresenta l'insieme degli stati; a sinistra, fuori dalla patata, e scritto S sopra la parola «stati» (S = insieme degli stati). Dentro ci sono tre cerchietti etichettati s_1 (in basso a sinistra), s_2 (in alto al centro) e s_3 (a destra), con: un arco curvo s_1 -> s_2; una coppia di archi a lente fra s_1 e s_3 (uno per verso); un cappio su s_3. Nessuna etichetta di probabilita sugli archi. Il senso e che una catena di Markov e un grafo orientato sullo spazio degli stati, non che quel particolare grafo sia un esempio significativo."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 73,
+   "risolto": false,
+   "testo": "La riga sotto il disegno recita «Una generalizzazione della nozione di funzioni, X. Y. Schwartz». Il cognome «Schwartz» e leggibile con sicurezza a 900 dpi (S-c-h-w-a-r-t-z). Le due iniziali che lo precedono no: i grafemi sembrano una S (o una J scritta come un 5) e una T (o una Z scritta come un 7 con ricciolo). Ho scritto «J.~T.~Schwartz» dentro \\dubbioinl{}: e Jacob T. Schwartz, autore vicino a  (teoria degli insiemi computabile, algoritmi probabilistici, lemma di Schwartz--Zippel), quindi la citazione piu plausibile. Resta possibile un rimando a Laurent Schwartz, di cui la teoria delle distribuzioni e descritta esattamente come «una generalizzazione della nozione di funzione», tanto piu che a fianco compare la parola «distribuzione»."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 73,
+   "risolto": true,
+   "testo": "Il quaderno scrive «della nozione di funzioni» (plurale): ho normalizzato al singolare «della nozione di funzione». Ho inoltre aggiunto la glossa esplicativa che ne chiarisce il senso (a ogni stato non un unico successore ma una distribuzione sui successori; il caso deterministico corrisponde a righe con un solo 1): e un'espansione in prosa di un appunto telegrafico."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 73,
+   "risolto": true,
+   "testo": "Ultima riga del quaderno: «A condizione del presente, il futuro non dipende dal passato». La resa italiana e un calco; ho scritto «Condizionatamente al presente, il futuro non dipende dal passato», che e la formulazione standard e coincide con quella gia usata nella trascrizione di p.75 («condizionando sul presente, il futuro non dipende dal passato»)."
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 73,
+   "risolto": true,
+   "testo": "Gli appunti del corso dell'anno precedente forniti come supporto (L16_sintesi.md) riguardano la lezione su complessita randomizzata, random walk e SAT: non coprono le catene di Markov. Per questa pagina la fonte di controllo e stata Feller vol. I cap. XV (citato dal quaderno stesso a p.72), la cui Def. di catena di Markov ha esattamente la forma P{(E_{j0}, ..., E_{jn})} = a_{j0} p_{j0 j1} ... p_{j_{n-1} j_n}. La coincidenza letterale conferma la lettura della formula."
+  }
+ ],
+ "figure": [
+  {
+   "id": "p73-spazio-stati",
+   "pagina": 73,
+   "didascalia": "L'insieme $S$ degli stati e alcune transizioni possibili fra di essi.",
+   "tipo": "schema insiemistico (curva chiusa irregolare) contenente un piccolo grafo orientato",
+   "specifica": "Una curva chiusa irregolare disegnata a mano libera (forma a «patata», bordo ondulato con un paio di rientranze, larga circa il doppio dell'altezza) racchiude lo spazio degli stati. FUORI dalla patata, a sinistra e all'altezza della sua meta superiore, l'etichetta su due righe: 'S' (grande, in alto) e sotto 'stati'; nel quaderno le due parole sono sovrapposte come un'unica glossa 'S = stati'. DENTRO la patata, tre stati disegnati come cerchietti vuoti di piccolo diametro, disposti a triangolo: s_1 in basso a sinistra (etichetta 's_1' scritta subito a sinistra del cerchietto), s_2 in alto al centro-destra rispetto a s_1 (etichetta 's_2' subito a sinistra/sopra il cerchietto), s_3 a destra e leggermente piu in alto di s_1 (etichetta 's_3' subito sotto-a destra del cerchietto). ARCHI ORIENTATI, tutti senza etichette di probabilita: (1) un arco curvo che sale da s_1 a s_2, con punta di freccia su s_2; (2) una coppia di archi fra s_1 e s_3 che formano una lente: l'arco superiore va da s_1 a s_3 con punta su s_3, l'arco inferiore torna da s_3 a s_1 con punta su s_1; (3) un cappio (self-loop) su s_3, disegnato come un piccolo anello che esce e rientra dal cerchietto verso l'alto-destra. Nessun altro arco: in particolare s_2 non ha archi uscenti disegnati. Il disegno serve solo a dire che una catena di Markov e un grafo orientato sull'insieme degli stati, con archi = transizioni possibili. Testo della figura in italiano.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina apre davvero il blocco «Catene di Markov», annunciato in fondo a p.72 con il solo riferimento a Feller vol. I cap. XV, e chiude il filone precedente (random walk, cover time, disuguaglianza di Markov, amplificazione dell'errore per 2-CNF-SAT). Contiene: la definizione di catena di Markov nella forma di Feller (fattorizzazione della probabilita di una sequenza di esiti come a_{j_0} P_{j_0 j_1} ... P_{j_{t-1} j_t}), la lettura delle due componenti (distribuzione iniziale e probabilita condizionate a un passo), l'etichetta MEMORYLESS, la matrice di transizione P con la condizione di stocasticita per righe (piu una seconda somma per colonne, non valida in generale, discussa in osservazione), la figura dello spazio degli stati S con s_1, s_2, s_3 e infine lo slogan «condizionatamente al presente, il futuro non dipende dal passato». Resta in sospeso, e viene ripreso subito a p.74: il significato operativo della proprieta di Markov (le due domande su Pr{X_2 in B | X_1 = x_1 and X_0 in A} contro Pr{X_2 in B | X_1 in A and X_0 = x_0}, la seconda falsa), l'esempio della passeggiata aleatoria sul ciclo a 6 stati con probabilita 1/3 a sinistra, fermo, a destra, l'evoluzione dei vettori di distribuzione e la convergenza a quella uniforme. Il seguito sistematico (processo stocastico, P^{(t)}_{ij}, hitting time) e a p.75.",
+ "confidenza": "alta"
+}

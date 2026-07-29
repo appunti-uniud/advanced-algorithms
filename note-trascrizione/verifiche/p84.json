@@ -1,0 +1,13 @@
+{
+ "pagina": 84,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "errore-matematico",
+   "dove": "lezioni/16-random-walk-grafi.tex, osservazione dopo E[T] (righe 177-187, in particolare riga 186); PDF p. 142",
+   "descrizione": "L'osservazione calcola il tempo atteso di mescolamento come Sum_{i=1}^{K} K/i = K H_K e poi conclude «Per K = 52 servono dunque circa 52 ln 52 = 205 mescolate». Il valore della formula appena scritta e pero 52 * H_52 = 235,98, non 205: l'approssimazione K H_K ~ K ln K trascura il termine gamma*K = 0,577*52 = 30, cioe il 13% del totale. Il «dunque» fa discendere da un calcolo esatto un numero sbagliato di ~30 unita. (Il passaggio e materiale aggiunto dal trascrittore, non presente nel manoscritto: il quaderno si ferma a Sum_{i=1}^{K} E[T_i] = O(K log K).)",
+   "correzione": "Sostituire con «Per K = 52 servono dunque circa 52 H_52 = 236 mescolate» oppure, se si vuole mantenere la stima asintotica, riformulare senza «dunque»: «l'ordine di grandezza e K ln K, cioe circa 205 passi per K = 52, e il valore esatto del tempo atteso e 52 H_52 = 236»."
+  }
+ ]
+}

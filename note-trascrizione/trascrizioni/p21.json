@@ -1,0 +1,96 @@
+{
+ "pagina": 21,
+ "latex": "\\scan{21}\n\nResta da definire la funzione $f$ dei \\emph{suffix link}. Essa è definita nel modo seguente: se\n\\[\n  x = a\\,y, \\qquad a \\in \\S,\\ y \\in \\S^{*},\n\\]\nallora\n\\[\n  f(\\bar{x}) \\;=\\; \\bar{y},\n\\]\ncioè il suffix link porta dallo stato associato alla stringa $x$ allo stato associato alla stringa che si ottiene da $x$ cancellandone il primo carattere. Si completa la definizione ponendo $f(\\mathrm{root}) = \\bot$.\n\n\\begin{osservazione}\nLa funzione $f$ mi consente di costruire un cammino che visita \\emph{tutti} i suffissi di $T$. Partendo dallo stato $\\bar{x}$ associato al suffisso più lungo, $x = t_1 t_2 \\cdots t_n = T$, e applicando ripetutamente $f$ si ottiene\n\\[\n  \\overline{t_1\\cdots t_n}\n  \\;\\xrightarrow{\\ f\\ }\\; \\overline{t_2\\cdots t_n}\n  \\;\\xrightarrow{\\ f\\ }\\; \\overline{t_3\\cdots t_n}\n  \\;\\xrightarrow{\\ f\\ }\\; \\cdots\n  \\;\\xrightarrow{\\ f\\ }\\; \\overline{t_n}\n  \\;\\xrightarrow{\\ f\\ }\\; \\mathrm{root}\n  \\;\\xrightarrow{\\ f\\ }\\; \\bot .\n\\]\nQuesto cammino prende il nome di \\textbf{boundary path}.\n\\end{osservazione}\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/boundary-path.tikz}\n\\caption{Il \\emph{boundary path} di $\\STrie(T)$: applicando ripetutamente il suffix link $f$ a partire dallo stato $\\bar{x}$ del suffisso più lungo $x = t_1\\cdots t_n$ si incontrano, nell'ordine, gli stati di tutti i suffissi di $T$.}\n\\end{figure}\n\n\\paragraph{Intuizione.}\nPasserò da $\\STrie(\\pre{T}{i-1})$ a $\\STrie(\\pre{T}{i})$ visitando il boundary path e aggiungendo una transizione (quando necessario) ad ogni passo. Il motivo per cui questo basta è che l'insieme degli stati cresce solo lungo i suffissi:\n\\[\n  Q\\bigl(\\pre{T}{i}\\bigr) \\;=\\; Q\\bigl(\\pre{T}{i-1}\\bigr) \\;\\cup\\;\n  \\set{\\, \\overline{t_j\\cdots t_i} \\;:\\; 1 \\le j \\le i \\,} .\n\\]\nInfatti ogni sottostringa di $\\pre{T}{i}$ che non sia già sottostringa di $\\pre{T}{i-1}$ deve terminare con il carattere $t_i$, cioè è un suffisso di $\\pre{T}{i}$; e i suffissi di $\\pre{T}{i}$ sono esattamente gli stati del boundary path di $\\STrie(\\pre{T}{i-1})$ estesi con $t_i$.\n\nPer costruire $\\STrie(T)$ eseguirò dunque $\\abs{T}$ volte l'operazione\n\\[\n  \\STrie\\bigl(\\pre{T}{i-1}\\bigr) \\;\\longrightarrow\\; \\STrie\\bigl(\\pre{T}{i}\\bigr).\n\\]\nOgnuna ha costo $i$, per $i \\in \\set{1,\\dots,n}$: il boundary path di $\\STrie(\\pre{T}{i-1})$ ha infatti $i$ stati (i suffissi di $\\pre{T}{i-1}$, compresa $\\e$, cioè la radice) più lo stato $\\bot$. Sommando,\n\\[\n  \\sum_{i=1}^{n} \\Oh(i) \\;=\\; \\Oh\\bigl(\\abs{T}^{2}\\bigr),\n\\]\ncioè un \\textbf{algoritmo quadratico}.\n\nEd è \\emph{ottimo}: la sola dimensione di $\\STrie(T)$ può essere $\\Th(\\abs{T}^{2})$ — si pensi a $T = a^{n}b^{n}$ — quindi nessun algoritmo che costruisca esplicitamente il suffix trie può costare meno.\n\n\\paragraph{Algoritmo 1.}\n\n\\begin{algorithm}[H]\n\\caption{Costruzione di $\\STrie(T)$ per $T = t_1 t_2 \\cdots t_n$}\n\\begin{algorithmic}[1]\n  \\State crea gli stati $\\mathrm{root}$ e $\\bot$\n  \\State $g(\\bot, a) \\gets \\mathrm{root}$ per ogni $a \\in \\S$;\\quad $f(\\mathrm{root}) \\gets \\bot$\n  \\State $\\mathit{top} \\gets \\mathrm{root}$\n  \\For{$i \\gets 1$ \\textbf{to} $n$}\n    \\State $r \\gets \\mathit{top}$\n    \\While{$g(r, t_i)$ è indefinita}\n      \\State crea un nuovo stato $r'$ e poni $g(r, t_i) \\gets r'$\n      \\If{$r \\neq \\mathit{top}$}\n        \\State $f(\\mathit{oldr}') \\gets r'$\n        \\Comment{alla prima iterazione $\\mathit{oldr}'$ non è ancora definito}\n      \\EndIf\n      \\State $\\mathit{oldr}' \\gets r'$\n      \\State $r \\gets f(r)$\n    \\EndWhile\n    \\State $f(\\mathit{oldr}') \\gets g(r, t_i)$\n    \\State $\\mathit{top} \\gets g(\\mathit{top}, t_i)$\n  \\EndFor\n\\end{algorithmic}\n\\end{algorithm}\n\n\\begin{osservazione}\nIl ciclo \\textbf{while} termina sempre: risalendo il boundary path con $r \\gets f(r)$ si arriva al più a $\\bot$, dove $g(\\bot, t_i) = \\mathrm{root}$ è definita per ogni carattere. La variabile $\\mathit{top}$ mantiene l'invariante $\\mathit{top} = \\overline{t_1\\cdots t_i}$ alla fine del passo $i$-esimo, cioè è sempre il capo del boundary path corrente.\n\\end{osservazione}",
+ "note": [
+  {
+   "tipo": "ricostruzione",
+   "pagina": 21,
+   "testo": "Gli appunti scrivono solo «- f è definito nel modo seguente / sia x = a y   f(x̄) = ȳ». Ho esplicitato che a è un carattere (a ∈ Σ) e y una stringa (y ∈ Σ*), e ho aggiunto la clausola f(root) = ⊥, che nel quaderno non compare ma è indispensabile: senza di essa f non è totale e il ciclo while dell'Algoritmo 1 non terminerebbe (è la definizione di Ukkonen 1995, coerente con g(⊥,a) = root ∀a già scritto a p.20).",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 21,
+   "testo": "Il riquadro in alto a destra del quaderno («la funzione f mi consente di costruire un cammino che visita tutti i suffissi di T», con freccia verso l'alto dalla scritta «boundary path») NON è stato reso come parte della figura ma come ambiente `osservazione` nel testo, perché è testo discorsivo e non un disegno. Nella specifica TikZ resta quindi solo la montagna con i tre stati e i suffix link.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 21,
+   "testo": "La formula marginale a destra di «Intuizione» si legge, grafema per grafema, come «Q(T^i) = Q(T^{i-1}) ∪ {t^i_j, ⊥}» (il primo simbolo è una lettera arrotondata con svolazzo, compatibile con Q/𝒮; l'ultimo elemento della graffa è certamente ⊥, identico al ⊥ di «Q ∪ {⊥}» a p.20). Ho interpretato «t^i_j» come la scrittura compressa della sottostringa t_j⋯t_i (coerente con la convenzione dello studente T^i = prefisso, T_j = suffisso) e ho omesso ⊥ dalla graffa, perché ⊥ appartiene già all'insieme di stati di STrie(T^{i-1}) — la sua presenza è verosimilmente un riflesso automatico della definizione «Q ∪ {⊥}» di p.20. Ho quindi scritto Q(T^i) = Q(T^{i-1}) ∪ {overline{t_j⋯t_i} : 1 ≤ j ≤ i}, che è l'unica identità corretta e pertinente (ogni sottostringa nuova deve terminare in t_i).",
+   "risolto": false
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 21,
+   "testo": "La giustificazione dell'identità sugli stati («ogni sottostringa nuova di T^i termina con t_i, quindi è un suffisso di T^i; i suffissi di T^i sono gli stati del boundary path di STrie(T^{i-1}) estesi con t_i») non è negli appunti: l'ho aggiunta perché è esattamente ciò che rende sensata la frase «visitando il boundary path ed aggiungendo una transizione (quando necessario) ad ogni passo».",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 21,
+   "testo": "Il quaderno scrive «Ognuna ha costo i per i ∈ {1,…,n}» senza spiegazione. Ho esplicitato il motivo: il boundary path di STrie(T^{i-1}) ha i stati (i suffissi di T^{i-1}, compresa ε = root) più ⊥, quindi il passo i-esimo percorre O(i) stati. La somma Σ_{i=1}^n O(i) = O(|T|^2) l'ho scritta esplicitamente (nel quaderno c'è solo «⟹ algoritmo quadratico O(|T|^2)»).",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 21,
+   "testo": "L'annotazione «↳ ottimo!» sotto «O(|T|^2)» è priva di giustificazione. Ho aggiunto la ragione standard: STrie(T) può avere Θ(|T|^2) stati (famiglia T = a^n b^n, già vista nelle pagine precedenti del capitolo), quindi Θ(|T|^2) è ottimale per chi costruisce esplicitamente il trie. Senza questa frase l'esclamazione risulterebbe incomprensibile o sarcastica.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 21,
+   "testo": "«Algoritmo 1» nel quaderno riporta SOLO il corpo del passo i-esimo, da «r ← top» a «top = g(top, t_i)». È il corpo del for dell'Algorithm 1 di Ukkonen (1995, «On-line construction of suffix trees»), riprodotto fedelmente riga per riga. Ho aggiunto l'inizializzazione (creazione di root e ⊥, g(⊥,a) = root per ogni a ∈ Σ, f(root) = ⊥, top ← root) e il ciclo esterno «for i ← 1 to n», senza i quali lo pseudocodice non è eseguibile e la variabile top non sarebbe mai inizializzata.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 21,
+   "testo": "Lo pseudocodice del quaderno è in inglese («create new state r' and set …», «is undef. do», «end while»); l'ho tradotto in italiano come richiesto dalle convenzioni, mantenendo però i nomi di variabile originali r, r', oldr', top. Ho inoltre usato ← per l'assegnamento dove il quaderno usa «=» (create/set/…= r'), poiché si tratta chiaramente di assegnamenti e non di uguaglianze.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 21,
+   "testo": "Ho aggiunto il commento «alla prima iterazione oldr' non è ancora definito» al test «if r ≠ top», e l'osservazione finale sulla terminazione del while (si arriva al più a ⊥, dove g(⊥, t_i) = root è definita) e sull'invariante top = overline{t_1⋯t_i}. Nulla di ciò è scritto negli appunti, ma è il contenuto che il test «r ≠ top» e la riga «top = g(top, t_i)» codificano; senza spiegazione la guardia sembra arbitraria.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 21,
+   "testo": "Notazione: gli appunti usano indifferentemente |T| e n per la lunghezza del testo (|T| nella complessità, n in «i ∈ {1,…,n}» e nei suffissi t_1…t_n). Ho lasciato entrambe ma ho fissato esplicitamente T = t_1 t_2 ⋯ t_n nella caption dell'algoritmo, così che n = |T| sia inequivocabile.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 21,
+   "testo": "Nel quaderno la freccia ondulata fra STrie(T^{i-1}) e STrie(T^i) è del tipo ⇝ (\\rightsquigarrow / \\leadsto); ho usato \\longrightarrow perché non è garantito che amssymb/latexsym siano caricati dal preambolo e la macro corrispondente non compare nell'elenco di CONVENZIONI.md.",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 21,
+   "testo": "Gli appunti del corso dell'anno precedente disponibili (L05_sintesi.md) si fermano prima di Ukkonen: chiudono con il titolo «Strategia per la costruzione di un Suffix Tree» e non contengono né la definizione dei suffix link né l'Algoritmo 1. Il confronto è stato quindi fatto direttamente con Ukkonen (1995) e con Gusfield cap. 6: lo pseudocodice della pagina coincide riga per riga con l'Algorithm 1 originale, il che ha permesso di disambiguare con certezza tutti i grafemi (in particolare «is undef.», «oldr'» e la guardia «r ≠ top»).",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 21,
+   "testo": "Il primo capoverso comincia con un trattino («- f è definito…») perché continua l'elenco puntato delle componenti di STrie(T) = ⟨Q ∪ {⊥}, root, F, g, f⟩ iniziato in fondo a p.20 (-x, -Q, -root, -F, -g). L'ho riscritto come «Resta da definire la funzione f dei suffix link», in modo che la cucitura con p.20 resti leggibile senza il trattino.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "boundary-path",
+   "pagina": 21,
+   "didascalia": "Il boundary path di STrie(T): applicando ripetutamente il suffix link f a partire dallo stato x̄ del suffisso più lungo x = t_1⋯t_n si incontrano, nell'ordine, gli stati di tutti i suffissi di T.",
+   "tipo": "schema di albero (suffix trie disegnato come \"montagna\") con suffix link",
+   "specifica": "Disegno schematico a mano libera del suffix trie STrie(T) reso come una \"montagna\".\n\nCONTORNO. Un triangolo dai lati irregolari/spezzati (tratto a mano libera, spezzata con 3-4 piccoli angoli per lato): vertice in alto al centro-sinistra dell'area (= la radice, NON etichettata nel quaderno), lato sinistro che scende in diagonale verso il basso a sinistra, lato destro che scende in diagonale verso il basso a destra ed è più lungo/più basso del sinistro. La BASE del triangolo non è un segmento retto ma una linea ondulata (2-3 onde ampie e basse), che rappresenta la frontiera degli stati più profondi; parte dall'estremo inferiore del lato sinistro e sale leggermente andando verso destra fino a raccordarsi con l'estremo inferiore del lato destro. Il tratto della montagna è più chiaro/sottile di quello dei nodi.\n\nNODI. Sulla linea ondulata di base ci sono tre nodi disegnati come pallini pieni ben marcati, allineati da sinistra a destra e a quota crescente:\n  - N1, all'estremo sinistro della base (il più in basso), etichettato \\bar{x} scritto SOTTO il pallino;\n  - N2, circa a metà base, un po' più in alto di N1, etichettato \\bar{y} scritto SOTTO il pallino;\n  - N3, a circa due terzi della base, ancora più in alto, senza etichetta di nome.\nDistanza N1-N2 ≈ distanza N2-N3.\n\nSUFFIX LINK. Due archi curvi con punta di freccia, che rappresentano f:\n  - da N1 a N2: arco che scende sotto la linea di base e risale, con la freccia che arriva su N2 da sinistra; l'etichetta f è scritta SOTTO l'arco, circa a un terzo della sua lunghezza (più vicina a N1);\n  - da N2 a N3: arco che sale sopra la linea di base e ridiscende, con la freccia che arriva su N3 da sinistra-basso. Non ha etichetta (è sempre f).\n\nETICHETTE ESTERNE (tutte in italiano):\n  - a SINISTRA, fuori dalla montagna, su due righe: prima riga «suffisso», seconda riga «$t_1\\cdots t_n = x$». Dalla parola «suffisso» parte verso destra una freccia ondulata orizzontale (tratto sinuoso, 2 onde) che entra nell'area del disegno e punta alla parte bassa del lato sinistro della montagna, appena sopra il nodo N1.\n  - in BASSO al centro, sotto la base: «suffisso $t_2\\cdots t_n$», con un piccolo segmento/freccia che sale verso destra e punta al nodo N2 (arriva su N2 dal basso a destra).\n  - a DESTRA, all'altezza della base: «suffisso $t_3\\cdots t_n$», con un piccolo segmento/freccia che va verso sinistra e punta al nodo N3.\n\nSEMANTICA (per chi ridisegna): N1 = stato del suffisso più lungo (tutta la stringa T = t_1⋯t_n), N2 = f(N1) = stato di t_2⋯t_n, N3 = f(N2) = stato di t_3⋯t_n. Gli archi sono i suffix link; la catena continua idealmente verso destra/alto fino a root e poi ⊥. La quota crescente da sinistra a destra esprime il fatto che i suffissi si accorciano e quindi gli stati si avvicinano alla radice.\n\nNOTA: nel quaderno, in alto a destra, c'è anche un riquadro con il testo «la funzione f mi consente di costruire un cammino che visita tutti i suffissi di T» e, sotto, «boundary path» con una grossa freccia verso l'alto. Questo riquadro NON va incluso nella figura TikZ: è già reso come ambiente `osservazione` nel testo.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina si chiude con l'ultima riga dell'Algoritmo 1 («top ← g(top, t_i)»), cioè con la costruzione quadratica del suffix trie completata ma non ancora ottimizzata. Restano aperti due punti, entrambi ripresi immediatamente a p.22: (1) la caratterizzazione formale del boundary path, che p.22 scrive come «f^j(t_1⋯t_{i-1}) per j ∈ {0,…,i-1}» e che definisce i nodi finali F, insieme all'osservazione chiave «non è sempre necessario visitarlo tutto» (si può fermare la risalita appena si incontra uno stato che ha già la transizione su t_i); (2) il passaggio STrie → STree, che p.22 annuncia con i «2 ingredienti» (i) soli nodi branching e (ii) etichette W ⇝ [i,j], necessari per portare la dimensione a O(|T|). Da p.21 va portata avanti tutta la notazione: gli stati x̄, le funzioni g e f, lo stato ⊥, la variabile top = overline{t_1⋯t_i} e l'idea che ogni passo i-esimo risale il boundary path.",
+ "confidenza": "alta"
+}

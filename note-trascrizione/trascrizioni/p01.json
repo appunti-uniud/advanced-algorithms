@@ -1,0 +1,90 @@
+{
+ "pagina": 1,
+ "latex": "\\scan{1}\n\n\\begin{center}\n  {\\large\\textbf{Algoritmi Avanzati}}\\\\[2pt]\n  prof.\\ Alberto  \\quad\\textbullet\\quad \\texttt{e-mail del docente}\n\\end{center}\n\n\\paragraph{Struttura del corso.}\nIl corso si articola in tre parti, a ciascuna delle quali corrisponde un libro di\nriferimento: \\emph{string matching}, \\emph{algoritmi randomizzati} e\n\\emph{strutture dati compresse}.\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/corso-tre-parti.tikz}\n  \\caption{Le tre parti in cui è suddiviso il corso, con le annotazioni a margine\n  sulla dicotomia Monte Carlo / Las Vegas e sull'obiettivo delle strutture dati compresse.}\n\\end{figure}\n\n\\begin{osservazione}\nLa distinzione fra i due tipi di algoritmi randomizzati riguarda dove viene «scaricata»\nl'aleatorietà: un algoritmo \\MonteCarlo{} ha tempo di esecuzione deterministico ma può\nrestituire una risposta errata (con probabilità piccola e controllabile), mentre un\nalgoritmo \\LasVegas{} restituisce sempre la risposta corretta, e ad essere aleatorio è\ninvece il suo tempo di esecuzione.\n\\end{osservazione}\n\n\\paragraph{Libri di testo.}\n\\begin{enumerate}\n  \\item D.~Gusfield, \\emph{Algorithms on Strings, Trees, and Sequences};\n  \\item R.~Motwani, P.~Raghavan, \\emph{Randomized Algorithms};\n  \\item G.~Navarro, \\emph{Compact Data Structures}.\n\\end{enumerate}\nLa numerazione dei testi ricalca quella delle tre parti del corso: a ogni modulo\ncorrisponde un testo canonico distinto. A questi si aggiungono gli appunti\n(non ufficiali) del docente e i nostri appunti presi a lezione.\n\n\\paragraph{Materiale.}\nTutto il materiale del corso è reso disponibile su Teams.\n\n\\paragraph{Esame.}\nL'esame è orale. Durante il corso vengono proposti spunti per approfondimenti;\nl'esame consiste quindi in un (eventuale) approfondimento seguito dal colloquio orale.",
+ "note": [
+  {
+   "tipo": "correzione",
+   "pagina": 1,
+   "risolto": true,
+   "testo": "Il quaderno scrive «R. Motwani – R,Ragavan» per il secondo libro. Ho scritto «R. Motwani, P. Raghavan»: il coautore di *Randomized Algorithms* (Cambridge University Press, 1995) insieme a Rajeev Motwani è Prabhakar Raghavan — iniziale P, non R, e cognome con la 'h'. Correzione silenziosa, nessun marcatore nel LaTeX."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 1,
+   "risolto": true,
+   "testo": "Il quaderno scrive «Montecarlo» tutto attaccato; ho normalizzato in «Monte Carlo» (grafia standard). «Las Vegas» era già corretto."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 1,
+   "risolto": true,
+   "testo": "Le due glosse a destra di «algoritmi randomizzati» sono in corsivo minuto e vanno a capo. Ingrandendo a 300 DPI si legge «Montecarlo — non sempre / corretti» e «Las Vegas — sempre / corretti»: la parola andata a capo è lo stesso grafema nei due casi (con la doppia t barrata) e la dicotomia standard conferma la lettura. Risolto con certezza."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 1,
+   "risolto": true,
+   "testo": "Annotazione a destra di «strutture dati compresse», introdotta da una tilde: leggo «comprimere dati anche molto complessi». La parola in fine di prima riga ha quattro tratti letterali e isolata si leggerebbe «onde», ma «anche» è l'unica lettura che dà senso alla frase; la seconda riga («molto complessi») è chiara. Reso nella specifica della figura senza marcatore perché il significato è univoco: confidenza media sulla singola parola, alta sul senso."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 1,
+   "risolto": true,
+   "testo": "«+ Appunti (non ufficiali), nostri appunti»: l'ultima parola è ricalcata due volte e la prima lettera di «nostri» poteva essere letta 'v' («vostri»). L'ingrandimento mostra chiaramente le due gobbe della 'n'. Ho scritto «nostri appunti»."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 1,
+   "risolto": true,
+   "testo": "Ho aggiunto l'`osservazione` che precisa la dicotomia Monte Carlo / Las Vegas (tempo deterministico + risposta talvolta errata vs. risposta sempre corretta + tempo aleatorio). Il quaderno riporta solo «non sempre corretti» / «sempre corretti»: formulazione corretta ma monca, perché non dice che nei Las Vegas l'aleatorietà si sposta sul tempo di esecuzione. Integrazione standard (Motwani–Raghavan, cap. 1), segnalata qui perché non lascia traccia di marcatore nel LaTeX."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 1,
+   "risolto": true,
+   "testo": "L'unico disegno della pagina è lo schema a graffa «3 parti». Interpretazione: divergenza di primo livello da «3 parti» verso tre voci sottolineate (string matching / algoritmi randomizzati / strutture dati compresse); da «algoritmi randomizzati» parte una seconda parentesi angolare '<' che si apre su Monte Carlo e Las Vegas con i rispettivi commenti; da «strutture dati compresse» parte un connettore a tilde verso la glossa sulla compressione. Nel manoscritto la divergenza di primo livello NON è una graffa tipografica ma tre frecce con punta piena che divergono da un unico punto (una sale, una orizzontale, una scende): l'ho descritta così nella specifica. Le sottolineature del quaderno (retta sotto «string», retta sotto «randomizzati», ondulata sotto «strutture» e retta sotto «compresse») sono decorative e nella figura le ho uniformate a una sola sottolineatura per voce."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 1,
+   "risolto": true,
+   "testo": "Espansione delle note telegrafiche sull'esame. Il quaderno ha: «Esame: – orale / – spunti per approfondimenti / → (approfondimento +) esame orale». Reso in prosa: l'esame è orale, durante il corso vengono proposti spunti per approfondimenti, e l'esame consiste in un (eventuale) approfondimento seguito dal colloquio orale. La parentesi attorno a «approfondimento +» è stata interpretata come segno di opzionalità dell'approfondimento."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 1,
+   "risolto": true,
+   "testo": "L'intestazione «Algoritmi avanzati» (titolo sottolineato in cima alla pagina) e l'indirizzo e-mail del docente sono stati resi come blocco centrato di frontespizio e non come \\section/\\chapter, come richiesto dalle convenzioni: la struttura del documento si decide in fase di cucitura. Le tre etichette esplicite del quaderno («Libri:», «Materiale su Teams», «Esame:») sono rese con \\paragraph."
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 1,
+   "risolto": true,
+   "testo": "Gli appunti del corso dell'anno precedente (L01, 2024) coprono nella loro p.1 lo stesso blocco amministrativo (programma in tre blocchi con marcatori cerchiati ①②③, libri di testo, modalità d'esame, ricevimento) e vi enunciano già il problema del pattern matching esatto. Nel quaderno dello studente il contenuto tecnico comincia invece solo a p.2. Il quaderno dello studente è però più ricco su un punto: riporta la glossa Monte Carlo / Las Vegas e la glossa sulla compressione, assenti neGli appunti del corso dell'anno precedente; non riporta invece le copertine dei libri che La fonte dell'anno precedenteaveva incollato. La corrispondenza uno-a-uno «parte del corso ↔ libro» è confermata da entrambe le fonti."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 1,
+   "risolto": false,
+   "testo": "Ho usato \\MonteCarlo{} e \\LasVegas{} in corpo di testo dentro l'`osservazione`: figurano nell'elenco delle macro dei randomizzati in CONVENZIONI.md, ma non è documentato se siano definite per il testo o per la modalità matematica. Se in preamble.tex non fossero utilizzabili in testo, sostituire con \\emph{Monte Carlo} e \\emph{Las Vegas}."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 1,
+   "risolto": true,
+   "testo": "La p.1 del quaderno riporta in testa l'indirizzo e-mail del docente. Non e stato trascritto: e un dato personale di terzi e questo materiale e destinato a un repository pubblico. Restano il titolo del corso e il nome del docente, che sono informazioni pubbliche."
+  }
+ ],
+ "figure": [
+  {
+   "id": "corso-tre-parti",
+   "pagina": 1,
+   "didascalia": "Le tre parti in cui è suddiviso il corso, con le annotazioni a margine sulla dicotomia Monte Carlo / Las Vegas e sull'obiettivo delle strutture dati compresse.",
+   "tipo": "schema a graffa (albero di suddivisione con annotazioni a margine)",
+   "specifica": "Schema orizzontale a tre livelli, tutto testo in italiano (tranne il termine inglese «string matching»). Nessun colore: il manoscritto è interamente in penna blu, va reso in nero.\n\nLIVELLO 0 (a sinistra, centrato verticalmente rispetto ai tre rami): il nodo-testo «3 parti».\n\nDIVERGENZA: dal punto immediatamente a destra di «3 parti» partono TRE frecce con punta piena che divergono da un unico punto di origine — una che sale verso destra (verso la riga 1), una orizzontale (verso la riga 2), una che scende verso destra (verso la riga 3). Nel manoscritto NON c'è una graffa tipografica ma esattamente queste tre frecce; in alternativa è accettabile una decoration brace, ma la resa fedele è a frecce.\n\nLIVELLO 1 — tre voci impilate verticalmente, allineate a sinistra fra loro, ciascuna raggiunta da una delle tre frecce:\n  R1 (in alto): «string matching», sottolineata;\n  R2 (al centro): «algoritmi randomizzati», sottolineata;\n  R3 (in basso): «strutture dati compresse», sottolineata.\nSpaziatura verticale fra le righe: circa una riga e mezza di testo.\n\nDIRAMAZIONE DA R2: a destra di «algoritmi randomizzati» un secondo connettore a forma di parentesi angolare «<» (due segmenti che partono da un vertice a sinistra, uno verso l'alto-destra e uno verso il basso-destra) che si apre su due sotto-voci allineate a sinistra fra loro:\n  S1 (alla stessa altezza di R1, cioè leggermente più in alto di R2): «Monte Carlo — non sempre corretti»;\n  S2 (alla stessa altezza di R2): «Las Vegas — sempre corretti».\nIn entrambe le sotto-voci un trattino lungo separa il nome della classe dal commento. Nel manoscritto il commento va a capo («non sempre / corretti», «sempre / corretti») solo per mancanza di spazio: in TikZ va tenuto su una riga sola.\n\nANNOTAZIONE SU R3: a destra di «strutture dati compresse» un connettore a tilde (nel manoscritto un breve tratto ondulato orizzontale, reso con \\sim o con una decoration snake) seguito dalla glossa: «comprimere dati anche molto complessi».\n\nSTILE: nessun riquadro. Le etichette di livello 1 in corpo testo; le glosse a destra (S1, S2 e la glossa di R3) in corpo minore (\\small o \\footnotesize), perché nel quaderno sono annotazioni marginali scritte più piccole.\n\nSIGNIFICATO ALGORITMICO: la figura è la mappa del corso. Le tre voci corrispondono uno-a-uno ai tre libri di testo elencati subito sotto (Gusfield → string matching; Motwani–Raghavan → algoritmi randomizzati; Navarro → strutture dati compresse). La diramazione «<» anticipa la classificazione degli algoritmi randomizzati della parte 2; la tilde su R3 enuncia l'obiettivo della parte 3.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina 1 è interamente amministrativa e si chiude senza nulla di matematicamente in sospeso: dopo le modalità d'esame il discorso si interrompe. Resta aperto solo il programma annunciato dallo schema «3 parti»: la parte 1 (string matching) comincia subito dopo. La pagina 2 apre infatti con l'intestazione «PROBLEMA (algoritmico): Pattern matching esatto» e introduce le convenzioni sulle stringhe (alfabeto Σ di cardinalità finita, P, T ∈ Σ*, |P| = n, |T| = m — si noti che questo quaderno usa n per il pattern e m per il testo), l'Output {i | T[i, i+n−1] = P}, la figura dell'allineamento T/P, l'algoritmo naive con i due for innestati e la sua complessità O(m·n), i casi pessimi (T = a^m con P = a^{n−1}b) e il lower bound Ω(n+m). Chi trascrive la pagina 2 deve mantenere la convenzione |P| = n, |T| = m fissata lì.",
+ "confidenza": "alta"
+}

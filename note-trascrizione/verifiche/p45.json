@@ -1,0 +1,13 @@
+{
+ "pagina": 45,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "media",
+   "categoria": "errore-logico",
+   "dove": "lezioni/09-distanze-allineamento.tex, caption di \\label{fig:hirschberg-divide} («le altre due regioni non vengono mai calcolate») e tikz/hirschberg-divide.tikz, i due nodi con testo «mai\\\\calcolata»",
+   "descrizione": "Nell'algoritmo di Hirschberg le due regioni non ombreggiate (in alto a destra e in basso a sinistra) NON sono «mai calcolate»: a ogni livello si riempie l'intero rettangolo corrente — in avanti dalle righe 0..i* e all'indietro dalle righe i*..n1, su TUTTE le colonne — proprio per poter individuare j* = argmin_j (F[j]+B[j]). Solo le chiamate ricorsive sono ristrette ai due sottorettangoli. L'affermazione contraddice anche la frase immediatamente successiva del testo («a ogni livello della ricorsione l'area complessiva da riempire si dimezza, il tempo resta \\Th(n_1 n_2)»): il dimezzamento presuppone che al livello 0 si riempia tutta l'area n_1 x n_2, cioè anche le due regioni dichiarate «mai calcolate». Con la formulazione attuale il tempo totale risulterebbe n_1 n_2/2 + n_1 n_2/4 + ... invece di 2 n_1 n_2. La nota editoriale (NOTE-EDITORIALI.md, p.45) conferma che la frase è un'aggiunta del trascrittore e non testo del quaderno.",
+   "correzione": "Nella caption sostituire «sui quali si ricorre: le altre due regioni non vengono mai calcolate» con «sui quali si ricorre; le altre due regioni, attraversate una sola volta a questo livello per individuare $j^{*}$, non entrano nelle chiamate ricorsive». In tikz/hirschberg-divide.tikz cambiare le due etichette da «mai\\\\calcolata» a «esclusa dalla\\\\ricorsione» (o «non più\\\\visitata») e aggiornare di conseguenza il commento in testa al file."
+  }
+ ]
+}

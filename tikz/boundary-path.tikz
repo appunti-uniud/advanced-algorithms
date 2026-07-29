@@ -1,0 +1,48 @@
+% Boundary path di STrie(T).
+% La "montagna" schematizza il trie: il vertice e' la radice, la linea ondulata
+% in basso e' la frontiera degli stati piu' profondi.  Su di essa stanno gli
+% stati dei suffissi di T, collegati fra loro dai suffix link f.
+\begin{tikzpicture}[
+    scale=1.15,
+    >={Stealth[length=4.5pt]},
+    font=\footnotesize,
+    stato/.style={circle,fill,inner sep=0pt,minimum size=4.4pt}]
+
+  % ---- contorno schematico dello STrie -------------------------------------
+  \draw[gray]
+    (0,3.0) -- (-0.45,2.55) -- (-0.85,2.42) -- (-1.35,1.62)
+         -- (-1.70,1.42) -- (-2.05,0.62) -- (-2.30,0.10);
+  \draw[gray]
+    (0,3.0) -- (0.40,2.50) -- (0.85,2.40) -- (1.45,1.78)
+         -- (1.90,1.70) -- (2.45,1.15) -- (2.80,0.85);
+  % frontiera degli stati piu' profondi
+  \draw[gray] plot[smooth,tension=0.85] coordinates
+    {(-2.30,0.10) (-1.90,-0.05) (-1.50,0.18) (-1.05,-0.02) (-0.60,0.22)
+     (-0.15,0.30) (0.30,0.58) (0.80,0.36) (1.20,0.44) (1.60,0.62)
+     (2.05,0.86) (2.45,0.70) (2.80,0.85)};
+
+  % ---- stati dei suffissi ---------------------------------------------------
+  \node[stato] (x) at (-1.90,-0.05) {};
+  \node[stato] (y) at (-0.15, 0.30) {};
+  \node[stato] (z) at ( 1.60, 0.62) {};
+  \node[below left=1pt and 0pt] at (x) {$\bar{x}$};
+  \node[above left=-2pt and -4pt] at (y) {$\bar{y}$};
+
+  % ---- suffix link ----------------------------------------------------------
+  \draw[->,thick] (x) to[out=-55,in=-125]
+        node[pos=0.28,below=-1pt] {$f$} (y);
+  \draw[->,thick] (y) to[out=70,in=125] (z);
+
+  % ---- etichette esterne ----------------------------------------------------
+  \node[anchor=east,align=right] at (-3.55,0.80)
+       {suffisso\\[1pt] $t_1\cdots t_n = x$};
+  \draw[->,gray,decorate,
+        decoration={snake,amplitude=.5mm,segment length=3.2mm,post length=2mm}]
+       (-3.45,0.95) -- (-2.38,0.55);
+
+  \node[anchor=north] at (0.75,-1.05) {suffisso $t_2\cdots t_n$};
+  \draw[->,gray] (0.62,-0.95) to[out=140,in=-35] (y);
+
+  \node[anchor=west] at (2.95,0.08) {suffisso $t_3\cdots t_n$};
+  \draw[->,gray] (2.88,0.20) to[out=165,in=-20] (z);
+\end{tikzpicture}

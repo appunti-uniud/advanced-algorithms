@@ -1,0 +1,116 @@
+{
+ "pagina": 46,
+ "latex": "\\scan{46}\n\n\\subsection{Allineamento locale}\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/allineamento-locale-prima-riga.tikz}\n  \\caption{Matrice dell'allineamento locale: la prima riga vale $0$ in \\emph{ogni} colonna.\n  Un allineamento locale è un cammino di backtracking che risale fino a una cella qualsiasi\n  della riga $0$; le due verticali delimitano la porzione di $\\sigma_2$ effettivamente\n  allineata contro tutta $\\sigma_1$.}\n  \\label{fig:all-locale-prima-riga}\n\\end{figure}\n\nAssegno costo $0$ al gap iniziale e uso lo stesso algoritmo!\n\n\\begin{definizione}[Allineamento locale]\n  L'\\emph{allineamento locale} (a distanza $\\le d$) di $\\sigma_1$ in $\\sigma_2$ è l'insieme\n  delle coppie $\\tuplev{i,\\eta_i}$ in cui $\\eta_i$ è l'edit string di costo minimo (e tale\n  costo è $\\le d$) che allinea $\\sigma_1$ con un suffisso del prefisso $\\pre{\\sigma_2}{i}$.\n\\end{definizione}\n\n\\begin{osservazione}\n  Basta quindi compilare la stessa matrice di programmazione dinamica dell'allineamento\n  globale cambiando una sola condizione al contorno:\n  \\[\n    \\Dm{0}{j}=0 \\quad \\forall j, \\qquad \\Dm{i}{0}=i \\quad \\forall i,\n  \\]\n  \\[\n    \\Dm{i}{j}=\\min\\bigl\\{\\,\\Dm{i-1}{j-1}+\\mathrm{cost}(\\sigma_1[i],\\sigma_2[j]),\\;\n    \\Dm{i-1}{j}+1,\\; \\Dm{i}{j-1}+1 \\,\\bigr\\}.\n  \\]\n  Con questa inizializzazione ogni cella soddisfa l'invariante\n  \\[\n    \\Dm{i}{j}=\\min_{0\\le k\\le j}\\ \\dedit\\bigl(\\pre{\\sigma_1}{i},\\ \\sub{\\sigma_2}{k+1}{j}\\bigr),\n  \\]\n  cioè contiene la distanza fra il prefisso $\\pre{\\sigma_1}{i}$ e il \\emph{migliore} suffisso\n  del prefisso $\\pre{\\sigma_2}{j}$: è esattamente il gap iniziale gratuito.\n\\end{osservazione}\n\nCosto dell'allineamento locale (con $\\sigma$ pattern e $T$ testo):\n\\[\n  \\abs{\\sigma}\\times\\abs{T},\n\\]\nproporzionale all'area della matrice.\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/allineamento-locale-ultima-riga.tikz}\n  \\caption{La matrice $\\sigma\\times T$ dell'allineamento locale. I minimi dell'ultima riga\n  (le tacche in basso) individuano le posizioni finali delle occorrenze approssimate di\n  $\\sigma$ in $T$.}\n  \\label{fig:all-locale-ultima-riga}\n\\end{figure}\n\n\\[\n  \\text{cerco i minimi costi}\\ \\iff\\ \\text{allineamento locale \\emph{ottimo}}\n\\]\n\n\\begin{domanda}\n  Cambia qualcosa se mi accontento della risposta alla domanda «esistono allineamenti\n  locali a costo $\\le d$?»\n\\end{domanda}\n\nSì! Se $d=\\Oh(1)$ l'algoritmo di Landau--Vishkin (1986--1989) risponde in tempo\n\\[\n  \\Oh\\bigl(\\abs{\\sigma}+\\abs{T}\\bigr)\n\\]\n--- in generale $\\Oh\\bigl(d\\,(\\abs{\\sigma}+\\abs{T})\\bigr)$ --- invece dei\n$\\abs{\\sigma}\\times\\abs{T}$ della programmazione dinamica. Gli ingredienti sono tre:\n\\[\n  \\text{allineamento locale} \\;+\\; \\text{\\STree} \\;+\\;\n  \\text{Harel--Tarjan ($\\lca$ in tempo costante)}.\n\\]",
+ "note": [
+  {
+   "tipo": "altro",
+   "pagina": 46,
+   "testo": "Il quaderno ha un titolo esplicito sottolineato «Allineamento Locale» in cima alla pagina: reso con \\subsection{Allineamento locale} (minuscola come da uso tipografico italiano). Nessun \\chapter/\\section, come da convenzioni.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 46,
+   "testo": "L'annotazione sotto la figura in alto è telegrafica: «ossegno costo 0 a gap iniziale e uso lo stesso algoritmo!». La prima parola, apparentemente «ossegno», è chiaramente «assegno» (la 'a' iniziale è chiusa in un occhiello). Lo zero è scritto barrato (0 con sbarra), non è una sigma. Ho scritto «Assegno costo 0 al gap iniziale e uso lo stesso algoritmo!» normalizzando «a gap» in «al gap».",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 46,
+   "testo": "La definizione manoscritta recita letteralmente: «L'allineamento locale (a distanza ≤d) di σ1 in σ2 è la coppia ⟨i, η_i⟩ di distanza/edit string ottimo di σ1 con ogni suffisso di ogni prefisso σ2[1,…,i].» È telegrafica e mescola due cose: la coppia scritta è ⟨i, η_i⟩ (posizione + edit string), mentre «di distanza/edit string ottimo» è la glossa dello studente per «di costo minimo». Ho reso: «è l'insieme delle coppie ⟨i,η_i⟩ in cui η_i è l'edit string di costo minimo (e tale costo è ≤ d) che allinea σ1 con un suffisso del prefisso σ2[1..i]», che è la lettura corretta (un suffisso di un prefisso = una sottostringa di σ2 che termina in i) e coincide con la semantica della matrice disegnata sopra. Il plurale «ogni suffisso di ogni prefisso» del quaderno è stato assorbito nel «insieme delle coppie ... al variare di i» implicito nella quantificazione su i.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 46,
+   "testo": "L'ultima parola della seconda riga della definizione è scritta sopra una cancellatura/sbavatura; la lettura più coerente con la riga successiva («di ogni prefisso σ2[1,…,i]») è «suffisso». Confermata dal senso: sottostringa di σ2 = suffisso di un prefisso.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 46,
+   "testo": "La pagina dice solo «assegno costo 0 al gap iniziale e uso lo stesso algoritmo» senza scrivere le equazioni. Ho aggiunto un'osservazione con (a) le condizioni al contorno D(0,j)=0, D(i,0)=i, (b) la ricorrenza (identica a quella globale) e (c) l'invariante D(i,j)=min_{0≤k≤j} d_edit(σ1[1..i], σ2[k+1..j]). Fonte: appunti del corso dell'anno precedente L11 §10.1 (slide 16, «basta compilare la matrice ponendo tutti 0 nella prima riga») e teoria standard (algoritmo di Sellers 1980). È una colmatura di lacuna, non contenuto presente sulla pagina.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 46,
+   "testo": "La riga «Costo allineamento locale |σ|×|T| (proporzion…le a ?)»: il glifo finale dentro la parentesi non è decidibile con certezza fra «a» e «d» (manca l'asta ascendente tipica della 'd' di questa calligrafia, cfr. «≤ d» in fondo alla pagina, quindi propendo per «a»). La parentesi resta comunque sintatticamente sospesa: «proporzionale a …». L'unico referente sensato è il rettangolo della matrice disegnato immediatamente sotto (T in orizzontale, σ in verticale), la cui AREA è appunto |σ|×|T|. Ho completato con «proporzionale all'area della matrice». Una lettura «proporzionale a d» sarebbe matematicamente falsa (la PD costa |σ|·|T| indipendentemente da d) ed è quindi da escludere.",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 46,
+   "testo": "A metà pagina la notazione cambia: dalle coppie σ1/σ2 della definizione si passa a σ (pattern) e T (testo), come nelle figure e in tutta p.47. Ho segnalato il cambio in linea («con σ pattern e T testo») invece di uniformare, per non rompere la corrispondenza con i disegni e con la pagina successiva.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 46,
+   "testo": "Figura in alto: interpretata come la matrice di PD dell'allineamento locale. La lunga linea orizzontale in alto è il testo σ2 (etichetta σ2 all'estremo destro); la barra verticale a sinistra con le etichette 1,2,3 è il pattern σ1 (poche righe: il pattern è corto). La riga 0 è riempita di zeri (≈12 zeri). Le due barre verticali a destra + la linea orizzontale in basso con freccia formano un rettangolo di colonne, dentro cui c'è un cammino a scalini (backtracking) che parte sulla riga 0 e scende fino all'ultima riga: sono le colonne di σ2 effettivamente allineate. La graffa orizzontale che copre i primi ~8 zeri, con la punta rivolta in basso, è il richiamo che scende all'annotazione «assegno costo 0 al gap iniziale…».",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 46,
+   "testo": "Figura centrale: rettangolo largo e basso (matrice σ×T), con T etichettato sopra il bordo superiore e σ a sinistra. In basso una striscia stretta, delimitata da una seconda orizzontale, che sporge leggermente a destra: è l'ULTIMA RIGA della matrice. Dentro la striscia tre gruppi di tacche verticali (||, |, ||) a circa 25%, 55% e 85% della larghezza: sono i minimi. La didascalia manoscritta sotto è «cerco i minimi costi ⟺ allineamento locale ottimo», che ho riportato come formula fuori testo.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 46,
+   "testo": "Sotto «≤ d» (sottolineato) c'è un piccolo gancio che scende e punta a «O(1)». L'ho interpretato come annotazione sul parametro: d = O(1), cioè d costante. È l'unica lettura che rende coerente il bound O(|σ|+|T|) scritto subito sotto (Landau–Vishkin costa in realtà O(d(|σ|+|T|))). Reso con «Se d = O(1) …».",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 46,
+   "testo": "Ho aggiunto in linea il bound generale O(d(|σ|+|T|)) accanto a O(|σ|+|T|): non è scritto su p.46 (dove d è assunto costante) ma compare esplicitamente su p.47. Serve a evitare la lettura sbagliata «Landau–Vishkin è lineare comunque».",
+   "risolto": true
+  },
+  {
+   "tipo": "errore-anno-prec",
+   "pagina": 46,
+   "testo": "Il quaderno riquadra «Landau-Vishkin '82» (e ripete '82 anche su p.47). La datazione è impossibile: l'algoritmo usa il calcolo del LCA in tempo costante di Harel–Tarjan, che è del 1984, ed è citato nella riga successiva della stessa pagina. I lavori di Landau e Vishkin sono del 1986 (TCS, k mismatches) e 1988/1989 (JCSS, k differences). Ho scritto «Landau–Vishkin (1986–1989)» invece di «'82». L'errore è verosimilmente dell'anno precedente (ripetuto in aula).",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 46,
+   "testo": "L'ultima riga della pagina, «All. locale + Suffix Tree + …», termina con due parole molto compresse lette come «Harel-Tarjan»: la maiuscola iniziale è un'ampia H a occhiello, la seconda parola ha la discendente della j. La lettura è confermata dal contenuto (Landau–Vishkin = allineamento locale + suffix tree generalizzato + LCA in O(1) di Harel–Tarjan) e dalla stessa riga ripetuta su p.47. Ho espanso «All. locale» in «allineamento locale» e aggiunto la glossa «(lca in tempo costante)».",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 46,
+   "testo": "Nota di coerenza (non marcata nel testo): la definizione indicizza le coppie con l'indice i del PREFISSO σ2[1..i], cioè con la posizione FINALE dell'occorrenza, mentre Gli appunti del corso dell'anno precedente (L11, anomalia A9) indicizzano con la posizione INIZIALE. La versione dello studente è quella coerente con la matrice (i minimi si leggono nell'ultima riga, indicizzati dalla colonna finale j); la posizione iniziale si recupera solo con il backtracking, che è esattamente ciò che mostra la figura in alto. Ho mantenuto la versione dello studente.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 46,
+   "testo": "Espansioni/normalizzazioni minori: «Cambia qualcosa se mi accontento della risposta alla domanda: esistono allineamenti locali a costo ≤ d ? Sì!» reso con un ambiente `domanda` seguito dalla risposta; «ottimo» era sottolineato ed è diventato \\emph; «⟺» del quaderno (disegnato come <=>) reso con \\iff.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "allineamento-locale-prima-riga",
+   "pagina": 46,
+   "didascalia": "Matrice dell'allineamento locale: la prima riga vale 0 in ogni colonna. Un allineamento locale è un cammino di backtracking che risale fino a una cella qualsiasi della riga 0; le due verticali delimitano la porzione di sigma_2 effettivamente allineata contro tutta sigma_1.",
+   "tipo": "matrice DP (schema, non tabellare)",
+   "specifica": "Schema molto largo e basso (rapporto circa 5:1), disegnato a mano libera con tratto leggermente ondulato.\n\nGRIGLIA IMPLICITA: pensa a una matrice con 1 riga di intestazione (riga 0) + 3 righe, e ~16 colonne. NON disegnare la griglia: solo i bordi indicati sotto.\n\nELEMENTI:\n1. Bordo superiore: una lunga linea orizzontale che attraversa TUTTA la larghezza della figura (dalla colonna 1 fino all'estremo destro). Subito a destra della sua estremità, fuori dal disegno, l'etichetta $\\sigma_2$.\n2. Bordo sinistro: un segmento verticale corto all'estremità sinistra, che parte dal bordo superiore e scende per l'altezza di ~4 righe. A sinistra di questo segmento, all'altezza della prima/seconda riga, l'etichetta $\\sigma_1$.\n3. Riga 0 (subito sotto il bordo superiore): una sequenza di 12 zeri, uno per colonna, allineati orizzontalmente. Gli zeri occupano le colonne 1..8, poi (dopo la verticale di cui al punto 6) le colonne 10..13.\n4. Etichette di riga: i numeri 1, 2, 3 scritti in colonna, appena a destra del bordo sinistro, alle altezze delle righe 1, 2, 3. La riga 0 non è etichettata (è la riga degli zeri).\n5. Graffa orizzontale: sotto la riga 0, dalla colonna 1 alla colonna ~8, una graffa larga rivolta verso il basso (linea orizzontale ondulata con una piccola punta a V al centro, sotto la colonna ~4/5). Dalla punta della graffa parte una lunga linea che scende verticalmente e esce dalla figura verso il basso: è il richiamo all'annotazione «Assegno costo 0 al gap iniziale e uso lo stesso algoritmo!» (l'annotazione NON va disegnata dentro la figura: è testo di pagina subito sotto).\n6. Banda di colonne (a destra): due segmenti verticali paralleli, entrambi partono dal bordo superiore (leggermente sopra la riga 0) e scendono fino all'altezza della riga 3/4. Il primo è alla colonna ~9, il secondo alla colonna ~14. Il primo ha una piccola punta di freccia in alto (verso l'alto).\n7. Bordo inferiore della banda: un segmento orizzontale che unisce i piedi dei due segmenti verticali e prosegue un poco a destra oltre il secondo, terminando con un ispessimento/punta di freccia rivolta a destra.\n8. Cammino di backtracking: dentro la banda, un cammino monotono a scalini (stile 'staircase' disegnata a mano, con tratti ondulati) che parte in alto a sinistra, sulla riga 0 appena a destra del primo verticale (colonna ~10), e scende alternando brevi tratti verticali verso il basso e brevi tratti orizzontali verso destra, fino al vertice in basso a destra della banda, dove si innesta sul bordo inferiore. Deve attraversare tutte le righe (0 -> 3).\n\nSIGNIFICATO (per orientare il disegno): la riga 0 è tutta a 0 perché il gap iniziale su sigma_2 è gratuito; un allineamento locale ottimo è un cammino che dall'ultima riga risale fino a una cella qualunque della riga 0; le colonne comprese fra i due verticali sono la sottostringa di sigma_2 allineata contro tutta sigma_1.\n\nTESTO: tutto in italiano/simboli matematici; solo $\\sigma_1$, $\\sigma_2$, gli zeri e i numeri 1,2,3.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "allineamento-locale-ultima-riga",
+   "pagina": 46,
+   "didascalia": "La matrice sigma x T dell'allineamento locale. I minimi dell'ultima riga (le tacche in basso) individuano le posizioni finali delle occorrenze approssimate di sigma in T.",
+   "tipo": "matrice DP (schema, non tabellare)",
+   "specifica": "Rettangolo largo e basso disegnato a mano libera (bordi leggermente ondulati), rapporto larghezza:altezza circa 4:1.\n\nELEMENTI:\n1. Rettangolo principale: bordo superiore, bordo sinistro, bordo destro (i bordi hanno un'ondulazione morbida, non sono righe perfette).\n2. Etichetta $T$ (testo) sopra il bordo superiore, a circa il 25--30% della larghezza, con un piccolo tratto/gancio che scende a toccare il bordo superiore.\n3. Etichetta $\\sigma$ (pattern) a sinistra del bordo sinistro, a circa metà altezza.\n4. Ultima riga: una seconda linea orizzontale parallela al bordo inferiore, posta poco sopra di esso, così da formare una STRISCIA stretta (alta circa 1/5 dell'altezza del rettangolo) che rappresenta l'ultima riga della matrice, quella indicizzata da $\\abs{\\sigma}$. Entrambe le linee della striscia (quella superiore e il bordo inferiore) sporgono leggermente a destra oltre il bordo destro del rettangolo.\n5. Tacche dei minimi: dentro la striscia, tre gruppi di trattini verticali corti (che attraversano l'altezza della striscia), posti a circa il 25%, il 55% e l'85% della larghezza. Il primo gruppo è formato da due tacche ravvicinate (||), il secondo da una tacca sola (|) con un piccolo segno accanto, il terzo di nuovo da due tacche ravvicinate (||).\n\nSIGNIFICATO: i valori dell'ultima riga sono i costi del miglior allineamento di TUTTA sigma con una sottostringa di T che termina nella colonna corrispondente; le tacche marcano le colonne in cui questi valori sono minimi, cioè le posizioni finali delle occorrenze approssimate.\n\nTESTO: solo le etichette $T$ e $\\sigma$.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina chiude con un'anticipazione: la domanda decisionale «esistono allineamenti locali a costo ≤ d?» si risolve, per d costante, in tempo O(|σ|+|T|) con Landau–Vishkin, i cui ingredienti (allineamento locale + suffix tree + LCA di Harel–Tarjan) sono elencati ma non spiegati. Restano quindi in sospeso: (a) come si combinano suffix tree e LCA per fare i «salti» lungo le diagonali, (b) il bound generale in funzione di d. La pagina 47 riprende esattamente da qui: prima una digressione sulle funzioni di costo dei gap (lineare γ(n)=n·g, convessa γ(i+1)−γ(i) ≤ γ(i)−γ(i−1), affine γ(n)=g_o+(n−1)·g_e), poi il titolo «Landau Vishkin '82» con la figura della banda diagonale di ampiezza d nella matrice σ×T, il bound O(d(|σ|+|T|)) e la ripetizione della riga «all. locale + suffix tree + Harel–Tarjan»; infine lo schema riassuntivo O(m+n) per l'allineamento esatto (KMP, BM, Aho–Corasick, Ukkonen/suffix tree) contro O(m×n) per l'allineamento approssimato. Da notare, per la cucitura: la datazione «'82» compare identica su p.47 e va corretta allo stesso modo.",
+ "confidenza": "alta"
+}

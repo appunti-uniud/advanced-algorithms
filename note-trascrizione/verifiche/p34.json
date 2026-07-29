@@ -1,0 +1,27 @@
+{
+ "pagina": 34,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "media",
+   "categoria": "errore-logico",
+   "dove": "lezioni/08-lca.tex, Algoritmo alg:lca-b (righe 263-275, \\Require e caption) rispetto alla chiamata in alg:lca-query (riga 712)",
+   "descrizione": "L'Algoritmo 8 dichiara come precondizioni 'i path number x != y' e (nella caption) 'nessuno dei due nodi antenato dell'altro'. L'algoritmo di query lo invoca pero' su b <- lca_B(I(x), I(y)), e I(x) = I(y) ogni volta che x e y stanno sullo stesso run (caso possibile e non raro: p.es. x padre di y con lo stesso bottom); inoltre I(x) puo' essere antenato di I(y) in B. In quei casi s = x XOR y = 0 e Leftmost1(0) non e' definita, oppure la formula restituisce un nodo sbagliato. Il quaderno non scrive l'algoritmo (elenca solo 1 XOR / 1 leftmost 1 / 2 shift), ma Gli appunti del corso dell'anno precedente (L08 sintesi, pseudocodice LCA-COMPLETE) contengono esplicitamente la riga 'if x = 0: return i', che nella ricostruzione e' stata omessa.",
+   "correzione": "Aggiungere in alg:lca-b, subito dopo 's <- x XOR y', la riga '\\If{$s = 0$} \\State \\Return $x$ \\EndIf' (con commento: i due nodi coincidono) e rilassare il \\Require a 'due path number di nodi di B'; oppure, in alternativa, aggiungere subito dopo l'esercizio una nota che avverte che il caso x = y e il caso antenato/discendente vanno risolti prima di usare lca_B nell'algoritmo di query del capitolo."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "notazione",
+   "dove": "lezioni/08-lca.tex, posizione del marcatore \\scan{34} (riga 190)",
+   "descrizione": "Il contenuto della pagina 34 comincia con la prima riga del quaderno 'B -> p foglie, 2p-1 nodi (p-1 n.i.), d = log_2 p altezza' e prosegue con la frase 'Codifico un generico nodo di B con d+1 bits'. Entrambi sono stati trascritti PRIMA di \\scan{34} (display alle righe 169-174 e paragrafo alle righe 184-188): la pagina 33 termina con i due soli disegni in basso (l'albero con livelli 1,2,4,8 e graffa 'log n', e la sagoma con alpha -> v piu' l'array 'alpha 1 0000000'), senza alcuna di quelle due frasi. Il marcatore risulta quindi spostato in avanti di circa un quarto di pagina, contro la convenzione '\\scan{NN} all'inizio del contenuto di ogni pagina'.",
+   "correzione": "Spostare \\scan{34} dalla riga 190 a subito prima del display '\\[ \\B:\\ p\\ foglie,\\ 2p-1\\ nodi\\ \\dots \\]' (riga 169), lasciando in area p.33 solo la frase introduttiva 'E' il caso facile del piano' e la Figura b-albero-completo (che ridisegna il triangolo di p.33)."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "notazione",
+   "dove": "lezioni/08-lca.tex, caption della Figura fig:path-number-alpha (righe 204-205)",
+   "descrizione": "La caption recita 'gli $\\a$ bit del cammino radice--$v$': cosi' scritto alpha si legge come un NUMERO di bit, mentre nella Definizione appena sopra alpha e' definita come la stringa di bit b_1 b_2 ... b_t. Confusione fra la stringa e la sua lunghezza.",
+   "correzione": "Sostituire con 'i bit $\\a$ del cammino radice--$v$' (oppure 'la stringa $\\a$ dei bit del cammino radice--$v$')."
+  }
+ ]
+}

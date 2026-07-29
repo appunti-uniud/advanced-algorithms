@@ -1,0 +1,87 @@
+{
+ "pagina": 72,
+ "latex": "\\scan{72}\n\n\\begin{esempio}\nRiprendiamo la visita randomizzata di cui sopra: $X$ è il numero di passi che essa\nimpiega per terminare \\emph{correttamente} (cioè per visitare tutti i nodi) e\nsupponiamo di sapere che\n\\[\n  \\E[X] \\;=\\; n^2 .\n\\]\nSe decido di fermare la visita dopo $a$ passi, l'evento $X \\ge a$ è esattamente\nl'evento «la visita non era ancora terminata», cioè l'evento di errore; la\ndisuguaglianza di Markov lo limita immediatamente:\n\\[\n  \\Pr\\Bigl[\\;\\underbrace{X \\ge a}_{\\text{errore}}\\;\\Bigr] \\;\\le\\; \\frac{\\E[X]}{a}.\n\\]\nIstanziando:\n\\begin{align*}\n  a = 2n^2    &\\;\\;\\Longrightarrow\\;\\; \\Pr[X \\ge a] \\;\\le\\; \\frac{n^2}{2n^2}   \\;=\\; \\frac{1}{2},\\\\[2pt]\n  a = 100\\,n^2 &\\;\\;\\Longrightarrow\\;\\; \\Pr[X \\ge a] \\;\\le\\; \\frac{n^2}{100\\,n^2} \\;=\\; \\frac{1}{100}.\n\\end{align*}\n\\end{esempio}\n\nAllungando la singola visita fino ad $a = c\\,n^2$ passi la probabilità di errore\nscende solo come $1/c$. Conviene invece \\emph{amplificare per ripetizione}: se\neseguo $k$ visite indipendenti da $2n^2$ passi ciascuna e tengo quella che ha\nvisitato il massimo numero di nodi, sbaglio solo se \\emph{tutte} e $k$ le visite\nfalliscono, e quindi\n\\[\n  \\Pr[\\text{errore}] \\;\\le\\; \\Bigl(\\frac{1}{2}\\Bigr)^{k} \\;=\\; \\frac{1}{2^{k}},\n\\]\ncioè si guadagna esponenzialmente in $k$ a fronte di un costo solo lineare in $k$.\n\n\\begin{dimostrazione}\nIl valore $\\E[X] = \\Oh(n^2)$ usato nell'esempio discende dal bound generale sul\n\\emph{cover time} di un random walk su grafi. Sia $C_G$ il cover time del grafo $G$\ncon $n$ nodi ed $m$ archi, cioè il numero atteso di passi che un random walk su $G$\nimpiega a visitare tutti i nodi; vale\n\\[\n  C_G \\;\\le\\; 2m(n-1).\n\\]\nIn particolare, per il grafo lineare (cammino) $L_n$ su $n$ nodi si ha $m = n-1$,\ndunque\n\\[\n  C_{L_n} \\;\\le\\; 2(n-1)^2 \\;\\le\\; 2n^2 .\n\\]\n\\end{dimostrazione}\n\n\\begin{osservazione}\nÈ proprio questo il caso che interessa: la versione randomizzata di \\textsc{2-cnf-sat}\nè un random walk sulla retta $\\{0,1,\\dots,n\\}$, dove la posizione conta quante\nvariabili dell'assegnamento corrente coincidono con quelle di un assegnamento\nsoddisfacente fissato. Mediante il bound $C_{L_n} \\le 2n^2$, combinato con Markov e\ncon l'amplificazione per ripetizione appena vista, riduciamo a piacere la probabilità\ndi errore di quell'algoritmo.\n\\end{osservazione}\n\n% --- Nel quaderno inizia qui, con titolo esplicito sottolineato, «Catene di Markov»:\n% --- il titolo è omesso perché coincide con quello del capitolo (deciso in cucitura).\n\nRiferimento bibliografico per tutta questa parte: W.~Feller, \\emph{An Introduction to\nProbability Theory and Its Applications}, Vol.~I, cap.~XV.",
+ "note": [
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 72,
+   "testo": "Ultima riga del blocco sul cover time: il quaderno scrive «versione randomizzata di 2-conf SAT». Ingrandendo il ritaglio la parola cursiva dopo «2-» è chiaramente c-n-f: ho scritto 2-CNF-SAT (\\textsc{2-cnf-sat}). Coerente con la sintesi degli appunti dell'anno precedente (L16, §5.3: «SAT è equivalente al cosiddetto CNF-SAT») e con il fatto che 2-SAT sia il caso attaccato col random walk.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 72,
+   "testo": "Il pedice della seconda disuguaglianza («C_?? ≤ 2n²») è illeggibile a bassa risoluzione. Ingrandito a 3x è una L maiuscola cursiva seguita da n: ho letto C_{L_n}, cioè il cover time del grafo lineare (cammino). La lettura è confermata dalla matematica: con m = n-1 archi il bound generale 2m(n-1) dà esattamente 2(n-1)² ≤ 2n², il numero che compare a destra. Con K_n (l'altra lettura plausibile) si otterrebbe invece n(n-1)² ≈ n³, incompatibile con 2n².",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 72,
+   "testo": "Nel quaderno il passaggio dell'esempio è disposto come una grande graffa che raccoglie «E[X]=n²» e «eseguo a=2n² passi» e sfocia in «⟹ Pr[X≥a] ≤ n²/2n² = 1/2»; sopra la freccia ⟹ c'è una «M» isolata. La M sta per «Markov» (disuguaglianza di Markov, dimostrata a p.71): l'ho resa esplicita in prosa («la disuguaglianza di Markov lo limita immediatamente») invece di conservare la graffa.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 72,
+   "testo": "Sotto «a = 2n² passi» il quaderno ha un tratto verticale ondulato (≀) e poi «100 n²»; specularmente, a destra, un secondo ≀ e poi «≤ 1/100». I due ondulati indicano una seconda istanziazione alternativa dello stesso conto. Ho reso il tutto con un align* a due righe (a = 2n² → 1/2; a = 100n² → 1/100), esplicitando il conto n²/(100n²) che nel quaderno è sottinteso.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 72,
+   "testo": "Il quaderno sottolinea in blu «X ≥ a» dentro Pr[·] e ci scrive sotto «errore». Ho reso la sottolineatura con \\underbrace{X \\ge a}_{\\text{errore}} e ho aggiunto una frase che spiega perché quell'evento È l'errore (la visita non è terminata entro a passi), collegandosi a p.71 dove si dice «X rappresenta la complessità (num. di passi) della mia visita corretta» e «sia a uguale il numero di passi eseguiti dalla mia visita».",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 72,
+   "testo": "Nel quaderno la catena è «C_G ≤ 2m(n-1)» seguita direttamente da «C_{L_n} ≤ 2n²». Ho inserito il passaggio intermedio mancante, cioè m = n-1 per il cammino e quindi 2(n-1)² ≤ 2n²: senza di esso il salto è opaco. Il bound C_G ≤ 2m(n-1) è il teorema di Aleliunas–Karp–Lipton–Lovász–Rackoff (1979) sul cover time, ed è corretto così com'è scritto.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 72,
+   "testo": "Il blocco è intestato «Dimostrazione» ma non contiene alcuna dimostrazione: enuncia solo il bound C_G ≤ 2m(n-1) con l'annotazione «random walk (su grafi)» e lo applica a L_n. Ho interpretato l'intestazione come «giustificazione del valore E[X] = O(n²) usato nell'esempio» e l'ho riformulata in tal senso dentro l'ambiente dimostrazione. La dimostrazione vera del bound AKLLR (tempo di commutazione ≤ 2m su un arco, poi tour euleriano di uno spanning tree, lungo 2(n-1) archi) NON è negli appunti e non l'ho aggiunta per non introdurre contenuto assente; non ho marcato \\lacuna perché il teorema è citato come noto, non lasciato in sospeso.",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 72,
+   "testo": "Piccola incoerenza di costante interna alla pagina: l'esempio usa E[X] = n² esatto (indispensabile perché a = 2n² dia esattamente 1/2), mentre il bound dimostrato poco sotto dà C_{L_n} ≤ 2n². Le due cose sono compatibili in ordine di grandezza ma non nella costante. La costante n² è comunque quella giusta per 2-SAT: il tempo atteso di assorbimento di un random walk su {0,…,n} con barriera riflettente in 0 e assorbente in n, partendo da 0, è esattamente n² (Motwani–Raghavan). Ho quindi lasciato E[X] = n² nell'esempio e scritto E[X] = O(n²) nella dimostrazione, così le due affermazioni non si contraddicono.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 72,
+   "testo": "Aggiunta mia, non presente nel quaderno: la frase «Allungando la singola visita fino ad a = c n² passi la probabilità di errore scende solo come 1/c ... si guadagna esponenzialmente in k a fronte di un costo lineare in k». È il motivo per cui La fonte dell'anno precedentepassa dal conto di Markov all'amplificazione per ripetizione; serve a rendere leggibile il salto fra i due blocchi ed è matematicamente immediato dai due conti già presenti.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 72,
+   "testo": "Aggiunta mia, nell'osservazione finale: la spiegazione di PERCHÉ compare il grafo lineare L_n (l'algoritmo randomizzato per 2-SAT è un random walk sulla retta 0..n che conta le variabili concordi con un assegnamento soddisfacente fissato). Il quaderno si limita a «mediante questo bound riduciamo a piacere la prob. di errore per la versione randomizzata di 2-cnf SAT»; senza il legame retta↔2-SAT il riferimento a L_n resta incomprensibile. È materiale già visto nelle lezioni precedenti (cfr. L16 §5.3, dove 2-SAT è annunciato come il caso da attaccare col random walk).",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 72,
+   "testo": "Testuale del quaderno: «Se eseguo k visite da 2n² passi e prendo il max num. di nodi ⟹ prob. di errore 1/2^k». Ho espanso in «visite indipendenti» e «tengo quella che ha visitato il massimo numero di nodi», e ho esplicitato l'argomento (sbaglio solo se tutte e k falliscono, quindi (1/2)^k) che nel quaderno è sottinteso. Nota: l'esponente è scritto in minuscolo (2^k) mentre il numero di visite è scritto «K» maiuscolo; ho uniformato a k minuscolo.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 72,
+   "testo": "Il quaderno apre il nuovo argomento con il titolo sottolineato «Catene di Markov» seguito da «• W. Feller, \"An introduction to probability theory and its applications\", Vol. I ch. XV». Non ho emesso alcun comando di sezione (il titolo coincide con quello del capitolo, che verrà messo in fase di cucitura) e ho lasciato un commento LaTeX per marcare il punto esatto di inizio. Il riferimento è verificato: nel Vol. I di Feller il cap. XV è proprio «Markov Chains». Il cognome nel manoscritto sembra «Jeller» per via della F cursiva: è Feller (William Feller).",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 72,
+   "testo": "La pagina non contiene disegni veri e propri: solo elementi tipografici manoscritti (una graffa che raccoglie le ipotesi dell'esempio, due tratti verticali ondulati che segnalano l'istanziazione alternativa, una sottolineatura-graffa sotto «X ≥ a» etichettata «errore», due frecce di annotazione verso «random walk (su grafi)» e verso il commento su 2-cnf SAT). Tutti resi tipograficamente (align*, \\underbrace, prosa): nessuna voce in figure.",
+   "risolto": true
+  }
+ ],
+ "figure": [],
+ "continuita": "La pagina chiude definitivamente il filone «random walk / cover time / amplificazione dell'errore» (iniziato a p.70-71 con il cover time di K_n ≈ n H_n = O(n log n) e la disuguaglianza di Markov Pr[X≥a] ≤ E[X]/a, dimostrata a p.71) e apre, nelle ultime righe, il nuovo argomento «Catene di Markov» con il solo riferimento bibliografico a Feller Vol. I cap. XV. Resta in sospeso: (i) la dimostrazione del bound C_G ≤ 2m(n-1), citato ma non provato; (ii) il dettaglio dell'algoritmo randomizzato per 2-CNF-SAT, qui solo evocato. Pagina 73 riparte con il titolo «Catene di Markov» ripetuto e la definizione formale: trials E_1, E_2, … formano una catena di Markov se Pr{(E_{j_0}, E_{j_1}, …, E_{j_n})} = a_{j_0} · p_{j_0 j_1} · p_{j_1 j_2} · … , proprietà MEMORYLESS, matrice di transizione P = (p_{ij}) con righe a somma 1, figura dello spazio degli stati S con transizioni fra s_0, s_1, s_2, e lo slogan «a condizione del presente, il futuro non dipende dal passato». Ci si aspetta dunque che il seguito sia definizioni + matrice di transizione, non più random walk su grafi.",
+ "confidenza": "alta"
+}

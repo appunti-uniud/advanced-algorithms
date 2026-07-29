@@ -1,0 +1,313 @@
+\chapter{Algoritmi randomizzati e RandQS}
+\label{cha:randqs}
+
+\scan{51}Con questa lezione si apre la seconda parte del corso, dedicata agli
+\emph{algoritmi randomizzati}. Riferimenti bibliografici:
+\begin{itemize}
+  \item \emph{Randomized Algorithms}, di Motwani e Raghavan --- interessante,
+        con molti conti da fare;
+  \item \emph{An introduction to randomized algorithms}, di Richard Karp.
+\end{itemize}
+
+\section{Che cos'è un algoritmo randomizzato}
+\label{sec:def-randomizzato}
+
+\begin{definizione}[Algoritmo randomizzato]
+\label{def:algoritmo-randomizzato}
+Un \emph{algoritmo randomizzato} è un algoritmo che riceve, oltre al proprio
+input, un \emph{flusso} (\emph{stream}) di \emph{bit casuali} che utilizza per
+compiere \emph{scelte casuali}.
+\end{definizione}
+
+\begin{osservazione}
+Il flusso non deve essere casuale in senso stretto: basta che sia una sequenza
+che l'utente non è in grado di distinguere da una sequenza random.
+\end{osservazione}
+
+\begin{figure}[H]
+  \centering
+  \input{tikz/rand-schema-bit.tikz}
+  \caption{Un algoritmo randomizzato riceve in ingresso, accanto all'input, un
+  flusso di bit casuali; di conseguenza anche la complessità dell'esecuzione
+  diventa una variabile aleatoria.}
+  \label{fig:rand-schema-bit}
+\end{figure}
+
+Poiché le scelte compiute dipendono dai bit casuali, sia il risultato prodotto
+sia la complessità dell'esecuzione diventano variabili aleatorie. Fissando
+l'una o l'altra si ottengono le due famiglie classiche:
+\begin{itemize}
+  \item \MonteCarlo: risultato potenzialmente sbagliato, complessità fissa;
+  \item \LasVegas: complessità variabile, risultato sempre corretto.
+\end{itemize}
+
+Il primo esempio che incontreremo, \RandQS, appartiene alla seconda famiglia:
+l'output è sempre l'insieme ordinato, mentre il numero di operazioni eseguite
+dipende dalle scelte casuali ed è quindi una variabile aleatoria. Il taglio
+minimo, di cui ci occuperemo subito dopo, è invece l'esempio prototipico della
+prima.
+
+\section{Randomized QuickSort}
+\label{sec:randqs}
+
+\scan{52}L'idea di \RandQS è quella di QuickSort, con un'unica differenza: il pivot non
+viene scelto in modo deterministico (il primo elemento, l'ultimo, la mediana di
+tre, \dots), ma viene \emph{estratto uniformemente a caso} dall'insieme da
+ordinare.
+
+\begin{algorithm}[H]
+\caption{\RandQS}
+\begin{algorithmic}[1]
+\Require un insieme di numeri $S$ (elementi distinti)
+\Ensure gli elementi di $S$ in ordine crescente
+\State scegli un elemento $x \in S$ \textbf{uniformemente a caso};
+\State $\textsc{Partition}(S,x)$: genera $S_1=\set{y\in S \mid y<x}$ e
+       $S_2=\set{y\in S \mid y>x}$;
+\State ordina ricorsivamente con \RandQS{}($S_1$) e \RandQS{}($S_2$); restituisci
+       $S_1$ ordinato, seguito da $x$, seguito da $S_2$ ordinato.
+\end{algorithmic}
+\end{algorithm}
+
+\begin{osservazione}
+QuickSort ha complessità $\Oh(n\log n)$ nel caso medio \emph{se la distribuzione
+degli input è uniforme}: si tratta di un'ipotesi (forte) sui possibili input.
+\RandQS, invece, \textbf{non} fa alcuna ipotesi sulla distribuzione dell'input:
+la casualità non sta più nei dati, ma nell'algoritmo.
+\end{osservazione}
+
+\subsection{Il caso ideale}
+\label{sec:randqs-caso-ideale}
+
+Nel caso ideale il pivot cade «in mezzo» e la partizione produce due
+sottoproblemi di $n/2$ elementi ciascuno.
+
+\begin{figure}[H]
+  \centering
+  \input{tikz/randqs-partizione.tikz}
+  \caption{Partizione ideale: il pivot spezza l'insieme in due metà di $n/2$
+  elementi.}
+  \label{fig:randqs-partizione}
+\end{figure}
+
+In questo caso l'albero delle chiamate ricorsive è bilanciato: ha altezza
+$h=\log_2 n$ e ad ogni livello il costo complessivo delle partizioni è
+$\Oh(n)$, perché i sottoproblemi di uno stesso livello ripartiscono fra loro gli
+$n$ elementi di partenza.
+
+\begin{figure}[H]
+  \centering
+  \input{tikz/randqs-albero-chiamate.tikz}
+  \caption{Albero delle chiamate ricorsive nel caso bilanciato: $h=\log_2 n$
+  livelli, ciascuno di costo complessivo $\Oh(n)$.}
+  \label{fig:randqs-albero-chiamate}
+\end{figure}
+
+\[
+  T(n) \;=\; \Oh(n) \;+\; 2\,T\!\left(\frac{n}{2}\right)
+  \qquad\Longrightarrow\qquad
+  T(n) \in \Oh(n\log n).
+\]
+
+Nulla garantisce però che il pivot estratto a caso spezzi davvero l'insieme in
+due metà: la ricorrenza qui sopra vale solo nel caso bilanciato, mentre in
+generale una partizione in $p$ e $q$ elementi dà $T(n)=T(p)+T(q)+\Th(n)$, che
+nel caso pessimo (pivot sempre estremo) degenera in $\Th(n^2)$. Quello che
+possiamo controllare non è dunque il costo di una singola esecuzione, ma il suo
+\emph{valore atteso}.
+
+\section{Analisi di \texorpdfstring{\RandQS}{RandQS} nel caso medio}
+\label{sec:randqs-analisi}
+
+Qui «caso medio» va inteso come \emph{valore atteso} di una variabile aleatoria
+--- quella che rappresenta la complessità --- dove la media è presa sulle scelte
+casuali dell'algoritmo, a input fissato, e non sugli input. Non si tratta quindi
+dell'analisi di QuickSort nel caso medio: non c'è alcuna ipotesi sulla
+distribuzione degli input.
+
+Il costo di \RandQS è dominato dal numero di \emph{confronti} eseguiti dalle
+chiamate a \textsc{Partition}: è quello che conteremo.
+
+\begin{teorema}[Numero atteso di confronti di \RandQS]
+\label{thm:randqs-confronti}
+Il numero atteso di confronti eseguiti da \RandQS su un insieme di $n$ elementi
+distinti è al più $2\,n\,H_n$, dove $H_n=\sum_{k=1}^{n}1/k$ è l'$n$-esimo numero
+armonico. Poiché $H_n \in \Th(\log n)$, il numero atteso di confronti è
+$\Oh(n\log n)$.
+\end{teorema}
+
+Indichiamo con $x_i$ l'elemento di rango $i$, cioè l'$i$-esimo elemento di $S$
+nell'ordine crescente, e introduciamo per ogni coppia $1\le i<j\le n$ la
+variabile aleatoria \emph{indicatrice}
+\[
+  X_{ij} \;=\;
+  \begin{cases}
+    1 & \text{se } x_i \text{ \emph{è confrontato} con } x_j,\\[2pt]
+    0 & \text{altrimenti,}
+  \end{cases}
+  \qquad\text{ovvero}\qquad
+  X_{ij} = \indic{x_i \text{ è confrontato con } x_j}.
+\]
+
+Il numero totale di confronti è allora $\sum_{i=1}^{n}\sum_{j>i} X_{ij}$, e la
+quantità da stimare è
+\[
+  \E\!\left[\; \sum_{i=1}^{n}\sum_{j>i} X_{ij} \;\right].
+\]
+
+\subsection{Linearità del valore atteso}
+\label{sec:linearita}
+
+\scan{53}Per linearità del valore atteso --- che non richiede alcuna ipotesi di
+indipendenza fra le $X_{ij}$ --- vale
+\[
+  \E\!\left[\;\sum_{i=1}^{n}\sum_{j>i} X_{ij}\right]
+  \;=\;
+  \sum_{i=1}^{n}\sum_{j>i} \E\!\left[X_{ij}\right].
+\]
+
+Poiché $X_{ij}$ è una variabile indicatrice, posto
+$p_{ij} = \Pr\!\left[X_{ij}=1\right]$ si ha
+\[
+  \E\!\left[X_{ij}\right] \;=\; p_{ij}\cdot 1 \;+\; (1-p_{ij})\cdot 0 \;=\; p_{ij},
+\]
+dove $p_{ij}$ è dunque la probabilità che $x_i$ e $x_j$ vengano confrontati.
+
+\subsection{Calcolo di \texorpdfstring{$p_{ij}$}{p\_ij}}
+\label{sec:pij}
+
+Occorre calcolare la probabilità che $x_i$ e $x_j$ siano coinvolti in un
+confronto.
+
+\begin{figure}[H]
+  \centering
+  \input{tikz/randqs-separazione.tikz}
+  \caption{Se il pivot estratto cade strettamente fra $x_i$ e $x_j$, i due
+  elementi finiscono in sottoinsiemi diversi e non verranno mai confrontati.}
+  \label{fig:randqs-separazione}
+\end{figure}
+
+\begin{osservazione}
+$x_i$ e $x_j$ \emph{non} vengono confrontati se il pivot scelto è in
+$\set{x_{i+1},\dots,x_{j-1}}$: un pivot interno all'intervallo separa i due
+elementi, mandandone uno in $S_1$ e l'altro in $S_2$, e da quel momento in poi
+non potranno più essere confrontati.
+\end{osservazione}
+
+Ogni elemento $d \in \set{x_i,\dots,x_j}$ ha la stessa probabilità di essere
+scelto come pivot; quindi la probabilità di scegliere $x_i$ oppure $x_j$ ---
+cioè $p_{ij}$ --- soddisfa
+\[
+  p_{ij} \;\le\; \frac{2}{\,j-i+1\,}
+\]
+(è il caso peggiore, quello in cui mi ritrovo con una partizione contenente
+esclusivamente $\set{x_i,\dots,x_j}$; generalmente mi ritrovo in partizioni più
+grandi, e la probabilità di pescare proprio uno dei due estremi è minore).
+
+\begin{osservazione}
+In realtà vale l'uguaglianza $p_{ij} = \dfrac{2}{j-i+1}$. Finché nessuno fra
+$x_i, x_{i+1},\dots,x_j$ è stato scelto come pivot, questi $j-i+1$ elementi
+stanno tutti nella stessa partizione (un pivot esterno all'intervallo non può
+separarli); il primo di essi a diventare pivot è uniformemente distribuito fra i
+$j-i+1$ candidati, e $x_i$ e $x_j$ vengono confrontati esattamente quando tale
+primo elemento è uno dei due estremi. Per la maggiorazione che segue basta
+comunque la disuguaglianza.
+\end{osservazione}
+
+Sommando su tutte le coppie, e osservando che per $i$ fissato il denominatore
+$j-i+1$ percorre i valori $2,3,\dots,n-i+1$:
+\[
+  \sum_{i=1}^{n}\sum_{j>i} p_{ij}
+  \;\le\; \sum_{i=1}^{n}\sum_{j>i} \frac{2}{\,j-i+1\,}
+  \;\le\; 2\sum_{i=1}^{n} \underbrace{\sum_{k=1}^{n}\frac{1}{k}}_{H_n}
+  \;=\; 2\sum_{i=1}^{n} H_n
+  \;=\; 2\,n\,H_n .
+\]
+
+\subsection{Il numero armonico}
+\label{sec:numero-armonico}
+
+\[
+  H_n \;=\; \sum_{k=1}^{n}\frac1k
+  \;=\; 1+\frac12+\frac13+\frac14+\frac15+\frac16+\frac17+\cdots
+\]
+Raggruppando i termini a blocchi di lunghezza $1,2,4,8,\dots$ --- i blocchi sono
+$\lfloor\log_2 n\rfloor+1$ e ogni blocco \emph{completo} ha somma compresa fra
+$1/2$ e $1$, mentre l'ultimo può essere parziale --- si ottengono le due stime,
+la seconda con i blocchi traslati di un posto:
+\begin{align*}
+  H_n &\;=\; 1
+    + \underbrace{\left(\frac12+\frac13\right)}_{\le\;\frac12+\frac12\;=\;1}
+    + \underbrace{\left(\frac14+\frac15+\frac16+\frac17\right)}_{\le\;4\cdot\frac14\;=\;1}
+    + \cdots \;\le\; 1+\log_2 n, \\[6pt]
+  H_n &\;=\; 1+\frac12
+    + \underbrace{\left(\frac13+\frac14\right)}_{\ge\;\frac14+\frac14\;=\;\frac12}
+    + \underbrace{\left(\frac15+\frac16+\frac17+\frac18\right)}_{\ge\;4\cdot\frac18\;=\;\frac12}
+    + \cdots \;\ge\; \frac12\log_2 n .
+\end{align*}
+
+Dunque $H_n \in \Th(\log n)$ e, mettendo insieme i pezzi,
+\[
+  \E\!\left[\;\sum_{i=1}^{n}\sum_{j>i} X_{ij}\;\right]
+  \;=\; \sum_{i=1}^{n}\sum_{j>i} p_{ij}
+  \;\le\; 2\,n\,H_n \;\in\; \Th(n\log n),
+\]
+cioè il numero atteso di confronti di \RandQS è $\Oh(n\log n)$, come annunciato
+dal Teorema~\ref{thm:randqs-confronti}.
+
+\begin{osservazione}
+Ogni scelta del pivot viene pagata in bit casuali: per estrarre uniformemente un
+elemento da un insieme di $n$ elementi servono $\log_2 n$ bit letti dalla
+sorgente,
+\[
+  \text{scelta del pivot}\;\longleftarrow\;
+  \underbrace{0\,1\,0\,1\,0\;\cdots}_{\log_2 n\ \text{bit}}
+\]
+\end{osservazione}
+
+\subsection{Elementi ripetuti}
+\label{sec:randqs-ripetuti}
+
+\scan{54}L'analisi svolta finora suppone che gli elementi da ordinare siano \emph{a due a
+due distinti}: è l'ipotesi che rende ben definiti i ranghi $x_1<\dots<x_n$ e che
+garantisce $S_1\cup\set{x}\cup S_2 = S$.
+
+\begin{figure}[H]
+  \centering
+  \input{tikz/randqs-pivot-array.tikz}
+  \caption{Un passo di \RandQS: il pivot è scelto uniformemente a caso fra gli
+  elementi del segmento corrente, che si assumono a due a due distinti.}
+  \label{fig:randqs-pivot-array}
+\end{figure}
+
+Se l'input contiene ripetizioni basta sostituire la sequenza $a_1,\dots,a_n$ con
+la sequenza di coppie
+\[
+  \tuple{a_1,1},\ \tuple{a_2,2},\ \dots,\ \tuple{a_n,n},
+\]
+ordinate lessicograficamente: la seconda componente rende le coppie a due a due
+distinte e non altera l'ordine relativo dei valori $a_i$. È una soluzione pulita
+e semplice per ripulire l'analisi in presenza di copie ripetute.
+
+\section{Che cosa viene dopo}
+\label{sec:randqs-seguito}
+
+\scan{54}Il prossimo problema è quello del \emph{taglio minimo} (\mincut): dato un grafo,
+individuare un insieme di archi la cui rimozione lo sconnette e che abbia
+cardinalità minima.
+
+\begin{figure}[H]
+  \centering
+  \input{tikz/mincut-anticipazione.tikz}
+  \caption{Un taglio di $G$: la linea spezzata separa i vertici in due parti (da
+  un lato $x$, dall'altro $y$); il taglio è l'insieme degli archi che la
+  attraversano.}
+  \label{fig:mincut-anticipazione}
+\end{figure}
+
+\begin{itemize}
+  \item esistono algoritmi deterministici, ma estremamente complicati;
+  \item c'è un algoritmo randomizzato di prestazioni comparabili e molto
+        semplice.
+\end{itemize}
+
+Dopo ancora: il \emph{metodo probabilistico}.

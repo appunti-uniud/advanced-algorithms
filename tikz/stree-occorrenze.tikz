@@ -1,0 +1,48 @@
+% Ricerca esatta di P nello STree di T (Gusfield, APL1).
+% Il cammino etichettato P scende dalla radice; il sottoalbero appeso al punto
+% in cui il cammino termina ha per foglie le occorrenze di P in T.
+\begin{tikzpicture}[>=Latex,line join=round]
+  \footnotesize
+
+  % ---- sagoma irregolare dello STree(T) ------------------------------------
+  \draw[line width=0.7pt,rounded corners=1.2pt]
+       (0.40,3.20) -- (0.15,2.78) -- (0.05,2.42) -- (-0.36,2.16) -- (-0.50,1.80)
+    -- (-0.96,1.56) -- (-1.14,1.16) -- (-1.70,0.96) -- (-1.94,0.60)
+    -- (-2.50,0.44) -- (-2.82,0.16) -- (-3.20,0.00);
+  \draw[line width=0.7pt,rounded corners=1.2pt]
+       (0.40,3.20) -- (0.72,2.90) -- (0.80,2.50) -- (1.16,2.34) -- (1.30,1.94)
+    -- (1.72,1.78) -- (1.86,1.34) -- (2.30,1.14) -- (2.50,0.74)
+    -- (2.96,0.50) -- (3.12,0.20) -- (3.30,0.00);
+
+  % ---- livello delle foglie ------------------------------------------------
+  \draw[line width=1.1pt] (-3.75,0) -- (3.75,0);
+  \node[anchor=east] at (-3.85,0.04) {foglie};
+
+  % ---- sottoalbero delle occorrenze (tratteggiato) -------------------------
+  \begin{scope}
+    \clip (0.35,1.75) -- (-1.30,0) -- (0.95,0) -- cycle;
+    \foreach \k in {-3.4,-3.25,...,0.75}{%
+      \draw[gray,line width=0.35pt] (\k,-0.30) -- (\k+2.60,2.30);}
+  \end{scope}
+  \draw[line width=0.7pt] (-1.30,0) -- (0.35,1.75) -- (0.95,0);
+
+  % ---- cammino etichettato P ----------------------------------------------
+  \draw[line width=0.9pt]
+       (0.40,3.20) .. controls (0.60,2.92) and (0.16,2.68) .. (0.36,2.42)
+                   .. controls (0.56,2.18) and (0.18,1.98) .. (0.35,1.75);
+  \node[anchor=west] at (0.50,2.14) {$P$};
+
+  % ---- fine del cammino ----------------------------------------------------
+  \fill (0.35,1.75) circle (2.2pt);
+
+  % ---- etichetta della sagoma ---------------------------------------------
+  \draw[gray,line width=0.4pt] (-2.12,1.74) -- (-1.08,1.40);
+  \node[anchor=east] at (-2.18,1.74) {$\STree(T)$};
+
+  % ---- puntatore alla nota -------------------------------------------------
+  \draw[line width=0.6pt,->]
+       (-0.20,-0.08) .. controls (0.05,-0.42) and (-0.25,-0.56) .. (0.12,-0.86)
+                     .. controls (0.44,-1.10) and (0.70,-0.94) .. (1.00,-1.14);
+  \node[anchor=west,align=left] at (1.06,-1.16)
+       {tante foglie quante le\\ occorrenze di $P$ in $T$};
+\end{tikzpicture}

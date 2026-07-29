@@ -1,0 +1,20 @@
+{
+ "pagina": 8,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "media",
+   "categoria": "errore-matematico",
+   "dove": "lezioni/02-kmp-z.tex, \\begin{definizione}[$\\spp{i}(P)$] (label def:sp-primo), align* alle righe 545-548",
+   "descrizione": "Il massimo che definisce $\\spp{i}(P)$ e' preso su un insieme che puo' essere vuoto, e la definizione non fissa alcuna convenzione. Controesempio: $P=\\str{aaa}$, $i=2$: per $k=1$ vale $\\pre{P}{1}=\\sub{P}{2}{2}$ ma $P[2]=P[3]$, e per $k=0$ vale $P[1]=P[3]$; nessun $k$ soddisfa la condizione, quindi $\\max\\emptyset$ e' indefinito e $\\spp{2}(\\str{aaa})$ non e' definito. Questo contraddice l'osservazione precedente (stessa pagina, riga 514) che afferma $\\spp{2}=0$ proprio per $P=\\str{aaa}$, e stona con il resto del capitolo, dove il caso di insieme vuoto e' trattato esplicitamente sia nella Definizione~\\ref{def:sp-i} ('il massimo e' sempre ben definito perche' k=0...') sia nella Definizione~\\ref{def:sp-ic} ('si pone per convenzione $\\spv{i,c}(P)=-1$').",
+   "correzione": "Aggiungere la convenzione dopo la formula, per esempio: 'con la convenzione $\\spp{i}(P)=0$ quando l'insieme e' vuoto, cioe' quando nessun prefisso-suffisso proprio di $\\pre{P}{i}$ (nemmeno quello vuoto) e' seguito da un carattere diverso da $P[i+1]$.' E' la convenzione di Gusfield ed e' la stessa usata neGli appunti del corso dell'anno precedente (L02_sintesi.md, $sp'_i=0$ se $M_i=\\emptyset$); rende coerente il controesempio $P=\\str{aaa}$ gia' riportato."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "trascrizione-errata",
+   "dove": "lezioni/02-kmp-z.tex, riga 555-556: 'Si puo' pero' ottimizzare ancora: ... piu' velocemente di $\\spp{i}(P)$.'",
+   "descrizione": "Sull'ultima riga del foglio il manoscritto scrive 'di sp_i(x)' SENZA apice: ingrandendo il glifo si vede un solo segno diacritico, il punto della 'i' pedice, mentre due righe sopra (nella definizione) l'apice e' un tratto verticale ben distinto e separato dal punto della 'i'. La trascrizione ha aggiunto l'apice. La frase resta vera in entrambe le letture ($\\spv{i,c}\\le\\spp{i}\\le\\spv{i}$, quindi lo shift cresce in entrambi i confronti) e la versione con apice e' l'enunciato piu' forte e il raccordo migliore con la sezione seguente, coerente con la scaletta dell'anno precedente ('meglio' $\\to$ 'ancora meglio'); si tratta quindi di una lettura corretta ma non letterale.",
+   "correzione": "Se si vuole la fedelta' letterale, sostituire $\\spp{i}(P)$ con $\\spv{i}(P)$ in quella frase; altrimenti mantenere $\\spp{i}(P)$ (scelta consigliata, perche' e' l'affermazione informativa) e registrare la sostituzione fra le note editoriali, come richiesto dalla policy 3."
+  }
+ ]
+}

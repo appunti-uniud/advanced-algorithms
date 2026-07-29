@@ -1,0 +1,18 @@
+% karger-tradeoff -- pag. 58
+% Il compromesso dell'amplificazione per ripetizione: al crescere del numero h
+% di esecuzioni indipendenti sale il costo (freccia verso l'alto) e scende la
+% probabilita' di errore (freccia verso il basso).
+% Nel quaderno le etichette sono abbreviate («maggior complessità», «minore
+% prob. di errore»): qui sono espanse.
+\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,font=\footnotesize,
+    >={Stealth[length=5pt,width=4pt]}]
+
+  % ---- costo: cresce -------------------------------------------------------
+  \draw[->,line width=0.8pt] (0,0) -- (0,1.55);
+  \node[anchor=west,inner sep=5pt] at (0.10,1.45) {maggiore complessità computazionale};
+
+  % ---- probabilità di errore: cala ----------------------------------------
+  \draw[->,line width=0.8pt] (0,-0.75) -- (0,-2.30);
+  \node[anchor=west,inner sep=5pt] at (0.10,-2.20) {minore probabilità di errore};
+
+\end{tikzpicture}

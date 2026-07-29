@@ -1,0 +1,67 @@
+{
+ "capitolo": "08-lca",
+ "compila": true,
+ "applicate": [
+  {
+   "pagina": 31,
+   "categoria": "notazione",
+   "cosa": "Secondo terminatore riportato al glifo del quaderno: '#' sostituito con l'euro (\\text{\\texteuro}) nella formula T_1 $ T_2 EURO, nella caption della Figura del suffix tree generalizzato e in tikz/stree-generalizzato.tikz (commento, etichetta dell'albero, nota laterale). Uniforma il capitolo a 10-landau-vishkin.tex, che usa gia' $ e EURO per la stessa costruzione."
+  },
+  {
+   "pagina": 31,
+   "categoria": "errore-logico",
+   "cosa": "Reso discriminante il criterio di etichettatura delle foglie: con la concatenazione non troncata ogni suffisso finisce in EURO, quindi 'forma ...EURO' non separava i due casi. Ora il testo dice 'se il suffisso contiene il primo separatore (forma ...$...EURO) comincia dentro T_1; se non lo contiene (forma ...EURO, senza $) comincia dentro T_2', e la stessa formulazione e' stata messa nella nota della figura, che prima restava ambigua da sola. Scelta l'opzione senza troncamento (quella gia' adottata dal capitolo) invece della convenzione con leaf-label troncato, per non introdurre una nozione nuova."
+  },
+  {
+   "pagina": 33,
+   "categoria": "struttura",
+   "cosa": "Sistemati i due marcatori incrociati: \\scan{34} spostato prima del blocco 'B: p foglie, 2p-1 nodi (p-1 interni), d = log_2 p', che e' la prima riga della pagina 34; la Figura fig:path-number-alpha (disegno che sta in fondo a p.33) spostata dalla posizione dopo la Definizione di path number a subito dopo il paragrafo che la descrive ('Ogni nodo v di B e' individuato dal cammino...'). Le due indicazioni dei referti p31/p33 e p34 erano fra loro incompatibili (la figura di p.33 illustra un testo scritto su p.34): si e' scelta la combinazione che riporta sotto \\scan{34} tutto il contenuto della pagina 34 e avvicina la figura alla sua descrizione."
+  },
+  {
+   "pagina": 34,
+   "categoria": "errore-logico",
+   "cosa": "Chiusa la falla dell'Algoritmo lca_B invocato dall'algoritmo di query: aggiunto il ramo 'if s = 0 then return x' (presente anche nello pseudocodice dell'anno precedente, LCA-COMPLETE), \\Require rilassato a 'due path number di nodi di B, nessuno dei due antenato proprio dell'altro', e aggiunta un'osservazione dopo l'esercizio che avverte che la query chiama lca_B su I(x) e I(y), che possono coincidere (x e y sullo stesso run) o essere comparabili in B, e che la versione generale resta O(1) prendendo il massimo fra ell e le posizioni dell'1 meno significativo dei due argomenti. Verificato a mano che senza quel massimo il risultato e' sbagliato: con x = 1000 antenato di y = 1100 l'algoritmo restituisce 1100 invece di 1000."
+  },
+  {
+   "pagina": 34,
+   "categoria": "notazione",
+   "cosa": "Caption di fig:path-number-alpha: 'gli alpha bit del cammino radice--v' (che si legge come un numero di bit) sostituito con 'i bit alpha del cammino radice--v', coerente con la Definizione in cui alpha e' la stringa b_1...b_t."
+  },
+  {
+   "pagina": 36,
+   "categoria": "errore-logico",
+   "cosa": "L'osservazione dopo la Definizione di run provava solo che due nodi dello stesso run sono confrontabili (catena), non che il run e' un cammino. Aggiunta la contiguita': se u e' antenato di v e I(u)=I(v)=w, per ogni m sul cammino da u a v si ha T(v) sottoinsieme di T(m) sottoinsieme di T(u), quindi il massimo di h su T(m) vale h(w) ed e' realizzato da w stesso (che sta in T(v)), da cui I(m)=w."
+  },
+  {
+   "pagina": 37,
+   "categoria": "errore-matematico",
+   "cosa": "Corretto l'off-by-one sulla profondita' di B. La frase 'd+1 = ceil(log n) bit, esattamente quanti ne servono per scrivere i numeri DFS' e' falsa per n potenza di 2 (n=8: B ha path number 1..7, manca 1000). Ora il passo 3 definisce d come il numero di bit necessari a scrivere i numeri DFS, cioe' d+1 = floor(log_2 n)+1, osserva che i path number di B sono tutte e sole le parole non nulle di d+1 bit (gli interi da 1 a 2^{d+1}-1 >= n) e aggiunge fra parentesi che d+1 = ceil(log_2 n) tranne quando n e' potenza di 2, caso in cui serve un bit in piu'. Di conseguenza A_v e' ora dichiarato 'array di d+1 bit' e la caption di fig:lca-albero-I usa floor(log_2 n)+1 = 4 (n=10). Aggiornato anche il commento di tikz/av-bitvector.tikz."
+  },
+  {
+   "pagina": 38,
+   "categoria": "errore-matematico",
+   "cosa": "Completata la caratterizzazione del sottoalbero di B usata nella dimostrazione del Lemma: coincidere con w nei bit a sinistra di h(w) non basta, perche' include anche gli antenati di w. Aggiunta la clausola mancante ('e hanno l'1 meno significativo in posizione <= h(w)'), il controesempio (d=2: la radice 100 coincide con w=110 nell'unico bit a sinistra di h(w)=2) e la verifica che entrambe le condizioni valgono per I(x), la seconda perche' in quel ramo h(I(x)) < i."
+  },
+  {
+   "pagina": 38,
+   "categoria": "notazione",
+   "cosa": "Glossata la prima occorrenza di || ('dove || denota la giustapposizione di stringhe di bit'), simbolo finora usato senza introduzione. Non si e' usata la macro \\conc del preambolo perche' e' definita come \\cdot e in un contesto di stringhe di bit si leggerebbe come prodotto."
+  },
+  {
+   "pagina": 39,
+   "categoria": "errore-logico",
+   "cosa": "'Il secondo e il terzo punto si appoggiano al Lemma ...' corretto in 'Il secondo punto si appoggia al Lemma ...': il terzo punto (w = L(I(w))) discende dal fatto, gia' stabilito poco sopra, che w e' il leader del proprio run e che la tabella L e' indicizzata dai valori di I, non dal lemma."
+  },
+  {
+   "pagina": 40,
+   "categoria": "latex",
+   "cosa": "Corretto 'l\\'osservazione' (che compilava come 'losservazione' con la o accentata) in 'l'osservazione', nell'osservazione dopo l'Algoritmo di query."
+  },
+  {
+   "pagina": 40,
+   "categoria": "notazione",
+   "cosa": "Sanato il doppio uso del termine 'parola' (c log n bit nel modello di calcolo, log n bit nella sezione sulle primitive, dove serve 2^{log n} = n per il conteggio delle tabelle). Si e' tenuta la definizione del quaderno (parola = c log n bit) e si e' corretto il raccordo in apertura della Sezione 'Realizzazione delle primitive': 'una parola di c log n bit e' la giustapposizione di O(1) blocchi da log n bit, e tutte le operazioni in gioco si calcolano blocco per blocco (ricombinando i risultati parziali con O(1) shift e or), quindi basta trattare il caso di un array di log n bit'. Scartata la correzione proposta nel referto p33 (ridefinire 'parola' come blocco da log n bit alla riga 147), perche' contraddirebbe il quaderno, che scrive esplicitamente 'array di c log(n) bit'."
+  }
+ ],
+ "respinte": []
+}

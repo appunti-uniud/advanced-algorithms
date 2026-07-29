@@ -1,0 +1,21 @@
+{
+ "pagina": 30,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "notazione",
+   "dove": "lezioni/07-shift-and.tex, sezione «La matrice dello Shift--And»: formula di definizione di M (righe 113-116) confrontata con l'osservazione sullo shift (righe 149-156)",
+   "descrizione": "La definizione dichiara il dominio «1 <= i <= n, 0 <= j <= m», ma poco dopo l'osservazione usa la riga i=0 come condizione al bordo («codifica la condizione al bordo M[0,j]=1 per ogni j»), e proprio quella riga 0 e' cio' che il pad-a-1 dello shift rappresenta. L'indice i=0 non appartiene quindi al dominio dichiarato: la ricorrenza per i=1 (M[1,j] = M[0,j-1] AND [P[1]=T[j]]) resta formalmente priva di caso base. Il contenuto e' corretto e la parentesi «la stringa vuota e' suffisso di ogni T[1..j]» lo spiega, ma il dominio e l'uso non coincidono.",
+   "correzione": "Estendere il dominio nella definizione a «0 <= i <= n, 0 <= j <= m» (con \\pre{P}{0} = \\vuota, da cui M[0,j]=1 per ogni j), oppure aggiungere subito sotto la formula la riga di convenzioni al bordo: M[0,j]=1 per ogni j >= 0 e M[i,0]=0 per ogni i >= 1."
+  }
+ ],
+ "note_positive": [
+  "Definizione delle maschere U_x fedele (la 'x' a pedice sotto la P del quaderno e' uno scivolamento di penna, gia' corretto e loggato).",
+  "Glossa «mi dice che carattere occorre in P[i]», annotazione «(no dot plot)» e annotazione «matrice che NON costruiamo per intero ma che ci permette di risolvere il problema» tutte rese.",
+  "Condizioni a) SHIFT e b) AND fedeli; ricorrenza vettoriale M_j = shift(M_{j-1}) AND U_{T[j]} corretta, con shift che immette 1 in testa e M_0 = 0^n (l'inizializzazione 1 0 0 ... 0 del quaderno, cancellata dallo studente stesso, e' scorretta: correzione giusta).",
+  "Pseudocodice conforme al quaderno (loop reso «for j = 1 to m», preprocessing delle maschere aggiunto, output j-n+1, test M_j[n]=1).",
+  "Complessita' O(n m) tempo e O(n) bit di working space come nel quaderno; integrazione word-RAM Theta(m ceil(n/w)) -> Theta(m) per n <= w corretta; nota a matita illeggibile marcata con \\lacunainl.",
+  "Esempio a matita in fondo alla pagina decodificato correttamente: P=aab, T=baab, U_a=110, U_b=001, colonne 000/100/110/001; tutti e quattro i passi verificati a mano. La figura tikz/shift-and-esempio.tikz riproduce la tabella cella per cella (unica differenza voluta: colonna j=0 = 000 invece di 100) e compila senza errori."
+ ]
+}

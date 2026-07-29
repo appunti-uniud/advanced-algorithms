@@ -1,0 +1,128 @@
+{
+ "pagina": 6,
+ "latex": "\\scan{6}\n\nPer usare la funzione $Z$ come algoritmo di ricerca c'è bisogno di avere\n$\\Zv{i}(A)$ per ogni $i \\in \\{1,\\dots,|A|\\}$. Con la scelta\n\\[\n  A \\;=\\; P\\,\\$\\,T, \\qquad \\$ \\notin \\alfa ,\n\\]\nposto $j = \\Zv{i}(P\\,\\$\\,T)$ si ha\n\\[\n  j = |P|\n  \\quad\\Longleftrightarrow\\quad\n  P \\ \\text{occorre in } T \\text{ nella posizione } i ,\n\\]\ndove $i$ è contata su $A$: il confronto ha senso solo per $i \\ge |P|+2$ e in tal\ncaso l'occorrenza comincia in $T$ alla posizione $i-|P|-1$.\n\n\\subsection{Calcolo di \\texorpdfstring{$\\Zv{i}$}{Z\\_i}}\n\nLa situazione da sfruttare è quella della figura seguente. Supponiamo di aver già\nindividuato un blocco $\\sub{A}{\\ell}{r}$ che è una copia del prefisso\n$\\alpha = \\sub{A}{1}{r-\\ell+1}$ di $A$, e sia $i$ una posizione interna al blocco,\n$\\ell \\le i \\le r$. Se la copia è massimale, i due caratteri che seguono le due\noccorrenze di $\\alpha$ sono diversi:\n\\[\n  a \\;=\\; A[\\,|\\alpha|+1\\,] \\;\\neq\\; A[\\,r+1\\,] \\;=\\; b .\n\\]\nLa posizione $i$ corrisponde, dentro il prefisso, alla posizione $1+(i-\\ell)$: il\nvalore $\\Zv{1+(i-\\ell)}(A)$ è già stato calcolato e dice fin dove si spinge la copia\ndel prefisso che comincia lì. Se essa si esaurisce prima della fine di $\\alpha$\n(freccia corta) lo stesso accade in $i$ e il valore si può semplicemente ricopiare;\nse invece arriva fino in fondo ad $\\alpha$ (freccia lunga) l'informazione contenuta\nnel blocco si esaurisce in $r$ e occorre proseguire con confronti espliciti.\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/z-blocco-massimalita.tikz}\n  \\caption{Il blocco $\\sub{A}{\\ell}{r}$ è una copia del prefisso $\\alpha$ di $A$;\n  per massimalità $a \\neq b$. La posizione $i$ corrisponde alla posizione\n  $i' = i-\\ell+1$ del prefisso; le due frecce che partono da $i'$ (e le\n  corrispondenti che partono da $i$) illustrano i due casi possibili: la copia del\n  prefisso che comincia in $i'$ si esaurisce dentro $\\alpha$ oppure la oltrepassa.}\n\\end{figure}\n\nIdea per il calcolo di $\\Zv{i}(\\cdot)$ per ogni $i$:\n\n\\begin{enumerate}\n  \\item mantengo un intervallo (blocco) $[\\ell,r]$, con $r$ massimo, tale che\n    $\\sub{A}{\\ell}{r}$ è un prefisso di $A$;\n\n    \\begin{figure}[H]\n      \\centering\n      \\input{tikz/z-blocco-corrispondenza.tikz}\n      \\caption{L'invariante: $[\\ell,r]$ con $r$ massimo tale che $\\sub{A}{\\ell}{r}$\n      è un prefisso di $A$. La posizione $i$ del blocco corrisponde alla posizione\n      $i' = i-\\ell+1$ del prefisso; i due tratti marcati, $\\sub{A}{1}{i'}$ e\n      $\\sub{A}{\\ell}{i}$, coincidono.}\n    \\end{figure}\n\n  \\item poiché ho già calcolato $\\Zv{i'}(\\cdot)$ per ogni $i' < i$, vado nella\n    posizione\n    \\[\n      i' \\;=\\; i-\\ell+1\n    \\]\n    e avrò due casi (si suppone $\\ell \\le i \\le r$; se invece $r < i$ il blocco non\n    dà alcuna informazione su $i$ e $\\Zv{i}$ va calcolato per confronti diretti):\n    \\begin{enumerate}\n      \\item se $\\Zv{i'}(A) < r-i+1$, allora $\\Zv{i}(A) = \\Zv{i'}(A)$;\n      \\item se $\\Zv{i'}(A) \\ge r-i+1$, allora riprendo con i confronti fra le\n        posizioni\n        \\[\n          (r-i+1)+k \\qquad\\text{e}\\qquad r+k , \\qquad k = 1,2,\\dots\n        \\]\n        (i primi $r-i+1$ caratteri sono già garantiti dal blocco).\n    \\end{enumerate}\n\\end{enumerate}\n\n\\paragraph{Online.} Parte~I di Gusfield $\\rightarrow$ \\texttt{alg2.pdf} (note).",
+ "note": [
+  {
+   "tipo": "ricostruzione",
+   "pagina": 6,
+   "testo": "Il quaderno apre in stile telegrafico: «Bisogno di avere $Z_i(A)$ per ogni $i\\in[1,\\dots,|A|]$». L'ho reso come frase compiuta («Per usare la funzione $Z$ come algoritmo di ricerca c'è bisogno di avere...») e ho sostituito la notazione di intervallo $[1,\\dots,|A|]$ con l'insieme $\\{1,\\dots,|A|\\}$, che è ciò che si intende (indici, non un fattore di stringa).",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 6,
+   "testo": "Il quaderno scrive, con una freccia che punta al separatore, «$\\$\\notin\\Sigma^{*}$». Ho scritto $\\$\\notin\\Sigma$: è la condizione standard (e quella deGli appunti del corso dell'anno precedente, L02 §3.1). Le due scritture sono di fatto equivalenti per un singolo carattere, ma $\\$\\notin\\Sigma$ è la forma corretta perché $\\$$ è un simbolo, non una stringa.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 6,
+   "testo": "La riga sottolineata del quaderno è «$j=|P|$ sse $P$ occorre in $T$ in posizione $i$», dove $i$ è però la posizione dentro $A=P\\$T$. Ho mantenuto l'enunciato e aggiunto la precisazione mancante: serve $i\\ge|P|+2$ e l'occorrenza comincia in $T$ alla posizione $i-|P|-1$ (cfr. il teorema di riduzione neGli appunti del corso dell'anno precedente, L02 §3.2). Senza questa precisazione l'enunciato è ambiguo.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 6,
+   "testo": "Notazione disomogenea nel manoscritto: la prima figura chiama $k$ l'estremo sinistro del blocco (etichette «$1$», «$1+(i-k)$», «$K$», «$i$»), mentre il testo subito sotto usa $[\\ell,r]$. Ho uniformato tutto a $\\ell$ e $r$; questo libera anche la lettera $k$, che nel caso 2b il quaderno usa come contatore dei confronti ($\\dots+k$, $r+k$).",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 6,
+   "testo": "Il punto 2) del quaderno scrive «$i-\\ell=i'$». È un off-by-one: la posizione del prefisso che corrisponde a $i$ è $i'=i-\\ell+1$. Che sia un lapsus lo conferma la prima figura della stessa pagina, dove l'etichetta è scritta correttamente «$1+(i-k)$». Ho scritto $i'=i-\\ell+1$. Lo stesso off-by-one ricompare a p.\\,7 ($Z_{i-\\ell}$).",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 6,
+   "testo": "Caso 2a: il quaderno scrive «se $Z_{i'}(A)<r-\\ell$». La quantità giusta è la lunghezza di $\\beta=A[i,r]$, cioè $r-i+1$, non $r-\\ell$ (che è $|\\alpha|-1$). Ho scritto $Z_{i'}(A)<r-i+1$. La lettura del grafema è certa (la $\\ell$ del manoscritto è un cappio alto, ben distinto dalla $i$).",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 6,
+   "testo": "Caso 2b: il quaderno scrive «se $Z_{i'}(A)>r-\\ell$». Oltre alla stessa correzione $r-\\ell\\to r-i+1$, la dicotomia dev'essere $<$ / $\\ge$: con $<$ e $>$ il caso di uguaglianza $Z_{i'}=r-i+1$ (che è proprio quello in cui i confronti espliciti servono davvero) resta scoperto. Ho scritto $\\Zv{i'}(A)\\ge r-i+1$.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 6,
+   "testo": "Nella formula del caso 2b il manoscritto scrive «$Z^{1}_{r}(A)+k$ e $r+k$»: il grafema fra $Z$ e la parentesi ha un tratto alto (che leggo come apice/primo o come «1») e un tratto basso che somiglia a una «r». Confrontato con i $Z_{i'}$ delle righe 2a/2b la lettura più probabile è $Z_{i'}(A)+k$, che è anche ciò che il quaderno scrive a p.\\,7 («riprendo i 2 confronti da $r+1$ e $Z_{i-\\ell}+1$»). Nel caso 2b però il valore corretto e sempre valido è $|\\beta|=r-i+1$ (coincide con $Z_{i'}$ solo quando $Z_{i'}=|\\beta|$; se $Z_{i'}>|\\beta|$ scrivere $Z_{i'}+k$ è sbagliato — è l'errore A6 deGli appunti del corso dell'anno precedente). Ho quindi scritto $(r-i+1)+k$ e $r+k$, senza marcatore, e aggiunto l'inciso «i primi $r-i+1$ caratteri sono già garantiti dal blocco».",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 6,
+   "testo": "La pagina tratta solo il caso $\\ell\\le i\\le r$: manca del tutto il caso $r<i$ (nessun blocco utile, calcolo naive), che comparirà a p.\\,7 come «Caso 1». Ho colmato la lacuna con un inciso fra parentesi dentro il punto 2), senza svilupparlo.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 6,
+   "testo": "Prima figura (sotto il titolo «Calcolo di $Z_i$»): nel manoscritto non è accompagnata da alcun testo. Ho ricostruito la prosa che la commenta (blocco copia del prefisso, massimalità $a\\ne b$, corrispondenza $i\\leftrightarrow 1+(i-\\ell)$, le due frecce corta/lunga = i due casi). La lettura è forzata dalla struttura del disegno e coincide con la casistica 2a/2b enunciata poco sotto.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 6,
+   "testo": "Nella prima figura il carattere $a$ occupa la cella immediatamente successiva alla fine del prefisso e la cella $\\ell$ è disegnata subito dopo: nel disegno risulta cioè $\\ell=|\\alpha|+2$. È un'economia di spazio, non una proprietà: nella specifica TikZ ho chiesto di inserire un tratto interrotto («$\\cdots$») fra il prefisso e il blocco, per non suggerire un'adiacenza inesistente.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 6,
+   "testo": "Nella prima figura le due copie sono etichettate con un grafema (cappio verticale attraversato da un tratto che sale a destra) che non è la stessa $\\alpha$ della seconda figura; lo leggo come $\\gamma$. L'ho uniformato ad $\\alpha$, che è la lettera usata nella seconda figura della stessa pagina, a p.\\,7 e neGli appunti del corso dell'anno precedente: le due figure descrivono lo stesso oggetto e chiamarlo con due lettere diverse sarebbe solo confusivo.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 6,
+   "testo": "Nella prima figura l'estremo destro del blocco non è etichettato: nel manoscritto ci sono solo le due barre verticali che racchiudono il carattere $b$. Ho aggiunto l'etichetta $r$ alla cella che precede $b$, coerentemente col testo.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 6,
+   "testo": "Nella scansione della prima figura compaiono tracce grigie («$Z_i$», «$i+1$», «$+1$», «$K$ $i$]») che NON sono inchiostro blu: sono trasparenze del retro del foglio. Filtrando il canale blu spariscono del tutto; le ho ignorate sia nella trascrizione sia nella specifica della figura.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 6,
+   "testo": "Ultima riga: «Parte I di Gusfield $\\to$ alg2.pdf (…)». La parola fra parentesi ha quattro lettere ed è compatibile con «note» o con «noto»/«nota»; ho scritto «(note)», l'unica lettura sensata (online sono disponibili le note dell'anno precedente, il file alg2.pdf, che coprono la Parte I di Gusfield).",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 6,
+   "testo": "Gli stessi off-by-one si ritrovano neGli appunti del corso dell'anno precedente (L02, anomalie A2–A3: $\\alpha=A[1,Z_\\ell-1]$ invece di $A[1,Z_\\ell]$) e l'errore sostanziale del caso 2b (`Z[i] = Z[i-l+1] + j` invece di `(r-i+1)+j`, anomalia A6) è lo stesso che il quaderno riproduce scrivendo «$Z_{\\cdot}(A)+k$». La versione trascritta segue la formulazione corretta (Gusfield, Lemma sul caso 2b).",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 6,
+   "testo": "Titoli espliciti presenti nel quaderno: «Calcolo di $Z_i$» (sottolineato) e «Online» (in stampatello grande). Ho reso il primo con \\subsection e il secondo con \\paragraph. Nessun altro comando di sezionamento.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "z-blocco-massimalita",
+   "pagina": 6,
+   "didascalia": "Il blocco $A[\\ell..r]$ è una copia del prefisso $\\alpha$ di $A$; per massimalità $a \\neq b$. La posizione $i$ corrisponde alla posizione $i'=i-\\ell+1$ del prefisso; le due frecce che partono da $i'$ (e le corrispondenti che partono da $i$) illustrano i due casi possibili: la copia del prefisso che comincia in $i'$ si esaurisce dentro $\\alpha$ oppure la oltrepassa.",
+   "tipo": "schema di stringhe",
+   "specifica": "Schema lineare su una sola stringa, tutto in italiano, senza colori (o al più un grigio tenue per le frecce ausiliarie).\n\nASSE (base della figura). Una retta orizzontale spessa che rappresenta la stringa $A$ e che prosegue a destra oltre l'ultimo elemento disegnato. Sull'asse, tacchette verticali corte che delimitano celle (un carattere = una cella). Da sinistra a destra:\n  - cella iniziale, etichetta sotto: $1$;\n  - a circa 1/4 della lunghezza del prefisso-blocco, una tacca con etichetta sotto: $i'=i-\\ell+1$ (basta $i'$ se lo spazio è poco);\n  - fine del prefisso $\\alpha$: due linee verticali LUNGHE (che attraversano tutta l'altezza della figura, dall'asse fin sopra le frecce) che racchiudono una cella; dentro questa cella, all'altezza della freccia superiore, la lettera $a$;\n  - subito dopo, un breve tratto interrotto/puntinato sull'asse ($\\cdots$) per indicare che il blocco NON comincia necessariamente lì (nel manoscritto è disegnato adiacente, ma è solo economia di spazio);\n  - cella etichettata sotto $\\ell$;\n  - poco dopo, cella etichettata sotto $i$ (la distanza $\\ell\\to i$ deve essere visibilmente uguale alla distanza $1\\to i'$);\n  - più a destra, cella etichettata sotto $r$;\n  - subito dopo $r$: due linee verticali LUNGHE che racchiudono una cella; dentro, all'altezza della freccia superiore, la lettera $b$.\n\nLIVELLO 1 (il più alto, sopra l'asse). Due segmenti orizzontali con punta di freccia a destra, entrambi etichettati $\\alpha$ (etichetta sopra il segmento, circa a metà):\n  - il primo va dalla posizione $1$ fino alla prima linea verticale lunga (la punta tocca la linea, cioè si ferma appena prima del carattere $a$);\n  - il secondo va da $\\ell$ fino alla linea verticale lunga che precede $b$ (punta sulla linea, si ferma appena prima di $b$).\n\nLIVELLO 2 e 3 (fra l'asse e il livello 1): le due coppie di frecce che rappresentano i due casi.\n  - Dalla posizione $i'$ partono DUE frecce orizzontali verso destra:\n      * una freccia LUNGA (disegnata più in alto) che oltrepassa la prima linea verticale lunga e la cella di $a$, terminando un po' oltre;\n      * una freccia CORTA (disegnata più in basso) che termina nettamente PRIMA della fine di $\\alpha$.\n  - Simmetricamente, dalla posizione $i$ partono DUE frecce verso destra:\n      * una LUNGA che oltrepassa $r$ e la cella di $b$ (nel manoscritto è tracciata senza punta: si può lasciare senza punta o con punta, purché sia visibile che supera $r$);\n      * una CORTA che termina prima di $r$.\n    Le due frecce di destra vanno disegnate alle stesse altezze delle corrispondenti di sinistra, così che la corrispondenza «caso lungo / caso corto» sia leggibile a colpo d'occhio.\n\nSIGNIFICATO ALGORITMICO. $\\alpha=A[1..r-\\ell+1]=A[\\ell..r]$ è la Z-box corrente; per massimalità il carattere che segue il prefisso, $a=A[|\\alpha|+1]$, è diverso dal carattere che segue la copia, $b=A[r+1]$. La posizione $i$ interna al blocco corrisponde a $i'=i-\\ell+1$ nel prefisso: $Z_{i'}$ è già noto e, trasportato sulla copia, dice se la Z-box che comincia in $i$ resta dentro il blocco (freccia corta: caso 2a, $Z_i=Z_{i'}$) o arriva fino a $r$ (freccia lunga: caso 2b, occorre proseguire con confronti espliciti da $r+1$).",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "z-blocco-corrispondenza",
+   "pagina": 6,
+   "didascalia": "L'invariante: $[\\ell,r]$ con $r$ massimo tale che $A[\\ell..r]$ è un prefisso di $A$. La posizione $i$ del blocco corrisponde alla posizione $i'=i-\\ell+1$ del prefisso; i due tratti marcati, $A[1..i']$ e $A[\\ell..i]$, coincidono.",
+   "tipo": "schema di stringhe",
+   "specifica": "Schema lineare molto essenziale, una sola riga.\n\nASSE. Una retta orizzontale che rappresenta $A$, con l'etichetta $A$ scritta a sinistra, fuori dalla retta, all'altezza della retta. La retta prosegue a destra oltre l'ultimo elemento marcato.\n\nZONA SINISTRA (il prefisso).\n  - Sopra la retta, un tratto SPESSO (o doppio) che parte dall'estremo sinistro della retta (posizione 1) e termina in corrispondenza di una tacca posta a circa il 45% della lunghezza del prefisso: è $A[1..i']$.\n  - Sulla retta, in quel punto, una tacca verticale; sotto la retta l'etichetta $i'$.\n  - Sotto la retta, una graffa (\\underbrace, apertura verso l'alto) che va dalla posizione 1 fino alla fine del prefisso — cioè oltre $i'$, circa il doppio della lunghezza del tratto spesso — etichettata $\\alpha$ sotto la graffa.\n\nTRATTO CENTRALE. Un lungo pezzo di retta senza alcuna marcatura (nel manoscritto è vuoto): separa il prefisso dal blocco.\n\nZONA DESTRA (il blocco).\n  - Tre tacche sulla retta, etichettate sotto, da sinistra a destra: $\\ell$, $i$, $r$. Le distanze devono rispettare le proporzioni della zona sinistra: la distanza $\\ell\\to i$ uguale alla distanza $1\\to i'$, e la lunghezza $\\ell\\to r$ uguale alla lunghezza della graffa $\\alpha$ di sinistra.\n  - Sopra la retta, un tratto SPESSO (identico a quello di sinistra) da $\\ell$ fino a $i$: è $A[\\ell..i]$.\n  - Sotto la retta, una graffa da $\\ell$ a $r$, etichettata $\\alpha$.\n  - La retta prosegue oltre $r$ verso destra.\n\nSIGNIFICATO ALGORITMICO. È l'invariante dell'algoritmo: $[\\ell,r]$ è il blocco con estremo destro $r$ massimo fra quelli già trovati tali che $A[\\ell..r]$ è un prefisso di $A$; quindi $A[\\ell..r]=A[1..r-\\ell+1]=\\alpha$. I due tratti spessi sono uguali carattere per carattere, il che dà la corrispondenza $i\\mapsto i'=i-\\ell+1$ e giustifica il fatto di poter leggere l'informazione su $i$ nel valore $Z_{i'}$ già calcolato.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina si chiude enunciando i due sottocasi 2a/2b ma senza dimostrarli, senza pseudocodice e senza il caso $r<i$ (calcolo naive), che qui è solo implicito; manca anche l'aggiornamento di $[\\ell,r]$ dopo aver calcolato $Z_i$ e qualunque discussione di correttezza e complessità. L'ultima riga («Online: Parte I di Gusfield $\\to$ alg2.pdf») è una nota logistica che chiude la lezione. La pagina 7 riparte da capo con «$Z$ funzione calcolata su una stringa», ridisegna lo stesso schema introducendo esplicitamente $\\alpha$, $\\beta$ e i due caratteri $x$ e $y$ che devono differire, separa i due casi ($r<i$ naive / $r\\ge i$) e sviluppa i due sottocasi con le figure «Caso 1» e «Caso 2», arrivando a $|\\beta|=Z_{i-\\ell}$ e al riavvio dei confronti da $r+1$; lì compare anche l'accenno alla complessità («almeno un indice avanza sempre»). Attenzione, in fase di cucitura, alla notazione: p.\\,6 usa $i'=i-\\ell+1$, p.\\,7 scrive $i-\\ell$.",
+ "confidenza": "alta"
+}

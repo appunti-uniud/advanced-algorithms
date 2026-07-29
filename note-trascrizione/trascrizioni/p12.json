@@ -1,0 +1,90 @@
+{
+ "pagina": 12,
+ "latex": "\\scan{12}\n\nGeneralizziamo il problema del pattern matching esatto al caso in cui i pattern da cercare\nsiano più di uno: sono dati un testo $T$ e una collezione di pattern\n\\[\n  \\P \\;=\\; \\set{P_1, \\dots, P_z}, \\qquad P_i \\in \\S^{*},\n\\]\ne si vogliono trovare tutte le occorrenze in $T$ di tutti gli elementi di $\\P$. Posto\n$n_i = \\abs{P_i}$ e $n = \\sum_{i=1}^{z} n_i$, la soluzione naive consiste nell'applicare\n$z$ volte il miglior algoritmo per singolo pattern di cui disponiamo (KMP, oppure\nl'algoritmo $Z$), al costo di\n\\[\n  \\sum_{i=1}^{z} \\Oh\\bigl(\\abs{T} + n_i\\bigr)\n  \\;=\\; \\Oh\\bigl(z\\,\\abs{T} + n\\bigr).\n\\]\n\n\\emph{Punto debole}: stiamo scandendo $T$ per $z$ volte. È il fattore $z$ davanti ad\n$\\abs{T}$ che vogliamo eliminare, riducendoci a una sola scansione del testo; per farlo\ndobbiamo combinare tutti i pattern di $\\P$ in un'unica struttura dati, cioè in un albero.\n\n\\subsection*{Keyword tree}\n\nIl \\emph{keyword tree} $K(\\P)$ è l'albero che si ottiene sovrapponendo i prefissi comuni\ndegli elementi di $\\P$: ogni cammino dalla radice a una foglia si legge come uno dei\npattern e, viceversa, ogni pattern corrisponde al cammino verso una foglia. Il guadagno è\nimmediato: leggendo un solo carattere di $T$ e scendendo di un arco si avanza\nsimultaneamente su \\emph{tutti} i pattern che condividono il prefisso già letto, cioè si\nscandiscono più elementi di $\\P$ in parallelo.\n\nNel disegno sono già indicati, tratteggiati, i \\emph{failure link}: sono i collegamenti che\npermettono di riprendere la ricerca da un altro nodo dell'albero quando la discesa si\nblocca su un mismatch, senza mai arretrare sul testo. Li definiremo formalmente più avanti.\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/keyword-tree-panoramica.tikz}\n\\caption{Il keyword tree $K(\\P)$ a colpo d'occhio: i cammini dalla radice alle $z$ foglie\nsono i pattern $P_1,\\dots,P_z$. Tratteggiati, due failure link: puntano sempre da un nodo a\nun nodo di profondità minore.}\n\\end{figure}\n\n\\begin{osservazione}\nLe foglie di $K(\\P)$ sono $z$, una per ciascun pattern, e il numero di archi soddisfa\n\\[\n  \\#\\text{archi di } K(\\P) \\;\\le\\; \\sum_{i=1}^{z} n_i \\;=\\; n .\n\\]\n\\end{osservazione}\n\nLa disuguaglianza è stretta non appena due pattern condividono un prefisso non vuoto: gli\narchi di $K(\\P)$ sono tanti quanti i prefissi non vuoti \\emph{distinti} degli elementi di\n$\\P$, ed è proprio questa condivisione il risparmio che il keyword tree realizza rispetto a\n$z$ strutture separate. La corrispondenza biunivoca tra foglie e pattern presuppone invece\nche nessun $P_i$ sia prefisso di un altro: è l'ipotesi semplificativa che formuleremo nella\nprossima pagina. Si noti infine che qui $n$ denota la lunghezza complessiva dei pattern e\nnon $\\abs{T}$.",
+ "note": [
+  {
+   "tipo": "altro",
+   "pagina": 12,
+   "testo": "In cima alla pagina, isolata in alto a sinistra, c'è la sola sigla «p.to» (nessun'altra parola sulla riga). È evidentemente una falsa partenza della riga successiva («p.to debole: ...»): l'ho omessa dalla trascrizione.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 12,
+   "testo": "Riga 2: «p.to debole : stiamo sc???do T per z volte». Il verbo è compresso; la sequenza di grafemi (due occhielli iniziali, ascendente, «e» piatta, seconda ascendente, «o» finale) è compatibile con «scandendo» e, in subordine, con «scorrendo». Ho scritto «scandendo», sia perché il tracciato mostra due ascendenti (le due «d»), sia perché Gli appunti del corso dell'anno precedente riportano sullo stesso punto «praticamente scandisco T per z volte». Il senso è comunque identico nelle due letture, quindi non ho lasciato marcatori nel testo. Espansa l'abbreviazione «p.to debole» in «punto debole».",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 12,
+   "testo": "La pagina apre di colpo con «punto debole: stiamo scandendo T per z volte», senza che il problema a cui si riferisce sia mai enunciato nel quaderno (la generalizzazione al multi-pattern e la soluzione naive erano state date a lezione, cfr. appunti del corso dell'anno precedente L04 §1-2). Ho ricostruito in due frasi l'enunciato dell'exact set matching (dati T e P = {P_1,...,P_z}, trovare tutte le occorrenze di tutti i P_i) e la soluzione naive con il suo costo, altrimenti la frase sul «punto debole» resta sospesa. Ho anche aggiunto la frase-ponte verso il keyword tree («eliminare il fattore z ⇒ un'unica struttura dati, un albero»), che negli appunti dello studente è implicita nel titolo che segue.",
+   "risolto": true
+  },
+  {
+   "tipo": "errore-anno-prec",
+   "pagina": 12,
+   "testo": "Nel ricostruire il costo della soluzione naive ho scritto O(z|T| + n) e non la forma O(z·m + m) che compare neGli appunti del corso dell'anno precedente (L04, anomalia 2): il termine moltiplicato per z è la lunghezza del TESTO, non quella dei pattern, altrimenti la formula perde ogni dipendenza da T proprio mentre si sta lamentando che T viene scandito z volte.",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 12,
+   "testo": "Notazione delle lunghezze. Lo studente usa n_i = |P_i| e n = Σ_{i=1}^{z} n_i (lo si legge nel N.B. di questa pagina, «dimensione del K.T. ≤ Σ n_i = n», e in modo esplicito a p.13, «Dimensione di K(P) ≤ Σ_{i=1}^{z} n_i = n»); La fonte dell'anno precedenteusa invece m_i e m, riservando n a |T|. Ho tenuto la notazione dello studente per coerenza con le pagine 13-15, introducendo esplicitamente n_i e n (che nel quaderno non sono mai definiti) e aggiungendo in chiusura l'avvertenza che qui n NON è |T| — collisione notazionale reale e pericolosa, dato che nel resto del corso n = |T|.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 12,
+   "testo": "Il N.B. a destra del disegno dice letteralmente «N.B.: z foglie / dimensione del K.T. ≤ Σ n_i = n». Ho reso «dimensione» con «numero di archi» (è l'accezione usata dagli appunti dell'anno precedente: #archi = #nodi − 1 ≤ Σ|P_i|) e ho esplicitato i limiti della sommatoria, presi da p.13. Ho aggiunto la precisazione che la disuguaglianza è stretta appena due pattern condividono un prefisso non vuoto (gli archi sono in biiezione con i prefissi non vuoti distinti): è il motivo per cui la struttura conviene, e negli appunti non è detto.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 12,
+   "testo": "«z foglie» è vero solo sotto ipotesi. Il quaderno lo scrive senza condizioni, ma la biiezione foglie ↔ pattern richiede che nessun P_i sia prefisso di un altro (l'ipotesi semplificativa, più forte, «nessun P_i sottostringa di un altro» compare solo a p.13). Ho aggiunto un rinvio esplicito a quell'ipotesi invece di lasciare l'affermazione falsa in generale.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 12,
+   "testo": "Interpretazione del disegno. Le due grosse punte di freccia piene (triangoli inchiostrati) sono le teste di DUE archi tratteggiati distinti, non decorazioni: (a) un tratteggio lungo che parte dal nodo profondo in fondo al ramo destro e attraversa tutta la figura verso sinistra fino a un nodo di mezza altezza sul ramo sinistro; (b) un tratteggio corto e curvo che sale dal nodo di mezza altezza del sottoalbero centrale fino a un nodo appena sotto la radice, sul ramo destro; l'etichetta «failure link» è scritta accanto a quest'ultimo. In entrambi i casi la freccia va da un nodo più profondo a uno meno profondo, coerentemente con la definizione di n_v (p.14): l'ho verificato sulle profondità dei nodi nel disegno e l'ho detto in didascalia. Le teste di freccia sono disegnate tutte «a punta verso sinistra» in modo sciatto, ma l'origine del tratteggio disambigua il verso.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 12,
+   "testo": "I tratti dell'albero ripassati a zig-zag (penna calcata più volte) non sono archi diversi: sono l'evidenziazione dei cammini coinvolti nei failure link (l'equivalente dell'evidenziatore giallo/rosa nelle figure dell'anno precedente, dove due segmenti evidenziati indicano che le due stringhe coincidono). Nella specifica TikZ li ho resi come tratto più spesso.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 12,
+   "testo": "«Keyword Tree» è scritto e sottolineato come titolo esplicito nel quaderno: l'ho reso con \\subsection*{Keyword tree} (non numerato, per non interferire con la struttura decisa in fase di cucitura). Espansa anche l'abbreviazione «K.T.» del N.B. in «keyword tree».",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 12,
+   "testo": "L'etichetta «failure link» compare qui solo dentro il disegno, mentre la definizione arriva a p.14 (<v, n_v>). Ho aggiunto una riga di anticipazione (servono a riprendere dopo un mismatch senza arretrare sul testo, cfr. la frase di p.13 «servono per consentire al puntatore sul testo di avanzare sempre») con rinvio esplicito al seguito, per non lasciare nella figura un termine mai spiegato.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 12,
+   "testo": "Nel disegno le foglie sono esattamente 8 ed etichettate P_1,...,P_8: è un numero puramente illustrativo (nel testo z resta generico). Non ho introdotto z = 8 da nessuna parte.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "keyword-tree-panoramica",
+   "pagina": 12,
+   "didascalia": "Il keyword tree $K(\\P)$ a colpo d'occhio: i cammini dalla radice alle $z$ foglie sono i pattern $P_1,\\dots,P_z$. Tratteggiati, due failure link: puntano sempre da un nodo a un nodo di profondità minore.",
+   "tipo": "albero (keyword tree / trie schematico con failure link)",
+   "specifica": "SCHEMA GENERALE. Albero schematico a forma di triangolo isoscele largo (base circa 2 volte l'altezza), radice in cima al centro-sinistra, otto foglie allineate lungo il bordo inferiore ed etichettate, da sinistra a destra, $P_1, P_2, P_3, P_4, P_5, P_6, P_7, P_8$ (etichette sotto la foglia, leggermente ruotate/sfalsate nell'originale: nel ridisegno metterle diritte sotto ciascuna foglia). Gli archi NON portano etichette di carattere e i nodi interni NON portano nomi: è un disegno panoramico, la struttura fine non conta. Tracciare i rami come segmenti spezzati leggermente irregolari (disegno a mano libera) oppure, se si preferisce, come linee dritte pulite: l'informazione è topologica.\n\nTOPOLOGIA (coordinate indicative in una griglia con radice in (0,10), base a y=0, x da -5 a +5).\n- Radice $r$ in alto, in (0,10).\n- LATO SINISTRO: da $r$ un lungo cammino discende verso sinistra fino al nodo $A$ in circa (-3.6,5.2). Da $A$ scendono due rami: uno verso sinistra-basso fino alla foglia $P_1$ in (-4.6,0.5), uno verso destra-basso fino alla foglia $P_2$ in (-2.5,0.5).\n- SOTTOALBERO CENTRALE: dal cammino radice-$A$, in un punto intermedio a circa (-1.9,7.4), si stacca un ramo che scende verso destra fino al nodo $B$ in circa (-0.6,4.6). Da $B$ scendono: a sinistra un nodo intermedio in (-1.2,3.0) da cui pendono le foglie $P_3$ in (-1.7,0.8) e $P_4$ in (-0.7,0.4); a destra un ramo che scende fino alla foglia $P_5$ in (0.9,1.0).\n- LATO DESTRO: da $r$ un arco scende verso destra fino al nodo $D$ in circa (1.1,8.6) (nodo POCO profondo, appena sotto la radice); da $D$ il bordo destro prosegue in basso a destra fino al nodo $C$ in circa (3.9,3.4) (nodo PROFONDO); da $C$ un ultimo tratto scende fino alla foglia $P_8$ in (4.6,0.8).\n- Dal bordo destro, in un punto intermedio fra $D$ e $C$ (circa (2.6,5.4)), si stacca un ramo che scende verso sinistra-basso fino a un nodo in (2.0,3.2), dal quale pendono le foglie $P_6$ in (1.8,0.6) e $P_7$ in (3.0,0.6).\n\nEVIDENZIAZIONI (nell'originale sono tratti dell'albero ripassati più volte a zig-zag con la penna; nel ridisegno usare tratto più spesso, eventualmente di colore d'accento):\n- tutto il cammino radice $\\to A$ (lato sinistro);\n- il tratto finale del cammino che arriva in $B$ (dal punto (-1.35,6.1) circa fino a $B$);\n- tutto il tratto $D \\to C$ (lato destro).\nSignificato: sono i cammini coinvolti nei due failure link (segmenti che si corrispondono come suffisso/prefisso).\n\nFAILURE LINK (archi tratteggiati con punta di freccia piena, disegnati DENTRO il triangolo, non lungo i rami):\n1. Freccia lunga da $C$ (3.9,3.4) verso sinistra, con andamento quasi orizzontale e leggermente crescente, che passa sotto il sottoalbero centrale (punti di passaggio indicativi: (2.0,3.6), (0.0,4.0), (-1.8,4.6)) e termina con la punta su $A$ (-3.6,5.2). Verso: da $C$ ad $A$, cioè dal nodo più profondo a quello meno profondo.\n2. Freccia corta e curva da $B$ (-0.6,4.6) che sale verso destra-alto e termina con la punta su $D$ (1.1,8.6); la curva è convessa verso destra (passa per circa (0.4,6.0) e (0.9,7.4)). Verso: da $B$ a $D$.\nEtichetta «failure link» su due righe, in corsivo/testo normale, collocata al centro-destra della figura fra le due frecce, a destra della freccia 2, circa in (1.6,6.3).\n\nMARCATURA DEI NODI: nell'originale $A$, $B$, $C$, $D$ non sono cerchiati (sono solo i punti dove arrivano/partono i tratteggi, evidenziati dalle grosse punte di freccia inchiostrate). Nel ridisegno conviene un piccolo pallino pieno su $A$, $B$, $C$, $D$ e nessuna etichetta di nodo (i simboli $A,B,C,D$ qui sopra servono solo alla descrizione: NON vanno stampati, perché la notazione $v$/$n_v$ arriva solo a p.14).\n\nANNOTAZIONE A LATO: nel quaderno, a destra del disegno, c'è «N.B.: z foglie — dimensione del K.T. ≤ Σ n_i = n». Questa nota è già riportata nel testo (ambiente osservazione) e NON va ripetuta nella figura.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina si ferma subito dopo l'idea intuitiva: c'è il disegno panoramico del keyword tree con i failure link già tratteggiati, ma nessuna definizione formale. Restano in sospeso: (i) la definizione di keyword tree (archi con etichette distinte uscenti da uno stesso nodo, cammini radice-foglia ↔ pattern); (ii) l'ipotesi semplificativa che nessun $P_i$ sia sottostringa di un altro, cui ho già rinviato per giustificare le «$z$ foglie»; (iii) le misure di $K(\\P)$ (dimensione, altezza $= \\max_i n_i$, fan-out $\\le \\max\\{\\abs{\\S}, z\\}$), di cui qui compare solo la dimensione; (iv) la definizione dei failure link, qui solo nominati nel disegno. La pagina 13 riprende esattamente da lì: «Definizione (di Keyword Tree)», poi «Ipotesi», poi le tre misure, poi il riquadro «failure link» con la glossa «servono per consentire al puntatore sul testo di avanzare sempre» e un secondo disegno di failure link; la formalizzazione di $\\L(v)$, $n_v$, $lp(v)$ e il Lemma di esistenza e unicità arrivano a p.14. Notazione da mantenere nel seguito: $n_i = \\abs{P_i}$, $n = \\sum_{i=1}^{z} n_i$ (lunghezza complessiva dei pattern, NON $\\abs{T}$).",
+ "confidenza": "alta"
+}

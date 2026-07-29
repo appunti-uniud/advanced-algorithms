@@ -1,0 +1,84 @@
+{
+ "pagina": 38,
+ "latex": "\\scan{38}\n\n\\textbf{Propositi.} Restano due cose da fare:\n\\begin{enumerate}\n  \\item mostrare che \\emph{$I$ mantiene la relazione antenato/discendente};\n  \\item scrivere un algoritmo che, usando $I$, $L$ e gli $A_v$, risponda a\n        $\\lca(x,y)$ in $\\Oh(1)$ (nel modello di calcolo fissato).\n\\end{enumerate}\n\n\\begin{lemma}[la mappa $I$ rispetta la relazione antenato/discendente]\\label{lem:lca-I-ant}\nSiano $x$ e $z$ nodi di $\\T$. Allora\n\\[\n  x\\in\\albero{z}\n  \\quad\\Longrightarrow\\quad\n  I(x)\\in\\B\\bigl(I(z)\\bigr),\n\\]\ndove $\\albero{z}$ è il sottoalbero di $\\T$ radicato in $z$ e $\\B(w)$ è il\nsottoalbero di $\\B$ radicato in $w$.\n\\end{lemma}\n\n\\begin{dimostrazione*}[\\autoref{lem:lca-I-ant}]\n\\begin{itemize}\n  \\item Se $I(x)=I(z)$, allora $I(x)=I(z)\\in\\B\\bigl(I(z)\\bigr)$ e la tesi è\n        immediata: $x$ e $z$ stanno sullo stesso run.\n\n  \\item Altrimenti $h\\bigl(I(z)\\bigr)>h\\bigl(I(x)\\bigr)$, perché $h\\circ I$\n        cresce salendo in $\\T$: da $\\albero{x}\\subseteq\\albero{z}$ segue\n        $h\\bigl(I(x)\\bigr)\\le h\\bigl(I(z)\\bigr)$ per massimalità, e\n        l'uguaglianza è esclusa dall'unicità del nodo che realizza il massimo\n        di $h$ su $\\albero{z}$.\n\n        Sia $h\\bigl(I(z)\\bigr)=i$: i bit a sinistra della posizione $i$ in\n        $I(x)$ devono essere uguali a quelli a sinistra di $i$ in $I(z)$.\n\n        Da qui segue che $I(x)$ è discendente di $I(z)$ in $\\B$: il\n        sottoalbero di $\\B$ radicato in un nodo $w$ è infatti esattamente\n        l'insieme dei path number che coincidono con $w$ in tutti i bit a\n        sinistra della posizione $h(w)$.\n\\end{itemize}\n\\end{dimostrazione*}\n\n\\begin{esercizio}[il passaggio lasciato in sospeso]\\label{ex:lca-bit-sx}\nNelle ipotesi del \\autoref{lem:lca-I-ant} e posto $i=h\\bigl(I(z)\\bigr)$,\ndimostrare che i bit di $I(x)$ a sinistra della posizione $i$ coincidono con\nquelli di $I(z)$.\n\\end{esercizio}\n\n\\emph{Traccia.} $I(x)$ e $I(z)$ sono numeri DFS di nodi di $\\albero{z}$, che\nper la proprietà DFS formano un intervallo contiguo. Se i due numeri\ndifferissero in qualche posizione $k>i$, si prenda la più significativa di tali\nposizioni e si ponga\n\\[\n  N=\\bigl(\\text{bit comuni a sinistra di }k\\bigr)\\,\\Vert\\,1\\,\\Vert\\,0\\cdots 0 .\n\\]\nAllora $\\min\\{I(x),I(z)\\}<N<\\max\\{I(x),I(z)\\}$ e $h(N)=k>i$: dunque $N$ sarebbe\nil numero di un nodo di $\\albero{z}$ con $h$ maggiore di $h\\bigl(I(z)\\bigr)$,\ncontro la definizione di $I(z)$.\n\n\\bigskip\n\n\\begin{teorema}[determinare $z$ noto $h(I(z))$]\\label{thm:lca-teo1}\nSia $z=\\lca(x,y)$. Se conosco $h\\bigl(I(z)\\bigr)$, allora determino $z$ in\n$\\Oh(1)$.\n\\end{teorema}\n\n\\begin{teorema}[determinare $h(I(z))$ da $A_x$ e $A_y$]\\label{thm:lca-teo2}\nSia $z=\\lca(x,y)$ e sia\n\\[\n  j=\\min\\Bigl\\{\\,k\\ :\\ k\\ \\ge\\ h\\bigl(\\lca_{\\B}(I(x),I(y))\\bigr)\n     \\ \\wedge\\ A_x[k]=A_y[k]=1\\,\\Bigr\\}.\n\\]\nAllora\n\\[\n  j=h\\bigl(I(z)\\bigr).\n\\]\n\\end{teorema}\n\n\\begin{dimostrazione*}[\\autoref{thm:lca-teo1}]\nSia $h\\bigl(I(z)\\bigr)=j$ noto (lo fornisce il \\autoref{thm:lca-teo2}).\n\\begin{itemize}\n  \\item Siano $\\bar x$ e $\\bar y$ i primi nodi del run di $z$ che si incontrano\n        lungo il cammino che risale da $x$, rispettivamente da $y$, verso la\n        radice.\n  \\item $z$ è uno tra $\\bar x$ e $\\bar y$: precisamente quello con\n        dfs-numbering più piccolo, cioè quello più in alto (i due nodi stanno\n        sullo stesso run, che è un cammino verticale, quindi sono\n        confrontabili).\n\\end{itemize}\n\\end{dimostrazione*}\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/lca-run-xbar-ybar.tikz}\n  \\caption{Il run di $z$ (linea a zig-zag che scende in diagonale): $\\bar x$ e\n  $\\bar y$ sono i primi nodi del run incontrati risalendo da $x$ e da $y$.\n  Poiché $\\bar x$ è il più alto dei due, $z=\\bar x$.}\n  \\label{fig:lca-run-xbar-ybar}\n\\end{figure}",
+ "note": [
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 38,
+   "risolto": true,
+   "testo": "La prima parola della pagina è abbreviata «Prop.i:» (stesso svolazzo finale di «Oss.i», «Def.i», «Dim.i» usati nelle pagine vicine). Poteva essere «Proposizione» o «Propositi». Ho scritto «Propositi» perché ciò che segue non è un enunciato ma un'agenda in due punti (mostrare il lemma; scrivere l'algoritmo), e perché il secondo punto comincia con «e scrivo…», che si aggancia a una lista di intenzioni. La scelta non altera il contenuto matematico."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 38,
+   "risolto": true,
+   "testo": "Nel secondo caso della dimostrazione del Lemma il quaderno giustifica $h(I(z))>h(I(x))$ solo con la parentesi «(h cresce salendo in T)». Ho esplicitato l'argomento: $T(x)\\subseteq T(z)$ dà la disuguaglianza larga per massimalità, e la stretta segue dall'unicità del massimizzatore (Lemma 8.5.2 di Gusfield, già visto nelle pagine precedenti). Senza l'unicità l'implicazione non sarebbe corretta, quindi la precisazione è necessaria e non è un'aggiunta gratuita."
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 38,
+   "risolto": true,
+   "testo": "A margine sinistro, con una freccia che punta alla riga «…devono essere uguali a quelli a sx di i in I(z)», il quaderno scrive «dimostrare!». Ho reso il passo come ambiente `esercizio` (fedele all'intento dello studente) e ho aggiunto sotto una «Traccia» ricostruita dalla dimostrazione standard (Gusfield §8.7 / sintesi fonte dell'anno precedente L09 §1 punto 3): costruzione del numero N con h(N)>i compreso strettamente fra I(x) e I(z), assurdo per la proprietà DFS. La traccia è un'aggiunta mia, non c'è negli appunti."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 38,
+   "risolto": true,
+   "testo": "L'ultima riga della dimostrazione del Lemma negli appunti è solo «Da qui segue che I(x) è discendente di I(z) in B». Ho aggiunto la mezza riga che spiega perché: il sottoalbero di B radicato in w è l'insieme dei path number che coincidono con w nei bit a sinistra della posizione h(w). È un fatto già stabilito nelle pagine precedenti (Lemma 8.5.1 + definizione di path number) e senza di esso il «da qui segue» resterebbe opaco."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 38,
+   "risolto": true,
+   "testo": "Nel Teorema 2 il quaderno scrive «j = min_k { k ≥ h(lca_B(I(x),I(y))) ∧ A_x[k]=A_y[k]=1 }», con la k sia come pedice del min sia dentro le graffe. Ho normalizzato in $\\min\\{k : \\dots\\}$, che è la stessa cosa senza legare due volte la variabile. Verificati contro la sintesi degli appunti dell'anno precedente (L09, Teorema 2): direzione della disuguaglianza ($k \\ge h(b)$, non $\\le$), pedice B su lca, conclusione $j = h(I(z))$ — tutto coincide."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 38,
+   "risolto": true,
+   "testo": "Notazione: in questa pagina il quaderno usa $A_x[k]$ con parentesi quadre, mentre a p.37 usava $A_v(i)$ con le tonde. Ho mantenuto le quadre qui, coerentemente con la fonte primaria; in fase di cucitura converrà uniformare a una sola notazione su tutto il capitolo."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 38,
+   "risolto": true,
+   "testo": "Scelta degli ambienti. Il preambolo non definisce un `lemma` italiano numerato (esiste solo `lemma*it` non numerato): ho usato l'ambiente `lemma` della classe, il cui titolo stampato «Lemma» è identico in italiano ed è numerato e referenziabile. I due enunciati sono chiamati «Teorema 1» e «Teorema 2» nel quaderno, ma la numerazione automatica del documento non coinciderà: ho dato titoli descrittivi e le etichette thm:lca-teo1 / thm:lca-teo2, richiamandole con \\autoref."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 38,
+   "risolto": true,
+   "testo": "La dimostrazione del Teorema 1 non finisce in questa pagina: prosegue a p.39. Ho chiuso comunque il box `dimostrazione*` a fine pagina perché il frammento compili da solo; in fase di cucitura i due blocchi vanno fusi in un unico box (oppure la continuazione di p.39 va lasciata senza intestazione propria)."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 38,
+   "risolto": true,
+   "testo": "Nella zona centrale della pagina, subito sotto la riga «Da qui segue che I(x) è discendente di I(z) in B», c'è una riga e mezza scritta a matita e poi cancellata con la gomma: a 300 DPI si intravedono parole come «ordinare h», «provare», «altrimenti h > h», ma il testo non è ricostruibile. È materiale di brutta deliberatamente cancellato: non l'ho trascritto. Sulla pagina ci sono anche scarabocchi a matita (una faccina sopra il Lemma, un ovale accanto al disegno) privi di contenuto."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 38,
+   "risolto": true,
+   "testo": "Dopo «Teorema 1» c'è un piccolo segno che a bassa risoluzione sembra un apostrofo («Teorema 1'»). A 300 DPI è un tratto di penna isolato, probabilmente l'inizio abortito dei due punti: l'ho ignorato."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 38,
+   "risolto": true,
+   "testo": "Interpretazione del disegno in basso a sinistra: le linee a zig-zag sono cammini di lunghezza arbitraria in T; la catena che scende in diagonale da in alto a sinistra verso in basso a destra è il run di z, con sopra i due nodi pieni etichettati x̄ (in alto) e ȳ (più in basso) e un nodo terminale non etichettato in fondo a destra (= I(z), fondo del run). Da x̄ scende a sinistra una linea liscia fino al nodo x; da ȳ scende a sinistra un cammino a zig-zag fino al nodo y. A bassa risoluzione l'uncino iniziale del run in alto a sinistra sembra la lettera «z»: a 300 DPI è chiaramente l'inizio del tratto a zig-zag, non un'etichetta — nel manoscritto z NON compare nel disegno. Nella specifica TikZ ho chiesto di aggiungere l'annotazione «= z» accanto a x̄: è un'aggiunta editoriale mia, ma è esattamente il contenuto dell'ultimo bullet (z è il più alto fra x̄ e ȳ)."
+  }
+ ],
+ "figure": [
+  {
+   "id": "lca-run-xbar-ybar",
+   "pagina": 38,
+   "didascalia": "Il run di $z$ (linea a zig-zag che scende in diagonale): $\\bar x$ e $\\bar y$ sono i primi nodi del run incontrati risalendo da $x$ e da $y$. Poiché $\\bar x$ è il più alto dei due, $z=\\bar x$.",
+   "tipo": "schema di albero (frammento di albero T con un run evidenziato)",
+   "specifica": "Frammento di albero T disegnato a mano libera.\n\nCONVENZIONE GRAFICA DEL MANOSCRITTO: i cammini di lunghezza arbitraria sono resi con linee A ZIG-ZAG (in TikZ: decorate, decoration={zigzag, segment length=6pt, amplitude=2.5pt}); un solo cammino, quello che porta a x, e' tracciato con una linea liscia leggermente arcuata. I nodi sono piccoli dischi pieni (circle, fill, inner sep=1.6pt).\n\nCOORDINATE (unita' arbitrarie, ricavate dalle proporzioni della scansione; y verso l'alto):\n  TOP  = (0.00, 4.40)  estremo superiore libero del run: nessun nodo, nessuna etichetta (il run prosegue verso l'alto fino al proprio leader)\n  XB   = (0.70, 3.50)  nodo pieno, etichetta $\\bar x$\n  YB   = (2.05, 2.00)  nodo pieno, etichetta $\\bar y$\n  BOT  = (3.22, 0.60)  nodo pieno terminale, senza etichetta (= fondo del run, cioe' I(z))\n  X    = (-0.90, 1.75) nodo pieno, etichetta $x$\n  Y    = (0.75, 0.00)  nodo pieno, etichetta $y$\n\nTRATTI DA DISEGNARE:\n1. Zig-zag TOP -> XB (il run che continua verso l'alto). L'estremo TOP e' libero, punta arrotondata; NIENTE freccia e NIENTE nodo.\n2. Zig-zag XB -> YB.\n3. Zig-zag YB -> BOT.\n   I tratti 1+2+3 formano un'unica catena diagonale continua da in alto a sinistra a in basso a destra: e' IL RUN DI z. Se si vuole enfatizzarlo si puo' usare un tratto leggermente piu' spesso; nel manoscritto NON c'e' alcun riquadro tratteggiato.\n4. Linea LISCIA (leggermente arcuata, concavita' verso il basso) da XB verso il basso a sinistra fino a X: e' il cammino che da x risale fino a x̄.\n5. Zig-zag da YB verso il basso a sinistra fino a Y: e' il cammino che da y risale fino a ȳ.\n\nETICHETTE (font matematico):\n  - $\\bar x$ sopra a destra di XB, offset circa (+0.45,+0.35), con sopralineatura ben visibile.\n  - $\\bar y$ sopra a destra di YB, offset circa (+0.55,+0.45), con sopralineatura; nel manoscritto un trattino sottile la collega al nodo (si puo' omettere o rendere con una linea di richiamo sottile e grigia).\n  - $x$ sotto a sinistra di X, offset circa (-0.15,-0.35).\n  - $y$ sotto a sinistra di Y, offset circa (-0.20,-0.35).\n  - AGGIUNTA EDITORIALE (non presente nel manoscritto, da rendere in grigio o fra parentesi): accanto a $\\bar x$ scrivere \"$=z$\", cosi' l'etichetta diventa \"$\\bar x = z$\". Serve a rendere leggibile l'ultimo punto della dimostrazione, cioe' che z e' il piu' alto fra x̄ e ȳ.\n\nSIGNIFICATO ALGORITMICO da preservare nel ridisegno: x̄ e ȳ giacciono entrambi sul run di z, che e' un cammino verticale in T; il ramo che porta a x si stacca dal run in x̄, quello che porta a y si stacca in ȳ; poiche' x̄ e' antenato di ȳ, si ha lca(x,y) = x̄ = z. Il run continua sia sopra x̄ (verso il leader) sia sotto ȳ (verso I(z)): e' importante che entrambe le prosecuzioni restino visibili.\n\nDimensione consigliata: circa 6 cm di larghezza; nessun asse, nessuna griglia, nessun titolo interno.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina si chiude a metà della dimostrazione del Teorema 1: sono stati enunciati i punti dello schema (h(I(z))=j è noto; definizione di x̄ e ȳ come primi nodi del run di z risalendo da x e da y; z è il più alto dei due, cioè quello con dfs-numbering minimo), ma NON è ancora stato spiegato come si calcolano effettivamente x̄ e ȳ in O(1). Restano inoltre non dimostrati il Teorema 2 (qui solo enunciato) e il passaggio marcato «dimostrare!» nel Lemma. La pagina 39 riparte esattamente da lì: caso h(I(x))=j (allora x̄=x, fine); altrimenti si introduce w, ultimo nodo del cammino x→x̄ prima di x̄, con l'osservazione che w è il leader del proprio run e x̄=parent(w); poi h(I(w)) = posizione del primo 1 in A_x a destra di j, ricostruzione di I(w) dai bit di I(x), w=L(I(w)); infine lo pseudocodice complessivo «Algoritmo O(1) per lca(i,j)». In fase di cucitura il box `dimostrazione*` chiuso a fine p.38 va fuso con la sua continuazione in p.39, e le etichette lem:lca-I-ant / thm:lca-teo1 / thm:lca-teo2 vanno riusate.",
+ "confidenza": "alta"
+}

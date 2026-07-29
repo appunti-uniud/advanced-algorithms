@@ -1,0 +1,17 @@
+{
+ "pagina": 77,
+ "esito": "ok",
+ "problemi": [],
+ "note": [
+  "Contenuto manoscritto di p.77 (in ordine): (1) «Se \"pensi\" allo spazio come ad un graf., le SCC che ottengo sono correlate con le nozioni transiente/persistente»; (2) «Def: SCC finale se e priva di archi uscenti»; (3) «Def: M.C. irriducibile se ha 1 sola scc finale» con nota a margine cerchiata «sono le M.C. che (sappiamo trattare) meglio / diremo un teo»; (4) «Def: State probability vector» con nota a destra «rappresenta la distrib. della prob. di visita di un r.w. su G», formula q^(t)=(q_1^(t),...,q_n^(t)), annotazioni «row-vector», «la distribuzione dello stato al tempo t», «step mtx»; (5) q^(t+1)=q^(t) x P e q^(t)=q_0 P^t; (6) «Def: pi distribuzione stazionaria della catena P», pi = pi P.",
+  "Tutti e sei gli elementi sono presenti nel LaTeX: (4)(5) ai righi 237-254, (1)(2)(3) ai righi 445-471, (6) ai righi 477-485. Nessuna omissione rilevata.",
+  "Verifiche matematiche: q^(t+1) = q^(t) P con q vettore riga da q^(t+1)_j = sum_i q^(t)_i P_ij (corretto); q^(t) = q^(0) P^t per induzione (corretto); pi = pi P (corretto). Coerente con P^(t)_ij = Pr[X_t=j | X_0=i] definito a p.75 (rigo 186).",
+  "Il quaderno scrive q_0 (pedice) nella formula q^(t) = q_0 P^t; il LaTeX normalizza in q^(0), coerente col resto del capitolo (rigo 331). Normalizzazione notazionale legittima.",
+  "Correzione sostanziale gia gestita e documentata: il quaderno definisce «irriducibile = 1 sola SCC finale», che e errato (contro-esempio: S={1,2}, P_11=P_12=1/2, P_22=1 ha una sola SCC finale {2} ma non e irriducibile). Il LaTeX da la definizione standard (una sola SCC / grafo fortemente connesso, cfr. Motwani-Raghavan cap.6) e spiega la divergenza nell'osservazione ai righi 462-471. La motivazione data (pi_i>0 per ogni i cade non appena esistono SCC non finali) e corretta.",
+  "L'osservazione ai righi 462-471 completa correttamente cio che il quaderno lascia implicito («le SCC sono correlate con transiente/persistente»): in catena finita gli stati di una SCC finale sono persistenti non nulli, gli altri transienti. Coerente con la Proposizione al rigo 414.",
+  "Pagina 77 non contiene figure: l'unico segno grafico e l'ellisse di enfasi attorno a «sappiamo trattare». Corretto quindi che non esista tikz/p77-*.tikz.",
+  "Lettura incerta ma irrilevante: l'annotazione sotto «row-vector» legge «step mtx» (freccia verso q^(t+1)=q^(t) x P); il LaTeX la rende in prosa con «Il passo della catena si ottiene moltiplicando il vettore (riga) di stato per la matrice di transizione». Resa fedele in ogni lettura plausibile.",
+  "Micro-inconsistenza non segnalata come difetto: il titolo dell'ambiente e «Vettore di stato» mentre il corpo dice «vettore di probabilita di stato»; nessun effetto sul significato, e «vettore di stato» e il termine usato nel resto del capitolo.",
+  "Il file .build/supporto/L16_sintesi.md indicato dal task riguarda la complessita randomizzata e non copre questa pagina; il materiale dell'anno precedente pertinente e L17_sintesi.md (catene di Markov), che pero non tratta SCC/irriducibilita e conferma solo l'impianto su stazionarieta e Basic Limit Theorem."
+ ]
+}

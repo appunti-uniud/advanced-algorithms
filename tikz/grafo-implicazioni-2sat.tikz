@@ -1,0 +1,36 @@
+% grafo-implicazioni-2sat -- pag. 67
+% Il grafo delle implicazioni G di Aspvall--Plass--Tarjan.  I nodi sono letterali
+% (senza cerchio, come nel manoscritto); la clausola (l_1 v l_2) genera i due archi
+%       not l_1 --> l_2      e      not l_2 --> l_1 .
+% La macchia irregolare rappresenta l'intero grafo G; fuori, a destra, la sigla CFC
+% (componenti fortemente connesse), che e' cio' che su G si va a calcolare.
+\begin{tikzpicture}[
+    >=Latex,
+    font=\small,
+    bordo/.style={draw=black!70,line width=0.8pt},
+    arco/.style={->,line width=0.7pt}]
+
+  % ---- contorno del grafo (curva chiusa irregolare) ------------------------
+  \draw[bordo] plot[smooth cycle,tension=0.85] coordinates {
+      (-2.80, 0.10) (-2.40, 0.90) (-1.55, 1.30) (-0.40, 1.42)
+      ( 0.80, 1.35) ( 1.85, 1.18) ( 2.58, 0.70) ( 2.80, 0.12)
+      ( 2.58,-0.45) ( 1.75,-1.00) ( 0.60,-1.30) (-0.10,-1.45)
+      (-1.10,-1.25) (-2.05,-0.95) (-2.65,-0.45) };
+
+  % ---- nome del grafo, appoggiato al bordo in alto a destra ----------------
+  \node[anchor=south west] at (1.72,0.98) {$G$};
+
+  % ---- clausola (l_1 v l_2): primo arco,  not l_1 --> l_2 ------------------
+  \node (nl1) at (-0.60, 0.62) {$\overline{\ell_1}$};
+  \node (l2)  at (-1.85, 0.50) {$\ell_2$};
+  \draw[arco] (nl1) to[bend left=15] (l2);
+
+  % ---- clausola (l_1 v l_2): secondo arco,  not l_2 --> l_1 ----------------
+  \node (nl2) at (0.15,-0.78) {$\overline{\ell_2}$};
+  \node (l1)  at (1.45,-0.36) {$\ell_1$};
+  \draw[arco] (nl2) to[bend right=15] (l1);
+
+  % ---- cio' che si calcola su G -------------------------------------------
+  \node[anchor=west] at (3.05,0.05) {CFC};
+
+\end{tikzpicture}

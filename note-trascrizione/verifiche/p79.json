@@ -1,0 +1,20 @@
+{
+ "pagina": 79,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "figura",
+   "dove": "lezioni/A-weisfeiler-leman.tex, righe 85-91 e 110-116 (figure fig:wlk-tupla e fig:wlk-tipo-atomico) rispetto a \\scan{80} a riga 95",
+   "descrizione": "Le due figure della sezione WL-k stanno dalla parte sbagliata del marcatore \\scan{80}. tikz/wlk-tupla.tikz e' il disegno che nel quaderno sta in cima a p.80, sotto «Initial coloring C_0^k = atp(v)» (i nodi v1..v4 che convergono in un unico pallino) — il suo stesso header dice «pag. 80» — ma nel LaTeX e' inserita prima di \\scan{80}, quindi risulta attribuita a p.79. Viceversa tikz/wlk-tipo-atomico.tikz e' il piccolo digrafo u->v->w che nel quaderno sta a p.79 accanto ad «atp<u,v,w,...>» (header: «pag. 79»), ma nel LaTeX compare dopo \\scan{80}. Anche NOTE-EDITORIALI.md (voci 1220, 2380) colloca atp e il digrafo su p.79. Il rimando alla scansione, che serve proprio a ritrovare l'originale, punta quindi alla pagina sbagliata per entrambe.",
+   "correzione": "Spostare \\scan{80} in modo che preceda la figura fig:wlk-tupla (cioe' subito dopo il paragrafo «Servono due ingredienti ... il passo di raffinamento.», riga 83) e portare la figura fig:wlk-tipo-atomico nella parte di p.79, agganciandola alla frase che introduce i tipi atomici; in alternativa, come intervento minimo, il solo spostamento di \\scan{80} prima di fig:wlk-tupla."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "figura",
+   "dove": "tikz/wl1-partizione-colori.tikz, riga 20 (\\foreach con quattro crocette) contro NOTE-EDITORIALI.md, voci 106 e 1906",
+   "descrizione": "Nel quaderno il cerchio ha quattro settori ma solo tre crocette (il settore in alto a sinistra, fra il raggio obliquo a ~143 gradi e il diametro, e' vuoto: verificato sulla scansione). Il file TikZ ne disegna quattro, dichiarando nel commento di averne aggiunta una «perche' le celle di una partizione sono per definizione non vuote». La scelta e' difendibile, ma contraddice la specifica registrata in NOTE-EDITORIALI.md, che in due punti dice «ho chiesto di riprodurre fedelmente 4 settori e 3 crocette»: la nota editoriale e il file non concordano piu'.",
+   "correzione": "Allineare i due: o togliere la crocetta a 165 gradi dal \\foreach di tikz/wl1-partizione-colori.tikz (fedelta' al manoscritto), o aggiornare le voci 106 e 1906 di NOTE-EDITORIALI.md registrando che la quarta crocetta e' un'aggiunta deliberata."
+  }
+ ]
+}

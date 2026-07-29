@@ -1,0 +1,49 @@
+% p87-ritorno-arco -- pag. 87
+% Primo ritorno nello stato (u,v) della catena sugli archi orientati:
+%   u -> v  (prima traversata)  ~>  vagabondaggio nel grafo fino a rientrare in u
+%   ~>  u -> v  (seconda traversata).
+% Visualizza la decomposizione  h_{(u,v),(u,v)} >= h_{v,u} + h_{u,v}.
+% Il grafo resta implicito: la curva chiusa e' la traiettoria della passeggiata,
+% non un arco di G.
+\begin{tikzpicture}[
+    x=1cm, y=1cm,
+    vert/.style     = {circle, fill=graydark, inner sep=0pt, minimum size=4pt},
+    traversa/.style = {draw=accent, line width=1.1pt, line cap=round,
+                       -{Stealth[length=5pt,width=4pt]}},
+    vaga/.style     = {draw=graydark, line width=0.6pt, line cap=round,
+                       line join=round},
+    et/.style       = {font=\footnotesize},
+  ]
+
+  \coordinate (u) at (0.00, 0.00);
+  \coordinate (v) at (2.40, 1.05);
+
+  % ---- il vagabondaggio: un'unica traiettoria che esce da v, gira a lungo
+  %      per il grafo e rientra in u ------------------------------------------
+  \draw[vaga, -{Stealth[length=5pt,width=4pt]}]
+       (2.50, 1.09)
+       .. controls ( 4.70, 1.30) and ( 5.60,-0.30) .. ( 4.90,-1.60)
+       .. controls ( 4.20,-2.90) and ( 2.20,-3.40) .. ( 0.40,-3.00)
+       .. controls (-1.30,-2.60) and (-2.10,-1.30) .. (-1.50,-0.55)
+       .. controls (-1.05,-0.40) and ( 0.90,-0.60) .. ( 1.90,-0.85)
+       .. controls ( 3.10,-1.55) and ( 3.00,-2.45) .. ( 1.70,-2.55)
+       .. controls ( 0.55,-2.65) and (-0.62,-2.05) .. (-0.78,-1.35)
+       .. controls (-0.88,-0.80) and (-0.50,-0.35) .. (-0.10,-0.10);
+
+  % ---- le due traversate dell'arco u -> v ------------------------------------
+  \draw[traversa] (u) to[bend left=16]  (v);
+  \draw[traversa] (u) to[bend right=16] (v);
+
+  \node[vert] at (u) {};
+  \node[vert] at (v) {};
+
+  \node[et, anchor=east,  xshift=-4pt] at (u) {$u$};
+  \node[et, anchor=south, yshift=4pt]  at (v) {$v$};
+
+  \node[et, rotate=23.6, anchor=south] at (1.13, 0.76) {1\textsuperscript{a} traversata};
+  \node[et, rotate=23.6, anchor=north] at (1.30, 0.29) {2\textsuperscript{a} traversata};
+
+  \node[et, anchor=north, align=center] at (1.70,-3.30)
+       {vagabondaggio nel grafo\\ prima del rientro in $u$ \ ($h_{v,u}$)};
+
+\end{tikzpicture}

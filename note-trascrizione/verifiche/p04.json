@@ -1,0 +1,20 @@
+{
+ "pagina": 4,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "media",
+   "categoria": "figura",
+   "dove": "tikz/kmp-alfa-S.tikz, riga 27 (\\node[below,inner sep=4pt] at (4.4,-0.18) {$i-\\spv{i}(S)$}) — figura fig:kmp-alfa-S richiamata nel blocco \\scan{4}",
+   "descrizione": "Off-by-one nelle etichette di posizione. Le quattro tacche sono etichettate 1, sp_i(S), i-sp_i(S), i; la prima occorrenza di alpha va dunque da 1 a sp_i(S) (lunghezza sp_i(S)), mentre la seconda risulta andare da i-sp_i(S) a i, cioe lunghezza sp_i(S)+1. Le due graffe, entrambe etichettate alpha e disegnate della stessa larghezza, si contraddicono con le etichette, e la didascalia afferma |alpha|=sp_i(S). La seconda occorrenza di alpha e S[i-sp_i(S)+1 .. i].",
+   "correzione": "Sostituire l'etichetta della tacca a x=4.4 con $i-\\spv{i}(S)+1$ (cioe: \\node[below,inner sep=4pt] at (4.4,-0.18) {$i-\\spv{i}(S)+1$};), coerentemente con la convenzione gia usata per le altre tre tacche (etichetta = posizione del carattere estremo di alpha)."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "trascrizione-errata",
+   "dove": "lezioni/02-kmp-z.tex, righe 174-176: \\scan{5} seguito da «Con l'analisi ammortizzata si vede invece che la somma delle operazioni su tutte le chiamate ricorsive, per i in {1,...,n}, e lineare.»",
+   "descrizione": "Quella frase e l'ultima riga della pagina 4 del quaderno («Con l'analisi ~~asintotica~~ ammortizzata si vede che la somma delle operazioni su tutte le chiamate ricorsive per i in {1,...,n}, e lineare», sottolineata), non della pagina 5: la p.5 comincia con «Analisi ammortizzata: ogni volta che applico il caso 1) se il costo e k, alloco 2k...». Cosi com'e, il rimando a margine \\scan{5} attribuisce alla scansione sbagliata l'unica frase che chiude la p.4, e il blocco \\scan{4} resta privo della sua conclusione.",
+   "correzione": "Spostare \\scan{5} dopo il primo periodo: portare la frase «Con l'analisi ammortizzata si vede invece che ... e lineare.» in coda al blocco di p.4 (subito dopo l'osservazione [Problema]), e far cominciare il blocco di p.5 con \\subsection{Analisi ammortizzata} + \\scan{5} + «Lo schema e il seguente: ...»."
+  }
+ ]
+}

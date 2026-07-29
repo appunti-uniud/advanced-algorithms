@@ -1,0 +1,20 @@
+{
+ "pagina": 81,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "media",
+   "categoria": "errore-logico",
+   "dove": "lezioni/A-weisfeiler-leman.tex, sezione «Isomorfismo frazionario», frase di apertura subito dopo \\scan{81} (righe 242-243): «Se fra due grafi sussiste un isomorfismo frazionario, allora WL-$k$ fallisce».",
+   "descrizione": "L'enunciato, cosi' com'e' scritto (per k generico), e' falso per k >= 2. Il teorema di Tinhofer / Ramana-Scheinerman-Ullman lega l'isomorfismo frazionario al SOLO primo livello: G ~=_f H se e solo se il raffinamento dei colori (WL-1) non li distingue. Controesempio immediato, ed e' l'esempio che il capitolo stesso usa a riga 73-76: C_6 e l'unione di due triangoli sono entrambi 2-regolari su 6 nodi, quindi frazionariamente isomorfi, ma FWL-2 li separa (conta i vicini comuni di ogni coppia, cioe' i triangoli: 0 contro 2). La frase contraddice quindi (i) l'osservazione che la segue tre righe dopo («Il legame con Weisfeiler-Leman e' esatto, ma vale al primo livello»), e (ii) la promessa dell'introduzione del capitolo (righe 21-23: i test «diventano tanto piu' fini quanto piu' k cresce»). Il quaderno scrive davvero «WL-k fails» (glifo verificato: e' una k minuscola, identica a quella di «with k variables» due righe sotto), quindi l'errore e' della fonte, ma la policy chiede di correggerlo nel testo, non solo di commentarlo dopo.",
+   "correzione": "Riscrivere la frase limitandola al primo livello, per esempio: «Se fra due grafi sussiste un isomorfismo frazionario, il raffinamento dei colori fallisce: i due grafi ricevono la stessa colorazione e WL-1 non riesce a separarli.» (il quaderno scrive «WL-$k$ fails», ma l'equivalenza esatta e' con WL-1; la cosa si puo' segnalare in una nota o lasciare all'osservazione che segue). In alternativa, se si vuole restare aderenti al telegramma del quaderno, aggiungere subito un inciso: «--- cosi' dice il quaderno; in realta' il fallimento garantito riguarda WL-1, si veda l'osservazione qui sotto ---». Coerentemente, nell'osservazione seguente si puo' rafforzare il punto citando C_6 contro due triangoli come coppia frazionariamente isomorfa che pero' WL-2 distingue."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "errore-logico",
+   "dove": "lezioni/A-weisfeiler-leman.tex, ultima osservazione della sezione «Il kernel di Weisfeiler--Leman» (righe 320-323): «... e --- per la caratterizzazione logica della sezione precedente --- anche alle reti neurali su grafi che ne imitano lo schema di aggiornamento».",
+   "descrizione": "L'inciso attribuisce il trasferimento dei limiti di espressivita' alle GNN alla caratterizzazione logica C^{k+1}, che non e' la ragione del fatto. Il limite delle reti a passaggio di messaggi (Morris et al. 2019, Xu et al. 2019) segue direttamente dal fatto che l'aggiornamento della rete simula il passo di raffinamento dei colori, esattamente come per il kernel: la logica con conteggio non c'entra (il legame logico per le GNN e' un risultato a parte, Barcelo et al. 2020). Fra l'altro il periodo e' contenuto aggiunto in fase di cucitura: sul foglio non compare nulla sulle reti neurali.",
+   "correzione": "Togliere l'inciso, oppure sostituirlo con la ragione giusta: «I limiti di espressivita' del test si trasferiscono di peso al kernel, e per lo stesso motivo --- l'aggiornamento e' quello di WL --- anche alle reti neurali su grafi a passaggio di messaggi, che non superano il potere distintivo di WL-1.»"
+  }
+ ]
+}

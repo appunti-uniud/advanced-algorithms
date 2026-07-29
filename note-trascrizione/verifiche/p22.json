@@ -1,0 +1,20 @@
+{
+ "pagina": 22,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "media",
+   "categoria": "trascrizione-errata",
+   "dove": "lezioni/05-suffix-tree.tex, regione fra \\scan{22} (riga 390) e \\scan{23} (riga 508): sottosezione \"Costruzione del suffix trie\" (righe 404-418), Algorithm \\ref{alg:ukkonen-trie} (righe 420-443), l'osservazione sul ciclo while (445-452) e il paragrafo \"Costo\" (454-464)",
+   "descrizione": "Questo blocco NON sta sul foglio 22: la formula Q(T^i)=Q(T^{i-1}) u {...}, l'intestazione \"Algoritmo 1\" con lo pseudocodice (r <- top; while g(r,t_i) is undef. do ...; f(oldr')=g(r,t_i); top=g(top,t_i)) e l'analisi di costo (\"Per costruire STrie(T) eseguiro |T|-volte l'operazione...\", \"Ognuna ha costo i per i in {1,...,n}\", \"=> algoritmo quadratico O(|T|^2) -> ottimo!\") sono tutti scritti sulla meta inferiore del foglio 21 (cfr. p21_full.png). La regione \\scan{21} del file (righe 359-389) si ferma invece alla sola osservazione sul boundary path + figura. Il risultato e che ~60 righe di contenuto di p.21 risultano attribuite a p.22, rompendo la tracciabilita voluta dalle convenzioni (\\scan{NN} all'inizio del contenuto di ogni pagina). Effetto collaterale: si perde anche l'ordine del foglio 22, dove \"Non e sempre necessario visitarlo tutto!\" precede immediatamente il periodo \"appendo un nodo legato con un suffisso etichettato t_i; SE non ci sono delle [transizioni] uscenti etichettate con t_i\" (che ne e la giustificazione), mentre nel file i due sono separati da tutto il blocco dell'Algoritmo 1.",
+   "correzione": "Spostare il blocco righe 404-464 (dalla \\subsection{Costruzione del suffix trie} fino alla fine del paragrafo \"Costo\") PRIMA di \\scan{22}, cioe dentro la regione \\scan{21} a cui appartiene, lasciando dopo \\scan{22} l'ordine del foglio: (1) \"Il boundary path e cio che definisce i nodi finali... s_j = ... f^{j-1}(...)\"; (2) \"Non e sempre necessario visitarlo tutto!\" con la sua giustificazione, includendo la frase di p.22 \"a ogni nodo legato a un suffisso di T^{i-1} appendo un nuovo nodo con un arco etichettato t_i, se da quel nodo non escono gia archi etichettati con t_i\"; (3) la sottosezione STrie -> STree con i due ingredienti, la Domanda e la risposta (i)."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "errore-logico",
+   "dove": "lezioni/05-suffix-tree.tex, righe 479-481, subsection \"Non serve percorrere tutto il boundary path\", ultimo capoverso",
+   "descrizione": "La frase \"Questo non cambia la complessita asintotica finche si costruisce il trie, che resta quadratico per la sola ragione di essere quadratico\" e circolare/tautologica: il soggetto di \"resta quadratico\" e sintatticamente \"il trie\", e la motivazione data e \"di essere quadratico\". Quello che si vuole dire e che l'algoritmo resta quadratico perche e quadratica la dimensione dell'output (il trie), non per come si percorre il boundary path.",
+   "correzione": "Riscrivere ad esempio: \"Questo non cambia la complessita asintotica finche si costruisce il trie: l'algoritmo resta quadratico per la sola ragione che gia la dimensione di STrie(T) puo essere Theta(|T|^2); ma e l'osservazione su cui poggia tutto il guadagno del passaggio al suffix tree.\""
+  }
+ ]
+}

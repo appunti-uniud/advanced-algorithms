@@ -1,0 +1,28 @@
+{
+ "capitolo": "10-landau-vishkin",
+ "compila": true,
+ "applicate": [
+  {
+   "pagina": 49,
+   "categoria": "errore-logico",
+   "cosa": "lezioni/10-landau-vishkin.tex, riga 104: la frase che apre lo \\scan{49} diceva «una query di longest common extension si risolve in tempo costante procedendo in tre passi», ma i tre passi elencati subito dopo comprendono la costruzione del suffix tree generalizzato e una visita bottom-up completa, entrambi Theta(|S_1|+|S_2|): nessuna query si risolve in O(1) «procedendo in tre passi». La frase anticipava inoltre la conclusione dell'osservazione successiva, che presenta l'O(1) per query come esito nuovo (preprocessing lineare + lca di Harel-Tarjan). Riportata alla formulazione del manoscritto (p49_b1: «LCE si risolve in tempo lineare:»): «In definitiva, la longest common extension si risolve in tempo lineare procedendo in tre passi.»"
+  },
+  {
+   "pagina": 49,
+   "categoria": "notazione",
+   "cosa": "lezioni/10-landau-vishkin.tex, righe 157-158: «dove $n=\\abs{P}$ è il numero di righe e $m=\\abs{T}$ il numero di colonne» contraddiceva di uno le righe 31-32 dello stesso capitolo («$n+1$ righe ... $m+1$ colonne»); ed è proprio dall'indicizzazione 0..n / 0..m che discende l'intervallo -n..m dei numeri di diagonale usato nella stessa frase e nel ciclo «for i = -n to m» dell'algoritmo. Sostituito con «dove le righe sono numerate da $0$ a $n=\\abs{P}$ e le colonne da $0$ a $m=\\abs{T}$», che rende esplicito il perché dell'intervallo."
+  },
+  {
+   "pagina": 50,
+   "categoria": "figura",
+   "cosa": "lezioni/10-landau-vishkin.tex: \\scan{50} spostato dall'interno dell'osservazione (ex riga 197) a prima del \\begin{figure} di fig:lv-dpath-riga-n (riga 187). Verificato su p50_full/p49_full: il disegno del d-path che raggiunge l'ultima riga è il primo contenuto del foglio 50 (p.49 termina con la definizione di d-path e la nota a margine sulla convenzione delle diagonali), quindi il rimando a margine deve stare lì, come chiede CONVENZIONI.md. Il \\marginnote in modo verticale non apre un paragrafo, quindi non introduce spazio spurio; il capitolo continua a compilare."
+  },
+  {
+   "pagina": 50,
+   "categoria": "notazione",
+   "cosa": "lezioni/10-landau-vishkin.tex, righe 191 e 199-206 + tikz/lv-dpath-riga-n.tikz: risolta la collisione fra la $i$ dell'osservazione (colonna di partenza sulla riga 0) e la $i$ della Definizione 35, dell'algoritmo e di riga 269 (numero di diagonale). Scelta la variante «rinomina» invece della postilla suggerita dal verificatore: la colonna di partenza si chiama ora $c$, coerentemente con la convenzione $(l,c)$ introdotta poche righe prima («la diagonale che parte dalla cella $(0,c)$»), mentre $j$ resta ovunque la colonna d'arrivo (Def. 35, riga 269). Aggiornati di conseguenza la cella $(0,c)$, la sottostringa $\\sub{T}{c+1}{j}$ (due occorrenze), la didascalia della figura e l'etichetta nel .tikz; figura riverificata con prova-tikz.sh (OK, 318.47pt su 478.01pt)."
+  }
+ ],
+ "respinte": [],
+ "note": "p48 e p51 erano già 'ok' e non richiedevano interventi. Rifatti i conti sui punti toccati: sulla diagonale $i$ la cella di colonna $j$ sta nella riga $j-i$, quindi la cella d'arrivo $(n,j)$ dà $j=n+i$ (riga 269) e il cammino dell'osservazione, che parte in $(0,c)$ e arriva in $(n,j)$, termina sulla diagonale $j-n$ (in generale diversa da $c$): è esattamente questo che la vecchia notazione rendeva ambiguo. Verificata la presenza delle sei correzioni già applicate a mano (kmp-alfa-S.tikz riga 27; 02-kmp-z.tex riga 345; 03-boyer-moore.tex righe 82-84; 05 righe 340 e 349-350): tutte presenti, non ritoccate. Verifica finale: 'OK: 10-landau-vishkin.tex compila (7 pagine, 2 riferimenti indefiniti)' — i due indefiniti sono rimandi ad altri capitoli."
+}

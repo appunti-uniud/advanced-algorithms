@@ -1,0 +1,45 @@
+name: build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: texlive/texlive:latest
+    steps:
+      - name: install tools
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends git curl unzip ca-certificates make
+          git config --global --add safe.directory '*'
+
+      - name: checkout (with submodules)
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: build pdf
+        run: make all
+
+      - name: upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: pdf
+          path: algoritmi.pdf
+
+      - name: publish release
+        if: github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: b${{ github.run_number }}
+          name: b${{ github.run_number }}
+          target_commitish: ${{ github.sha }}
+          make_latest: true
+          generate_release_notes: true
+          files: algoritmi.pdf

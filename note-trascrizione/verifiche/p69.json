@@ -1,0 +1,42 @@
+{
+ "pagina": 69,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "media",
+   "categoria": "trascrizione-errata",
+   "dove": "lezioni/14-random-walk-2sat.tex, display dopo \\scan{69} (righe 289-295), prima riga del cases: \\text{riconoscimento di 2-QBF}",
+   "descrizione": "Nel foglio la freccia che parte da 2-CNF porta a «Tarjan et al. (2-QBF)  O(n)»: e la citazione di Aspvall-Plass-Tarjan, gia introdotta a p.67 del capitolo. Le tre parole sono leggibili (T maiuscola a '7', la j con il puntino e la coda, il token 'et' con la t barrata, 'al.' con la l a occhiello, ben distinta dalla 'd' ad asta dritta che lo stesso scrivente usa in 'di verita'/'di L_n'). La trascrizione ha sostituito il nome con «riconoscimento di», perdendo l'attribuzione (e inventando un termine che sul foglio non c'e).",
+   "correzione": "Sostituire la prima riga del cases con \\;\\longrightarrow\\ \\text{Tarjan \\emph{et al.} (2-QBF)} & \\Oh(n) (oppure \\text{Aspvall--Plass--Tarjan, 2-QBF}), mantenendo l'\\Oh(n)."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "notazione",
+   "dove": "righe 339-340 («$L_n$, il \\emph{grafo lineare} (cammino) i cui nodi sono gli stati $0,1,\\dots,n$») in relazione alla figura tikz/grafo-lineare-L4.tikz (4 nodi)",
+   "descrizione": "Il foglio scrive «di $L_n$ --> grafo lineare con $n$ nodi» e subito sotto disegna $L_4$ con 4 nodi e 3 archi. La trascrizione sostituisce «con n nodi» con «i cui nodi sono gli stati 0,1,...,n», cioe $n+1$ nodi: cosi la figura $L_4$ (4 nodi) contraddice la definizione appena data (dovrebbe averne 5). La stessa convenzione compare alle righe 578-581.",
+   "correzione": "Alla riga 340 scrivere «il \\emph{grafo lineare} (cammino) con $n$ nodi» (fedele al foglio) lasciando che sia il paragrafo precedente a dire quali sono gli stati; in alternativa, se si tiene la convenzione delle righe 578-581 ($L_n$ = cammino sugli stati $0,\\dots,n$), esplicitare nella didascalia che il disegno del quaderno e il cammino con 4 nodi, cioe $L_3$ in quella convenzione."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "errore-logico",
+   "dove": "righe 296-298, «costruiscono in modo esplicito una struttura (il grafo delle implicazioni, l'insieme dei risolventi) di dimensione pari al numero dei letterali»",
+   "descrizione": "Frase di raccordo non presente sul foglio e imprecisa: solo il grafo delle implicazioni ha un nodo per letterale, mentre la chiusura per risoluzione puo contenere fino a Theta(n^2) clausole binarie distinte (e proprio da li viene l'O(n^2) della riga precedente). Cosi com'e, l'affermazione fa sembrare lineare anche la seconda struttura.",
+   "correzione": "Riformulare, ad esempio: «...costruiscono in modo esplicito una struttura di dimensione almeno lineare nel numero dei letterali: il grafo delle implicazioni ha un nodo per letterale, mentre l'insieme dei risolventi puo arrivare a $\\Theta(n^{2})$ clausole.»"
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "omissione",
+   "dove": "riga 301, marcatore \\scan{68}",
+   "descrizione": "Il blocco righe 302-346 e marcato \\scan{68}, ma contiene materiale che sta fisicamente sulla p.69: la clausola «...&(l_1 v l_2)&...», l'osservazione riquadrata «Se l_1 e l_2 hanno valore di verita ⊥ ... posso avvicinarmi con probabilita 1/2...», il disegno della linea 0,1,2,3,4,...,n e il grafo $L_4$. Il rimando alla scansione per questi contenuti punta alla pagina sbagliata.",
+   "correzione": "Aggiungere un \\scan{69} subito prima di \\begin{osservazione} (riga 310), lasciando \\scan{68} a coprire lo schema «assegnamento f / FLIP» e il box SPAZIO $\\Oh(n)$ bit, che vengono davvero dalla p.68."
+  }
+ ],
+ "note": [
+  "Verificato e corretto: il simbolo a fine riga nel riquadro e ⊥ (asta verticale con barra alla base), non '1'; la trascrizione lo rende giustamente con \\bot e con «la clausola non e soddisfatta».",
+  "Verificato: sul foglio «cambiando il valore di verita a l_1 e l_2 (scelgo a caso)»; la resa «invertendone una scelta a caso» e corretta.",
+  "Verificato: «probabilita 1/2» del foglio reso con «almeno 1/2» — correzione silenziosa corretta e coerente con Gli appunti del corso dell'anno precedente",
+  "Verificato: «Starting: n-1» e «(privi self-loop nei grafi)» con il disegnino dell'arco sono resi correttamente; «1) Calcolare il valore atteso del numero di passi in K_n per andare da u a v <= hitting time», «complete graph» tutti presenti.",
+  "Verificato: probabilita 1/(n-1), (1-1/(n-1))·1/(n-1) e la generalizzazione (1-1/(n-1))^{t-1}·1/(n-1) sono corrette; lo schema di Bernoulli con p=1/(n-1) e l'osservazione che la v.a. e geometrica sono corretti.",
+  "Figure: tikz/random-walk-linea-2sat.tikz fonde correttamente lo schizzo di p.69 (0,1,2,3,4,...,n con i due archetti da 3 verso 2 e verso 4) e quello di p.68 (k-1,k,k+1,n); tikz/grafo-lineare-L4.tikz riproduce fedelmente i 4 nodi e 3 archi del quaderno."
+ ]
+}

@@ -1,0 +1,52 @@
+% z-alfa-beta -- il prefisso alpha e la sua copia S[l..r]; i' corrisponde a i.
+\begin{tikzpicture}[
+    x=0.78cm, y=1cm,
+    font=\footnotesize,
+    tacca/.style={gray!80!black, line width=0.5pt},
+    linea/.style={line width=0.7pt},
+    graffa/.style={decorate, decoration={brace, amplitude=4pt}, gray!70!black},
+    carattere/.style={fill=white, inner sep=1pt},
+  ]
+
+  % --- la stringa S ---------------------------------------------------
+  \draw[linea] (0,0) -- (14,0);
+  \node[right, inner sep=2pt] at (14.15,0) {$S$};
+
+  % --- tacche -----------------------------------------------------------
+  % gruppo sinistro: 1, i', fine di alpha, fine della cella di x
+  % gruppo destro:   ell, i, r,            fine della cella di y
+  \foreach \x in {0,1.2,3.2,3.8,7.0,8.2,10.2,10.8}{%
+    \draw[tacca] (\x,-0.20) -- (\x,0.20);
+  }
+
+  % --- i caratteri che seguono le due copie di alpha --------------------
+  \node[carattere] at (3.5,0)  {$x$};
+  \node[carattere] at (10.5,0) {$y$};
+
+  % --- posizioni --------------------------------------------------------
+  \node[above, inner sep=2pt] at (7.0,0.18)  {$\ell$};
+  \node[above, inner sep=2pt] at (10.2,0.18) {$r$};
+  \node[below, inner sep=3pt] at (1.2,-0.20) {$i'=i-\ell+1$};
+  \node[below, inner sep=3pt] at (8.2,-0.20) {$i$};
+
+  % --- graffe beta (la Z-box che comincia in i', e la sua copia in i) ---
+  \draw[graffa] (2.6,0.95) -- (1.2,0.95) node[midway, above=4pt, black] {$\beta$};
+  \draw[graffa] (9.6,0.95) -- (8.2,0.95) node[midway, above=4pt, black] {$\beta$};
+
+  % --- graffe alpha (prefisso di S, e la copia dentro il blocco) --------
+  \draw[graffa] (3.2,1.85)  -- (0,1.85)   node[midway, above=4pt, black] {$\alpha$};
+  \draw[graffa] (10.2,1.85) -- (7.0,1.85) node[midway, above=4pt, black] {$\alpha$};
+
+  % --- i' corrisponde a i: le due copie coincidono ----------------------
+  \draw[gray!70!black, line width=0.5pt]
+    (1.2,2.40) to[out=65, in=180] (4.35,3.00);
+  \node at (4.70,3.00) {$=$};
+  \draw[gray!70!black, line width=0.5pt]
+    (5.05,3.00) to[out=0, in=115] (8.2,2.40);
+
+  % --- massimalita' di Z_ell: x e y sono diversi ------------------------
+  \draw[gray!60, line width=0.5pt, dashed]
+    (3.5,-0.30) .. controls (5.6,-1.40) and (8.4,-1.40) .. (10.5,-0.30);
+  \node[fill=white, inner sep=1.5pt] at (7.0,-1.07) {$\neq$};
+
+\end{tikzpicture}

@@ -1,0 +1,29 @@
+% randqs-separazione -- pag. 53
+% La retta tratteggiata e' la sequenza ordinata x_1 < x_2 < ... < x_n. Se il
+% pivot estratto cade strettamente fra x_i e x_j, allora x_i finisce in S_1 e
+% x_j in S_2: i due non verranno mai piu' confrontati (evento complementare a
+% quello che definisce X_{ij}=1).
+\begin{tikzpicture}[
+    x=1cm, y=1cm, >=Latex,
+    filo/.style={draw=black!80,line width=0.7pt},
+    zig/.style={filo,->,decorate,
+                decoration={snake,amplitude=0.9mm,segment length=3.6mm,
+                            post length=2.5mm}}
+  ]
+
+  % ---- la sequenza ordinata degli elementi ---------------------------------
+  \draw[filo,dash pattern=on 4pt off 4pt] (-5.4,0) -- (5.4,0);
+
+  % ---- i due elementi x_i e x_j (il tratteggio si interrompe attorno) -------
+  \node[fill=white,inner sep=2pt] at (-2.2,0) {$x_i$};
+  \node[fill=white,inner sep=2pt] at ( 2.2,0) {$x_j$};
+
+  % ---- il pivot estratto, strettamente compreso fra i due -------------------
+  \fill[white] (0,0) circle (5pt);
+  \draw[filo] (0,0) circle (2pt);
+
+  % ---- la scelta casuale del pivot ------------------------------------------
+  \draw[zig] (0,-1.75) -- (0,-0.10);
+  \node[font=\footnotesize,anchor=north] at (0,-1.90) {pivot scelto};
+
+\end{tikzpicture}

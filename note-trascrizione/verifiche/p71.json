@@ -1,0 +1,14 @@
+{
+ "pagina": 71,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "errore-matematico",
+   "dove": "lezioni/14-random-walk-2sat.tex, riga 478, ambiente osservazione dopo \\scan{71}: «la somma diventa $(n-1)H_n$, che si scrive di solito come $n H_n$»",
+   "descrizione": "La frase mette in relazione due quantita' diverse con una formulazione che suona come un'uguaglianza: $(n-1)H_n \\ne n H_n$ (differiscono di $H_n$). Il manoscritto scrive infatti «$\\approx n H_n$» con il simbolo di circa, non con l'uguale. Inoltre «si scrive di solito come $n H_n$» e' fuorviante perche' $n H_n$ e' la formula standard del coupon collector con $n$ coupon, non una riscrittura di $(n-1)H_n$.",
+   "correzione": "Sostituire «e la somma diventa $(n-1)H_n$, che si scrive di solito come $n H_n$» con «e la somma diventa $(n-1)H_n \\approx n H_n$» (oppure «$(n-1)H_n$, che si approssima con $n H_n$»)."
+  }
+ ],
+ "note": "Verificato il resto della pagina: il conto $\\E[\\tau_n]=\\sum_{i=1}^{n-1} 1/p_i=(n-1)H_{n-1}$ e' corretto (il manoscritto sommava da $i=0$; la correzione e' giusta ed e' documentata nell'osservazione, e coincide con L17_sintesi.md). Il cambio di indice $j=n-i$ e' corretto. Enunciato e dimostrazione di Markov fedeli e validi. Nessuna figura sulla pagina."
+}

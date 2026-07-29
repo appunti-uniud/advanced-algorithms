@@ -1,0 +1,20 @@
+{
+ "pagina": 20,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "media",
+   "categoria": "errore-logico",
+   "dove": "lezioni/05-suffix-tree.tex, blocco \\scan{20}: riga di g nell'align* della \\begin{definizione}[Suffix trie come automa aumentato] (label def:strie-automa), e capoverso successivo «Le prime quattro componenti...»",
+   "descrizione": "La funzione di transizione e' scritta come se fosse totale: «g(\\bar{x},a) = \\overline{xa}». Ma poche righe sopra si e' posto Q = {\\bar{x} : x sottostringa di T}, quindi quando xa NON e' sottostringa di T il simbolo \\overline{xa} non denota alcuno stato: g non ha codominio Q u {perp} e la definizione non e' ben posta. g e' una funzione PARZIALE, ed e' cosi' che la definisce Ukkonen (1995, sez. 3: «g(\\bar{x},a) = \\bar{y} per tutti gli \\bar{x}, \\bar{y} in Q tali che y = xa»). La lacuna non e' innocua: il ciclo while dell'Algoritmo 1 (\\alg{ukkonen-trie}, «While $g(r, t_i)$ e' indefinita») e' l'unica occorrenza della parola «indefinita» in tutto il capitolo e resta senza fondamento nella definizione; e l'affermazione immediatamente successiva secondo cui le prime quattro componenti «sono esattamente quelle di un automa a stati finiti deterministico (DFA)» e' imprecisa, perche' la funzione di transizione di un DFA e' per definizione totale. Il manoscritto scrive anch'esso solo «g(x-bar,a) = xa-bar», ma la policy editoriale chiede di completare cio' di cui si e' certi.",
+   "correzione": "Nella riga di g dell'align* scrivere la clausola di definizione: «g(\\bar{x},a) = \\overline{xa} se $xa$ e' sottostringa di $T$ (altrimenti $g(\\bar{x},a)$ e' indefinita), \\qquad g(\\bot,a) = root per ogni $a \\in \\S$» e aggiungere alla riga di commento «funzione di transizione (parziale),». Nel capoverso seguente attenuare in «sono quelle di un automa a stati finiti deterministico (DFA), con la sola differenza che $g$ e' parziale: e' l'ultima componente $f$ a rendere la struttura un automa aumentato»."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "figura",
+   "dove": "lezioni/05-suffix-tree.tex, blocco \\scan{20}: fra il capoverso «Le prime quattro componenti...» e la \\begin{osservazione} finale non c'e' alcuna \\begin{figure}",
+   "descrizione": "Lo schizzo che sta a meta' di p.20 (barra orizzontale del testo con freccia verso destra, due tacche etichettate i e i+1, il carattere t_i fra le due, e una graffa sul segmento iniziale etichettata «STree(T^i)») non ha alcun corrispondente nel LaTeX ne' un file in tikz/. E' in gran parte ridondante rispetto a tikz/ukkonen-passo-prefissi.tikz (schizzo di p.19), quindi l'impatto e' minimo; va pero' notato che nel manoscritto di p.20 la graffa e' etichettata STree (non STrie, lettura confermata dalle note editoriali riga 1718), cioe' il quaderno qui aggancia gia' la lettura on-line del testo all'obiettivo finale, l'albero compattato, mentre la figura di p.19 e il testo del capitolo parlano solo di STrie(T^{i-1}) -> STrie(T^i).",
+   "correzione": "Alternativa minimale e sufficiente: nessuna nuova figura, ma un rimando esplicito nel testo del blocco \\scan{20} (p.es. «lo schema e' quello della Figura~\\ref{fig:ukkonen-passo-prefissi}, con la graffa che copre il prefisso gia' letto») cosi' che al lettore risulti chiaro che il disegno di p.20 e' la ripetizione di quello di p.19. In alternativa, ricostruire lo schizzo in tikz/ come figura autonoma con la graffa etichettata $\\STree{}(T^{\\,i})$."
+  }
+ ]
+}

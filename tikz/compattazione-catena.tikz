@@ -1,0 +1,42 @@
+\begin{tikzpicture}[
+    x=1cm, y=1cm, font=\footnotesize,
+    vuoto/.style={circle,draw=black,line width=0.5pt,inner sep=0pt,minimum size=4.5pt},
+    pieno/.style={circle,fill=black,inner sep=0pt,minimum size=3.6pt},
+    arco/.style={-{Latex[length=4.5pt,width=3.2pt]},line width=0.6pt,
+                 shorten >=2pt,shorten <=2pt}]
+
+  %% ---------- pannello sinistro: la catena unaria x_1 ... x_h ----------
+  \node[vuoto] (x1) at (0    , 0    ) {};
+  \node[pieno] (x2) at (1    ,-0.95 ) {};
+  \node[pieno] (x3) at (2    ,-1.90 ) {};
+  \node[pieno] (xm) at (3.2  ,-3.04 ) {};
+  \node[vuoto] (xh) at (4.2  ,-3.99 ) {};
+
+  \draw[arco] (x1) -- node[left=1pt] {$a_1$}     (x2);
+  \draw[arco] (x2) -- node[left=1pt] {$a_2$}     (x3);
+  \draw[arco] (xm) -- node[left=1pt] {$a_{h-1}$} (xh);
+
+  % i nodi omessi: tre puntini allineati sulla stessa diagonale
+  \fill (2.36,-2.242) circle (0.7pt);
+  \fill (2.60,-2.470) circle (0.7pt);
+  \fill (2.84,-2.698) circle (0.7pt);
+
+  \node[above right=-2pt] at (x1) {$x_1$};
+  \node[right=2pt]        at (x2) {$x_2$};
+  \node[right=2pt]        at (x3) {$x_3$};
+  \node[right=2pt]        at (xm) {$x_{h-1}$};
+  \node[right=2pt]        at (xh) {$x_h$};
+
+  %% ---------- separatore ----------
+  \draw[line width=0.45pt,double distance=1.5pt,-{Implies[length=4pt,width=5pt]}]
+        (5.35,-2.0) -- (6.75,-2.0);
+
+  %% ---------- pannello destro: l'unico arco (x_1,x_h) ----------
+  \node[vuoto] (y1) at (7.6 ,-1.10) {};
+  \node[vuoto] (yh) at (8.8 ,-2.24) {};
+  \draw[arco] (y1) -- (yh);
+
+  \node[above right=-2pt] at (y1) {$x_1$};
+  \node[right=2pt]        at (yh) {$x_h$};
+
+\end{tikzpicture}

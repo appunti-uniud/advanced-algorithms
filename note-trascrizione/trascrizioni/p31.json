@@ -1,0 +1,116 @@
+{
+ "pagina": 31,
+ "latex": "\\scan{31}\n\n\\paragraph{Tarjan--Harel.}\nI suffix tree hanno \\emph{tante} applicazioni: il capitolo~7 di Gusfield ne\nraccoglie diciassette (APL1,\\,\\dots,\\,APL17). Per alcune di esse serve saper\ncalcolare il $\\lca$: è questo il motivo per cui si studia l'algoritmo di\nTarjan--Harel.\n\n\\medskip\n\nLa più semplice è la ricerca esatta. Dati il testo $T$ e il pattern $P$, si\ncostruisce $\\STree(T)$ e si segue dalla radice il cammino etichettato $P$: il\nsottoalbero appeso al punto in cui tale cammino termina ha una dimensione pari\nal numero di occorrenze di $P$ in $T$ (le sue foglie \\emph{sono} le occorrenze).\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/stree-occorrenze.tikz}\n  \\caption{Ricerca di $P$ nello \\STree di $T$: il cammino etichettato $P$\n    scende dalla radice fino a un punto dell'albero; il sottoalbero (tratteggiato)\n    appeso a quel punto ha tante foglie quante sono le occorrenze di $P$ in $T$.}\n  \\label{fig:stree-occorrenze}\n\\end{figure}\n\n\\begin{osservazione}\n  Il testo viene scandito una volta sola: dopo la costruzione dello \\STree, il\n  tempo per i pattern successivi è proporzionale alla dimensione dei pattern più\n  il numero di occorrenze, cioè $\\Th(\\abs{P}+k)$ per un pattern $P$ con $k$\n  occorrenze.\n\\end{osservazione}\n\n\\medskip\n\nCon due testi si procede allo stesso modo, concatenandoli con due terminatori\ndistinti e non appartenenti all'alfabeto:\n\\[\n  T_1\\,\\$\\,T_2\\,\\#\n  \\qquad\\longrightarrow\\qquad\n  \\STree(T_1\\,\\$\\,T_2\\,\\#).\n\\]\nIn preprocessing si etichetta ogni foglia a seconda della forma del suo\nsuffisso: $\\dots\\$\\dots\\#$ (il suffisso attraversa il separatore, quindi comincia\ndentro $T_1$) oppure $\\dots\\#$ (il suffisso sta tutto dopo il separatore, quindi\ncomincia dentro $T_2$).\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/stree-generalizzato.tikz}\n  \\caption{Nello \\STree di $T_1\\,\\$\\,T_2\\,\\#$ si scende fino a un nodo $\\alpha$ e\n    si leggono le foglie del sottoalbero radicato in $\\alpha$: le etichette\n    apposte in preprocessing dicono se la stringa $\\alpha$ occorre in $T_1$, in\n    $T_2$ o in entrambi.}\n  \\label{fig:stree-generalizzato}\n\\end{figure}\n\n\\paragraph{LCA (\\emph{lowest common ancestor problem}).}\nL'obiettivo è rispondere a ogni query in tempo $\\Oh(1)$.\n\n\\begin{definizione}[$\\lca$]\n  Dato un \\emph{albero} $\\T$ e due suoi \\emph{nodi} $u,v$, si vuole trovare\n  $\\lca(u,v)$: il nodo $w$ più profondo tale che\n  \\[\n    u,v \\in \\albero{w},\n  \\]\n  dove $\\albero{w}$ denota il sottoalbero di $\\T$ radicato in $w$. In\n  particolare $u,v\\in\\albero{\\lca(u,v)}$.\n\\end{definizione}",
+ "note": [
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 31,
+   "testo": "Primo grafema della pagina (dopo il titolo): il quaderno ha un segno isolato che a bassa risoluzione sembra un «5» o una «S». Ingrandendo a 600 dpi si vede una I maiuscola corsiva (asta verticale con occhiello in alto e piede orizzontale). Ho scritto «I suffix tree hanno tante applicazioni». Risolto.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 31,
+   "testo": "Il quaderno scrive telegraficamente «ch. 7 Gusfield  appl. 1...17» (con «tante» e «appl.» sottolineati). Ho espanso in «il capitolo 7 di Gusfield ne raccoglie diciassette (APL1,…,APL17)»: nel cap. 7 di Gusfield («First Applications of Suffix Trees») le applicazioni sono numerate APL1…APL17, quindi la numerazione 1…17 del quaderno è esatta.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 31,
+   "testo": "Dalla sottolineatura di «appl. 1...17» parte una freccia a zig-zag verso destra che punta alla scritta sottolineata «serve» seguita da «lca (Tarjan-Harel)». Nel quaderno non c'è verbo di collegamento; ho reso la freccia in prosa con «Per alcune di esse serve saper calcolare il lca: è questo il motivo per cui si studia l'algoritmo di Tarjan–Harel». L'aggiunta di «alcune» e della subordinata finale è mia (il quaderno ha solo la freccia).",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 31,
+   "testo": "Titolo di pagina: il quaderno scrive «Tarjan – Harel» (sottolineato). L'algoritmo è però universalmente attribuito a Harel–Tarjan (1984), poi semplificato da Schieber–Vishkin (1988); anche Gli appunti del corso dell'anno precedente (L08) intitolano «Algoritmo di Harel–Tarjan» e Gusfield lo presenta al cap. 8. Ho mantenuto l'ordine del quaderno (Tarjan–Harel) perché è il titolo esplicito della pagina, ma in fase di cucitura conviene uniformare a «Harel–Tarjan».",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 31,
+   "testo": "Ultima parola dell'annotazione a matita fine «…più il n° di ⟨parola⟩»: graficamente ambigua anche a 1200 dpi (sembra iniziare con una «d» con asta e finire in «-ento», cioè qualcosa come «documento»). Confrontando i tratti con l'occorrenza sicura della stessa parola tre righe sopra («…occorrenze di P in T») e soprattutto per il senso — è l'enunciato standard di Gusfield APL1, ricerca in Theta(|P| + k) con k = numero di occorrenze — ho scritto «occorrenze». È l'unico punto della pagina in cui la resa grafica resta discutibile; il contenuto matematico però è univoco, quindi non ho messo marcatori nel LaTeX.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 31,
+   "testo": "Abbreviazioni espanse nell'annotazione fra parentesi: «propor.» → «proporzionale», «dim.» → «dimensione», «n°» → «numero». Testo del quaderno: «(il testo viene scandito una volta sola) dopo il tempo per pattern successivi è propor. alla dim. dei pattern più il n° di occorrenze».",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 31,
+   "testo": "Ho aggiunto la formalizzazione «cioè Theta(|P| + k) per un pattern P con k occorrenze» nell'osservazione: non è scritta nel quaderno, ma è la traduzione letterale della frase «proporzionale alla dimensione dei pattern più il numero di occorrenze».",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 31,
+   "testo": "Terminatori del suffix tree generalizzato: il quaderno usa «$» come separatore e il simbolo dell'euro «€» come terminatore finale, scrivendo «T1 $ T2 €» e «STree(T1 $ T2 €)». Il carattere € non esiste nei font della classe academica (verificato in compilazione: «Missing character: There is no € (U+20AC) in font cmbr10»), quindi l'ho sostituito con «#», che è anche la convenzione di Gusfield per il generalized suffix tree (S = S1 # S2 $). La sostituzione è puramente tipografica: servono solo due simboli distinti e fuori alfabeto.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 31,
+   "testo": "Annotazione a destra della seconda figura: «Lego le foglie con suffisso …$  vs.  $…€  in preprocessing» (il primo verbo è «lego» oppure «leggo»: il glifo ha un solo occhiello discendente, ma il senso non cambia). La notazione abbreviata del quaderno indica le due classi di foglie del suffix tree di T1 $ T2 €: quelle il cui suffisso attraversa il separatore (quindi comincia dentro T1) e quelle il cui suffisso sta interamente dopo il separatore (quindi comincia dentro T2). Ho reso il criterio in modo esplicito («…$…#» contro «…#»), che è la lettura corretta, e ho usato il verbo neutro «si etichetta ogni foglia».",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 31,
+   "testo": "Definizione di lca: il quaderno scrive «trovare il lca(u,v), il nodo più profondo t.c. u,v ∈ T(lca(u,v))», con una graffa che glossa T(lca(u,v)) come «sottoalbero radicato in lca(u,v)». Presa alla lettera la definizione è circolare (definisce lca usando lca). Ho riformulato come «il nodo w più profondo tale che u,v ∈ T(w)», conservando poi la formula del quaderno come proprietà («in particolare u,v ∈ T(lca(u,v))»).",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 31,
+   "testo": "Prima figura: le due lettere «T» e «P» impilate a sinistra della sagoma non sono etichette interne al disegno ma una mini-legenda degli oggetti in gioco (testo e pattern); le ho rese come tali nella specifica TikZ. La sagoma «a montagna» irregolare è il suffix tree di T (contorno stilizzato), la sua base rettilinea è il livello delle foglie, la linea ondulata dall'apice è il cammino etichettato P, il triangolo tratteggiato appeso al pallino è il sottoalbero delle occorrenze.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 31,
+   "testo": "Seconda figura: il quaderno disegna solo un triangolo con un nodo marcato «α» poco sotto l'apice, un sottotriangolo appeso ad α e una freccia che corre lungo la base verso destra. Ho interpretato la freccia come «lettura delle foglie del sottoalbero di α da sinistra a destra» (è ciò che serve per decidere se α occorre in T1, in T2 o in entrambi — applicazione APL4 di Gusfield, longest common substring). L'interpretazione è mia; il quaderno non scrive nulla dentro la figura oltre ad «α».",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 31,
+   "testo": "Il quaderno non dice a quale applicazione del cap. 7 corrisponda la prima figura né nomina il «generalized suffix tree» nella seconda. Ho aggiunto le frasi di raccordo «La più semplice è la ricerca esatta» e «Con due testi si procede allo stesso modo», che sono ricostruzioni minime del filo del discorso e non contenuto nuovo.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 31,
+   "testo": "Gli appunti del corso dell'anno precedente (L07) non contengono nulla su LCA malgrado il titolo del file; la trattazione parte da L08. La pagina 31 dello studente corrisponde quindi al preambolo di L08 p.1–p.2 (perché il cap. 8 di Gusfield sta subito dopo le applicazioni dei suffix tree, e obiettivo lca(i,j) in O(1)). Nessuna divergenza di sostanza fra le due fonti su questa pagina.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 31,
+   "testo": "Verifica di compilazione: il corpo è stato compilato con lualatex + classe academica + preamble.tex del progetto, senza errori né caratteri mancanti. Nota tecnica: \\lca è dichiarato con \\DeclareMathOperator, quindi va sempre racchiuso in $...$ anche nell'argomento opzionale degli ambienti.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "stree-occorrenze",
+   "pagina": 31,
+   "didascalia": "Ricerca di $P$ nello \\STree di $T$: il cammino etichettato $P$ scende dalla radice fino a un punto dell'albero; il sottoalbero (tratteggiato) appeso a quel punto ha tante foglie quante sono le occorrenze di $P$ in $T$.",
+   "tipo": "albero (suffix tree stilizzato)",
+   "specifica": "Disegno a mano libera di un suffix tree stilizzato, a forma di «montagna». ELEMENTI: (1) Contorno esterno chiuso e irregolare (linea spezzata/ondulata, non un triangolo regolare): apice appuntito in alto, poco a destra del centro; fianco sinistro che scende con 3-4 gobbe fino all'angolo in basso a sinistra; fianco destro più largo, che scende con 3-4 gradini fino all'angolo in basso a destra. Larghezza della base circa 2,2-2,5 volte l'altezza. È la sagoma di STree(T). (2) BASE: una linea orizzontale rettilinea e spessa che chiude la sagoma in basso, e che sporge leggermente a sinistra e a destra oltre il contorno: è il livello delle foglie. (3) LEGENDA a sinistra, fuori dalla sagoma, ben staccata: due etichette impilate verticalmente, «$T$» sopra e «$P$» sotto, all'incirca all'altezza della metà superiore della figura (sono i due oggetti in gioco: il testo e il pattern; NON sono etichette di parti del disegno). (4) CAMMINO $P$: dall'apice scende una linea quasi verticale, leggermente ondulata, lunga circa il 35% dell'altezza; a destra di questa linea, in alto, l'etichetta «$P$». (5) NODO: la linea termina in un pallino pieno (nodo marcato) posto a circa il 45% dell'altezza dall'apice, sull'asse centrale. (6) SOTTOALBERO DELLE OCCORRENZE: dal pallino partono due segmenti rettilinei che scendono fino alla base, formando un triangolo con apice nel pallino; il lato sinistro è più inclinato (va verso sinistra), il destro quasi verticale; la base del triangolo occupa all'incirca il terzo centrale-sinistro della base della sagoma. L'interno del triangolo è riempito a tratteggio diagonale fitto (linee parallele in direzione sud-ovest / nord-est), disegnato a mano. (7) PUNTATORE alla didascalia: dalla base, appena sotto il triangolo tratteggiato, parte una linea ondulata (a serpentina) che scende verso il basso-destra e termina con un piccolo tratto, puntando al testo che nel quaderno segue («ha una dimensione pari al numero di occorrenze di $P$ in $T$»). RESA TIKZ CONSIGLIATA (tutto in italiano): sagoma esterna come contorno arrotondato/irregolare (decorate random steps oppure un triangolo con angoli smussati) con etichetta $\\STree(T)$ a lato; base = segmento orizzontale con nota «foglie»; cammino dalla radice al nodo tracciato con decoration snake e etichetta $P$; nodo come circle,fill; sottoalbero come triangolo con pattern=north east lines; una freccia curva dal sottoalbero verso una nota «$\\#$ occorrenze di $P$ in $T$» oppure semplicemente l'etichetta «occorrenze di $P$» sotto la base del triangolo. SIGNIFICATO ALGORITMICO: le foglie del sottoalbero appeso al punto in cui termina il cammino etichettato $P$ sono esattamente le posizioni di inizio delle occorrenze di $P$ in $T$; quindi la dimensione del sottoalbero è il numero di occorrenze (Gusfield, APL1).",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "stree-generalizzato",
+   "pagina": 31,
+   "didascalia": "Nello \\STree di $T_1\\,\\$\\,T_2\\,\\#$ si scende fino a un nodo $\\alpha$ e si leggono le foglie del sottoalbero radicato in $\\alpha$: le etichette apposte in preprocessing dicono se la stringa $\\alpha$ occorre in $T_1$, in $T_2$ o in entrambi.",
+   "tipo": "albero (suffix tree stilizzato)",
+   "specifica": "Disegno a mano libera, molto più schematico del precedente. ELEMENTI: (1) TRIANGOLO grande, isoscele, apice in alto (i due lati si incrociano leggermente sopra l'apice, come un tratto sbavato a X); base larga circa 1,3 volte l'altezza. È la sagoma di STree($T_1\\,\\$\\,T_2\\,\\#$). (2) BASE: linea orizzontale leggermente inclinata (scende un po' verso sinistra) tracciata a mano, che sporge oltre il vertice sinistro e, soprattutto, oltre il vertice destro del sottotriangolo interno; termina a destra con una PUNTA DI FRECCIA rivolta a destra. (3) CAMMINO DALLA RADICE: dall'apice scende, appena all'interno del lato sinistro, una breve linea spezzata/ondulata (2-3 curve) lunga circa il 30% dell'altezza. (4) NODO $\\alpha$: la linea termina in un nodo; subito a destra del nodo è scritta a penna marcata la lettera greca «$\\alpha$» (nel quaderno è ripassata, quasi un pallino con la coda). (5) SOTTOTRIANGOLO: dal nodo $\\alpha$ scendono due segmenti fino alla base — quello di sinistra quasi verticale e leggermente inclinato a sinistra, quello di destra obliquo verso destra — delimitando un triangolo interno più stretto, spostato verso sinistra rispetto all'asse; la sua base occupa circa la metà sinistra-centrale della base grande. Il sottotriangolo NON è tratteggiato. (6) Nessun'altra scritta dentro la figura; a destra, fuori dal disegno, corre l'annotazione della pagina («Lego le foglie con suffisso …$\\$$ vs. $\\$$…# in preprocessing»), collegata al disegno da un breve trattino obliquo che parte in alto a destra del triangolo. RESA TIKZ CONSIGLIATA (tutto in italiano): triangolo esterno con etichetta $\\STree(T_1\\,\\$\\,T_2\\,\\#)$; nodo pieno etichettato $\\alpha$ raggiunto dalla radice con un tratto ondulato; sottotriangolo appeso ad $\\alpha$ con la base appoggiata sulla linea delle foglie; sulla linea delle foglie, sotto il sottotriangolo, alcune foglie marcate alternativamente con $\\$$ e $\\#$ (o con i colori/etichette «$T_1$» e «$T_2$») per rendere visibile l'etichettatura fatta in preprocessing; freccia lungo la base che prosegue verso destra con la nota «lettura delle foglie». SIGNIFICATO ALGORITMICO: leggendo le foglie del sottoalbero di $\\alpha$ e guardando le etichette apposte in preprocessing si stabilisce se la stringa $\\alpha$ (path-label di quel nodo) occorre in $T_1$, in $T_2$ o in entrambi — è il meccanismo alla base della più lunga sottostringa comune (Gusfield, APL4).",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina si chiude con l'enunciato del problema LCA (dato un albero $\\T$ e due nodi $u,v$, trovare il nodo più profondo il cui sottoalbero li contiene entrambi) e con l'obiettivo di complessità $\\Oh(1)$ per query; non è ancora stato detto nulla né sul preprocessing né sul modello di calcolo. Restano in sospeso: (a) l'algoritmo vero e proprio di Tarjan--Harel, solo annunciato; (b) la seconda applicazione dei suffix tree (due testi $T_1\\,\\$\\,T_2\\,\\#$) è impostata ma non conclusa: manca il criterio esplicito per la più lunga sottostringa comune. La pagina 32 riparte da un esempio concreto («lavoreremo con alberi qualsiasi»): albero generico con 10 nodi numerati in dfs-numbering, osservazione che il dfs-numbering costa tempo lineare («neanche leggo l'input»), la proprietà fondamentale che i discendenti del nodo $i$ formano un intervallo $[i+1,j]$ con $j-i$ = cardinalità del sottoalbero $\\T(i)$, il titolo «Lowest Common Ancestor in $\\Oh(1)$» con l'idea delle bitmap per rendere efficienti le operazioni di base, e infine il piano in tre passi: (1) risolvere il problema su $\\B$ albero binario completo (caso facile), (2) definire una mappa $I:\\T\\to\\B$, $v\\mapsto I(v)$ (in generale non iniettiva), (3) usare la mappa e la soluzione $\\Oh(1)$ su $\\B$ per risolvere il problema su $\\T$.",
+ "confidenza": "alta"
+}

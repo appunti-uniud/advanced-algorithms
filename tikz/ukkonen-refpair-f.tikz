@@ -1,0 +1,49 @@
+% Il suffix link letto sulle coppie di riferimento:
+% f porta nello stato s', rappresentato dalla coppia (s,[k,p]).
+% Convenzioni: tratto ondulato = cammino di lunghezza arbitraria (sottoalbero
+% o cammino eliso); pallino pieno = stato.
+\begin{tikzpicture}[
+    font=\footnotesize,
+    >={Stealth[length=2mm]},
+    stato/.style   = {circle,fill=black,inner sep=0pt,minimum size=3.2pt},
+    arco/.style    = {line width=0.5pt},
+    onda/.style    = {line width=0.5pt,decorate,
+                      decoration={snake,amplitude=1.4pt,segment length=5.5pt,
+                                  pre length=1pt,post length=1pt}},
+    slink/.style   = {->,line width=0.6pt,blue!50!black},
+    richiamo/.style= {->,line width=0.5pt,black!45,densely dashed},
+  ]
+
+  %% ---- parte simbolica ---------------------------------------------
+  \node at (0.10,2.72) {$f$};
+  \draw[slink] (-0.40,1.65) .. controls (0.55,2.30) and (1.10,2.55) .. (1.90,2.66);
+  \node[anchor=west] (rp) at (2.05,2.66) {$\bigl(s,[k,p]\bigr)$};
+
+  %% ---- frammento di albero -----------------------------------------
+  \node[stato] (s)  at (4.40, 1.70) {};
+  \node at (4.40,2.06) {$s$};
+
+  % sottoalbero eliso che parte da s
+  \draw[onda] (s) -- (6.30,1.48);
+
+  % arco uscente da s, il cui primo carattere e' t_k
+  \draw[onda] (s) -- (4.40,0.00);
+  \draw[line width=1.3pt] (4.22,1.28) -- (4.58,1.32);
+  \node[anchor=east] at (4.12,1.30) {$t_k$};
+
+  % lo stato raggiunto
+  \node[stato] (sp) at (4.40,0.00) {};
+  \node[anchor=east] at (4.20,0.20) {$s'$};
+  \node[anchor=west] at (4.58,0.06) {$[k,p]$};
+
+  % la coppia di riferimento denota proprio s'
+  \draw[richiamo] (2.55,2.34) .. controls (2.25,0.85) and (3.05,-0.50) .. (4.20,-0.06);
+
+  % sottoalbero gia' esistente, eliso
+  \draw[onda] (sp) -- (4.05,-1.85);
+
+  % nuovo arco etichettato t_i verso la nuova foglia
+  \node[stato] (nf) at (5.60,-1.50) {};
+  \draw[arco] (sp) -- (nf) node[midway,anchor=west,inner sep=3pt] {$t_i$};
+
+\end{tikzpicture}

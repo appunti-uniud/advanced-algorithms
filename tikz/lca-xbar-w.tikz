@@ -1,0 +1,59 @@
+% lca-xbar-w -- il caso h(I(x)) != j.
+% Convenzione grafica (la stessa di lca-run-xbar-ybar):
+%   * un RUN e' una spezzata a scalini, spessa e grigia;
+%   * un cammino generico di T e' una linea liscia e sottile.
+\begin{tikzpicture}[
+    >=Latex,
+    nodo/.style     = {circle, fill=black, inner sep=0pt, minimum size=3.4pt},
+    run/.style      = {line width=1.2pt, black!62, line cap=round, line join=round},
+    runoltre/.style = {line width=1.2pt, black!45, line join=round,
+                       dash pattern=on 0pt off 3pt, line cap=round},
+    cammino/.style  = {line width=0.5pt, black!85},
+    arco/.style     = {line width=1pt, black},
+    ann/.style      = {font=\footnotesize\itshape, text=black!55, inner sep=1.5pt},
+    guida/.style    = {line width=0.4pt, black!45},
+    lbl/.style      = {font=\small, inner sep=1.5pt},
+  ]
+
+  \coordinate (x)    at (0,0);
+  \coordinate (w)    at (3.0,2.3);
+  \coordinate (xbar) at (3.65,2.85);
+
+  % ---- run di z: scalinata che scende da sinistra in alto e termina in xbar.
+  %      Prosegue oltre il bordo verso l'alto (li' stanno z e il leader del run).
+  \draw[runoltre] (2.15,4.45) -- ++(0,0.30) -- ++(-0.30,0) -- ++(0,0.30)
+                              -- ++(-0.30,0) -- ++(0,0.30);
+  \draw[run] (2.15,4.45)
+    \foreach \i in {1,...,5} { -- ++(0.30,0) -- ++(0,-0.32) };
+
+  % ---- run di w: parte esattamente da w (che ne e' il leader) e scende a destra.
+  \draw[run] (w)
+    \foreach \i in {1,...,6} { -- ++(0,-0.28) -- ++(0.46,0) }
+    -- ++(0,-0.28) coordinate (fondow);
+
+  % ---- l'arco di T fra xbar e w: xbar = padre(w)
+  \draw[arco] (xbar) -- (w);
+
+  % ---- cammino (liscio) che da w scende fino a x
+  \draw[cammino] (w) to[out=228,in=44] (x);
+
+  % ---- nodi
+  \node[nodo] at (x)      {};
+  \node[nodo] at (w)      {};
+  \node[nodo] at (xbar)   {};
+  \node[nodo] at (fondow) {};
+
+  % ---- etichette
+  \node[lbl] at ($(xbar)+(0.26,0.14)$) {$\bar x$};
+  \node[lbl] at ($(w)+(-0.24,0.16)$)   {$w$};
+  \node[lbl] at ($(x)+(-0.26,0.02)$)   {$x$};
+
+  % ---- annotazioni
+  \node[ann, anchor=east] at (1.42,3.85) {run di $z$};
+  \draw[guida] (1.50,3.87) -- (2.45,4.22);
+
+  \node[ann, anchor=west] at (4.62,2.12) {leader del run};
+  \draw[guida] (4.56,2.12) .. controls (3.90,2.30) .. (3.14,2.26);
+
+  \node[ann, anchor=west] at (4.70,1.60) {run di $w$};
+\end{tikzpicture}

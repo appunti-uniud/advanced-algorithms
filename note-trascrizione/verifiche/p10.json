@@ -1,0 +1,20 @@
+{
+ "pagina": 10,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "media",
+   "categoria": "errore-logico",
+   "dove": "lezioni/03-boyer-moore.tex, osservazione [Di quanto si sposta il pattern], righe 79-87 (frasi 'la GSR lo sposta di n-j_alpha ... j_alpha e esattamente il valore L'(i)', 'Entrambi gli spostamenti sono >= 1' e 'il che e lecito perche entrambe le regole sono safe --- nessuna occorrenza viene persa')",
+   "descrizione": "Lo spostamento n-L'(i) NON e safe quando L'(i)=0: in quel caso la formula fa scorrere il pattern di tutta la sua lunghezza e puo saltare un'occorrenza. Controesempio concreto: P=aca (n=3), T=bcaca (m=5). Nell'allineamento che termina in T[3] si riconosce alpha=P[2..3]='ca' e il mismatch e in P[1]='a' contro T[1]='b'; qui L'(2)=0 (l'unica occorrenza di 'ca' in P e il suffisso stesso, e j=3 e escluso dalla condizione 2), quindi shift_GSR = 3-0 = 3, mentre shift_BCR = 1-R_1(b) = 1-0 = 1; il massimo e 3 e si passa a k=6>m, perdendo l'occorrenza P=T[3..5]='aca'. Il valore corretto e n-l'(2)=3-1=2, che porta esattamente su quell'occorrenza. Il capitolo il caso lo gestisce, ma solo molto piu avanti (sezione sec:bm-ricerca, righe 256-289, dove sigma(i)=n-l'(i) se L'(i)=0); il lettore di p.10 resta pero con un enunciato di safety falso e mai ritrattato. Nota: la lacuna e la stessa segnalata come anomalia A3 neGli appunti del corso dell'anno precedente, ma qui l'affermazione di safety e aggiunta dal trascrittore, non presente nel quaderno.",
+   "correzione": "Condizionare l'affermazione. Sostituire le righe 79-87 con qualcosa come: '... mentre la GSR lo sposta di n-j_alpha, dove j_alpha e la posizione finale dell'occorrenza di alpha individuata dalla regola (nella sezione sec:bm-gsr vedremo che j_alpha e il valore L'(i) della versione forte); quando una tale occorrenza non esiste --- cioe L'(i)=0 --- lo spostamento n non sarebbe safe e va corretto come si vedra nella sezione sec:bm-ricerca. Con questa avvertenza entrambi gli spostamenti sono >= 1 ed entrambe le regole sono safe, quindi lo e anche il loro massimo.' In alternativa, aggiungere subito dopo la formula del max una nota a pie di pagina o una frase: 'il caso L'(i)=0 richiede l'aggiustamento della sezione sec:bm-ricerca, altrimenti si perdono occorrenze (p.es. P=aca su T=bcaca)'."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "errore-logico",
+   "dove": "lezioni/03-boyer-moore.tex, osservazione [Di quanto si sposta il pattern], righe 79-81 ('j_alpha e la posizione finale dell'occorrenza di alpha individuata dalla regola: ... j_alpha e esattamente il valore L'(i)'), da confrontare con la Definizione def:gsr (righe 62-66) e con l'osservazione di p.11 righe 163-169",
+   "descrizione": "La regola enunciata in def:gsr (fedele al quaderno: 'l'occorrenza di alpha piu a destra che non sia un suffisso di P') e la versione DEBOLE della good suffix rule, la cui occorrenza termina in L(i), non in L'(i). L'identificazione j_alpha = L'(i) vale solo per la versione forte, che aggiunge il vincolo sul carattere precedente --- vincolo che il capitolo stesso introduce solo a p.11 e li dichiara esplicitamente come cio che distingue L da L' ('La sola condizione 1) definirebbe L(i), cioe la versione debole della regola', riga 164). I due valori differiscono davvero: per P=babcbab (n=7) e i=6, alpha='ab' occorre in P[2..3] e non e li un suffisso, quindi L(6)=3, mentre L'(6)=0 perche P[5]='b'=P[1]. Cosi come e scritta, la riga 81 promette un'identita che nella sezione richiamata non e quella dimostrata.",
+   "correzione": "Rendere esplicito il passaggio alla versione forte. Riscrivere la riga 81 come: 'nella sezione sec:bm-gsr rafforzeremo la regola richiedendo anche che il carattere che precede l'occorrenza interna sia diverso da P[i-1], e vedremo che allora j_alpha e esattamente il valore L'(i)'. In alternativa, aggiungere una frase dopo def:gsr: 'questa e la versione debole della regola; la versione forte, che si preprocessa altrettanto facilmente, richiede in piu che il carattere precedente sia diverso da quello che ha causato il mismatch (sezione sec:bm-gsr)'."
+  }
+ ]
+}

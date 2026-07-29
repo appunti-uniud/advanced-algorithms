@@ -1,0 +1,36 @@
+% p78-periodicita -- pag. 78
+% La periodicita' letta sull'asse dei tempi: i soli istanti in cui lo stato i puo'
+% essere occupato sono a, a+T, a+2T, ... (pallini pieni); fra un pallino e il
+% successivo passano T passi e in tutti quegli istanti q_i^{(t)} = 0.
+\begin{tikzpicture}[x=1cm,y=1cm,font=\footnotesize,line cap=round,
+    asse/.style={line width=0.6pt,dash pattern=on 2.4pt off 2.4pt},
+    pallino/.style={circle,fill=black,inner sep=0pt,minimum size=3.6pt}]
+
+  % ------------------------------------------------------- asse dei tempi ---
+  \draw[asse] (0.15,0) -- (10.15,0);
+  \node[anchor=west,inner sep=2.5pt] at (10.15,0) {$\cdots$};
+
+  % --------------------------------------- gli istanti a, a+T, a+2T, ... ----
+  \node[pallino] at (2.80,0) {};
+  \node[pallino] at (5.80,0) {};
+  \node[pallino] at (8.80,0) {};
+
+  % ------------------------------------ graffa dello sfasamento iniziale ----
+  \draw[line width=0.5pt,decorate,
+        decoration={brace,mirror,amplitude=4pt,raise=2.5pt}]
+       (0.15,0) -- (2.80,0);
+  \node[anchor=north,inner sep=1.5pt] at (1.475,-0.28) {$a$};
+
+  % ----------------------------- etichette degli istanti «buoni» (pallini) --
+  \node[anchor=north,inner sep=1.5pt] at (2.80,-0.32) {$q_i^{(t)}>0$};
+  \node[anchor=north,inner sep=1.5pt] at (5.80,-0.32) {$q_i^{(t)}>0$};
+  \node[anchor=north,inner sep=1.5pt] at (8.80,-0.32) {$q_i^{(t)}>0$};
+
+  % -------------------------------- etichette degli intervalli fra pallini --
+  \node[anchor=south,inner sep=1.5pt] at (4.30,0.14) {$T$ passi};
+  \node[anchor=south,inner sep=1.5pt] at (7.30,0.14) {$T$ passi};
+
+  \node[anchor=north,inner sep=1.5pt] at (4.30,-1.02) {$q_i^{(t)}=0$};
+  \node[anchor=north,inner sep=1.5pt] at (7.30,-1.02) {$q_i^{(t)}=0$};
+
+\end{tikzpicture}

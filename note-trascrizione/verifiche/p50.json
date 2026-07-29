@@ -1,0 +1,20 @@
+{
+ "pagina": 50,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "figura",
+   "dove": "lezioni/10-landau-vishkin.tex, righe 185-197: la figura fig:lv-dpath-riga-n (tikz/lv-dpath-riga-n.tikz) sta PRIMA di \\scan{50}, che compare solo a riga 197 dentro l'osservazione",
+   "descrizione": "Il disegno del d-path che raggiunge l'ultima riga e in cima al foglio 50 (p50_b1.png): e il primo contenuto della pagina 50. Pagina 49 termina invece con la definizione di d-path e le note a margine (p49_full.png). Cosi com'e, la figura risulta attribuita alla scansione 49 e il rimando a margine 'scan p.50' compare accanto all'osservazione anziche accanto al disegno che apre la pagina. La convenzione (CONVENZIONI.md) chiede \\scan{NN} all'inizio del contenuto della pagina. Il contenuto e comunque corretto e la figura TikZ riproduce fedelmente il disegno (corsa di match, mossa orizzontale, corsa di match, mossa verticale, corsa di match fino alla riga n; etichette P a sinistra, T in alto a destra, i e j sulla riga 0, linea verticale di lettura in colonna j, ultima riga a mano libera).",
+   "correzione": "Spostare \\scan{50} prima del \\begin{figure} di riga 187 (cioe subito dopo la frase 'Il legame fra i d-path e il problema che vogliamo risolvere e immediato.' oppure prima di essa) e toglierlo da riga 197."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "notazione",
+   "dove": "lezioni/10-landau-vishkin.tex: osservazione righe 196-208 (e didascalia fig. 10.6, righe 190-192) contro la Definizione 35 (righe 213-219) e la prosa di riga 269",
+   "descrizione": "Nel giro di poche righe le lettere i e j cambiano significato. Nell'osservazione (e nella figura) i e la COLONNA di partenza sulla riga 0 e j la COLONNA di arrivo sull'ultima riga: il d-path li descritto termina sulla diagonale j-n, non sulla diagonale i. Subito dopo, nella Definizione 35, nell'algoritmo e a riga 269 ('la colonna j = n+i'), i e invece il NUMERO DI DIAGONALE e j la colonna. La collisione e ereditata dagli appunti (il foglio scrive d_L(P,T[i,j]) sotto il disegno e poi 'per la diagonale i' nello pseudocodice), quindi la trascrizione e fedele, ma sulla pagina stampata (p.91 del PDF) le due letture si toccano e possono indurre il lettore a credere che il cammino dell'osservazione termini sulla diagonale i.",
+   "correzione": "Aggiungere una precisazione minima al termine dell'osservazione o subito prima della Definizione 35, per esempio: 'Qui i e j sono numeri di colonna; da qui in avanti, invece, i indichera sempre il numero di diagonale.' In alternativa rinominare in c e c' gli indici dell'osservazione, aggiornando di conseguenza le etichette della figura tikz/lv-dpath-riga-n.tikz e la sua didascalia."
+  }
+ ]
+}

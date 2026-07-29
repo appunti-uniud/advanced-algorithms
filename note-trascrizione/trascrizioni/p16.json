@@ -1,0 +1,104 @@
+{
+ "pagina": 16,
+ "latex": "\\scan{16}\n\nIl keyword tree $K(\\mathcal{P})$ introdotto per Aho--Corasick è un albero costruito a partire\nda una \\emph{collezione di pattern} $\\mathcal{P}$. Nulla però ci obbliga a prendere come\ncollezione un insieme di pattern dati dall'esterno.\n\n\\begin{osservazione}\nPosso usare i \\emph{suffissi di $T$} come collezione di pattern.\n\\end{osservazione}\n\nL'albero che si ottiene in questo modo, cioè\n\\[\n  K\\bigl(\\{\\suf{T}{1},\\suf{T}{2},\\dots,\\suf{T}{m}\\}\\bigr), \\qquad m = \\abs{T},\n\\]\nè quello che in letteratura si chiama \\emph{suffix trie} di $T$. Il cambio di prospettiva è\nsostanziale: non si tratta più di un pre-processing del \\emph{pattern} (come in KMP, in\nBoyer--Moore o nell'algoritmo $Z$), ma di un \\textbf{pre-processing del testo}. La versione\ncompattata di questa struttura --- il \\emph{suffix tree} --- arriverà dopo.\n\n\\begin{domanda}[Sottostringa ripetuta più lunga]\nData una stringa $S$, determinare la più lunga sottostringa \\emph{ripetuta} in $S$, cioè la\npiù lunga $\\beta$ che occorre in $S$ a partire da (almeno) due posizioni distinte.\n\\end{domanda}\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/sottostringa-ripetuta.tikz}\n\\caption{La più lunga sottostringa ripetuta: $\\beta$ occorre a partire da due posizioni\ndistinte di $S$. La stringa è terminata dalla sentinella $\\$$.}\n\\end{figure}\n\nIl carattere sentinella $\\$ \\notin \\S$ posto in coda alla stringa non è un dettaglio\ndecorativo: garantisce che nessun suffisso sia prefisso di un altro, e quindi che nel trie\nogni suffisso termini in una foglia distinta (nel disegno che segue tutte le foglie sono\ninfatti marcate con $\\$$).\n\nPosto $n = \\abs{S}$, la storia delle complessità note per questo problema è la seguente.\n\\begin{itemize}\n  \\item Soluzione naive: $\\Oh(n^{2})$.\n  \\item Knuth: $\\Oh(n \\log n)$, con un algoritmo divide et impera la cui ricorrenza sul\n        tempo di calcolo $T(n)$ è\n        \\[\n          T(n) \\;=\\; 2\\,T\\!\\left(\\frac{n}{2}\\right) + \\Oh(n).\n        \\]\n  \\item $\\Oh(n)$: Knuth ipotizzava che non si potesse fare, ma \\emph{una volta tanto ha\n        sbagliato}.\n\\end{itemize}\n\nLa strada per il tempo lineare passa proprio per il keyword tree dei suffissi di $S$. Resta\nnaturalmente aperta la domanda: \\emph{come lo costruisco?}\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/kwtree-suffissi.tikz}\n\\caption{Il keyword tree dei suffissi di $S\\$$ (suffix trie): ogni foglia corrisponde a un\nsuffisso e porta la sentinella $\\$$.}\n\\end{figure}\n\nSe ho il keyword tree dei suffissi a disposizione, mi basta visitarlo e cercare il\n\\textbf{nodo branching di profondità massima}: l'etichetta del cammino dalla radice a quel\nnodo è la più lunga sottostringa ripetuta di $S$.\n\n\\begin{osservazione}\nIl motivo è immediato. Se $v$ è un nodo branching, ha almeno due figli e quindi almeno due\nfoglie nel suo sottoalbero, cioè almeno due suffissi distinti di cui l'etichetta del cammino\n$\\cammino{v}$ è prefisso comune: $\\cammino{v}$ occorre allora in (almeno) due posizioni\ndistinte di $S$, ed è ripetuta. Viceversa, se $\\beta$ è ripetuta essa è prefisso di due\nsuffissi distinti, i cui cammini nel trie coincidono per almeno $\\abs{\\beta}$ archi e poi si\nseparano: il loro punto di biforcazione è un nodo branching di profondità $\\ge \\abs{\\beta}$.\nMassimizzare $\\abs{\\beta}$ equivale dunque a massimizzare la profondità di un nodo branching.\n\\end{osservazione}",
+ "note": [
+  {
+   "tipo": "ricostruzione",
+   "pagina": 16,
+   "testo": "Il quaderno apre con lo schema grafico «K(P) albero costruito a partire da una collezione di pattern» ↓ [testo cerchiato: «posso usare i suffissi di T come collezione di pattern»] — «Suffix Trie» (doppiamente sottolineato) con freccia ⇑ etichettata «pre-processing del testo». Ho reso il cerchio come ambiente `osservazione` e la freccia/etichetta come prosa, senza figura: il contenuto è interamente verbale e una TikZ avrebbe aggiunto rumore. Nessun contenuto perso.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 16,
+   "testo": "Il quaderno scrive solo «(Suffix-Tree) ⟿ dopo». L'ho reso con «La versione compattata di questa struttura — il suffix tree — arriverà dopo», esplicitando che il suffix tree è la compattazione del trie (informazione già nota dalle lezioni e confermata daGli appunti del corso dell'anno precedente, L05 §4).",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 16,
+   "testo": "Il quaderno scrive «PROBLEMA: data S determino la più lunga sottostringa ripetuta in ~~in~~ S» (con un «in» iniziato a fine riga e ripetuto a capo). Ho eliminato la ripetizione e riformulato come enunciato di problema. Ho usato l'ambiente `domanda` perché nella lista delle convenzioni non esiste un ambiente `problema` e `domanda` è il più vicino semanticamente (è letteralmente una domanda posta dagli appunti dell'anno precedente).",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 16,
+   "testo": "La definizione di «sottostringa ripetuta» non è scritta negli appunti: è solo disegnata (due graffe β sotto la barra S). Ho esplicitato «che occorre a partire da (almeno) due posizioni distinte». Ho deliberatamente evitato di aggiungere la precisazione «le occorrenze possono sovrapporsi» (presente neGli appunti del corso dell'anno precedente) perché non è nel quaderno e la formulazione scelta è già corretta in entrambi i casi.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 16,
+   "testo": "La sentinella $ compare nel quaderno solo come simbolo disegnato (in coda alla barra S e su tutte le foglie del keyword tree), senza commento. Ho aggiunto un breve paragrafo che ne spiega la funzione (nessun suffisso è prefisso di un altro ⇒ ogni suffisso finisce in una foglia distinta). È un'aggiunta esplicativa, non presente nel testo manoscritto, ma necessaria per rendere leggibile il disegno; cfr. nota tecnica §7 deGli appunti del corso dell'anno precedente (dove peraltro la sentinella è del tutto assente dai suoi manoscritti).",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 16,
+   "testo": "L'annotazione a destra di O(n) si legge «knuth ipotizzava non si potesse fare, ma una volta tanto ha sbagliato». Verificata sul crop ad alta risoluzione della banda b3: «ipotizzava» e «sbagliato» sono leggibili con certezza. Ho scritto «ipotizzava che non si potesse fare» aggiungendo il «che» (elisione telegrafica del quaderno). Il contenuto è storicamente corretto: Knuth congetturò (1970) che il problema richiedesse Ω(n log n); Weiner (1973) lo smentì con il primo suffix tree in tempo lineare.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 16,
+   "testo": "Conflitto di notazione presente negli appunti: T denota il testo nella prima metà della pagina e il tempo di calcolo nella ricorrenza T(n) = 2T(n/2) + O(n). Nella seconda metà il testo è chiamato S (come nel quaderno), quindi il conflitto non si materializza; ho comunque scritto esplicitamente «il tempo di calcolo T(n)» per disambiguare.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 16,
+   "testo": "Il quaderno abbrevia «KW-tree» e «kW-tree dei suffissi». Secondo la policy ho espanso in «keyword tree dei suffissi» ovunque. Analogamente «profondità max» → «profondità massima» (la parola «profondità» nel manoscritto è scritta sopra una cancellatura sbavata, ma la lettura è confermata da p.17, dove la stessa frase compare nel riquadro: «determinare il nodo branching di profondità massima»).",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 16,
+   "testo": "Ho aggiunto l'ambiente `osservazione` finale che giustifica perché il nodo branching più profondo dà la sottostringa ripetuta più lunga. Il quaderno enuncia solo il fatto («mi basta visitarlo e cercare il nodo branching di profondità max»); la dimostrazione (biiezione fra nodi branching e sottostringhe ripetute) è quella standard, cfr. Teorema 6.1 deGli appunti del corso dell'anno precedente e Gusfield §7.4. È un'aggiunta esplicativa, segnalata qui.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 16,
+   "testo": "Ho evitato la macro \\P per l'insieme dei pattern (nella lista delle convenzioni \\P compare sia fra i calligrafici sia fra le classi di complessità: ambiguo) e ho scritto \\mathcal{P} per esteso. Analogamente non ho usato \\STrie/\\STree, di cui non conosco la resa esatta: «suffix trie» e «suffix tree» sono scritti in prosa corsiva. Ho invece usato \\suf, \\abs, \\Oh, \\S (=Σ) e \\cammino{v} per l'etichetta del cammino radice→v.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 16,
+   "testo": "Nel disegno del keyword tree, subito a destra della radice c'è un arco cortissimo che termina in una foglia «$»: l'ho interpretato come la foglia del suffisso costituito dalla sola sentinella (il suffisso più corto). L'arco lunghissimo che scende fino all'estrema destra è invece il suffisso più lungo (l'intera stringa). Il resto del disegno è uno schizzo generico a «montagna», non il trie di una stringa specifica: la specifica TikZ propone una topologia pulita e plausibile con 8 foglie, tutte marcate $.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 16,
+   "testo": "Sotto «O(n)», a sinistra, c'è una macchia di inchiostro azzurra che a bassa risoluzione può sembrare un «?» o un «2». All'ingrandimento è chiaramente un trasferimento di inchiostro/sbavatura senza contenuto: ignorata.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 16,
+   "testo": "L'annotazione «se ho il KW-tree a disposizione mi basta visitarlo e cercare il nodo branching di profondità max» è scritta a destra del disegno e collegata a esso da un trattino obliquo. Nel LaTeX l'ho spostata come testo corrente dopo la figura, così la TikZ contiene solo l'albero.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "sottostringa-ripetuta",
+   "pagina": 16,
+   "didascalia": "La più lunga sottostringa ripetuta: β occorre a partire da due posizioni distinte di S. La stringa è terminata dalla sentinella $.",
+   "tipo": "schema di stringhe",
+   "specifica": "Schema minimale, monocromatico (blu scuro o nero), larghezza circa 11 cm.\n\nELEMENTI:\n1. Un segmento orizzontale spesso (line width ~1.2pt) da (0,0) a (10,0): rappresenta l'intera stringa S. Nel manoscritto è tracciato a mano libera con una leggerissima ondulazione; una linea dritta va benissimo.\n2. Etichetta «$S$» in stile matematico, posizionata SOPRA il segmento, allineata all'estremo destro, circa a (9.7,0.35).\n3. Immediatamente a destra dell'estremo destro del segmento, il simbolo di sentinella «$\\$$» disegnato più grande del testo normale (tipo \\Large), centrato circa a (10.35,0). Nel manoscritto è vistosamente più grande della «S», a sottolineare che è un carattere aggiunto in coda.\n4. Sotto il segmento, DUE graffe orizzontali rivolte verso il basso (decoration={brace, mirror, amplitude=5pt}, yshift=-4pt):\n   - la prima copre l'intervallo da x=1.4 a x=3.6;\n   - la seconda copre l'intervallo da x=5.0 a x=7.2.\n   Le due graffe sono disgiunte e hanno la STESSA lunghezza (sono due occorrenze della stessa stringa).\n5. Sotto il vertice di ciascuna graffa, l'etichetta «$\\beta$» (a circa y=-0.75).\n\nNIENTE ALTRO: niente assi, niente tacche di posizione, niente indici.\n\nSIGNIFICATO ALGORITMICO: β è una sottostringa che occorre in due posizioni distinte di S, cioè una sottostringa ripetuta; il problema di pagina chiede di massimizzare |β|. Le due occorrenze sono disegnate disgiunte solo per chiarezza grafica: in generale possono sovrapporsi. La sentinella $ in coda serve a garantire che nessun suffisso di S$ sia prefisso di un altro.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "kwtree-suffissi",
+   "pagina": 16,
+   "didascalia": "Il keyword tree dei suffissi di S$ (suffix trie): ogni foglia corrisponde a un suffisso e porta la sentinella $.",
+   "tipo": "albero",
+   "specifica": "Albero radicato disegnato nel manoscritto come uno schizzo a mano libera dalla silhouette di «montagna»: radice in cima al centro, archi lunghi e curvi che si aprono a ventaglio verso il basso, foglie a profondità molto diverse, TUTTE marcate con il simbolo «$». Non è il trie di una stringa specifica: è un disegno generico. La ricostruzione deve quindi essere una forma pulita e plausibile di suffix trie, non una copia letterale dello scarabocchio.\n\nTOPOLOGIA PROPOSTA (8 foglie, tutte etichettate «$», nessuna etichetta di carattere sugli archi — nel manoscritto gli archi NON portano etichette):\n- radice r in alto al centro, disegnata come piccolo nodo pieno (o semplicemente come punto di incontro degli archi);\n- r ha 4 figli, con archi di lunghezza e pendenza molto diverse:\n  (a) arco CORTISSIMO che va da r leggermente in basso a destra e termina subito in una foglia «$» (poco sotto e a destra della radice): è la foglia del suffisso costituito dalla sola sentinella, ed è l'elemento più caratteristico del disegno originale — va conservato;\n  (b) arco LUNGHISSIMO che da r scende ampiamente verso destra, con una curvatura, fino a una foglia «$» all'estrema destra e in basso: è il suffisso più lungo (l'intera stringa);\n  (c) arco medio che scende a sinistra fino a un nodo interno v1; v1 è branching con 2 figli: una foglia «$» in basso a sinistra (poco profonda) e un secondo nodo interno v1' che porta a un'altra foglia «$» più in basso;\n  (d) arco medio che scende quasi verticale fino a un nodo interno v2; v2 è branching con 2 figli: una foglia «$» e un nodo interno v2' con 2 foglie «$» affiancate (le tre foglie centrali del disegno).\n  Totale foglie: 1 (a) + 1 (b) + 2 (c) + 3 (d) = 7; aggiungere una foglia «$» in più appesa a v2' o a v1' per arrivare alle 8 del manoscritto.\n- Le foglie stanno a profondità diverse (dal livello 1 al livello 4): la silhouette complessiva deve risultare triangolare/a montagna, con i rami esterni molto più lunghi di quelli interni.\n- Il simbolo «$» va disegnato SUL punto terminale di ogni arco (è il carattere dell'ultimo arco), non come nodo separato; nel manoscritto è marcato con tratto più spesso e scuro rispetto agli archi, quindi conviene renderlo in nero/blu scuro mentre gli archi restano in blu più chiaro.\n\nNIENTE etichette di carattere sugli archi, NIENTE numerazione delle foglie, NIENTE evidenziazione di nodi nel manoscritto. Opzionale (non presente nell'originale, da usare solo se migliora la leggibilità della didascalia): cerchiare il nodo branching più profondo — sarebbe v2' o v1' — con un'annotazione «nodo branching di profondità massima».\n\nL'annotazione manoscritta che nel quaderno sta a destra del disegno («se ho il KW-tree a disposizione mi basta visitarlo e cercare il nodo branching di profondità max»), collegata da un trattino obliquo, NON va inclusa nella figura: è già resa come testo corrente subito dopo.\n\nSIGNIFICATO ALGORITMICO: è il keyword tree K(S(S$)) dell'insieme di tutti i suffissi di S$, cioè il suffix trie. Ogni foglia ↔ un suffisso; ogni nodo branching ↔ una sottostringa che è prefisso comune di almeno due suffissi distinti, cioè una sottostringa ripetuta. Il nodo branching di profondità massima dà quindi la più lunga sottostringa ripetuta.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "Pagina 15 chiudeva Aho–Corasick (failure link, analisi ammortizzata, output link per le sottostringhe). Pagina 16 apre il nuovo argomento: riusare il keyword tree K(P) prendendo come collezione di pattern i suffissi del testo ⇒ suffix trie ⇒ pre-processing del testo. Restano esplicitamente in sospeso a fine pagina due cose: (i) COME si costruisce il keyword tree dei suffissi (la domanda «come lo costruisco?» è scritta e lasciata senza risposta), e (ii) il suffix tree vero e proprio, annunciato con «(Suffix-Tree) ⟿ dopo». È inoltre asserito senza dimostrazione (io l'ho dimostrato in una osservazione aggiunta) che il nodo branching di profondità massima risolve il problema della sottostringa ripetuta più lunga. Pagina 17 riprende esattamente da qui: enuncia in un riquadro l'Osservazione «il problema delle sottostringhe comuni più lunghe si risolve facilmente usando il Keyword Tree dei suffissi di S: basta utilizzare il K.T. e determinare il nodo branching di profondità massima», poi elenca i due «Problemi»: 1) quanto è grande il K.T. dei suffissi di S? 2) come lo costruisco? Fissa quindi la notazione T_i = T[i,|T|] (i-esimo suffisso), T^i = T[1,i] (i-esimo prefisso), σ(T) = {T_i : i ∈ [1,…,|T|]}, definisce Suffix-Trie(T) come il keyword tree di σ(T) e risponde al problema 1) con l'esempio T = a^m b^m che dà |Suffix-Trie(T)| ∈ Θ(|T|²). La sentinella $, che a p.16 compare solo disegnata, andrà mantenuta coerente nel seguito.",
+ "confidenza": "alta"
+}

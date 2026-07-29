@@ -1,0 +1,104 @@
+{
+ "pagina": 52,
+ "latex": "\\scan{52}\n\n\\subsection*{Randomized QuickSort (\\RandQS)}\n\nL'idea di \\RandQS è quella di QuickSort, con un'unica differenza: il pivot non viene\nscelto in modo deterministico (il primo elemento, l'ultimo, la mediana di tre, \\dots),\nma viene \\emph{estratto uniformemente a caso} dall'insieme da ordinare.\n\nNel caso ideale il pivot cade «in mezzo» e la partizione produce due sottoproblemi di\n$n/2$ elementi ciascuno.\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/randqs-partizione.tikz}\n  \\caption{Partizione ideale: il pivot spezza l'insieme in due metà di $n/2$ elementi.}\n\\end{figure}\n\nIn questo caso l'albero delle chiamate ricorsive è bilanciato: ha altezza $h=\\log n$ e\nad ogni livello il costo complessivo delle partizioni è $\\Oh(n)$, perché i sottoproblemi\ndi uno stesso livello ripartiscono fra loro gli $n$ elementi di partenza.\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/randqs-albero-chiamate.tikz}\n  \\caption{Albero delle chiamate ricorsive nel caso bilanciato: $h=\\log n$ livelli,\n  ciascuno di costo complessivo $\\Oh(n)$.}\n\\end{figure}\n\n\\[\n  T(n) \\;=\\; \\Oh(n) \\;+\\; 2\\,T\\!\\left(\\frac{n}{2}\\right)\n  \\qquad\\Longrightarrow\\qquad\n  T(n) \\in \\Oh(n\\log n).\n\\]\n\n\\begin{algorithm}[H]\n\\caption{\\RandQS}\n\\begin{algorithmic}[1]\n\\Require un insieme di numeri $S$ (elementi distinti)\n\\Ensure gli elementi di $S$ in ordine crescente\n\\State scegli un elemento $x \\in S$ \\textbf{uniformemente a caso};\n\\State $\\textsc{Partition}(S,x)$: genera $S_1=\\set{y\\in S \\mid y<x}$ e $S_2=\\set{y\\in S \\mid y>x}$;\n\\State ordina ricorsivamente con \\RandQS($S_1$) e \\RandQS($S_2$); restituisci $S_1$\n       ordinato, seguito da $x$, seguito da $S_2$ ordinato.\n\\end{algorithmic}\n\\end{algorithm}\n\n\\begin{osservazione}\nQuickSort ha complessità $\\Oh(n\\log n)$ nel caso medio \\emph{se la distribuzione degli\ninput è uniforme}: si tratta di un'ipotesi (forte) sui possibili input. \\RandQS, invece,\n\\textbf{non} fa alcuna ipotesi sulla distribuzione dell'input: la casualità non sta più\nnei dati, ma nell'algoritmo.\n\\end{osservazione}\n\n\\subsection*{Analisi della complessità nel caso medio di \\RandQS}\n\nQui «caso medio» va inteso come \\emph{valore atteso} di una variabile aleatoria — quella\nche rappresenta la complessità — dove la media è presa sulle scelte casuali\ndell'algoritmo, a input fissato, e non sugli input.\n\nContiamo i \\emph{confronti} eseguiti dall'algoritmo. Indichiamo con $x_i$ l'elemento di\nrango $i$, cioè l'$i$-esimo elemento di $S$ nell'ordine crescente, e introduciamo per\nogni coppia $1\\le i<j\\le n$ la variabile aleatoria \\emph{indicatore}\n\\[\n  X_{ij} \\;=\\;\n  \\begin{cases}\n    1 & \\text{se } x_i \\text{ \\emph{è confrontato} con } x_j,\\\\[2pt]\n    0 & \\text{altrimenti.}\n  \\end{cases}\n\\]\n\nIl numero totale di confronti è allora $\\sum_{i=1}^{n}\\sum_{j>i} X_{ij}$, e la quantità\nda stimare è\n\\[\n  \\E\\!\\left[\\; \\sum_{i=1}^{n}\\sum_{j>i} X_{ij} \\;\\right].\n\\]",
+ "note": [
+  {
+   "tipo": "correzione",
+   "pagina": 52,
+   "testo": "Estremi della doppia sommatoria. Il quaderno scrive E[\\sum_{i=1}^{n} \\sum_{j=1}^{n} X_{ij}] (il limite inferiore della seconda somma e chiaramente \"j=1\", verificato su ritaglio a 300 DPI ingrandito). Ho scritto \\sum_{i=1}^{n}\\sum_{j>i}. Motivo: con j che varia da 1 a n ogni coppia sarebbe contata due volte e comparirebbero i termini con j<i, per i quali a p.53 il denominatore j-i+1 sarebbe <=1 o negativo (p_{ij}=2/(j-i+1) perde senso); inoltre il bound finale 2nH_n di p.53 e esattamente quello del Teorema 1.1 di Motwani-Raghavan, che e enunciato per \\sum_i \\sum_{j>i}. Attenzione: lo stesso refuso si ripete a p.53 (sia in E[...] sia in \\sum\\sum p_{ij}), quindi la correzione va applicata coerentemente anche li.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 52,
+   "testo": "Passo 2 dell'algoritmo. Il quaderno scrive solo \"partition(S,x) e genera S_1 S_2\", senza definire S_1 e S_2. Ho esplicitato S_1={y in S : y<x} e S_2={y in S : y>x}, come nel box tipografico di Motwani-Raghavan riportato neGli appunti del corso dell'anno precedente (L13, sezione 2.1).",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 52,
+   "testo": "Passo 3 dell'algoritmo. Il quaderno scrive solo \"ordina ricorsivamente: RandQS(S_1) RandQS(S_2)\". Ho aggiunto la restituzione dell'output concatenato (S_1 ordinato, poi x, poi S_2 ordinato), implicita negli appunti e presente nel testo originale di Motwani-Raghavan.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 52,
+   "testo": "Input dell'algoritmo. Il quaderno scrive \"In: S insieme di numeri\". Ho aggiunto \"(elementi distinti)\": e un insieme, e senza distinzione degli elementi la partizione S_1 cup {x} cup S_2 = S non sarebbe corretta. Nota gia presente nella sintesi degli appunti dell'anno precedente",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 52,
+   "testo": "Titolo della seconda meta della pagina: \"Analisi della complessita nel caso (medio) di RandQS\", con la parola \"medio\" cerchiata a penna. Lettura confermata su ritaglio ingrandito. La freccia che parte dal cerchio porta all'annotazione a margine, che ho decifrato come \"valore atteso di una variabile aleatoria (che rappresenta la complessita)\"; l'ho resa nel testo come paragrafo esplicativo subito sotto il titolo.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 52,
+   "testo": "Nella frase esplicativa sul \"caso medio\" ho aggiunto la precisazione \"a input fissato, e non sugli input\", che nel quaderno non compare in quel punto ma discende direttamente dalla riga precedente (\"RandQS non fa ipotesi sulla distribuzione dell'input\") ed e il punto concettuale che La fonte dell'anno precedentesottolinea con forza (L13, p.2: \"NON si tratta dell'analisi di QuickSort nel caso medio\"). Colmatura di lacuna, annotata come richiesto.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 52,
+   "testo": "Il quaderno scrive la ricorrenza T(n)=O(n)+2T(n/2) accanto al disegno della partizione ideale, senza risolverla. Ho aggiunto l'implicazione T(n) in O(n log n): e il fatto che il resto della pagina presuppone (\"QuickSort ha complessita O(n log n) nel caso medio...\") e segue dal master theorem. Ho anche esplicitato nel testo che la ricorrenza vale nel caso bilanciato/ideale, non in generale (in generale T(n)=T(p)+T(q)+Theta(n)).",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 52,
+   "testo": "Notazione. Il quaderno usa x_i per \"elemento di rango i\" (annotazione a destra della sommatoria); Motwani-Raghavan e la sintesi degli appunti dell'anno precedente usano S_(i). Ho mantenuto la notazione dello studente, che e la fonte primaria e viene riusata a p.53.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 52,
+   "testo": "Il pivot nel quaderno e chiamato x (\"scegli un elemento x in S\"); Motwani-Raghavan lo chiama y. Mantenuto x, coerentemente con gli appunti dello studente.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 52,
+   "testo": "Disegno in alto a sinistra: quadratino vuoto (il pivot) con due frecce curve che scendono verso due barre orizzontali delimitate da tick agli estremi, entrambe etichettate n/2. Interpretazione: partizione ideale in due meta. Nel quaderno il quadratino non e etichettato; nella specifica TikZ ho suggerito di aggiungere l'etichetta \"pivot\" per leggibilita (aggiunta editoriale, non presente nell'originale).",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 52,
+   "testo": "Disegno in alto a destra: albero binario completo di 3 livelli (radice piena, due nodi interni, quattro foglie), graffa verticale a sinistra etichettata h, e tre frecce ondulate a destra, una per livello, etichettate O(n). Alcuni segmenti verso le foglie nel manoscritto sembrano avere una punta di freccia rivolta verso il padre: e un artefatto del tratto (frecce disegnate al contrario), nella ricostruzione vanno resi come archi semplici. Alcune foglie sono piene e altre vuote senza significato: uniformarle.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 52,
+   "testo": "Struttura. Il quaderno ha due titoli espliciti sottolineati (\"Randomized QuickSort\" in testa e \"Analisi della complessita nel caso medio di RandQS\" a meta pagina); li ho resi con \\subsection* non numerate, come consentito dalle convenzioni. La sigla \"RandQS\", scritta a parte sotto il titolo, l'ho inglobata nel titolo stesso.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 52,
+   "testo": "Il blocco \"QuickSort ha complessita O(n log n) nel caso medio se la distribuzione degli input e uniforme / -> ipotesi (forte) sui possibili input\" e \"RandQS non fa ipotesi sulla distribuzione dell'input\" e stato reso come un unico ambiente osservazione: sono due righe consecutive che nel quaderno formano un'unica contrapposizione (sottolineature su \"distribuzione degli input e uniforme\" e su \"non\", rese con \\emph e \\textbf).",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "randqs-partizione",
+   "pagina": 52,
+   "didascalia": "Partizione ideale: il pivot spezza l'insieme in due metà di $n/2$ elementi.",
+   "tipo": "schema di array / diagramma",
+   "specifica": "Schema della partizione ideale di QuickSort, disegnato a penna blu.\n\nLAYOUT (coordinate suggerite, unità cm):\n- In alto al centro, in (0, 2.2): un piccolo QUADRATO VUOTO, lato circa 0.55, contorno spesso (line width ~1pt), colore blu scuro. Rappresenta la cella del pivot scelto a caso. Nel manoscritto NON è etichettato; si consiglia di aggiungere l'etichetta \"pivot\" in piccolo (\\footnotesize) appena sopra o a destra del quadrato — è un'aggiunta editoriale per leggibilità, indicata nelle note.\n- Due FRECCE CURVE (arrows.meta, punta -{Stealth}, tratto blu medio, spessore ~1pt) che partono dai due angoli inferiori del quadrato e scendono divaricandosi:\n  * sinistra: da circa (-0.3, 1.95) con bend right (curvatura ~25°) fino a (-2.1, 0.75), punta rivolta in basso a sinistra;\n  * destra: da circa (0.3, 1.95) con bend left (curvatura ~25°) fino a (1.9, 0.75), punta rivolta in basso a destra.\n  Le due frecce formano un arco a ventaglio simmetrico (nell'originale la sinistra è leggermente più lunga e più curva; la simmetria è preferibile).\n- In basso, all'altezza y = 0, due BARRE DI MISURA affiancate, ciascuna disegnata come un segmento orizzontale con due trattini verticali agli estremi (forma |———|), altezza dei tick ~0.35, tratto blu:\n  * barra sinistra: da x = -4.0 a x = -1.0;\n  * barra destra:  da x =  0.5 a x =  3.7.\n  Nell'originale ciascuna barra è tracciata come un rettangolo molto schiacciato (linea superiore e linea inferiore ravvicinate, ~0.35 di altezza) con i tick agli estremi: va bene renderle come rettangoli bassi oppure come semplici segmenti con tick.\n- Etichetta $n/2$ centrata (o leggermente a sinistra del centro, come nell'originale) DENTRO la barra sinistra; etichetta $n/2$ centrata dentro la barra destra. Font matematico normale.\n- La freccia sinistra punta sopra la barra sinistra; la freccia destra punta sopra la barra destra.\n\nNessun altro testo. Tutto il testo (eventuale \"pivot\") in italiano.\n\nSIGNIFICATO ALGORITMICO: il pivot estratto uniformemente a caso, nel caso ideale/bilanciato, separa l'insieme in due sottoinsiemi di $n/2$ elementi ciascuno; le due frecce sono le due chiamate ricorsive RandQS(S_1) e RandQS(S_2). È la figura che giustifica la ricorrenza $T(n)=O(n)+2T(n/2)$ scritta subito a destra nel quaderno.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "randqs-albero-chiamate",
+   "pagina": 52,
+   "didascalia": "Albero delle chiamate ricorsive nel caso bilanciato: $h=\\log n$ livelli, ciascuno di costo complessivo $\\Oh(n)$.",
+   "tipo": "albero",
+   "specifica": "Albero delle chiamate ricorsive di QuickSort/RandQS nel caso bilanciato, con annotazione dell'altezza e del costo per livello.\n\nNODI (albero binario completo di 3 livelli, coordinate suggerite in cm):\n- Radice in (0, 2.4): cerchio PIENO (disco), diametro ~0.20, blu scuro.\n- Livello 2: due nodi in (-1.15, 1.2) e (1.15, 1.2): cerchietti VUOTI (contorno blu, riempimento bianco), diametro ~0.20.\n- Livello 3 (foglie): quattro nodi in (-1.75, 0.0), (-0.55, 0.0), (0.55, 0.0), (1.75, 0.0): cerchietti, diametro ~0.16. Nel manoscritto alcuni sono pieni e altri vuoti in modo casuale: renderli tutti VUOTI, uniformi.\n\nARCHI: segmenti rettilinei radice→figli e figlio→foglie, tratto blu, spessore ~1pt, SENZA punte di freccia. (Nel manoscritto alcuni tratti verso le foglie sembrano avere una punta rivolta verso il padre: è un artefatto della scrittura, va ignorato.)\n\nGRAFFA DELL'ALTEZZA:\n- A sinistra dell'albero, a x ≈ -2.7, una grande GRAFFA verticale (decorations.pathreplacing, brace, aperta verso destra, amplitude ~6pt) che abbraccia tutta l'altezza dell'albero, da y = 2.55 a y = -0.15.\n- A sinistra della graffa, l'etichetta $h$ (font matematico, dimensione normale), centrata verticalmente rispetto alla graffa, a x ≈ -3.1.\n\nANNOTAZIONI DI COSTO (tre, una per livello):\n- Tre FRECCE ONDULATE corte, orizzontali, che partono dal nodo più a destra del livello e puntano verso destra; nel manoscritto sono tratti \"a serpentina\" (decorate, snake / coil) con una piccola punta finale. Ciascuna è seguita dall'etichetta $\\Oh(n)$:\n  * livello 0: dalla radice, freccia da circa (0.35, 2.6) a (2.3, 2.75), etichetta $\\Oh(n)$ a x ≈ 2.9, y ≈ 2.75;\n  * livello 1: dal nodo interno destro, freccia da (1.45, 1.25) a (2.3, 1.25), etichetta $\\Oh(n)$ a x ≈ 2.9, y ≈ 1.25;\n  * livello 2: dalla foglia più a destra, freccia da (1.95, 0.0) a (2.3, 0.0), etichetta $\\Oh(n)$ a x ≈ 2.9, y ≈ 0.0.\n  Le tre etichette $\\Oh(n)$ vanno allineate verticalmente (stessa x).\n\nNessun altro testo. Tutte le etichette sono simboli matematici ($h$, $\\Oh(n)$), quindi nessuna traduzione necessaria.\n\nSIGNIFICATO ALGORITMICO: se ogni pivot bilancia la partizione, l'albero delle chiamate ricorsive è completo, la sua altezza è $h=\\log_2 n$ e su ciascun livello i sottoproblemi si ripartiscono gli $n$ elementi, quindi il costo totale delle partizioni per livello è $\\Theta(n)$: complessivamente $\\Oh(n\\log n)$. Da confrontare, per contrasto, con il caso pessimo (albero degenere a catena, $\\Oh(n^2)$).",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina 52 si chiude a metà del ragionamento: sono state definite la variabile indicatore $X_{ij}$ (1 se $x_i$ è confrontato con $x_j$, 0 altrimenti, con $x_i$ = elemento di rango $i$) e la quantità da stimare $\\E[\\sum_{i}\\sum_{j>i} X_{ij}]$, ma il valore atteso NON è ancora stato calcolato. Resta in sospeso: (a) come si spezza il valore atteso della somma, (b) quanto vale $\\E[X_{ij}]$, (c) quanto vale $p_{ij}=\\Pr[X_{ij}=1]$. La pagina 53 riprende esattamente da qui e nell'ordine: titolo «Linearità del valore atteso» con $\\E[\\sum\\sum X_{ij}] = \\sum\\sum \\E[X_{ij}]$ (senza ipotesi di indipendenza); $\\E[X_{ij}] = p_{ij}\\cdot 1 + (1-p_{ij})\\cdot 0 = p_{ij}$; definizione di $p_{ij}$ come probabilità che $x_i$ e $x_j$ vengano confrontati; l'osservazione geometrica sulla retta dei ranghi (se il pivot cade fra $x_i$ e $x_j$ i due non saranno mai confrontati); $p_{ij} = 2/(j-i+1)$; la somma $\\sum_i\\sum_{j>i} p_{ij} \\le 2\\sum_i\\sum_{k=1}^n 1/k = 2nH_n$; infine la stima diadica di $H_n$ e la conclusione $\\Theta(n\\log n)$. ATTENZIONE per la cucitura: la correzione degli estremi della doppia sommatoria ($j>i$ anziché $j=1$) va applicata in modo coerente anche a p.53, dove il refuso si ripete.",
+ "confidenza": "alta"
+}

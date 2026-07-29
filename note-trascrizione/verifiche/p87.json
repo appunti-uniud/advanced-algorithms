@@ -1,0 +1,34 @@
+{
+ "pagina": 87,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "errore-logico",
+   "dove": "lezioni/16-random-walk-grafi.tex, righe 353-356 e 379-384 (inizio del contenuto di p. 87, dentro la Dimostrazione del Lemma 'Commute time lungo un arco')",
+   "descrizione": "Per la catena ausiliaria sugli archi orientati si invocano due conseguenze del teorema fondamentale delle catene di Markov (unicita della distribuzione stazionaria e identita h_{i,i} = 1/pi_i), ma le ipotesi del teorema - catena finita, irriducibile, aperiodica - sono state verificate nel capitolo soltanto per M_G, la catena sui VERTICI (righe 65-90 e 102-115). Per la catena Q sugli archi orientati non viene detto nulla: il passaggio 'invocare il teorema fondamentale' e quindi privo di giustificazione. La conclusione e comunque vera (Q e finita con 2m stati; e irriducibile perche da (u,v) si puo passare a (v,u), visto che u in Gamma(v), e da li raggiungere ogni arco orientato usando la connessione di G; ed e aperiodica perche il cammino chiuso (u,v) -> (v,u) -> (u,v) ha lunghezza 2 mentre un ciclo dispari di G - che esiste perche G non e bipartito - da un cammino chiuso di lunghezza dispari), ma va detto.",
+   "correzione": "Aggiungere una frase subito prima di 'La distribuzione stazionaria di una matrice doubly stochastic e quella uniforme', per esempio: «Anche la catena sugli archi orientati soddisfa le ipotesi del teorema fondamentale: e finita (ha 2m stati), e irriducibile - da (u,v) si passa a (v,u), perche u e vicino di v, e da li si raggiunge ogni altro arco orientato grazie alla connessione di G - ed e aperiodica, perche (u,v) -> (v,u) -> (u,v) e un cammino chiuso di lunghezza 2 mentre un ciclo dispari di G, che esiste perche G non e bipartito, ne fornisce uno di lunghezza dispari.»"
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "latex",
+   "dove": "lezioni/16-random-walk-grafi.tex, riga 352 (\\scan{87}, subito dopo un \\medskip, dentro il tcolorbox dell'ambiente dimostrazione)",
+   "descrizione": "Nel PDF gia compilato (algoritmi.pdf, pagina stampata 145 = pagina PDF 161) il marcatore marginale 'scan p. 87' NON compare: il \\marginnote viene perso perche cade dentro un tcolorbox che occupa l'intera pagina. Verificato per confronto: 'scan p. 84', 'scan p. 85' (anch'esso dentro un box, riga 208) e 'scan p. 86' sono regolarmente presenti nel margine, mentre p. 87 e assente. Viene cosi meno la tracciabilita del rimando alla scansione richiesta dalle convenzioni. Lo stesso capitolo perde anche \\scan{83} e \\scan{88}, entrambi posti subito dopo un \\section.",
+   "correzione": "Spostare \\scan{87} in un punto in cui il \\marginnote sopravvive - per esempio togliendo il \\medskip che lo precede, oppure portandolo fuori dal box (subito prima di \\begin{dimostrazione} alla riga 316) - e ricompilare verificando che la nota compaia effettivamente in margine. Da controllare insieme a \\scan{83} (riga 12) e \\scan{88} (riga 417)."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "notazione",
+   "dove": "lezioni/16-random-walk-grafi.tex, riga 380: «si ha $\\pi_{(u,v)} = 1/2m$»",
+   "descrizione": "La frazione e scritta in linea come 1/2m e nel PDF si legge 'pi_{(u,v)} = 1/2m', cioe ambiguamente come (1/2)m. In tutto il resto della pagina e del capitolo la stessa quantita e sempre \\frac{1}{2m} (righe 363, 369, 375).",
+   "correzione": "Scrivere $\\pi_{(u,v)} = \\frac{1}{2m}$ (oppure $1/(2m)$)."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "notazione",
+   "dove": "lezioni/16-random-walk-grafi.tex, riga 387: «La quantita $h_{(u,v),(u,v)}$ e il tempo che intercorre fra una visita dello stato $(u,v)$ e la visita successiva dello stesso stato»",
+   "descrizione": "$h_{(u,v),(u,v)}$ e il tempo MEDIO di ritorno, non 'il tempo': il tempo di ritorno e una variabile aleatoria. Nel resto del capitolo la grandezza e sempre chiamata 'tempo medio di ritorno' (righe 24, 229-232, 381).",
+   "correzione": "«La quantita $h_{(u,v),(u,v)}$ e il tempo medio che intercorre fra una visita dello stato $(u,v)$ e la visita successiva dello stesso stato»."
+  }
+ ]
+}

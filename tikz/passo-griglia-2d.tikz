@@ -1,0 +1,25 @@
+% passo-griglia-2d -- pag. 65
+% Un passo del random walk sulla griglia 2D: dal punto corrente si parte in una
+% delle quattro direzioni cardinali, ciascuna con la stessa probabilita' p (=1/4).
+% Le frecce non toccano il punto centrale, come nel manoscritto.
+\begin{tikzpicture}[
+    >=Latex,
+    font=\footnotesize,
+    passo/.style={line width=0.7pt,->}]
+
+  % --- posizione corrente ---
+  \fill (0,0) circle (1.5pt);
+
+  % --- le quattro direzioni ---
+  \draw[passo] (0, 0.20) -- (0, 1.00);
+  \draw[passo] (0,-0.20) -- (0,-1.00);
+  \draw[passo] ( 0.20,0) -- ( 1.00,0);
+  \draw[passo] (-0.20,0) -- (-1.00,0);
+
+  % --- probabilita', tutte uguali ---
+  \node[anchor=west]  at ( 0.10, 1.00) {$p$};
+  \node[anchor=north] at ( 1.00,-0.08) {$p$};
+  \node[anchor=north] at (-1.00,-0.08) {$p$};
+  \node[anchor=east]  at (-0.10,-1.00) {$p$};
+
+\end{tikzpicture}

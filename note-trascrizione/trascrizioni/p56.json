@@ -1,0 +1,98 @@
+{
+ "pagina": 56,
+ "latex": "\\scan{56}\n\nRipetendo l'operazione di prima, dopo $n-2$ contrazioni (dove $n=\\abs{V}$) si arriva a\nquesta situazione:\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/p56-due-nodi-taglio.tikz}\n  \\caption{Dopo $n-2$ contrazioni restano due soli nodi, $a$ e $b$, uniti da un fascio di\n  archi paralleli: \\emph{questo è un taglio} del grafo di partenza.}\n  \\label{fig:p56-due-nodi-taglio}\n\\end{figure}\n\n\\begin{algorithm}[H]\n\\caption{Algoritmo randomizzato per il \\mincut (Karger)}\n\\label{alg:p56-karger}\n\\begin{algorithmic}[1]\n  \\Require un multigrafo non orientato $G=(V,E)$\n  \\Ensure un insieme di archi che è un taglio di $G$\n  \\For{$i \\gets 1$ \\textbf{to} $\\abs{V}-2$}\n    \\State scegli a caso un arco $(u,v)\\in E$\n    \\State cancella $u$ e $v$ da $V$ e introduci un nuovo nodo $uv$\n      \\Comment{contrazione: $\\Oh(1)$}\n    \\State reindirizza su $uv$ ogni arco incidente su $u$ o su $v$\n    \\State elimina i self-loop che si sono generati\n  \\EndFor\n  \\State \\Return gli archi fra i $2$ nodi rimasti\n\\end{algorithmic}\n\\end{algorithm}\n\n\\begin{osservazione}\nL'annotazione $\\Oh(1)$ per il costo di una contrazione va presa con cautela: se il\nmultigrafo è rappresentato esplicitamente, reindirizzare tutti gli archi incidenti su $u$ e\nsu $v$ costa $\\Oh(n)$ e una singola esecuzione dell'algoritmo costa $\\Oh(n^{2})$. Il costo\ncostante si ottiene solo con una realizzazione «pigra»: si tiene la lista degli archi di\npartenza, si fondono i nodi con una \\emph{union--find} e si scartano gli archi diventati\nself-loop soltanto nel momento in cui vengono estratti.\n\\end{osservazione}\n\n\\begin{lemma}[gli archi residui formano un taglio]\\label{lem:p56-taglio}\nL'insieme $C$ degli archi fra i due nodi rimasti dopo $\\abs{V}-2$ contrazioni è un taglio\ndi $G$.\n\\end{lemma}\n\n\\begin{dimostrazione*}[\\autoref{lem:p56-taglio}]\nSiano $a$ e $b$ i due nodi rimasti dopo le $\\abs{V}-2$ contrazioni, e siano\n$\\{a_1,\\dots,a_k\\}$ e $\\{b_1,\\dots,b_h\\}$ i nodi di $G$ contratti rispettivamente su $a$ e\nsu $b$. I due insiemi sono non vuoti e costituiscono una bipartizione di $V$.\n\nUna contrazione non cancella mai un arco i cui estremi finiscono in parti diverse: le\nuniche cancellazioni sono quelle dei self-loop, cioè degli archi i cui due estremi sono\ngià stati fusi nello stesso super-nodo. Ogni arco di $G$ con un estremo in\n$\\{a_1,\\dots,a_k\\}$ e l'altro in $\\{b_1,\\dots,b_h\\}$ sopravvive dunque fino alla fine, e\ngli archi paralleli fra $a$ e $b$ — cioè $C$ — sono esattamente questi.\n\nNe segue che ogni cammino in $G$ da un $a_i$ a un $b_j$ deve attraversare un arco di $C$:\nrimosso $C$, nessun $a_i$ è più collegato ad alcun $b_j$, quindi $(V,E\\setminus C)$ è\nsconnesso e $C$ è un taglio di $G$.\n\\end{dimostrazione*}\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/p56-bipartizione-taglio.tikz}\n  \\caption{La bipartizione di $V$ indotta dalle contrazioni: a sinistra i nodi contratti su\n  $a$, a destra quelli contratti su $b$. La linea ondulata è il taglio $C$, e ogni cammino\n  da un $a_i$ a un $b_j$ è costretto ad attraversarla.}\n  \\label{fig:p56-bipartizione-taglio}\n\\end{figure}\n",
+ "note": [
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 56,
+   "testo": "Prima riga: «Ripetendo l'operazione di prima, dopo n-2 contrazioni, ??? a:». Il verbo prima di «a:» non e decifrabile con certezza nemmeno a 600 dpi: i grafemi mostrano un'iniziale a occhiello chiuso seguita da un elemento alto con barra orizzontale condivisa (tipico della legatura «tt», cfr. «contratti» piu sotto), il che suggerirebbe «ottengo»; ma «ottengo a:» non e italiano, mentre la «a» seguita dai due punti (identica alla «a» isolata di «scelgo a caso» e di «da a_i a b_j») richiede un verbo che regga «a». Ho scritto «si arriva a questa situazione:», che rende il senso senza forzare una lettura. Nessun marcatore nel LaTeX perche il contenuto matematico non e in dubbio.",
+   "risolto": false
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 56,
+   "testo": "Il quaderno scrive «cancellando u e V da V» e «ogni arco incidente su u o su V» usando sempre il grafema maiuscolo V, anche per il vertice (lo stesso accade in «(u,v)»). Ho distinto tipograficamente il vertice $v$ (minuscolo) dall'insieme dei vertici $V$ (maiuscolo), come richiede il senso.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 56,
+   "testo": "I tre punti elenco telegrafici sotto il titolo «Algoritmo Randomizzato Mincut» sono stati resi con l'ambiente algorithm/algorithmic (come prescritto dalle convenzioni). La graffa a sinistra che nel quaderno abbraccia i primi due punti con l'etichetta «|V|-2 contrazioni» diventa il ciclo \\For{$i \\gets 1$ to $|V|-2$}; il terzo punto («eseguo |V|-2 contrazioni e produco in output gli archi fra i 2 nodi rimasti») diventa la \\Return finale, evitando la ridondanza del quaderno, che ripete li il numero di contrazioni.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 56,
+   "testo": "Il titolo esplicito del quaderno «Algoritmo Randomizzato Mincut» (in stampatello) non e stato reso con \\paragraph perche un \\paragraph seguito immediatamente da un float [H] viene rinviato dopo il float; e diventato la \\caption dell'ambiente algorithm.",
+   "risolto": true
+  },
+  {
+   "tipo": "errore-anno-prec",
+   "pagina": 56,
+   "testo": "La graffa a destra dei tre righi che descrivono la contrazione e annotata «O(1)» (lettura sicura a 600 dpi: graffa alta su tre righe + O corsiva sovrascritta + «(1)»). Attribuire costo costante alla contrazione e scorretto se il multigrafo e rappresentato esplicitamente: reindirizzare tutti gli archi incidenti su u e v costa O(n) e una singola esecuzione O(n^2) (cfr. anche L14_sintesi §6.5, che pero e un'integrazione: Gli appunti del corso dell'anno precedente non contengono alcuna analisi di costo). Ho conservato l'annotazione O(1) come \\Comment sulla riga della contrazione e aggiunto una breve osservazione che la contestualizza (il costo costante ammortizzato si ottiene solo con lista di archi + union-find e scarto pigro dei self-loop).",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 56,
+   "testo": "La dimostrazione del lemma nel quaderno si ferma a «Ogni cammino in G da a_i a b_j deve attraversare un arco in C.» seguita dal disegno e dal quadratino di fine dimostrazione. Ho esplicitato i due passaggi impliciti: (a) perche gli archi fra le due parti sopravvivono alle contrazioni (si eliminano solo i self-loop, cioe gli archi con entrambi gli estremi gia fusi), quindi C e esattamente l'insieme degli archi che attraversano la bipartizione; (b) la conclusione, cioe che rimuovendo C il grafo si sconnette e quindi C e un taglio nel senso della definizione di p.55.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 56,
+   "testo": "Collisione di notazione da segnalare alla cucitura: qui $k$ e $h$ sono le cardinalita delle due classi della bipartizione ({a_1,...,a_k} e {b_1,...,b_h}), mentre da p.57 in poi $k=|C|$ e la cardinalita del taglio minimo. Ho mantenuto le lettere del manoscritto per fedelta; se il capitolo assemblato risultasse ambiguo, conviene rinominare qui in {a_1,...,a_p} e {b_1,...,b_q}.",
+   "risolto": false
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 56,
+   "testo": "Il quaderno alterna «n-2» (prima riga) e «|V|-2» (algoritmo, lemma, dimostrazione) senza mai dire che sono la stessa cosa; $n=|V|$ viene fissato solo a p.58. Ho aggiunto l'inciso «(dove $n=|V|$)» nella prima riga e lasciato $|V|-2$ dove il manoscritto lo usa.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 56,
+   "testo": "A fine dimostrazione, sul margine destro, c'e un quadratino disegnato a penna e riempito con tratti diagonali: e il simbolo di fine dimostrazione. Non serve trascriverlo, l'ambiente dimostrazione* lo fornisce.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 56,
+   "testo": "Il pedice del secondo insieme e stato letto come $h$ ({b_1,...,b_h}) e non come $k$: a 600 dpi il grafema ha asta alta piu arco (h), ed e coerente con l'etichetta «b_h» del disegno in fondo alla pagina, dove invece a sinistra compare chiaramente «a_k».",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 56,
+   "testo": "Figura in alto: due nodi a e b uniti da esattamente 4 archi paralleli (arco superiore molto bombato, due quasi rettilinei che formano una lente sottile, arco inferiore molto bombato), attraversati da una linea verticale ondulata a mano libera. L'annotazione «questo è un taglio» pende dal capo inferiore dell'ondulata tramite un trattino. Il nodo di destra e disegnato con l'interno annerito, quello di sinistra e un cerchietto vuoto: differenza puramente grafica, non l'ho riportata come significativa.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 56,
+   "testo": "Figura in basso: una sagoma chiusa (l'insieme V) tagliata da una linea verticale ondulata etichettata C; a sinistra a_1 ... a_k, a destra b_1 ... b_h, con puntini diagonali di sospensione fra il primo e l'ultimo elemento di ciascuna lista. Nel quaderno non ci sono ne nodi ne archi disegnati dentro la sagoma: e uno schema insiemistico, non un grafo.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "p56-due-nodi-taglio",
+   "pagina": 56,
+   "didascalia": "Dopo $n-2$ contrazioni restano due soli nodi, $a$ e $b$, uniti da un fascio di archi paralleli: questo è un taglio del grafo di partenza.",
+   "tipo": "grafo (multigrafo a due nodi con fascio di archi paralleli e linea di taglio)",
+   "specifica": "Disegno a mano libera, tratto blu spesso, da ridisegnare pulito ma con aria di schizzo.\n\nNODI. Due nodi alla stessa quota, distanti circa 4 cm sull'orizzontale.\n  - nodo sinistro: cerchietto VUOTO, diametro ~4 mm, contorno di spessore medio; etichetta $a$ in corsivo matematico posta FUORI dal cerchio, in basso a sinistra (a ~5 mm sotto-sinistra del centro).\n  - nodo destro: cerchietto della stessa dimensione ma con l'interno ANNERITO (nel quaderno la penna ha riempito il disco); etichetta $b$ in corsivo matematico a destra del nodo, a ~7 mm, leggermente piu in basso del centro.\n\nARCHI. Esattamente QUATTRO archi paralleli fra i due nodi, tutti disegnati come curve dolci, che nel complesso formano una figura a 'lente/occhio' schiacciata (larga ~4 cm, alta ~2,2 cm):\n  1. arco superiore molto bombato: parte dal nodo sinistro, sale fino a ~1,1 cm sopra la congiungente e ridiscende sul nodo destro;\n  2. arco quasi rettilineo appena sopra la congiungente (freccia massima ~1,5 mm verso l'alto);\n  3. arco quasi rettilineo appena sotto la congiungente (freccia massima ~3 mm verso il basso); insieme al precedente forma una lente sottile e allungata;\n  4. arco inferiore molto bombato, simmetrico del n.1 (scende fino a ~1,1 cm sotto la congiungente).\nNessun altro arco, nessun self-loop, nessun altro nodo.\n\nLINEA DI TAGLIO. Una linea VERTICALE ondulata/serpeggiante disegnata a mano (stile decorate/snake oppure una spezzata a piccole oscillazioni di ampiezza ~2 mm), collocata a circa il 45-50% della distanza fra $a$ e $b$ (quindi appena a sinistra della meta). Parte da ~8 mm SOPRA l'arco superiore, attraversa nell'ordine tutti e quattro gli archi (4 intersezioni) e prosegue fino a ~2 cm SOTTO l'arco inferiore, dove termina con un tratto quasi rettilineo. Deve essere visibilmente disegnata SOPRA gli archi (li interseca, non li interrompe).\n\nANNOTAZIONE. Dal capo inferiore dell'ondulata parte verso destra un trattino orizzontale corto (~8 mm), staccato di ~3 mm dalla linea, che introduce il testo manoscritto su due righe: «questo è un taglio» (prima riga «questo è un», seconda riga «taglio»), in corsivo, allineato a sinistra, con la prima riga alla quota del trattino.\n\nSIGNIFICATO. Dopo $n-2$ contrazioni il multigrafo si e ridotto a due soli super-nodi; gli archi paralleli residui fra loro sono, uno per uno, gli archi di $G$ che attraversano la bipartizione dei vertici corrispondente, e costituiscono percio un taglio del grafo ORIGINALE (non solo del multigrafo contratto).",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "p56-bipartizione-taglio",
+   "pagina": 56,
+   "didascalia": "La bipartizione di $V$ indotta dalle contrazioni: a sinistra i nodi contratti su $a$, a destra quelli contratti su $b$; la linea ondulata è il taglio $C$.",
+   "tipo": "schema insiemistico (sagoma amorfa bipartita)",
+   "specifica": "Schema a mano libera, tratto blu spesso; NON e un grafo: dentro la sagoma non ci sono ne pallini ne archi, solo etichette.\n\nSAGOMA. Una grande curva chiusa amorfa, tipo 'patata'/ellisse deformata, larga ~5 cm e alta ~2,8 cm, con contorno leggermente irregolare (bordo destro piu arrotondato, bordo sinistro con una lieve rientranza a meta altezza). Rappresenta l'insieme $V$ dei vertici di $G$.\n\nLINEA DI TAGLIO. Una linea VERTICALE ondulata/serpeggiante (piccole oscillazioni di ampiezza ~2 mm, stile decorate/snake) che va dal bordo SUPERIORE al bordo INFERIORE della sagoma, posizionata a circa il 45% della larghezza (leggermente a sinistra del centro), dividendola in una parte sinistra e una parte destra di area confrontabile. Etichetta $C$ in corsivo matematico appena SOPRA la sagoma, all'estremita superiore dell'ondulata, leggermente a sinistra di essa.\n\nPARTE SINISTRA (nodi contratti su $a$). Tre elementi disposti lungo una diagonale che sale da sinistra-basso verso destra-alto:\n  - $a_1$ in basso a sinistra (a ~20% della larghezza della sagoma, ~25% dell'altezza dal basso);\n  - tre puntini di sospensione allineati sulla stessa diagonale (ellissi obliqua, tipo \\reflectbox{$\\ddots$} ovvero puntini che salgono da sinistra a destra), fra i due;\n  - $a_k$ in alto (a ~35% della larghezza, ~65% dell'altezza).\n\nPARTE DESTRA (nodi contratti su $b$). Stessa disposizione, specularmente collocata subito a destra dell'ondulata:\n  - $b_1$ in basso (a ~58% della larghezza, ~25% dell'altezza);\n  - tre puntini di sospensione sulla diagonale ascendente;\n  - $b_h$ in alto (a ~68% della larghezza, ~72% dell'altezza), quasi a ridosso del bordo superiore.\nTutte le etichette in corsivo matematico con pedice.\n\nSIGNIFICATO. Le $|V|-2$ contrazioni partizionano $V$ in due classi: quella fusa nel super-nodo $a$ ($\\{a_1,\\dots,a_k\\}$) e quella fusa in $b$ ($\\{b_1,\\dots,b_h\\}$). La linea ondulata e la frontiera fra le due classi, cioe il taglio $C$: ogni cammino di $G$ che parte da un $a_i$ e arriva a un $b_j$ e costretto ad attraversarla, quindi a usare un arco di $C$.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina riprende esattamente da dove p.55 si era fermata (il passo elementare: scegli un arco a caso e contrailo, ignorando i self-loop e conservando gli archi paralleli) e chiude il cerchio: itera il passo $n-2$ volte, arriva ai due soli super-nodi $a$ e $b$, enuncia l'algoritmo completo e dimostra che l'insieme $C$ degli archi residui e sempre UN taglio di $G$. Sono quindi fissati qui, e usati senza essere piu richiamati nelle pagine seguenti: il numero di contrazioni ($|V|-2$, cioe $n-2$), il fatto che l'algoritmo e corretto per costruzione (restituisce sempre un taglio) e la notazione $C$ per l'insieme restituito. Resta completamente in sospeso l'analisi probabilistica: nulla si dice ancora su QUANTO spesso $C$ sia MINIMO. La pagina 57 riparte proprio di li con la domanda «qual e la probabilita che $C$ sia un min-cut?», definisce gli eventi $\\mathcal{E}_i$ (scelta positiva/negativa dell'$i$-esimo arco), pone $k=|C|$ e $n=|V|$, dimostra $d(v)\\ge k$ per ogni $v$, quindi $|E|\\ge kn/2$ e $\\Pr[\\overline{\\mathcal{E}_1}]\\le 2/n$; p.58 estende ai passi successivi, applica la regola della catena (enunciata a p.55) e ottiene $\\Pr[\\bigcap_{i=1}^{n-2}\\mathcal{E}_i]\\ge 2/(n(n-1))$. ATTENZIONE alla cucitura: (a) le lettere $k$ e $h$ usate qui per le cardinalita delle due classi della bipartizione collidono con il $k=|C|$ di p.57-58; (b) l'annotazione di costo $\\Oh(1)$ per la contrazione, presente solo qui, e l'unico accenno di complessita di tutto il capitolo e va letta insieme al TRADEOFF costo/errore che compare a fine trattazione.",
+ "confidenza": "alta"
+}

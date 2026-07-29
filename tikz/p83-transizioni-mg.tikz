@@ -1,0 +1,45 @@
+% p83-transizioni-mg -- pag. 83
+% Un passo del random walk M_G a partire dal vertice u: dei d(u) archi incidenti
+% se ne sceglie uno uniformemente a caso, dunque P_{u,v} = 1/d(u).
+% Il quaderno disegna tre archi a ventaglio; qui i tre archi restano, ma fra l'uno
+% e l'altro si aggiungono i puntini che segnalano i vicini omessi, cosi' che l'arco
+% di cerchio possa davvero contare d(u) archi.  Grafo non orientato: niente frecce.
+\begin{tikzpicture}[
+    x=1cm, y=1cm, line join=round, line cap=round,
+    font=\footnotesize,
+    nodo/.style   = {circle, draw, line width=0.7pt, fill=white,
+                     inner sep=0pt, minimum size=5pt},
+    nodov/.style  = {circle, draw, line width=0.8pt, fill=white,
+                     inner sep=0pt, minimum size=7pt},
+    arco/.style   = {line width=0.7pt},
+    conta/.style  = {gray!70!black, line width=0.6pt},
+  ]
+
+  % ---- il vertice corrente ------------------------------------------------
+  \node[nodov] (u) at (0,0) {};
+  \node[anchor=north east, inner sep=2pt] at (u.south west) {$u$};
+
+  % ---- il ventaglio dei vicini (tre archi, campione dei d(u)) -------------
+  \def\Ra{2.55}
+  \node[nodo]  (w1) at (48:\Ra) {};
+  \node[nodov] (v)  at (-2:\Ra) {};
+  \node[nodo]  (w2) at (-52:\Ra) {};
+
+  \node[anchor=west, inner sep=3pt] at (v.east) {$v$};
+
+  \draw[arco] (u) -- (w1);
+  \draw[arco] (u) -- (v);
+  \draw[arco] (u) -- (w2);
+
+  % ---- i vicini omessi: puntini fra un arco e l'altro ---------------------
+  \foreach \ang in {32,23,14}{\fill[gray!70!black] (\ang:2.45) circle (0.65pt);}
+  \foreach \ang in {-18,-27,-36}{\fill[gray!70!black] (\ang:2.45) circle (0.65pt);}
+
+  % ---- la probabilita' di scegliere l'arco u--v ---------------------------
+  \node[anchor=south, inner sep=2.5pt] at (-2:1.5) {$\dfrac{1}{d(u)}$};
+
+  % ---- arco di cerchio che "conta" gli archi incidenti a u ----------------
+  \draw[conta] (58:1.05) arc[start angle=58, end angle=-62, radius=1.05];
+  \node[anchor=north east, inner sep=1pt] at (-64:1.05) {$d(u)$};
+
+\end{tikzpicture}

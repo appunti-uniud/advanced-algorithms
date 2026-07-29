@@ -1,0 +1,104 @@
+{
+ "pagina": 5,
+ "latex": "\\scan{5}\n\n\\paragraph{Analisi ammortizzata.}\nRiprendiamo il conteggio lasciato in sospeso sul pre-processing di KMP.\nOgni volta che applico il caso~1) --- quello in cui il massimo prefisso-suffisso\nsi estende di un carattere --- se il costo effettivo è $k$ ne \\emph{alloco} $2k$:\nraddoppiando l'addebito metto da parte un credito con cui «pago» in anticipo\nogni chiamata ricorsiva del caso~2) che eseguirò per quella posizione.\n\n\\begin{osservazione}\nDetto con una funzione potenziale: sia $\\Phi$ la lunghezza del bordo corrente,\ncioè il valore di $\\spv{i-1}(S)$ da cui la ricorsione riparte. Il caso~1) fa\ncrescere $\\Phi$ di $1$, mentre ogni chiamata ricorsiva del caso~2) esegue\n$\\Phi \\leftarrow \\spv{\\Phi}(S)$ e quindi la fa \\emph{decrescere strettamente}.\nPoiché $\\Phi\\ge 0$ e il caso~1) viene applicato al più $n$ volte in tutto, il\nnumero complessivo di chiamate ricorsive del caso~2) su tutti gli\n$i\\in\\{1,\\dots,n\\}$ è a sua volta al più $n$: il credito accantonato basta a\ncoprirle tutte. Il pre-processing costa dunque $\\Th(n)$, e non il $\\Oh(n^{2})$\nche si otterrebbe maggiorando il caso pessimo di ogni singolo passo.\n\\end{osservazione}\n\n\\begin{esempio}[analisi ammortizzata su uno stack]\nSullo stack consideriamo due operazioni:\n\\begin{itemize}\n  \\item \\textsc{Push}: inserisco un elemento nello stack --- costo $\\Oh(1)$;\n  \\item \\textsc{Multi-Pop}: rimuovo tutti gli elementi sovrastanti nello stack ---\n        costo $\\Oh(n)$.\n\\end{itemize}\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/stack-push-multipop.tikz}\n\\caption{Le due operazioni sullo stack. \\textsc{Push} deposita un solo elemento\nin cima al contenuto già presente (costo costante); \\textsc{Multi-Pop} rimuove\nin un colpo solo tutto il blocco degli elementi sovrastanti (costo proporzionale\nalla sua altezza).}\n\\end{figure}\n\nQuanto costa una sequenza arbitraria di $n$ operazioni di \\textsc{Push} e\n\\textsc{Multi-Pop}? $\\Oh(n^{2})$?\n\nNo! Prima di poter rimuovere un elemento devo prima averlo inserito: ogni\nelemento entra nello stack una volta sola ed esce al più una volta. Il costo\ncomplessivo è quindi $2n$.\n\n\\begin{center}\n\\begin{tabular}{@{}p{0.44\\linewidth}p{0.46\\linewidth}@{}}\n\\toprule\n\\textbf{analisi semplice} & \\textbf{analisi ammortizzata}\\\\\n\\midrule\nsingolo \\textsc{Push}: $k$        & singolo \\textsc{Push}: $2k$\\\\[4pt]\nsingolo \\textsc{Multi-Pop}: $k\\cdot i$ & singolo \\textsc{Multi-Pop}: $0$\\\\[6pt]\n\\small dove $i$ è il numero di elementi sopra l'elemento da eliminare\n& \\small (ho già pagato durante il \\textsc{Push} degli elementi in alto)\\\\\n\\bottomrule\n\\end{tabular}\n\\end{center}\n\n$\\Rightarrow$ l'analisi semplice conclude che il costo è quadratico soltanto\nperché maggiora $i$ con il suo caso pessimo $i\\in\\Oh(n)$, addebitando a\n\\emph{ogni} \\textsc{Multi-Pop} il prezzo pieno; l'analisi ammortizzata fa pagare\nla rimozione già all'inserimento e ottiene il costo esatto $2n$.\n\\end{esempio}\n\n\\paragraph{Un approccio alternativo: la funzione $Z$.}\nSiano $P,T\\in\\S^{*}$: voglio tutte le occorrenze esatte di $P$ in $T$. Invece di\nlavorare direttamente sulla coppia pattern/testo, introduciamo una funzione\nalternativa, definita su una stringa generica.\n\n\\begin{definizione}[funzione $Z$]\\label{def:funzione-z}\nSia $A\\in\\S^{*}$ e sia $i\\in\\{1,\\dots,\\abs{A}\\}$. Si pone\n\\[\n  \\Zv{i}(A) \\;=\\;\n  \\begin{cases}\n    0 & \\text{se } i=1 \\ \\text{ oppure } \\ A[i]\\neq A[1],\\\\[6pt]\n    \\max\\bigl\\{\\, j>0 \\;\\bigm|\\; \\sub{A}{1}{j}=\\sub{A}{i}{i+j-1} \\,\\bigr\\}\n      & \\text{altrimenti.}\n  \\end{cases}\n\\]\n\\end{definizione}\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/z-definizione.tikz}\n\\caption{$\\Zv{i}(A)=j$: il prefisso $\\alpha=\\sub{A}{1}{j}$ di $A$ ricompare\nidentico a partire dalla posizione $i$, e $j$ è la lunghezza massima per cui ciò\naccade.}\n\\end{figure}\n\n\\begin{osservazione}\nLe due righe della definizione dicono la stessa cosa: la prima è semplicemente\nil caso in cui l'insieme di cui si prende il massimo è vuoto. Con la convenzione\n$\\max\\emptyset=0$ si può scrivere in modo compatto\n\\[\n  \\Zv{i}(A)\\;=\\;\\max\\bigl\\{\\, j\\ge 0 \\;\\bigm|\\; \\sub{A}{1}{j}=\\sub{A}{i}{i+j-1} \\,\\bigr\\},\n\\]\ncioè $\\Zv{i}(A)$ è la lunghezza del più lungo prefisso di $A$ che comincia anche\nin posizione $i$. Il caso $i=1$ va invece escluso a mano e fissato per\nconvenzione a $0$: altrimenti la seconda riga darebbe $\\Zv{1}(A)=\\abs{A}$, un\nvalore privo di informazione.\n\\end{osservazione}",
+ "note": [
+  {
+   "tipo": "correzione",
+   "pagina": 5,
+   "testo": "Definizione di Z. Il quaderno scrive «0 se i = 0 oppure A[i] != A[1]». Con l'indicizzazione da 1 adottata in tutto il corso la posizione 0 non esiste: ho scritto «se i = 1». Lo stesso lapsus e presente neGli appunti del corso dell'anno precedente (L02, §2.1, segnalato come anomalia A4 nella sintesi), quindi non e un errore di lettura ma un errore ereditato dalla lezione. Ho aggiunto un'osservazione che spiega perche il caso i=1 va comunque escluso a mano (altrimenti la seconda riga darebbe Z_1 = |A|).",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 5,
+   "testo": "Ho aggiunto l'osservazione che la definizione a due rami equivale a max{ j >= 0 | A[1,j] = A[i,i+j-1] } con la convenzione max(vuoto)=0, e la lettura discorsiva «lunghezza del piu lungo prefisso di A che comincia anche in posizione i». Non e negli appunti dello studente (che riportano solo la formula), ma e nel commento dell'anno precedente (L02 §2.2) ed e necessaria per rendere leggibile la definizione. Non ho invece introdotto qui il termine Z-box, che negli appunti compare piu avanti.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 5,
+   "testo": "«- funzione alternativa: dato A in Sigma*». La parola dopo «funzione» e vergata molto rapidamente; letta lettera per lettera a forte ingrandimento risulta a-l-t-e-r-n-a-t-i-v-a, coerente con l'apertura della lezione dell'anno precedente («Un diverso approccio: algoritmo Z»). Ho reso il passaggio come «Un approccio alternativo: la funzione Z». Considero la lettura risolta.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 5,
+   "testo": "Prime tre righe della pagina. Il quaderno e telegrafico: «Analisi ammortizzata: ogni volta che applico il caso / 1) se il costo e k, alloco 2k / => \"pago\" in anticipo per ogni chiamata ricorsiva del 2 che eseguo per quella posizione». Ho espanso in prosa mantenendo esattamente questo contenuto (il costo k, l'allocazione 2k, il pagamento anticipato delle chiamate del caso 2), ricordando in un inciso che il «caso 1)» e quello dell'estensione di un carattere definito a p.4.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 5,
+   "testo": "Gli appunti enunciano lo schema di accantonamento ma non lo giustificano. Ho aggiunto un'osservazione con l'argomento del potenziale (Phi = lunghezza del bordo corrente: il caso 1 la incrementa di 1, ogni chiamata del caso 2 la fa decrescere strettamente, Phi >= 0 => al piu n chiamate del caso 2 in totale, quindi Theta(n) invece di O(n^2)). E il contenuto che p.4 annunciava («la somma delle operazioni su tutte le chiamate ricorsive per i in {1,...,n} e lineare») e che La fonte dell'anno precedentesviluppa in L02 §1.2. Colmatura di lacuna dichiarata.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 5,
+   "testo": "«Il costo complessivo e 2n»: negli appunti n non e dichiarato. Ho esplicitato che n e il numero totale di operazioni della sequenza e ho aggiunto la giustificazione in una riga («ogni elemento entra una volta sola ed esce al piu una volta»), che il quaderno riassume con «Prima di poter rimuovere un elemento devo prima averlo inserito!».",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 5,
+   "testo": "La conclusione dell'analisi semplice e scritta come una freccia con punta piena che dalla graffa dei due costi punta a «perche i in O(n) e quadratico». L'ho resa come frase conclusiva dopo la tabella, esplicitando il contrasto con la colonna ammortizzata (che il quaderno rende solo con l'accostamento grafico delle due colonne incorniciate).",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 5,
+   "testo": "Le due intestazioni «analisi semplice» e «analisi ammortizzata» sono nel quaderno due riquadri affiancati con sotto due colonne di voci. Ho reso il confronto con una tabella booktabs a due colonne, che conserva l'affiancamento senza inventare macro. Nel manoscritto una graffa raccoglie le due voci della colonna sinistra: e resa implicitamente dall'allineamento in colonna.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 5,
+   "testo": "«P,T in Sigma*» compare due volte, una in azzurro sbiadito (evidenziatore o prima stesura) subito sopra la scrittura definitiva. E una ripetizione: trascritta una sola volta.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 5,
+   "testo": "Il quaderno usa la prima persona («inserisco», «rimuovo») nella descrizione di PUSH e MULTI-POP; l'ho conservata. Le abbreviazioni sono state espanse: «elem.» -> «elemento», «num. elem. sopra l'el. da eliminare» -> «numero di elementi sopra l'elemento da eliminare».",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 5,
+   "testo": "Figura degli stack (in alto a destra). Interpretazione: il primo disegno mostra un contenitore parzialmente pieno con una freccia «PUSH ->» che punta alla cella immediatamente sopra il contenuto, tratteggiata perche e l'elemento appena inserito; il secondo mostra lo stesso contenitore con il blocco superiore di tre celle tratteggiato in diagonale e una freccia curva etichettata «MULTI-POP» che lo indica dal basso, cioe tutto il blocco viene rimosso in un colpo solo. Ho scelto questa lettura perche coerente con le due definizioni scritte a fianco (O(1) contro O(n)).",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 5,
+   "testo": "Figura in fondo alla pagina (definizione di Z). Sopra la tacca in posizione i il manoscritto ha un glifo isolato che a forte ingrandimento e una «a» minuscola nello stile del quaderno (identica alla «a» di «Analisi»), chiaramente DIVERSA dall'alfa corsiva usata come etichetta delle due graffe. Non ha una lettura matematica sensata distinta da quella della graffa sottostante (che e gia etichettata alfa): lo interpreto come un'etichetta alfa scritta di fretta e poi ripetuta correttamente sotto la graffa, e non l'ho riportato nella specifica TikZ. Nota anche che linea, graffe e tacche sono ripassate due volte a penna: le doppie tacche vicine in i e in j sono ricalchi, non posizioni distinte.",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 5,
+   "testo": "Lo studente scrive la prima riga come «A[i] != A[1]», La fonte dell'anno precedentecome «A[1] != A[i]»: e la stessa condizione, ho tenuto l'ordine dello studente. Inoltre lo studente non riporta (a questa pagina) la riduzione A = P$T ne lo pseudocodice Zcalc, che nel fonte dell'anno precedente compaiono nella stessa lezione: arrivano a p.6.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "stack-push-multipop",
+   "pagina": 5,
+   "didascalia": "Le due operazioni sullo stack. PUSH deposita un solo elemento in cima al contenuto gia presente (costo costante); MULTI-POP rimuove in un colpo solo tutto il blocco degli elementi sovrastanti (costo proporzionale alla sua altezza).",
+   "tipo": "schema (due diagrammi di stack affiancati)",
+   "specifica": "Due disegni di stack affiancati orizzontalmente, separati da uno spazio di circa 1,5 volte la larghezza di uno stack.\n\nSTACK SINISTRO (operazione PUSH).\n- Contenitore: rettangolo aperto in alto, disegnato come due pareti verticali parallele piu un segmento orizzontale di fondo (larghezza circa 1,6 cm, altezza circa 3,2 cm). Nel manoscritto c'e anche un trattino orizzontale che chiude il bordo superiore: si puo riprodurre come un sottile segmento di bordo superiore, oppure omettere lasciando il contenitore aperto (preferibile: contenitore aperto in alto, cosi si capisce che si puo ancora inserire).\n- Contenuto: il contenitore e pieno solo nella meta inferiore. Tracciare 4 segmenti orizzontali interni, equispaziati, da parete a parete, che con il fondo delimitano 4 celle piene; la meta superiore del contenitore resta vuota.\n- Elemento appena inserito: la cella piu alta del contenuto (la quinta a partire dal fondo, cioe quella immediatamente sopra le altre) e riempita con un tratteggio/scarabocchio denso (nel manoscritto e un ghirigoro; in TikZ usare un pattern di riempimento leggero, per esempio north east lines, o un riempimento grigio chiaro).\n- Freccia: freccia orizzontale che entra da sinistra e punta alla parete sinistra all'altezza esatta della cella tratteggiata. Etichetta \"PUSH\" a sinistra della freccia, in maiuscoletto/maiuscolo.\n\nSTACK DESTRO (operazione MULTI-POP).\n- Stesso contenitore, stesse dimensioni, stessa quota del contenuto (meta inferiore piena, stessi 4 segmenti orizzontali interni piu, sopra, altre 2 celle: in totale il contenuto occupa circa 5 celle).\n- Blocco da rimuovere: le 3 celle piu alte del contenuto sono riempite con tratteggio diagonale (linee inclinate a circa 45 gradi), a indicare che vengono eliminate tutte insieme; le 2 celle inferiori restano bianche.\n- Freccia: freccia CURVA che parte in basso a sinistra del contenitore, sale con una curvatura ampia verso destra e termina con la punta appoggiata al bordo inferiore del blocco tratteggiato (cioe alla linea che separa la parte tratteggiata da quella bianca). Nel manoscritto la curva ha la forma di una parentesi tonda aperta a destra.\n- Etichetta \"MULTI-POP\" scritta sotto la freccia curva, all'esterno e a sinistra del contenitore, in maiuscoletto/maiuscolo, leggermente ruotata verso l'orizzontale (nel manoscritto e orizzontale).\n\nSignificato algoritmico: PUSH tocca una sola cella (costo O(1)); MULTI-POP tocca un intero blocco di altezza variabile (costo O(n) nel caso pessimo). Il confronto visivo fra \"una cella\" e \"un blocco\" e il punto della figura: e cio che nell'analisi ammortizzata viene pagato in anticipo, cella per cella, al momento del PUSH.\nTesto in italiano, nomi delle operazioni in maiuscolo come nel manoscritto.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "z-definizione",
+   "pagina": 5,
+   "didascalia": "$Z_i(A)=j$: il prefisso $\\alpha=A[1..j]$ di $A$ ricompare identico a partire dalla posizione $i$, e $j$ e la lunghezza massima per cui cio accade.",
+   "tipo": "schema di stringhe (segmento con tacche e graffe)",
+   "specifica": "Un unico segmento orizzontale che rappresenta la stringa A, lungo circa 11 cm.\n\nLINEA E TACCHE.\n- Il segmento parte dall'estremo sinistro (posizione 1) e prosegue verso destra, oltrepassando l'ultima tacca marcata e terminando circa 1,5 cm dopo.\n- Alla destra dell'estremo finale del segmento, staccata, la lettera maiuscola \"A\" come nome della stringa (nessuna freccia).\n- Quattro tacche verticali che attraversano la linea (tratti verticali corti, circa 0,25 cm sopra e 0,25 cm sotto la linea), nell'ordine da sinistra a destra:\n  T1 all'estremo sinistro del segmento = posizione 1 (nessuna etichetta scritta: e l'inizio della stringa);\n  T2 a circa il 30% della lunghezza = posizione j;\n  T3 a circa il 55% della lunghezza = posizione i;\n  T4 a circa l'82% della lunghezza = posizione i+j-1.\n- Vincolo geometrico IMPORTANTE: la distanza T3-T4 deve essere visibilmente uguale alla distanza T1-T2 (i due tratti hanno entrambi lunghezza j). Se serve, aggiustare le percentuali per far coincidere esattamente le due larghezze.\n\nETICHETTE SOTTO LE TACCHE (in matematica, subito sotto la linea):\n- sotto T2: $j$\n- sotto T3: $i$\n- sotto T4: $i+j-1$\nNel manoscritto l'etichetta $i+j-1$ e scritta leggermente in obliquo verso il basso a destra della sua tacca: in TikZ basta centrarla sotto la tacca.\n\nGRAFFE (underbrace, entrambe SOTTO la linea, sotto il livello delle etichette di posizione oppure a un livello leggermente piu basso):\n- Graffa 1: dalla posizione 1 (T1) alla posizione j (T2), con etichetta $\\alpha$ centrata sotto la graffa.\n- Graffa 2: dalla posizione i (T3) alla posizione i+j-1 (T4), con etichetta $\\alpha$ centrata sotto la graffa.\nLe due graffe devono avere la stessa ampiezza, a rendere evidente l'uguaglianza dei due fattori. Attenzione a non far sovrapporre la graffa 1 con l'etichetta $j$ e la graffa 2 con le etichette $i$ e $i+j-1$: nel manoscritto le etichette di posizione stanno appena sotto la linea e le graffe piu in basso ancora.\n\nSignificato algoritmico: la figura illustra la Definizione della funzione Z. $A[1..j]$ (prefisso di A) e $A[i..i+j-1]$ (fattore che comincia in i) sono la stessa stringa $\\alpha$; $Z_i(A)$ e il piu grande $j$ per cui questo accade, cioe la lunghezza del piu lungo prefisso di A che ricomincia in posizione i.\n\nNOTA per il disegnatore: nel manoscritto, sopra la tacca in posizione i compare un glifo isolato letto come una \"a\" (probabile etichetta $\\alpha$ scritta di fretta e poi ripetuta sotto la graffa). NON va riprodotto: sarebbe ridondante rispetto all'etichetta della graffa 2. Analogamente, le doppie tacche ravvicinate visibili in i e in j sono ricalchi a penna della stessa tacca, non posizioni distinte.\nTesto in italiano (qui compaiono solo simboli matematici).",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina chiude l'argomento «analisi ammortizzata» (schema di accantonamento per il pre-processing di KMP + esempio PUSH/MULTI-POP su stack) e apre il secondo blocco: la funzione Z. A fine pagina restano in sospeso tre cose, tutte riprese subito da p.6: (1) a che cosa serve Z per il pattern matching esatto — p.6 apre proprio con «bisogno di avere Z_i(A) per ogni i in [1,...,|A|]» e con la riduzione A = P$T, $ non in Sigma, e il criterio Z_i(P$T) = |P| sse P occorre in T nella posizione corrispondente; (2) come si calcola Z in tempo lineare — p.6 introduce il titolo «Calcolo di Z_i», l'invariante dell'intervallo [l,r] con r massimo e i casi 1 / 2a / 2b; (3) la giustificazione formale dell'argomento di ammortizzazione, che qui e solo accennata. Sul piano notazionale, p.5 fissa l'indicizzazione da 1, la convenzione Z_1 = 0 e il nome alfa per il prefisso ripetuto: entrambi vengono riusati in p.6, dove alfa denota il blocco A[l,r].",
+ "confidenza": "alta"
+}

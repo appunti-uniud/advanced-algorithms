@@ -1,0 +1,43 @@
+% Un d-path che parte dalla cella (0,c) della riga 0 e termina nella cella
+% (n,j) dell'ultima riga.  I tratti a 45 gradi sono corse di match (gratuite,
+% attraversate con una query di longest common extension); la mossa
+% orizzontale e quella verticale sono le due mosse d'errore, evidenziate dai
+% pallini.  Della tabella si tracciano solo tre lati: colonna 0 a sinistra,
+% riga 0 in alto (che prosegue oltre il riquadro) e riga n in basso.
+\begin{tikzpicture}[
+    scale=0.85,
+    font=\footnotesize,
+    bordo/.style={semithick},
+    guida/.style={thin,black!55},
+    cammino/.style={very thick},
+    nodo/.style={circle,fill,inner sep=0pt,minimum size=3.6pt}]
+
+  % ---- cornice --------------------------------------------------------------
+  \draw[bordo] (0,0) -- (0,-5);        % colonna 0
+  \draw[bordo] (0,0) -- (12.4,0);      % riga 0, prolungata a destra
+  % riga n: tracciata a mano libera, sporge da entrambi i lati
+  \draw[bordo,decorate,
+        decoration={snake,amplitude=.5mm,segment length=11mm}]
+       (-0.5,-5) -- (11.2,-5);
+
+  % ---- etichette delle due stringhe -----------------------------------------
+  \node[anchor=east,inner sep=4pt] at (0,-2.5) {$P$};
+  \node[anchor=south east,inner sep=2pt] at (12.4,0) {$T$};
+
+  % ---- colonne c e j sulla riga 0 -------------------------------------------
+  \node[anchor=south,inner sep=3pt] at (2.8,0) {$c$};
+  \node[anchor=south,inner sep=3pt] at (7.4,0) {$j$};
+  \draw[guida] (7.4,0) -- (7.4,-5);    % lettura della colonna d'arrivo
+
+  % ---- il d-path ------------------------------------------------------------
+  \draw[cammino]
+      (2.8,0)      -- (4.0,-1.2)       % corsa di match
+   -- (4.7,-1.2)                       % mossa orizzontale: spazio in P
+   -- (6.2,-2.7)                       % corsa di match
+   -- (6.2,-3.8)                       % mossa verticale: spazio in T
+   -- (7.4,-5.0);                      % corsa di match fino alla riga n
+
+  \foreach \p in {(2.8,0),(4.0,-1.2),(4.7,-1.2),(6.2,-2.7),(6.2,-3.8),(7.4,-5.0),(7.4,0)}
+    \node[nodo] at \p {};
+
+\end{tikzpicture}

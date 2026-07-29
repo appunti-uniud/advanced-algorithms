@@ -1,0 +1,44 @@
+% Frammento di T: il run di z (catena a zig-zag in diagonale) con xbar e ybar.
+% Convenzione grafica del manoscritto: i cammini di lunghezza arbitraria sono
+% resi con linee a zig-zag.
+\begin{tikzpicture}[
+    scale=1.25,
+    nodo/.style={circle, fill=black, inner sep=0pt, minimum size=3.6pt},
+    zig/.style={decorate, decoration={zigzag, segment length=7pt, amplitude=1.9pt},
+                line width=0.55pt, line cap=round},
+    runz/.style={zig, line width=1pt},
+    et/.style={font=\small, inner sep=1.5pt}
+  ]
+
+  \coordinate (TOP) at ( 0.00, 4.40);   % estremo libero: il run prosegue verso il leader
+  \coordinate (XB)  at ( 0.70, 3.50);
+  \coordinate (YB)  at ( 2.05, 2.00);
+  \coordinate (BOT) at ( 3.22, 0.60);   % fondo del run
+  \coordinate (X)   at (-0.90, 1.75);
+  \coordinate (Y)   at ( 0.75, 0.00);
+
+  % --- il run di z ---
+  \draw[runz] (TOP) -- (XB) -- (YB) -- (BOT);
+
+  % --- cammino che risale da x fino a xbar (tratto liscio, leggermente arcuato) ---
+  \draw[line width=0.55pt] (XB) to[out=214, in=50] (X);
+
+  % --- cammino che risale da y fino a ybar ---
+  \draw[zig] (YB) -- (Y);
+
+  % --- nodi ---
+  \node[nodo] at (XB)  {};
+  \node[nodo] at (YB)  {};
+  \node[nodo] at (BOT) {};
+  \node[nodo] at (X)   {};
+  \node[nodo] at (Y)   {};
+
+  % --- etichette ---
+  \node[et, anchor=south west] at ($(XB)+(0.10,0.08)$)  {$\bar x\,\textcolor{black!55}{=z}$};
+  \node[et, anchor=south west] at ($(YB)+(0.17,0.16)$)  {$\bar y$};
+  \node[et, anchor=north east] at ($(X)+(-0.06,-0.06)$) {$x$};
+  \node[et, anchor=north east] at ($(Y)+(-0.06,-0.06)$) {$y$};
+  \node[et, anchor=north west, text=black!55]
+       at ($(BOT)+(0.10,0.02)$) {$I(z)$};
+
+\end{tikzpicture}

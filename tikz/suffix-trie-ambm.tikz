@@ -1,0 +1,85 @@
+% Suffix trie di T = a^m b^m: spina dorsale di m archi 'a', da ogni suo nodo pende una
+% catena di m archi 'b'  ==>  Theta(m^2) nodi.
+\begin{tikzpicture}[
+    x=0.95cm,y=0.95cm,
+    arco/.style={draw=black,line width=0.5pt},
+    nd/.style={circle,fill=black,inner sep=0pt,minimum size=2.6pt},
+    rt/.style={circle,fill=black,inner sep=0pt,minimum size=3.8pt},
+    et/.style={font=\scriptsize,inner sep=1.2pt},
+    pnt/.style={circle,fill=black,inner sep=0pt,minimum size=1.5pt}]
+
+  % =====================================================================
+  % radice
+  % =====================================================================
+  \coordinate (r) at (0,0);
+
+  % =====================================================================
+  % catena dei suffissi b^q che pende dalla radice (verso destra-basso)
+  % =====================================================================
+  \coordinate (u1) at (0.85,-0.30);
+  \coordinate (u2) at (1.70,-0.60);
+  \coordinate (u3) at (2.55,-0.90);
+  \draw[arco] (r)  -- (u1) node[et,midway,anchor=south]{$b$};
+  \draw[arco] (u1) -- (u2) node[et,midway,anchor=south]{$b$};
+  \draw[arco] (u2) -- (u3) node[et,midway,anchor=south]{$b$};
+  \foreach \k in {1,2,3} \node[pnt] at ($(u3)+\k*(0.28,-0.10)$) {};
+  \node[nd] at (u1) {}; \node[nd] at (u2) {}; \node[nd] at (u3) {};
+
+  % =====================================================================
+  % spina dorsale degli a (quasi verticale, m archi in tutto)
+  % =====================================================================
+  \coordinate (v1) at (-0.22,-0.95);
+  \coordinate (v2) at (-0.44,-1.90);
+  \coordinate (v3) at (-0.66,-2.85);
+  \coordinate (v4) at (-0.88,-3.80);
+  \coordinate (vm) at (-1.15,-5.35);
+
+  \draw[arco] (r)  -- (v1) node[et,midway,anchor=east,xshift=-1pt]{$a$};
+  \draw[arco] (v1) -- (v2) node[et,midway,anchor=east,xshift=-1pt]{$a$};
+  \draw[arco] (v2) -- (v3) node[et,midway,anchor=east,xshift=-1pt]{$a$};
+  \draw[arco] (v3) -- (v4) node[et,midway,anchor=east,xshift=-1pt]{$a$};
+  % ellissi verticale sulla spina
+  \draw[arco] (v4) -- (-0.93,-4.05);
+  \foreach \k in {1,2,3} \node[pnt] at ($(-0.93,-4.05)+\k*(-0.045,-0.27)$) {};
+  \draw[arco] (-1.09,-5.10) -- (vm);
+
+  \node[nd] at (v1) {}; \node[nd] at (v2) {}; \node[nd] at (v3) {};
+  \node[nd] at (v4) {}; \node[nd] at (vm) {};
+  \node[rt] at (r) {};
+
+  % =====================================================================
+  % catene di b pendenti da ciascun nodo della spina (a 45 gradi)
+  % di ognuna si disegnano i primi due archi, poi l'ellissi
+  % =====================================================================
+  \foreach \v in {v1,v2,v3,v4}{%
+    \coordinate (p1) at ($(\v)+(0.62,-0.62)$);
+    \coordinate (p2) at ($(\v)+(1.24,-1.24)$);
+    \draw[arco] (\v) -- (p1) node[et,midway,anchor=south west]{$b$};
+    \draw[arco] (p1) -- (p2) node[et,midway,anchor=south west]{$b$};
+    \node[nd] at (p1) {}; \node[nd] at (p2) {};
+    \foreach \k in {1,2,3} \node[pnt] at ($(p2)+\k*(0.24,-0.24)$) {};
+  }
+
+  % =====================================================================
+  % ultima catena, quella appesa a v_m: compita l'intera stringa a^m b^m
+  % =====================================================================
+  \coordinate (w1) at (-0.93,-5.97);
+  \coordinate (w2) at (-0.71,-6.59);
+  \coordinate (w3) at (-0.49,-7.21);
+  \draw[arco] (vm) -- (w1) node[et,midway,anchor=west]{$b$};
+  \draw[arco] (w1) -- (w2) node[et,midway,anchor=west]{$b$};
+  \draw[arco] (w2) -- (w3) node[et,midway,anchor=west]{$b$};
+  \node[nd] at (w1) {}; \node[nd] at (w2) {}; \node[nd] at (w3) {};
+  \foreach \k in {1,2,3} \node[pnt] at ($(w3)+\k*(0.09,-0.26)$) {};
+
+  % =====================================================================
+  % graffe di misura
+  % =====================================================================
+  % la spina e' fatta di m archi 'a'
+  \draw[decorate,decoration={brace,amplitude=5pt}] (-1.75,-5.25) -- (-1.75,0);
+  \node[font=\small] at (-2.20,-2.62) {$m$};
+  % l'ultima catena e' fatta di m archi 'b'
+  \draw[decorate,decoration={brace,amplitude=5pt}] (-1.75,-7.30) -- (-1.75,-5.55);
+  \node[font=\small] at (-2.20,-6.42) {$m$};
+
+\end{tikzpicture}

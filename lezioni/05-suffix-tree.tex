@@ -1,0 +1,746 @@
+\chapter{Suffix trie, suffix tree e algoritmo di Ukkonen}
+
+\section{Dai pattern al testo: il suffix trie}
+
+\scan{16}
+Il keyword tree $K(\mathcal{P})$ introdotto per Aho--Corasick è un albero costruito a
+partire da una \emph{collezione di pattern} $\mathcal{P}$. Nulla però ci obbliga a prendere
+come collezione un insieme di pattern dati dall'esterno.
+
+\begin{osservazione}
+Posso usare i \emph{suffissi del testo} come collezione di pattern.
+\end{osservazione}
+
+L'albero che si ottiene in questo modo, cioè
+\[
+  K\bigl(\set{\suf{T}{1},\ \suf{T}{2},\ \dots,\ \suf{T}{n}}\bigr),
+  \qquad n = \abs{T},
+\]
+è quello che in letteratura si chiama \emph{suffix trie} di $T$. Il cambio di prospettiva è
+sostanziale: non si tratta più di un pre-processing del \emph{pattern} --- come in KMP, in
+Boyer--Moore o nell'algoritmo $Z$ --- ma di un \textbf{pre-processing del testo}. La versione
+compattata di questa struttura, il \emph{suffix tree}, arriverà subito dopo.
+
+\paragraph{La sentinella.}
+Al testo si aggiunge in coda un carattere \emph{sentinella} $\$ \notin \S$, e si lavora su
+$T\$$ anziché su $T$. Non è un dettaglio decorativo: la sentinella garantisce che nessun
+suffisso sia prefisso di un altro, e quindi che nel trie ogni suffisso termini in una foglia
+distinta (nei disegni che seguono tutte le foglie sono infatti marcate con $\$$).
+
+\section{La più lunga sottostringa ripetuta}
+
+\begin{domanda}[Sottostringa ripetuta più lunga]
+Data una stringa $T$, determinare la più lunga sottostringa \emph{ripetuta} in $T$, cioè la
+più lunga $\b$ che occorre in $T$ a partire da (almeno) due posizioni distinte.
+\end{domanda}
+
+\begin{figure}[H]
+\centering
+\input{tikz/sottostringa-ripetuta.tikz}
+\caption{La più lunga sottostringa ripetuta: $\b$ occorre a partire da due posizioni
+distinte di $T$. La stringa è terminata dalla sentinella $\$$.}
+\label{fig:sottostringa-ripetuta}
+\end{figure}
+
+Posto $n = \abs{T}$, la storia delle complessità note per questo problema è la seguente.
+\begin{itemize}
+  \item Soluzione naive: $\Oh(n^{2})$.
+  \item Knuth: $\Oh(n \log n)$, con un algoritmo divide et impera il cui costo $C(n)$
+        soddisfa la ricorrenza
+        \[
+          C(n) \;=\; 2\,C\!\left(\frac{n}{2}\right) + \Oh(n).
+        \]
+  \item $\Oh(n)$: Knuth ipotizzava che non si potesse fare, ma \emph{una volta tanto ha
+        sbagliato}.
+\end{itemize}
+
+La strada per il tempo lineare passa proprio per il keyword tree dei suffissi di $T\$$.
+
+\begin{figure}[H]
+\centering
+\input{tikz/kwtree-suffissi.tikz}
+\caption{Il keyword tree dei suffissi di $T\$$ (suffix trie): ogni foglia corrisponde a un
+suffisso e porta la sentinella $\$$.}
+\label{fig:kwtree-suffissi}
+\end{figure}
+
+Se ho il keyword tree dei suffissi a disposizione, mi basta visitarlo e cercare il nodo
+branching di profondità massima. Scriviamo $\cammino{v}$ per l'etichetta del cammino dalla
+radice al nodo $v$, cioè per la stringa che quel cammino compita.
+
+\begin{proposizione}[Sottostringa ripetuta più lunga]\label{prop:ripetuta}
+\scan{17}
+Sia $v$ un nodo branching di profondità massima del suffix trie di $T\$$. Allora
+$\cammino{v}$ è la più lunga sottostringa ripetuta di $T$.
+\end{proposizione}
+
+\begin{dimostrazione}
+Se $v$ è un nodo branching, ha almeno due figli e quindi almeno due foglie nel suo
+sottoalbero, cioè almeno due suffissi distinti di cui $\cammino{v}$ è prefisso comune:
+$\cammino{v}$ occorre allora in (almeno) due posizioni distinte di $T$, ed è ripetuta.
+Viceversa, se $\b$ occorre in due posizioni distinte $i \neq j$, allora $\b$ è prefisso sia
+del suffisso che comincia in $i$ sia di quello che comincia in $j$: i due cammini che dalla
+radice compitano questi due suffissi condividono i primi $\abs{\b}$ archi e prima o poi si
+separano, e il nodo in cui si separano è branching e ha profondità almeno $\abs{\b}$.
+Massimizzare $\abs{\b}$ equivale dunque a massimizzare la profondità di un nodo branching.
+La corrispondenza «nodi branching $\leftrightarrow$ sottostringhe ripetute» è esatta proprio
+perché si lavora su $T\$$: con la sentinella ogni suffisso finisce in una foglia distinta,
+mentre senza di essa un suffisso può essere prefisso di un altro (si pensi a $T = aa$) e la
+sottostringa ripetuta $a$ non corrisponderebbe ad alcun nodo branching.
+\end{dimostrazione}
+
+Restano aperte due domande, che occupano il resto del capitolo:
+\begin{enumerate}
+  \item quanto è grande il keyword tree dei suffissi di $T$?
+  \item come lo costruisco?
+\end{enumerate}
+
+\section{Notazione, definizione e dimensione del suffix trie}
+
+\paragraph{Notazione.}
+Il testo è $T = t_1 t_2 \cdots t_n$, di lunghezza $n = \abs{T}$, sull'alfabeto $\S$. Per ogni
+$i \in \set{1,\dots,n}$ poniamo
+\begin{align*}
+  T^{\,i} &= \sub{T}{1}{i} = t_1 t_2 \cdots t_i,
+          & &\text{$i$-esimo \emph{prefisso} di $T$},\\
+  T_{i}   &= \sub{T}{i}{n} = t_i t_{i+1} \cdots t_n,
+          & &\text{$i$-esimo \emph{suffisso} di $T$},
+\end{align*}
+con la convenzione $T^{\,0} = \vuota$, e indichiamo con
+\[
+  \mathcal{S}(T) \;=\; \set{\, T_i \;:\; i \in \set{1,\dots,n} \,}
+\]
+l'insieme di tutti i suffissi di $T$.
+
+\begin{definizione}[Suffix trie]\label{def:strie}
+Il \emph{suffix trie} di $T$ è il keyword tree dell'insieme dei suoi suffissi:
+\[
+  \STrie{}(T) \defeq K\bigl(\mathcal{S}(T)\bigr).
+\]
+\end{definizione}
+
+Il termine \emph{trie}, per inciso, viene dall'inglese re\emph{trie}val.
+
+Affrontiamo il primo dei due problemi.
+
+\begin{domanda}
+È possibile trovare esempi di $T$ tali che $\abs{\STrie{}(T)} \in \Th\bigl(\abs{T}^2\bigr)$?
+\end{domanda}
+
+Sì: basta prendere $T = a^m b^m$, e dunque $\abs{T} = 2m$.
+
+\begin{figure}[H]
+\centering
+\input{tikz/suffix-trie-ambm.tikz}
+\caption{Il suffix trie di $T = a^m b^m$. La «spina dorsale» degli $a$ è lunga $m$ e da
+ciascuno dei suoi nodi pende una catena di $m$ archi etichettati $b$: in tutto
+$\Th(m^2) = \Th(\abs{T}^2)$ nodi.}
+\label{fig:suffix-trie-ambm}
+\end{figure}
+
+Le sottostringhe di $a^m b^m$ sono infatti tutte e sole le stringhe della forma $a^p b^q$ con
+$0 \le p \le m$ e $0 \le q \le m$, a due a due distinte; poiché i nodi del suffix trie di $T$
+sono in biiezione con le sottostringhe distinte di $T$ --- ogni nodo è individuato dalla
+stringa che il cammino dalla radice compita, e tali stringhe sono esattamente i prefissi dei
+suffissi di $T$, cioè le sottostringhe di $T$ (alla radice corrisponde la stringa vuota
+$\vuota$) --- il suffix trie di $T$ ha esattamente
+\[
+  (m+1)^2 \;=\; \frac{\abs{T}^2}{4} + \abs{T} + 1 \;=\; \Th\bigl(\abs{T}^2\bigr)
+\]
+nodi. Nel disegno: dalla radice pende la catena dei suffissi $b^q$, lunga $m$, e da ciascuno
+dei nodi $a^p$ della spina dorsale degli $a$ pende una catena di $m$ archi etichettati $b$,
+la cui foglia rappresenta il suffisso $a^p b^m$.
+
+Il suffix trie è dunque inutilizzabile come indice: lo spazio è quadratico. È questa la
+motivazione della compattazione che segue.
+
+\section{Dal suffix trie al suffix tree}
+
+\scan{18}
+Guardiamo da vicino un frammento di suffix trie: lungo i rami si formano catene di nodi con
+un solo figlio, ed è la proliferazione di questi nodi a rendere quadratica la dimensione
+della struttura. L'idea è contrarre ogni catena in un unico arco, etichettato dalla stringa
+che la catena compita: nel disegno, \str{abb}.
+
+\begin{figure}[H]
+\centering
+\input{tikz/compattazione-abb.tikz}
+\caption{Contrazione di una catena unaria in un frammento di suffix trie: i due nodi
+con un solo figlio vengono cancellati e il cammino \str{abb} diventa un unico arco, che verrà
+etichettato con la coppia di indici $[k,p]$.}
+\label{fig:compattazione-abb}
+\end{figure}
+
+Per garantire la linearità della struttura dati modifichiamo dunque il suffix trie in
+\emph{suffix tree}. Servono due operazioni.
+
+\paragraph{1) Eliminazione dei cammini unari.}
+Eliminiamo i cammini massimali di nodi con un solo figlio: se
+\[
+  x_1 \xrightarrow{\;a_1\;} x_2 \xrightarrow{\;a_2\;} \cdots
+       \xrightarrow{\;a_{h-1}\;} x_h
+\]
+è un cammino i cui nodi interni $x_2,\dots,x_{h-1}$ hanno esattamente un figlio, ed è
+massimale (né $x_1$ né $x_h$ sono nodi unari), lo sostituiamo con il solo arco $(x_1,x_h)$.
+
+\begin{figure}[H]
+\centering
+\input{tikz/compattazione-catena.tikz}
+\caption{Operazione 1: la catena massimale di nodi con un solo figlio $x_1,\dots,x_h$ viene
+sostituita dall'unico arco $(x_1,x_h)$.}
+\label{fig:compattazione-catena}
+\end{figure}
+
+\paragraph{2) Etichette come coppie di indici.}
+Etichetto l'arco $(x_1,x_h)$ così introdotto con una coppia $[k,p]$ di indici nel testo tale
+che
+\[
+  \sub{T}{k}{p} \;=\; a_1 a_2 \cdots a_{h-1}.
+\]
+
+\begin{osservazione}
+Di coppie $[k,p]$ che individuano quella sottostringa ce ne può essere più d'una --- tante
+quante le occorrenze di $a_1 a_2 \cdots a_{h-1}$ in $T$ --- e la scelta fra esse è del tutto
+indifferente: quel che conta è la stringa compitata, non la posizione da cui la si legge.
+\end{osservazione}
+
+\begin{osservazione}
+Affinché 2) funzioni dobbiamo tenere in memoria anche il testo: l'etichetta non contiene più
+i caratteri, ma soltanto un puntatore alla porzione di $T$ che li contiene. La struttura dati
+finale è dunque il trie compattato \emph{più} il testo $T$.
+\end{osservazione}
+
+\subsection{Linearità}
+
+\begin{lemma}[Alberi con soli nodi branching]\label{lem:branching}
+Sia $\T$ un albero finito con $\ell$ foglie e $I$ nodi interni, in cui ogni nodo interno è
+\emph{branching}, cioè ha almeno due figli. Allora
+\[
+  I \;\le\; \ell - 1,
+  \qquad\text{e dunque}\qquad
+  I + \ell \;\le\; 2\ell - 1 ,
+\]
+cioè $\T$ ha al più $2\ell-1$ nodi. Vale l'uguaglianza se e solo se ogni nodo interno ha
+esattamente due figli, cioè se e solo se $\T$ è binario.
+\end{lemma}
+
+\begin{dimostrazione}
+In un albero gli archi sono $I + \ell - 1$ (uno per nodo, tranne la radice); d'altra parte
+ogni arco esce da esattamente un nodo interno e ogni nodo interno ha almeno due archi
+uscenti, dunque
+\[
+  I + \ell - 1 \;=\; \sum_{u \text{ interno}} \deg^{+}(u) \;\ge\; 2I ,
+  \qquad\text{cioè}\qquad I \;\le\; \ell - 1 .
+\]
+Sommando le foglie, il numero di nodi è $I + \ell \le 2\ell - 1$. L'uguaglianza vale
+esattamente quando $\deg^{+}(u) = 2$ per ogni nodo interno $u$.
+\end{dimostrazione}
+
+\begin{figure}[H]
+\centering
+\input{tikz/lemma-branching.tikz}
+\caption{Il Lemma a colpo d'occhio, su un albero con $4$ foglie e $3$ nodi interni
+($7 = 2\cdot 4 - 1$ nodi). A sinistra: ogni nodo interno viene addebitato a una foglia
+distinta del proprio sottoalbero, da cui $I \le \ell$. A destra: la contrazione di una
+\emph{ciliegia} (nodo branching i cui figli sono tutti foglie, cerchiata) toglie un nodo
+interno e una foglia, e permette di concludere per induzione.}
+\label{fig:lemma-branching}
+\end{figure}
+
+Il Lemma, insieme alle operazioni 1) e 2), garantisce la linearità del suffix tree. Dopo la
+compattazione, infatti, ogni nodo interno è branching e le foglie sono una per suffisso,
+cioè $n+1$ lavorando su $T\$$ e comunque $\Oh(n)$; quindi
+\[
+  \#\text{nodi} \;\le\; 2(n+1) - 1 \;=\; \Oh(n),
+\]
+gli archi sono uno di meno, e ciascuno di essi porta due soli interi. Sommando il testo, che
+va comunque tenuto in memoria, lo spazio complessivo è $\Oh(n)$.
+
+\section{A che cosa serve il suffix tree}
+
+\scan{19}
+Una volta costruito l'albero dei suffissi del testo, la ricerca di un pattern $P$ si riduce a
+compitare $P$ lungo l'unico cammino che parte dalla radice: se il cammino esiste e termina
+nel nodo (eventualmente implicito) $v$, le foglie del sottoalbero $\albero{v}$ radicato in
+$v$ sono esattamente le occorrenze di $P$ in $T$.
+
+\begin{figure}[H]
+\centering
+\input{tikz/suffix-tree-ricerca-montagna.tikz}
+\caption{Uso del suffix tree per la ricerca esatta: il cammino che compita $P$ dalla radice
+termina nel nodo $v$; le foglie del sottoalbero $\albero{v}$ appeso a $v$ sono le occorrenze
+di $P$ in $T$.}
+\label{fig:suffix-tree-ricerca-montagna}
+\end{figure}
+
+\begin{osservazione}
+A lato del disegno gli appunti richiamano Boyer--Moore («e anche Boyer--Moore»), senza
+ulteriori dettagli.
+\end{osservazione}
+
+\section{L'algoritmo di Ukkonen}
+
+\scan{19}
+\begin{domanda}
+Come costruisco il suffix tree?
+\end{domanda}
+
+\begin{osservazione}
+Soluzioni al problema esistono già dagli anni Settanta --- Weiner (1973) e McCreight (1976)
+--- ma quella di Ukkonen è molto più chiara ed è quella che tutti citano.
+\end{osservazione}
+
+L'algoritmo di Ukkonen (1995), presentato nell'articolo \emph{On-line construction of suffix
+trees}, è \emph{on-line} sul testo $T = t_1 t_2 \cdots t_n$: ne legge un carattere alla volta,
+da sinistra a destra, e mantiene in ogni istante la struttura relativa al prefisso già letto.
+Il passo generico trasforma la struttura del prefisso $T^{\,i-1}$ in quella del prefisso
+$T^{\,i}$ leggendo il carattere $t_i$:
+\[
+  \STrie{}(T^{\,i-1}) \;\xrightarrow{\ t_i\ }\; \STrie{}(T^{\,i}).
+\]
+
+\begin{figure}[H]
+\centering
+\input{tikz/ukkonen-passo-prefissi.tikz}
+\caption{Un passo dell'algoritmo di Ukkonen. Il prefisso $T^{\,i-1}$ è già stato processato;
+leggendo il carattere $t_i$ si passa a $\STrie{}(T^{\,i})$. La riga superiore evidenzia un
+generico suffisso $T_j$, che nel passo corrente contribuisce con la sua parte
+$t_j \cdots t_{i-1}$.}
+\label{fig:ukkonen-passo-prefissi}
+\end{figure}
+
+La strategia viene esposta in due tempi:
+\begin{itemize}
+  \item[(a)] si illustra la strategia nel caso dei \emph{suffix trie};
+  \item[(b)] si modifica la strategia e la si adatta ai \emph{suffix tree}.
+\end{itemize}
+In entrambi i casi la struttura su cui si lavora è la versione \emph{aumentata}
+(\emph{augmented}) della struttura dati --- l'automa a stati finiti con lo stato ausiliario
+$\bot$ e la funzione dei suffix link --- che definiamo subito.
+
+Costruiremo dunque $\STrie{}(T^{\,i})$ per $i = 1,\dots,n$ --- \emph{in quest'ordine!} --- a
+partire da $\STrie{}(T^{\,i-1})$, appendendo $t_i$ sotto ogni suffisso di $T^{\,i-1}$; il caso
+base è $\STrie{}(T^{\,0})$, il trie della stringa vuota, cioè il solo nodo radice.
+
+\subsection{Il suffix trie come automa aumentato}
+
+\scan{20}
+\begin{definizione}[Suffix trie come automa aumentato]\label{def:strie-automa}
+Dato il testo $T$, il \emph{suffix trie} di $T$ è la quintupla
+\[
+  \STrie{}(T)\;=\;\bigl(\,Q\cup\set{\bot},\;\mathit{root},\;F,\;g,\;f\,\bigr),
+\]
+dove, scrivendo $\bar{x}$ per lo stato associato alla stringa $x$,
+\begin{align*}
+  Q             &= \set{\bar{x} \;:\; x \text{ sottostringa di } T}
+                   &&\text{insieme degli stati,}\\
+  \mathit{root} &= \bar{\vuota} &&\text{stato iniziale,}\\
+  F             &= \set{\bar{x} \;:\; x \text{ suffisso di } T} &&\text{stati finali,}\\
+  g(\bar{x},a)  &= \overline{xa} \ \text{ se } xa \text{ è sottostringa di } T
+                   \ \text{(altrimenti indefinita)}, &&\text{funzione di transizione}\\
+                &\phantom{{}={}} \qquad g(\bot,a)=\mathit{root}
+                   \ \text{ per ogni } a\in\S &&\text{(parziale),}\\
+  f(\bar{x})    &= \bar{y} \ \text{ se } x = a\,y \ (a\in\S),
+                   \qquad f(\mathit{root}) = \bot &&\text{suffix link.}
+\end{align*}
+Gli stati sono dunque in corrispondenza biunivoca ($1{:}1$) con le sottostringhe di $T$ (alla
+stringa vuota corrisponde $\mathit{root}$), mentre $\bot$ è uno stato «dummy» ausiliario.
+\end{definizione}
+
+Le prime quattro componenti, $\bigl(Q\cup\set{\bot},\mathit{root},F,g\bigr)$, sono quelle di
+un automa a stati finiti deterministico (DFA), con la sola differenza che $g$ è
+\emph{parziale}: da $\bar{x}$ non esce alcun arco etichettato $a$ quando $xa$ non compare in
+$T$. È l'ultima componente $f$ a rendere la struttura un \emph{automa aumentato}
+(\emph{augmented automaton}). I suffix tree che
+vogliamo costruire sono, allo stesso modo, automi deterministici a stati finiti
+\emph{aumentati} che accettano tutti e soli i suffissi di un testo.
+
+\begin{osservazione}
+Accanto alla riga di $F$ gli appunti annotano, con una freccia, la parola «necessario»: è $F$
+a fare di $\STrie{}(T)$ un automa che riconosce \emph{esattamente} i suffissi di $T$, e non
+semplicemente le sue sottostringhe.
+\end{osservazione}
+
+\scan{21}
+Il suffix link $f$ porta dallo stato associato alla stringa $x$ allo stato associato alla
+stringa che si ottiene da $x$ cancellandone il primo carattere; la clausola
+$f(\mathit{root}) = \bot$ lo rende totale.
+
+\subsection{Il boundary path}
+
+\begin{osservazione}
+La funzione $f$ mi consente di costruire un cammino che visita \emph{tutti} i suffissi di
+$T$. Partendo dallo stato $\bar{x}$ associato al suffisso più lungo, $x = t_1 t_2 \cdots t_n
+= T$, e applicando ripetutamente $f$ si ottiene
+\[
+  \overline{t_1\cdots t_n}
+  \;\xrightarrow{\ f\ }\; \overline{t_2\cdots t_n}
+  \;\xrightarrow{\ f\ }\; \cdots
+  \;\xrightarrow{\ f\ }\; \overline{t_n}
+  \;\xrightarrow{\ f\ }\; \mathit{root}
+  \;\xrightarrow{\ f\ }\; \bot .
+\]
+Questo cammino prende il nome di \textbf{boundary path}.
+\end{osservazione}
+
+\begin{figure}[H]
+\centering
+\input{tikz/boundary-path.tikz}
+\caption{Il \emph{boundary path} di $\STrie{}(T)$: applicando ripetutamente il suffix link $f$
+a partire dallo stato $\bar{x}$ del suffisso più lungo $x = t_1\cdots t_n$ si incontrano,
+nell'ordine, gli stati di tutti i suffissi di $T$.}
+\label{fig:boundary-path}
+\end{figure}
+
+\scan{22}
+Il boundary path è ciò che definisce i nodi finali dello \STrie{}. Durante il passo che legge
+$t_i$ il cammino che interessa è quello di $\STrie{}(T^{\,i-1})$: percorrendolo si incontrano,
+nell'ordine, gli stati
+\[
+  s_j \;=\; \overline{t_j t_{j+1} \cdots t_{i-1}}
+        \;=\; f^{\,j-1}\bigl(\overline{t_1\cdots t_{i-1}}\bigr),
+  \qquad j = 1,\dots,i,
+\]
+cioè $s_1 = \mathit{top} = \overline{t_1\cdots t_{i-1}}$, poi $s_2 = \overline{t_2\cdots
+t_{i-1}}$, e così via fino a $s_i = \overline{\vuota} = \mathit{root}$, seguito da $\bot$:
+sono esattamente gli stati che rappresentano i suffissi di $T^{\,i-1}$, e per costruzione
+$s_{j+1} = f(s_j)$.
+
+\subsection{Costruzione del suffix trie}
+
+\scan{21}
+Passerò da $\STrie{}(T^{\,i-1})$ a $\STrie{}(T^{\,i})$ visitando il boundary path e
+aggiungendo una transizione, quando necessario, ad ogni passo: a ogni nodo che vi si incontra
+--- cioè a ogni nodo legato a un suffisso di $T^{\,i-1}$ --- appendo un nuovo nodo con un arco
+etichettato $t_i$, \textbf{se} da quel nodo non escono già archi etichettati con $t_i$.
+
+Il motivo per cui questo basta è che l'insieme degli stati cresce solo lungo i suffissi:
+\[
+  Q\bigl(T^{\,i}\bigr) \;=\; Q\bigl(T^{\,i-1}\bigr) \;\cup\;
+  \set{\, \overline{t_j\cdots t_i} \;:\; 1 \le j \le i \,} .
+\]
+Infatti ogni sottostringa di $T^{\,i}$ che non sia già sottostringa di $T^{\,i-1}$ deve
+terminare con il carattere $t_i$, cioè è un suffisso di $T^{\,i}$; e i suffissi di $T^{\,i}$
+sono esattamente gli stati del boundary path di $\STrie{}(T^{\,i-1})$ estesi con $t_i$.
+
+\begin{algorithm}[H]
+\caption{Costruzione di $\STrie{}(T)$ per $T = t_1 t_2 \cdots t_n$ (Ukkonen, Algoritmo 1)}
+\label{alg:ukkonen-trie}
+\begin{algorithmic}[1]
+  \State crea gli stati $\mathit{root}$ e $\bot$
+  \State $g(\bot, a) \gets \mathit{root}$ per ogni $a \in \S$;\quad
+         $f(\mathit{root}) \gets \bot$
+  \State $\mathit{top} \gets \mathit{root}$
+  \For{$i \gets 1$ \textbf{to} $n$}
+    \State $r \gets \mathit{top}$
+    \While{$g(r, t_i)$ è indefinita}
+      \State crea un nuovo stato $r'$ e poni $g(r, t_i) \gets r'$
+      \If{$r \neq \mathit{top}$}
+        \State $f(\mathit{oldr}') \gets r'$
+        \Comment{$\mathit{oldr}'$ appartiene ancora al passo precedente}
+      \EndIf
+      \State $\mathit{oldr}' \gets r'$
+      \State $r \gets f(r)$
+    \EndWhile
+    \State $f(\mathit{oldr}') \gets g(r, t_i)$
+    \State $\mathit{top} \gets g(\mathit{top}, t_i)$
+  \EndFor
+\end{algorithmic}
+\end{algorithm}
+
+\begin{osservazione}
+Il ciclo \textbf{while} esegue sempre almeno un'iterazione, perché $\mathit{top}$ è lo stato
+più profondo del trie e non ha archi uscenti; e termina sempre, perché risalendo il boundary
+path con $r \gets f(r)$ si arriva al più a $\bot$, dove $g(\bot, t_i) = \mathit{root}$ è
+definita per ogni carattere. La guardia $r \neq \mathit{top}$ serve a non sovrascrivere il
+suffix link dell'ultimo stato creato al passo precedente: i suffix link vengono assegnati
+all'indietro (allo stato creato subito dopo), e il primo stato creato nel passo $i$ --- il
+figlio di $\mathit{top}$ --- non ha, in quel passo, alcun predecessore cui attaccarsi.
+La variabile $\mathit{top}$ mantiene l'invariante
+$\mathit{top} = \overline{t_1\cdots t_i}$ alla fine del passo $i$-esimo, cioè è sempre il capo
+del boundary path corrente.
+\end{osservazione}
+
+\paragraph{Costo.}
+Per costruire $\STrie{}(T)$ eseguo $n$ volte l'operazione
+$\STrie{}(T^{\,i-1}) \longrightarrow \STrie{}(T^{\,i})$, e ognuna costa $\Oh(i)$: il boundary
+path di $\STrie{}(T^{\,i-1})$ ha infatti $i$ stati (i suffissi di $T^{\,i-1}$, compresa
+$\vuota$, cioè la radice) più lo stato $\bot$. Sommando,
+\[
+  \sum_{i=1}^{n} \Oh(i) \;=\; \Oh\bigl(\abs{T}^{2}\bigr),
+\]
+cioè un \textbf{algoritmo quadratico}. Ed è \emph{ottimo}: la sola dimensione di
+$\STrie{}(T)$ può essere $\Th(\abs{T}^{2})$ --- si pensi a $T = a^m b^m$ --- quindi nessun
+algoritmo che costruisca esplicitamente il suffix trie può costare meno.
+
+\subsection[Il boundary path si può accorciare]{Non serve percorrere tutto il boundary path}
+
+\scan{22}
+\begin{osservazione}
+\textbf{Non} è sempre necessario visitarlo tutto!
+\end{osservazione}
+
+Gli stati del boundary path rappresentano infatti suffissi via via più corti: se $\bar s$
+possiede già una $t_i$-transizione, allora $s\,t_i$ occorre in $T^{\,i-1}$, e quindi anche
+$s'\,t_i$ occorre in $T^{\,i-1}$ per ogni suffisso $s'$ di $s$. Tutti gli stati che seguono
+$\bar s$ sul boundary path hanno perciò già la loro $t_i$-transizione, e il ciclo
+\textbf{while} dell'Algoritmo~\ref{alg:ukkonen-trie} può fermarsi al primo nodo $r$ per cui
+$g(r,t_i)$ è definita --- come in effetti fa.
+
+Questo non cambia la complessità asintotica finché si costruisce il trie: l'algoritmo resta
+quadratico per la sola ragione che già la dimensione di $\STrie{}(T)$ può essere
+$\Th(\abs{T}^{2})$. È però l'osservazione su cui poggia tutto il guadagno del passaggio al
+suffix tree.
+
+\subsection[Dallo STrie allo STree: i due ingredienti]%
+{Dallo \texorpdfstring{\STrie{}}{STrie} allo \texorpdfstring{\STree{}}{STree}: i due ingredienti}
+
+Per passare dallo \STrie{} allo \STree{} servono \emph{due ingredienti}:
+\begin{enumerate}
+  \item[(i)] tenere i \emph{soli nodi branching};
+  \item[(ii)] rimpiazzare le etichette-stringa con coppie di interi,
+        $w \longrightarrow [k,p]$.
+\end{enumerate}
+Entrambi servono a limitare a $\Oh(\abs{T})$ la dimensione dello \STree{}.
+
+\begin{domanda}
+Come uso (i) e (ii) nella definizione e nella costruzione dello \STree{}?
+\end{domanda}
+
+\textbf{(i)} non è un problema: mi limiterò ai nodi branching e definirò le transizioni
+\emph{su stringhe},
+\[
+  g'(\bar x,\,w) \;=\; \overline{xw},
+\]
+dove il secondo argomento $w$ non è più un singolo carattere ma una stringa, rappresentata
+dalla coppia di interi $[k,p]$, cioè $w = \sub{T}{k}{p}$.
+
+\subsection[Stati espliciti e impliciti]{Stati espliciti, stati impliciti e coppie di riferimento}
+
+\scan{23}
+\textbf{(ii)} Per costruire $\STree{}(T^{\,i})$ a partire da $\STree{}(T^{\,i-1})$ dovrò
+\emph{reintrodurre stati}. Introduciamo perciò due tipi di stato:
+\begin{itemize}
+  \item stati \emph{espliciti} (\emph{tree}): i nodi branching --- e le foglie --- che
+        sopravvivono nell'albero compattato;
+  \item stati \emph{impliciti} (\emph{trie-only}): quelli che esistono nel trie ma non
+        nell'albero, perché cadono all'interno di un arco compattato.
+\end{itemize}
+
+\begin{definizione}[Il suffix tree come automa]\label{def:stree-automa}
+\[
+  \STree{}(T) \;=\; \bigl(\, Q' \cup \set{\bot},\ \mathit{root},\ g',\ f' \,\bigr),
+\]
+dove $Q'$ è l'insieme degli stati espliciti, $g'$ la funzione di transizione su stringhe
+appena definita e $f'$ la funzione dei suffix link ristretta a $Q'$.
+
+Gli stati --- impliciti ed espliciti --- sono dati da \emph{reference pair} (coppie di
+riferimento): coppie $(s,w)$ con $s$ stato esplicito e $w$ stringa, cioè, rappresentando $w$
+con la coppia di interi, $\bigl(s,[k,p]\bigr)$.
+\end{definizione}
+
+\begin{osservazione}
+Di $w$ interessa soltanto il \emph{primo carattere}: è quello che decide quale arco uscente da
+$s$ imboccare. Se $t_k = a$ chiamiamo la transizione una \emph{$a$-transizione}.
+\end{osservazione}
+
+\begin{figure}[H]
+\centering
+\input{tikz/reference-pair.tikz}
+\caption{Due esempi di reference pair $(s,w)$: dallo stato esplicito $s$ (nodo pieno) si legge
+la stringa $w$ scendendo lungo l'arco, i cui stati intermedi (i cerchietti vuoti) sono
+impliciti. Le due coppie individuano due stati impliciti diversi dello stesso arco e sono
+entrambe rappresentazioni lecite; quale sia la forma \emph{canonica} è la questione discussa
+subito dopo.}
+\label{fig:reference-pair}
+\end{figure}
+
+\noindent\lacunainl{i due schizzi del quaderno sono troncati dal bordo inferiore del foglio:
+la figura è una ricostruzione}
+
+\scan{24}
+Nella coppia di riferimento $(s,w)$ lo stato esplicito $s$ non è determinato univocamente: uno
+stesso punto dell'albero è individuato da \emph{tutti} gli stati espliciti che lo precedono
+sul cammino dalla radice. Fra queste rappresentazioni ne scegliamo una sola.
+
+\begin{definizione}[Coppia di riferimento canonica]\label{def:coppia-canonica}
+Una coppia di riferimento $(s,w)$ è \emph{canonica} quando, leggendo $w$ a partire da $s$, non
+si incontra alcun branching point; equivalentemente, quando $s$ è il branching point
+\emph{più profondo possibile} fra quelli dai quali il punto in questione si raggiunge leggendo
+una stringa (e dunque $w$ è la più corta possibile).
+\end{definizione}
+
+\begin{osservazione}
+Se $s$ è branching, $(s,\vuota)$ è la rappresentazione canonica dello stato $s$.
+\end{osservazione}
+
+\begin{figure}[H]
+\centering
+\input{tikz/coppia-canonica.tikz}
+\caption{Coppie di riferimento canoniche e non canoniche. Da $s$ parte una catena di stati
+impliciti etichettata $abcde$ che termina nel branching point $s'$; da $s'$ prosegue una
+seconda catena etichettata $abc$. La coppia $(s,abcd)$ è canonica, perché fra $s$ e il punto
+indicato non si incontra alcun branching point; la coppia $(s,abcdeabc)$ non lo è, perché
+attraversa $s'$: la sua forma canonica è $(s',abc)$.}
+\label{fig:coppia-canonica}
+\end{figure}
+
+\subsection{Active point ed end point}
+
+\scan{23}
+Riprendiamo il boundary path di $\STree{}(T^{\,i-1})$, cioè la successione di stati
+$s_1,\dots,s_i,s_{i+1}$ con $s_j = \overline{t_j\cdots t_{i-1}}$ e $s_{j+1} = f(s_j)$, che
+dopo $s_i = \mathit{root}$ termina nello stato ausiliario $s_{i+1} = \bot$. Passare da
+$\STree{}(T^{\,i-1})$ a $\STree{}(T^{\,i})$ significa garantire che ciascuno di questi stati
+abbia una $t_i$-transizione; il punto è che \emph{non è necessario percorrere tutto} il
+boundary path, e che il cammino si spezza in tre tratti.
+
+\begin{figure}[H]
+\centering
+\input{tikz/boundary-path-tripartizione.tikz}
+\caption{Il \emph{boundary path} percorso quando si estende l'albero con il carattere $t_i$:
+parte dallo stato $\mathit{top}$, il più profondo (quello che rappresenta tutto il prefisso
+$T^{\,i-1}$), e risale di suffix link in suffix link fino allo stato ausiliario $\bot$.
+Finché gli stati incontrati sono foglie basta \emph{appendere a foglia}; dall'\emph{active
+point} fino all'\emph{end point} si \emph{appendono nuove foglie}; dall'\emph{end point} in
+poi \emph{non serve appendere nulla}, perché la $t_i$-transizione c'è già.}
+\label{fig:boundary-path-tripartizione}
+\end{figure}
+
+\scan{24}
+\begin{definizione}[Active point ed end point]\label{def:active-end-point}
+Sul boundary path di $\STree{}(T^{\,i-1})$:
+\begin{itemize}
+  \item l'\emph{active point} è $s_{j'}$, dove $j'$ è il minimo indice tale che $s_{j'}$
+        \textbf{non è una foglia};
+  \item l'\emph{end point} è $s_{j''}$, dove $j''$ è il minimo indice tale che $s_{j''}$
+        \textbf{ha già un arco uscente etichettato con $t_i$}.
+\end{itemize}
+Entrambi esistono sempre: la radice non è una foglia, e l'end point al più coincide con
+$\bot$, dove $g(\bot,t_i) = \mathit{root}$ è definita per ogni $t_i \in \S$ --- come accade,
+per esempio, quando $t_i$ non occorre affatto in $T^{\,i-1}$.
+\end{definizione}
+
+\begin{figure}[H]
+\centering
+\input{tikz/active-end-point.tikz}
+\caption{Il boundary path di $\STree{}(T^{\,i-1})$, percorso da sinistra a destra seguendo i
+suffix link $f$. L'\emph{active point} $s_{j'}$ è il primo stato che non è una foglia,
+l'\emph{end point} $s_{j''}$ è il primo stato che possiede già una $t_i$-transizione: fra i
+due sta la regione in cui si deve effettivamente lavorare.}
+\label{fig:active-end-point}
+\end{figure}
+
+Gli stati $s_1,\dots,s_{j'-1}$ sono foglie e si aggiornano da soli: l'arco che porta a una
+foglia è etichettato con una coppia \emph{aperta} $[k,\infty]$, dove $\infty$ sta per «fine
+del prefisso corrente», e passando da $T^{\,i-1}$ a $T^{\,i}$ l'etichetta non va nemmeno
+toccata. Da $s_{j''}$ in poi non c'è invece nulla da fare. Resta solo il tratto
+$s_{j'},\dots,s_{j''-1}$, dove occorre creare le nuove foglie etichettate $t_i$ e, se il punto
+è implicito, spezzare l'arco introducendo un nuovo branching point.
+
+\begin{osservazione}\label{oss:propagazione-ti}
+Che da $s_{j''}$ in poi non ci sia più nulla da fare segue dal fatto che la proprietà «avere
+una $t_i$-transizione» si propaga lungo i suffix link: se $s_j$ ha un arco uscente etichettato
+con $t_i$, allora $t_j\cdots t_{i-1}t_i$ è sottostringa di $T^{\,i-1}$, quindi lo è anche
+$t_{j+1}\cdots t_{i-1}t_i$ e dunque anche $s_{j+1}=f(s_j)$ ha una $t_i$-transizione.
+\end{osservazione}
+
+\begin{figure}[H]
+\centering
+\input{tikz/propagazione-ti.tikz}
+\caption{Le $t_i$-transizioni si propagano lungo i suffix link: una volta comparse sul
+boundary path non spariscono più.}
+\label{fig:propagazione-ti}
+\end{figure}
+
+Modifico quindi la costruzione descritta per $\STrie{}(T^{\,i})$, adattandola a
+$\STree{}(T^{\,i})$:
+\begin{enumerate}
+  \item[1)] $\STree{}(T^{\,i})$ è un automa (senza insieme degli stati finali $F$) i cui stati
+        sono sempre branching, oppure foglie: in questo modo si riduce il numero di stati e
+        diventa possibile un algoritmo lineare;
+  \item[2)] uso active point ed end point per limitare il lavoro alla regione
+        $\text{active} \longrightarrow \text{end}$.
+\end{enumerate}
+
+\subsection[Dettagli: end point e active point]%
+{I dettagli: l'end point di un passo è l'active point del successivo}
+
+\scan{25}
+\textbf{3) Dettagli.}
+\begin{enumerate}
+  \item[i)] Definisco gli stati \emph{impliciti} ed \emph{espliciti} e li identifico con una
+    \emph{reference pair}
+    \[
+      (s,w)\;=\;\bigl(s,[k,p]\bigr),
+    \]
+    dove $s$ è uno stato esplicito (branching) e $w = t_k\cdots t_p = \sub{T}{k}{p}$ è la
+    stringa che si compita scendendo da $s$ fino allo stato rappresentato. La stringa $w$ non
+    viene mai memorizzata: bastano i due indici $[k,p]$, perché il testo $T$ è comunque tenuto
+    in memoria. Fra le molte coppie che rappresentano lo stesso stato si usa sempre quella
+    \emph{canonica}, cioè quella con $s$ il più profondo possibile.
+
+  \item[ii)] L'\emph{end point} di $\STree{}(T^{\,i-1})$ è l'\emph{active point} di
+    $\STree{}(T^{\,i})$.
+\end{enumerate}
+
+Il punto ii) va letto così: l'aggiornamento che porta da $\STree{}(T^{\,i-1})$ a
+$\STree{}(T^{\,i})$ percorre il boundary path e si arresta nell'end point, cioè nel primo
+stato che possiede già una $t_i$-transizione; se tale end point è la coppia
+$\bigl(s,[k,i-1]\bigr)$, allora l'active point di $\STree{}(T^{\,i})$ è
+\[
+  \bigl(s,[k,i]\bigr),
+\]
+cioè lo stesso stato esteso del carattere $t_i$ appena letto. Non occorre dunque cercarlo: lo
+si ha già in mano alla fine del passo precedente.
+
+La conseguenza è che la scansione del boundary path non ricomincia mai da capo: il passo
+$i+1$ riparte esattamente da dove si era fermato il passo $i$, l'indice del suffisso da cui si
+riparte non decresce mai e i costi delle singole visite telescopizzano. Il numero complessivo
+di stati visitati lungo tutti i boundary path resta così $\Oh(n)$.
+
+Il lavoro da fare in ciascuno stato visitato è sempre lo stesso: se lo stato non ha una
+$t_i$-transizione, lo si rende esplicito (spezzando l'arco su cui giace, se è uno stato
+implicito) e vi si innesta un nuovo arco etichettato $t_i$ verso una nuova foglia; poi si
+passa allo stato successivo del boundary path seguendo il suffix link $f$ e si ripete.
+
+\begin{figure}[H]
+\centering
+\input{tikz/ukkonen-boundary-step.tikz}
+\caption{Due passi consecutivi lungo il boundary path. In ciascuno dei due frammenti si scende
+dal nodo esplicito (cerchio) lungo la stringa $w$ fino allo stato corrente (pallino pieno); lì
+l'arco viene spezzato (quadratino) e si innesta il nuovo arco etichettato $t_i$ verso una
+nuova foglia. Il suffix link $f$ porta allo stato successivo, dove si ripete la stessa
+operazione con la stessa $w$.}
+\label{fig:ukkonen-boundary-step}
+\end{figure}
+
+Il suffix link è però definito soltanto sugli stati espliciti: sulle coppie di riferimento $f$
+agisce sulla prima componente,
+\[
+  f\bigl(r,[k,p]\bigr)\;=\;\bigl(f(r),[k,p]\bigr),
+\]
+lasciando invariata la coppia di indici; il risultato va poi ri-canonizzato, scendendo da
+$f(r)$ finché non si raggiunge il nodo esplicito più profondo. Nella figura seguente $s$
+denota proprio il nodo esplicito ottenuto dopo la ri-canonizzazione e $[k,p]$ la coppia
+aggiornata: lo stato $s'$ in cui si atterra è descritto dalla coppia $\bigl(s,[k,p]\bigr)$,
+dove $t_k$ è il primo carattere dell'arco uscente da $s$ (è il solo carattere che serve per
+scegliere la transizione) e $[k,p]$ la porzione di testo ancora da percorrere.
+Anche in $s'$ si innesta il nuovo arco etichettato $t_i$.
+
+\begin{figure}[H]
+\centering
+\input{tikz/ukkonen-refpair-f.tikz}
+\caption{Il suffix link letto sulle coppie di riferimento: lo stato $s'$ raggiunto applicando
+$f$ è rappresentato dalla coppia $\bigl(s,[k,p]\bigr)$, con $t_k$ primo carattere dell'arco
+uscente da $s$; da $s'$ pende il nuovo arco etichettato $t_i$.}
+\label{fig:ukkonen-refpair-f}
+\end{figure}
+
+\begin{osservazione}
+Gli appunti si fermano qui: i tre ingredienti (soli nodi branching, active/end point,
+reference pair canoniche) sono enunciati, ma le procedure di Ukkonen che li realizzano
+(\emph{update}, \emph{canonize}, \emph{test-and-split}) e la dimostrazione formale del tempo
+$\Oh(n)$ non vengono scritte.
+\end{osservazione}
+

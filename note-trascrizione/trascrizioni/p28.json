@@ -1,0 +1,123 @@
+{
+ "pagina": 28,
+ "latex": "\\scan{28}\n\n\\begin{osservazione}[Smoothed complexity]\nUna parentesi terminologica, aperta a margine in cima alla pagina: la \\emph{smoothed\ncomplexity} «liscia» la superficie di complessità. Ci sono algoritmi, come QuickSort, che\nbenché su carta siano $\\Oh(n^{2})$, nella pratica sono solitamente più veloci: l'analisi\nsmoothed serve proprio a rendere conto di questo scarto, facendo pesare di meno i casi\npeggiori isolati --- gli \\emph{outlier}.\n\\end{osservazione}\n\n\\begin{dubbio}[Ultima riga della parentesi]\nL'ultima riga della parentesi si legge «nella smoothed complexity si \\dots{} gruppi maggiori\nridotti dai outlier», con due verbi separati da una barra che non è stato possibile\ndecifrare. La lettura qui adottata --- si valuta il costo su \\emph{gruppi} (intorni) di input\nanziché sul singolo input, così che il contributo degli outlier risulti ridotto --- è\ncongetturale.\n\\end{dubbio}\n\n\\paragraph{Come scegliere $q$.}\nIl parametro $q$ va preso \\emph{primo}, e più grande è, meglio è: il che è ovvio, dato che la\nprobabilità di un falso positivo sarà $1/q$. Resta da capire se un primo della taglia voluta\nesista davvero e se sia facile trovarlo, e per questo useremo il teorema sulla distribuzione\ndei primi.\n\nIl modulo mappa gli interi in $\\set{0,\\dots,q-1}$. In modo uniforme? Sì --- o, più\nonestamente, \\emph{lo assumiamo}: è esattamente questa ipotesi che permetterà, fra poco, di\ndire che per uno shift non valido la congruenza $p \\equiv t_s \\pmod{q}$ si presenta con\nprobabilità $1/q$.\n\n\\paragraph{Complessità: analisi.}\nSiano\n\\begin{itemize}\n  \\item $v$ il numero di posizioni in cui $p = t_s$ \\emph{e} $P$ occorre davvero\n        (occorrenze \\emph{valide});\n  \\item $k$ il numero di posizioni in cui $p = t_s$ \\emph{ma} $P$ non occorre\n        (occorrenze \\emph{spurie}).\n\\end{itemize}\nIn entrambi i casi scatta il confronto carattere per carattere, che costa $\\Oh(m)$.\n\nDa qui due conseguenze immediate:\n\\begin{itemize}\n  \\item se $v$ è alto, Karp--Rabin costa $\\Oh(m\\cdot n)$, esattamente quanto l'algoritmo\n        naive;\n  \\item assumo dunque che $v$ sia $\\Oh(1)$.\n\\end{itemize}\n\n\\begin{osservazione}[Annotazione a matita]\nAccanto all'ipotesi $v = \\Oh(1)$ il quaderno annota, a matita: «non è vero per testi\ncompletamente random». L'osservazione va però capovolta: se $T$ è davvero uniforme e casuale\nsu un alfabeto di taglia $d$, il numero atteso di occorrenze di $P$ è $(n-m+1)/d^{\\,m}$,\ncioè praticamente nullo, e l'ipotesi $v = \\Oh(1)$ è ampiamente soddisfatta. È sui testi\n\\emph{ripetitivi} che l'ipotesi cade: con $P = a^{m}$ e $T = a^{n}$ si ha $v = n-m+1$, e in\nquel caso nessun algoritmo che verifichi tutte le occorrenze può scendere sotto $\\Th(nm)$.\n\\end{osservazione}\n\nQuanto a $k$, sono costretto a spendere $\\Oh(m)$ ogni volta che\n\\[\n  p - t_s \\equiv 0 \\pmod{q},\n\\]\ncosa che --- sotto l'ipotesi di uniformità di poco fa --- avviene con probabilità $1/q$;\ndunque\n\\[\n  \\E[k] \\;\\le\\; \\frac{n-m+1}{q} \\;=\\; \\Oh\\!\\left(\\frac{n}{q}\\right).\n\\]\n\nMettendo tutto insieme (il primo addendo è la scansione del testo con l'aggiornamento\nincrementale della finestra, il secondo sono le verifiche esplicite):\n\\begin{align*}\n  \\Oh(n) + \\Oh\\bigl(m\\,(v+k)\\bigr)\n    &= \\Oh(n) + \\underbrace{\\Oh(m\\,v)}_{v \\,=\\, \\Oh(1)} + \\Oh(m\\,k) \\\\[2pt]\n    &= \\Oh(n) + \\Oh(m) + \\Oh\\!\\left(\\frac{m\\cdot n}{q}\\right),\n\\end{align*}\ne con $q \\gtrsim m$ il tutto è \\emph{lineare}: $\\Oh(n+m) = \\Oh(n)$.\n",
+ "note": [
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 28,
+   "risolto": false,
+   "testo": "Blocco in cima alla pagina (parentesi quadra a matita/penna che lo racchiude), ultima riga: il quaderno scrive «nella smoothed complexity si <verbo1>/<verbo2> gruppi maggiori ridotti dai outlier». I due verbi separati dalla barra non sono decifrabili nemmeno a 1200 dpi: lo scheletro grafico del primo e' [r/m][i][lettera con discendente: g/p][doppio occhiello alto: ll/gl][i puntata][e][n][o] (l'ipotesi migliore e' «migliorano»), il secondo termina con un grumo di inchiostro sovrascritto («ridistribuiscono»? «redistribuiamo»?). Ho reso il senso congetturale in un ambiente dubbio anziche' inventare i due verbi."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 28,
+   "risolto": true,
+   "testo": "Riga 2 del blocco iniziale: la parola dopo «che benche' su» era illeggibile isolata; il grafema «ca-r-t-a» si risolve in «carta», e «benche' su carta sono O(n^2)» e' l'espressione idiomatica attesa in contrapposizione a «nella pratica». Ho scritto «benche' su carta siano O(n^2)» correggendo l'indicativo in congiuntivo (il quaderno ha «sono»)."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 28,
+   "risolto": true,
+   "testo": "Il quaderno scrive «ridotti dai outlier»; nella citazione dentro l'ambiente dubbio ho lasciato la forma originale (e' una citazione), ma nel testo discorsivo uso la forma corretta «gli outlier»."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 28,
+   "risolto": true,
+   "testo": "Riga «- q<segno>, primo, piu' grande e' meglio e'»: dopo la q c'e' un segno rialzato (una piccola q o un apostrofo) che non e' interpretabile; funge quasi certamente da due punti o da trattino introduttivo. L'ho reso con «Il parametro q va preso primo, e piu' grande e', meglio e'», senza marcatore."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 28,
+   "risolto": true,
+   "testo": "Sotto «piu' grande e' meglio e'» il quaderno mette una graffa con «(ovvio!)». Ho reso l'annotazione come inciso («il che e' ovvio») e ho aggiunto la ragione — la probabilita' di falso positivo e' 1/q — che sulla pagina compare solo piu' sotto: e' un'aggiunta mia, di raccordo."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 28,
+   "risolto": true,
+   "testo": "Espansa l'abbreviazione «distrib.» in «distribuzione» («useremo il teorema sulla distribuzione dei primi»), e «K.R.» in «Karp--Rabin»."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 28,
+   "risolto": true,
+   "testo": "Poco sopra il titolo «Complessita': analisi» compare, in azzurro sbiadito e semicancellato, la sola parola «Complessita'»: e' un falso inizio del titolo, non l'ho trascritto."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 28,
+   "risolto": true,
+   "testo": "Non ci sono veri disegni: la pagina contiene solo frecce e graffe di collegamento, che ho reso in prosa. (a) Una lunga freccia verticale parte da sotto «in modo uniforme?» e scende fino alla riga «p - t_s = 0 mod q», collegando l'ipotesi di uniformita' alla probabilita' 1/q: reso con «e' esattamente questa ipotesi che permettera' [...]» e con «sotto l'ipotesi di uniformita' di poco fa». (b) Una graffa a sinistra raccoglie le due righe che definiscono v e k e una freccia curva scende fino alla stessa riga «p - t_s = 0 mod q». (c) Una freccia ondulata dal termine O(m*v) punta all'annotazione «O(1)» in fondo alla prima riga della catena: resa con \\underbrace{...}_{v = O(1)}. Percio' il campo figure e' vuoto."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 28,
+   "risolto": true,
+   "testo": "Il quaderno usa la notazione dello pseudocodice, «p == t_s»; nel testo discorsivo ho scritto «p = t_s» (uguaglianza fra interi), coerentemente con la trascrizione di p.27."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 28,
+   "risolto": true,
+   "testo": "Nella riga di definizione di v, la coda «e P occorre (valide)» e' scritta sopra a una prima stesura poi ripassata/cancellata ed e' quasi illeggibile; l'ho ricostruita per parallelismo con la riga successiva, che e' leggibile: «Siano k le posizioni in cui p == t_s e (P non occorre (spurie)», con l'annotazione «-> O(m)» a capo."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 28,
+   "risolto": true,
+   "testo": "Annotazione a matita accanto a «assumo che v sia O(1)»: «(non e' vero per testi completamente Random)». Come sta scritta l'affermazione e' sbagliata: su un testo davvero uniforme e casuale il numero atteso di occorrenze di P e' (n-m+1)/d^m ~ 0, quindi v = O(1) vale a maggior ragione; e' sui testi ripetitivi (P = a^m, T = a^n, dove v = n-m+1) che l'ipotesi cade. Ho riportato l'annotazione tra virgolette e l'ho corretta esplicitamente in un'osservazione."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 28,
+   "risolto": true,
+   "testo": "Ultima riga della catena di complessita': il quaderno scrive «= O(n) + O(m*k/q)» (la k e' inequivocabile, ha la stessa forma della k di «K.R.»). E' uno scivolone: k e' gia' il numero di hit spuri, e cio' che si sostituisce e' E[k] <= (n-m+1)/q = O(n/q), da cui O(m*k) = O(m*n/q). Ho scritto O(m*n/q). Con «m*k/q» il commento finale «con q >= m e' lineare» non tornerebbe, mentre con m*n/q torna esattamente; anche Gli appunti del corso dell'anno precedente (L06, sez. 9) riportano O(n) + O(m + m*n/q)."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 28,
+   "risolto": true,
+   "testo": "Sempre nell'ultima riga, il quaderno lascia cadere il termine O(m*v): con v = O(1) diventa O(m) e viene di fatto assorbito da O(n) (essendo m <= n). L'ho riscritto esplicitamente come O(n) + O(m) + O(m*n/q) e ho chiuso con «= O(n+m) = O(n)», che il quaderno riassume nella sola parola «lineare»."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 28,
+   "risolto": true,
+   "testo": "Il quaderno dice solo «avviene con probabilita' 1/q»; ho aggiunto il passaggio esplicito E[k] <= (n-m+1)/q = O(n/q), che e' il valore effettivamente usato nella catena finale. Ho anche glossato i due addendi O(n) e O(m(v+k)) come «scansione + aggiornamento incrementale» e «verifiche esplicite»: glossa mia, coerente con lo pseudocodice di p.27."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 28,
+   "risolto": true,
+   "testo": "«con q >= m e' lineare»: il segno e' tracciato come un >= con la barra obliqua (si legge anche come «circa maggiore»). Ho usato \\gtrsim, coerentemente con la sostanza (basta che q sia dell'ordine di m)."
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 28,
+   "risolto": true,
+   "testo": "Gli appunti del corso dell'anno precedente (L06) a questo punto scrivono «se v e' alto (e.g. O(m))», mentre la pagina dello studente dice solo «se v e' alto K.R. O(m*n) (naive)». La versione dello studente e' la piu' sicura (per ottenere O(m*n) serve v dell'ordine di n, non di m), quindi non ho importato l'«e.g. O(m)» dell'anno precedente."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 28,
+   "risolto": true,
+   "testo": "Il blocco iniziale sulla smoothed complexity e' delimitato da due segni ad angolo (in alto a sinistra e in basso a destra) che lo isolano dal resto: e' un inciso, non il seguito del discorso su Karp--Rabin. L'ho reso con un'osservazione."
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 28,
+   "risolto": true,
+   "testo": "Integrato nel paragrafo sulla scelta di q il vincolo quantitativo: q (e con esso d*q) deve stare in una parola di macchina, cioe' occupare O(log n) bit. Il vincolo non c'e' sul foglio (p.28 dice solo «q, primo, piu' grande e' meglio e'») e non c'e' nemmeno a p.27: viene daGli appunti del corso dell'anno precedente (L06), dove e' annotato accanto allo pseudocodice, ed e' quello che chiude il problema i), spiegando perche' q non possa crescere a piacere nonostante «piu' grande e' meglio e'»."
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 28,
+   "risolto": true,
+   "testo": "Aggiunta l'osservazione finale «Che cosa e' davvero aleatorio»: con q fissato una volta per tutte l'uniformita' dei resti e' un'ipotesi di comodo e non un teorema (un testo costruito ad arte fa collidere tutti gli shift), mentre la versione rigorosa sceglie q primo a caso in un intervallo opportuno, ed e' quella scelta a fornire l'aleatorieta' su cui si prende il valore atteso. Sul foglio non c'e' alcuna discussione della sorgente di aleatorieta': l'aggiunta viene da L06 (sez. 9) e da Motwani--Raghavan, e serve a non far passare l'analisi in valore atteso per una garanzia sul caso peggiore."
+  }
+ ],
+ "figure": [],
+ "continuita": "La pagina prosegue direttamente p.27: li' erano stati posti i tre «Problemi» (i) come scelgo q, ii) come calcolo e aggiorno t_s mod q, iii) cosa faccio quando p mod q = t_s mod q) ed era stato dato lo pseudocodice di Karp--Rabin; qui si risponde al problema i) (q primo, il piu' grande possibile, con rimando al teorema sulla distribuzione dei primi), si introduce l'ipotesi di uniformita' della riduzione modulo q, e si svolge l'analisi di complessita' con i due contatori v (occorrenze valide) e k (occorrenze spurie), chiudendo con O(n) + O(m*n/q) e la scelta q >= m che rende il tutto lineare. La notazione e' quella gia' fissata a p.26--27: m = |P|, n = |T|, p e t_s valori in base d, q primo. La pagina 29 tira la morale («Karp--Rabin ci insegna che, guardando il modello di calcolo, si possono disegnare algoritmi nuovi: codifico in numeri e manipolo numeri») e apre l'algoritmo Shift--And; il blocco iniziale sulla smoothed complexity e' invece un inciso chiuso in se' stesso, senza seguito ne' prima ne' dopo.",
+ "confidenza": "media"
+}
