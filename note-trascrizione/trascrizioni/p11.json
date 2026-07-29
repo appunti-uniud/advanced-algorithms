@@ -1,0 +1,116 @@
+{
+ "pagina": 11,
+ "latex": "\\scan{11}\n\n\\subsection{Implementazione della GSR}\n\nResta da capire quale sia il preprocessing sufficiente a implementare la\n\\emph{good suffix rule}. La risposta è: l'algoritmo $Z$ applicato a $P^r$,\ncioè al pattern \\emph{rovesciato}.\n\nNel seguito poniamo $n=\\abs{P}$.\n\n\\begin{definizione}[$L'(i)$]\\label{def:bm-lprimo}\nSiano $P\\in\\alfa^*$ e $i\\in\\set{1,\\dots,n}$. Definiamo $L'(i)$ come il\n\\emph{massimo} indice tale che\n\\begin{enumerate}\n  \\item $\\sub{P}{i}{n}$ è un suffisso di $\\sub{P}{1}{L'(i)}$;\n  \\item $P[i-1]\\neq P[\\,L'(i)-(n-i)-1\\,]$.\n\\end{enumerate}\n\\end{definizione}\n\n\\begin{osservazione}\nLa sola condizione~1) definirebbe $L(i)$, cioè la versione «debole» della\nregola: l'occorrenza interna più a destra del suffisso già riconosciuto.\nÈ la condizione~2) a giustificare l'apice in $L'(i)$: essa impone che il\ncarattere che precede l'occorrenza interna sia \\emph{diverso} da $P[i-1]$,\ncioè dal carattere che nell'allineamento corrente ha provocato il mismatch;\nsenza questo vincolo lo spostamento riproporrebbe lo stesso mismatch e\nsarebbe quindi sprecato.\n\nGli indici della condizione~2) si leggono così: se $\\sub{P}{i}{n}$, che ha\nlunghezza $n-i+1$, è un suffisso di $\\sub{P}{1}{L'(i)}$, allora occupa le\nposizioni $L'(i)-(n-i),\\dots,L'(i)$, e il carattere che la precede sta in\nposizione $L'(i)-(n-i)-1$.\n\nRestano sottintese le convenzioni: $L'(i)=0$ quando nessun indice soddisfa\n1) e 2); $L'(i)$ è definito per $i\\ge 2$ (per $i=1$ la condizione~2)\nchiamerebbe in causa $P[0]$); se $L'(i)-(n-i)-1=0$ la posizione non esiste e\nla condizione~2) si intende soddisfatta. Si noti infine che la~2) esclude\nautomaticamente il valore $L'(i)=n$: in tal caso diventerebbe\n$P[i-1]\\neq P[i-1]$, che è falsa. Dunque $L'(i)\\le n-1$ senza bisogno di\nimporlo.\n\\end{osservazione}\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/bm-lprimo.tikz}\n\\caption{Lettura grafica della definizione di $L'(i)$: la stessa stringa\n$\\sub{P}{i}{n}$ compare due volte in $P$ --- come suffisso e come occorrenza\ninterna che termina in $L'(i)$ --- e i due caratteri che la precedono sono\ndiversi.}\n\\end{figure}\n\n\\begin{definizione}[$N_j[P]$]\\label{def:bm-nj}\n$N_j[P]$ è la lunghezza del massimo suffisso di $\\sub{P}{1}{j}$ che è anche\nun suffisso di $P$, ossia\n\\[\n  N_j[P]=\\max\\set{\\ell\\ge 0 \\;:\\; \\sub{P}{j-\\ell+1}{j}=\\sub{P}{n-\\ell+1}{n}},\n  \\qquad j=1,\\dots,n .\n\\]\n\\end{definizione}\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/bm-nj.tikz}\n\\caption{$N_j[P]=\\abs{\\alpha}$, dove $\\alpha$ è la più lunga stringa che è\nsimultaneamente suffisso di $\\sub{P}{1}{j}$ e suffisso di $P$.}\n\\end{figure}\n\n\\begin{teorema}\\label{thm:bm-lprimo-nj}\n$L'(i)$ è il massimo $j$ tale che\n\\[\n  N_j[P]=\\abs{\\sub{P}{i}{n}}=n-i+1 .\n\\]\n\\end{teorema}\n\nDa qui, e dalla definizione stessa di $N_j$, segue la riduzione\nall'algoritmo $Z$:\n\\[\n  \\boxed{\\;N_j[P]=\\Zv{n-j+1}[P^r]\\;}\n\\]\n\n\\begin{osservazione}\nRovesciando $P$, la posizione $j$ di $P$ diventa la posizione $n-j+1$ di\n$P^r$; un suffisso di $\\sub{P}{1}{j}$ diventa un prefisso di\n$\\sub{P^r}{n-j+1}{n}$ e un suffisso di $P$ diventa un prefisso di $P^r$.\nQuindi il più lungo suffisso di $\\sub{P}{1}{j}$ che è anche suffisso di $P$\nha la stessa lunghezza del più lungo prefisso di $\\sub{P^r}{n-j+1}{n}$ che è\nanche prefisso di $P^r$, cioè $\\Zv{n-j+1}[P^r]$.\n\nPoiché l'algoritmo $Z$ su una stringa di lunghezza $n$ costa $\\Th(n)$, tutto\nil preprocessing della GSR costa $\\Th(n)$ in tempo e in spazio.\n\\end{osservazione}",
+ "note": [
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 11,
+   "risolto": true,
+   "testo": "Il grafema dopo la virgola in \"P[i,?]\" e in \"(?-i)\" è ambiguo (può leggersi h o n). È una n: lo confermano (a) la coerenza interna della condizione 2), dove compare (n-i) come lunghezza del suffisso meno uno, e (b) p.10, dove lo studente scrive esplicitamente T = a^m, P = a^n. Ho quindi trascritto P[i..n] e (n-i)."
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 11,
+   "risolto": true,
+   "testo": "Convenzione delle lunghezze: lo studente usa n = |P| (e, da p.10, m = |T|), che è esattamente la convenzione di Gusfield (n = |P|, m = |T|), libro di testo del corso. La sintesi deGli appunti del corso dell'anno precedente usa invece m = |P| e nella sua anomalia A6 suggerisce di uniformare a n = |T|, m = |P|. Ho mantenuto la convenzione dello studente/Gusfield (n = |P|), che è la fonte primaria; ho aggiunto la riga esplicita «Nel seguito poniamo n = |P|» perché nel quaderno la convenzione è solo implicita. Attenzione in fase di cucitura: tutto il capitolo Boyer-Moore (pp. 9-11) deve usare la stessa convenzione."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 11,
+   "risolto": true,
+   "testo": "Le due annotazioni a margine delle condizioni della definizione — «↝ definirebbe L(i)» accanto alla 1) e «↝ giustifica il '» accanto alla 2) — sono state espanse nella prima osservazione: la 1) da sola dà la versione debole L(i), la 2) è ciò che giustifica l'apice (strong good suffix rule). Le due annotazioni sono state rilette a 300 DPI e la lettura è certa."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 11,
+   "risolto": true,
+   "testo": "Ho aggiunto (non c'è nel quaderno) la lettura degli indici della condizione 2) — l'occorrenza interna occupa le posizioni L'(i)-(n-i),…,L'(i), quindi il carattere che la precede sta in L'(i)-(n-i)-1 — e le convenzioni di bordo: L'(i)=0 se l'insieme è vuoto, L'(i) definito per i ≥ 2, condizione 2) vacuamente vera se L'(i)-(n-i)-1 = 0, esclusione automatica di L'(i)=n. Sono le stesse integrazioni segnalate come mancanti nelle anomalie A7 e A8 della sintesi degli appunti dell'anno precedente; senza di esse la definizione è mal posta."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 11,
+   "risolto": true,
+   "testo": "La definizione di N_j[P] nel quaderno è solo in prosa («lunghezza del max suffisso di P[1,j] che è anche un suffisso di P»). Ho aggiunto la formalizzazione N_j[P] = max{ℓ ≥ 0 : P[j-ℓ+1..j] = P[n-ℓ+1..n]}, che è la traduzione letterale della prosa (standard Gusfield §2.2.5)."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 11,
+   "risolto": true,
+   "testo": "Formula incorniciata a fondo pagina. Il quaderno scrive N_j[P] = Z_?[P^r] con lo stesso simbolo j al pedice di Z, decorato da un segno (un puntino/asterisco sopra la Z, che è in realtà il punto della j scritto spostato a sinistra: lo studente lo fa sistematicamente, cfr. il punto sopra la N in N_j). Il pedice così com'è è sbagliato: nell'indicizzazione di P^r la posizione j di P diventa n-j+1. Ho scritto N_j[P] = Z_{n-j+1}[P^r]. Coincide con l'anomalia A9 della sintesi degli appunti dell'anno precedente (nei suoi appunti il pedice è «una j con una freccia», chiarito solo da una nota a lato)."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 11,
+   "risolto": true,
+   "testo": "Ho aggiunto l'osservazione finale che giustifica la corrispondenza j ↦ n-j+1 (suffisso di P[1..j] ↔ prefisso di P^r[n-j+1..n]; suffisso di P ↔ prefisso di P^r) e la riga sul costo Θ(n) del preprocessing della GSR. Nel quaderno non ci sono: la giustificazione era, con ogni probabilità, il disegno rimasto incompiuto a fondo pagina (vedi nota successiva)."
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 11,
+   "risolto": true,
+   "testo": "A fondo pagina, sotto la formula incorniciata, c'è un disegno abbandonato: una sola retta orizzontale etichettata P con due tacche e nessuna annotazione; il resto della pagina è bianco. Doveva servire a giustificare N_j[P] = Z_{n-j+1}[P^r] (il confronto fra P e P^r). Non l'ho trascritto come figura perché non porta informazione; il contenuto mancante è stato ricostruito nell'osservazione finale, quindi non ho lasciato marcatori nel LaTeX."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 11,
+   "risolto": true,
+   "testo": "Il segno a sinistra della formula incorniciata, prima della freccia ondulata, è di due grafemi e si legge «Da» (possibile anche «Dim»). Non incide sulla matematica: l'ho reso con il connettivo «Da qui, e dalla definizione stessa di N_j, segue la riduzione all'algoritmo Z». La sintesi degli appunti dell'anno precedente ha nello stesso punto «perché dalla def. di N_j[P] abbiamo …», che conferma il valore di connettivo causale."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 11,
+   "risolto": true,
+   "testo": "Macro: preamble.tex definisce \\Lp[1]{L(#1)} — cioè SENZA apice — pur commentandola come «good suffix (strong) rule», e \\lp[1]{\\ell(#1)}. Poiché in questa pagina compaiono sia L(i) (debole, nell'annotazione a margine) sia L'(i) (forte), non ho usato \\Lp e ho scritto entrambi per esteso: L(i) e L'(i). Va segnalato a chi mantiene il preambolo che \\Lp andrebbe corretta in L'(#1) (o affiancata da una macro per la versione debole). Analogamente non esiste una macro per N_j[P]: l'ho scritto per esteso."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 11,
+   "risolto": true,
+   "testo": "Notazione delle sottostringhe: il quaderno usa la virgola (P[i,n], P[1,L'(i)]); ho usato la macro di casa \\sub, che stampa P[i..n]. Uniformazione puramente tipografica, coerente con le convenzioni del progetto."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 11,
+   "risolto": true,
+   "testo": "Il titolo sottolineato del quaderno è «Implementazione di GSR»; l'ho reso come \\subsection{Implementazione della GSR} (articolo aggiunto per scorrevolezza, come già «Implementazione di BCR» a p.10). Sopra la scritta P^r c'è una glossa minuscola che si legge «rovesc…»: l'ho resa con «al pattern rovesciato»."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 11,
+   "risolto": true,
+   "testo": "Figura di L'(i): l'etichetta all'estremità destra della retta è disegnata come una «D» (bocciolo chiuso in basso), mentre nella seconda figura la stessa etichetta è una «P» inequivocabile. Semanticamente la retta è il pattern (vi compaiono P[1,L'(i)] e P[i,n]), quindi ho letto P in entrambe le figure."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 11,
+   "risolto": true,
+   "testo": "Figura di L'(i): il carattere disegnato nella cella i-1 è una macchia d'inchiostro illeggibile (sembra una x ribattuta). Poiché la condizione 2) impone che sia DIVERSO dal carattere in L'(i)-(n-i)-1 (indicato con x), nella ricostruzione l'ho etichettato y, come nella figura corrispondente deGli appunti del corso dell'anno precedente (x ≠ y). Inoltre nel quaderno la cella i-1 segue immediatamente la tacca L'(i) (cioè il disegno suggerisce L'(i) = i-2): è un effetto della mancanza di spazio, non una condizione della definizione; nella specifica TikZ ho chiesto di lasciare qualche cella di distacco perché il disegno risulti generico. Ho aggiunto anche l'etichetta i-1 sotto la cella di y (nel quaderno c'è solo i)."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 11,
+   "risolto": true,
+   "testo": "Figura di N_j: nel quaderno la seconda graffa etichettata α NON arriva all'estremità destra della retta P (resta un vuoto di circa 4 quadretti, più largo della graffa stessa). È un errore di disegno dello studente: per definizione la seconda occorrenza di α deve essere un SUFFISSO di P, quindi a filo con l'estremità destra. Nella specifica TikZ ho corretto (seconda graffa allineata alla fine della retta)."
+  }
+ ],
+ "figure": [
+  {
+   "id": "bm-lprimo",
+   "pagina": 11,
+   "didascalia": "Lettura grafica della definizione di $L'(i)$: la stessa stringa $\\sub{P}{i}{n}$ compare due volte in $P$ --- come suffisso e come occorrenza interna che termina in $L'(i)$ --- e i due caratteri che la precedono sono diversi.",
+   "tipo": "schema di stringhe",
+   "specifica": "Schema lineare su una sola riga. Elemento base: una RETTA ORIZZONTALE spessa (colore accento del tema) che rappresenta l'intero pattern P, lunga circa 12 cm, con una piccola punta di freccia all'estremità destra e l'etichetta $P$ subito a destra della punta. Coordinate relative lungo la retta: 0 = posizione 1 (estremo sinistro), 1 = posizione n (estremo destro).\n\nTACCHE (segmentini verticali che attraversano la retta, alti ~3 mm) alle ascisse relative: t1 = 0.16, t2 = 0.22, t3 = 0.56, t4 = 0.68, t5 = 0.74.\n\nCONTENUTO, da sinistra a destra:\n1) Nella cella fra t1 e t2 è scritto il carattere $x$ (leggermente SOPRA la retta, centrato nella cella). Sotto la retta, in corrispondenza di quella cella, l'etichetta $L'(i)-(n-i)-1$ (testo piccolo, centrato sotto la cella; nel manoscritto è scritta sotto e leggermente a sinistra).\n2) Da t2 a t3 un SEGMENTO parallelo alla retta, disegnato SOPRA di essa (a ~4 mm di altezza), con due trattini verticali alle estremità: è l'occorrenza interna di $\\sub{P}{i}{n}$ dentro $\\sub{P}{1}{L'(i)}$. Nel manoscritto è una semplice barra; si può renderla come barretta piena/grigia.\n3) Sotto la retta, in corrispondenza di t3, l'etichetta $L'(i)$.\n4) Nella cella fra t4 e t5 è scritto il carattere $y$ (sopra la retta, centrato nella cella). Sotto la retta, sotto quella cella, l'etichetta $i-1$; sotto t5 l'etichetta $i$. (Nel manoscritto compare solo l'etichetta $i$ e la cella di $y$ è attaccata alla tacca $L'(i)$: ho separato le due zone e aggiunto $i-1$ per chiarezza.)\n5) Da t5 fino all'estremo destro della retta (ascissa 1) un SECONDO SEGMENTO sopra la retta, alla stessa altezza del primo e della STESSA LUNGHEZZA (le due barre devono risultare visibilmente uguali: rappresentano la stessa stringa), con trattini verticali alle estremità; sopra di esso, centrata, l'etichetta $\\sub{P}{i}{n}$.\n6) Un ARCO (curva piatta o graffa rovesciata, tratteggiata) che parte da sopra il carattere $x$ e arriva sopra il carattere $y$, passando ben al di sopra dei due segmenti; al centro dell'arco, sopra, il simbolo $\\neq$.\n\nSignificato da rendere evidente: le due barre sono la stessa stringa (il suffisso già riconosciuto e la sua ulteriore occorrenza interna), mentre i due caratteri che le precedono sono diversi — cioè esattamente le condizioni 1) e 2) della definizione di $L'(i)$.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "bm-nj",
+   "pagina": 11,
+   "didascalia": "$N_j[P]=\\abs{\\alpha}$, dove $\\alpha$ è la più lunga stringa che è simultaneamente suffisso di $\\sub{P}{1}{j}$ e suffisso di $P$.",
+   "tipo": "schema di stringhe",
+   "specifica": "Schema lineare su una sola riga, più semplice del precedente. Una RETTA ORIZZONTALE spessa (stesso stile della figura bm-lprimo) lunga circa 12 cm, che rappresenta il pattern $P$, con punta di freccia all'estremità destra ed etichetta $P$ subito a destra della punta. Coordinate relative: 0 = posizione 1, 1 = posizione n.\n\nDue GRAFFE (curly brace aperte verso il basso, disegnate SOPRA la retta con decorations.pathreplacing) della STESSA LARGHEZZA, ciascuna con l'etichetta $\\alpha$ sopra il vertice:\n- graffa A: dall'ascissa 0.22 all'ascissa 0.42; l'estremo destro (0.42) coincide con una TACCA sulla retta etichettata $j$ SOTTO la retta;\n- graffa B: dall'ascissa 0.80 all'ascissa 1.00, cioè a filo con l'ESTREMITÀ DESTRA della retta (posizione n); tacca verticale all'estremo sinistro (0.80), l'estremo destro coincide con la fine della retta.\nEntrambe le graffe hanno una tacca verticale sulla retta alle proprie estremità (nel manoscritto sono trattini scuri).\n\nAttenzione (correzione rispetto al manoscritto): nel quaderno la graffa B si ferma parecchio prima della fine della retta; è un errore di disegno, perché per definizione la seconda occorrenza di $\\alpha$ è un SUFFISSO di $P$. Nella figura ridisegnata la graffa B deve essere allineata esattamente con l'estremità destra della retta.\n\nSignificato: $\\alpha$ è la più lunga stringa che è insieme suffisso di $\\sub{P}{1}{j}$ (termina in $j$) e suffisso di $P$ (termina in $n$); $N_j[P]=\\abs{\\alpha}$. Le due graffe devono avere manifestamente la stessa larghezza.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina chiude il preprocessing della GSR ma NON la regola di spostamento. A p.10 si era conclusa l'implementazione della BCR (matrice vs. liste, costo ammortizzato); p.11 apre con la domanda «quale preprocessing serve per la GSR?», definisce L'(i) e N_j[P], enuncia il teorema L'(i) = max{ j : N_j[P] = n-i+1 } e incornicia la riduzione N_j[P] = Z_{n-j+1}[P^r]. Restano in sospeso, e non compaiono nemmeno dopo: (a) la formula esplicita dello spostamento della GSR (shift = n - L'(i)) e la sua safety; (b) il secondo caso della regola, quando L'(i) = 0, che richiede l'(i) = più lungo suffisso di P[i..n] che è anche prefisso di P, e il caso dell'occorrenza trovata (match completo, che usa l'(2)); (c) lo pseudocodice del ciclo di ricerca di Boyer-Moore. Sono le lacune A3-A4 segnalate anche nella sintesi degli appunti dell'anno precedente: chi assembla il capitolo valuti se integrarle in appendice. Anche la dimostrazione del teorema è solo accennata (il disegno a fondo pagina è rimasto vuoto). La pagina 12 cambia argomento — una riga isolata su un «punto debole» e poi il titolo «Keyword Tree» (inizio di Aho-Corasick) — quindi il capitolo Boyer-Moore si chiude qui.",
+ "confidenza": "alta"
+}

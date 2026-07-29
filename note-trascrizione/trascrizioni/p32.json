@@ -1,0 +1,96 @@
+{
+ "pagina": 32,
+ "latex": "\\scan{32}\n\n\\begin{esempio}\nLavoreremo con alberi \\emph{qualsiasi}, cioè non necessariamente binari né bilanciati: si veda l'albero della Figura~\\ref{fig:lca-albero-dfs}.\n\\end{esempio}\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/lca-albero-dfs.tikz}\n\\caption{Un albero generico $\\T$ con i nodi numerati secondo la visita in profondità (preordine). Accanto ai nodi $1$, $2$ e $5$ è riportato l'intervallo dei numeri DFS del rispettivo sottoalbero.}\n\\label{fig:lca-albero-dfs}\n\\end{figure}\n\nNumereremo i nodi in \\emph{dfs-numbering}: a ogni nodo si assegna il suo numero d'ordine nella visita in profondità (preordine). L'assegnazione costa \\emph{tempo lineare} e si può fare mentre si legge l'input.\n\n\\begin{osservazione}[Proprietà del dfs-numbering]\nI discendenti del nodo $i$ costituiscono un \\emph{intervallo}\n\\[\n[\\,i+1,\\ j\\,],\n\\]\ndove $j-i$ è il numero di tali discendenti. Equivalentemente, indicando con $\\T(i)$ il sottoalbero radicato in $i$ ($i$ compreso), i numeri DFS dei nodi di $\\T(i)$ formano l'intervallo contiguo\n\\[\n[\\,i,\\ i+\\abs{\\T(i)}-1\\,] ,\n\\]\ncioè sono assegnati \\emph{senza buchi}; in particolare $j = i + \\abs{\\T(i)} - 1$.\n\\end{osservazione}\n\nIl problema da risolvere è dunque il calcolo di\n\\[\n\\lca(i,j) \\qquad \\text{in tempo } \\Oh(1),\n\\]\ndove $i$ e $j$ sono i numeri DFS di due nodi di $\\T$. Lo strumento tecnico saranno le \\emph{bitmap}: rappresentando l'informazione con stringhe di bit si rendono efficienti le operazioni di base.\n\nFissiamo la notazione: $\\T$ è un albero generico, sui cui nodi è definito il dfs-numbering di $\\T$.\n\n\\paragraph{Piano.}\n\\begin{enumerate}\n  \\item Risolvo il problema su $\\B$, albero binario \\emph{completo} (caso facile).\n  \\item Definisco una mappa\n  \\[\n    I \\colon \\T \\longrightarrow \\B, \\qquad v \\longmapsto I(v),\n  \\]\n  in generale \\emph{non} iniettiva.\n  \\item Uso la mappa e la soluzione in $\\Oh(1)$ su $\\B$ per risolvere il problema su $\\T$.\n\\end{enumerate}",
+ "note": [
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 32,
+   "testo": "Titolo della pagina: «Esempio: lavoreremo con alberi ____» con l'ultima parola doppiamente sottolineata. Il tratto cursivo è compatibile sia con «qualsiasi» sia con «generici»; ho letto «qualsiasi» (attacco a q con discendente, sequenza q-u-a-l-s-i-a-s-i). La scelta è innocua: poco sotto il quaderno scrive esplicitamente «albero generico», quindi il significato è lo stesso. Risolto.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 32,
+   "testo": "Il quaderno scrive «[i+1, j]  (j-i cardinalità del sottoalbero T(i))». Se T(i) denota il sottoalbero radicato in i con i compreso (come è d'uso e come richiede il resto del capitolo), allora |T(i)| = j-i+1, non j-i: j-i è il numero di discendenti PROPRI di i. Ho riscritto la proprietà esplicitando la convenzione (j-i = numero dei discendenti; numeri di T(i) = intervallo [i, i+|T(i)|-1]; j = i+|T(i)|-1), che è la forma corretta e coincide con la DFS property usata da Gusfield (Cap. 8) e riportata neGli appunti del corso dell'anno precedente (L08, §2 e §5, «i nodi nel sottoalbero T(v) sono numerati senza buchi»).",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 32,
+   "testo": "Accanto ai nodi 1, 2 e 5 il quaderno riporta, con tratto molto sbiadito (matita / passata leggera sotto l'inchiostro), etichette della forma «1/10», «2/…», «5/10». Sono gli estremi dell'intervallo dei numeri DFS del sottoalbero: [1,10] per la radice e [5,10] per il nodo 5, entrambi verificabili sul disegno. Il secondo numero accanto al nodo 2 è il più illeggibile e assomiglia a un «5», ma il sottoalbero di 2 è {2,3,4}: ho scritto [2,4]. Nella figura ho reso le tre etichette come intervalli [1,10], [2,4], [5,10].",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 32,
+   "testo": "Nella scansione si intravedono, sempre in tratto sbiadito, alcune ellissi attorno ai nodi 4, 7, 9, 10 e una sagoma che avvolge la zona 6-7-8-9. Non hanno riscontro nel testo della pagina (la partizione in «run» compare solo più avanti nel capitolo, cfr. Gusfield Fig. 8.6): le ho interpretate come tracce di un disegno preparatorio / annotazione posteriore e NON le ho riportate nella specifica della figura.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 32,
+   "testo": "Il titolo manoscritto «Lowest Common Ancestor in O(1)» ha una freccia che lo collega alla glossa «lca(i,j)» scritta appena sopra. Poiché la struttura in capitoli/sezioni si decide in fase di cucitura (e il capitolo si chiama già così), non ho inserito un heading: ho reso titolo e glossa come enunciato del problema, «lca(i,j) in tempo O(1)».",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 32,
+   "testo": "Collisione di notazione presente negli appunti e NON corretta per fedeltà: due righe sopra i e j sono gli estremi dell'intervallo [i+1,j] dei discendenti di un nodo, mentre in «lca(i,j)» sono due nodi distinti. Ho aggiunto nel testo la precisazione «dove i e j sono i numeri DFS di due nodi di T» per disinnescare l'ambiguità senza cambiare i simboli. A p. 31 lo stesso problema è scritto lca(u,v).",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 32,
+   "testo": "Sotto «numereremo i nodi in dfs-numbering» il quaderno mette una graffa/freccia verso il basso con la glossa «tempo lineare (mentre leggo l'input)». L'ho resa in prosa nella stessa frase; la parentesi «mentre leggo l'input» va intesa come «la numerazione si può calcolare contestualmente alla lettura/costruzione dell'albero», cfr. passo 1 del preprocessing neGli appunti del corso dell'anno precedente (L08, p.11).",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 32,
+   "testo": "«Bitmap per rendere efficienti operazioni di base»: l'ultima parola è quasi illeggibile e oscilla fra «base» e «bare»; ho scritto «operazioni di base», unica lettura sensata (le primitive AND/OR/XOR/SHIFT/MASK/leftmost-rightmost del modello di calcolo, che il quaderno elenca alla pagina successiva). Risolto.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 32,
+   "testo": "Il primo glifo della riga «__ discendenti del nodo i costituiscono un intervallo» è ambiguo: assomiglia al glifo con cui lo studente scrive la T calligrafica (che ricorre nella stessa riga in «T(i)»). Ho letto l'articolo «I» perché è l'unica lettura grammaticalmente sensata («I discendenti del nodo i costituiscono un intervallo»); leggerlo come T renderebbe la frase sgrammaticata.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 32,
+   "testo": "Nella riga «T albero generico» la parola «albero» è ricalcata e riscritta più volte nel quaderno (ripensamento grafico, non semantico). Trascritta pulita.",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 32,
+   "testo": "Il quaderno scrive «I : T -> B, v -> I(v) (in generale, non iniettiva)». NeGli appunti del corso dell'anno precedente (L08, §6) I(v) è definita come il nodo di T(v) con h massimo, quindi formalmente I : T -> T; è poi la «tree map» di Gusfield (L08, §9) a mandare v nel nodo di B di path number I(v). Le due letture coincidono perché i numeri DFS di T e i path number di B hanno la stessa larghezza in bit e vengono identificati: la scrittura I : T -> B dello studente è quindi corretta ed è quella che serve al piano in tre punti. Non ho modificato nulla, ma lo segnalo perché la definizione operativa di I (argmax di h sul sottoalbero) arriverà solo più avanti.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 32,
+   "testo": "La non iniettività annunciata al punto 2 del piano è esatta e sarà giustificata più avanti: I collassa in un solo nodo di B tutti i nodi di uno stesso «run» (L08, §10). Nel quaderno «non» è sottolineato; ho reso l'enfasi con \\emph.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 32,
+   "testo": "Macro usate e verificate in preamble.tex / academica.cls: \\scan, \\lca (DeclareMathOperator), \\Oh (= \\mathcal{O}), \\T (= \\mathcal{T}), \\B (= \\mathcal{B}), \\abs, ambiente osservazione con titolo opzionale. Nessuna macro inventata. \\paragraph{Piano.} usato perché «Piano:» è un titolo esplicito e sottolineato del quaderno.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "lca-albero-dfs",
+   "pagina": 32,
+   "didascalia": "Un albero generico $\\T$ con i nodi numerati secondo la visita in profondità (preordine). Accanto ai nodi $1$, $2$ e $5$ è riportato l'intervallo dei numeri DFS del rispettivo sottoalbero.",
+   "tipo": "albero",
+   "specifica": "Albero radicato generico con 10 nodi, numerati con dfs-numbering (preordine). È l'albero della Fig. 8.1 di Gusfield.\n\nNODI (pallini pieni, colore accento/blu, diametro ~2.5pt). Coordinate suggerite (x a destra, y verso l'alto), con proporzioni prese dal disegno originale, che NON è a livelli perfettamente allineati (il disegno a mano è volutamente irregolare: 5 sta un filo più in alto di 2, 8 più in alto di 6 e 7):\n  n1 = (3.0, 0.0)\n  n2 = (1.3, -1.05)   n5 = (4.4, -0.95)\n  n3 = (0.1, -2.05)   n4 = (1.4, -2.10)\n  n6 = (3.35, -2.10)  n7 = (4.15, -2.00)  n8 = (5.65, -1.90)\n  n9 = (5.15, -2.90)  n10 = (5.95, -2.90)\n\nARCHI (segmenti dritti, stesso colore dei nodi, tratto medio):\n  1-2, 1-5, 2-3, 2-4, 5-6, 5-7, 5-8, 8-9, 8-10.\nNessuna etichetta sugli archi.\n\nETICHETTE NUMERICHE (numero DFS di ciascun nodo, accanto al pallino, stessa tinta del disegno):\n  «1» sopra a sinistra di n1; «2» sopra a sinistra di n2; «5» sopra a destra di n5;\n  «3» sotto a sinistra di n3; «4» sotto a destra di n4;\n  «6» sotto a sinistra di n6; «7» sotto a n7; «8» a destra di n8;\n  «9» sotto a n9; «10» sotto a destra di n10.\n\nETICHETTE SECONDARIE (nel quaderno sono tracciate a matita, molto sbiadite, accanto ai soli nodi 1, 2, 5, nella forma «1/10», «2/4», «5/10»): renderle come intervalli in grigio, corpo più piccolo, leggermente staccate a destra della rispettiva etichetta numerica:\n  accanto a n1: $[1,10]$\n  accanto a n2: $[2,4]$\n  accanto a n5: $[5,10]$\nRappresentano l'intervallo (contiguo) dei numeri DFS del sottoalbero radicato in quel nodo.\n\nSIGNIFICATO ALGORITMICO: la figura serve a due cose. (i) mostrare che si lavora con alberi qualsiasi (arità variabile: la radice ha 2 figli, il nodo 5 ne ha 3, il nodo 8 ne ha 2, il nodo 2 ne ha 2, altri sono foglie; profondità non uniforme). (ii) illustrare la DFS property enunciata subito sotto nel testo: i numeri dei nodi di ogni sottoalbero formano un intervallo contiguo, senza buchi — verificabile sulle tre etichette [1,10], [2,4], [5,10].\n\nDA NON RIPRODURRE: nella scansione si intravedono ellissi sbiadite attorno ai nodi 4, 7, 9, 10 e una sagoma attorno alla zona 6-7-8-9; sono tracce di disegno preparatorio senza contenuto per questa pagina.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina si chiude enunciando il «Piano» in tre punti, senza svolgerne nessuno: restano in sospeso (a) il modello di calcolo che rende lecito il conteggio in O(1), (b) la soluzione del problema sull'albero binario completo B (punto 1), (c) la definizione esplicita della mappa I e la sua buona definizione (punto 2), (d) l'uso di I per riportare il caso generale al caso binario completo (punto 3). Coerentemente, la pagina 33 si apre con «Prerequisito: modifico il modello di calcolo (in effetti non è vero!)» — elenco delle operazioni assunte in O(1) su array di c·log(n) bit (AND, OR, XOR, SHIFT left/right, MASK, leftmost/rightmost significant 1, con n = dimensione dell'input) — e prosegue subito con «1) Risolvo il problema su B albero binario completo», introducendo B, la sua profondità log n e la codifica di un nodo come stringa di bit (path number). Le figure della p. 33 (triangolo con i livelli 1, 2, 4, 8, … e la stringa 1|0000000) sono la prosecuzione diretta del punto 1 del piano enunciato qui.",
+ "confidenza": "alta"
+}

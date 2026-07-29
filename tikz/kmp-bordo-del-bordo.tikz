@@ -1,0 +1,56 @@
+% kmp-bordo-del-bordo -- il passo ricorsivo del pre-processing (pag. 4).
+% alpha = massimo bordo di S_{i-1} (|alpha|=k=sp_{i-1}(S)),
+% beta  = massimo bordo di alpha. Qui S[i]=a diverso da b=S[k+1]:
+% alpha non si estende e si ricade su beta.
+\begin{tikzpicture}[
+    x=0.80cm, y=1cm,
+    font=\footnotesize,
+    >={Stealth[length=4pt,width=3pt]},
+    linea/.style={line width=0.8pt},
+    tacca/.style={gray!70!black, line width=0.5pt},
+    segm/.style={line width=0.6pt},
+  ]
+
+  % --- la stringa S ------------------------------------------------------
+  \draw[linea] (0,0) -- (12.6,0);
+  \node[right,inner sep=3pt] at (12.6,0) {$S$};
+  \draw[tacca] (0,-0.16) -- (0,0.16);
+
+  % --- le due celle di un carattere ---------------------------------------
+  % b = S[k+1] segue la copia-prefisso di alpha
+  \draw[segm] (4,0) rectangle (5,0.42);
+  \node at (4.5,0.21) {$b$};
+  % a = S[i] segue la copia-suffisso di alpha
+  \draw[segm] (10,0) rectangle (11,0.42);
+  \node at (10.5,0.21) {$a$};
+
+  % --- livello 1 : le due occorrenze di alpha ------------------------------
+  \foreach \s/\e in {0/4, 6/10}{%
+    \draw[segm] (\s,0.62) -- (\e,0.62);
+    \draw[segm] (\s,0.52) -- (\s,0.72);
+    \draw[segm] (\e,0.52) -- (\e,0.72);
+  }
+  \node[above,inner sep=2pt] at (3.0,0.66) {$\alpha$};
+  \node[above,inner sep=2pt] at (7.0,0.66) {$\alpha$};
+
+  % --- livello 2 : beta, bordo di alpha ------------------------------------
+  % beta e' prefisso di alpha (copia sinistra) e suffisso di alpha (copia destra)
+  \foreach \s/\e in {0/2, 8/10}{%
+    \draw[segm] (\s,1.28) -- (\e,1.28);
+    \draw[segm] (\s,1.18) -- (\s,1.38);
+    \draw[segm] (\e,1.18) -- (\e,1.38);
+  }
+  \node[above,inner sep=2pt] at (1.0,1.32) {$\beta$};
+  \node[above,inner sep=2pt] at (9.0,1.32) {$\beta$};
+
+  % il confronto del passo ricorsivo riprende dal carattere S[i]
+  \draw[->,line width=0.6pt] (10.5,1.10) -- (10.5,0.52);
+
+  % --- posizioni ----------------------------------------------------------
+  \foreach \x in {4,5,10,11}{\draw[tacca] (\x,-0.16) -- (\x,0);}
+  \node[below,inner sep=4pt] at (3.6,-0.10)  {$k$};
+  \node[below,inner sep=4pt] at (4.5,-0.10)  {$k+1$};
+  \node[below,inner sep=4pt] at (9.5,-0.10)  {$i-1$};
+  \node[below,inner sep=4pt] at (10.5,-0.10) {$i$};
+
+\end{tikzpicture}

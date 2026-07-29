@@ -1,0 +1,21 @@
+{
+ "pagina": 13,
+ "esito": "problemi-minori",
+ "file_scritto": "/home/rob/UNI/algoritmi_avanzati/lezioni/04-aho-corasick.tex",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "errore-matematico",
+   "dove": "lezioni/04-aho-corasick.tex, \\subsection{Misure di K(P)}, osservazione dopo il blocco aligned (riga ~132): «... con uguaglianza se e solo se nessuna coppia di pattern condivide un prefisso non vuoto; lo spazio e' $\\Th(n)$.»",
+   "descrizione": "La frase asserisce $\\Th(n)$ subito dopo aver correttamente osservato che #archi <= n con uguaglianza SOLO se nessun prefisso non vuoto e' condiviso. Le due affermazioni sono in contraddizione: la dimensione di K(P) puo' essere asintoticamente inferiore a n. Controesempio: z pattern di lunghezza L che condividono un prefisso di lunghezza L-1 e differiscono nell'ultimo carattere (ipotesi semplificativa rispettata, essendo tutti di pari lunghezza e distinti): n = zL, #nodi = L+z; per L = z si ha n = z^2 e #nodi = 2z = 2*sqrt(n), cioe' o(n). Il limite corretto e' quello superiore.",
+   "correzione": "Sostituire «lo spazio e' $\\Th(n)$» con «lo spazio e' $\\Oh(n)$» (oppure «lo spazio e' lineare in $n$ nel caso peggiore»)."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "errore-logico",
+   "dove": "lezioni/04-aho-corasick.tex, \\section{I failure link}, primo capoverso (riga ~154): «... ma si salta al nodo la cui etichetta di cammino e' il piu' lungo suffisso di quanto gia' riconosciuto.»",
+   "descrizione": "Mancano le due qualificazioni essenziali: il suffisso deve essere PROPRIO e deve essere ancora etichetta di un cammino dalla radice in K(P). Letta alla lettera, la frase descrive un'operazione nulla: il piu' lungo suffisso di quanto gia' riconosciuto e' l'intera stringa L(v), cioe' il nodo v stesso, e il puntatore non avanzerebbe. E' lo stesso equivoco che a p.14 il trascrittore ha giustamente esplicitato nella definizione formale di $\\nv{v}$ (righe 176-179) e nella didascalia della figura~\\ref{fig:failure-link-idea}, ma qui resta.",
+   "correzione": "Riscrivere: «... ma si salta al nodo la cui etichetta di cammino e' il piu' lungo suffisso \\emph{proprio} di quanto gia' riconosciuto che sia ancora l'etichetta di un cammino dalla radice in $K(\\mathcal{P})$ (equivalentemente: che sia prefisso di almeno un pattern).»"
+  }
+ ]
+}

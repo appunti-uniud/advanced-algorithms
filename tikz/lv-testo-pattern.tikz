@@ -1,0 +1,20 @@
+% lv-testo-pattern -- il testo T (lungo) e il pattern P (corto), con |P| << |T|
+% (quaderno, pag. 48).  Le graffe con m ed n non sono nel manoscritto: servono a
+% fissare la notazione usata subito prima nel testo.
+\begin{tikzpicture}[font=\footnotesize]
+
+  % --- il testo ---
+  \draw[line width=1.1pt] (0,1.45) -- (7,1.45);
+  \node[right=4pt,font=\normalsize] at (7,1.45) {$T$};
+  \draw[decorate,decoration={brace,mirror,amplitude=4pt},draw=black!55,
+        line width=0.5pt] (0,1.30) -- (7,1.30);
+  \node[text=black!55] at (3.5,0.88) {$m=\abs{T}$};
+
+  % --- il pattern ---
+  \draw[line width=1.1pt] (2.2,0) -- (3.6,0);
+  \node[right=4pt,font=\normalsize] at (3.6,0) {$P$};
+  \draw[decorate,decoration={brace,mirror,amplitude=4pt},draw=black!55,
+        line width=0.5pt] (2.2,-0.15) -- (3.6,-0.15);
+  \node[text=black!55] at (2.9,-0.55) {$n=\abs{P}$};
+
+\end{tikzpicture}

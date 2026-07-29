@@ -1,0 +1,96 @@
+{
+ "pagina": 17,
+ "latex": "\\scan{17}\n\n\\begin{osservazione}\nIl problema della \\emph{pi\\`u lunga sottostringa ripetuta} di $S$ --- cio\\`e della pi\\`u lunga\nsottostringa comune a due posizioni distinte di $S$ --- si risolve facilmente usando il\nkeyword tree dei suffissi di $S$.\n\n\\medskip\n\\begin{center}\n\\fbox{\\parbox{0.85\\linewidth}{\\centering\nBasta utilizzare il keyword tree dei suffissi e determinare il\n\\textbf{nodo branching di profondit\\`a massima}.}}\n\\end{center}\n\\end{osservazione}\n\nLa ragione \\`e immediata. Se $\\beta$ occorre in due posizioni distinte $i \\neq j$ di $S$,\nallora $\\beta$ \\`e prefisso sia del suffisso che comincia in $i$ sia di quello che comincia\nin $j$: i due cammini che dalla radice compitano questi due suffissi condividono i primi\n$\\abs{\\beta}$ archi e prima o poi si separano, e il nodo in cui si separano \\`e branching e\nha profondit\\`a almeno $\\abs{\\beta}$. Viceversa, l'etichetta di un nodo branching \\`e prefisso\ndi almeno due suffissi distinti, e quindi occorre almeno due volte in $S$. Lavorando su\n$S\\$$, con $\\$ \\notin \\alfa$ terminatore, ogni suffisso finisce in una foglia distinta e la\ncorrispondenza \\guillemotleft nodi branching $\\leftrightarrow$ sottostringhe\nripetute\\guillemotright{} \\`e esatta.\n\n\\medskip\n\\textbf{Problemi.}\n\\begin{enumerate}\n  \\item Quanto \\`e grande il keyword tree dei suffissi di $S$?\n  \\item Come lo costruisco?\n\\end{enumerate}\n\n\\medskip\nFissiamo la notazione: dato un testo $T$, per ogni $i \\in \\{1,\\dots,\\abs{T}\\}$ poniamo\n\\begin{align*}\n  T_i &= \\sub{T}{i}{\\abs{T}} && \\text{($i$-esimo \\emph{suffisso} di $T$)},\\\\\n  T^i &= \\sub{T}{1}{i}       && \\text{($i$-esimo \\emph{prefisso} di $T$)},\n\\end{align*}\ne indichiamo con\n\\[\n  \\sigma(T) \\;=\\; \\bigl\\{\\, T_i \\;:\\; i \\in \\{1,\\dots,\\abs{T}\\} \\,\\bigr\\}\n\\]\nl'insieme di tutti i suffissi di $T$.\n\n\\begin{definizione}[Suffix trie]\nIl \\emph{suffix trie} di $T$ \\`e il keyword tree dell'insieme dei suoi suffissi:\n\\[\n  \\STrie{}(T) \\defeq K\\bigl(\\sigma(T)\\bigr).\n\\]\n\\end{definizione}\n\nIl termine \\emph{trie}, per inciso, viene dall'inglese re\\emph{trie}val.\n\n\\medskip\nAffrontiamo il primo dei due problemi.\n\n\\begin{domanda}\n\\`E possibile trovare esempi di $T$ tali che $\\abs{\\STrie{}(T)} \\in \\Th\\bigl(\\abs{T}^2\\bigr)$?\n\\end{domanda}\n\nS\\`i: basta prendere $T = a^m b^m$, e dunque $\\abs{T} = 2m$.\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/suffix-trie-ambm.tikz}\n\\caption{Il suffix trie di $T = a^m b^m$. La \\guillemotleft spina dorsale\\guillemotright{}\ndegli $a$ \\`e lunga $m$ e da ciascuno dei suoi nodi pende una catena di $m$ archi\netichettati $b$: in tutto $\\Th(m^2) = \\Th(\\abs{T}^2)$ nodi.}\n\\end{figure}\n\nLe sottostringhe di $a^m b^m$ sono infatti tutte e sole le stringhe della forma\n$a^p b^q$ con $0 \\le p \\le m$ e $0 \\le q \\le m$, a due a due distinte; poich\\'e i nodi di un\ntrie sono in biiezione con le sottostringhe distinte del testo (la radice corrisponde alla\nstringa vuota $\\vuota$), il suffix trie di $T$ ha esattamente\n\\[\n  (m+1)^2 \\;=\\; \\frac{\\abs{T}^2}{4} + \\abs{T} + 1 \\;=\\; \\Th\\bigl(\\abs{T}^2\\bigr)\n\\]\nnodi. Nel disegno: dalla radice pende la catena dei suffissi $b^q$, lunga $m$, e da ciascuno\ndei nodi $a^p$ della spina dorsale degli $a$ pende una catena di $m$ archi etichettati $b$,\nla cui foglia rappresenta il suffisso $a^p b^m$.",
+ "note": [
+  {
+   "tipo": "errore-anno-prec",
+   "pagina": 17,
+   "testo": "Il quaderno scrive la domanda come «|Suffix-Tree(T)| ∈ Θ(|T|²)?». È uno scambio di nome: l'oggetto che può essere quadratico è il suffix TRIE (il keyword tree non compattato dei suffissi), mentre il suffix TREE, dopo la compattazione dei cammini unari, è lineare — è esattamente ciò che p.18 costruisce («Per garantire la linearità della struttura dati modifichiamo il Suffix-Trie in Suffix-Tree»). Ho scritto |STrie(T)| ∈ Θ(|T|²). Anche Gli appunti del corso dell'anno precedente (L05, §3) intitolano la sezione «Dimensione di K(S(T)) può essere quadratica», cioè parlano del trie.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 17,
+   "testo": "Il quaderno scrive «T^i = [1, i]», omettendo la T davanti alla parentesi quadra (mentre poche righe sopra scrive correttamente «T_i = T[i, |T|]»). Ho scritto T^i = T[1..i].",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 17,
+   "testo": "La prima riga del quaderno dice letteralmente «Il problema delle sottostringhe comuni più lunghe si risolve facilmente usando il Keyword Tree dei suffissi di S» (la parola «comuni» è leggibile senza ambiguità). Con una sola stringa S la dicitura «sottostringa comune» è impropria: il problema posto a p.16 è «dato S determino la più lunga sottostringa ripetuta in S», e la ricetta nel riquadro (nodo branching di profondità massima nel trie dei suffissi di S) risolve esattamente quello. Ho quindi scritto «più lunga sottostringa ripetuta», conservando l'idea del quaderno con l'inciso «cioè della più lunga sottostringa comune a due posizioni distinte di S».",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 17,
+   "testo": "Il riquadro enuncia la ricetta senza giustificarla. Ho aggiunto il paragrafo «La ragione è immediata…» con le due implicazioni (β ripetuta ⇒ i due cammini si separano in un nodo branching di profondità ≥ |β|; etichetta di nodo branching ⇒ prefisso di ≥ 2 suffissi ⇒ ripetuta). È la ricostruzione della dimostrazione che negli appunti manca (cfr. fonte dell'anno precedente L05, Teor. 6.1).",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 17,
+   "testo": "Ho aggiunto anche la precisazione sul terminatore $ ∉ Σ: senza sentinella un suffisso può essere prefisso di un altro (es. S = aa) e allora la sottostringa ripetuta «a» non corrisponde a un nodo branching. Il terminatore è comunque già presente negli appunti dello studente: a p.16 la stringa S è disegnata con $ in coda e le foglie del kw-tree sono marcate $. Il criterio «nodo branching di profondità massima» è quindi corretto così com'è scritto, ma solo grazie alla sentinella.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 17,
+   "testo": "Il quaderno risponde «Sì! T = a^m b^m» e disegna il trie, ma non conta i nodi. Ho aggiunto il conteggio: le sottostringhe di a^m b^m sono esattamente le a^p b^q con 0 ≤ p,q ≤ m, i nodi del trie sono in biiezione con le sottostringhe distinte, quindi #nodi = (m+1)² = |T|²/4 + |T| + 1 = Θ(|T|²) (con |T| = 2m). Verificato: |T|²/4 + |T| + 1 = m² + 2m + 1 = (m+1)². La fonte dell'anno precedenteenuncia lo stesso risultato (L05, Prop. 3.2) con n al posto di m.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 17,
+   "testo": "Il simbolo per l'insieme dei suffissi è scritto come una lettera minuscola tonda con uncino, che ho letto «σ» (sigma minuscola): «con σ(T) = {T_i : i ∈ [1,…,|T|]}» e «Suffix-Trie(T) è il Keyword-Tree di σ(T)». Gli appunti del corso dell'anno precedente usano invece 𝒮(T). Ho mantenuto σ(T) perché è la scrittura dello studente e la fonte primaria è la sua; segnalo la divergenza notazionale. Nota: σ non è usato altrove in questa pagina per la cardinalità dell'alfabeto, quindi non c'è collisione.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 17,
+   "testo": "Il quaderno indicizza con parentesi quadre: «i ∈ [1,…,|T|]». Ho normalizzato in i ∈ {1,…,|T|}, che è un insieme di indici e non un intervallo reale.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 17,
+   "testo": "Abbreviazioni espanse: «K.T.» → «keyword tree» (nella riga precedente il quaderno lo scrive per esteso «Keyword Tree»); «t.c.» → «tali che».",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 17,
+   "testo": "Il quaderno scrive «Suffix-Trie(T)» e «Suffix-Tree(T)» per esteso; ho usato la macro \\STrie del preambolo (che rende \\textsf{STrie}) per uniformità con il resto del documento. Ho scritto \\STrie{}(T) e non \\STrie(T) perché la macro termina con \\xspace, che inserirebbe uno spazio prima della parentesi tonda.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 17,
+   "testo": "Sotto la riga «Suffix-Trie(T) è il Keyword-Tree di σ(T)» il quaderno ha una freccia verso l'annotazione «da reTrieval», con «Trie» ricalcato in inchiostro più marcato: è la nota etimologica (trie ← retrieval). L'ho resa come inciso «Il termine trie, per inciso, viene dall'inglese re\\emph{trie}val».",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 17,
+   "testo": "Il quaderno usa S per la stringa nell'osservazione iniziale e T per il testo nel blocco di notazione (retaggio delle due lezioni cucite insieme). Ho lasciato entrambe le lettere come nell'originale: l'osservazione parla di S, la notazione e l'esempio parlano di T.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 17,
+   "testo": "Interpretazione del disegno: è il suffix trie di a^m b^m. La radice è in alto; verso destra-basso parte la catena degli m archi b (i suffissi b^q); verso sinistra-basso scende la spina degli a, e da ciascun nodo a^p pende verso destra-basso una catena di m archi b (disegnata con 2-3 archi espliciti più un'ellissi di puntini). Le DUE graffe a sinistra, entrambe etichettate m, sono state interpretate così: quella in alto abbraccia verticalmente la spina degli a (m archi), quella in basso abbraccia la catena di b che pende dall'ultimo nodo della spina (m archi); insieme dicono che il cammino radice-foglia più a sinistra compita l'intera stringa a^m b^m. Nell'originale non ci sono etichette sulle foglie né indici di posizione.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "suffix-trie-ambm",
+   "pagina": 17,
+   "didascalia": "Il suffix trie di $T = a^m b^m$. La «spina dorsale» degli $a$ è lunga $m$ e da ciascuno dei suoi nodi pende una catena di $m$ archi etichettati $b$: in tutto $\\Theta(m^2) = \\Theta(|T|^2)$ nodi.",
+   "tipo": "albero (trie dei suffissi, con catene ellittiche e graffe di misura)",
+   "specifica": "SOGGETTO: suffix trie (keyword tree non compattato) della stringa T = a^m b^m; serve a mostrare che il numero di nodi è Θ(m^2) = Θ(|T|^2). Nessun indice di foglia, nessuna sentinella nel disegno originale.\n\nSTILE: nodi = piccoli cerchi PIENI (bullet, ~1.6pt), la radice leggermente più grande; archi = segmenti dritti sottili; etichette degli archi = singoli caratteri corsivi matematici 'a' e 'b' posti accanto all'arco (mai sopra il nodo); le parti omesse sono rese con TRE puntini allineati lungo la direzione della catena (ellissi), senza nodo terminale.\n\nTOPOLOGIA (usare i path-label come nomi interni):\n- Radice r (path-label = stringa vuota), in alto, spostata verso il centro-destra della figura.\n- RAMO DESTRO, catena dei suffissi b^q: da r un arco etichettato 'b' scende verso DESTRA-BASSO fino a u1; da u1 un arco 'b' verso destra-basso fino a u2; da u2 un arco 'b' verso destra-basso fino a u3; dopo u3 tre puntini in prosecuzione (destra-basso). Nell'originale sono disegnati 3 archi 'b' espliciti. Questa catena ha in totale m archi.\n- SPINA DORSALE DEGLI a: da r un arco etichettato 'a' scende verso SINISTRA-BASSO fino a v1 (path-label a); da v1 un arco 'a' verso sinistra-basso fino a v2 (a^2); da v2 un arco 'a' fino a v3 (a^3); da v3 un arco 'a' fino a v4 (a^4). Poi UN'ELLISSI VERTICALE (tre puntini) e infine l'ultimo nodo v_m (path-label a^m). La spina è quasi verticale, leggermente inclinata verso sinistra scendendo (circa 75-80 gradi rispetto all'orizzontale), così che i nodi v_p siano progressivamente un po' più a sinistra e nettamente più in basso.\n- CATENE b PENDENTI: da ciascuno dei nodi v1, v2, v3, v4 parte verso DESTRA-BASSO (circa 45 gradi) un arco etichettato 'b', poi un secondo arco 'b', poi tre puntini in prosecuzione. Semanticamente ognuna di queste catene ha m archi 'b' e termina in una foglia con path-label a^p b^m (= il suffisso T_{m-p+1}); nel disegno se ne mostrano solo i primi 2 archi. Le catene devono restare parallele fra loro e non intersecare né la spina né le catene vicine (la spina scende quasi verticale, le catene a 45 gradi verso destra: la spaziatura verticale fra i v_p deve essere sufficiente).\n- ULTIMA CATENA (quella completa): da v_m parte verso il basso (leggermente a destra, ~70 gradi) la catena dei b: 3 archi etichettati 'b' espliciti con i rispettivi nodi, poi un ultimo nodo pieno e infine tre puntini verticali. È il cammino radice-foglia che compita l'intera stringa a^m b^m.\n\nGRAFFE DI MISURA (decorations.pathreplacing, brace):\n- Graffa 1: grande graffa sinistra (apertura rivolta a destra) che abbraccia VERTICALMENTE tutta la spina degli a, dall'altezza della radice r fino all'altezza di v_m; disegnata a sinistra della spina, con etichetta 'm' in corsivo matematico posta a SINISTRA del vertice della graffa. Significa: la spina è fatta di m archi 'a'.\n- Graffa 2: seconda graffa sinistra, più in basso, che abbraccia VERTICALMENTE l'ultima catena di b (da v_m fino all'ultimo nodo disegnato di quella catena); anch'essa a sinistra, con etichetta 'm' a sinistra del vertice. Significa: quella catena è fatta di m archi 'b'.\nLe due graffe sono allineate verticalmente sullo stesso lato sinistro e non devono toccare gli archi.\n\nSIGNIFICATO ALGORITMICO da rendere leggibile a colpo d'occhio: ci sono Θ(m) nodi sulla spina e da ciascuno pende una catena con Θ(m) nodi, quindi il trie ha Θ(m^2) = Θ(|T|^2) nodi; il suffix trie è perciò inutilizzabile come indice (spazio quadratico), ed è questa la motivazione della compattazione in suffix tree della pagina successiva.\n\nNOTE SULL'ORIGINALE: tutto è disegnato a mano libera con archi leggermente curvi; nel manoscritto compaiono 5 nodi espliciti sulla spina (radice + 4-5 a-nodi) e le ellissi sono rese con 2-3 trattini/puntini. Non ci sono etichette diverse da 'a', 'b' e dalle due 'm' delle graffe.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "Resta aperto il Problema 2 («Come costruisco il keyword tree dei suffissi?»), che il quaderno pone qui e non risolve: la risposta (algoritmo di Ukkonen, tempo lineare) arriverà più avanti nel capitolo. Il Problema 1 è invece chiuso in senso negativo: il suffix trie può avere Θ(|T|²) nodi (testimone T = a^m b^m). La pagina si interrompe subito dopo la figura del trie di a^m b^m, senza commento conclusivo. La pagina 18 riparte esattamente di qui: mostra un frammento di trie con una catena unaria «ab b» compattata in un arco etichettato [i,j] e poi enuncia «Per garantire la linearità della struttura dati modifichiamo il Suffix-Trie in Suffix-Tree. Due operazioni: 1) eliminiamo i cammini massimali di nodi con un singolo figlio; 2) etichetto l'arco (x_1,x_n) introdotto con una coppia [i,j] di indici nel testo t.c. T[i..j] = a_1 a_2 … a_n», con il N.B. «affinché 2 funzioni dobbiamo tenere in memoria il testo» e il Lemma «dato T albero binario t.c. ogni nodo interno è branching, nodes(T) ≤ 2·leaves(T) + 1». Ci si aspetta quindi che il seguito parta dalla constatazione di quadraticità appena stabilita e la elimini per compattazione.",
+ "confidenza": "alta"
+}

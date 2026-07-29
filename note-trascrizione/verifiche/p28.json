@@ -1,0 +1,21 @@
+{
+ "pagina": 28,
+ "esito": "problemi-minori",
+ "file_scritto": "/home/rob/UNI/algoritmi_avanzati/lezioni/06-karp-rabin.tex",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "errore-logico",
+   "dove": "lezioni/06-karp-rabin.tex, \\begin{osservazione}[Annotazione a matita] (righe 290-297): «il numero atteso di occorrenze di P e' (n-m+1)/d^m, cioe' praticamente nullo»",
+   "descrizione": "L'osservazione ribalta l'annotazione a matita «(non e' vero per testi completamente Random)» affermando senza condizioni che su un testo uniforme e casuale l'ipotesi v = O(1) e' «ampiamente soddisfatta». La quantita' (n-m+1)/d^m e' «praticamente nulla» solo se d^m >> n, cioe' m >~ log_d n. Per m piccolo (al limite m = 1, d = 2, n grande) il numero atteso di occorrenze e' Theta(n/d^m) = Theta(n): su un testo completamente random v NON e' O(1), e l'annotazione dello studente risulterebbe corretta invece che da capovolgere. Il punto sostanziale (l'ipotesi cade sui testi ripetitivi, non su quelli casuali) resta valido, ma va condizionato.",
+   "correzione": "Aggiungere il vincolo di regime: «... il numero atteso di occorrenze di P e' (n-m+1)/d^m, che e' praticamente nullo non appena d^m >> n (cioe' m >~ log_d n), e in quel regime l'ipotesi v = O(1) e' ampiamente soddisfatta». In alternativa osservare che per m piccolissimo v puo' essere Theta(n) anche su testo casuale, ma allora m*v = O(n) e la complessita' resta lineare lo stesso."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "omissione",
+   "dove": "lezioni/06-karp-rabin.tex, \\section{La scelta di q} righe 243-248 («q (e con esso d*q) deve stare in una parola di macchina, cioe' occupare O(log n) bit») e \\begin{osservazione}[Che cosa e' davvero aleatorio] righe 319-326; NOTE-EDITORIALI.md",
+   "descrizione": "Sono due integrazioni corrette ma assenti dal foglio: p.28 dice soltanto «q, primo, piu' grande e' meglio e' (ovvio!) -> useremo il teorema sulla distribuzione dei primi», e non contiene ne' il vincolo O(log|T|) bit su q ne' alcuna discussione sulla sorgente di aleatorieta'. Verificato anche che il vincolo non compare a p.27 (bande b1-b3). Nessuna delle due aggiunte e' registrata in NOTE-EDITORIALI.md (che per p.28 ha 20 voci, nessuna su questi due punti), in contrasto con la policy editoriale 3 («Logga sempre tutto») e con la voce gia' registrata per p.27, dove il trascrittore scrive esplicitamente «Non ho introdotto il vincolo quantitativo su q (O(log|T|) bit), che negli appunti dello studente non compare in questa pagina».",
+   "correzione": "Tenere il testo (e' corretto e proviene daGli appunti del corso dell'anno precedente, L06 sez. 8-9) e aggiungere due voci in NOTE-EDITORIALI.md per p.28: (a) «Integrato il vincolo che q e d*q stiano in una parola di macchina (O(log n) bit): non e' sulla pagina, viene dall'annotazione dell'anno precedente allo pseudocodice (L06 p.3); serve a chiudere il problema i)»; (b) «Aggiunta l'osservazione sulla sorgente di aleatorieta' (q primo scelto a caso): non e' sulla pagina, cfr. L06 sez. 9 e Motwani-Raghavan»."
+  }
+ ]
+}

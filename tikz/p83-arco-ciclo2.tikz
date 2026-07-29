@@ -1,0 +1,39 @@
+% p83-arco-ciclo2 -- pag. 83
+% Ogni arco non orientato di G diventa, in M_G, la coppia di transizioni opposte
+% u -> v e v -> u: un cammino chiuso di lunghezza 2.  Due pannelli separati da =>.
+% Nel quaderno i due punti non sono etichettati: qui si aggiungono u, v e i nomi
+% delle due probabilita' di transizione.
+\begin{tikzpicture}[
+    x=1cm, y=1cm, line join=round, line cap=round,
+    font=\footnotesize,
+    punto/.style = {circle, fill, inner sep=0pt, minimum size=3pt},
+    arco/.style  = {line width=0.7pt},
+    tran/.style  = {line width=0.7pt, -{Latex[length=1.9mm,width=1.5mm]}},
+    didasc/.style= {gray!70!black, anchor=north, inner sep=1pt},
+  ]
+
+  % ================= pannello di sinistra: l'arco di G =====================
+  \node[punto] (a) at (0,0)   {};
+  \node[punto] (b) at (1.7,0) {};
+  \node[anchor=east, inner sep=3pt] at (a.west) {$u$};
+  \node[anchor=west, inner sep=3pt] at (b.east) {$v$};
+
+  \draw[arco] (a) to[bend left=45] (b);
+
+  \node[didasc] at (0.85,-0.95) {in $G$: un arco};
+
+  % ================= freccia di implicazione ==============================
+  \node at (2.95,0.14) {$\Longrightarrow$};
+
+  % ================= pannello di destra: il 2-ciclo di M_G ================
+  \node[punto] (c) at (4.2,0) {};
+  \node[punto] (d) at (5.9,0) {};
+  \node[anchor=east, inner sep=3pt] at (c.west) {$u$};
+  \node[anchor=west, inner sep=3pt] at (d.east) {$v$};
+
+  \draw[tran] (c) to[bend left=45] node[above,inner sep=1.5pt] {$P_{u,v}$} (d);
+  \draw[tran] (d) to[bend left=45] node[below,inner sep=1.5pt] {$P_{v,u}$} (c);
+
+  \node[didasc] at (5.05,-0.95) {in $M_G$: un ciclo di lunghezza $2$};
+
+\end{tikzpicture}

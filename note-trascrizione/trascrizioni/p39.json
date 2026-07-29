@@ -1,0 +1,90 @@
+{
+ "pagina": 39,
+ "latex": "\\scan{39}\n\n\\noindent\\emph{(Prosegue la dimostrazione del Teorema~1: il valore $j=h(I(z))$ è noto e\nresta da determinare $\\bar x$ in tempo costante; per $\\bar y$ si procede in modo simmetrico.)}\n\n\\begin{itemize}\n  \\item Se $h(I(x))=j$, allora $x$ sta già sul run di $z$, cioè $x=\\bar x$: ho finito.\n  \\item Altrimenti, sia $w$ l'ultimo nodo del cammino $x\\rightsquigarrow\\bar x$ che viene\n        mappato in un nodo di altezza $<j$ (tutti i nodi del cammino che stanno\n        strettamente sotto $\\bar x$ hanno infatti $h(I(\\cdot))<j$).\n\\end{itemize}\n\n\\begin{osservazione}\n  $w$ è figlio di $\\bar x$ ed è il \\emph{leader} del proprio run.\n  Dunque, se determino $w$ ho finito, perché $\\bar x=\\mathrm{parent}(w)$.\n\\end{osservazione}\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/lca-xbar-w.tikz}\n  \\caption{Il caso $h(I(x))\\neq j$: $\\bar x$ appartiene al run di $z$, mentre $w$ è il\n  figlio di $\\bar x$ sul cammino che scende verso $x$ ed è il leader del proprio run.}\n\\end{figure}\n\nIl nodo $w$ si determina con quattro osservazioni, ciascuna eseguibile in $\\Oh(1)$:\n\\begin{itemize}\n  \\item $h(I(w))$ è la posizione del primo $1$ di $A_x$ a destra di $j$, cioè la più\n        grande posizione $<j$ in cui $A_x$ vale $1$;\n  \\item $I(w)$ coincide con $I(x)$ in tutti i bit a sinistra della posizione $h(I(w))$;\n        quindi\n        \\[\n          I(w)\\;=\\;\\bigl(\\text{bit di } I(x) \\text{ a sinistra di } h(I(w))\\bigr)\n          \\;\\Vert\\;1\\;\\Vert\\;0\\cdots0 ;\n        \\]\n  \\item $w$ è il leader del run individuato da $I(w)$, cioè $w=L(I(w))$;\n  \\item $\\bar x$ è il padre di $w$.\n\\end{itemize}\n\n\\begin{osservazione}\n  Se $h(I(x))=j$, allora dentro $\\T(x)$ i bit a sinistra della posizione $j$ restano\n  fissi e possono cambiare solo quelli dalla posizione $j$ in giù: per il Lemma, ogni\n  $u\\in\\T(x)$ ha $I(u)\\in\\B(I(x))$, cioè $I(u)$ e $I(x)$ hanno gli stessi bit a\n  sinistra di $j$. È esattamente questo che permette di ricostruire $I(w)$ a partire\n  da $I(x)$.\n\\end{osservazione}\n\n\\subsection{Algoritmo per \\texorpdfstring{$\\lca(x,y)$}{lca(x,y)} in tempo \\texorpdfstring{$\\Oh(1)$}{O(1)}}\n\n\\begin{osservazione}\n  Tutte le informazioni che l'algoritmo usa devono essere state rese disponibili in\n  fase di pre-processing.\n\\end{osservazione}\n\n\\begin{algorithm}[H]\n\\caption{Query $\\lca(x,y)$ in tempo costante (passi 1--3; i passi 4--5 proseguono a p.~40)}\n\\begin{algorithmic}\n  \\State \\textbf{1)} determino $b=\\lca_{\\B}\\bigl(I(x),I(y)\\bigr)$;\n  \\State \\textbf{2)} determino il minimo $j\\ge h(b)$ con $A_x[j]=A_y[j]=1$;\n         \\Comment{per il Teorema~2, $j=h(I(z))$}\n  \\State \\textbf{3)} determino $\\bar x$, il nodo del run di $z$ più vicino a $x$, così:\n  \\State \\quad \\textbf{3a)} trovo la posizione $\\ell$ minima con $A_x[\\ell]=1$;\n         \\Comment{$\\ell=h(I(x))$}\n  \\State \\quad \\textbf{3b)} se $\\ell=j$, allora $\\bar x=x$: ho finito;\n  \\State \\quad \\textbf{3c)} se $\\ell<j$, trovo la posizione massima $k<j$ con $A_x[k]=1$;\n  \\State \\qquad prendo $I(x)$, azzero i bit a destra della posizione $k$ e vi metto un\n         $1$ in posizione $k$: il numero ottenuto è $I(w)$;\n  \\State \\qquad leggo $w=L(I(w))$ e pongo\n         $\\bar x=\\mathrm{parent}(w)=\\mathrm{parent}\\bigl(L(I(w))\\bigr)$.\n\\end{algorithmic}\n\\end{algorithm}",
+ "note": [
+  {
+   "tipo": "correzione",
+   "pagina": 39,
+   "testo": "Nel N.B. fra parentesi (metà pagina) il quaderno scrive letteralmente «h(h(x)) = j»: il grafema interno è una 'h' identica a quella esterna, ben distinguibile dalla 'I' che lo studente traccia altrove nella stessa pagina (bullet «h(I(w)) è la posizione…») con barra superiore e inferiore. È un lapsus: h(h(x)) non ha senso, mentre h(I(x)) è la quantità usata ovunque nel Teorema 1. Ho scritto h(I(x)) senza marcatore. Sotto quel punto c'è anche una macchia/ripassatura, compatibile con una correzione tentata dallo studente.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 39,
+   "testo": "Il N.B. è scritto per metà in inglese: «h(h(x)) = j ⤳ in Z(x) only bits right of j may change» (la 'Z' è la grafia con cui lo studente rende 𝒯, cfr. p.38 «x ∈ 𝒯(z) → I(x) ∈ ℬ(I(z))»). Tradotto in italiano come richiesto dalla policy e completato con la giustificazione (Lemma 8.7.1: u ∈ 𝒯(x) ⟹ I(u) ∈ ℬ(I(x))), che nel quaderno è sottintesa.",
+   "risolto": true
+  },
+  {
+   "tipo": "errore-anno-prec",
+   "pagina": 39,
+   "testo": "«only bits right of j may change» è impreciso: l'invariante del Lemma 8.7.1 è che i bit STRETTAMENTE A SINISTRA della posizione j = h(I(x)) coincidono, mentre il bit in posizione j può variare (in ℬ, il sottoalbero di un nodo di altezza j contiene sia numeri con bit j = 0 sia con bit j = 1: es. sottoalbero di 010 = {001,010,011}). Ho riformulato come «i bit a sinistra della posizione j restano fissi e possono cambiare solo quelli dalla posizione j in giù».",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 39,
+   "testo": "Il bullet «I(w) è I(x) a sx di h(I(w))» è telegrafico. L'ho espanso nella formula esplicita I(w) = (bit di I(x) a sinistra di h(I(w))) ‖ 1 ‖ 0…0, che è la stessa cosa detta dal passo 3c più in basso nella pagina («trovo I(x) e maschero a dx della posiz. trovata») e che coincide con Gusfield §8.7 e con L09_sintesi.md §3.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 39,
+   "testo": "Il passo 3c del quaderno dice solo «trovo I(x) e maschero a dx della posiz. trovata (è I(w))»: il mascheramento da solo non basta. Poiché h(I(x)) = ℓ < k, il bit in posizione k di I(x) può valere 0, mentre I(w) deve avere 1 in posizione k (per definizione h(I(w)) = k). Ho aggiunto «e vi metto un 1 in posizione k», cioè I(w) = (I(x) AND ¬(2^k−1)) OR 2^(k−1), come nello pseudocodice di Gusfield.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 39,
+   "testo": "Il titolo del quaderno è «Algoritmo O(1) per lca(i,j) in O(1)», con la complessità ripetuta due volte (evidente ripensamento in scrittura). Ho scritto la complessità una sola volta. Inoltre il titolo usa lca(i,j) mentre tutto il corpo dell'algoritmo usa x, y — e j è già impegnata come j = h(I(z)): per evitare la collisione di nomi ho intestato lca(x,y), coerentemente con Gusfield e con il resto della pagina.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 39,
+   "testo": "Nel bullet «w è il leader del run di I(w)» la parola «run» è scritta e poi ricalcata/cancellata, restando poco leggibile. La lettura è confermata dal passo 3c della stessa pagina («trovo L(I(w)) e x̄ = parent(L(I(w)))») e dalla definizione L(k) = head del run che contiene k. Risolto senza marcatore.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 39,
+   "testo": "La pagina si apre a metà della dimostrazione del Teorema 1, iniziata a p.38 («sia h(I(z)) = j noto; x̄/ȳ sono i primi nodi del run di z lungo il cammino da x/y; z è uno tra x̄ e ȳ»). Ho aggiunto una frase-ponte in corsivo di una riga per rendere leggibile l'incipit; non aggiunge contenuto matematico.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 39,
+   "testo": "Il quaderno scrive «sia w l'ultimo nodo sul cammino x ⇝ x̄, mappato in un nodo di altezza < j». Ho aggiunto fra parentesi la verifica implicita (ogni nodo del cammino strettamente sotto x̄ è discendente di x̄ ma non sul run di z, quindi h(I(·)) < j), che rende evidente perché tale w sia esattamente il figlio di x̄ — la caratterizzazione usata dagli appunti dell'anno precedente (L09_sintesi.md §3).",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 39,
+   "testo": "L'algoritmo è spezzato fra p.39 (passi 1, 2, 3, 3a, 3b, 3c) e p.40 (passi 4 e 5). Ho aperto un ambiente algorithm[H] con i soli passi 1–3c e l'ho segnalato nella caption: in fase di cucitura i due blocchi vanno fusi in un unico float, eliminando la nota «i passi 4–5 proseguono a p.40».",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 39,
+   "testo": "Al centro-destra della pagina c'è un disegno a matita molto sbiadito (forma chiusa allungata con due pallini, una diagonale che la attraversa e una scritta illeggibile in alto, forse «I(v)»): sembra una bozza a matita, poi abbandonata, della stessa figura dei run disegnata poi in penna in alto a destra. Non trascritto.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 39,
+   "testo": "Il disegno in alto a destra è molto intricato. Convenzione grafica dello studente ricavata dal confronto con la figura di p.38: le linee A ZIG-ZAG rappresentano i run (cammini verticali di 𝒯), le linee LISCE rappresentano cammini generici. Sulla p.39 le spezzate a zig-zag sono disegnate a coppie parallele chiuse alle estremità, cioè come forme allungate — l'equivalente dei «parallelogrammi tratteggiati» della figura dell'anno precedente (L09_sintesi.md, figura p.2). Identificati con certezza: un pallino etichettato x̄ (in alto), un pallino etichettato w (poco sotto e a sinistra), un pallino etichettato x (in basso a sinistra), la forma-run superiore che scende da sinistra fino a x̄, la forma-run inferiore che scende da w verso il basso a destra e si chiude su un nodo (= I(w)), e 2–3 tratti lisci quasi paralleli che collegano la zona di w a x (ripassature dello stesso cammino). Resta indecifrato un piccolo segno angolare in inchiostro scuro accanto a w (forse una «L» di Leader o la punta di una freccia): omesso nella specifica.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "lca-xbar-w",
+   "pagina": 39,
+   "didascalia": "Il caso $h(I(x))\\neq j$: $\\bar x$ appartiene al run di $z$, mentre $w$ è il figlio di $\\bar x$ sul cammino che scende verso $x$ ed è il leader del proprio run.",
+   "tipo": "albero (porzione di 𝒯 con due run)",
+   "specifica": "Schizzo di una porzione dell'albero 𝒯 disegnato IN DIAGONALE, dall'alto a sinistra verso il basso a destra (come nell'originale). Convenzione grafica da rispettare (è quella dello studente, ricavata anche dalla figura di p.38): un RUN si disegna come spezzata A ZIG-ZAG / a scalini, un cammino generico si disegna come linea LISCIA.\n\nElementi, dall'alto in basso:\n\n(1) RUN DI z (run superiore). Spezzata a zig-zag di 5–6 gradini che entra dal bordo in alto a sinistra e scende verso destra, terminando sul nodo x̄. Va disegnata spessa, oppure — meglio ancora, per riprodurre l'originale e la figura dell'anno precedente — come un lungo parallelogramma stretto e tratteggiato orientato in diagonale, con il contorno a scalini. Il run prosegue oltre il bordo verso l'alto (lì stanno z e il leader del run): lasciarlo aperto/sfumato in alto a sinistra. Annotazione facoltativa accanto: «run di $z$».\n\n(2) NODO x̄. Pallino pieno posizionato all'estremità inferiore-destra del run superiore. Etichetta $\\bar x$ (x con soprallineatura) posta IN ALTO A DESTRA del pallino, staccata di poco.\n\n(3) NODO w. Pallino pieno posto poco SOTTO e leggermente A SINISTRA di x̄ (nell'originale è circa mezzo quadretto sotto e un quadretto a sinistra). Etichetta $w$ posta IN ALTO A SINISTRA del pallino. Un SEGMENTO RETTILINEO breve unisce x̄ a w: è l'arco di 𝒯 che realizza $\\bar x = \\mathrm{parent}(w)$; va disegnato pieno e ben visibile perché è il punto della figura. Annotazione facoltativa accanto a w: «leader del run».\n\n(4) RUN DI w (run inferiore). Seconda spezzata a zig-zag (stessa resa grafica del run superiore: zig-zag spesso o parallelogramma tratteggiato in diagonale) che PARTE ESATTAMENTE DA w e scende verso il basso a destra, più lunga della prima (6–8 gradini), terminando su un nodo marcato all'estremità in basso a destra: quel nodo è $I(w)$, il bottom del run. w è il top del run, cioè il suo leader — questa è la lettura semantica dell'intera figura. Etichetta $I(w)$ accanto al nodo terminale, e annotazione facoltativa «run di $w$» lungo la spezzata.\n\n(5) CAMMINO DA w A x. Linea LISCIA (rettilinea o appena curva, NON a zig-zag) che scende da w verso il basso a sinistra fino a un pallino pieno etichettato $x$ (etichetta a SINISTRA del pallino). Nell'originale i tratti sono 2–3, quasi paralleli e leggermente sfalsati (ripassature dello stesso cammino): in TikZ ne basta uno; volendo se ne possono disegnare due leggermente divergenti a suggerire il sottoalbero 𝒯(w) in cui x è immerso.\n\nDisposizione consigliata sul foglio (coordinate indicative): $x$ in basso a sinistra (0,0); $w$ al centro (3.2,2.6); $\\bar x$ appena sopra e a destra di w (3.9,3.2); il run di z che risale da x̄ verso l'alto a sinistra fino a circa (2.4,5.0); il run di w che scende da w verso il basso a destra fino a $I(w)$ in (6.6,0.4).\n\nTutte le etichette sono simboli matematici ($x$, $w$, $\\bar x$, $I(w)$); le eventuali annotazioni testuali («run di $z$», «run di $w$», «leader del run») vanno in italiano, in corpo piccolo e grigio.\n\nNota: nell'originale, accanto a w, compare un piccolo segno angolare in inchiostro scuro non decifrato (forse una «L» di Leader o una punta di freccia): OMETTERLO.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina si chiude a metà dell'algoritmo di query: sono scritti i passi 1), 2), 3) con i sotto-passi 3a), 3b), 3c), cioè fino alla determinazione di x̄. La p.40 riprende esattamente da lì con 4) «determino ȳ (analogo)» e 5) «z = min(x̄, ȳ)» rispetto al dfs-numbering, chiudendo l'algoritmo; l'ambiente `algorithm` aperto qui va quindi FUSO in fase di cucitura con i passi 4–5 di p.40 (e va tolta dalla caption la nota «i passi 4--5 proseguono a p.~40»). Subito dopo, sempre a p.40, il discorso passa al modello di calcolo: shift come moltiplicazione/divisione per 2^i, tabelle precalcolate di output per tutti i 2^{log n} = n input di ogni operazione unaria, e il trucco delle tabelle √n × √n = 2^{(log n)/2} × 2^{(log n)/2} per le operazioni binarie (AND, XOR, …), per evitare la tabella n × n = n². Restano inoltre in sospeso, e vengono coperti solo a p.40, i dettagli implementativi che rendono O(1) i singoli passi 1–3c (leftmost/rightmost 1, maschere, XOR).",
+ "confidenza": "alta"
+}

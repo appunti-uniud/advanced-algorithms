@@ -1,0 +1,13 @@
+{
+ "pagina": 44,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "errore-matematico",
+   "dove": "lezioni/09-distanze-allineamento.tex, blocco \\scan{44}, ambiente osservazione dopo «Il costo è esponenziale!» (righe ~311-324): formula C(n)=2C(n-1)+C(n-2) e conclusione C(n)=\\Th((1+\\sqrt2)^n)",
+   "descrizione": "L'osservazione definisce C(n) come *il numero di chiamate* su un'istanza con n=i+j e poi asserisce l'uguaglianza C(n)=2C(n-1)+C(n-2) e la stima stretta \\Th((1+\\sqrt2)^n). Entrambe le cose sono imprecise: (a) il numero di chiamate non è funzione della sola somma n=i+j (i casi base scattano quando i=0 oppure j=0, non quando n≤1: per (i,j)=(n,0) le chiamate sono 1), quindi la ricorrenza vale solo come maggiorazione; (b) il conteggio esatto T(i,j)=1+T(i-1,j-1)+T(i-1,j)+T(i,j-1) con T(0,j)=T(i,0)=1 è essenzialmente un numero di Delannoy e per i=j=m vale T=\\Th((3+2\\sqrt2)^m/\\sqrt m)=\\Th((1+\\sqrt2)^n/\\sqrt n): verificato numericamente (T(m,m)/((1+\\sqrt2)^{2m}/\\sqrt{2m}) → ~1.21 costante, mentre T(m,m)/(1+\\sqrt2)^{2m} → 0 come 1/\\sqrt n). Il \\Theta sovrastima dunque di un fattore \\sqrt n. La conclusione qualitativa (costo esponenziale) resta ovviamente corretta. Nota: la formulazione con \\Theta è ripresa tale e quale dalle materiali dell'anno precedente (L11, p.2-3, riepilogo riga «Ricorsivo fine»), quindi è un errore ereditato, non introdotto dal trascrittore.",
+   "correzione": "Presentare la ricorrenza come maggiorazione e la stima come limite superiore: sostituire «quindi \\[ C(n) = 2C(n-1)+C(n-2) \\]» con «quindi C(n) \\le 2\\,C(n-1)+C(n-2)+\\Oh(1)» e, nella conclusione, sostituire \\Th\\!\\big((1+\\sqrt{2})^{\\,n}\\big) con \\Oh\\!\\big((1+\\sqrt{2})^{\\,n}\\big). In alternativa, mantenere il \\Theta ma riferirlo esplicitamente alla soluzione della ricorrenza e non al conteggio esatto («la ricorrenza C(n)=2C(n-1)+C(n-2) ha soluzione \\Th((1+\\sqrt2)^n), che maggiora il numero di chiamate»)."
+  }
+ ]
+}

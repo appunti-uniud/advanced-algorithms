@@ -1,0 +1,14 @@
+{
+ "pagina": 7,
+ "esito": "problemi-minori",
+ "file_scritto": "/home/rob/UNI/algoritmi_avanzati/lezioni/02-kmp-z.tex",
+ "problemi": [
+  {
+   "gravita": "media",
+   "categoria": "errore-logico",
+   "dove": "lezioni/02-kmp-z.tex, righe 343-344 (subito dopo la definizione di beta, prima della figura fig:z-alfa-beta): \"la \\Zbox che comincia in $i'$; per copia la stessa $\\beta$ compare a partire dalla posizione $i$\"",
+   "descrizione": "L'affermazione e' data senza condizioni, ma vale solo se $\\beta$ e' interamente contenuta in $\\alpha$, cioe' se $\\Zv{i'}\\le r-i+1$. La copia $\\sub{S}{\\ell}{r}=\\alpha$ garantisce l'uguaglianza carattere per carattere soltanto fino a $r$; se $\\Zv{i'}>r-i+1$ la Z-box $\\beta$ sfora la fine di $\\alpha$ e allora $\\beta$ NON ricompare a partire da $i$. Anzi, il testo stesso lo dimostra poco piu' sotto (osservazione, righe 410-414): in quel sottocaso $S[r+1]=y\\neq x=S[r-i+2]=\\beta[r-i+2]$, quindi il primo carattere di $\\beta$ oltre $r$ e' gia' diverso. La frase e' dunque in contraddizione interna con l'osservazione ed e' proprio il punto su cui casca la regola sbagliata degli appunti ($Z_i=\\Zv{i'}+q$).",
+   "correzione": "Condizionare l'affermazione. Sostituire \"; per copia la stessa $\\beta$ compare a partire dalla posizione $i$.\" con qualcosa come \"; poiche' il blocco e' una copia del prefisso, la parte di $\\beta$ contenuta in $\\alpha$ ricompare a partire dalla posizione $i$ --- l'intera $\\beta$ soltanto quando $\\Zv{i'}\\le r-i+1$, cioe' quando $\\beta$ non oltrepassa la fine di $\\alpha$.\" (In alternativa, spostare la frase dentro il solo Caso 1.)"
+  }
+ ]
+}

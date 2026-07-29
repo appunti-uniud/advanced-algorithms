@@ -1,0 +1,67 @@
+% kmp-shift -- regola di spostamento di KMP (quaderno, pag. 3).
+% Tre barre sovrapposte: il testo T, il pattern P nell'allineamento corrente,
+% il pattern P dopo lo scorrimento di i-|alpha| posizioni.
+% Proporzioni prese dal quaderno: i = 5 unita', |alpha| = 3, spostamento = 2.
+% Le due barre di P hanno la stessa lunghezza (11 unita'): e' la stessa stringa.
+\begin{tikzpicture}[
+    x=0.52cm, y=1cm,
+    font=\footnotesize,
+    >={Stealth[length=4pt,width=3pt]},
+    barra/.style={line width=0.7pt},
+    sep/.style={line width=0.5pt},
+    guida/.style={gray!60!black, line width=0.5pt},
+  ]
+
+  % ===== colonna del mismatch (attraversa tutte e tre le righe) =========
+  \draw[guida] (6,-0.45) -- (6,2.62);
+  \draw[guida] (7,-0.45) -- (7,2.62);
+
+  % ===== RIGA 1 : il testo T ===========================================
+  \draw[barra] (0,2.05) rectangle (20,2.50);
+  % porzione gia' scandita / non specificata
+  \draw[guida] plot[domain=0.45:2.55,samples=50,smooth]
+        ({\x},{2.275+0.075*sin(\x*360)});
+  \draw[sep] (3,2.05) -- (3,2.50);
+  \node at (4.5,2.275) {$\alpha$};
+  \node at (6.5,2.275)  {$y$};
+  \node[right,inner sep=3pt] at (20,2.275) {$T$};
+  % punto di confronto corrente sul testo
+  \draw[->,line width=0.6pt] (6.5,3.12) -- (6.5,2.68);
+
+  % ===== mismatch ======================================================
+  \node[fill=white,inner sep=1.5pt] at (6.5,1.725) {$\neq$};
+
+  % ===== RIGA 2 : il pattern P nell'allineamento corrente ===============
+  \draw[barra] (1,0.95) rectangle (12,1.40);
+  % la porzione di P che lo scorrimento scarta (lunga i-|alpha|), tratteggiata
+  \begin{scope}
+    \clip (1,0.95) rectangle (3,1.40);
+    \foreach \i in {-2,...,13}{%
+      \draw[guida,line width=0.4pt]
+        ({1+\i*0.30},0.90) -- ({1+\i*0.30+0.42},1.45);
+    }
+  \end{scope}
+  \draw[sep] (3,0.95) -- (3,1.40);
+  \node at (4.5,1.175) {$\alpha$};
+  \node at (6.5,1.175)  {$x$};
+  \node[right,inner sep=3pt] at (12,1.175) {$P$};
+
+  % ===== RIGA 3 : il pattern P dopo lo spostamento ======================
+  \draw[barra] (3,-0.35) rectangle (14,0.10);
+  \node at (4.5,-0.125) {$\alpha$};
+  \node at (6.5,-0.125)  {$y$};
+  \node[right,inner sep=3pt] at (14,-0.125) {$P$};
+  % il confronto riprende dalla stessa posizione del testo
+  \draw[->,line width=0.6pt] (6.5,-1.00) -- (6.5,-0.53);
+
+  % ===== annotazioni dello spostamento =================================
+  % il prefisso alpha di P: lungo |alpha|, oltrepassa la zona tratteggiata ...
+  \draw[guida,->] (1.05,0.78) to[bend right=18] (3.95,0.78);
+  \draw[guida,->] (2.00,-0.02) -- (2.00,0.55);
+  \node[right,inner sep=1pt] at (2.10,-0.02) {$\alpha$};
+  % ... e scivola di i-|alpha| fino a sovrapporsi all'occorrenza di alpha in T
+  \draw[guida,dashed,->] (1.00,-0.58) to[out=-35,in=205] (2.92,-0.30);
+  % dopo lo shift il tratto alpha e' gia' verificato
+  \draw[guida,->] (3.10,-0.58) to[bend right=15] (5.90,-0.58);
+
+\end{tikzpicture}

@@ -1,0 +1,96 @@
+{
+ "pagina": 42,
+ "latex": "\\scan{42}\n\nIntroduciamo la \\emph{distanza} (di Levenshtein) misurando il lavoro da fare\nper ottenere una stringa dall'altra.\n\n\\begin{esempio}\nDue sequenze di DNA:\n\\[\n  \\sigma_1 = \\texttt{acgtcatca},\n  \\qquad\n  \\sigma_2 = \\texttt{taagtgtca}.\n\\]\n\\end{esempio}\n\nLe operazioni elementari sono quattro; a ciascuna associamo un costo:\n\\[\n  \\begin{array}{r@{\\quad}c@{\\qquad}l}\n    \\text{costo } 0 & \\mathbf{m} & \\textit{match}\\\\[8pt]\n    \\text{costo } 1 &\n      \\left\\{\n        \\begin{array}{@{}c@{}}\n          \\mathbf{i}\\\\[3pt] \\mathbf{d}\\\\[3pt] \\mathbf{s}\n        \\end{array}\n      \\right. &\n      \\begin{array}{@{}l@{}}\n        \\textit{insert}\\\\[3pt] \\textit{delete}\\\\[3pt] \\textit{substitute}\n      \\end{array}\n  \\end{array}\n\\]\n\n\\noindent\nQual è il costo minimo di una sequenza di operazioni in\n$\\set{\\mathbf{m},\\mathbf{i},\\mathbf{d},\\mathbf{s}}$ che permetta di ottenere\n$\\sigma_2$ da $\\sigma_1$?\n\n\\begin{osservazione}\nRispondendo a questa domanda stiamo in realtà definendo il \\emph{costo\ndell'allineamento} di $\\sigma_1$ e $\\sigma_2$.\n\\end{osservazione}\n\n\\begin{definizione}[Allineamento]\n\\label{def:allineamento}\nUn \\emph{allineamento} di $\\sigma_1$ e $\\sigma_2$ è una stringa\n\\[\n  \\eta \\;\\in\\; \\set{\\mathbf{m},\\mathbf{i},\\mathbf{d},\\mathbf{s}}^{*}.\n\\]\n\\end{definizione}\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/allineamento-esempio.tikz}\n  \\caption{Un allineamento di $\\sigma_1=\\texttt{acgtcatca}$ e\n  $\\sigma_2=\\texttt{taagtgtca}$: la riga centrale, riquadrata, è\n  l'allineamento $\\eta=\\mathbf{i}\\,\\mathbf{m}\\,\\mathbf{s}\\,\\mathbf{m}\\,\\mathbf{m}\\,\\mathbf{s}\\,\\mathbf{d}\\,\\mathbf{m}\\,\\mathbf{m}\\,\\mathbf{m}$;\n  sopra e sotto stanno i caratteri di $\\sigma_1$ e di $\\sigma_2$ che ciascuna\n  operazione mette in corrispondenza. È il migliore possibile?}\n  \\label{fig:allineamento-esempio}\n\\end{figure}\n\n\\begin{domanda}[Problema]\nCome determino $\\eta$, date $\\sigma_1$ e $\\sigma_2$, in modo che il costo sia\n\\emph{minimo} (e che $\\eta$ converta $\\sigma_1$ in $\\sigma_2$)?\n\\end{domanda}\n\nUn allineamento che non usi mai $\\mathbf{i}$ né $\\mathbf{d}$ è esattamente un\nconfronto posizione per posizione, cioè un allineamento di tipo Hamming; poiché\nla distanza di Levenshtein è il minimo del costo su \\emph{tutti} gli\nallineamenti, si ha\n\\[\n  \\dham(\\sigma_1,\\sigma_2) \\;\\ge\\; d_{\\mathrm{L}}(\\sigma_1,\\sigma_2)\n\\]\nper ogni coppia di stringhe di uguale lunghezza (l'unico caso in cui $\\dham$ è\ndefinita).",
+ "note": [
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 42,
+   "testo": "Prima riga: il cognome fra parentesi è scritto in corsivo quasi illeggibile («Lev...»). Risolto con certezza in «Levenshtein» perché p.41 introduce esplicitamente «distanza di Levenshtein» e «distanza di Hamming» come le due nozioni principali, e Gli appunti del corso dell'anno precedente (L09 §10) danno lo stesso esempio con la stessa terminologia.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 42,
+   "testo": "Nello schema di allineamento l'ultimo carattere di σ1 e il secondo carattere di σ2 hanno un'asta alta e a prima vista si leggono «d». Sono invece delle «a»: lo studente usa due grafie per la 'a' (una con occhiello chiuso, una con asta). Conferma incrociata dalla riga «es.» in alto (σ1 = acgt catca, σ2 = taagtgtca, entrambe leggibilissime) e daGli appunti del corso dell'anno precedente (L09 §8, L11 §7): σ1 = acgtcatca, σ2 = taagtgtca. Trascritto quindi a/a.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 42,
+   "testo": "Il quaderno scrive «4 operazioni elementari» come titoletto e poi «costo 0 ~ m match» / «costo 1 { i insert, d delete, s substitute }», con una tilde che sta per «corrisponde a». Reso con un array a tre colonne (costo | simbolo | nome inglese dell'operazione), mantenendo la graffa sul gruppo a costo 1; la tilde è stata assorbita nell'incolonnamento.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 42,
+   "testo": "Il quaderno scrive, nel «Problema», «(e che converta σ1 e σ2)». Ho scritto «(e che η converta σ1 in σ2)»: un allineamento è un programma che converte la prima stringa nella seconda (materiali dell'anno precedente, L09 §8: «Allineare due stringhe significa convertire la prima nella seconda»), e «convertire σ1 e σ2» è agrammaticale. Correzione silenziosa.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 42,
+   "testo": "Il quaderno scrive «tale che il costo sia minimo» con «minimo» sottolineato. Reso con \\emph{minimo}; il titolo sottolineato «Problema» è reso con \\begin{domanda}[Problema], che è l'ambiente disponibile semanticamente più vicino (le convenzioni vietano \\section e consigliano \\paragraph solo per titoli espliciti: qui l'ambiente box è preferibile perché il contenuto è effettivamente una domanda).",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 42,
+   "testo": "L'ultima formula della pagina, d_H(σ1,σ2) ≥ d_L(σ1,σ2), compare nuda in fondo al foglio, senza una riga di commento. È l'esercizio assegnato dagli appunti dell'anno precedente (L09 §10, p.14: «dimostrare che d_L ≤ d_H»). Ho colmato la lacuna con una sola frase di motivazione (un allineamento senza i e d è un allineamento particolare, e d_L è il minimo su tutti gli allineamenti) e ho aggiunto la precisazione che d_H è definita solo per stringhe di uguale lunghezza — assente nel quaderno e taciuta anche dagli appunti dell'anno precedente su questa slide (cfr. L10, anomalia A10/§6). Nessun marcatore lasciato nel LaTeX.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 42,
+   "testo": "Notazione della distanza: il preambolo offre \\dham (= d_H) e \\dedit (= d_edit). Il quaderno scrive d_L per Levenshtein. Ho usato \\dham per Hamming e scritto per esteso $d_{\\mathrm{L}}$ per Levenshtein, per restare fedele alla fonte primaria e coerente con il resto del capitolo. Se in fase di cucitura si preferisce uniformare su \\dedit, va sostituito qui e nelle pagine 43-47.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 42,
+   "testo": "Schema a tre righe. Nel manoscritto le etichette a sinistra sono solo «σ1 =» (riga alta) e «η ⇒» (riga centrale, con freccia che entra nel riquadro); la riga bassa NON ha etichetta. Ho aggiunto «σ2 =» nella specifica della figura per leggibilità: è ciò che il disegno intende e ciò che fa La fonte dell'anno precedentenelle sue slide. Il riquadro attorno alla sola riga centrale è tracciato a mano libera (leggermente ondulato) e serve a evidenziare che l'allineamento è quella stringa e solo quella.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 42,
+   "testo": "A destra del riquadro il quaderno riporta «??» (due punti interrogativi). Li ho interpretati come la domanda sull'ottimalità dell'allineamento mostrato — è ciò che introduce il blocco «Problema» immediatamente sotto — e li ho resi nella didascalia con «È il migliore possibile?» invece di riprodurli letteralmente nel disegno.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 42,
+   "testo": "Verifica di consistenza (non riportata nel LaTeX perché non presente in pagina): l'allineamento disegnato ha costo 1(i) + 1(s: c/a) + 1(s: c/g) + 1(d: a/-) = 4, che coincide con d_L(σ1,σ2) = 4 calcolato dalla matrice di programmazione dinamica neGli appunti del corso dell'anno precedente (L11 §7.1-7.2). L'allineamento mostrato è dunque effettivamente ottimo — la risposta al «??» è sì, ma la pagina non lo dice e non l'ho aggiunto.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 42,
+   "testo": "Convenzione i/d: nello schema la colonna con i ha un carattere solo in σ2 (inserimento in σ1) e quella con d un carattere solo in σ1 (cancellazione da σ1). È la stessa convenzione dell'esempio dell'anno precedente (L09 §9, L11 §7.2) ma è opposta a quella dello pseudocodice di L10/L11 (anomalia A5 nella sintesi L11). Su questa pagina non ci sono ricorrenze, quindi la divergenza non produce errori; va però tenuta d'occhio dalla pagina 44 in poi, quando comparirà la ricorrenza.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 42,
+   "testo": "Terza riga della domanda in graffa: «ottenere σ2 da σ1». Il verbo è scritto molto compresso e la prima lettera è ambigua; letto «ottenere» sia per la forma dei grafemi sia perché la riga precedente termina con «per» e il senso richiede «per ottenere σ2 da σ1». Confermato dalla ripresa «per ottenere una stringa dall'altra» della prima riga della pagina.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 42,
+   "testo": "Ultima formula: verificati sia il pedice del primo membro (H, non 4: il grafema ha due aste verticali unite da un tratto orizzontale) sia il verso della disuguaglianza (vertice a destra, apertura a sinistra ⇒ ≥). La lettura d_H ≥ d_L è anche l'unica matematicamente corretta.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "allineamento-esempio",
+   "pagina": 42,
+   "didascalia": "Un allineamento di σ1 = acgtcatca e σ2 = taagtgtca: la riga centrale, riquadrata, è l'allineamento η = i m s m m s d m m m; sopra e sotto stanno i caratteri di σ1 e di σ2 che ciascuna operazione mette in corrispondenza. È il migliore possibile?",
+   "tipo": "schema di stringhe (allineamento a tre righe, con edit-string riquadrata)",
+   "specifica": "SCHEMA A TRE RIGHE E DIECI COLONNE, incolonnamento rigido (griglia a passo costante, ~0.75 cm per colonna; le tre righe distano ~0.7 cm).\n\nCOLONNE: numerate 1..10 da sinistra a destra. Ogni cella è centrata sulla propria colonna.\n\nRIGA 1 (in alto) — caratteri di σ1, in tipografia monospaziata (\\texttt), colore/tratto normale:\n  col.1 = VUOTA;  col.2 = a;  col.3 = c;  col.4 = g;  col.5 = t;  col.6 = c;  col.7 = a;  col.8 = t;  col.9 = c;  col.10 = a.\n  Etichetta a sinistra della riga, allineata a destra e staccata di ~0.8 cm dalla col.1: $\\sigma_1 =$\n\nRIGA 2 (centrale) — l'allineamento η, simboli in grassetto tondo (\\mathbf), tutte e dieci le celle piene:\n  col.1 = i;  col.2 = m;  col.3 = s;  col.4 = m;  col.5 = m;  col.6 = s;  col.7 = d;  col.8 = m;  col.9 = m;  col.10 = m.\n  Questa riga, e SOLO questa, è racchiusa in un RETTANGOLO che parte appena a sinistra della col.1 e finisce appena a destra della col.10, alto quanto basta a contenere i simboli con un piccolo margine (~0.15 cm sopra e sotto). Nel manoscritto il rettangolo è tracciato a mano libera e i lati orizzontali sono leggermente ondulati: in TikZ va reso come un rettangolo pulito (eventualmente con `decorate,decoration={random steps,segment length=6mm,amplitude=.2pt}` se si vuole un accenno di tratto a mano, ma il rettangolo netto va benissimo).\n  Etichetta a sinistra: $\\eta$ seguito da una freccia $\\Rightarrow$ (o $\\longrightarrow$) che punta al bordo sinistro del rettangolo. Nel manoscritto la η ha un lungo discendente che scende fino all'altezza della riga 3: non serve riprodurlo.\n\nRIGA 3 (in basso) — caratteri di σ2, stessa tipografia monospaziata della riga 1:\n  col.1 = t;  col.2 = a;  col.3 = a;  col.4 = g;  col.5 = t;  col.6 = g;  col.7 = VUOTA (è il gap corrispondente all'operazione d della col.7);  col.8 = t;  col.9 = c;  col.10 = a.\n  Etichetta a sinistra: $\\sigma_2 =$ — ATTENZIONE: nel manoscritto questa etichetta NON c'è (la riga inizia direttamente con la t); è un'aggiunta editoriale per leggibilità. Va allineata verticalmente con l'etichetta $\\sigma_1 =$ della riga 1.\n\nNOTE SEMANTICHE (servono a controllare l'incolonnamento, non vanno disegnate):\n  - la col.1 contiene solo σ2 ⇒ inserzione i (un carattere di σ2, nessuno di σ1);\n  - la col.7 contiene solo σ1 ⇒ cancellazione d (un carattere di σ1, nessuno di σ2);\n  - le colonne 2,4,5,8,9,10 accoppiano caratteri uguali ⇒ m; le colonne 3 (c/a) e 6 (c/g) accoppiano caratteri diversi ⇒ s;\n  - lo sfasamento di una posizione fra riga 1 e riga 3 nella parte iniziale è quindi CORRETTO e deve essere rispettato: σ1 parte dalla col.2, σ2 dalla col.1.\n  - Costo dell'allineamento: 1 (i) + 1 (s) + 1 (s) + 1 (d) = 4 = d_L(σ1,σ2).\n\nELEMENTO OPZIONALE: nel manoscritto, subito a destra del rettangolo, sono scritti due punti interrogativi «??» (segnalano il dubbio sull'ottimalità). Sono stati trasferiti nella didascalia; NON riprodurli nel disegno.\n\nNessun colore: tutto in nero (il manoscritto è a penna blu, ma la convenzione del documento è il tratto monocromo). Nessuna freccia fra le righe, nessuna graffa, nessun tratteggio: il disegno originale è solo l'incolonnamento più il riquadro.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina si chiude con la disuguaglianza $\\dham \\ge d_{\\mathrm{L}}$ lasciata senza commento e con il «Problema» ancora aperto: come determinare l'allineamento $\\eta$ di costo minimo. Restano quindi in sospeso (i) l'algoritmo per calcolare l'allineamento ottimo e (ii) la generalizzazione dei costi oltre lo schema 0/1. La pagina 43 riparte esattamente da qui: introduce la dualità «costo — punteggio» (costo da minimizzare, punteggio da massimizzare), le matrici di costo/punteggio che permettono di dare costi diversi alle singole sostituzioni (esempio $4\\times4$ su DNA con purine a,g e pirimidine c,t), accenna alla penalizzazione dell'apertura di un gap, e chiude con la «regola di massima» stringhe lunghe $\\leftrightarrow$ Levenshtein / stringhe corte $\\leftrightarrow$ Hamming e con il primo schizzo dello stencil della ricorsione — le celle $(i,j)\\to(i+1,j)$, $(i,j+1)$, $(i+1,j+1)$ — cioè l'avvio della programmazione dinamica che risponderà al «Problema» di questa pagina.",
+ "confidenza": "alta"
+}

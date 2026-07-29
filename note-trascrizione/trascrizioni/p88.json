@@ -1,0 +1,102 @@
+{
+ "pagina": 88,
+ "latex": "\\scan{88}\n\nIl lemma appena dimostrato --- $C_{u,v} = h_{u,v} + h_{v,u} \\le 2m$ per ogni arco\n$(u,v) \\in E$ --- si propaga da un singolo arco a tutto il grafo e fornisce la stima\ndel cover time.\n\n\\begin{teorema}[Stima del cover time]\nSia $G = (V,E)$ un grafo connesso e non orientato, con $n = \\abs{V}$ e $m = \\abs{E}$.\nAllora\n\\[\n  C(G) \\;\\le\\; 2m\\,(n-1) \\,.\n\\]\n\\end{teorema}\n\nSi fissa infatti uno spanning tree $T$ di $G$ e lo si percorre con un tour euleriano\ndell'albero raddoppiato: partendo da un vertice qualsiasi $u$ si toccano tutti i\nvertici e si torna in $u$ attraversando ciascuno degli $n-1$ archi di $T$ una volta\nper verso. Il costo atteso di questo tour è la somma dei commute time dei suoi archi,\nquindi per ogni $u \\in V$\n\\[\n  C_u(G) \\;\\le\\; \\sum_{(x,y) \\in T} C_{x,y} \\;\\le\\; (n-1) \\cdot 2m \\,,\n\\]\ne passando al massimo su $u$ si ottiene la tesi.\n\n\\begin{esempio}[I due casi estremi]\n\\textbf{Cammino.} Se $G$ è un cammino su $n$ vertici, allora $m = n-1$ e la stima dà\n\\[\n  2(n-1)(n-1) \\;\\in\\; \\Th(n^2) \\,.\n\\]\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/p88-cammino.tikz}\n\\caption{Il cammino su $n$ vertici: $m = n-1$ archi.}\n\\end{figure}\n\n\\textbf{Lollipop.} Se $G$ è il lollipop graph $L_n$, la sola clique $K_{n/2}$ porta\n$\\binom{n/2}{2} \\in \\Th(n^2)$ archi, dunque $m \\in \\Th(n^2)$ e la stima dà\n\\[\n  2m\\,(n-1) \\;\\in\\; \\Th(n^3) \\,.\n\\]\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/p88-lollipop.tikz}\n\\caption{Il lollipop graph $L_n$: la clique $K_{n/2}$ con appeso un cammino di $n/2$ vertici.}\n\\end{figure}\n\\end{esempio}\n\n\\begin{osservazione}\nIn entrambi i casi la stima è dell'ordine giusto --- il cover time del cammino è\n$\\Th(n^2)$, quello del lollipop è $\\Th(n^3)$ --- e quindi $2m(n-1)$ non è\nmigliorabile in generale. Non è però sempre stretta: su $K_n$ dà $\\Th(n^3)$, mentre\nil cover time vero è $\\Th(n \\log n)$ (collezionista di figurine).\n\\end{osservazione}\n\n\\begin{osservazione}[Appunto a matita in calce alla pagina]\n«Giovedì 14:30 --- seminario di Algoritmi Avanzati: automi ibridi;\n\\dubbioinl{differenza tra descrizione dell'automa ibrido e automa minimo}».\nA margine, \\lacunainl{una parola illeggibile} sopra la parola «riunione».\nAnnotazione organizzativa, estranea al filo del discorso.\n\\end{osservazione}\n",
+ "note": [
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 88,
+   "risolto": true,
+   "testo": "Il simbolo di relazione nelle due formule di destra è tracciato come una «6» (una sola curva), mentre il simbolo della prima riga «C(G) ⩽ 2m(n−1)» è tracciato con due tratti sovrapposti. Ho letto quindi il primo come ∈ e il secondo come ≤: «2(n−1)(n−1) ∈ Θ(n²)» e «2m(n−1) ∈ Θ(n³)» sono le letture matematicamente sensate (una quantità sta in una classe Θ, non è ≤ di una classe)."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 88,
+   "risolto": true,
+   "testo": "Nel quaderno la Θ delle due stime di destra è cerchiata (il cerchio serve solo a distinguerla dalla O grande e a evidenziare che è Θ e non O). Non ho riprodotto il cerchio: ho scritto \\Th(n^2) e \\Th(n^3)."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 88,
+   "risolto": true,
+   "testo": "La pagina si apre con la sola formula nuda «C(G) ⩽ 2m(n−1)», senza enunciato né dimostrazione: p. 87 si chiude con il lemma «(u,v)∈E ⇒ h_{u,v}+h_{v,u} = C_{u,v} ≤ 2m» e il □. Ho enunciato il risultato come teorema (con le ipotesi G connesso non orientato, n=|V|, m=|E|) e ho aggiunto il ponte argomentativo standard che La fonte dell'anno precedenteavrà svolto a voce: spanning tree T, tour euleriano dell'albero raddoppiato, C_u(G) ≤ Σ_{(x,y)∈T} C_{x,y} ≤ (n−1)·2m per ogni u, quindi C(G) = max_u C_u(G) ≤ 2m(n−1). Senza questo passaggio la pagina resterebbe una formula priva di giustificazione."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 88,
+   "risolto": true,
+   "testo": "Il quaderno scrive solo «Es.:» seguito dai due disegni e, a destra di ciascuno, il risultato numerico. Ho espanso l'abbreviazione in un ambiente esempio e ho esplicitato il conto che collega disegno e formula: per il cammino m = n−1 (da cui 2m(n−1) = 2(n−1)(n−1) ∈ Θ(n²)), per il lollipop la clique K_{n/2} ha binom(n/2,2) ∈ Θ(n²) archi (da cui 2m(n−1) ∈ Θ(n³)). Nel manoscritto il valore di m non è scritto in nessuno dei due casi."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 88,
+   "risolto": true,
+   "testo": "Ho aggiunto l'osservazione finale sulla strettezza della stima (cover time del cammino Θ(n²), del lollipop Θ(n³), quindi 2m(n−1) non è migliorabile in generale; su K_n invece la stima dà Θ(n³) contro un cover time vero di Θ(n log n), collezionista di figurine). Non è scritta nel quaderno, ma è l'unica ragione per cui i due esempi sono messi lì: senza di essa i due disegni sono due conti senza morale. Il caso K_n è coerente con il programma annunciato a p. 86."
+  },
+  {
+   "tipo": "errore-anno-prec",
+   "pagina": 88,
+   "risolto": true,
+   "testo": "Nota di coerenza con p. 86, dove il quaderno annuncia «in K_n ∀u,v h_{u,v} = Θ(n log n)»: in K_n l'hitting time è in realtà h_{u,v} = n−1 per ogni u≠v, ed è il COVER TIME a valere Θ(n log n). Nell'osservazione che ho aggiunto qui ho quindi attribuito Θ(n log n) al cover time di K_n, non all'hitting time. Segnalo la discrepanza perché va sanata anche a p. 86 in fase di assemblaggio."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 88,
+   "risolto": true,
+   "testo": "Primo disegno: una fila orizzontale di quattro nodi collegati da segmenti, poi tre puntini di sospensione, poi (dopo uno stacco) altri due nodi collegati. Interpretato come il cammino (path graph) su n vertici — è l'unica lettura compatibile con m = n−1 usato nella formula a destra. Nel manoscritto alcuni nodi sono pieni e altri vuoti senza criterio apparente (verosimilmente solo velocità di tratto): nella specifica TikZ li ho uniformati a nodi pieni. Ho inoltre aggiunto le etichette v_1,…,v_n, assenti nel manoscritto, per rendere il disegno leggibile."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 88,
+   "risolto": true,
+   "testo": "Secondo disegno: un cerchio con dentro K_{n/2} (pedice scritto come frazione obliqua n/2) e un segmento orizzontale che esce dal bordo destro e termina con un tratto ispessito. È il lollipop graph già disegnato a p. 85, qui in versione sbrigativa: il bastoncino è un semplice segmento, senza nodi intermedi né etichette u, v, né graffa. Nella specifica TikZ ho chiesto una versione coerente con p85-lollipop ma semplificata (nodi del cammino e ellissi, nessuna graffa, nessuna etichetta u/v), per non far sembrare i due disegni due grafi diversi."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 88,
+   "risolto": false,
+   "testo": "Blocco a matita nella metà bassa della pagina (grafia diversa, più corsiva e sbiadita di quella blu). Letture: «GIOVEDÌ 14:30» (certa); «seminario algoritmi avanzati» (alta confidenza: la terza parola è compatibile con «avanzati» e il titolo del corso è Algoritmi Avanzati); riga sotto, rientrata, «automi ibridi» (alta confidenza: la t barrata di «automi» è netta, e gli automi ibridi sono un tema di ricerca del gruppo di Udine); poi «differenza tra descrizione automa ibrido / e automa minimo» — di questa riga sono sicuro di «differenza tra», «automa», «ibrido», «e», «minimo», mentre la parola lunga fra «tra» e «automa» resta dubbia (ha un discendente centrale, compatibile con «descrizione»; alternative considerate e scartate: «dimensione», «diagnosi»). L'ho marcata con \\dubbioinl."
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 88,
+   "risolto": false,
+   "testo": "Nel margine sinistro del blocco a matita c'è una parola breve (3–4 lettere) sopra una lunga sottolineatura curva, e sotto di essa la parola «riunione» (lettura ragionevolmente sicura). La parola superiore non è decifrabile: candidati considerati «sala», «dopo», «1ª», «aula», nessuno convincente. Resa con \\lacunainl{una parola illeggibile}."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 88,
+   "risolto": true,
+   "testo": "Ho espanso l'abbreviazione «Es.:» del quaderno in un ambiente esempio con titolo, secondo la policy sulle abbreviazioni."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 88,
+   "risolto": true,
+   "testo": "Gli appunti del corso dell'anno precedente forniti come supporto (L16_sintesi.md, «Complessità randomizzata»: classi RP/co-RP/ZPP/PP/BPP, drunkard's walk di Gamow, Pólya, SAT/CNF) non trattano hitting/commute/cover time su grafi e non hanno quindi potuto aiutare su questa pagina. Il riscontro è stato fatto sulla teoria standard (Motwani–Raghavan, cap. 6: C_{u,v} ≤ 2m per gli archi, C(G) ≤ 2m(n−1) via spanning tree, lollipop come caso estremo Θ(n³))."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 88,
+   "risolto": true,
+   "testo": "p. 88 è l'ultima pagina del quaderno: la metà inferiore, sotto l'appunto a matita, è completamente bianca (la banda p88_b3.png non contiene nulla). Il corso si interrompe qui, con la stima del cover time e i suoi due casi estremi."
+  }
+ ],
+ "figure": [
+  {
+   "id": "p88-cammino",
+   "pagina": 88,
+   "didascalia": "Il cammino su n vertici: m = n−1 archi.",
+   "tipo": "grafo",
+   "specifica": "Grafo cammino (path graph) disegnato in orizzontale, larghezza circa 9 cm, altezza circa 1,5 cm, tratto blu (o colore accent del documento), stile identico a quello usato per il bastoncino del lollipop di p. 85.\n(1) Sei nodi tutti sulla STESSA quota orizzontale, tutti PIENI (dischetti riempiti, raggio ~1,5 pt), collegati a due a due da segmenti orizzontali sottili.\n(2) Sequenza da sinistra a destra: nodo 1, arco, nodo 2, arco, nodo 3, arco, nodo 4; poi uno STACCO orizzontale occupato da tre puntini allineati alla quota dei nodi (ellissi: nel manoscritto sono tre-quattro punti che proseguono la linea, con la linea interrotta); poi nodo 5, arco, nodo 6. Fra il nodo 4 e i puntini, e fra i puntini e il nodo 5, NON va disegnato alcun segmento continuo.\n(3) Etichette sotto i nodi (assenti nel manoscritto, aggiunte per leggibilità): $v_1$, $v_2$, $v_3$, $v_4$ sotto i primi quattro; $v_{n-1}$, $v_n$ sotto gli ultimi due. Nessuna etichetta sotto i puntini.\n(4) Nessuna altra decorazione, nessuna graffa, nessun testo aggiuntivo dentro la figura.\nSemantica da preservare: è il cammino su n vertici, cioè l'albero con il minimo numero di archi, m = n−1; è il caso in cui la stima C(G) ≤ 2m(n−1) vale Θ(n²)."
+  },
+  {
+   "id": "p88-lollipop",
+   "pagina": 88,
+   "didascalia": "Il lollipop graph L_n: la clique K_{n/2} con appeso un cammino di n/2 vertici.",
+   "tipo": "grafo",
+   "specifica": "Ridisegno semplificato del lollipop graph, coerente per stile e proporzioni con la figura p85-lollipop (stesso colore blu, stesso raggio del cerchio) ma senza graffa e senza le etichette u e v. Larghezza complessiva circa 9 cm, altezza circa 3 cm.\n(1) A SINISTRA un cerchio (sola circonferenza, tratto spesso, raggio ~1,3 cm) che rappresenta astrattamente la clique: NON disegnare i vertici interni né gli archi della clique. Al centro l'etichetta $K_{n/2}$ (nel manoscritto il pedice n/2 è scritto come frazione obliqua; in TikZ basta $K_{n/2}$).\n(2) Dal punto più a destra della circonferenza esce, sulla stessa quota del centro, un CAMMINO orizzontale verso destra, lungo circa 5 cm. Nel manoscritto è un segmento nudo che termina con un tratto ispessito; per coerenza con p. 85 disegnarlo come cammino: un nodo pieno sul bordo del cerchio (punto di attacco), poi due nodi piccoli equispaziati, poi tre puntini di sospensione allineati alla quota (vertici omessi), infine un ultimo nodo all'estremità destra, leggermente più marcato.\n(3) Nessuna etichetta di vertice, nessuna graffa, nessun altro testo dentro la figura.\nSemantica da preservare: n/2 vertici nella clique (che porta da sola binom(n/2,2) = Θ(n²) archi) e n/2 vertici nel bastoncino, per un totale di n vertici e m = Θ(n²) archi; è il caso in cui la stima C(G) ≤ 2m(n−1) vale Θ(n³)."
+  }
+ ],
+ "continuita": "La pagina chiude il filo aperto a p. 85–87 e chiude il quaderno (è l'ultima pagina). p. 87 termina la dimostrazione del lemma «π uniforme = 1/2m sulla catena degli archi orientati ⇒ h_{(u,v),(u,v)} = 2m ⇒ h_{u,v} + h_{v,u} ≤ 2m per (u,v) ∈ E», col □ finale. p. 88 ne trae immediatamente la conseguenza globale, C(G) ≤ 2m(n−1) (la giustificazione via spanning tree non è scritta ed è stata ricostruita qui), e la illustra con i due casi estremi: il cammino, dove m = n−1 e la stima vale Θ(n²), e il lollipop graph L_n già introdotto a p. 85, dove m = Θ(n²) e la stima vale Θ(n³) — cioè esattamente l'ordine di grandezza di h_{u,v} annunciato a p. 86 per il lollipop. Restano non ripresi in questa pagina, e quindi in sospeso nel quaderno, i due impegni presi a p. 86: la dimostrazione che nel lollipop h_{u,v} = Θ(n³) e h_{v,u} = Θ(n²) (asimmetria dell'hitting time, risposta alla Domanda di p. 85) e il caso di K_n. Sotto la matematica c'è solo un appunto a matita su un seminario, poi la pagina è bianca: non c'è nulla che prosegua oltre.",
+ "confidenza": "alta"
+}

@@ -1,0 +1,155 @@
+\chapter{Introduzione e pattern matching esatto}
+\label{cap:introduzione}
+
+\section{Presentazione del corso}
+\label{sec:presentazione}
+
+\scan{1}
+Il corso di Algoritmi Avanzati è tenuto dal prof.\ Alberto Policriti.
+
+\subsection{Le tre parti del corso}
+
+Il corso si articola in tre parti, a ciascuna delle quali corrisponde un libro di
+riferimento: \emph{string matching}, \emph{algoritmi randomizzati} e
+\emph{strutture dati compresse}.
+
+\begin{figure}[H]
+  \centering
+  \input{tikz/corso-tre-parti.tikz}
+  \caption{Le tre parti in cui è suddiviso il corso, con le annotazioni a margine
+  sulla dicotomia Monte Carlo / Las Vegas e sull'obiettivo delle strutture dati compresse.}
+  \label{fig:corso-tre-parti}
+\end{figure}
+
+\begin{osservazione}
+La distinzione fra i due tipi di algoritmi randomizzati riguarda dove viene «scaricata»
+l'aleatorietà: un algoritmo \MonteCarlo ha tempo di esecuzione deterministico ma può
+restituire una risposta errata (con probabilità piccola e controllabile), mentre un
+algoritmo \LasVegas restituisce sempre la risposta corretta, e ad essere aleatorio è
+invece il suo tempo di esecuzione.
+\end{osservazione}
+
+L'obiettivo della terza parte, infine, è comprimere dati anche molto complessi
+mantenendoli interrogabili.
+
+\subsection{Testi di riferimento e materiale}
+
+\begin{enumerate}
+  \item D.~Gusfield, \emph{Algorithms on Strings, Trees, and Sequences};
+  \item R.~Motwani, P.~Raghavan, \emph{Randomized Algorithms};
+  \item G.~Navarro, \emph{Compact Data Structures}.
+\end{enumerate}
+
+La numerazione dei testi ricalca quella delle tre parti del corso: a ogni modulo
+corrisponde un testo canonico distinto. A questi si aggiungono gli appunti
+(non ufficiali) del docente e i nostri appunti presi a lezione. Tutto il materiale
+del corso è reso disponibile su Teams.
+
+\subsection{Modalità d'esame}
+
+L'esame è orale. Durante il corso vengono proposti spunti per approfondimenti;
+l'esame consiste quindi in un (eventuale) approfondimento seguito dal colloquio orale.
+
+\section{Il problema del pattern matching esatto}
+\label{sec:pattern-matching-esatto}
+
+\scan{2}
+La prima delle tre parti del corso, quella dedicata al \emph{string matching}, comincia
+dal problema che ne costituisce il nucleo.
+
+\begin{definizione}[Pattern matching esatto]\label{def:pattern-matching-esatto}
+\emph{Input.} Un alfabeto $\S$ di cardinalità finita e due stringhe $P,T\in\S^{*}$, con
+$\abs{P}=n$ e $\abs{T}=m$ (di norma $n\le m$).
+
+\emph{Output.} L'insieme delle posizioni
+\[
+  \set{i \mid \sub{T}{i}{i+n-1}=P}.
+\]
+\end{definizione}
+
+Si vogliono cioè \emph{tutte} le occorrenze di $P$ (il \emph{pattern}) all'interno di $T$
+(il \emph{testo}), non soltanto la prima.
+
+\begin{osservazione}
+Le stringhe sono indicizzate a partire da $1$ e $\sub{S}{i}{j}$ denota il fattore
+$S[i]S[i+1]\cdots S[j]$. Perché il confronto abbia senso deve essere $1\le i\le m-n+1$:
+le posizioni di allineamento del pattern sul testo sono dunque $m-n+1$.
+\end{osservazione}
+
+\begin{figure}[H]
+\centering
+\input{tikz/pm-allineamento.tikz}
+\caption{Il pattern $P$ allineato sul testo $T$: le due stringhe vengono confrontate
+carattere per carattere a partire dalla posizione corrente (le frecce), e poi $P$ scorre
+verso destra di una posizione alla volta.}
+\label{fig:pm-allineamento}
+\end{figure}
+
+\section{L'algoritmo naive}
+\label{sec:naive}
+
+L'idea è provare tutti gli allineamenti, uno per uno, con due loop innestati: quello
+esterno sceglie la posizione $i$ in cui il pattern viene appoggiato sul testo, quello
+interno confronta $P$ con il fattore $\sub{T}{i}{i+n-1}$ carattere per carattere.
+
+\begin{algorithm}[H]
+\caption{Algoritmo naive per il pattern matching esatto}
+\label{alg:naive}
+\begin{algorithmic}[1]
+\Require $T$ con $\abs{T}=m$, $P$ con $\abs{P}=n$
+\Ensure tutte le posizioni $i$ tali che $\sub{T}{i}{i+n-1}=P$
+\For{$i \gets 1$ \textbf{to} $m-n+1$}
+    \Comment{allineamenti possibili}
+    \State $j \gets 1$
+    \While{$j \le n$ \textbf{and} $T[i+j-1] = P[j]$}
+        \Comment{\textsc{compare}$(P,\sub{T}{i}{i+n-1})$}
+        \State $j \gets j+1$
+    \EndWhile
+    \If{$j = n+1$}
+        \State \textbf{output} $i$
+        \Comment{$n$ confronti positivi: occorrenza in $i$}
+    \EndIf
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+Il ciclo interno --- la procedura \textsc{compare} --- scorre da sinistra a destra: o si
+arresta al primo mismatch, e allora in posizione $i$ non c'è un'occorrenza, oppure arriva
+in fondo dopo $\abs{P}=n$ confronti tutti positivi, e in tal caso $i$ viene emesso in
+output. In entrambi i casi il pattern viene poi fatto scorrere di una sola posizione verso
+destra: nessuna informazione raccolta durante i confronti viene riutilizzata.
+
+\subsection{Complessità}
+\label{sec:naive-complessita}
+
+Il ciclo esterno esegue $m-n+1$ iterazioni e ogni chiamata a \textsc{compare} costa al più
+$n$ confronti, da cui
+\[
+  \Oh(m\cdot n).
+\]
+
+Il limite è stretto (\emph{tight}): basta considerare il caso
+\[
+  P=a^{\,n-1}b, \qquad T=a^{\,m},
+\]
+cioè
+\[
+  T=\overbrace{a\,a\,a\,\cdots\,a\,a}^{m\ \text{volte}},
+  \qquad
+  P=\underbrace{a\,a\,\cdots\,a}_{n-1}\,b .
+\]
+Per ogni allineamento i primi $n-1$ confronti hanno successo e l'$n$-esimo fallisce: si
+spendono esattamente $n(m-n+1)$ confronti --- cioè $\Th(m^{2})$ quando $n$ e $m-n$ sono
+entrambi $\Th(m)$, con il massimo per $n\approx m/2$ --- e ciò nonostante l'output è vuoto.
+
+D'altra parte non si può scendere sotto il costo della lettura dell'input. Per esempio, con
+$n=1$ il naive costa $\Oh(m\cdot 1)=\Oh(m)$ ed è già ottimo: qualunque algoritmo deve almeno
+leggere il tutto, e dunque
+\[
+  \Om(n+m).
+\]
+
+Per questo motivo la complessità $\Oh(m\cdot n)$ dell'algoritmo naive è detta
+\emph{quadratica}. Fra questo upper bound e il lower bound banale $\Om(n+m)$ resta un
+divario: la domanda naturale --- esiste un algoritmo sub-quadratico? --- è il punto di
+partenza del capitolo successivo.

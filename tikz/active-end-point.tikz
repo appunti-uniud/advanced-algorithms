@@ -1,0 +1,59 @@
+% Boundary path di STree(T^{i-1}): active point s_{j'} ed end point s_{j''}.
+% Il cammino si percorre da SINISTRA a DESTRA seguendo i suffix link f
+% (la profondita' degli stati diminuisce spostandosi a destra).
+\begin{tikzpicture}[
+    font=\footnotesize,
+    >={Stealth[length=2mm]},
+    stato/.style   = {circle,fill=black,inner sep=0pt,minimum size=3.4pt},
+    figlio/.style  = {circle,fill=black,inner sep=0pt,minimum size=2.4pt},
+    arco/.style    = {line width=0.5pt},
+    slink/.style   = {->,line width=0.6pt,blue!50!black},
+    richiamo/.style= {line width=0.4pt,black!45,densely dashed},
+    nota/.style    = {black!70,line width=0.4pt,->},
+    bolla/.style   = {ellipse,draw,line width=0.5pt,inner sep=1pt,
+                      minimum width=10mm,minimum height=6.5mm},
+  ]
+
+  %% ---- active point: primo stato che non e' una foglia --------------
+  \node[stato] (A) at (0,0) {};
+  \draw[arco] (A) -- (-0.75,-0.90) node[figlio]{};
+  \draw[arco] (A) -- (-0.10,-0.95) node[figlio]{};
+  \draw[arco] (A) -- ( 0.65,-0.85) node[figlio]{};
+
+  % suffix link in arrivo dallo stato precedente del boundary path
+  \draw[slink] (-1.90,-0.62) .. controls (-1.15,-0.42) and (-0.65,-0.16) .. (A);
+  \node at (-1.12,0.02) {$f$};
+
+  % richiamo verso l'etichetta
+  \draw[richiamo] (0.15,0.16) -- (0.50,0.95) -- (0.72,1.50) -- (0.98,2.05);
+  \node[bolla] (E1) at (1.15,2.42) {$s_{j'}$};
+  \node at (1.15,3.28) {\emph{active point}};
+  \node[anchor=west,text width=2.9cm,align=left] (N1) at (2.30,2.72)
+        {primo stato del boundary path che non è una foglia};
+  \draw[nota] (N1.west) -- (E1.east);
+
+  %% ---- stati intermedi, elisi --------------------------------------
+  \draw[arco,->] (0.22,0.14) -- (1.72,1.00);
+  \fill (2.05,1.15) circle (0.8pt);
+  \fill (2.40,1.29) circle (0.8pt);
+  \fill (2.75,1.43) circle (0.8pt);
+  \fill (3.10,1.57) circle (0.8pt);
+  \fill (3.45,1.71) circle (0.8pt);
+
+  %% ---- end point: primo stato con una t_i-transizione --------------
+  \node[stato] (B) at (5.10,1.95) {};
+  \draw[slink] (0.24,-0.08) .. controls (1.90,-0.55) and (4.00,1.25) .. (4.97,1.88);
+
+  \draw[richiamo] (5.22,2.14) -- (5.45,2.55) -- (5.68,2.85) -- (5.85,3.20);
+  \node[bolla] (E2) at (5.95,3.60) {$s_{j''}$};
+  \node at (5.95,4.35) {\emph{end point}};
+  \node[anchor=north west,text width=2.9cm,align=left] (N2) at (6.85,3.15)
+        {primo stato del boundary path che ha già una \mbox{$t_i$-transizione}};
+  \draw[nota] (N2.north west) -- (E2.south east);
+
+  %% ---- regione di lavoro ------------------------------------------
+  \draw[blue!50!black,line width=0.6pt,decorate,
+        decoration={brace,amplitude=5pt,mirror}] (0.20,-1.40) -- (5.10,-1.40);
+  \node[anchor=north] at (2.65,-1.78) {regione in cui devo «lavorare»};
+
+\end{tikzpicture}

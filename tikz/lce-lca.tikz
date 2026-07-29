@@ -1,0 +1,66 @@
+% lce-lca -- la query lce(S_1,S_2,i,j) si riduce a una query di lca sullo STree
+% generalizzato di S_1 $ S_2 €: le posizioni i e j individuano due foglie, e la
+% profondita' in caratteri del loro lca vale k (quaderno, pag. 49).
+\begin{tikzpicture}[
+    font=\footnotesize,
+    nodo/.style={circle,fill=black,inner sep=0pt,minimum size=3.4pt},
+    ramo/.style={line width=0.7pt, rounded corners=2pt, line join=round},
+    link/.style={draw=black!65, line width=0.6pt,
+                 -{Stealth[length=2.2mm,width=1.7mm]}},
+  ]
+
+  %% ================= la stringa concatenata =========================
+  \draw[line width=0.7pt] (0,4.20) rectangle (6.20,4.75);
+  \draw[draw=black!45,line width=0.4pt] (2.90,4.20) -- (2.90,4.75);
+  \node[above=2pt] at (3.10,4.75) {$S_1\,\text{\$}\,S_2\,\text{\texteuro}$};
+
+  % le due posizioni interrogate
+  \draw[line width=0.6pt,-{Stealth[length=2mm,width=1.6mm]}]
+        (1.86,3.92) -- (1.86,4.17);
+  \draw[line width=0.6pt,-{Stealth[length=2mm,width=1.6mm]}]
+        (3.41,3.92) -- (3.41,4.17);
+  \node[font=\normalsize] at (1.86,3.68) {$i$};
+  \node[font=\normalsize] at (3.41,3.68) {$j$};
+
+  %% ================= lo STree generalizzato =========================
+  \coordinate (R)  at (9.10,4.90);
+  \coordinate (bl) at (7.40,1.30);
+  \coordinate (br) at (11.00,1.30);
+  \draw[line width=0.8pt,line join=round] (bl) -- (R) -- (br) -- cycle;
+  \node[nodo] at (R) {};
+
+  % cammino radice -> v e sua profondita' in caratteri
+  \draw[ramo,line width=1.0pt]
+      (9.10,4.90) -- (9.18,4.62) -- (9.00,4.35) -- (9.14,4.14) -- (9.05,3.95);
+  \node[nodo,minimum size=4.4pt] (v) at (9.05,3.95) {};
+  \node at (7.72,4.24) {$v=\lca$};
+  \draw[draw=black!55,line width=0.4pt] (8.40,4.19) -- (8.96,4.00);
+
+  % la profondita' in caratteri di v: e' il k cercato
+  \draw[draw=black!45,line width=0.35pt,dotted] (9.10,4.90) -- (10.42,4.90);
+  \draw[draw=black!45,line width=0.35pt,dotted] (9.05,3.95) -- (10.42,3.95);
+  \draw[{Stealth[length=3.4pt,width=2.8pt]}-{Stealth[length=3.4pt,width=2.8pt]},
+        line width=0.5pt,draw=black!70] (10.28,4.88) -- (10.28,3.97);
+  \node[font=\normalsize] at (10.58,4.42) {$k$};
+
+  % i due rami che scendono da v fino alle foglie
+  \draw[ramo]
+      (9.05,3.95) -- (8.72,3.50) -- (8.88,3.05) -- (8.45,2.50)
+                  -- (8.58,2.00) -- (8.15,1.30);
+  \draw[ramo]
+      (9.05,3.95) -- (9.42,3.55) -- (9.28,3.15) -- (9.68,2.70) -- (10.00,2.60);
+  \node[nodo] at (10.00,2.60) {};
+  \draw[ramo] (10.00,2.60) -- (10.16,2.20) -- (10.42,1.80) -- (10.50,1.30);
+
+  \node[nodo] (fi) at ( 8.15,1.30) {};
+  \node[nodo] (fj) at (10.50,1.30) {};
+  \node[font=\normalsize] at ( 8.42,1.06) {$i$};
+  \node[font=\normalsize] at (10.78,1.06) {$j$};
+
+  %% ================= dalle posizioni alle foglie ====================
+  \draw[link] (1.86,3.45) .. controls (2.50,1.30) and (6.00,0.05) ..
+              (8.13,1.21);
+  \draw[link] (3.41,3.45) .. controls (4.30,0.70) and (7.60,-0.90) ..
+              (10.48,1.22);
+
+\end{tikzpicture}

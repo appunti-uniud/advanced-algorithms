@@ -1,0 +1,36 @@
+% z-definizione -- Z_i(S)=j: il prefisso alpha=S[1..j] ricompare in posizione i.
+\begin{tikzpicture}[
+    x=0.90cm, y=1cm,
+    font=\footnotesize,
+    tacca/.style={gray!80!black, line width=0.5pt},
+    linea/.style={line width=0.7pt},
+  ]
+
+  % --- la stringa S ---------------------------------------------------
+  \draw[linea] (0,0) -- (11.2,0);
+  \node[right, inner sep=2pt] at (11.35,0) {$S$};
+
+  % --- tacche: 1, j, i, i+j-1  (|1..j| = |i..i+j-1| = j) --------------
+  \foreach \x in {0,3,5.5,8.5}{%
+    \draw[tacca] (\x,-0.22) -- (\x,0.22);
+  }
+
+  % --- etichette di posizione -----------------------------------------
+  \node[below, inner sep=3pt] at (3,-0.22)   {$j$};
+  \node[below, inner sep=3pt] at (5.5,-0.22) {$i$};
+  \node[below, inner sep=3pt] at (8.5,-0.22) {$i+j-1$};
+
+  % --- graffe: le due occorrenze di alpha ------------------------------
+  \draw[decorate, decoration={brace, amplitude=5pt, mirror}, gray!70!black]
+    (0,-0.90) -- (3,-0.90)
+    node[midway, below=6pt, black] {$\alpha$};
+  \draw[decorate, decoration={brace, amplitude=5pt, mirror}, gray!70!black]
+    (5.5,-0.90) -- (8.5,-0.90)
+    node[midway, below=6pt, black] {$\alpha$};
+
+  % --- Z_i(S) misura la lunghezza del prefisso alpha -------------------
+  \node (zeta) at (6.35,-1.95) {$\Zv{i}(S)$};
+  \draw[-{Stealth[length=4pt]}, gray!70!black]
+    (zeta.west) to[out=175, in=-15] (3.10,-1.30);
+
+\end{tikzpicture}

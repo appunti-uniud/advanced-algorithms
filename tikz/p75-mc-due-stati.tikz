@@ -1,0 +1,25 @@
+% p75-mc-due-stati -- diagramma di transizione di una catena a due stati
+% (schizzo a matita nel margine, quaderno pag. 75).
+% Le etichette sono quelle del quaderno: le uscite da 2 non sommano a 1,
+% l'incongruenza e' discussa nell'ambiente "dubbio" subito dopo la figura.
+\begin{tikzpicture}[
+    font=\footnotesize,
+    stato/.style={circle,draw,line width=0.7pt,fill=white,
+                  inner sep=1pt,minimum size=7mm},
+    arco/.style={line width=0.7pt,-{Stealth[length=5pt,width=4pt]}}]
+
+  \node[stato] (u) at (0,0)   {$1$};
+  \node[stato] (v) at (3.5,0) {$2$};
+
+  % 1 -> 2 : arco che scavalca i due nodi
+  \draw[arco] (u) to[bend left=45]  node[above,pos=0.5]{$0{,}8$} (v);
+  % 2 -> 1 : arco di ritorno, sotto
+  \draw[arco] (v) to[bend left=45]  node[below,pos=0.72]{$0{,}2$} (u);
+
+  % cappi
+  \draw[arco] (u) to[out=155,in=205,looseness=1,min distance=12mm]
+              node[above left,pos=0.5,inner sep=1.5pt]{$0{,}2$} (u);
+  \draw[arco] (v) to[out=-25,in=25,looseness=1,min distance=12mm]
+              node[below right,pos=0.5,inner sep=1.5pt]{$0{,}2$} (v);
+
+\end{tikzpicture}

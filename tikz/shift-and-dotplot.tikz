@@ -1,0 +1,62 @@
+% Dot-plot: la matrice di bit D di P (righe) contro T (colonne).
+% La cella (i,j) e' individuata dall'incrocio fra la verticale punteggiata
+% sotto T[j] e l'orizzontale tratteggiata a destra di P[i].
+\begin{tikzpicture}[
+    x=1cm, y=1cm,
+    font=\footnotesize,
+    gl/.style={font=\scriptsize, text=black!60, inner sep=1pt},
+    et/.style={inner sep=2pt},
+  ]
+
+  % --- cornice appena accennata della matrice (nessuna griglia interna) ---
+  \draw[gray!45, dashed, line width=0.3pt] (0,0) rectangle (6,4.2);
+
+  % --- colonne: il testo ---
+  \node[et, anchor=south] at (0.50,4.28) {$T[1]$};
+  \node[et, anchor=south] at (1.35,4.28) {$T[2]$};
+  \node[et, anchor=south] at (2.15,4.28) {$\cdots$};
+  \node[et, anchor=south] at (3.60,4.28) {$T[j]$};
+  \node[et, anchor=south] at (4.45,4.28) {$\cdots$};
+  \node[et, anchor=south] at (5.60,4.28) {$T[m]$};
+
+  % --- righe: il pattern ---
+  \node[et, anchor=east] at (-0.18,3.78) {$P[1]$};
+  \node[et, anchor=east] at (-0.18,3.22) {$P[2]$};
+  \node[et, anchor=east] at (-0.18,2.68) {$\vdots$};
+  \node[et, anchor=east] at (-0.18,1.89) {$P[i]$};
+  \node[et, anchor=east] at (-0.18,1.12) {$\vdots$};
+  \node[et, anchor=east] at (-0.18,0.42) {$P[n]$};
+
+  % --- le due linee che individuano la cella (i,j) ---
+  \draw[black!55, densely dotted] (3.60,4.20) -- (3.60,0);
+  \draw[black!55, dashed]        (-0.05,1.89) -- (6.75,1.89);
+
+  % --- tratto diagonale discendente: allineamento diretto ---
+  \draw[line width=0.7pt]
+       (0.35,3.92) -- (0.58,3.74) -- (0.72,3.66) -- (0.98,3.42)
+    -- (1.12,3.34) -- (1.38,3.08) -- (1.58,2.90);
+  \node[gl, anchor=south west] at (1.00,3.50) {\emph{match}};
+
+  % --- tratto antidiagonale ascendente: allineamento invertito ---
+  \draw[line width=0.7pt]
+       (2.00,1.55) -- (2.22,1.76) -- (2.36,1.84) -- (2.62,2.10)
+    -- (2.76,2.18) -- (3.02,2.44) -- (3.22,2.64);
+  \node[gl, anchor=south east, align=center] at (3.32,2.70)
+       {\emph{match}\\\emph{inverso}};
+
+  % --- valore della cella e biforcazione 0/1 ---
+  \node[et, anchor=west] at (6.82,1.89) {$0/1$};
+  \node[gl, anchor=south] at (7.08,2.20) {$D[i,j]$};
+
+  \draw[black!80] (7.48,1.99) -- (8.14,2.84);
+  \draw[black!80] (7.48,1.79) -- (8.14,0.96);
+
+  \node[et, anchor=west] at (8.16,2.90) {$0$};
+  \node[et, anchor=west] at (8.16,0.90) {$1$};
+
+  \node[et, anchor=west, align=left] at (8.60,2.90)
+       {$P[i]\neq T[j]$\\[-2pt] {\scriptsize\itshape (mismatch)}};
+  \node[et, anchor=west, align=left] at (8.60,0.90)
+       {$P[i]=T[j]$\\[-2pt] {\scriptsize\itshape (match)}};
+
+\end{tikzpicture}

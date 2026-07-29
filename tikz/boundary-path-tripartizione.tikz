@@ -1,0 +1,70 @@
+% Il boundary path di STrie(T^{i-1}) percorso quando si estende con t_i, e la
+% sua tripartizione (Ukkonen).  Nel quaderno il cammino e' una spezzata a dente
+% di sega che sale in diagonale: qui e' raddrizzato in una catena verticale,
+% percorsa dal basso (top, lo stato piu' profondo) verso l'alto (perp).
+\begin{tikzpicture}[
+    scale=0.95,
+    >={Stealth[length=4.5pt]},
+    font=\footnotesize,
+    stato/.style={circle,draw,fill=white,inner sep=0pt,minimum size=4pt},
+    estremo/.style={circle,fill,inner sep=0pt,minimum size=4.6pt},
+    tacca/.style={line width=1.1pt},
+    bolla/.style={draw,ellipse,align=center,inner sep=1.5pt,font=\scriptsize},
+    ann/.style={black!55}]
+
+  % ---- la catena del boundary path: gli stati s_j legati dai suffix link f ---
+  \node[estremo] (n0) at (0,0.0) {};
+  \foreach \i/\y in {1/0.7, 2/1.4, 3/2.1, 4/2.8, 5/3.5, 6/4.2, 7/4.9}
+    \node[stato] (n\i) at (0,\y) {};
+  \node[estremo] (n8) at (0,5.6) {};
+
+  \foreach \a/\b in {0/1, 2/3, 3/4, 4/5, 5/6, 6/7}
+    \draw[->] (n\a) -- (n\b);
+  % tratti in cui molti stati sono omessi
+  \draw[->,dotted,thick] (n1) -- (n2);
+  \draw[->,dotted,thick] (n7) -- (n8);
+
+  \node[anchor=west] at (0.16,2.45) {$f$};
+
+  % ---- estremi ---------------------------------------------------------------
+  \node[anchor=east] at (-0.22,0) {top};
+  \node[anchor=east,font=\scriptsize] at (-0.92,0) {$(=T^{\,i-1})$};
+  \node[anchor=south,font=\large] at (0,5.72) {$\bot$};
+
+  % ---- etichetta del cammino -------------------------------------------------
+  \node[anchor=west,align=left] at (1.45,6.15) {boundary path\\(bp)};
+  \draw[ann] (1.38,6.02) to[out=195,in=25] (0.13,5.32);
+
+  % ---- tacche: active point ed end point ------------------------------------
+  \draw[tacca] (-0.17,1.68) -- (0.17,1.92);
+  \draw[tacca] (-0.17,3.78) -- (0.17,4.02);
+
+  \node[bolla] (ap) at (2.30,1.80) {active\\point};
+  \draw[ann,->] (ap.west) to[out=180,in=-25] (0.21,1.90);
+  \node[anchor=west,align=left] at (3.35,1.80) {primo stato\\non foglia};
+
+  \node[bolla] (ep) at (2.30,3.90) {end\\point};
+  \draw[ann,->] (ep.west) to[out=180,in=-25] (0.21,4.00);
+
+  % ---- le tre zone -----------------------------------------------------------
+  \draw[ann,decorate,decoration={brace,amplitude=4pt,mirror}]
+       (0.52,-0.10) -- (0.52,1.62);
+  \node[anchor=west] at (0.90,0.30) {appendiamo a foglia};
+
+  \draw[ann,decorate,decoration={brace,amplitude=4pt}]
+       (-0.52,1.98) -- (-0.52,3.72);
+  \node[anchor=east,align=right] at (-0.88,2.85) {appendiamo\\nuove foglie};
+
+  \draw[ann,decorate,decoration={brace,amplitude=4pt,mirror}]
+       (0.52,4.08) -- (0.52,5.50);
+  \node[anchor=west,align=left] at (0.90,4.60) {non serve appendere\\nulla};
+
+  % ---- dettaglio: l'arco verso una foglia ha etichetta aperta ---------------
+  \fill (-1.45,-0.80) circle (1.6pt);
+  \draw (-1.45,-0.80) -- (-2.70,-1.85);
+  \draw[line width=1.1pt] (-2.70,-1.85) -- (-3.25,-2.32);
+  \fill (-2.70,-1.85) circle (2.1pt);
+  \fill (-3.25,-2.32) circle (2.1pt);
+  \node[anchor=east] at (-2.50,-1.02) {$[k,\infty]$};
+  \node[anchor=east] at (-3.02,-1.94) {bp};
+\end{tikzpicture}

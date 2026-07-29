@@ -1,0 +1,96 @@
+{
+ "pagina": 43,
+ "latex": "\\scan{43}\n\nUn allineamento si può valutare in due modi \\emph{duali}: gli si può associare un\n\\emph{costo}, che vogliamo minimizzare, oppure un \\emph{punteggio}, che vogliamo\nmassimizzare.\n\\[\n  \\underset{\\displaystyle\\downarrow}{\\text{costo}}\n  \\qquad\\text{---}\\qquad\n  \\underset{\\displaystyle\\uparrow}{\\text{punteggio}}\n\\]\n\n\\paragraph{Matrice di costo/punteggio.}\nNon tutte le sostituzioni devono pesare allo stesso modo: posso assegnare costi\n(o punteggi) diversi alle diverse sostituzioni, raccogliendoli in una matrice\nindicizzata dalle coppie di caratteri dell'alfabeto.\n\n\\begin{esempio}\nNel DNA le purine $(a,g)$ e le pirimidine $(c,t)$ sono simili tra loro, e quindi\nuna sostituzione interna a una delle due classi va penalizzata meno di una\nsostituzione fra classi diverse. Una possibile matrice di \\emph{punteggio} è\nallora\n\\[\n  \\begin{array}{c|rrrr}\n       &  a &  c &  g &  t \\\\ \\hline\n     a &  2 & -1 &  1 & -1 \\\\\n     c & -1 &  2 & -1 &  1 \\\\\n     g &  1 & -1 &  2 & -1 \\\\\n     t & -1 &  1 & -1 &  2\n  \\end{array}\n\\]\n\\end{esempio}\n\n\\begin{esempio}\nPosso penalizzare in modo specifico l'\\emph{apertura} di un $\\gap$: nel DNA è\ninfatti molto probabile che un gap, una volta aperto, si estenda.\n\\end{esempio}\n\n\\paragraph{Quale distanza usare?}\nCome regola di massima:\n\\begin{align*}\n  \\text{stringhe lunghe} &\\;\\longleftrightarrow\\; \\text{Levenshtein},\\\\\n  \\text{stringhe corte}  &\\;\\longleftrightarrow\\; \\text{Hamming}.\n\\end{align*}\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/dp-stencil.tikz}\n  \\caption{Le tre transizioni elementari della ricorsione: dalla coppia di\n  indici $(i,j)$ si passa a $(i+1,j)$ (avanza solo $\\sigma_1$: cancellazione), a\n  $(i,j+1)$ (avanza solo $\\sigma_2$: inserzione) oppure a $(i+1,j+1)$ (avanzano\n  entrambe: match o sostituzione).}\n\\end{figure}",
+ "note": [
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 43,
+   "testo": "Matrice di punteggio, riga c, primo elemento: il quaderno traccia un glifo che a prima vista si legge \"-3\". Ho scritto -1 perché (a) la matrice deve essere simmetrica e s(a,c) nella prima riga vale chiaramente -1, (b) la matrice coincide esattamente con quella delle materiali dell'anno precedente (L10, p.3, slide 5): 2/-1/1/-1 sulle quattro righe. Il glifo è un \"1\" scritto con svolazzo iniziale, come si vede confrontandolo con gli altri \"1\" della stessa colonna.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 43,
+   "testo": "Matrice di punteggio, riga g, secondo elemento: il segno meno è ripassato due volte e sembra un \"=\" (\"=1\"). È -1, coerente con la simmetria e con la matrice dell'anno precedente.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 43,
+   "testo": "Matrice di punteggio, riga t, terzo elemento: il meno è attaccato alla cifra e si legge quasi come un \"1\" isolato. È -1 per simmetria con s(g,t) della riga g.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 43,
+   "testo": "Il quaderno scrive \"Levhestein\" (grafia contratta); ho normalizzato in \"Levenshtein\".",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 43,
+   "testo": "Riga di apertura: il quaderno ha solo «Costo — Punteggio    duali» con una freccia ↓ sotto \"Costo\" e una freccia ↑ sotto \"Punteggio\". Ho esplicitato in prosa il significato delle due frecce (costo da minimizzare, punteggio da massimizzare) e ho mantenuto le frecce nella formula fuori testo con \\underset. Il contenuto corrisponde alla slide 5 dell'anno precedente (L10, §1: «Possiamo associare un costo ad una edit-string (vogliamo ↓). Possiamo associare un punteggio ad una edit-string (vogliamo ↑)»).",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 43,
+   "testo": "Titolo sottolineato «Matrice di costo/punteggio» seguito, sulla stessa riga, da «posso assegnare costi diversi alle sostituzioni» (la parola \"sostituzioni\" è scritta su una seconda riga con una freccia ↳ di rinvio). Ho reso il titolo con \\paragraph e ho espanso la frase telegrafica in prosa, aggiungendo solo la precisazione che i costi si raccolgono \"in una matrice indicizzata dalle coppie di caratteri dell'alfabeto\", che è la lettura ovvia del titolo stesso.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 43,
+   "testo": "Il quaderno scrive telegraficamente «es. (a,g) purine / (c,t) pirimidine   simili tra loro» e, a destra della matrice, «es. matrice di punteggio» con una freccia curva che punta alla matrice. Ho fuso le due annotazioni in un unico ambiente esempio, esplicitando che la conseguenza è penalizzare meno le sostituzioni interne alla stessa classe (è ciò che la matrice mostra: +1 per (a,g) e (c,t), -1 per le coppie purina/pirimidina). Non ho introdotto i termini tecnici \"transizione\"/\"transversione\", che compaiono solo nel commento alle materiali dell'anno precedente e non negli appunti.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 43,
+   "testo": "Le due righe «es. penalizzo l'apertura di un gap» e «es. nel DNA è molto probabile che un gap si estenda una volta aperto» (nel quaderno \"probab.\" è abbreviato) sono state fuse in un unico esempio, invertendo l'ordine della subordinata per leggibilità. È la motivazione della penalizzazione affine dei gap (cfr. L10 §5 e L11 §11.1); non ho aggiunto le formule w(k)=h+gk né Gotoh, perché non compaiono in questa pagina.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 43,
+   "testo": "Titolo sottolineato «Quale distanza usare?» seguito da «Generalmente ~» e dalle due corrispondenze. Ho reso \"Generalmente\" con \"Come regola di massima\", che è esattamente la dicitura della slide 7 dell'anno precedente («Regola di massima», L10 §6). La doppia freccia ↔ del quaderno è resa con \\longleftrightarrow.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 43,
+   "testo": "Il disegno in fondo alla pagina è a MATITA (tutto il resto è a penna blu): è quasi certamente un'aggiunta successiva, di raccordo con l'algoritmo ricorsivo di p.44. Mostra una cella quadrata etichettata (i,j) da cui partono tre frecce: orizzontale verso destra (etichetta i+1), verticale verso il basso (etichetta j+1), diagonale verso il basso-destra (etichetta i+1, j+1). Ho interpretato lo schema come lo stencil \"in avanti\" della ricorsione di allineamento: i indicizza sigma_1 (asse orizzontale), j indicizza sigma_2 (asse verticale). L'associazione con le operazioni (avanza solo i = cancellazione, avanza solo j = inserzione, avanzano entrambe = match/sostituzione) NON è scritta negli appunti: l'ho aggiunta in didascalia perché è coerente con lo pseudocodice di p.44, dove c_D chiama (i-1,j) e c_I chiama (i,j-1), e con i 4 casi della slide 9 dell'anno precedente (L10 §8.2). Si noti che su questo punto lo pseudocodice dell'anno precedente (L10 anomalia 1 / L11 anomalia A5) usa invece la convenzione opposta: gli appunti dello studente sono qui più corretti dell'anno precedente.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 43,
+   "testo": "Nel disegno a matita, fra l'etichetta \"i,j\" e l'etichetta \"i+1\" c'è un breve gruppo di grafemi che leggo come «N.B.» (nota bene): una \"n\" corsiva seguita da un'asta alta con occhiello e barretta. Non ha contenuto matematico e non l'ho riportato né nel LaTeX né nella figura ricostruita; lo segnalo qui per completezza. Letture alternative considerate e scartate: \"ins\", \"nel\".",
+   "risolto": false
+  },
+  {
+   "tipo": "altro",
+   "pagina": 43,
+   "testo": "La matrice 4x4 dei punteggi è stata resa con un array LaTeX e non con una figura TikZ: è contenuto tabellare/matematico, non un disegno, e la scansione non contiene alcun tratto grafico oltre alla freccia curva di rinvio (resa in prosa).",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 43,
+   "testo": "Ho usato la macro $\\gap$ (definita in preamble.tex come \\mathit{gap}, quindi solo in modo matematico) per la prima occorrenza della parola \"gap\"; le occorrenze successive sono in testo normale per non appesantire la frase.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "dp-stencil",
+   "pagina": 43,
+   "didascalia": "Le tre transizioni elementari della ricorsione: dalla coppia di indici $(i,j)$ si passa a $(i+1,j)$ (avanza solo $\\sigma_1$: cancellazione), a $(i,j+1)$ (avanza solo $\\sigma_2$: inserzione) oppure a $(i+1,j+1)$ (avanzano entrambe: match o sostituzione).",
+   "tipo": "matrice DP / schema di transizioni",
+   "specifica": "Schema dello stencil \"in avanti\" della programmazione dinamica per l'allineamento. Nell'originale è tracciato a matita, in modo molto schematico e senza cornice.\n\nELEMENTI:\n1. Una CELLA quadrata (quadratino, lato ~1.1 cm, tratto sottile nero) posizionata in alto a sinistra dello schema. Rappresenta la cella (i,j) della matrice di programmazione dinamica. Nel disegno originale il quadrato è appena abbozzato (i quattro lati non si chiudono perfettamente): nella ricostruzione va disegnato come un quadrato regolare.\n2. ETICHETTA della cella: \"$(i,j)$\" scritta SOPRA e leggermente a sinistra del quadrato, all'esterno.\n3. FRECCIA ORIZZONTALE che parte dal lato destro della cella e punta a destra, lunga circa 2,5 volte il lato della cella. Etichetta \"$i+1$\" posta SOPRA la punta della freccia.\n4. FRECCIA VERTICALE che parte dal lato inferiore della cella e punta verso il basso, lunga circa 2,5 volte il lato della cella. Etichetta \"$j+1$\" posta SOTTO la punta della freccia.\n5. FRECCIA DIAGONALE che parte dallo spigolo in basso a destra della cella (nell'originale parte dal lato inferiore, appena a destra dell'origine della freccia verticale) e punta in basso a destra, con inclinazione di circa -45 gradi, di lunghezza tale da terminare all'incirca all'altezza della punta della freccia verticale e all'ascissa poco prima della punta della freccia orizzontale. Etichetta a DESTRA della punta, su due righe impilate: \"$i+1$\" sopra e \"$j+1$\" sotto (nell'originale sono scritte una sopra l'altra, senza frazione né parentesi; in ricostruzione si può usare una pila \\substack o due righe centrate).\n\nCONVENZIONI ASSE: l'indice $i$ (relativo a $\\sigma_1$) cresce verso DESTRA, l'indice $j$ (relativo a $\\sigma_2$) cresce verso il BASSO. Quindi: freccia orizzontale = avanzo solo su $\\sigma_1$; freccia verticale = avanzo solo su $\\sigma_2$; freccia diagonale = avanzo su entrambe.\n\nANNOTAZIONI OPZIONALI (non presenti nell'originale, da aggiungere solo se si vuole rendere lo schema autoesplicativo; in grigio o in corpo minore, accanto alle rispettive frecce): \"d\" sulla freccia orizzontale, \"i\" sulla freccia verticale, \"m/s\" sulla freccia diagonale.\n\nDA NON RIPRODURRE: la scritta \"N.B.\" presente nell'originale sopra la freccia orizzontale, fra le etichette \"$(i,j)$\" e \"$i+1$\" (marcatore editoriale dello studente, senza contenuto).\n\nSTILE: tratto sottile, frecce con punta stealth, tutto in nero; nessun riempimento; testo delle etichette in italiano/matematica come indicato.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina chiude la parte \"modellistica\" dell'allineamento (come pesare le operazioni: matrici di costo/punteggio, penalizzazione dei gap) e la scelta della distanza (Levenshtein vs Hamming), e si ferma sullo schizzo a matita delle tre transizioni (i,j) -> (i+1,j), (i,j+1), (i+1,j+1): resta in sospeso il passaggio dalla ricorrenza allo pseudocodice. Da p.42 arriva la disuguaglianza d_H(sigma_1,sigma_2) >= d_L(sigma_1,sigma_2), qui non ripresa. La p.44 riparte esattamente da quello schema con il titolo \"Algoritmo ricorsivo esponenziale\" e lo pseudocodice allineamento_exp(sigma_1,sigma_2,i,j) (caso base return i+j; c_s, c_D con (i-1,j), c_I con (i,j-1); return min), seguito dall'osservazione che i valori distinti di (i,j) sono solo |sigma_1| x |sigma_2| e dal lower bound O(|sigma_1| x |sigma_2|), per poi introdurre l'\"allineamento locale\". Nota per la cucitura: la matrice di punteggio di questa pagina e la penalizzazione dei gap NON vengono più usate nel seguito (l'algoritmo di p.44 usa costi unitari), esattamente come nelle materiali dell'anno precedente",
+ "confidenza": "alta"
+}

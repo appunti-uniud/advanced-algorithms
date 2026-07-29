@@ -1,0 +1,36 @@
+{
+ "pagina": 15,
+ "esito": "problemi-minori",
+ "file_scritto": "/home/rob/UNI/algoritmi_avanzati/.build/verifica/p15.json",
+ "file_verificato": "/home/rob/UNI/algoritmi_avanzati/lezioni/04-aho-corasick.tex",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "errore-logico",
+   "dove": "lezioni/04-aho-corasick.tex, \\paragraph{Passo induttivo.} (righe 247-261), primo item dell'itemize",
+   "descrizione": "Il passo induttivo e enunciato senza restrizione sulla profondita di v, ma applicato a un nodo v di profondita 1 produce un risultato falso: se v' = parent(v) = root allora n_{v'} = root e root HA un figlio raggiunto dall'arco etichettato x, cioe v stesso, da cui si otterrebbe n_v = v invece di n_v = root. Il caso e coperto solo implicitamente dal capoverso 'Caso base' che lo precede (e dall'algoritmo, il cui ciclo parte da d = 2), ma il testo discorsivo non lo esclude. La trappola e riconosciuta dallo stesso trascrittore in NOTE-EDITORIALI.md riga 188, ma non e resa esplicita nel LaTeX.",
+   "correzione": "Aggiungere la restrizione esplicita nel passo induttivo, p.es.: 'Sia ora $\\mathrm{depth}(v) \\ge 2$ (i nodi di profondita $\\le 1$ sono gia coperti dal caso base). Se devo determinare $\\nv{v}$, sia $v' = \\mathrm{parent}(v)$ ...'."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "omissione",
+   "dove": "lezioni/04-aho-corasick.tex, Algoritmo 4 'Calcolo dei failure link di K(P)' (righe 276-303): righe \\State $\\nv{\\mathrm{root}} \\gets \\mathrm{root}$ e ciclo 'per ogni figlio u della radice'",
+   "descrizione": "$\\mathit{lp}(\\cdot)$ viene assegnato soltanto dentro il ciclo sui nodi di profondita $d \\ge 2$ (riga 299). Restano quindi indefiniti $\\mathit{lp}(\\mathrm{root})$ e $\\mathit{lp}(u)$ per i figli della radice, mentre la \\autoref{sec:ricerca-ac} (riga 335) usa $\\ell \\gets c - \\mathit{lp}(v)$ per un nodo corrente $v$ qualsiasi, radice inclusa (il caso $v = \\mathrm{root}$ e proprio quello discusso nella parentesi 'se il blocco avviene gia sulla radice'). Anche l'\\Ensure promette solo $\\nv{v}$, non $\\mathit{lp}$.",
+   "correzione": "Inizializzare esplicitamente il potenziale: aggiungere \\State $\\mathit{lp}(\\mathrm{root}) \\gets 0$ subito dopo \\State $\\nv{\\mathrm{root}} \\gets \\mathrm{root}$, e \\State $\\mathit{lp}(u) \\gets 0$ dentro il ciclo sui figli della radice; estendere l'\\Ensure a '$\\nv{v}$ e $\\mathit{lp}(v)$ per ogni nodo $v$'."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "omissione",
+   "dove": "lezioni/04-aho-corasick.tex, \\section{La fase di ricerca} (righe 325-340), compresa fra i due \\scan{15}",
+   "descrizione": "L'intera sezione 4.4 e una ricostruzione: le posizioni $\\ell$ e $c$, l'invariante $\\L(v) = T[\\ell..c-1]$, l'aggiornamento $\\ell \\gets c - \\mathit{lp}(v)$, $v \\gets \\nv{v}$ e la complessita $\\Oh(|T|+k)$ non compaiono ne a p.15 ne a p.13/p.14 del quaderno (la figura failure-link-idea.tikz non contiene la barra del testo con i marcatori $\\ell$ e $c$; quella figura e nella sintesi degli appunti dell'anno precedente, L04 §7, ma non negli appunti dello studente). Il contenuto e corretto e necessario, ma la policy editoriale (punto 3: 'Logga sempre tutto ... ogni ricostruzione va riportata') richiede che sia annotato, e non lo e: in NOTE-EDITORIALI.md non c'e nessuna voce sulla fase di ricerca. Collocata fra due \\scan{15}, la sezione appare inoltre come contenuto di pagina 15.",
+   "correzione": "Aggiungere in NOTE-EDITORIALI.md (sezione 'Ricostruzioni') una voce '**p.15** · cap. 04 — La sezione \"La fase di ricerca\" e interamente ricostruita (Gusfield §3.4 / L04_sintesi §12): il quaderno non la formalizza mai, ...' e inserire nel .tex un commento LaTeX che la marchi come ricostruzione (o spostare il secondo \\scan{15} prima della sezione)."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "omissione",
+   "dove": "NOTE-EDITORIALI.md, voci p.15 alle righe 544 ('Divergenze dagli appunti dell'anno precedente') e 2010 ('Altre scelte')",
+   "descrizione": "Due voci di log su p.15 contraddicono il file attuale. Riga 544: 'ho scelto di NON aggiungere un blocco algorithm/algorithmic ... e di lasciare la ricorsione nella forma discorsiva' — ma il capitolo contiene l'Algoritmo 4 (righe 276-303 del .tex, Algoritmo 4 nel PDF a p.28); inoltre Gli appunti del corso dell'anno precedente lo pseudocodice ce l'hanno (L04_sintesi §11, 'Pseudocodice ricostruito'). Riga 2010: dichiara che il titolo manoscritto 'Algoritmo per la determinazione dei failure link (Ricorsione + analisi ammortizzata della complessita)' e stato riprodotto come \\subsection, mentre la sottosezione si intitola 'Calcolo dei failure link' (i due \\paragraph 'Caso base'/'Passo induttivo' sono invece presenti). Il log non rispecchia piu il deliverable.",
+   "correzione": "Aggiornare le due voci: riga 544 va riscritta per registrare che lo pseudocodice E stato inserito (Algoritmo 4, ordine per livelli), riga 2010 va corretta indicando il titolo effettivo della sottosezione."
+  }
+ ]
+}

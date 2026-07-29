@@ -1,0 +1,114 @@
+{
+ "pagina": 50,
+ "latex": "\\scan{50}\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/lv-dpath-riga-n.tikz}\n\\caption{Un $d$-path che parte dalla riga $0$ nella colonna $i$ e raggiunge\nl'ultima riga nella colonna $j$. I tratti diagonali sono match gratuiti; le\nmosse orizzontali e verticali (evidenziate dai pallini) sono gli errori.}\n\\end{figure}\n\n\\begin{osservazione}\nSe il $d$-path termina sull'ultima riga della tabella, allora ho trovato\nun'occorrenza di $P$ in $T$. Più precisamente, se il cammino parte dalla cella\n$(0,i)$ e termina nella cella $(n,j)$, esso descrive un allineamento fra $P$ e\nla sottostringa $\\sub{T}{i+1}{j}$ che impiega esattamente $d$ operazioni di\nedit, e dunque\n\\[\n  \\dedit\\bigl(P,\\;\\sub{T}{i+1}{j}\\bigr) \\;\\le\\; d .\n\\]\nIn particolare, se $d\\le k$ la colonna $j$ è la posizione finale di\nun'occorrenza di $P$ in $T$ con al più $k$ differenze.\n\\end{osservazione}\n\n\\begin{definizione}[$d$-path \\emph{farthest reaching}]\\label{def:fr-dpath}\nFissata una diagonale $i$, un $d$-path che termina sulla diagonale $i$ si dice\n\\emph{farthest reaching} (in breve f.r.) se la colonna $j$ in cui termina è\n\\textbf{massima} fra quelle di tutti i $d$-path che terminano sulla diagonale $i$.\n\\end{definizione}\n\n\\begin{osservazione}\nSu una diagonale fissata la posizione di una cella è individuata da un solo\nnumero, per cui un $d$-path f.r.\\ è completamente descritto dalla colonna (o,\nequivalentemente, dalla riga) in cui termina. Per $d=0$ la nozione si\nsemplifica ulteriormente: un $0$-path non compie mosse d'errore e quindi non\ncambia mai diagonale, cosicché la diagonale su cui termina coincide con la\ncolonna da cui parte sulla riga $0$.\n\\end{osservazione}\n\n\\paragraph{Algoritmo di Landau--Vishkin.}\nLo schema dell'algoritmo è il seguente.\n\n\\begin{algorithm}[H]\n\\caption{Landau--Vishkin: $k$-differences matching}\n\\begin{algorithmic}[1]\n\\Require $P$ con $|P|=n$, $T$ con $|T|=m$, soglia $k$\n\\State $d \\gets 0$\n\\For{$i \\gets 0$ \\textbf{to} $m$}\n  \\State calcola $\\lcey\\bigl(\\sub{P}{1}{n},\\,\\sub{T}{i+1}{m}\\bigr)$\n         \\Comment{$\\Oh(1)$}\n\\EndFor\n\\For{$d \\gets 1$ \\textbf{to} $k$}\n  \\For{$i \\gets -n$ \\textbf{to} $m$}\n    \\State dai $(d-1)$-path f.r.\\ sulle diagonali $i-1,i,i+1$ ricava\n           i tre cammini $R_1,R_2,R_3$ che terminano su $i$\n    \\State il più lontano fra $R_1,R_2,R_3$ è il $d$-path f.r.\\ sulla\n           diagonale $i$ \\Comment{$\\Oh(1)$}\n  \\EndFor\n\\EndFor\n\\end{algorithmic}\n\\end{algorithm}\n\nIl primo ciclo è l'\\emph{inizializzazione}: determina i $d$-path farthest\nreaching per $d=0$. Ogni query $\\lcey$ costa $\\Oh(1)$ grazie al\npre-processing lineare (suffix tree generalizzato di $P\\,\\#\\,T$ più\nHarel--Tarjan), quindi l'inizializzazione costa in tutto $\\Oh(m)$.\n\nIl secondo ciclo esegue $k$ iterazioni: al passo $d$ si costruiscono i $d$-path\nf.r.\\ per ognuna delle diagonali, prolungando in tre modi diversi i\n$(d-1)$-path f.r.\\ delle diagonali $i-1$, $i$ e $i+1$ e prendendo il più\nlontano dei tre cammini $R_1,R_2,R_3$ così ottenuti.",
+ "note": [
+  {
+   "tipo": "correzione",
+   "pagina": 50,
+   "risolto": true,
+   "testo": "Ciclo esterno: il quaderno scrive \"for d = 0 to k\" (zero barrato, stessa grafia di \"d := 0\"). Ho scritto \"for d = 1 to k\". Motivo: il corpo del ciclo usa i (d-1)-path farthest reaching, quindi d=0 non e' ammissibile, e i 0-path f.r. sono gia' stati calcolati dal ciclo di inizializzazione. Coincide con lo pseudocodice di Gusfield (Fig. 12.8, \"For d := 1 to k do\") e con l'annotazione manoscritta dell'anno precedente (\"d = 1,2,...,k\") riportata in L12_sintesi.md."
+  },
+  {
+   "tipo": "errore-anno-prec",
+   "pagina": 50,
+   "risolto": true,
+   "testo": "Osservazione: il quaderno scrive \"d_L(P, T[i,j]) = d\". Ho scritto \"<= d\". Motivo: un d-path induce un allineamento di costo esattamente d, ma la distanza di Levenshtein e' il minimo su tutti gli allineamenti, quindi si conclude solo d_edit(P, T[i+1..j]) <= d (l'uguaglianza vale solo se quel cammino e' ottimo). E' anche la formulazione di Gusfield (\"contains at most k differences\")."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 50,
+   "risolto": true,
+   "testo": "Indici (off-by-one): il quaderno scrive \"T[i,j]\" nell'osservazione e \"LCE(P[1,n], T[i,m])\" nello pseudocodice, copiando la notazione di Gusfield. Ho scritto T[i+1..j] e T[i+1..m]. Motivo: nella tabella DP la cella (0,i) significa \"0 caratteri di P e i caratteri di T gia' consumati\", quindi il primo carattere da confrontare e' T[i+1]; la sottostringa allineata dal cammino che va da (0,i) a (n,j) e' T[i+1..j]. La scrittura T[i..m] del libro (e del quaderno) e' imprecisa di uno. NB: la stessa scrittura non corretta ricompare a p.51 come LCE(P[v,n], T[u,m])."
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 50,
+   "risolto": true,
+   "testo": "Definizione di farthest-reaching d-path: il quaderno scrive \"e' un d-path che parte da i e termina in una colonna j, con j massima\" (\"parte da\" e' vergato sopra una macchia, ma la lettura e' sicura). Ho riformulato come \"un d-path che termina sulla diagonale i, con colonna finale j massima\". Motivo: la nozione di Gusfield e' relativa alla diagonale su cui il cammino TERMINA, non alla colonna da cui parte; \"parte da i\" e' corretto solo per d=0, perche' un 0-path non cambia mai diagonale. Lo stesso studente si corregge a p.51 (\"farthest-reaching(d,i) = d-path che termina in una diagonale i in una colonna j max\"). Per non perdere la lettura del quaderno ho aggiunto l'osservazione successiva, che spiega la coincidenza fra colonna di partenza e diagonale nel caso d=0."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 50,
+   "risolto": true,
+   "testo": "L'osservazione dopo la definizione (\"su una diagonale la posizione e' individuata da un solo numero...\" e il caso d=0) non e' scritta a p.50: e' aggiunta per raccordare la formulazione corretta della definizione con quella del quaderno (\"parte da i\"). Il fatto che un f.r. d-path si rappresenti con una sola cella e' comunque presupposto dall'algoritmo che segue."
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 50,
+   "risolto": true,
+   "testo": "Chiusura dei cicli: nel quaderno compare un solo \"end for\" dopo il corpo del ciclo interno; manca l'\"end for\" del ciclo esterno su d (la pagina finisce li' e p.51 riprende con la figura dei tre cammini). Ho chiuso entrambi i cicli nell'ambiente algorithmic."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 50,
+   "risolto": true,
+   "testo": "Ho aggiunto la riga \\Require (P con |P|=n, T con |T|=m, soglia k), assente nel quaderno, per rendere lo pseudocodice autosufficiente e fissare esplicitamente la convenzione di Gusfield n=|P| (righe), m=|T| (colonne), opposta a quella abituale del corso. La convenzione e' comunque univocamente determinata dai limiti dei cicli scritti dallo studente (\"i := 0 to m\", \"i = -n to m\")."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 50,
+   "risolto": true,
+   "testo": "Il commento finale (\"ogni query LCE costa O(1) grazie al pre-processing lineare: suffix tree generalizzato di P#T piu' Harel-Tarjan, quindi l'inizializzazione costa O(m)\") espande l'annotazione del quaderno, che riporta solo \"~ O(1)\" a fianco della chiamata LCE. Il pre-processing lineare e' stabilito nelle pagine precedenti (p.49); il totale O(m) del primo ciclo e' conseguenza immediata. Il costo complessivo O(k(n+m)) NON e' scritto a p.50 e non l'ho aggiunto."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 50,
+   "risolto": true,
+   "testo": "Le due righe di annotazione a graffa a fianco del primo ciclo - \"d-path per d=0\" e \"Inizializzazione per determinare gli 0-path farthest reaching\" - sono state fuse nel paragrafo di commento dopo lo pseudocodice, invece che riprodotte come graffa a margine."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 50,
+   "risolto": true,
+   "testo": "Corpo del ciclo interno: il quaderno scrive in modo telegrafico e al singolare \"usando il farthest-reaching (d-1)-path sulle diagonali i, i-1, i+1, che terminano in diagonale i, R1, R2, R3, determino il farthest-reaching d-path per la diagonale i\". Ho messo al plurale, riordinato le diagonali in i-1, i, i+1 e spezzato in due istruzioni. Il contenuto e' invariato: p.50 nomina R1, R2, R3 senza definirli, la definizione arriva con la figura di p.51."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 50,
+   "risolto": true,
+   "testo": "Nell'osservazione la parola dopo \"ho trovato un\" e' scritta su una cancellatura e molto compressa; il contesto (e la ripresa a p.51) impone \"occorrenza\". Risolto. Analogamente \"t.c.\" (tale che) e' stato espanso, qui riformulato come \"e dunque\"."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 50,
+   "risolto": true,
+   "testo": "Titolo del quaderno: \"Algoritmo di L.-V.\", espanso in \"Algoritmo di Landau-Vishkin\" (unico titolo esplicito della pagina, reso con \\paragraph, come consente la policy)."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 50,
+   "risolto": true,
+   "testo": "Notazione: il quaderno usa d_L (distanza di Levenshtein) e LCE maiuscolo. Ho usato le macro previste dal preambolo, \\dedit (d_edit, che e' la stessa distanza) e \\lcey (che compone \"lce\"). Segnalato perche' potrebbe divergere dalle pagine adiacenti se altri trascrittori hanno scritto d_L per esteso."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 50,
+   "risolto": true,
+   "testo": "Sulla seconda meta' dello pseudocodice si intravedono segni a matita molto chiari (una lunga linea obliqua, un segmento verticale con due cerchietti, un trattino orizzontale) che attraversano le righe \"for d = ... to k\" e \"for i = -n to m do\". Non sono contenuto: e' un'impronta/trasparenza dal retro del foglio, e assomiglia allo schema dei tre cammini R1, R2, R3 di p.51. Ignorati."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 50,
+   "risolto": true,
+   "testo": "Interpretazione del disegno in testa alla pagina: e' la tabella DP (righe = P, colonne = T) di cui sono tracciati solo bordo sinistro, bordo superiore (prolungato a destra, con l'etichetta T) e ultima riga (linea ondulata che sporge da entrambi i lati); il bordo destro non c'e'. I due tick sul bordo superiore sono la colonna di partenza i e la colonna di arrivo j, collegata al bordo inferiore da una verticale sottile. Il cammino disegnato ha esattamente due mosse d'errore visibili (una orizzontale e una verticale) piu' tre tratti diagonali di match: e' schematico, il \"d\" della definizione resta generico. I pallini spessi marcano gli estremi delle mosse d'errore."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 50,
+   "risolto": true,
+   "testo": "Verifica di compilazione: il LaTeX prodotto e' stato compilato con lualatex usando academica + preamble.tex del progetto (con la figura sostituita da un segnaposto). Nessun errore; algorithm[H] + algorithmic rendono correttamente. Il \\paragraph e' stato messo con una frase di raccordo (\"Lo schema dell'algoritmo e' il seguente.\") perche' altrimenti il titolo run-in scavalcava il float dell'algoritmo."
+  }
+ ],
+ "figure": [
+  {
+   "id": "lv-dpath-riga-n",
+   "pagina": 50,
+   "didascalia": "Un $d$-path che parte dalla riga $0$ nella colonna $i$ e raggiunge l'ultima riga nella colonna $j$. I tratti diagonali sono match gratuiti; le mosse orizzontali e verticali (evidenziate dai pallini) sono gli errori.",
+   "tipo": "matrice DP con cammino (schema di allineamento)",
+   "specifica": "SCHEMA DELLA TABELLA DI PROGRAMMAZIONE DINAMICA CON UN d-PATH CHE RAGGIUNGE L'ULTIMA RIGA.\n\nProporzioni: riquadro largo circa il doppio dell'altezza (indicativamente 10 cm x 5 cm). Un solo colore (blu del quaderno oppure nero), tratto pieno, spessore medio.\n\nCORNICE (solo tre lati; il bordo destro NON va disegnato):\n- Bordo sinistro: segmento verticale dall'angolo in alto a sinistra fino al bordo inferiore; rappresenta la colonna 0. A sinistra di esso, circa a meta' altezza, l'etichetta 'P' (le righe sono indicizzate dai caratteri di P: riga 0 in alto, riga n in basso).\n- Bordo superiore: segmento orizzontale che parte dall'angolo in alto a sinistra e PROSEGUE verso destra oltre il corpo della figura, per circa il 20% in piu' della larghezza; rappresenta la riga 0. All'estremita' destra di questo prolungamento, subito sopra la linea, l'etichetta 'T' (le colonne sono indicizzate dai caratteri di T).\n- Bordo inferiore: linea orizzontale disegnata leggermente ONDULATA / a mano libera (decorazione tipo 'snake' con ampiezza piccola), che sporge un poco sia a sinistra sia a destra rispetto al riquadro; rappresenta l'ultima riga, la riga n.\n\nTICK SUL BORDO SUPERIORE (due pallini pieni sulla riga 0):\n- punto A a circa il 25% della larghezza del riquadro: sopra la linea, l'etichetta 'i';\n- punto B a circa il 72% della larghezza: sopra la linea, l'etichetta 'j';\n- dal punto B scende una LINEA VERTICALE SOTTILE fino al bordo inferiore: serve a leggere la colonna in cui il cammino termina.\n\nIL CAMMINO (d-path), monotono verso il basso e verso destra, da A fino al bordo inferiore; in ordine, cinque tratti:\n 1. tratto DIAGONALE lungo (a 45 gradi), che scende da A fino a circa 1/4 dell'altezza;\n 2. MOSSA ORIZZONTALE corta verso destra (lunga circa mezzo tratto diagonale): i due estremi sono marcati con pallini pieni ben visibili;\n 3. secondo tratto DIAGONALE, piu' lungo del primo, fino a circa 3/5 dell'altezza;\n 4. MOSSA VERTICALE corta verso il basso, anch'essa con i due estremi marcati da pallini;\n 5. ultimo tratto DIAGONALE che arriva esattamente sul bordo inferiore, nel punto in cui questo incontra la verticale calata da j; il punto finale e' marcato con un pallino.\nIl tratto del cammino e' un po' piu' spesso della cornice.\n\nSIGNIFICATO (da NON scrivere nella figura, serve solo a disegnarla correttamente): i tratti diagonali sono corse di match, gratuite, che si attraversano in O(1) con una query LCE; la mossa orizzontale (spazio in P) e quella verticale (spazio in T) sono le mosse d'errore e spostano il cammino di esattamente una diagonale ciascuna. Il cammino parte in (riga 0, colonna i) e termina in (riga n, colonna j): individua un'occorrenza di P in T[i+1..j] con al piu' d differenze.\n\nETICHETTE: soltanto P, T, i, j (esattamente quelle dell'originale). Nessun'altra scritta, nessuna griglia di celle disegnata.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina si chiude in mezzo allo pseudocodice: e' scritto solo l'\\\"end for\\\" del ciclo interno su i, manca quello del ciclo esterno su d (l'ho chiuso io). Restano in sospeso i tre cammini R_1, R_2, R_3, che a p.50 sono soltanto NOMINATI e mai definiti. La p.51 riprende esattamente da li': si apre con la figura dei tre f.r. (d-1)-path sulle diagonali i-1, i, i+1 prolungati sulla diagonale i (con l'etichetta LCE(P[v,n], T[u,m]) sull'estensione finale), poi ripete in forma compatta la definizione \\\"farthest-reaching(d,i) = d-path che termina in una diagonale i in una colonna j max\\\" - che e' la versione corretta della definizione data a p.50 - e subito dopo inizia il nuovo capitolo \\\"Algoritmi Randomizzati\\\". Note per la cucitura: (a) l'analisi di complessita' complessiva O(k(n+m)) non compare ne' a p.50 ne' a p.51 negli appunti dello studente, a p.50 c'e' solo l'annotazione O(1) sulla singola query LCE; (b) a p.51 ricompare la notazione imprecisa LCE(P[v,n], T[u,m]), che andrebbe uniformata a LCE(P[v+1..n], T[u+1..m]) come ho fatto qui; (c) se p.51 introduce il simbolo d_L, va uniformato con la macro \\\\dedit usata qui.",
+ "confidenza": "alta"
+}

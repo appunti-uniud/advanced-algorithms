@@ -1,0 +1,114 @@
+{
+ "pagina": 30,
+ "latex": "\\scan{30}\n\nIn tutta la pagina vale la convenzione $\\abs{P}=n$ (il pattern indicizza le \\emph{righe} della\nmatrice) e $\\abs{T}=m$ (il testo indicizza le \\emph{colonne}).\n\n\\begin{definizione}[Maschere del pattern]\\label{def:shiftand-maschere}\nPer ogni carattere $x\\in\\alfa$ si definisce il vettore di bit $U_x\\in\\set{0,1}^n$ ponendo\n\\[\n  U_x[i]\\;=\\;\n  \\begin{cases}\n    1 & \\text{se } P[i]=x,\\\\[2pt]\n    0 & \\text{altrimenti,}\n  \\end{cases}\n  \\qquad i=1,\\dots,n .\n\\]\n\\end{definizione}\n\nLa tabella $\\set{U_x}_{x\\in\\alfa}$ mi dice \\emph{quale} carattere occorre in $P[i]$: fissata la\nposizione $i$, c'è un solo $x$ per cui $U_x[i]=1$, ed è $x=P[i]$. Le maschere si costruiscono una\nvolta per tutte in preprocessing, a partire dal solo pattern, e occupano $\\abs{\\alfa}\\cdot n$ bit.\n\nUso allora $\\vec{P}$ (il pattern visto come vettore di bit), $T[j]$ e le maschere $U_x[i]$ per\ndeterminare tutte le occorrenze di $P$ in $T$ \\emph{senza} costruire il dot-plot: la $j$-esima\ncolonna del dot-plot è esattamente $U_{T[j]}$, quindi è già precalcolata e la matrice dei match\nnon va mai materializzata.\n\n\\medskip\nConsideriamo ora la matrice $M$ dello Shift--And, matrice che \\emph{non} costruiamo per intero\nma che ci permette di risolvere il problema:\n\\[\n  M[i,j]=1 \\iff \\pre{P}{i}\\ \\text{è un suffisso di}\\ \\pre{T}{j},\n  \\qquad 1\\le i\\le n,\\quad 0\\le j\\le m .\n\\]\nLe condizioni per scrivere correttamente un $1$ in $M[i,j]$ sono due:\n\\begin{itemize}\n  \\item[a)] devo avere un $1$ in $M[i-1,\\,j-1]$ \\quad$\\longrightarrow$\\quad \\textsc{shift};\n  \\item[b)] deve essere $P[i]=T[j]$ \\quad$\\longrightarrow$\\quad \\textsc{and}.\n\\end{itemize}\n\nLette colonna per colonna --- sia $M[j]\\in\\set{0,1}^n$ la $j$-esima colonna di $M$ --- le due\ncondizioni diventano due sole operazioni su vettori di bit:\n\\begin{itemize}\n  \\item la (a) chiede, per ogni $i$, il bit di riga $i-1$ della colonna precedente: basta far\n    scorrere $M[j-1]$ di una posizione verso il basso, immettendo in testa (\\emph{pad}) un $1$,\n    \\[ \\operatorname{shift}(b_1b_2\\cdots b_n)\\;=\\;1\\,b_1b_2\\cdots b_{n-1}\\,; \\]\n  \\item la (b) chiede, per ogni $i$, che sia $P[i]=T[j]$: è esattamente l'\\textsc{and} bit a bit\n    con la maschera $U_{T[j]}$.\n\\end{itemize}\nIn forma vettoriale la ricorrenza è dunque\n\\[\n  M[j]\\;=\\;\\operatorname{shift}\\bigl(M[j-1]\\bigr)\\ \\mathbin{\\textsc{and}}\\ U_{T[j]},\n  \\qquad j=1,\\dots,m ,\n\\]\ned è da qui che l'algoritmo prende il nome: \\emph{uno} shift e \\emph{un} and per ogni carattere\ndel testo.\n\n\\begin{osservazione}\nIl $1$ immesso in testa dallo \\emph{shift} non è un dettaglio implementativo: codifica la\ncondizione al bordo $M[0,j]=1$ per ogni $j$ (la stringa vuota è suffisso di ogni $\\pre{T}{j}$),\ncioè il fatto che in \\emph{ogni} posizione del testo può iniziare una nuova occorrenza. Con uno\nshift che immette $0$ la colonna diventerebbe identicamente nulla e l'algoritmo non troverebbe\nmai nulla. Per la ragione simmetrica la colonna iniziale è nulla, $M[0]=0^n$: nessun prefisso non\nvuoto di $P$ è suffisso di $\\pre{T}{0}=\\vuota$.\n\\end{osservazione}\n\n\\begin{algorithm}[H]\n\\caption{\\textsc{Shift-And}}\\label{alg:shift-and}\n\\begin{algorithmic}[1]\n\\Require $P[1\\,..\\,n]$, $T[1\\,..\\,m]$\n\\Ensure le posizioni di inizio delle occorrenze di $P$ in $T$\n\\ForAll{$x\\in\\alfa$}\n  \\State $U_x \\gets 0^n$\n\\EndFor\n\\For{$i \\gets 1$ \\textbf{to} $n$}\n  \\State $U_{P[i]}[i] \\gets 1$ \\Comment{$U_x[i]=1$ sse $P[i]=x$}\n\\EndFor\n\\State $M[0] \\gets 0^n$\n\\For{$j \\gets 1$ \\textbf{to} $m$}\n  \\State $M[j] \\gets \\operatorname{shift}\\bigl(M[j-1]\\bigr) \\mathbin{\\textsc{and}} U_{T[j]}$\n  \\If{$M[n,j]=1$}\n    \\State \\textbf{output} $j-n+1$\n  \\EndIf\n\\EndFor\n\\end{algorithmic}\n\\end{algorithm}\n\n\\paragraph{Complessità.}\n\\[\n  \\Oh(m\\cdot n)\\ \\text{tempo},\\qquad \\Oh(n)\\ \\text{bit di spazio (\\emph{working space})} .\n\\]\n\n\\begin{osservazione}\nLa stima $\\Oh(m\\cdot n)$ è una \\emph{sovrastima}: conta le celle di $M$, che però non viene mai\ncostruita. Il ciclo esegue $m$ iterazioni, ciascuna con \\emph{uno} shift e \\emph{un} and su\nvettori di $n$ bit; nel modello word-RAM con parola di $w$ bit il costo della ricerca è\n\\[\n  \\Th\\!\\left(m\\left\\lceil \\frac{n}{w}\\right\\rceil\\right),\n\\]\nche vale $\\Th(m)$ non appena $n\\le w$, cioè quando il pattern ha «una lunghezza ragionevole»\n(a margine, a matita, una nota in gran parte illeggibile richiama proprio questo:\n\\lacunainl{\\dots\\ \\str{/64}\\ \\dots}, la parola di macchina da $64$ bit).\nAnalogamente, lo spazio $\\Oh(n)$ bit è quello della sola colonna corrente $M[j]$: va aggiunta la\ntabella delle maschere, $\\abs{\\alfa}\\cdot n$ bit, trascurabile per alfabeti di dimensione\ncostante. Il testo viene letto in \\emph{streaming}, un carattere alla volta.\n\\end{osservazione}\n\n\\begin{esempio}\nSiano $P=\\str{aab}$ (quindi $n=3$) e $T=\\str{baab}$ (quindi $m=4$). Scrivendo i vettori di bit\ndall'alto in basso, da $P[1]$ a $P[3]$, le maschere sono\n\\[\n  U_{\\str{a}}=110,\\qquad U_{\\str{b}}=001,\n\\]\ne la matrice $M$ è quella della Figura~\\ref{fig:shiftand-esempio}. Si parte da $M[0]=000$ e:\n\\[\n  \\begin{aligned}\n    M[1] &= \\operatorname{shift}(000)\\mathbin{\\textsc{and}}U_{\\str{b}} = 100\\mathbin{\\textsc{and}}001 = 000, \\\\\n    M[2] &= \\operatorname{shift}(000)\\mathbin{\\textsc{and}}U_{\\str{a}} = 100\\mathbin{\\textsc{and}}110 = 100, \\\\\n    M[3] &= \\operatorname{shift}(100)\\mathbin{\\textsc{and}}U_{\\str{a}} = 110\\mathbin{\\textsc{and}}110 = 110, \\\\\n    M[4] &= \\operatorname{shift}(110)\\mathbin{\\textsc{and}}U_{\\str{b}} = 111\\mathbin{\\textsc{and}}001 = 001 .\n  \\end{aligned}\n\\]\nL'unico $1$ dell'ultima riga sta in colonna $j=4$: c'è un'occorrenza di $P$ che termina in $4$ e\ncomincia in $j-n+1=2$, e infatti $\\sub{T}{2}{4}=\\str{aab}=P$.\n\\end{esempio}\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/shiftand-esempio.tikz}\n\\caption{La matrice $M$ dello Shift--And per $P=\\str{aab}$ e $T=\\str{baab}$. Ogni colonna si\nottiene dalla precedente con uno \\emph{shift} (che immette un $1$ in testa) seguito da un\n\\textsc{and} con la maschera del carattere letto; l'unico $1$ dell'ultima riga segnala\nl'occorrenza $\\sub{T}{2}{4}=P$.}\n\\label{fig:shiftand-esempio}\n\\end{figure}",
+ "note": [
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 30,
+   "risolto": true,
+   "testo": "Convenzione degli indici. A p.30 il quaderno scrive esplicitamente, a destra dello pseudocodice, «|T| = m» e «|P| = n» (verificato ad alta risoluzione), in accordo con Gli appunti del corso dell'anno precedente (P = P[1..n], T = T[1..m]). Ma la figura di p.29 dello stesso quaderno etichetta il testo T[1] ... T[j] ... T[n] e il pattern P[1] ... P[i] ... P[m], cioe' con n e m SCAMBIATI. Ho seguito la convenzione di p.30 (|P|=n, |T|=m), che e' anche quella dell'anno precedente e quella con cui torna «O(n) bit di working space» = una colonna = un vettore lungo quanto il pattern. Segnalo la divergenza perche' in fase di cucitura le etichette della figura di p.29 vanno armonizzate (T[m] e P[n]), altrimenti il capitolo risulta incoerente."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 30,
+   "risolto": true,
+   "testo": "Definizione delle maschere. Il quaderno scrive «U_x[i] = 1 se P_x[i] = x, 0 altrimenti»: sotto la P compare una piccola x a pedice (visibile nell'ingrandimento a 300 DPI). E' uno scivolamento di penna (contaminazione con il pedice di U_x): la condizione corretta e' P[i] = x. Ho scritto P[i] = x senza marcatore."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 30,
+   "risolto": true,
+   "testo": "La glossa a destra della definizione, indicata da una freccia, si legge «mi dice che carattere occorre in P[i]». Confermata all'ingrandimento; resa in prosa con l'esplicitazione «fissata la posizione i, c'e' un solo x per cui U_x[i]=1, ed e' x=P[i]», che dice la stessa cosa."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 30,
+   "risolto": true,
+   "testo": "La parola dopo la freccia che punta a M[i,j] e' stata inizialmente letta come «notrice»; all'ingrandimento e' chiaramente «matrice». L'annotazione completa e' «matrice che NON costruiamo per intero ma che ci permette di risolvere il problema» (con «non» sottolineato). Riportata integralmente in prosa."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 30,
+   "risolto": true,
+   "testo": "Fine della seconda riga: «... tutte le occorrenze di P in T ( no dot plot)», con «no» sottolineato. Reso come «senza costruire il dot-plot»."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 30,
+   "risolto": true,
+   "testo": "Invariante di M assente. Ne' p.29 (dove M(i,j) e' il DOT-PLOT: 1 sse P[i]=T[j]) ne' p.30 enunciano l'invariante della matrice dello Shift-And, eppure p.30 riusa lo stesso simbolo M con il significato NUOVO. E' esattamente il punto in cui La fonte dell'anno precedenteusa M per due matrici diverse (cfr. Anomalia 5 della sintesi L07). Ho inserito esplicitamente «M[i,j]=1 sse P[1..i] e' suffisso di T[1..j], 1<=i<=n, 0<=j<=m», senza cui le condizioni a) e b) sono prive di senso. Lacuna colmata deliberatamente."
+  },
+  {
+   "tipo": "errore-anno-prec",
+   "pagina": 30,
+   "risolto": true,
+   "testo": "Inizializzazione M[0]. Il quaderno scrive «M[0] <- 1 0 0 0 .. 0» (glifo iniziale 1 sormontato da freccia di vettore, poi zeri, alcuni scritti come 0 barrato) con l'annotazione «pad con 1» collegata da un tratto obliquo alla parola shift della riga sotto. La stessa scelta compare nell'esempio a matita in fondo alla pagina, dove la colonna j=0 vale (1,0,0). E' scorretto: con lo shift che immette un 1 in testa, da M[0]=1 0^{n-1} si otterrebbe M[1] = shift(M[0]) and U_{T[1]} con il bit di riga 2 pari a [P[2]=T[1]], cioe' l'algoritmo affermerebbe che P[1..2] e' suffisso di T[1..1]. L'unica inizializzazione corretta e' M[0]=0^n; il pad con 1 sta proprio (e solo) dentro lo shift, come indica la freccia dell'annotazione. Ho scritto M[0] <- 0^n nello pseudocodice e ho aggiunto un'osservazione che spiega il ruolo del pad. Nell'esempio a matita l'errore non si vede perche' T[1]='b' e U_b = 001 azzera comunque tutto: coincidenza fortunata. (Nota collegata: Gli appunti del corso dell'anno precedente scrivono, ancora peggio, «M[0] <- P», errore di tipo che lo studente aveva gia' scartato.)"
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 30,
+   "risolto": true,
+   "testo": "Definizione di shift. Il quaderno usa shift(...) senza definirlo, salvo l'annotazione «pad con 1» collegata da un tratto alla parola shift. Ho reso esplicito shift(b_1 b_2 ... b_n) = 1 b_1 b_2 ... b_{n-1} (scorrimento verso indici di riga crescenti, con 1 immesso in testa) e ne ho dato la giustificazione nell'osservazione: e' la condizione al bordo M[0,j]=1."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 30,
+   "risolto": true,
+   "testo": "Test di occorrenza. Il quaderno scrive «if M[n] == 1 then output»: nella stessa riga M[j] denota la COLONNA j mentre M[n] denota il BIT n della colonna corrente. Ho scritto M[n,j] = 1. Inoltre «output» e' senza argomento: ho aggiunto l'argomento j-n+1 (posizione di inizio dell'occorrenza), coerente con l'Ensure dell'algoritmo."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 30,
+   "risolto": true,
+   "testo": "Struttura del ciclo e preprocessing. Il quaderno scrive solo «loop ... end loop» senza estremi e non costruisce mai le maschere, pur usandole. Ho reso il ciclo «for j <- 1 to m» e ho aggiunto le due righe di preprocessing (U_x <- 0^n per ogni x in Sigma; U_{P[i]}[i] <- 1 per i=1..n), che sono la traduzione diretta della definizione di U_x data in cima alla stessa pagina."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 30,
+   "risolto": true,
+   "testo": "Ponte «niente dot-plot». Ho aggiunto la frase «la j-esima colonna del dot-plot e' esattamente U_{T[j]}», che non e' scritta nel quaderno ma e' la ragione per cui vale il «(no dot plot)» annotato dallo studente; e' anche la lacuna 6 segnalata nella sintesi deGli appunti del corso dell'anno precedente Aggiunta consapevole, una riga."
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 30,
+   "risolto": false,
+   "testo": "Nota a matita a destra di «O(m.n) tempo», su due righe, quasi del tutto illeggibile anche dopo equalizzazione del contrasto e separazione dei canali colore: si distinguono con sicurezza soltanto un «/64» e, sotto, una parola di circa 7 lettere. Il senso e' evidentemente il parallelismo di parola (m.n/64 con parole da 64 bit). L'ho segnalata con \\lacunainl dentro l'osservazione sulla complessita', dove ho aggiunto la formulazione precisa Theta(m ceil(n/w)) -> Theta(m) per n<=w (integrazione dal modello word-RAM e dalla sintesi L07). NON risolta come lettura."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 30,
+   "risolto": true,
+   "testo": "Segni a matita non trascritti: (i) una grande ellisse che cerchia la riga «M[0] <- ...» con un arco che risale verso il titolo «Algoritmo», evidentemente un richiamo posteriore dello studente, forse proprio sul dubbio dell'inizializzazione; (ii) uno scarabocchio di 2-3 lettere (forse «M/A» o «X/A») sopra la riga di M[0], illeggibile e privo di contenuto ricostruibile. Entrambi ignorati nella trascrizione."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 30,
+   "risolto": true,
+   "testo": "L'esempio in fondo alla pagina e' scritto a matita molto chiara e non e' leggibile nella scansione a 170 DPI; l'ho decodificato dalla banda b3 con stiramento dell'istogramma. Struttura: intestazione di colonna «b a a b» (= T), etichette di riga «a / a / b» (= P) con indici 0,1,2 a fianco, poi una colonna singola (1,0,0) separata da una linea verticale, infine 4 colonne di bit: riga1 = 0 1 1 0, riga2 = 0 0 1 0, riga3 = 0 0 0 1. E' esattamente la matrice M dello Shift-And per P=aab, T=baab (verificata cella per cella con la ricorrenza), e la colonna singola e' la colonna j=0. Due interventi editoriali: (a) ho usato indici di riga 1,2,3 invece degli 0,1,2 del quaderno, per coerenza con P[1..n] usato in tutta la pagina; (b) ho disegnato la colonna j=0 come (0,0,0) e non (1,0,0), coerentemente con la correzione di M[0] (vedi nota sull'errore di inizializzazione)."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 30,
+   "risolto": true,
+   "testo": "Il quaderno usa O grande («O(m.n)», «O(n) bit») dove La fonte dell'anno precedenteusa Theta. Ho conservato O nella riga «Complessita'» dello studente e usato Theta solo nell'osservazione di raffinamento, dove la stima e' effettivamente esatta."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 30,
+   "risolto": true,
+   "testo": "Titoli sottolineati presenti nel quaderno: «Algoritmo» e «Complessita'». Il primo e' assorbito dal caption del float (che la classe nomina «Algoritmo»), il secondo e' reso con \\paragraph{Complessita'.}. Nessun \\section/\\subsection, come da convenzioni. Verificato sul preambolo che il pacchetto e' algpseudocode (comandi \\State/\\For/\\ForAll/\\Require/\\Ensure) e che enumitem NON e' caricato: per le voci a)/b) ho quindi usato itemize con etichette esplicite \\item[a)] e \\item[b)]."
+  }
+ ],
+ "figure": [
+  {
+   "id": "shiftand-esempio",
+   "pagina": 30,
+   "didascalia": "La matrice $M$ dello Shift--And per $P=\\str{aab}$ e $T=\\str{baab}$. Ogni colonna si ottiene dalla precedente con uno \\emph{shift} (che immette un $1$ in testa) seguito da un \\textsc{and} con la maschera del carattere letto; l'unico $1$ dell'ultima riga segnala l'occorrenza $\\sub{T}{2}{4}=P$.",
+   "tipo": "matrice DP",
+   "specifica": "Griglia rettangolare di celle quadrate (~0.75 cm di lato), linee sottili grigio chiaro, cifre centrate in corpo normale.\n\nDIMENSIONI: 3 righe (i = 1,2,3, le posizioni del pattern) e 5 colonne (j = 0,1,2,3,4).\n\nETICHETTE A SINISTRA (due colonnine esterne alla griglia, senza bordi):\n- colonna piu' esterna: indice di riga $i$ = 1, 2, 3 (grigio, corpo minore);\n- colonna adiacente alla griglia: il carattere del pattern $P[i]$ in \\texttt{}: riga 1 -> \\texttt{a}, riga 2 -> \\texttt{a}, riga 3 -> \\texttt{b};\n- sopra queste due colonnine, allineate all'intestazione, le diciture $i$ e $P[i]$ (grigio, corpo minore).\n\nETICHETTE IN ALTO (due righe esterne alla griglia, sopra le colonne):\n- riga superiore: gli indici di colonna $j$ = 0, 1, 2, 3, 4 (grigio, corpo minore);\n- riga inferiore: il carattere del testo $T[j]$ in \\texttt{} sopra le colonne j=1..4, nell'ordine \\texttt{b}, \\texttt{a}, \\texttt{a}, \\texttt{b}; sopra la colonna j=0 nessun carattere, ma la dicitura in corsivo grigio \"$M[0]$\" (oppure \"iniz.\").\n\nCONTENUTO DELLE CELLE (righe dall'alto in basso, colonne da j=0 a j=4):\n- riga i=1 (P[1]=a):  0 | 0  1  1  0\n- riga i=2 (P[2]=a):  0 | 0  0  1  0\n- riga i=3 (P[3]=b):  0 | 0  0  0  1\nLa barra indica una linea verticale piu' spessa (o doppia) che separa la colonna j=0, di inizializzazione, dalle colonne j>=1. NB: la colonna j=0 e' tutta a ZERO (nel quaderno era erroneamente 1,0,0: correzione voluta, non ripristinarla).\n\nEVIDENZIAZIONI:\n1) L'ultima riga (i=3=n) ha un fondo tenue (grigio molto chiaro oppure il colore d'accento al 10%) esteso a tutte e cinque le colonne. A destra della griglia, una graffa verticale che abbraccia solo questa riga, con etichetta su due righe: «riga $n$: gli $1$ qui / sono occorrenze di $P$».\n2) La cella (i=3, j=4), che contiene l'unico 1 dell'ultima riga, e' cerchiata (o riquadrata con bordo spesso) nel colore d'accento; da essa parte una freccia curva verso il basso a destra con etichetta: «occorrenza: $\\sub{T}{2}{4}=\\str{aab}=P$, inizio in $j-n+1=2$».\n3) Le tre celle a 1 in diagonale --- (i=1,j=2), (i=2,j=3), (i=3,j=4) --- sono collegate da due frecce diagonali tratteggiate, da (1,2) a (2,3) e da (2,3) a (3,4), con una sola etichetta accanto alla prima: «shift». Mostrano la propagazione in diagonale del prefisso che cresce (condizione a) della pagina).\n4) Sotto la griglia, allineate alle colonne j=1..4, in corpo minore e grigio, le maschere applicate: $U_{\\str{b}}$, $U_{\\str{a}}$, $U_{\\str{a}}$, $U_{\\str{b}}$; sotto la colonna j=0, nulla. Facoltativo, solo se non affolla: il promemoria $U_{\\str{a}}=110$, $U_{\\str{b}}=001$ in un angolo.\n\nSTILE: tutto il testo in italiano; un solo colore d'accento (quello degli esempi nel documento) per il cerchio dell'occorrenza, la freccia relativa e l'eventuale fondo dell'ultima riga; grigio per etichette e frecce tratteggiate; nessun titolo interno alla figura (basta la didascalia).\n\nSEMANTICA (per chi ridisegna): $M[i,j]=1$ sse $\\pre{P}{i}$ e' suffisso di $\\pre{T}{j}$; la colonna $j$ dipende solo dalla colonna $j-1$ (shift verso il basso con 1 immesso in testa) e dal carattere $T[j]$ (and con $U_{T[j]}$); l'ultima riga contiene tutte e sole le occorrenze complete del pattern.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina 30 chiude l'algoritmo Shift--And: definizione delle maschere $U_x$, invariante della matrice $M$, le due condizioni SHIFT/AND, lo pseudocodice, la complessita' ($O(m\\cdot n)$ tempo, $O(n)$ bit di working space) e un esempio svolto a matita ($P=\\texttt{aab}$, $T=\\texttt{baab}$). Restano in sospeso tre cose: (i) la seconda \\guillemotleft variazione sul tema del pattern matching\\guillemotright{} annunciata a lezione, cioe' la ricerca approssimata / pattern con errori, che qui non viene sviluppata (estensione naturale: Shift-Add / Wu--Manber); (ii) l'analisi fine in modello word-RAM, evocata solo dalla nota a matita \\texttt{/64} e gia' esplicitata qui in osservazione; (iii) l'armonizzazione delle etichette $n$/$m$ con la figura di p.29, che le usa scambiate. La pagina 31 NON prosegue lo Shift--And: apre un argomento nuovo, \\guillemotleft Tarjan--Harel\\guillemotright, con le applicazioni dei suffix tree (Gusfield cap.~7) e l'introduzione del problema LCA (\\emph{lowest common ancestor}) risolto in $O(1)$ dopo preprocessing. Serve quindi uno stacco netto (fine del capitolo Shift--And) e, se si vuole continuita', un rimando esplicito del tipo \\guillemotleft la ricerca inesatta verra' ripresa piu' avanti\\guillemotright, senza inventare contenuto.",
+ "confidenza": "alta"
+}

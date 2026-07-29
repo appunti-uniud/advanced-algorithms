@@ -1,0 +1,96 @@
+{
+ "pagina": 35,
+ "latex": "\\scan{35}\n\n\\paragraph{2) Mappa da $\\T$ a $\\B$ non iniettiva.}\nIl secondo passo consiste nel mandare l'albero generico $\\T$ dentro l'albero binario completo\n$\\B$, per poter riusare l\\'algoritmo del punto~1). La mappa che costruiremo,\n\\[\n  I \\colon \\T \\longrightarrow \\B, \\qquad v \\longmapsto I(v),\n\\]\n\\emph{non} sarà iniettiva.\n\n\\begin{osservazione}\n$\\B$ non verrà davvero costruito: resta un albero \\emph{implicito}. I suoi nodi \\emph{sono} i\nloro path number, e ogni operazione su di essi è un'operazione su parole di bit.\n\\end{osservazione}\n\nIdentifico i nodi di $\\T$ con i \\emph{dfs-numeri} loro assegnati in una fase di\npre-processing, cioè con i numeri prodotti da una visita in profondità: una fase che resta\nsempre lineare.\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/lca-albero-I.tikz}\n\\caption{L'albero generico $\\T$ con i dfs-numeri e la loro codifica binaria su\n$\\lceil \\log_2 n\\rceil = 4$ bit ($n=10$ nodi). Le curve chiuse raggruppano i nodi che hanno lo\nstesso valore di $I$ (sono i \\emph{run}, che definiremo fra poco).}\n\\end{figure}\n\n\\begin{definizione}[$h(k)$]\nPer ogni numero $k$, $h(k)$ è la posizione del suo \\emph{rightmost} $1$, cioè la posizione,\ncontata da destra a partire da $1$, del bit $1$ meno significativo nella rappresentazione\nbinaria di $k$.\n\\end{definizione}\n\n\\begin{osservazione}\n$h(k)$ è l'\\emph{altezza di $k$ in $\\B$}: è l'altezza del nodo di $\\B$ che ha $k$ come path\nnumber. Infatti un nodo a profondità $t$ ha path number $b_1\\cdots b_t\\,1\\,0^{\\,d-t}$, il cui\n$1$ meno significativo sta in posizione $d-t+1$, che è esattamente il numero di nodi sul\ncammino da esso a una foglia. Inoltre $h(k)$ si calcola in $\\Oh(1)$ con la primitiva\n\\textsc{rightmost significant 1}.\n\\end{osservazione}\n\n\\begin{definizione}[mappa $I$]\nDato $v \\in \\T$, indico con $I(v)$ il nodo $w \\in \\albero{v}$ tale che $h(w)$ è massimo.\n\\end{definizione}\n\n\\begin{osservazione}\nDue avvertenze sulla definizione. Primo: $h(w)$ è la funzione aritmetica appena definita,\napplicata al \\emph{dfs-numero} di $w$; non è l'altezza di $w$ dentro $\\T$. Secondo: $I(v)$ è,\nletteralmente, un nodo di $\\T$; lo si identifica con il nodo di $\\B$ che ha $I(v)$ come path\nnumber, ed è in questo senso che $I$ è una mappa da $\\T$ a $\\B$.\n\\end{osservazione}\n\n\\begin{esempio}\nNell'albero della figura\n\\[\n  I(1) = I(5) = I(8) = 8 .\n\\]\nInfatti $h(8) = h(1000) = 4$ è il massimo valore di $h$ su tutto l'albero, e il nodo $8$\nappartiene ai sottoalberi radicati in $1$, in $5$ e in $8$.\n\\end{esempio}\n\n\\begin{osservazione}\n$I(v) = v$ per ogni foglia $v$: il sottoalbero di una foglia è la foglia stessa.\n\\end{osservazione}\n\n\\begin{osservazione}\n$h(I(v))$ non decresce muovendosi verso la radice: se $u$ è un antenato di $v$ allora\n$\\albero{v} \\subseteq \\albero{u}$, e quindi il massimo di $h$ su $\\albero{u}$ è almeno quello\nsu $\\albero{v}$, cioè $h(I(u)) \\ge h(I(v))$. Detto altrimenti, l'immagine di $v$ sale in $\\B$\nman mano che $v$ sale in $\\T$.\n\\end{osservazione}\n\nLa mappa $I \\colon \\T \\to \\B$ definisce implicitamente una relazione di equivalenza sui nodi\ndi $\\T$,\n\\[\n  u \\sim v \\quad\\iff\\quad I(u) = I(v),\n\\]\nle cui classi sono proprio i gruppi di nodi evidenziati nella figura.\n\n\\begin{domanda}\nLa funzione $I$ è ben definita?\n\\end{domanda}",
+ "note": [
+  {
+   "tipo": "correzione",
+   "pagina": 35,
+   "testo": "Il quaderno scrive «Oss.: I(v) aumenta muovendosi verso la radice». Letto alla lettera sui numeri l'enunciato e falso, e il controesempio sta nella figura della stessa pagina: il nodo 9 ha I(9)=9 mentre suo padre 8 ha I(8)=8, quindi salendo verso la radice I passa da 9 a 8 e diminuisce. Ho scritto «h(I(v)) non decresce muovendosi verso la radice», con la giustificazione T(v) sottoinsieme di T(u): e cio che La fonte dell'anno precedenteintende (l'immagine sale in B, cfr. Lemma 8.5.1) ed e la forma che serve nel seguito. Ho anche sostituito «aumenta» con «non decresce» perche la crescita e solo debole: I(1)=I(5)=I(8)=8 da h costante 4 lungo il run.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 35,
+   "testo": "Ordine delle due definizioni invertito. Il quaderno definisce prima I(v) (usando gia h(w)) e solo dopo h(k). Ho messo per prima la definizione di h(k), altrimenti la definizione di I userebbe un simbolo non ancora introdotto. Nessun contenuto aggiunto o tolto; e lo stesso ordine deGli appunti del corso dell'anno precedente (h a p.5, I a p.6).",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 35,
+   "testo": "Annotazione in alto a destra, con freccia verso il titolo: «N.B. B non verra davvero costruito!» (le ultime tre parole sottolineate). La parola dopo «verra» e la piu difficile da decifrare; ho letto «davvero» (profilo d-a-v-v-e-r-o) e non «mai», che avrebbe un profilo molto piu corto. Il senso e comunque garantito dal contesto: B resta implicito, cfr. passo 3 del preprocessing neGli appunti del corso dell'anno precedente («B e implicito, non va materializzato: i suoi nodi sono i loro path number»). Reso come osservazione non numerata subito sotto il titolo.",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 35,
+   "testo": "Il quaderno scrive I: T -> B, ma la definizione data subito sotto («il nodo w in T(v) tale che h(w) e massimo») produce un nodo di T, non di B. In Gusfield I: T -> T, e la tree map si ottiene identificando il dfs-numero I(v) con il path number omonimo in B. Ho aggiunto un'osservazione di due righe che chiarisce l'identificazione, cosi la scrittura I: T -> B resta corretta. La fonte dell'anno precedentefa lo stesso salto (definizione di I(v) come nodo di T + tree map v -> I(v) nodo di B) senza segnalarlo.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 35,
+   "testo": "Ho integrato l'osservazione, assente nel quaderno ma presente come punto sottile neGli appunti del corso dell'anno precedente (§6, «ATTENZIONE»), che h(w) e la funzione aritmetica applicata al dfs-numero di w e non l'altezza di w dentro T. Senza questa precisazione la definizione di I(v) e sistematicamente fraintesa.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 35,
+   "testo": "La freccia del quaderno accanto alla seconda Def. dice solo «~ altezza di K in B». Ho espanso in un'osservazione con la dimostrazione in una riga (path number b_1...b_t 1 0^{d-t}, l'1 meno significativo in posizione d-t+1 = numero di nodi sul cammino verso una foglia): e il Lemma 8.5.1 di Gusfield, che il quaderno riassume nella sola freccia. Ho aggiunto anche la nota che h si calcola in O(1) con la primitiva RIGHTMOST, coerente con l'elenco delle operazioni di p.33.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 35,
+   "testo": "All'esempio «I(1)=I(5)=I(8)=8» ho aggiunto la giustificazione di una riga (h(1000)=4 e il massimo di h su tutto l'albero e 8 sta nei sottoalberi di 1, 5 e 8), assente nel quaderno. Verificata numericamente: h(1..10) = 1,2,1,3,1,2,1,4,1,2.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 35,
+   "testo": "Le curve chiuse sovrapposte all'albero sono state interpretate come i raggruppamenti dei nodi con lo stesso valore di I, cioe i run (Fig. 8.6 di Gusfield): {1,5,8}, {2,4}, {3}, {6}, {7}, {9}, {10}, in tutto 7, esattamente coerenti con il calcolo di I su tutti i nodi. Sulla pagina il termine «run» non compare ancora (arriva a p.36-37): probabilmente le curve sono state tracciate durante la discussione successiva, ma sono sulla pagina e le ho mantenute, nominando i run solo tra parentesi in didascalia e collegandole alla relazione di equivalenza citata in fondo alla pagina.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 35,
+   "testo": "Struttura dell'albero verificata sui ritagli ad alta risoluzione: radice 1 con figli 2 e 5; 2 con figli 3 e 4; 5 con figli 6, 7 e 8; 8 con figli 9 e 10. Coincide con la Fig. 8.1/8.4 di Gusfield e con la stessa figura ridisegnata a p.36. Le etichette binarie a 4 bit sono tutte leggibili e corrette: 0001, 0010, 0011, 0100, 0101, 0110, 0111, 1000, 1001, 1010.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 35,
+   "testo": "Il «2)» del titolo prosegue l'elenco iniziato a p.33 con «1) Risolvo il problema su B albero binario completo». L'ho mantenuto come \\paragraph, senza usare \\section, in attesa della cucitura.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 35,
+   "testo": "In didascalia ho esplicitato perche le codifiche sono su 4 bit: n=10 nodi, quindi ceil(log2 n)=4, che e anche la larghezza dei path number di B (profondita d=3). Il quaderno mostra le codifiche a 4 bit senza commentarle.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 35,
+   "testo": "Nella prima Def. del quaderno, dopo «indico con I(v)» c'e una falsa partenza cancellata (testo sbiadito, illeggibile) e la frase riprende sulla riga successiva con «il nodo w in T(v) tale che h(w) e massimo». Ho ignorato la falsa partenza: il testo scritto sopra e sotto la cancellatura combacia e non manca nulla.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 35,
+   "testo": "Abbreviazioni espanse e telegrafico reso in prosa: «Identifico i nodi di T con i dfs-numeri loro assegnati in una fase di pre-processing» + freccia «sempre lineare!» diventa una frase unica; «La funz. I e ben definita?» (riquadrata e sottolineata nel quaderno) diventa l'ambiente domanda con «La funzione I e ben definita?»; «e definisce (implicitamente) una relazione di eq.» diventa la frase finale con la relazione u~v <=> I(u)=I(v) scritta per esteso (nel quaderno la relazione non e esplicitata: l'ho ricostruita, e la sua unica lettura possibile ed e quella deGli appunti del corso dell'anno precedente, §9).",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "lca-albero-I",
+   "pagina": 35,
+   "didascalia": "L'albero generico $\\T$ con i dfs-numeri e la loro codifica binaria su $\\lceil \\log_2 n\\rceil = 4$ bit ($n=10$ nodi). Le curve chiuse raggruppano i nodi che hanno lo stesso valore di $I$ (sono i \\emph{run}, che definiremo fra poco).",
+   "tipo": "albero",
+   "specifica": "Albero radicato generico T con 10 nodi (e l'albero delle Figure 8.1/8.4 di Gusfield), disegnato con nodi come piccoli dischi pieni blu e archi come segmenti dritti sottili, radice in alto. Il disegno originale e volutamente sbilanciato: il ramo destro scende in diagonale verso il basso a destra.\n\nSTRUTTURA (padre -> figli): 1 -> {2, 5}; 2 -> {3, 4}; 5 -> {6, 7, 8}; 8 -> {9, 10}. Nove archi in tutto: 1-2, 1-5, 2-3, 2-4, 5-6, 5-7, 5-8, 8-9, 8-10.\n\nPOSIZIONI (coordinate relative, x verso destra, y verso l'alto; ricalcate dallo scan):\n  1  = (0.0,  0.0)   radice\n  2  = (-1.5, -1.2)\n  5  = (2.4, -1.0)\n  3  = (-2.5, -2.4)\n  4  = (-1.1, -2.4)\n  6  = (1.4, -2.3)\n  7  = (2.4, -2.3)\n  8  = (3.9, -2.2)\n  9  = (3.8, -3.4)\n  10 = (5.0, -3.1)\nSi noti che 1, 5, 8 e 10 stanno quasi sulla stessa diagonale discendente, e che 9 sta quasi verticalmente sotto 8.\n\nETICHETTE. Ogni nodo porta DUE etichette, entrambe in blu:\n (a) il dfs-numero, in cifre, vicinissimo al nodo:\n     \"1\" sopra la radice; \"2\" appena sopra-a-sinistra del nodo 2; \"5\" a destra del nodo 5;\n     \"3\", \"4\", \"6\", \"7\", \"8\" sotto i rispettivi nodi; \"9\" e \"10\" sotto i rispettivi nodi.\n (b) la codifica binaria a 4 bit, piu esterna e un po' piu distante:\n     0001 sopra il \"1\" della radice;\n     0010 a sinistra del nodo 2, sulla stessa altezza;\n     0101 sopra-a-sinistra del nodo 5;\n     0011 sotto il \"3\"; 0100 sotto il \"4\"; 0110 sotto il \"6\"; 0111 sotto il \"7\";\n     1000 a destra del nodo 8, leggermente in alto;\n     1001 sotto il \"9\"; 1010 sotto-a-destra del \"10\" (piu in basso degli altri).\n\nSOVRAPPOSIZIONI (l'elemento semanticamente importante). Sette curve chiuse a mano libera, tratto sottile azzurro, senza riempimento, che racchiudono i gruppi di nodi con lo stesso valore di I:\n  - una curva lunga, stretta e sinuosa che racchiude i TRE nodi 1, 5, 8 seguendo il cammino 1-5-8 (parte sopra la radice, scende in diagonale abbracciando 5, si allarga attorno a 8 e al suo label 1000, poi torna indietro chiudendosi); e l'unico gruppo con tre elementi;\n  - un'ellisse allungata e obliqua che racchiude i DUE nodi 2 e 4, seguendo l'arco 2-4 (asse maggiore inclinato, dall'alto a sinistra verso il basso a destra);\n  - cinque cerchietti/ellissi singole, una attorno a ciascuno dei nodi 3, 6, 7, 9, 10.\nNessuna etichetta sulle curve nel manoscritto.\n\nSIGNIFICATO: le curve sono le classi della relazione u ~ v <=> I(u) = I(v). Il gruppo {1,5,8} corrisponde a I = 8 (perche h(1000)=4 e il massimo su tutto l'albero), il gruppo {2,4} a I = 4 (h(0100)=3 e massimo nel sottoalbero di 2), i cinque singoletti a I(v) = v. In tutto 7 gruppi, coerenti con i 7 run della Fig. 8.6 di Gusfield. L'albero e ridisegnato identico a p.36, dove le stesse curve vengono collegate con frecce ai nodi di B.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina si chiude con la domanda riquadrata «La funzione $I$ e ben definita?», cioe: il massimo di $h$ su $\\albero{v}$ e raggiunto da un unico nodo? Restano quindi in sospeso (i) l'unicita del massimo, (ii) il nome e la struttura delle classi di equivalenza appena introdotte, (iii) il fatto che la mappa non sia iniettiva, annunciato nel titolo ma non ancora spiegato. La pagina 36 risponde: enuncia la domanda in forma esplicita («per ogni $v \\in \\T$ c'e uno e un solo $w \\in \\B$ tale che $I(v)=w$?»), osserva che almeno uno c'e sempre e dimostra per assurdo che non possono essere due — presi $u,w \\in \\albero{v}$ con $h(u)=h(w)$ massimo, costruisce il numero $N$ che coincide con essi sui bit alti, ha $1$ nella posizione $k$ di prima discordanza e $0$ sotto, mostra che $w<N<u$, deduce $N \\in \\albero{v}$ dalla DFS property e conclude con $h(N)>h(u)=h(w)$. Riprende poi la stessa figura di p.35 accanto a un disegno di $\\B$, con le frecce della mappa, e definisce i \\emph{run} come «collezione massimale di nodi mappati sullo stesso $I(v)$».",
+ "confidenza": "alta"
+}

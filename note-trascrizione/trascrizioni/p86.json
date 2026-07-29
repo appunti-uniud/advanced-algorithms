@@ -1,0 +1,99 @@
+{
+ "pagina": 86,
+ "latex": "\\scan{86}\n\nDimostreremo che sul \\emph{lollipop graph} disegnato poco sopra --- la clique $K_{n/2}$ a\ncui è appeso, nel vertice $u$, un cammino di $n/2$ vertici che termina in $v$ --- l'hitting\ntime non è affatto simmetrico:\n\\[\n  h_{u,v} \\;=\\; \\Th(n^{3}),\n  \\qquad\\text{mentre}\\qquad\n  h_{v,u} \\;=\\; \\Th(n^{2}).\n\\]\nI due versi differiscono dunque di un fattore $n$: la risposta alla domanda posta poco sopra\nè negativa.\n\nDimostreremo anche che sul grafo completo $K_n$ il cover time vale\n\\[\n  C_u(K_n) \\;=\\; \\Th(n \\log n) \\qquad\\text{per ogni } u \\in V .\n\\]\n\n\\begin{osservazione}\nSu $K_n$ ogni vertice ha $n-1$ vicini, tutti equiprobabili, dunque il numero di passi\nnecessari per raggiungere un fissato $v \\neq u$ è una variabile geometrica di parametro\n$1/(n-1)$ e\n\\[\n  h_{u,v} \\;=\\; n-1 \\;=\\; \\Th(n) \\qquad \\text{per ogni } u \\neq v :\n\\]\nsul grafo completo l'hitting time è lineare e uguale per tutte le coppie. È invece il numero\ndi passi necessari a \\emph{visitare tutti} i vertici a valere $(n-1)H_{n-1} = \\Th(n \\log n)$:\nè il conto del collezionista di figurine.\n\\end{osservazione}\n\n\\paragraph{Morale.} Non è ovvio come ragionare per stimare $C_u(G)$ e $C(G)$.\n\n\\begin{itemize}\n  \\item «\\emph{Random Walks and Electric Networks}» (P.~G.~Doyle e J.~L.~Snell, 1984):\n    l'analogia fra passeggiate aleatorie su grafi e reti di resistenze, che è lo strumento\n    con cui si calcolano commute time e cover time.\n\\end{itemize}\n\n\\begin{lemma}[Commute time lungo un arco]\\label{lem:commute-arco}\nSia $G = (V,E)$ connesso e non orientato, con $\\abs{E} = m$. Se $u$ e $v$ sono\n\\emph{adiacenti}, cioè $(u,v) \\in E$, allora\n\\[\n  C_{u,v} \\;=\\; h_{u,v} + h_{v,u} \\;\\le\\; 2m .\n\\]\n\\end{lemma}\n\nL'ipotesi di adiacenza è essenziale: se cade, la disuguaglianza è falsa. Sul lollipop graph,\nper esempio, $h_{u,v} + h_{v,u} = \\Th(n^{3})$ mentre $2m = \\Th(n^{2})$, perché la clique\n$K_{n/2}$ ha già $\\Th(n^{2})$ archi.\n\n\\begin{dimostrazione}\nIntroduco una catena di Markov ausiliaria i cui stati sono gli \\emph{archi orientati} di\n$G$: ogni arco non orientato $\\{u,v\\} \\in E$ dà luogo ai due stati $(u,v)$ e $(v,u)$, per un\ntotale di $2m$ stati. Lo stato $(u,v)$ va letto come «la passeggiata ha appena attraversato\nl'arco da $u$ a $v$», e si trova quindi nel vertice $v$.\n\nLa matrice di transizione $Q$ della catena così introdotta è\n\\[\n  Q_{(u,v)(v,w)} \\;=\\; P_{v,w} \\;=\\; \\frac{1}{d(v)}\n  \\qquad (w \\in \\Gamma(v)),\n\\]\ndove $\\Gamma(v)$ denota l'insieme dei vicini di $v$; tutte le altre entrate sono nulle,\nperché dallo stato $(u,v)$ si può passare soltanto a uno stato della forma $(v,w)$, e lo si\nfa con la stessa probabilità con cui il random walk su $G$, trovandosi in $v$, sceglie il\nvicino $w$.\n\n\\medskip\n\\textbf{Osservazione.} $Q$ è \\emph{doubly stochastic}: righe e colonne sommano a $1$.\n\\begin{itemize}\n  \\item \\emph{Righe.} Fissato lo stato $(u,v)$,\n    \\[\n      \\sum_{w \\in \\Gamma(v)} Q_{(u,v)(v,w)}\n      \\;=\\; \\sum_{w \\in \\Gamma(v)} \\frac{1}{d(v)}\n      \\;=\\; \\frac{d(v)}{d(v)} \\;=\\; 1 .\n    \\]\n  \\item \\emph{Colonne.} Fissato lo stato $(v,w)$, nella somma su tutti gli stati $(x,y)$\n    sopravvivono soltanto i termini con $y = v$ e $x \\in \\Gamma(v)$, e quindi\n    \\[\n      \\sum_{x \\in V} \\; \\sum_{y \\in \\Gamma(x)} Q_{(x,y)(v,w)}\n      \\;=\\; \\sum_{x \\in \\Gamma(v)} Q_{(x,v)(v,w)}\n      \\;=\\; \\sum_{x \\in \\Gamma(v)} \\frac{1}{d(v)}\n      \\;=\\; \\frac{d(v)}{d(v)} \\;=\\; 1 .\n    \\]\n\\end{itemize}\n% --- La dimostrazione prosegue a p.87: da Q doubly stochastic segue che la distribuzione\n% --- stazionaria della catena ausiliaria e' uniforme, pi_{(u,v)} = 1/(2m), da cui il tempo\n% --- medio di ritorno h_{(u,v),(u,v)} = 2m; poiche' per tornare nello stato (u,v) la\n% --- passeggiata deve prima raggiungere u partendo da v e poi raggiungere v partendo da u,\n% --- si conclude h_{u,v} + h_{v,u} <= 2m. In fase di cucitura i due blocchi vanno fusi.\n\\end{dimostrazione}\n",
+ "note": [
+  {
+   "tipo": "correzione",
+   "pagina": 86,
+   "testo": "Terza riga del quaderno: «Dimostreremo anche che in K_n  ∀u,v  h_{u,v} = Θ(n log n)». La lettura del manoscritto è certa (sono chiarissimi sia la «h» sia i pedici «u,v»; Θ è scritta come una Θ cerchiata), ma l'enunciato è falso: su K_n il numero di passi per andare da u a un fissato v ≠ u è geometrico di parametro 1/(n-1), quindi h_{u,v} = n-1 = Θ(n). Θ(n log n) è invece il cover time (coupon collector, (n-1)H_{n-1}). Ho scritto nel testo C_u(K_n) = Θ(n log n) e messo h_{u,v} = n-1 in un'osservazione, perché: (a) la riga immediatamente successiva («Morale: non è ovvio come ragionare per stimare C_u(G), C(G)») è sui cover time e senza un risultato di cover time la morale resta senza antecedente; (b) Gli appunti del corso dell'anno precedente (L17, §3.2-3.3) dimostrano esattamente E[hit] = n-1 su K_n e E(τ_n) = (n-1)H_{n-1} = Θ(n log n). Resta la lettura alternativa, meno probabile, che lo studente intendesse «h_{u,v} = Θ(n) per ogni u,v» sbagliando il bound anziché il simbolo: per questo l'osservazione riporta comunque entrambe le grandezze.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 86,
+   "testo": "In tutte e tre le occorrenze della pagina il simbolo di ordine di grandezza è una Θ racchiusa in un cerchietto tracciato a penna. È il modo in cui lo studente scrive Θ (non è una Ω né una O): reso con la macro \\Th.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 86,
+   "testo": "«Dimostreremo» è nel quaderno un titolo sottolineato seguito dalle sole formule. L'ho reso in prosa ed ho esplicitato a quale grafo si riferiscono h_{u,v} e h_{v,u} (il lollipop graph disegnato in fondo a p.85, con u punto di attacco della clique e v estremo libero del cammino): nel quaderno il riferimento è solo implicito nella continuità con la pagina precedente. Ho verificato l'assegnazione dei due esponenti: dal vertice di attacco u verso l'estremo v del bastoncino l'hitting time è Θ(n³), nel verso opposto è Θ(n²) — l'orientamento del quaderno è corretto.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 86,
+   "testo": "Ho aggiunto la frase «I due versi differiscono dunque di un fattore n: la risposta alla domanda posta poco sopra è negativa», che nel quaderno non c'è: serve a collegare esplicitamente queste formule alla Domanda «h_{u,v} = h_{v,u}?» lasciata aperta in fondo a p.85, di cui questa pagina è la risposta.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 86,
+   "testo": "Il punto elenco a metà pagina è scritto molto in fretta e sembra «Rondom Walks and electric networks»; l'ho letto «Random Walks and Electric Networks», il classico di Doyle e Snell (1984), riferimento standard su hitting/commute/cover time via reti di resistenze. Ho aggiunto autori, anno e una riga di glossa sull'analogia elettrica: nel quaderno c'è solo il titolo fra virgolette.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 86,
+   "testo": "Enunciato del Lemma: il quaderno scrive solo «(u,v) ∈ E   h_{u,v} + h_{v,u} ≤ 2m», con l'ipotesi «(u,v) ∈ E» cerchiata e sottolineata due volte (enfasi fortissima). Ho reso l'enfasi con l'aggettivo «adiacenti» in corsivo e con il paragrafo che segue il lemma, dove mostro perché l'ipotesi è essenziale: sul lollipop h_{u,v}+h_{v,u} = Θ(n³) mentre 2m = Θ(n²), quindi senza adiacenza la disuguaglianza è falsa. Il controesempio non è nel quaderno ma usa solo dati presenti nella pagina stessa. Ho inoltre identificato la somma h_{u,v}+h_{v,u} con il commute time C_{u,v} definito a p.85.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 86,
+   "testo": "Abbreviazioni espanse: «M.C.» → «catena di Markov»; «2m stati ≡ archi orientati» → «i cui stati sono gli archi orientati di G: ogni arco non orientato {u,v} dà luogo ai due stati (u,v) e (v,u), per un totale di 2m stati». Ho aggiunto la lettura operativa dello stato («la passeggiata ha appena attraversato l'arco da u a v, e si trova quindi in v»), che il quaderno non scrive ma senza la quale la definizione di Q non ha senso.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 86,
+   "testo": "La nota a margine collegata da una freccia ondulata a 1/d(v) («matrice di transizione della M.C. introdotta») non è stata resa come nota a margine, ma incorporata nella frase che introduce Q, dove svolge la stessa funzione.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 86,
+   "testo": "Nella riga dell'Osservazione, fra «righe» e «colonne», il quaderno traccia un «≡» (lo stesso segno usato poco sopra in «2m stati ≡ archi orientati»); qui ha valore di semplice congiunzione, quindi ho scritto «righe e colonne sommano a 1», che è del resto la definizione di matrice doppiamente stocastica.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 86,
+   "testo": "L'ultima formula della pagina è troncata: il quaderno scrive «Σ_{u∈V} Σ_{y∈Γ(x)} Q_{(x,y)(x» e poi si interrompe, lasciando un «=» isolato più a destra e mezza pagina bianca. Due difetti: (i) l'indice della sommatoria esterna è scritto «u∈V» mentre la sommatoria interna e il pedice di Q usano x, per cui x resterebbe libero — ho uniformato a x∈V; (ii) il secondo indice di Q è appena iniziato. Ho completato la verifica della doppia stocasticità nei due versi mancanti: somma di riga per lo stato fissato (u,v) e somma di colonna per lo stato fissato (v,w), conservando per la colonna proprio la struttura Σ_{x∈V} Σ_{y∈Γ(x)} avviata dal quaderno (nella quale sopravvivono solo i termini con y = v e x ∈ Γ(v)).",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 86,
+   "testo": "Ho introdotto esplicitamente la notazione Γ(v) per il vicinato di v: il quaderno la usa una sola volta (nell'ultima sommatoria) senza mai definirla, e le pagine precedenti scrivono le somme come «Σ_{(v,u)∈E}».",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 86,
+   "testo": "La dimostrazione del Lemma resta aperta: la pagina si ferma alla doppia stocasticità di Q. Il seguito (distribuzione stazionaria uniforme π_{(u,v)} = 1/2m, tempo medio di ritorno h_{(u,v),(u,v)} = 2m e la conclusione h_{u,v}+h_{v,u} ≤ 2m, con il disegno «prima visita di (u,v) seguita da una seconda visita di (u,v)») è a p.87. Ho comunque chiuso l'ambiente dimostrazione lasciando un commento LaTeX con lo schema del seguito, come già fatto a p.84 per il lemma sulla distribuzione stazionaria: in fase di cucitura i due blocchi vanno fusi in un'unica dimostrazione.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 86,
+   "testo": "Ho usato l'ambiente numerato \\begin{lemma} (definito dalla classe academica con etichetta «Lemma», già impiegato a p.84, p.38, p.18, p.14) e non \\begin{proposizione}, perché il quaderno scrive esplicitamente «Lemma» sottolineato. L'ambiente non compare nell'elenco di CONVENZIONI.md ma esiste nella classe ed è coerente con le trascrizioni già fatte. L'«Osservazione» interna alla dimostrazione è resa con \\textbf{Osservazione.} e non con l'ambiente omonimo, per non annidare due accentbox/tcolorbox.",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 86,
+   "testo": "Gli appunti del corso dell'anno precedente dell'anno precedente (L17) trattano hitting e cover time su K_n come esercizi e annunciano il risultato generale C_G ≤ 2m(n-1), ma non contengono il Lemma h_{u,v}+h_{v,u} ≤ 2m né la catena ausiliaria sugli archi orientati: quella parte è Motwani–Raghavan §6.5 (Lemma 6.9) e compare solo negli appunti dello studente. Nessuna divergenza sostanziale, solo maggiore dettaglio della fonte primaria.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 86,
+   "testo": "La pagina non contiene disegni veri e propri. Gli unici segni grafici sono: (a) l'ovale che racchiude «(u,v) ∈ E» nell'enunciato del Lemma, con doppia sottolineatura (enfasi sull'ipotesi), reso tipograficamente; (b) la freccia ondulata che scende da «1/d(v)» alla nota a margine «matrice di transizione della M.C. introdotta», incorporata nel testo. Nessuna voce in figure.",
+   "risolto": true
+  }
+ ],
+ "figure": [],
+ "continuita": "La pagina risponde alla Domanda lasciata aperta in fondo a p.85 («h_{u,v} = h_{v,u}?») e usa il lollipop graph lì disegnato: h_{u,v} = Θ(n³) contro h_{v,u} = Θ(n²), dunque l'hitting time non è simmetrico. Segue il secondo annuncio (su K_n il cover time è Θ(n log n) — nel quaderno scritto erroneamente come h_{u,v}), la morale che non è ovvio come stimare C_u(G) e C(G) — le due grandezze definite a p.85 — e il rimando bibliografico a «Random Walks and Electric Networks» di Doyle e Snell. La seconda metà della pagina apre il Lemma «(u,v) ∈ E ⟹ h_{u,v} + h_{v,u} ≤ 2m» (Motwani–Raghavan, Lemma 6.9) e ne inizia la dimostrazione: catena di Markov ausiliaria con 2m stati, uno per arco orientato, matrice Q_{(u,v)(v,w)} = P_{v,w} = 1/d(v), e osservazione che Q è doubly stochastic. La verifica della doppia stocasticità è troncata a metà formula e la pagina si interrompe (mezza facciata bianca). Il seguito è a p.87, che riparte esattamente da lì: «la distribuzione stazionaria per una matrice doubly stochastic è quella uniforme», verifica di π = πQ con π_x = 1/|stati| = 1/2m, quindi h_{(u,v),(u,v)} = 2m e infine la conclusione h_{u,v} + h_{v,u} ≤ 2m per (u,v) ∈ E, illustrata dal disegno «prima visita di (u,v) seguita da una seconda visita di (u,v)» e chiusa dal □. Resta in sospeso su questa pagina solo la dimostrazione, volutamente spezzata fra le due facciate.",
+ "confidenza": "alta"
+}

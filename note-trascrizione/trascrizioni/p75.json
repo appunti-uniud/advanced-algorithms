@@ -1,0 +1,90 @@
+{
+ "pagina": 75,
+ "latex": "\\scan{75}\n\n\\subsection{Catene di Markov discrete}\n\nL'aggettivo \\emph{discreta} si riferisce agli stati: sono «ben distinti», cioè $S$ è un\ninsieme (per noi \\emph{finito}) di stati.\n\n\\begin{definizione}[Catena di Markov discreta]\\label{def:catena-markov}\n  Una \\emph{catena di Markov} su $S$ è un \\emph{processo stocastico} su $S$, cioè una\n  successione di variabili aleatorie\n  \\[\n    X_0,\\; X_1,\\; \\dots,\\; X_t,\\; X_{t+1},\\; \\dots\n  \\]\n  a valori in $S$, che soddisfa la \\emph{proprietà di Markov}: per ogni $t \\ge 0$ e per\n  ogni scelta di stati $i_0, \\dots, i_t, j \\in S$\n  \\[\n    \\Pr\\bigl[X_{t+1} = j \\;\\big|\\; X_0 = i_0,\\, \\dots,\\, X_t = i_t\\bigr]\n    \\;=\\;\n    \\Pr\\bigl[X_{t+1} = j \\;\\big|\\; X_t = i_t\\bigr].\n  \\]\n\\end{definizione}\n\nTutta l'informazione sul passato che serve a predire il futuro è dunque contenuta nello\nstato corrente: condizionando sul presente, il futuro non dipende dal passato.\n\n\\paragraph{Notazione.}\n\\begin{itemize}\n  \\item $P_{ij}$ è la probabilità di transizione da $i$ a $j$ in \\emph{un} passo,\n        \\[\n          P_{ij} \\;=\\; \\Pr[X_{t+1} = j \\mid X_t = i],\n        \\]\n        e si assume che non dipenda da $t$ (catena \\emph{omogenea} nel tempo);\n  \\item $P^{(t)}_{ij}$ è la probabilità di andare da $i$ a $j$ in \\emph{esattamente}\n        $t$ passi,\n        \\[\n          P^{(t)}_{ij} \\;=\\; \\Pr[X_t = j \\mid X_0 = i].\n        \\]\n\\end{itemize}\n\n\\paragraph{Stato iniziale.} Per $X_0$ ci sono due possibilità: o è \\emph{fisso}, oppure è\n\\emph{generato da una distribuzione} (iniziale) sugli stati.\n\n\\begin{definizione}[Prima transizione, \\emph{first transition}]\\label{def:first-transition}\n  Per $i, j \\in S$ e $t > 0$, sia $r^{(t)}_{ij}$ la probabilità che, partendo da $i$, la\n  \\emph{prima} transizione in $j$ avvenga al tempo $t$:\n  \\[\n    r^{(t)}_{ij} \\;=\\;\n    \\Pr\\Bigl[\\; X_t = j \\;\\wedge\\; \\forall s \\in \\{1, \\dots, t-1\\}\\;(X_s \\ne j)\n      \\;\\Big|\\; X_0 = i \\;\\Bigr].\n  \\]\n\\end{definizione}\n\nDa $r^{(t)}_{ij}$ si ricavano due quantità:\n\\[\n  f_{ij} \\;=\\; \\sum_{t > 0} r^{(t)}_{ij},\n  \\qquad\\qquad\n  h_{ij} \\;=\\; \\sum_{t > 0} t\\, r^{(t)}_{ij}.\n\\]\nLa prima è la probabilità che $j$ venga raggiunto, prima o poi, partendo da $i$; la\nseconda è l'\\emph{hitting time}, cioè il valore atteso del numero di passi necessari per\nraggiungere $j$ a partire da $i$ (la prima volta).\n\n\\begin{osservazione}\n  Se $f_{ij} < 1$, cioè se non è certo che $j$ venga raggiunto a partire da $i$, allora\n  $h_{ij} = \\infty$: la somma che definisce $h_{ij}$ pesa soltanto le traiettorie che\n  raggiungono $j$, mentre la massa di probabilità residua $1 - f_{ij} > 0$ corrisponde a\n  traiettorie che non lo raggiungono mai, e per le quali il numero di passi è infinito.\n\\end{osservazione}\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/mc-due-stati.tikz}\n  \\caption{Catena di Markov a due stati, abbozzata a margine della pagina.}\n  \\label{fig:mc-due-stati}\n\\end{figure}\n\n\\begin{dubbio}\n  Nello schizzo le probabilità uscenti dallo stato $2$ sommano a $0{,}4$ e non a $1$: una\n  delle due etichette $0{,}2$ che lo riguardano (il cappio su $2$ oppure l'arco di ritorno\n  $2 \\to 1$) dovrebbe valere $0{,}8$, ma dal quaderno non si capisce quale delle due.\n\\end{dubbio}\n",
+ "note": [
+  {
+   "tipo": "correzione",
+   "pagina": 75,
+   "risolto": true,
+   "testo": "Definizione di r_ij^(t): il quaderno scrive «∀s ∈ {0,…,t-1}(X_s ≠ j)». Ho scritto «∀s ∈ {1,…,t-1}» perché includendo s=0 la condizione X_0 ≠ j entrerebbe in contraddizione con il condizionamento X_0 = i ogni volta che i = j: si avrebbe r_ii^(t) = 0 per ogni t, quindi f_ii = 0 e h_ii = 0, rendendo priva di senso la classificazione transiente/persistente basata proprio su f_ii che il quaderno introduce alla pagina successiva (p.76: «f_ii < 1 → i transiente», «f_ii = 1 → i persistente»). È anche la forma di Motwani–Raghavan §6.2 («for 1 ≤ s ≤ t-1, X_s ≠ j»)."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 75,
+   "risolto": true,
+   "testo": "Il quaderno glossa «f_ij < 1 → j non raggiungibile da i ⇒ h_ij = ∞». La glossa è imprecisa: f_ij < 1 non significa che j sia irraggiungibile (può essere 0 < f_ij < 1, con j raggiungibile ma non con certezza). Ho scritto «se non è certo che j venga raggiunto a partire da i», e ho aggiunto in una osservazione la ragione per cui allora h_ij = ∞ (la massa 1 - f_ij > 0 corrisponde a traiettorie che non raggiungono mai j)."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 75,
+   "risolto": true,
+   "testo": "Riordino editoriale: nel quaderno l'implicazione «f_ij < 1 ⇒ h_ij = ∞» è scritta SOPRA le definizioni di f_ij e h_ij (che seguono nelle due righe successive). L'ho spostata dopo le due definizioni, dove diventa leggibile come osservazione."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 75,
+   "risolto": true,
+   "testo": "Il quaderno scrive soltanto «P_ij prob. di transizione da i a j (1 passo)». Ho esplicitato la formula P_ij = Pr[X_{t+1} = j | X_t = i] per parallelismo con P_ij^(t) = Pr[X_t = j | X_0 = i] (che invece è scritta per esteso) e ho aggiunto la precisazione «catena omogenea nel tempo», implicita nel fatto che P_ij è scritta senza indice temporale."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 75,
+   "risolto": true,
+   "testo": "La glossa sotto il titolo «(Discrete) M.C.», con freccia che punta a «Discrete», è stata letta come: stati «ben distinti». La seconda parola è chiaramente «distinti»; la prima, tra virgolette, è compatibile con «ben». Il senso (l'insieme degli stati è discreto) non è in dubbio."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 75,
+   "risolto": true,
+   "testo": "Il quaderno scrive «Sequenza di variabili aleatorie (r.v.)»: l'abbreviazione fra parentesi è l'inglese «random variables». Nel LaTeX ho tenuto solo la dizione italiana «successione di variabili aleatorie», senza l'abbreviazione."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 75,
+   "risolto": true,
+   "testo": "Titolo del quaderno: «(Discrete) M.C.», sottolineato. Reso come \\subsection{Catene di Markov discrete} (il quaderno ha un titolo esplicito, ma «M.C.» è un'abbreviazione da espandere e il capitolo si chiama già «Catene di Markov»)."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 75,
+   "risolto": true,
+   "testo": "Nella formula di r_ij^(t) c'è, a matita, una grossa freccia grigia che punta verso l'alto al simbolo ∧ (enfasi sul fatto che si tratta di una congiunzione dentro l'evento, non di un secondo condizionamento) e, sopra di essa, una traccia sbiadita «X_0 X_1 X_2 …». Segni di lavoro, non riportati nel LaTeX; il simbolo ∧ è comunque reso esplicitamente con \\wedge."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 75,
+   "risolto": false,
+   "testo": "Sopra la riga «(f_ij < 1 → …)» c'è una scritta in azzurro molto sbiadito, di due parole, compatibile con «first transition» (ripetizione della glossa già presente nella riga di definizione) ma non decifrabile con certezza nemmeno a 300 DPI con separazione del canale blu. Non riportata: nell'ipotesi più probabile è una ripetizione, e in ogni caso non aggiunge contenuto."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 75,
+   "risolto": false,
+   "testo": "Schizzo a matita in basso a destra: catena a due stati (due cerchietti VUOTI nel quaderno). Etichette lette senza ambiguità a 300 DPI: 0,2 sul cappio dello stato di sinistra; 0,8 sull'arco superiore sinistra→destra; 0,2 sull'arco inferiore destra→sinistra; 0,2 sul cappio dello stato di destra. Le uscite dallo stato di destra sommano quindi a 0,4: la matrice non è stocastica. Non è determinabile quale delle due etichette 0,2 dello stato di destra vada corretta in 0,8 (entrambe le riparazioni danno una matrice stocastica: [[0,2 0,8],[0,2 0,8]] oppure [[0,2 0,8],[0,8 0,2]]), perciò ho lasciato la figura fedele al quaderno e segnalato l'incongruenza con un ambiente dubbio. Ho inoltre numerato i due stati (1 a sinistra, 2 a destra) per poterli citare nel dubbio e nella didascalia: nel quaderno i cerchietti sono privi di etichetta."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 75,
+   "risolto": true,
+   "testo": "Fonte: il contenuto della pagina è la §6.2 di Motwani–Raghavan (P_ij, P_ij^(t), r_ij^(t), f_ij, h_ij), con la stessa notazione. Gli appunti del corso dell'anno precedente disponibili (L16 = complessità randomizzata, L17 = 2-SAT randomizzato + catene di Markov) si fermano alla matrice stocastica, al random walk e al Basic Limit Theorem: non contengono r_ij^(t), f_ij, h_ij, quindi qui non c'è confronto possibile né divergenza da registrare."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 75,
+   "risolto": true,
+   "testo": "Espansioni di abbreviazioni telegrafiche: «prob.» → «probabilità», «distr.» → «distribuzione», «M.C.» → «catena di Markov», «(1 passo)»/«(t passi)» integrati nella prosa. La glossa marginale a sinistra «hitting time / valore atteso del numero di passi per raggiungere j da i / (la prima volta)», collegata a h_ij da una freccia ondulata, è stata fusa nella frase che segue le due definizioni."
+  }
+ ],
+ "figure": [
+  {
+   "id": "mc-due-stati",
+   "pagina": 75,
+   "didascalia": "Catena di Markov a due stati, abbozzata a margine della pagina.",
+   "tipo": "diagramma di transizione (grafo orientato etichettato)",
+   "specifica": "Diagramma di transizione di una catena di Markov a due stati, disegnato a matita nel margine in basso a destra del quaderno. Layout: due nodi circolari piccoli, allineati orizzontalmente, a distanza circa 3,5 cm; nel quaderno i cerchi sono VUOTI, ma vanno etichettati 1 (sinistra) e 2 (destra) perché il testo li cita. Archi (tutti orientati, con punta di freccia): (a) cappio su 1, disegnato come lobo ampio che esce dal nodo verso SINISTRA e rientra nel nodo da sotto/da destra, etichetta 0,2 posta in alto a sinistra del lobo; (b) arco 1 → 2 che si inarca SOPRA i due nodi (curvatura ampia, apice circa un nodo-e-mezzo sopra la linea dei nodi), punta di freccia sul nodo 2, etichetta 0,8 posta sopra l'apice dell'arco; (c) arco 2 → 1 che si inarca SOTTO i due nodi (curvatura speculare alla precedente), punta di freccia sul nodo 1, etichetta 0,2 posta sotto l'arco, verso l'estremo di sinistra; (d) cappio su 2, disegnato come lobo ampio che esce dal nodo verso DESTRA e rientra nel nodo, etichetta 0,2 posta in basso a destra del lobo. Stile: tratto sottile, aspetto di schizzo; niente riempimenti. Testo delle etichette con la virgola decimale italiana (0,2 e 0,8). ATTENZIONE: le etichette vanno riprodotte esattamente così come elencate (0,2 / 0,8 / 0,2 / 0,2), benché le uscite dal nodo 2 non sommino a 1 — l'incongruenza è dichiarata nell'ambiente dubbio subito dopo la figura. Dimensioni indicative: 5 cm di larghezza, 3 cm di altezza.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina formalizza le catene di Markov discrete dopo l'introduzione bibliografica di p.72-73 (Feller, cap. XV) e l'esercizio [1.1] sulle sottigliezze della proprietà di Markov con i sottoinsiemi A e B e l'esempio del random walk sull'orologio a 6 stati di p.74. Qui: definizione di processo stocastico su S, proprietà di Markov, notazione P_ij e P_ij^(t), stato iniziale X_0 (fisso o generato da una distribuzione iniziale), e le tre quantità di Motwani–Raghavan §6.2 — r_ij^(t) (first transition), f_ij (probabilità di raggiungere j da i) e h_ij (hitting time) — con l'osservazione f_ij < 1 ⇒ h_ij = ∞. Resta in sospeso, sulla pagina, la classificazione degli stati: p.76 riparte esattamente da lì, specializzando f_ij e h_ij al caso i = j: «f_ii < 1 (h_ii = ∞) → i transiente» (non è certo che si ripassi da i), «f_ii = 1 → i persistente», e poi la biforcazione h_ii < ∞ (persistente non nullo) / h_ii = ∞ (persistente nullo, cammini da i a i arbitrariamente lunghi), con la conclusione che nel caso finito ogni stato è transiente o persistente non nullo, e infine le SCC come classi di equivalenza della relazione di mutua raggiungibilità. La definizione di r_ij^(t) qui corretta a ∀s ∈ {1,…,t-1} è precisamente ciò che rende sensato l'uso di f_ii e h_ii a p.76.",
+ "confidenza": "alta"
+}

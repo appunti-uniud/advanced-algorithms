@@ -1,0 +1,14 @@
+{
+ "pagina": 73,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "latex",
+   "dove": "lezioni/15-catene-markov.tex, righe 84-89 (slogan «Condizionatamente al presente…») e righe 198-213 (paragrafo sul grafo di transizione + figura fig:p73-spazio-stati + paragrafo «generalizzazione della nozione di funzione … Schwartz»)",
+   "descrizione": "Tre frammenti che sul quaderno stanno chiaramente in fondo a pag. 73 (il disegno della «patata» S con s1, s2, s3; la riga «Una generalizzazione della nozione di funzione, … Schwartz»; l'ultima riga «A condizione del presente, il futuro non dipende dal passato») si trovano nel file dentro regioni marcate \\scan{75}: il primo dopo lo \\scan{75} di riga 50, gli altri due dopo lo \\scan{75} di riga 179 (e prima della figura p75-mc-due-stati, che invece è davvero lo schizzo a matita di pag. 75). Il rimando marginale alla scansione porta quindi il lettore alla pagina sbagliata. Non è un'omissione (il contenuto c'è tutto e reso fedelmente) ma una perdita di tracciabilità, in contrasto con la pratica seguita altrove nello stesso file, dove lo \\scan viene messo con precisione anche a metà di un ambiente (p.es. \\scan{77} dentro la definizione a riga 238 e \\scan{79} dentro un \\item a riga 553).",
+   "correzione": "Inserire \\scan{73} subito prima del paragrafo «Tutta l'informazione sul passato…» (riga 84) e subito prima del paragrafo «Alla matrice $P$ si associa naturalmente un grafo orientato…» (riga 198), e ripristinare \\scan{75} prima di «Quando gli stati sono pochi…» (riga 215), che introduce la figura p75-mc-due-stati."
+  }
+ ],
+ "note": "Verificato punto per punto sulle quattro immagini. Formula di Feller (a_{j0} P_{j0j1} P_{j1j2} P_{j2j3} … P_{j_{t-1}j_t}), glosse delle due frecce, titoletto MEMORYLESS, matrice P con P_{11}…P_{nn}, glossa «distr. di prob. tra n eventi» puntata alla prima riga: tutto fedele. Le due somme a destra della matrice sono state rilette a 300 dpi ingrandite: sono davvero sum_{j=1}^n P_{ij}=1 e sum_{i=1}^n P_{ij}=1 (entrambe con pedice ij), e la scelta di mettere la sola condizione sulle righe nel testo e la stocasticità per colonne in un'osservazione è corretta (vale solo per matrici doppiamente stocastiche; l'esempio del ciclo di p.74 lo è, ed è il motivo della distribuzione limite uniforme). La rinomina del numero di passi da n a t evita il conflitto con n = numero di stati ed è coerente con p.75. La lettura «trials = prove, E_k = esiti» è la correzione giusta rispetto al telegrafico del quaderno (Feller vol. I cap. XV). La figura tikz/p73-spazio-stati.tikz riproduce fedelmente il disegno (patata S/stati, arco s1->s2, coppia a lente s1<->s3, cappio su s3, nessuna etichetta di probabilità) e compila senza errori. Le iniziali di «Schwartz» sul foglio somigliano più a «S. T.» che a «J. T.», ma la resa è già dentro \\dubbioinl{} e la nota editoriale documenta l'incertezza: non lo conto come difetto."
+}

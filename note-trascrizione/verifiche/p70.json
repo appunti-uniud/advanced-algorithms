@@ -1,0 +1,28 @@
+{
+ "pagina": 70,
+ "esito": "problemi-minori",
+ "file_scritto": "/home/rob/UNI/algoritmi_avanzati/.build/verifica/p70.json",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "notazione",
+   "dove": "lezioni/14-random-walk-2sat.tex, riga 407 (formula \\[ \\E[X] = \\sum_{t=1}^{\\infty} t(1-p)^{t-1}p \\] subito dopo \\scan{70})",
+   "descrizione": "La variabile aleatoria X compare qui per la prima volta nel capitolo e non e' mai definita: la pagina 69 (righe 397-401) parla della v.a. solo a parole ('il numero di passi necessari per raggiungere v') senza darle un nome. Il lettore incontra \\E[X] senza sapere che cosa sia X. Peggiora il fatto che piu avanti nel capitolo (righe 521-524, sezione su Markov) X viene reintrodotto e definito come una grandezza diversa (numero di passi della visita che copre tutto il grafo).",
+   "correzione": "Battezzare X nella frase introduttiva alla riga 404-405: 'Detta X la variabile aleatoria (geometrica) che conta il numero di tentativi fino al primo successo, quello che serve e' dunque il suo valore atteso:' oppure aggiungere 'dove X e' il numero di passi necessari a raggiungere v' nella frase che segue la formula (riga 409)."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "omissione",
+   "dove": "lezioni/14-random-walk-2sat.tex, riga 435 (catena \\tau_1 = 0 < \\tau_2 < \\tau_3 < \\tau_4 < \\cdots < \\tau_n)",
+   "descrizione": "Il manoscritto riporta esplicitamente due valori nella colonna verticale: T_0 = 0 (scritto come zero barrato) e T_1 = 1. Con la reindicizzazione adottata dalla trascrizione (il vertice di partenza conta come gia' visitato, quindi \\tau_1 = 0) il secondo valore diventa \\tau_2 = 1, che e' anche un fatto vero e deterministico (il primo passo porta con certezza su un nodo nuovo, quindi \\tau_2 = 1 quasi certamente). La trascrizione conserva solo \\tau_1 = 0 e perde il secondo valore, che nel foglio e' scritto.",
+   "correzione": "Nella formula di riga 435 scrivere \\tau_1 = 0 \\;<\\; \\tau_2 = 1 \\;<\\; \\tau_3 \\;<\\; \\tau_4 \\;<\\; \\cdots \\;<\\; \\tau_n , eventualmente aggiungendo una mezza riga di commento ('il primo passo raggiunge sempre un nodo nuovo, quindi \\tau_2 = 1')."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "notazione",
+   "dove": "lezioni/14-random-walk-2sat.tex, riga 437 ('e $\\tau_n$ e' proprio il cover time'), da confrontare con riga 428 e con riga 570",
+   "descrizione": "Incoerenza terminologica interna alla stessa sottosezione: alla riga 428 il cover time e' definito come un VALORE ATTESO ('Calcolare il valore atteso ... Questo valore atteso e' il cover time di K_n'), e piu avanti (riga 570) C_G, il cover time di un grafo, e' di nuovo una quantita' deterministica soggetta a un bound. Alla riga 437 invece si chiama 'cover time' la variabile aleatoria \\tau_n. Il cover time e' \\E[\\tau_n], non \\tau_n.",
+   "correzione": "Sostituire la riga 437 con: 'e \\tau_n e' il numero (aleatorio) di passi necessari a coprire tutto il grafo: il cover time e' il suo valore atteso \\E[\\tau_n].'"
+  }
+ ]
+}

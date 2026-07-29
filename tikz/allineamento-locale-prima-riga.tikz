@@ -1,0 +1,58 @@
+% allineamento-locale-prima-riga -- pag. 46
+% La matrice sigma x T dell'allineamento locale: la riga 0 vale 0 in OGNI
+% colonna (il gap iniziale sul testo e' gratuito). Il backtracking risale da una
+% cella dell'ultima riga fino a una cella qualunque della riga 0: le due
+% verticali delimitano la sottostringa di T allineata contro tutto sigma.
+% Nel manoscritto le etichette sono sigma_1 / sigma_2: qui sigma / T, come nel
+% resto della sezione sull'allineamento locale.
+\begin{tikzpicture}[
+    x=1cm, y=1cm,
+    font=\footnotesize,
+    et/.style={font=\footnotesize, inner sep=1.5pt},
+    graffa/.style={decorate, decoration={brace, amplitude=4pt, raise=2pt},
+                   draw=black!65, line width=0.5pt},
+  ]
+
+  % ---- geometria: colonne 0..13 (0.6) x righe 0..3 (0.5) -------------------
+  % colonna k: centro 0.6k+0.3;  riga 0: y=-0.25;  righe 1,2,3: -0.75,-1.25,-1.75
+  % la colonna 0 e la riga 0 sono le condizioni al contorno
+
+  % ---- la banda di colonne di T allineate contro sigma ---------------------
+  \fill[black!7] (4.8,0) rectangle (7.2,-2.0);
+
+  % ---- bordi della matrice (a destra resta aperta: T prosegue) -------------
+  \draw[black!80, line width=0.7pt] (0,0)    -- (8.4,0);      % bordo superiore
+  \draw[black!80, line width=0.7pt] (0,-2.0) -- (8.4,-2.0);   % ultima riga
+  \draw[black!80, line width=0.7pt] (0,0)    -- (0,-2.0);     % bordo sinistro
+  \node[et, anchor=west] at (8.55,0)     {$T$};
+  \node[et, anchor=east] at (-0.20,-1.0) {$\sigma$};
+
+  % ---- condizioni al contorno: riga 0 tutta a 0, colonna 0 uguale a i ------
+  \foreach \c in {0,...,13} \node[et] at (0.6*\c+0.3,-0.25) {$0$};
+  \foreach \r in {1,2,3}    \node[et] at (0.3,-0.25-0.5*\r) {$\r$};
+  % la cella della riga 0 in cui termina il backtracking
+  \node[circle, draw=black!75, line width=0.6pt, inner sep=1.2pt, fill=white,
+        font=\footnotesize] at (4.5,-0.25) {$0$};
+
+  % ---- le due verticali che delimitano la sottostringa ---------------------
+  \draw[black!70, line width=0.6pt] (4.8,0.14) -- (4.8,-2.0);
+  \draw[black!70, line width=0.6pt] (7.2,0.14) -- (7.2,-2.0);
+
+  \draw[graffa] (4.8,0.20) -- (7.2,0.20);
+  \node[et, anchor=south] at (6.0,0.46)
+        {sottostringa di $T$ allineata contro tutto $\sigma$};
+
+  % ---- il cammino di backtracking: dall'ultima riga fino alla riga 0 -------
+  \draw[black, line width=0.9pt, line join=round,
+        -{Stealth[length=4.5pt,width=3.2pt]}]
+        (6.9,-1.75) -- (5.7,-1.75) -- (5.7,-1.25) -- (5.1,-1.25)
+                    -- (5.1,-0.75) -- (4.5,-0.75) -- (4.5,-0.48);
+  \fill[black] (6.9,-1.75) circle (2.1pt);
+
+  % ---- il prefisso di T saltato a costo 0 ----------------------------------
+  \draw[decorate, decoration={brace, mirror, amplitude=4pt, raise=2pt},
+        draw=black!65, line width=0.5pt] (0.6,-2.05) -- (4.8,-2.05);
+  \node[et, anchor=north, align=center, text=black!70] at (2.7,-2.34)
+        {prefisso di $T$ saltato\\(gap iniziale a costo $0$)};
+
+\end{tikzpicture}

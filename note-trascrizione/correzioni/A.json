@@ -1,0 +1,37 @@
+{
+ "capitolo": "A-weisfeiler-leman",
+ "compila": true,
+ "applicate": [
+  {
+   "pagina": 79,
+   "categoria": "figura",
+   "cosa": "Scambiata la posizione delle due figure della sezione WL-k rispetto al marcatore \\scan{80}, che era finito fra l'una e l'altra in modo da attribuirle entrambe alla pagina sbagliata. Verificato sulle scansioni: p.79 porta in fondo «Atomic tuples / atp<u,v,w,...>» con il piccolo digrafo u->v->w, mentre p.80 si apre con «Initial colouring C_0^k = atp(v)» seguita dal disegno dei nodi v_1..v_4 che convergono in un unico pallino. Ora la sottosezione «Tipi atomici e colorazione iniziale» ha, prima di \\scan{80}, la prosa che definisce il tipo atomico e la figura fig:wlk-tipo-atomico (p.79); dopo \\scan{80}, la formula C_0^k(v) = atp(v) e la figura fig:wlk-tupla (p.80). Nessun \\ref puntava alle due figure, quindi lo spostamento non rompe rimandi."
+  },
+  {
+   "pagina": 79,
+   "categoria": "figura",
+   "cosa": "In tikz/wl1-partizione-colori.tikz tolta dal \\foreach la crocetta a 165 gradi: il manoscritto (verificato su p79_b2 a 300 DPI) ha quattro settori e tre crocette, con il settore piccolo in alto a sinistra vuoto. La quarta crocetta era un'aggiunta interpretativa («le celle di una partizione sono non vuote») che contraddiceva la specifica registrata nelle note editoriali (voci 106 e 1906, «ho chiesto di riprodurre fedelmente 4 settori e 3 crocette»). Ho allineato il file e non la nota perche' NOTE-EDITORIALI.md e' rigenerato da .build/genera-note.py a partire da .build/trascrizioni/p*.json: una modifica manuale al .md andrebbe persa. Aggiornato di conseguenza il commento di testa del .tikz. Figura riverificata con prova-tikz.sh (OK)."
+  },
+  {
+   "pagina": 80,
+   "categoria": "figura",
+   "cosa": "Nella didascalia di fig:wlk-tipo-atomico «il tipo atomico della tripla $(u,v,w)$» diventa «il tipo atomico della $k$-upla $(u,v,w,\\dots)$», per accordarsi sia all'etichetta del TikZ (\\operatorname{atp}(u,v,w,\\dots)) sia al quaderno («atp<u,v,w,...>»): il disegno mostra le prime tre componenti di una k-upla, non una tripla."
+  },
+  {
+   "pagina": 80,
+   "categoria": "errore-logico",
+   "cosa": "Qualificata l'equivalenza fra le due varianti: «per $k \\ge 2$, FWL-$k$ distingue esattamente cio' che distingue OWL-$(k+1)$». Con le definizioni date nel capitolo l'enunciato e' falso a $k = 1$, perche' il vicinato folklore M_i^1(v) non dipende da v (lo dice l'osservazione successiva) e quindi FWL-1 non raffina nulla, mentre OWL-2 ha il potere del raffinamento dei colori. In coda all'osservazione «Il caso k = 1 va letto a parte» ho aggiunto la convenzione che lo ricuce: convenendo che FWL-1 sia per definizione WL-1, lo sfasamento di uno vale anche al primo livello. E' la stessa convenzione che il capitolo usa gia' implicitamente nell'osservazione su Cai--Furer--Immerman (WL-1 con il potere di C^2)."
+  },
+  {
+   "pagina": 81,
+   "categoria": "errore-logico",
+   "cosa": "Riscritta la frase di apertura della sezione «Isomorfismo frazionario»: da «allora WL-$k$ fallisce» a «il raffinamento dei colori fallisce: i due grafi ricevono la stessa colorazione e WL-1 non riesce a separarli». Il quaderno scrive davvero «WL-k fails» (cfr. nota editoriale 1610), ma per k >= 2 l'affermazione e' falsa: il teorema di Tinhofer / Ramana--Scheinerman--Ullman lega l'isomorfismo frazionario al solo primo livello. Correzione silenziosa come da policy 1 e 4. Nell'osservazione seguente ho aggiunto il controesempio, che e' poi la coppia gia' usata a inizio capitolo: C_6 e l'unione di due triangoli sono frazionariamente isomorfi (entrambi 2-regolari su 6 nodi, basta S = J/n), eppure WL-2 li distingue perche' il suo passo di raffinamento conta i vicini comuni di ogni coppia (0 nel ciclo, 1 sugli archi dei triangoli)."
+  },
+  {
+   "pagina": 81,
+   "categoria": "errore-logico",
+   "cosa": "Nell'ultima osservazione del capitolo, sostituito l'inciso «--- per la caratterizzazione logica della sezione precedente ---» con la ragione corretta: «e per lo stesso motivo --- l'aggiornamento e' quello di Weisfeiler--Leman --- anche alle reti neurali su grafi a passaggio di messaggi, che non superano il potere distintivo di WL-1». Il limite delle MPNN (Morris et al. 2019, Xu et al. 2019) discende dal fatto che l'aggiornamento della rete simula il passo di raffinamento dei colori, esattamente come per il kernel; la caratterizzazione con C^{k+1} non c'entra (il legame logico per le GNN e' un risultato distinto, Barcelo et al. 2020)."
+  }
+ ],
+ "respinte": []
+}

@@ -1,0 +1,14 @@
+{
+ "pagina": 36,
+ "esito": "problemi-minori",
+ "file_scritto": "/home/rob/UNI/algoritmi_avanzati/lezioni/08-lca.tex",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "errore-logico",
+   "dove": "lezioni/08-lca.tex, ambiente osservazione subito dopo \\begin{definizione}[run] (righe 465-471): «Ogni run e un cammino verticale di T»",
+   "descrizione": "L'argomento riportato dimostra soltanto che due nodi qualsiasi dello stesso run sono confrontabili (uno e antenato dell'altro), cioe che il run e una catena. Per concludere che e un CAMMINO (verticale) serve anche la contiguita: se u e antenato di v, I(u)=I(v)=z e m sta sul cammino da u a v, allora T(v) subseteq T(m) subseteq T(u), quindi h(z) = max_{T(v)} h <= max_{T(m)} h <= max_{T(u)} h = h(z) e dunque I(m)=z. Senza questo passo l'enunciato («cammino») non e giustificato, benche sia vero.",
+   "correzione": "Aggiungere in coda all'osservazione una frase del tipo: «Inoltre il run e contiguo: se u e antenato di v e I(u)=I(v)=z, ogni nodo m del cammino da u a v soddisfa T(v) \\subseteq \\albero{m} \\subseteq \\albero{u}, quindi h(z) \\le \\max_{\\albero{m}} h \\le h(z) e percio I(m)=z.»"
+  }
+ ]
+}

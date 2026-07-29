@@ -1,0 +1,96 @@
+{
+ "pagina": 87,
+ "latex": "\\scan{87}\n\nLa distribuzione stazionaria di una matrice \\emph{doubly stochastic} è quella uniforme.\nBasta dunque verificare che $\\vec\\pi = \\vec\\pi\\,Q$ per $\\vec\\pi$ uniforme e poi invocare il\nteorema fondamentale delle catene di Markov, che garantisce l'unicità della distribuzione\nstazionaria.\n\nLa condizione da imporre è\n\\[\n  \\vec\\pi \\;=\\; \\vec\\pi\\, Q .\n\\]\nPoiché le colonne di $Q$ sommano a $1$, «mi piacerebbe» che fosse $\\pi_x = 1$ per ogni stato\n$x$: il vettore di tutti $1$ è in effetti fissato da $Q$. Ma così\n\\[\n  \\sum_x \\pi_x \\;\\ne\\; 1,\n\\]\ne $\\vec\\pi$ non sarebbe una distribuzione di probabilità. Il rimedio è normalizzare: pongo\n\\[\n  \\pi_x \\;=\\; \\frac{1}{\\text{numero degli stati}} \\;=\\; \\frac{1}{2m},\n\\]\nvisto che gli stati della catena sono i $2m$ archi orientati di $G$.\n\nLe due verifiche sono ora immediate. La normalizzazione:\n\\[\n  \\sum_x \\pi_x \\;=\\; \\sum_x \\frac{1}{2m} \\;=\\; \\frac{2m}{2m} \\;=\\; 1 ;\n\\]\nla stazionarietà: per ogni stato $x$,\n\\[\n  \\pi_x \\;=\\; \\frac{1}{2m}\n  \\;=\\; \\sum_y \\pi_y\\, Q_{yx}\n  \\;=\\; \\frac{1}{2m} \\underbrace{\\Bigl(\\sum_y Q_{yx}\\Bigr)}_{=\\;1\\ (Q \\text{ doubly stochastic})} .\n\\]\n\nPer l'unicità della distribuzione stazionaria si conclude allora che, per ogni arco\norientato $(u,v)$,\n\\[\n  \\pi_{(u,v)} \\;=\\; \\frac{1}{2m}\n  \\qquad\\rightsquigarrow\\qquad\n  h_{(u,v),(u,v)} \\;=\\; \\frac{1}{\\pi_{(u,v)}} \\;=\\; 2m .\n\\]\n\nResta da collegare questo tempo di ritorno ai due hitting time $h_{u,v}$ e $h_{v,u}$ sui\n\\emph{vertici}. La quantità $h_{(u,v),(u,v)}$ è il tempo che intercorre fra una visita dello\nstato $(u,v)$ e la visita successiva dello stesso stato: appena attraversato l'arco\n$u \\to v$ la passeggiata si trova in $v$, vaga per il grafo, prima o poi ritorna in $u$ e\nsolo allora può attraversare una seconda volta l'arco $u \\to v$.\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/p87-ritorno-arco.tikz}\n\\caption{Il ritorno nello stato $(u,v)$ della catena sugli archi orientati: dopo la prima\ntraversata di $u \\to v$ la passeggiata vaga per il grafo, rientra in $u$ e attraversa una\nseconda volta $u \\to v$.}\n\\label{fig:p87-ritorno-arco}\n\\end{figure}\n\nSpezzando il tragitto nel primo arrivo in $u$ e in ciò che segue si ottiene\n\\[\n  2m \\;=\\; h_{(u,v),(u,v)} \\;\\ge\\; h_{v,u} + h_{u,v} :\n\\]\ntornare in $u$ partendo da $v$ costa in media $h_{v,u}$ e, una volta in $u$, per rivedere lo\nstato $(u,v)$ la passeggiata deve come minimo ritrovarsi in $v$, il che costa in media\nalmeno $h_{u,v}$. Dunque\n\\[\n  h_{u,v} + h_{v,u} \\;\\le\\; 2m\n  \\qquad\\text{per } (u,v) \\in E ,\n\\]\nche è la tesi del lemma.\n\\hfill$\\square$\n",
+ "note": [
+  {
+   "tipo": "altro",
+   "pagina": 87,
+   "testo": "La pagina è la seconda metà della dimostrazione del Lemma «per (u,v) in E: h_{u,v}+h_{v,u} <= 2m» iniziata a p.86 (dove sono introdotti la catena di Markov sui 2m archi orientati, la matrice Q con Q_{(u,v)(v,w)} = P_{v,w} = 1/d(v) e l'osservazione che Q è doubly stochastic). Ho quindi trascritto il contenuto come prosa continua, SENZA aprire un ambiente 'dimostrazione': in fase di cucitura va inglobato nel box di dimostrazione aperto a p.86. Ho conservato il quadratino di fine dimostrazione del quaderno con \\hfill$\\square$.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 87,
+   "testo": "Il quaderno abbrevia la prima riga in «La distrib. staz. per una matrice doubly stochastic è quella uniforme»: ho espanso in «La distribuzione stazionaria …» secondo la policy di scioglimento delle abbreviazioni.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 87,
+   "testo": "Il quaderno scrive solo «e poi applico il teorema (per l'unicità)». Ho esplicitato che si tratta del teorema fondamentale delle catene di Markov (quello i cui punti 1–4 compaiono nelle pagine precedenti, cfr. p.79 punto 4 e h_{ii}=1/pi_i), che garantisce esistenza e unicità della distribuzione stazionaria per una catena finita, irriducibile e aperiodica.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 87,
+   "testo": "Il quaderno giustappone «mi piacerebbe che fosse pi_x = 1 per ogni x — ma — somma_x pi_x != 1 — se pongo pi_x = 1/|stati| => 1/2m». Ho aggiunto la mezza riga che rende esplicito il perché di quel desiderio: essendo Q doubly stochastic le sue colonne sommano a 1, quindi il vettore di tutti 1 soddisfa già vec(1) = vec(1) Q ed è solo questione di normalizzarlo. Nessun contenuto nuovo, solo il nesso logico che il quaderno lascia implicito.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 87,
+   "testo": "Il quaderno scrive pi_x = 1/|stati|; ho scritto 1/(numero degli stati) = 1/(2m) e ho aggiunto l'inciso «visto che gli stati della catena sono i 2m archi orientati di G», che a p.86 è scritto («2m stati ≡ archi orientati») ma qui viene dato per noto.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 87,
+   "testo": "Nella riga dopo la linea ondulata il quaderno scrive «=> pi_{u,v} = 1/2m ~> h_{u,v} = 2m» usando per lo stato della catena sugli archi la stessa notazione a due indici degli hitting time fra vertici. Ho scritto pi_{(u,v)} e h_{(u,v),(u,v)} per evitare la collisione con h_{u,v} (hitting time dal vertice u al vertice v) che compare due righe più sotto: senza questa distinzione la formula h_{u,v}=2m contraddirebbe la tesi h_{u,v}+h_{v,u} <= 2m. Stessa correzione nell'annotazione a destra del disegno, dove il quaderno scrive «h_{u,v} ‖ 1a visita di (u,v) seguito da una seconda visita di (u,v)»: la descrizione è inequivocabilmente quella del tempo di ritorno nello stato (u,v), cioè h_{(u,v),(u,v)}.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 87,
+   "testo": "Ho aggiunto il passaggio esplicito h_{(u,v),(u,v)} = 1/pi_{(u,v)} = 2m: nel quaderno c'è solo la freccia ondulata fra pi_{(u,v)} = 1/2m e h = 2m. La relazione h_{ii} = 1/pi_i è il punto 3 del teorema fondamentale, già trascritto nelle pagine precedenti (cfr. p.79).",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 87,
+   "testo": "Il passo finale (da h_{(u,v),(u,v)} = 2m alla tesi h_{u,v}+h_{v,u} <= 2m) nel quaderno è affidato solo al disegno e alla frase a margine. L'ho scritto per esteso con l'argomento standard (Motwani–Raghavan, cap. 6, lemma sul commute time): partendo dallo stato (u,v) la passeggiata è in v; il primo ritorno in u costa in media h_{v,u}; da u, per rivedere lo stato (u,v) essa deve come minimo ritrovarsi in v, il che costa in media almeno h_{u,v} (Markov forte nell'istante del primo arrivo in u). Da qui 2m = h_{(u,v),(u,v)} >= h_{v,u} + h_{u,v}. Ho usato «>=» e non «=» perché dopo il primo arrivo in u la passeggiata può allontanarsi prima di attraversare l'arco: è proprio questo a rendere il lemma una disuguaglianza, come del resto è enunciato a p.86.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 87,
+   "testo": "L'annotazione a destra del disegno legge «1a visita di (u,v) seguito da una seconda visita di (u,v)»: la sigla iniziale (l'ordinale «1a») è la parte meno nitida della pagina, ma il senso è fissato dal seguito. Ho reso il tutto in prosa («il tempo che intercorre fra una visita dello stato (u,v) e la visita successiva dello stesso stato»), concordando anche il participio, che nel quaderno è al maschile («seguito») per una svista.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 87,
+   "testo": "A metà pagina, subito sotto la verifica della stazionarietà, corre una linea ondulata che separa la parte sulla distribuzione stazionaria dalla conclusione del lemma. È un semplice separatore grafico e non l'ho reso in LaTeX (lo stacco è dato dal capoverso).",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 87,
+   "testo": "La sommatoria circolettata nel quaderno, sum_y Q_{yx}, con la freccia «= 1 in quanto doubly stochastic», è resa con \\underbrace. Nota che sum_y Q_{yx} è la somma sulla COLONNA x (l'indice sommato è quello di riga): è la metà «per colonne» della condizione di doppia stocasticità, l'unica che serve qui.",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 87,
+   "testo": "Gli appunti del corso dell'anno precedente forniti come supporto (L16_sintesi.md, lezione su complessità randomizzata e random walk di Gamow) non toccano hitting/commute/cover time né la catena sugli archi orientati: nessun riscontro possibile su questa pagina. Il confronto è stato fatto con Motwani–Raghavan, Randomized Algorithms, cap. 6 (random walks on graphs), da cui la pagina è chiaramente ripresa.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 87,
+   "testo": "Unico disegno della pagina: due pallini u e v con la freccia u->v (tracciata due volte, sovrapposta) e due grandi curve chiuse irregolari che partono da v, vagano nel piano e rientrano in u. Interpretato come illustrazione del ritorno nello stato (u,v) della catena sugli archi orientati; specifica dettagliata nel campo 'figure'.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "p87-ritorno-arco",
+   "pagina": 87,
+   "didascalia": "Il ritorno nello stato $(u,v)$ della catena sugli archi orientati: dopo la prima traversata di $u \\to v$ la passeggiata vaga per il grafo, rientra in $u$ e attraversa una seconda volta $u \\to v$.",
+   "tipo": "schizzo concettuale (cammino di una passeggiata aleatoria su un grafo)",
+   "specifica": "Schizzo a mano libera, molto informale, che illustra il primo ritorno nello stato $(u,v)$ della catena di Markov sugli archi orientati.\n\nELEMENTI (posizioni relative come nel quaderno):\n1. Due vertici disegnati come pallini pieni: $u$ in basso a sinistra, $v$ in alto a destra di $u$, a distanza breve (circa 1,2 cm nel quaderno) e leggermente più in alto. Etichette in corsivo matematico: $u$ scritta appena sopra/a sinistra del suo pallino, $v$ scritta appena sopra il suo pallino.\n2. Un arco orientato rettilineo da $u$ a $v$, con punta di freccia su $v$. Nel quaderno il tratto è ripassato/sdoppiato e si intravedono DUE punte di freccia verso $v$: va reso come due archi paralleli molto ravvicinati che vanno entrambi da $u$ a $v$ (la prima e la seconda traversata dell'arco), oppure come un unico arco doppio. Suggerimento: due archi leggermente curvi, uno sopra e uno sotto la congiungente, etichettati (in italiano, carattere piccolo) «1a traversata» e «2a traversata».\n3. Una grande curva chiusa irregolare, tracciata a mano libera con andamento ondulato e nessuna simmetria (una «patata» alta circa 2,5 cm e larga 2,5 cm), che parte da $v$, si sviluppa verso destra e verso il basso occupando lo spazio a destra e sotto i due vertici, e rientra in $u$. Nel quaderno le curve sono DUE, annidate/intrecciate (una esterna e una interna che ricalca approssimativamente la stessa forma), a suggerire il vagabondaggio prolungato della passeggiata prima del rientro. Renderne almeno due, con partenza da $v$ e arrivo su $u$, e una punta di freccia sull'estremo che entra in $u$.\n4. Nessun altro vertice o arco è disegnato: il grafo resta implicito, le curve rappresentano il cammino della passeggiata, non archi del grafo.\n\nSTILE: tratto continuo, morbido, deliberatamente irregolare (decorate/random steps o curve di Bézier con punti di controllo sparsi); niente griglia, niente assi. Colore unico (nero o il colore d'accento del documento). Le curve del vagabondaggio possono essere leggermente più chiare/sottili dell'arco $u \\to v$, che è invece il tratto marcato.\n\nETICHETTA A MARGINE (a destra del disegno, nel quaderno): «$h_{(u,v),(u,v)}$» seguita da un segno di uguale verticale (‖) e dal testo «prima visita di $(u,v)$ seguita da una seconda visita di $(u,v)$». Può essere resa come nota a destra della figura oppure omessa, dato che il testo del capoverso e la didascalia la ripetono. Se resa, va scritta in italiano e con la notazione corretta $h_{(u,v),(u,v)}$ (il quaderno scrive per svista $h_{u,v}$).\n\nSIGNIFICATO: la figura visualizza la decomposizione $h_{(u,v),(u,v)} \\ge h_{v,u} + h_{u,v}$: il tratto ondulato da $v$ a $u$ è il primo ritorno in $u$ (costo medio $h_{v,u}$), l'arco $u \\to v$ è ciò che serve per rivedere lo stato $(u,v)$ (costo medio almeno $h_{u,v}$).",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina prosegue e conclude la dimostrazione iniziata a p.86 (Lemma: per (u,v) in E, h_{u,v}+h_{v,u} <= 2m), dove erano stati introdotti la catena di Markov ausiliaria sui 2m archi orientati di G, la sua matrice di transizione Q_{(u,v)(v,w)} = P_{v,w} = 1/d(v) e l'osservazione che Q è doubly stochastic (righe e colonne sommano a 1); p.86 si interrompe sulla doppia sommatoria che verifica la doppia stocasticità. P.87 riparte da lì: distribuzione stazionaria uniforme pi = 1/2m, unicità via teorema fondamentale delle catene di Markov (enunciato alle pagine 77–79, cfr. h_{ii} = 1/pi_i a p.79), quindi h_{(u,v),(u,v)} = 2m e infine la tesi. La notazione h_{ij} per l'hitting time e pi_i per la distribuzione stazionaria è quella fissata a p.75–p.79. La pagina successiva (p.88) usa il lemma appena dimostrato per il cover time: C(G) <= 2m(n-1), con gli esempi del cammino (Theta(n^2)) e del lollipop K_{n/2} + coda (Theta(n^3)), coerenti con l'annuncio di p.86 («dimostreremo che h_{u,v} è Theta(n^3) mentre h_{v,u} è Theta(n^2)»).",
+ "confidenza": "alta"
+}

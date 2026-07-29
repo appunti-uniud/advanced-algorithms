@@ -1,0 +1,96 @@
+{
+ "pagina": 84,
+ "latex": "\\scan{84}\n\nLe tre ipotesi del teorema fondamentale sono dunque tutte soddisfatte dalla catena $M_G$\nassociata al random walk su un grafo $G$ connesso, non orientato e non bipartito:\n\\[\n  \\left.\n  \\begin{array}{l}\n    M_G \\text{ è aperiodica} \\\\[2pt]\n    M_G \\text{ è finita} \\\\[2pt]\n    M_G \\text{ è irriducibile}\n  \\end{array}\n  \\right\\}\n  \\;\\Longrightarrow\\;\n  \\text{posso applicare il teorema.}\n\\]\nL'irriducibilità viene dalla connessione di $G$, la finitezza dal fatto che gli stati sono\ngli $n$ vertici del grafo, l'aperiodicità dalla non bipartitezza: in un grafo non orientato\nci sono sempre cammini chiusi di lunghezza $2$ e, se $G$ non è bipartito, anche cammini\nchiusi di lunghezza dispari, sicché il massimo comun divisore delle loro lunghezze vale $1$.\n\n\\begin{esercizio}[Mescolare un mazzo di carte]\\label{ex:mazzo-carte}\n  Come si mescola un mazzo di carte? Ovvero: quanto vale il \\emph{mixing time} della catena\n  di Markov che descrive il mescolamento?\n\\end{esercizio}\n\nGli stati della catena sono le permutazioni del mazzo: per un mazzo di $K = 52$ carte sono\n\\[\n  K! \\;=\\; 52! \\;\\approx\\; 10^{68}\n\\]\npossibili stati.\n\nIl mescolamento che consideriamo è il \\emph{top-in-at-random}: a ogni passo si toglie la\ncarta in cima al mazzo e la si reinserisce in una delle $K$ posizioni possibili, scelta\nuniformemente a caso.\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/top-in-at-random.tikz}\n  \\caption{Il mescolamento \\emph{top-in-at-random}: la carta in cima al mazzo viene\n  reinserita in una posizione scelta uniformemente a caso. In alto la situazione iniziale,\n  con la carta $B$ in fondo al mazzo; in basso, dopo un certo numero di passi, $B$ è\n  risalita e le carte che le sono passate sotto si trovano in ordine uniformemente\n  casuale.}\n  \\label{fig:top-in-at-random}\n\\end{figure}\n\nSia $B$ la carta che all'inizio si trova in fondo al mazzo. Voglio valutare il numero $T$ di\noperazioni che servono per portare $B$ in prima posizione.\n\nSupponiamo che sotto $B$ ci siano già $i-1$ carte. La carta reinserita finisce sotto $B$\nesattamente quando la posizione estratta è una delle $i$ che stanno al di sotto di $B$,\nil che accade con probabilità\n\\[\n  p_i \\;=\\; \\frac{i}{K}\n  \\qquad\\text{cioè, via via,}\\quad \\frac{1}{K},\\ \\frac{2}{K},\\ \\dots,\\ \\frac{K-1}{K}.\n\\]\nDetto $T_i$ il numero di passi necessari per passare da $i-1$ a $i$ carte sotto $B$, la\nvariabile $T_i$ è geometrica di parametro $p_i$, e quindi, per il conto già fatto sul valore\natteso di una variabile geometrica,\n\\[\n  \\E[T_i] \\;=\\; \\frac{1}{p_i} \\;=\\; \\frac{K}{i}.\n\\]\n\nLa carta $B$ arriva in prima posizione quando tutte le altre $K-1$ carte le sono passate\nsotto, dunque\n\\[\n  T \\;=\\; T_1 + T_2 + \\dots + T_{K-1}\n\\]\ne, per linearità del valore atteso,\n\\[\n  \\E[T] \\;=\\; \\sum_{i=1}^{K-1} \\E[T_i]\n        \\;=\\; K \\sum_{i=1}^{K-1} \\frac{1}{i}\n        \\;=\\; K\\,H_{K-1}\n        \\;=\\; \\Oh(K \\log K),\n\\]\ndove $H_K = \\sum_{i=1}^{K} 1/i$ è il $K$-esimo numero armonico: è di nuovo il conto del\n\\emph{coupon collector}.\n\n\\begin{osservazione}\n  Un solo passo in più basta a concludere il mescolamento: nell'istante in cui $B$, arrivata\n  in cima, viene a sua volta reinserita in una posizione casuale, tutte le $K$ carte sono\n  state collocate a caso e il mazzo è uniformemente mescolato. Contando anche quel passo si\n  ottiene\n  \\[\n    \\E[T] \\;=\\; \\sum_{i=1}^{K} \\frac{K}{i} \\;=\\; K\\,H_K \\;\\approx\\; K \\ln K\n  \\]\n  (l'addendo con $i=K$ vale esattamente $1$ ed è proprio il passo finale). Per $K = 52$\n  servono dunque circa $52 \\ln 52 \\approx 205$ mescolate.\n\\end{osservazione}\n\n\\begin{lemma}[Distribuzione stazionaria di un random walk]\\label{lem:stazionaria-grado}\n  Sia $M_G$ la catena associata a un grafo $G = (V,E)$ connesso, non orientato e non\n  bipartito, con $\\abs{V} = n$ e $\\abs{E} = m$. Allora\n  \\[\n    \\forall v \\in V \\qquad \\pi_v \\;=\\; \\frac{d(v)}{2m}.\n  \\]\n\\end{lemma}\n\n\\begin{dimostrazione}\n  Dobbiamo trovare $\\vec{\\pi}$ soluzione di\n  \\[\n    \\vec{\\pi} \\;=\\; \\vec{\\pi}\\,P ,\n  \\]\n  e per farlo basta verificare che il vettore di componenti $d(v)/2m$, al variare di\n  $v \\in V$, soddisfa questa equazione.\n  % --- La verifica vera e propria è a p.85 (calcolo di $\\sum_{(v,u)\\in E} \\pi_v P_{v,u}$):\n  % --- in fase di cucitura i due blocchi vanno fusi in un'unica dimostrazione.\n\\end{dimostrazione}\n",
+ "note": [
+  {
+   "tipo": "ricostruzione",
+   "pagina": 84,
+   "risolto": true,
+   "testo": "La pagina si apre con la sola lista «M_G è aperiodica / M_G è finita / M_G è irriducibile } ⟹ posso applicare il teorema». Ho aggiunto la frase che giustifica le tre ipotesi (irriducibilità ← G connesso, finitezza ← n stati, aperiodicità ← G non bipartito, con il MCD delle lunghezze dei cammini chiusi pari a 1): non è scritta qui, ma è esattamente il contenuto dell'N.B. in fondo a p.83, di cui questa lista è la conclusione. Ho anche esplicitato che «il teorema» è il teorema fondamentale delle catene di Markov (enunciato in testa a p.83)."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 84,
+   "risolto": true,
+   "testo": "Il quaderno scrive «10^68 = 52! possibili stati». Ho scritto 52! ≈ 10^68 (52! = 8,07·10^67): il segno di uguaglianza è un'approssimazione, non un'identità. Ho anche invertito l'ordine (52! ≈ 10^68) perché è il fattoriale la quantità che si sta stimando."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 84,
+   "risolto": true,
+   "testo": "Per il numero di carte il quaderno usa DUE simboli: in penna la formula finale è «T = T_1 + T_2 + … + T_K» e «E[T] = Σ_{i=1}^{K} E[T_i] = O(K log K)», mentre le annotazioni a matita accanto al disegno usano n (1/n, 2/n, (n-2)/n). Ho unificato su K, che è il simbolo scritto in penna (fonte primaria) e che evita la collisione con n = |V| usato in tutto il resto del capitolo. Segnalato nella specifica della figura che le frazioni a matita corrispondono a p_i = i/K."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 84,
+   "risolto": true,
+   "testo": "Il quaderno non scrive né la probabilità p_i né E[T_i]: ci sono solo le frazioni a matita 1/n, 2/n, …, (n-2)/n accanto al disegno e la somma T = T_1 + … + T_K con il risultato O(K log K). Ho ricostruito l'argomento standard del top-in-at-random: se sotto B ci sono i-1 carte, la carta reinserita finisce sotto B con probabilità i/K (i posizioni buone su K), quindi T_i ~ Geom(i/K) e E[T_i] = K/i; la somma dà K·H_{K-1} = O(K log K). Le frazioni a matita sono esattamente 1/K, 2/K, …, (K-1)/K."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 84,
+   "risolto": true,
+   "testo": "Il quaderno scrive T = T_1 + … + T_K con la somma Σ_{i=1}^{K}. Se T è il tempo per portare B in prima posizione gli addendi sono K-1 (tante quante le altre carte), quindi ho scritto T = T_1 + … + T_{K-1} e E[T] = K·H_{K-1}. L'indice K del quaderno non è però un errore vero e proprio: il K-esimo addendo vale K/K = 1 ed è precisamente il passo finale, quello in cui B — arrivata in cima — viene a sua volta reinserita a caso, dopo il quale il mazzo è perfettamente mescolato (tempo di mescolamento forte di Aldous–Diaconis). Ho recuperato questa lettura in un'osservazione, che ricostruisce Σ_{i=1}^{K} K/i = K·H_K ≈ K ln K esattamente come scritto nel quaderno, e ho aggiunto la stima numerica 52·ln 52 ≈ 205 (non presente nel manoscritto)."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 84,
+   "risolto": true,
+   "testo": "«Mixing time di una M.C.» è stato espanso in «mixing time della catena di Markov»; l'esercizio, che nel quaderno è la sola riga «mischiare un mazzo di carte … come?», è stato riformulato come domanda completa. Fra «carte» e «come?» c'è un ghirigoro che sembra una parola cancellata (illeggibile, forse «per»): non l'ho trascritto perché depennato."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 84,
+   "risolto": true,
+   "testo": "Il quaderno intitola «Lemma» il risultato sulla distribuzione stazionaria. L'ambiente `lemma` non compare nell'elenco di CONVENZIONI.md, ma è definito dalla classe academica (academica.cls, riga 363, numerato, colore deepsea) ed è già usato nelle trascrizioni di p.14, p.18 e p.38: l'ho quindi usato invece di ripiegare su `proposizione`."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 84,
+   "risolto": true,
+   "testo": "La dimostrazione del lemma si interrompe a metà: il quaderno arriva a «π = π P … mi basta verificare che soddisfa» e la verifica è la prima riga di p.85 (d(u)/2m =? Σ_{(v,u)∈E} (d(v)/2m)·P_{v,u} = …). Per non lasciare l'ambiente sbilanciato (tutte le altre trascrizioni sono bilanciate) ho chiuso qui `dimostrazione` e ho lasciato un commento LaTeX che segnala la fusione da fare in cucitura. Non ho anticipato l'equazione componente per componente, per non duplicare l'inizio di p.85."
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 84,
+   "risolto": true,
+   "testo": "Gli appunti del corso dell'anno precedente disponibili (L16_sintesi.md) riguardano una lezione diversa (classi di complessità randomizzate, drunkard's walk di Gamow, SAT/CNF) e non contengono nulla né sul mescolamento top-in-at-random né sulla distribuzione stazionaria π_v = d(v)/2m del random walk su grafo. La pagina è stata quindi ricostruita sulla sola fonte primaria più la teoria standard (Motwani–Raghavan cap. 6, Aldous–Diaconis per il top-in-at-random)."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 84,
+   "risolto": true,
+   "testo": "Notazione della distribuzione stazionaria: a p.83 il quaderno scrive π con un segno diacritico (π̂/π̃) e qui lo ripete sia nel lemma sia nella dimostrazione, dove aggiunge la freccia di vettore. Ho normalizzato in π_v per le componenti e \\vec{\\pi} per il vettore riga, coerentemente con p.85 (h_{v,v} = 1/π_v = 2m/d(v))."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 84,
+   "risolto": true,
+   "testo": "Interpretazione del disegno: due mazzi visti di taglio. Nel primo la carta in cima è reinserita in una posizione a caso (freccia curva etichettata «random») e B è la carta in fondo (tratto ripassato). Nel secondo B è risalita nel mazzo e la graffa a destra abbraccia i segmenti SOTTO B, etichettata «random». Ho letto quella graffa come l'invariante dell'analisi (le carte finite sotto B sono in ordine uniformemente casuale), non come «la prossima carta cade a caso lì sotto»: entrambe le letture sono compatibili con il disegno, ma la prima è quella che rende il disegno informativo e coincide con l'argomento classico del tempo di mescolamento forte. Le etichette «random» sono state tradotte in «a caso» per la regola «tutto in italiano nelle figure»; il nome proprio del mescolamento resta «top-in-at-random»."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 84,
+   "risolto": true,
+   "testo": "Sul lato destro della pagina (e in mezzo alla formula T = T_1 + … + T_K) compaiono tracce grigie speculari e una macchia bluastra: sono trasparenza/ricalco dal retro del foglio, non contenuto di questa pagina. Verificato ingrandendo: il testo grigio è scritto a rovescio. Non trascritte."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 84,
+   "risolto": true,
+   "testo": "Ho reso esplicito il legame con il coupon collector (già usato a p.71 per il cover time di K_n) e ho definito H_K = Σ_{i=1}^K 1/i, che il quaderno non scrive; serve a chiudere il passaggio da Σ 1/i a O(K log K)."
+  }
+ ],
+ "figure": [
+  {
+   "id": "top-in-at-random",
+   "pagina": 84,
+   "didascalia": "Il mescolamento top-in-at-random: la carta in cima al mazzo viene reinserita in una posizione scelta uniformemente a caso. In alto la situazione iniziale, con la carta B in fondo al mazzo; in basso, dopo un certo numero di passi, B è risalita e le carte che le sono passate sotto si trovano in ordine uniformemente casuale.",
+   "tipo": "schema a due pannelli: mazzo di carte visto di taglio (segmenti orizzontali impilati), prima e dopo alcuni passi di mescolamento",
+   "specifica": "UNA sola figura composta da DUE PANNELLI IMPILATI VERTICALMENTE (nel manoscritto stanno uno sopra l'altro, sul margine destro della pagina), separati da una grande freccia verso il basso. Stile a mano libera, tratto nero spesso, nessun riempimento e nessun colore. Il mazzo di carte è visto DI TAGLIO: ogni carta è un semplice segmento orizzontale.\n\n=== INTESTAZIONE (sopra il pannello superiore, centrata) ===\nLa dicitura \\textsc{top-in-at-random} (nel manoscritto è scritta a mano in stampatello, con i trattini: «Top-in-at-Random»).\n\n=== PANNELLO SUPERIORE: il mazzo iniziale e un passo del mescolamento ===\nCoordinate suggerite (cm), origine in alto a sinistra del mazzo:\n  6 segmenti orizzontali paralleli, tutti da (0, y) a (1.8, y), con\n  y = 0, -0.34, -0.68, -1.02, -1.36, -1.70 (dall'alto verso il basso).\n  I segmenti sono leggermente ondulati/irregolari (tratto a mano libera).\n- Il segmento più in basso (y = -1.70) è la carta $B$: va disegnato PIÙ SPESSO degli altri (nel manoscritto è ripassato due volte). Etichetta $B$ in corsivo matematico a SINISTRA del segmento, circa in (-0.5, -1.70).\n- FRECCIA DI REINSERIMENTO: parte dall'estremo DESTRO del segmento in cima, cioè da (1.8, 0); sale di poco, curva a destra descrivendo un arco ampio in senso orario (vertice dell'arco attorno a (2.6, -0.5)) e ridiscende rientrando verso sinistra, terminando con una punta di freccia diretta verso il BASSO-SINISTRA nello spazio fra il 4° e il 5° segmento, circa in (1.75, -1.15). Rappresenta la carta in cima che viene reinserita in una posizione scelta a caso.\n- Etichetta accanto all'arco, alla sua destra, circa in (3.0, -0.45): «a caso» (nel manoscritto è scritto «random»).\n\n=== FRECCIA DI SEPARAZIONE (fra i due pannelli) ===\nSull'asse verticale del mazzo (x ≈ 0.9), fra y = -2.2 e y = -3.1: una grande freccia spessa rivolta VERSO IL BASSO, con accanto (a sinistra della freccia, x ≈ 0.55) un piccolo zigzag/segno ondulato — nel manoscritto è un ghirigoro che sta per «dopo un certo numero di passi». Aggiungere a destra della freccia, in corpo piccolo, l'etichetta «dopo un certo numero di passi».\n\n=== PANNELLO INFERIORE: la situazione dopo alcuni passi ===\nStessa geometria del pannello superiore, mazzo di 7 segmenti:\n  y = -3.6, -3.94, -4.28, -4.62 (questo è $B$), -4.96, -5.30, -5.64.\n- I 3 segmenti sopra $B$ e i 3 sotto $B$ vanno da (0, y) a (1.8, y), come prima.\n- Il segmento di $B$ (y = -4.62) è PIÙ LUNGO e PIÙ SPESSO degli altri: va da (0, -4.62) a (2.6, -4.62) e sporge quindi a destra; alla sua estremità SINISTRA ha una piccola punta di freccia rivolta a sinistra (nel manoscritto è un trattino che marca la carta). Etichetta $B$ in corsivo matematico a sinistra, circa in (-0.5, -4.62).\n- GRAFFA: una graffa graffa destra `}` verticale posta a x ≈ 2.9, che abbraccia i TRE SEGMENTI SOTTO $B$ (cioè da y = -4.90 a y = -5.75), con l'apertura rivolta a sinistra. Etichetta alla sua destra, circa in (3.3, -5.3): «a caso» (nel manoscritto «random»).\n  Significato: le carte che sono finite sotto $B$ si trovano in ordine uniformemente casuale — è l'invariante su cui si regge tutta l'analisi.\n\n=== NON riprodurre ===\nLe frazioni a matita ($1/n$, $2/n$, $(n-2)/n$) che nel manoscritto stanno sparse fra il testo e il disegno: sono state incorporate nel testo come $p_i = i/K$.\nIl testo grigio speculare sul lato destro della pagina: è trasparenza dal retro del foglio, non fa parte del disegno.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina prosegue senza soluzione di continuità da p.83: le tre righe di apertura (M_G aperiodica / finita / irriducibile ⟹ posso applicare il teorema) chiudono l'N.B. sulla periodicità che sta in fondo a p.83 e agganciano il «Teorema fondamentale delle M.C.» enunciato in testa alla stessa p.83. Segue un intermezzo autoconclusivo — l'esercizio sul mescolamento di un mazzo di carte con il metodo top-in-at-random e il suo mixing time O(K log K) — che non ha seguito nelle pagine successive: serve solo come esempio di catena di Markov con moltissimi stati (52! ≈ 10^68). L'ultima parte apre il Lemma sulla distribuzione stazionaria del random walk su grafo, π_v = d(v)/2m, la cui dimostrazione RESTA APERTA: p.85 si apre esattamente con la verifica d(u)/2m =? Σ_{(v,u)∈E} (d(v)/2m)·P_{v,u} = Σ (d(v)/2m)·(1/d(v)) = (1/2m)·Σ 1, seguita dal quadratino di fine dimostrazione. In cucitura il blocco `dimostrazione` aperto qui e quello di p.85 vanno fusi. Dopo la dimostrazione p.85 deduce h_{v,v} = 1/π_v = 2m/d(v) e introduce le Definizioni di hitting time h_{u,v}, commute time C_{u,v} = h_{u,v} + h_{v,u}, cover time C_u(G) e C(G) = max_u C_u(G), con la domanda se h_{u,v} = h_{v,u} e il controesempio del lollipop graph (K_{n/2} con una coda di n/2 nodi).",
+ "confidenza": "alta"
+}

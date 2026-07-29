@@ -1,0 +1,43 @@
+% lca-b-path-number -- albero binario completo con p=4 foglie e d=2: ogni nodo porta
+% il proprio path number in binario e, sotto, in base dieci (quaderno, pag. 34).
+\begin{tikzpicture}[
+    >={Stealth[length=5pt,width=4pt]},
+    font=\small,
+    nodo/.style={circle,fill=black,inner sep=0pt,minimum size=3.4pt},
+    pn/.style={align=center,inner sep=1.5pt,font=\footnotesize},
+    arco/.style={semithick},
+  ]
+
+  %% ---- nodi ---------------------------------------------------------
+  \node[nodo] (r)  at ( 0.00,2.60) {};   % radice
+  \node[nodo] (s)  at (-1.70,1.30) {};   % figlio sinistro
+  \node[nodo] (d)  at ( 1.70,1.30) {};   % figlio destro
+  \node[nodo] (f1) at (-2.55,0.00) {};
+  \node[nodo] (f2) at (-0.85,0.00) {};
+  \node[nodo] (f3) at ( 0.85,0.00) {};
+  \node[nodo] (f4) at ( 2.55,0.00) {};
+
+  %% ---- archi --------------------------------------------------------
+  \draw[arco] (r) -- (s);  \draw[arco] (r) -- (d);
+  \draw[arco] (s) -- (f1); \draw[arco] (s) -- (f2);
+  \draw[arco] (d) -- (f3); \draw[arco] (d) -- (f4);
+
+  %% ---- path number: binario sopra, valore decimale sotto ------------
+  \node[pn,above=3pt]      at (r)  {$100$\\$4$};
+  \node[pn,left=4pt]       at (s)  {$010$\\$2$};
+  \node[pn,right=4pt]      at (d)  {$110$\\$6$};
+  \node[pn,below=3pt]      at (f1) {$001$\\$1$};
+  \node[pn,below=3pt]      at (f2) {$011$\\$3$};
+  \node[pn,below=3pt]      at (f3) {$101$\\$5$};
+  \node[pn,below=3pt]      at (f4) {$111$\\$7$};
+
+  %% ---- annotazione "d+1 bit" sulla codifica della radice ------------
+  \node[anchor=west,font=\footnotesize] (bit) at (0.95,3.55) {$d+1$ bit};
+  \draw[->,semithick,shorten >=2pt] (bit.west) to[out=180,in=25] (0.28,3.32);
+
+  %% ---- graffa: i tre livelli, profondita' d=2 -----------------------
+  \draw[decorate,decoration={brace,amplitude=6pt,raise=2pt},draw=black!65]
+      (3.45,2.60) -- (3.45,0.00)
+      node[midway,right=9pt,font=\footnotesize]{$d=2$};
+
+\end{tikzpicture}

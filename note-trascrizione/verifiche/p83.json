@@ -1,0 +1,20 @@
+{
+ "pagina": 83,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "notazione",
+   "dove": "lezioni/16-random-walk-grafi.tex, righe 17-18 e 24 (osservazione «Richiamo: il teorema fondamentale delle catene di Markov»), rispetto a lezioni/15-catene-markov.tex righe 358-360, 480-483 e 548-557",
+   "descrizione": "Lo stesso teorema e' gia' enunciato nel capitolo 15 (Teorema thm:mc-fondamentale, \\scan{79}) con il vettore stazionario scritto $\\vec{\\pi}$ e i tempi di ritorno scritti $f_{ii}$ e $h_{ii}$ (coerentemente con le definizioni di $f_{ij}$, $h_{ij}$ date a righe 358-360 di quel file). Il richiamo di p.83 riscrive gli stessi oggetti come $\\bar\\pi$, $f_{i,i}$ e $h_{i,i}$. Nel manoscritto il simbolo e' lo stesso in entrambi i punti (pi con tilde), quindi la divergenza e' introdotta dalla trascrizione: alla prima riapparizione dei simboli il lettore ne incontra una grafia diversa da quella con cui erano stati definiti.",
+   "correzione": "Uniformare le due grafie. Poiche' tutto il capitolo 16 usa gia' $\\bar\\pi$ (righe 200, 202, 354, 358-376), la via meno invasiva e' portare anche il capitolo 15 a $\\bar\\pi$; in alternativa scrivere $\\vec{\\pi}$ a riga 17 del capitolo 16. In ogni caso, per gli indici semplici usare $f_{ii}$ e $h_{ii}$ come nel capitolo 15 (righe 18 e 24), riservando la virgola ai soli stati composti tipo $h_{(u,v),(u,v)}$ di riga 383."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "latex",
+   "dove": "lezioni/16-random-walk-grafi.tex, riga 22",
+   "descrizione": "L'osservazione di richiamo dice «Il teorema e' stato enunciato e discusso nel capitolo precedente» senza rimando incrociato, benche' l'enunciato abbia gia' l'etichetta \\label{thm:mc-fondamentale} (lezioni/15-catene-markov.tex, riga 544) e il capitolo 16 usi i riferimenti numerati altrove (riga 435: «Lemma~\\ref{lem:commute-arco}»). Il rimando resta quindi generico proprio dove servirebbe puntuale, dato che il teorema viene riscritto per intero.",
+   "correzione": "Sostituire a riga 22 con: «Il teorema~\\ref{thm:mc-fondamentale} e' stato enunciato e discusso nel capitolo precedente;» (oppure «e' il Teorema~\\ref{thm:mc-fondamentale} del capitolo precedente»)."
+  }
+ ]
+}

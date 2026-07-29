@@ -1,0 +1,20 @@
+{
+ "pagina": 65,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "media",
+   "categoria": "errore-matematico",
+   "dove": "lezioni/14-random-walk-2sat.tex, righe 65-66 e 72-73 (glossa dopo l'align* con NX^2/NY^2 e giustificazione dell'underbrace \"=1\" nella formula di R)",
+   "descrizione": "X e Y vengono definiti come \"le lunghezze medie delle proiezioni di un passo\", ma i passaggi che seguono usano X^2 e Y^2 come valori MEDI DEI QUADRATI (media di x_i^2), non come quadrati della media. Con la definizione scritta il conto non torna: sulla griglia |x_i| in {0,1} con P(|x_i|=1)=1/2, quindi la proiezione media vale 1/2 e sqrt(X^2+Y^2) = sqrt(1/4+1/4) = 1/sqrt(2), non 1. La glossa \"perche sqrt(X^2+Y^2) non e altro che la lunghezza media di un passo\" e quindi internamente incoerente con l'underbrace \"=1\". Il valore 1 si ottiene solo con X^2 = E[x_i^2], Y^2 = E[y_i^2], perche x_i^2 + y_i^2 = 1 a ogni passo. La successiva osservazione (righe 75-83) usa gia la lettura corretta (E[R^2] = N(E[x^2]+E[y^2])), quindi il testo si contraddice.",
+   "correzione": "Riformulare riga 65-66 come: \"dove X^2 e Y^2 denotano i valori medi di x_i^2 e y_i^2, cioe le lunghezze QUADRATICHE medie delle proiezioni di un passo, rispettivamente sull'asse x e sull'asse y\"; e riga 72-73 come: \"perche a ogni passo x_i^2 + y_i^2 = 1 (i passi hanno lunghezza unitaria), e dunque X^2 + Y^2 = 1\"."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "trascrizione-errata",
+   "dove": "lezioni/14-random-walk-2sat.tex, righe 7-8, inciso \"(\\emph{The Law of Disorder}, detta anche \\emph{Law of Statistical Behaviour})\"",
+   "descrizione": "L'inciso \"detta anche Law of Statistical Behaviour\" e contenuto aggiunto: sul foglio c'e solo \"-> La legge del disordine\" e il titolo del libro. Il capitolo VIII di Gamow si intitola \"The Law of Disorder\" e non risulta un titolo alternativo \"Law of Statistical Behaviour\" (verifica non confermata).",
+   "correzione": "Togliere l'inciso, lasciando \"il capitolo dedicato alla \\emph{legge del disordine} (\\emph{The Law of Disorder})\"."
+  }
+ ]
+}

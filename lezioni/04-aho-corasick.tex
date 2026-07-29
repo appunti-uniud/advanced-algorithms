@@ -1,0 +1,425 @@
+\chapter{Matching multi-pattern: keyword tree e Aho--Corasick}
+\label{cap:aho-corasick}
+
+\scan{12}
+Generalizziamo il problema del pattern matching esatto al caso in cui i pattern da cercare
+non siano uno solo, ma un'intera collezione.
+
+\section{Il problema: exact set matching}
+\label{sec:exact-set-matching}
+
+\begin{definizione}[Exact set matching]\label{def:exact-set-matching}
+Dati un testo $T \in \S^{*}$ e una collezione di pattern
+\[
+  \mathcal{P} \;=\; \set{P_1, \dots, P_z}, \qquad P_i \in \S^{*},
+\]
+trovare tutte le occorrenze in $T$ di tutti gli elementi di $\mathcal{P}$.
+\end{definizione}
+
+\paragraph{Notazione.}
+Poniamo $n_i = \abs{P_i}$ per $i \in \set{1,\dots,z}$ e
+\[
+  n \;=\; \sum_{i=1}^{z} n_i ,
+\]
+e indichiamo con $k$ il numero complessivo di occorrenze da riportare, cioè la dimensione
+dell'output. In questo capitolo $n$ è dunque la lunghezza \emph{complessiva dei pattern} e
+non quella del testo: la lunghezza del testo la scriviamo sempre, esplicitamente,
+$\abs{T}$. Lo scenario tipico è quello in cui $T$ è enorme rispetto ai pattern, per cui il
+costo dominante è il numero di scansioni del testo.
+
+\paragraph{Soluzione naive.}
+Applichiamo $z$ volte il miglior algoritmo per singolo pattern di cui disponiamo (KMP,
+oppure l'algoritmo $Z$), che costa $\Oh(\abs{T} + n_i)$ sul pattern $P_i$. In totale
+\[
+  \sum_{i=1}^{z} \Oh\bigl(\abs{T} + n_i\bigr)
+  \;=\; \Oh\bigl(z\,\abs{T} + n\bigr).
+\]
+
+Il \emph{punto debole} è evidente: stiamo scandendo $T$ per $z$ volte. È il fattore $z$
+davanti ad $\abs{T}$ che vogliamo eliminare.
+
+\paragraph{La sfida.}
+Riusciamo a ridurci a \emph{una sola} scansione del testo? Per farlo dobbiamo combinare
+tutti i pattern di $\mathcal{P}$ in un'unica struttura dati, cioè in un albero.
+
+\section{Il keyword tree}
+\label{sec:keyword-tree}
+
+\scan{12}
+Il \emph{keyword tree} $K(\mathcal{P})$ è l'albero che si ottiene sovrapponendo i prefissi
+comuni degli elementi di $\mathcal{P}$: ogni cammino dalla radice a una foglia si legge come
+uno dei pattern e, viceversa, ogni pattern corrisponde al cammino verso una foglia. Il
+guadagno è immediato: leggendo un solo carattere di $T$ e scendendo di un arco si avanza
+simultaneamente su \emph{tutti} i pattern che condividono il prefisso già letto, cioè si
+scandiscono più elementi di $\mathcal{P}$ in parallelo.
+
+Nel disegno sono già indicati, tratteggiati, i \emph{failure link}: sono i collegamenti che
+permettono di riprendere la ricerca da un altro nodo dell'albero quando la discesa si blocca
+su un mismatch, senza mai arretrare sul testo. Li definiremo formalmente nella
+\autoref{sec:failure-link}.
+
+\begin{figure}[H]
+\centering
+\input{tikz/keyword-tree-panoramica.tikz}
+\caption{Il keyword tree $K(\mathcal{P})$ a colpo d'occhio: i cammini dalla radice alle $z$
+foglie sono i pattern $P_1,\dots,P_z$. Tratteggiati, due failure link: puntano sempre da un
+nodo a un nodo di profondità minore. In evidenza, per ciascun failure link
+$\tuplev{v, \nv{v}}$, i due sottocammini che portano la stessa stringa: il cammino dalla
+radice a $\nv{v}$ e il suffisso di pari lunghezza del cammino dalla radice a $v$.}
+\label{fig:keyword-tree-panoramica}
+\end{figure}
+
+\subsection{Definizione}
+
+\scan{13}
+
+\begin{definizione}[Keyword tree]\label{def:keyword-tree}
+Dato $\mathcal{P} = \set{P_1, \dots, P_z}$ con $P_i \in \S^{*}$ per
+$i \in \set{1, \dots, z}$, il \emph{keyword tree} di $\mathcal{P}$ è un albero $K$ i cui
+archi sono etichettati con elementi di $\S$ e tale che:
+\begin{enumerate}
+  \item archi uscenti dallo stesso nodo hanno etichette distinte;
+  \item ogni cammino radice--foglia corrisponde a $P_i$ per qualche $i \in \set{1,\dots,z}$,
+        e viceversa ogni $P_i$ si legge lungo un cammino radice--foglia.
+\end{enumerate}
+Scriviamo $K(\mathcal{P})$ per il keyword tree di $\mathcal{P}$.
+\end{definizione}
+
+\begin{osservazione}
+Le due condizioni dicono, rispettivamente:
+\begin{itemize}
+  \item la (1) che ogni stringa individua in $K$ un \emph{cammino univoco}: la discesa dalla
+        radice è deterministica e due nodi distinti non possono avere la stessa etichetta di
+        cammino. I nodi di $K$ sono dunque in biiezione con i prefissi degli elementi di
+        $\mathcal{P}$: il keyword tree è il \emph{trie} dei pattern, cioè una
+        rappresentazione \emph{non ridondante sui prefissi};
+  \item la (2) che i \emph{cammini} radice--foglia sono in corrispondenza con gli
+        \emph{elementi di $\mathcal{P}$}.
+\end{itemize}
+\end{osservazione}
+
+\subsection{Ipotesi semplificativa}
+
+Assumiamo che nessun $P_i$ sia \emph{fattore proprio} di $P_j$ per $i \neq j$, cioè che
+nessun pattern sia sottostringa propria di un altro. Scaricheremo questa ipotesi nella
+\autoref{sec:output-link}.
+
+\begin{osservazione}
+L'ipotesi garantisce che foglie di $K(\mathcal{P})$ ed elementi di $\mathcal{P}$ siano in
+corrispondenza biunivoca --- in particolare le foglie sono esattamente $z$ --- e soprattutto
+che durante la ricerca ogni occorrenza venga scoperta arrivando in una foglia: se infatti
+$P_j$ fosse sottostringa di $P_i$, percorrendo il cammino di $P_i$ si passerebbe
+\emph{sopra} un'occorrenza di $P_j$ senza mai visitarne la foglia. Per la sola biiezione
+foglie--pattern basterebbe in realtà l'ipotesi più debole «nessun $P_i$ è prefisso di
+$P_j$».
+\end{osservazione}
+
+\subsection{Misure di \texorpdfstring{$K(\mathcal{P})$}{K(P)}}
+
+Le tre misure di $K(\mathcal{P})$ sono
+\[
+\begin{aligned}
+  \text{dimensione di } K(\mathcal{P}) \;&\le\; \sum_{i=1}^{z} n_i \;=\; n, \\[2pt]
+  \text{altezza di } K(\mathcal{P}) \;&=\; \max_{1 \le i \le z} \set{n_i}, \\[2pt]
+  \text{grado (fan-out) di } K(\mathcal{P}) \;&\le\; \min\set{\abs{\S},\, z}.
+\end{aligned}
+\]
+
+\begin{osservazione}
+Per \emph{dimensione} si intende il numero di archi, che in un albero è pari al numero di
+nodi meno uno: gli archi di $K(\mathcal{P})$ sono tanti quanti i prefissi non vuoti
+\emph{distinti} degli elementi di $\mathcal{P}$, perché ogni pattern contribuisce al più
+$n_i$ archi e i prefissi condivisi vengono contati una sola volta. Dunque
+$\#\text{archi} \le n$, con uguaglianza se e solo se nessuna coppia di pattern condivide un
+prefisso non vuoto; lo spazio è quindi $\Oh(n)$, e $\Th(n)$ soltanto nel caso peggiore. È
+proprio questa condivisione il risparmio che il keyword tree realizza rispetto a $z$
+strutture separate.
+
+L'altezza è la lunghezza del pattern più lungo. Il grado di un nodo è $\le \abs{\S}$ per la
+proprietà (1) della definizione~\ref{def:keyword-tree}, ed è $\le z$ perché ogni sottoalbero figlio
+contiene almeno una foglia e le foglie sono esattamente $z$.
+\end{osservazione}
+
+\begin{osservazione}[Nota implementativa]
+Rappresentando i figli di un nodo con un array indicizzato su $\S$ si ha accesso $\Oh(1)$ al
+figlio dato il carattere, ma spazio $\Oh(n\,\abs{\S})$; con liste, alberi bilanciati o
+tabelle hash lo spazio resta $\Oh(n)$ e l'accesso costa $\Oh(\log\abs{\S})$ oppure $\Oh(1)$
+atteso. Tutte le complessità «lineari» che seguono vanno intese nel modello ad accesso
+$\Oh(1)$ ai figli.
+\end{osservazione}
+
+\section{I failure link}
+\label{sec:failure-link}
+
+Per utilizzare $K(\mathcal{P})$ durante la ricerca dobbiamo completarlo con i \emph{failure
+link}, pensati per consentire al puntatore sul testo di avanzare \emph{sempre}: in caso di
+mismatch non si ricomincia la discesa dalla radice riportando indietro il puntatore su $T$,
+ma si salta al nodo la cui etichetta di cammino è il più lungo suffisso \emph{proprio} di
+quanto già riconosciuto che sia ancora etichetta di un cammino dalla radice in
+$K(\mathcal{P})$ --- equivalentemente, che sia ancora prefisso di almeno un pattern.
+
+\begin{figure}[H]
+\centering
+\input{tikz/failure-link-idea.tikz}
+\caption{Idea del failure link. Se la discesa si blocca nel nodo $v$, si salta al nodo
+$\nv{v}$, la cui etichetta di cammino $\a$ è il più lungo suffisso proprio dell'etichetta di
+cammino di $v$ che sia ancora un cammino dalla radice in $K(\mathcal{P})$: la porzione di
+testo già riconosciuta resta allineata e il puntatore su $T$ non arretra.}
+\label{fig:failure-link-idea}
+\end{figure}
+
+\subsection{Formalizzazione}
+
+\scan{14}
+
+\begin{definizione}[Etichetta di cammino, failure node]\label{def:ac-failure-node}
+Dato un nodo $v$ di $K(\mathcal{P})$ definiamo:
+\begin{itemize}
+  \item $\L(v)$: la concatenazione delle etichette degli archi nel cammino
+        $\mathrm{root}(K(\mathcal{P})) \rightsquigarrow v$;
+  \item $\nv{v}$: il nodo di $K(\mathcal{P})$ tale che $\L(\nv{v})$ è il più lungo suffisso
+        proprio di $\L(v)$ fra quelli che etichettano un cammino uscente dalla radice, cioè
+        che sono della forma $\L(u)$ per qualche nodo $u$ di $K(\mathcal{P})$
+        (equivalentemente: che sono prefissi di almeno un pattern di $\mathcal{P}$);
+  \item $\mathit{lp}(v) \defeq \abs{\L(\nv{v})}$.
+\end{itemize}
+\end{definizione}
+
+\begin{osservazione}
+Attenzione al pedice, perché la lettera $n$ è ormai sovraccarica: in $n_i$ il pedice è
+l'indice di un pattern e $n_i$ è una \emph{lunghezza}, in $\nv{v}$ il pedice è un nodo e
+$\nv{v}$ è a sua volta un \emph{nodo} di $K(\mathcal{P})$.
+
+Ogni arco di $K(\mathcal{P})$ porta esattamente un carattere, quindi
+$\abs{\L(u)} = \mathrm{depth}(u)$ per ogni nodo $u$: dunque $\mathit{lp}(v)$ è la
+\emph{profondità} di $\nv{v}$. Inoltre $\L(\nv{v})$ è un suffisso \emph{proprio} di $\L(v)$,
+e perciò
+\[
+  \mathrm{depth}(\nv{v}) \;<\; \mathrm{depth}(v),
+\]
+fatto da cui dipenderà la terminazione di tutto ciò che segue. Per $z = 1$ il keyword tree
+degenera in un cammino e $\mathit{lp}(v)$ è la lunghezza del più lungo bordo proprio del
+prefisso già letto: la mappa $v \mapsto \nv{v}$ è la generalizzazione ad albero della
+funzione di fallimento di KMP.
+\end{osservazione}
+
+\begin{lemma}[Buona definizione di $\nv{v}$]\label{lem:ac-nv}
+Per ogni nodo $v \in K(\mathcal{P})$ con $v \neq \mathrm{root}(K(\mathcal{P}))$ esiste ed è
+unico il nodo $\nv{v}$.
+\end{lemma}
+
+\begin{dimostrazione*}
+Esercizio. \emph{N.B.} $\nv{v}$ può essere la radice.
+\end{dimostrazione*}
+
+\begin{osservazione}
+L'enunciato va inteso per $v \neq \mathrm{root}(K(\mathcal{P}))$: infatti
+$\L(\mathrm{root}) = \vuota$ non ha suffissi propri. Per la radice si adotta la convenzione
+$\nv{\mathrm{root}} \defeq \mathrm{root}$ e $\mathit{lp}(\mathrm{root}) \defeq 0$.
+\end{osservazione}
+
+\begin{definizione}[Failure link]\label{def:ac-failure-link}
+La coppia $\tuplev{v, \nv{v}}$ si chiama \emph{failure link}.
+\end{definizione}
+
+\subsection{Calcolo dei failure link}
+\label{sec:calcolo-failure-link}
+
+I failure link vanno calcolati contestualmente alla costruzione di $K(\mathcal{P})$, cioè
+nella stessa fase di preprocessing, prima di toccare $T$: serve dunque un \emph{algoritmo
+per determinare $\nv{v}$ dato $v$}. L'idea è ricorsiva e si legge sulla
+figura~\ref{fig:ac-failure-link-passo}: se $v'$ è il padre di $v$ e $x$ è l'etichetta dell'arco
+$v' \to v$ (cosicché $\L(v) = \L(v')\,x$), allora, noto $\nv{v'}$, basta guardare se
+$\nv{v'}$ ha un arco uscente etichettato $x$.
+
+\begin{figure}[H]
+\centering
+\input{tikz/ac-failure-link-passo.tikz}
+\caption{Passo ricorsivo del calcolo dei failure link. Il tratto marcato sul cammino di
+sinistra (da $u$ a $v'$) e il cammino marcato di destra (da $\mathrm{root}$ a $\nv{v'}$)
+portano la stessa stringa $\a$: è la relazione $\L(\nv{v'}) = \a$, il più lungo suffisso
+proprio di $\L(v')$ che sia anche prefisso di un pattern. Se $\nv{v'}$ possiede un arco
+uscente etichettato $x$, il nodo così raggiunto è $\nv{v}$.}
+\label{fig:ac-failure-link-passo}
+\end{figure}
+
+\scan{15}
+Svolgiamo la ricorsione, procedendo sulla profondità dei nodi.
+
+\paragraph{Caso base.}
+$v = \mathrm{root}$: banale, si pone $\nv{\mathrm{root}} = \mathrm{root}$. Banale è anche il
+caso dei figli della radice: se $\mathrm{depth}(v) = 1$ allora $\L(v)$ è un singolo
+carattere e il suo unico suffisso proprio è $\vuota = \L(\mathrm{root})$, dunque
+$\nv{v} = \mathrm{root}$.
+
+\paragraph{Passo induttivo.}
+Sia ora $\mathrm{depth}(v) \ge 2$: i nodi di profondità $\le 1$ sono già coperti dal caso
+base, e vanno esclusi qui perché per essi il ragionamento che segue darebbe la risposta
+sbagliata (se $v' = \mathrm{root}$ allora $\nv{v'} = \mathrm{root}$, che un figlio raggiunto
+dall'arco etichettato $x$ ce l'ha --- è $v$ stesso --- e si concluderebbe $\nv{v} = v$
+anziché $\nv{v} = \mathrm{root}$).
+Se devo determinare $\nv{v}$, sia $v' = \mathrm{parent}(v)$ e sia $x$ l'etichetta dell'arco
+$\tuplev{v', v}$, cosicché $\L(v) = \L(v')\,x$. Poiché
+\[
+  \mathrm{depth}(v') < \mathrm{depth}(v)
+  \quad\Longrightarrow\quad
+  \text{ho già } \nv{v'},
+\]
+posso ragionare per casi:
+\begin{itemize}
+  \item se $\nv{v'}$ ha un figlio raggiunto da un arco etichettato $x$, allora $\nv{v}$ è
+        quel figlio;
+  \item altrimenti passo a $\nv{\nv{v'}}$ e determino se \emph{questo} ha un figlio
+        etichettato $x$, e così via\dots
+\end{itemize}
+Si risale cioè la catena dei failure link
+\[
+  \nv{v'},\quad \nv{\nv{v'}},\quad \nv{\nv{\nv{v'}}},\quad \dots
+\]
+finché o si trova un nodo con un arco uscente etichettato $x$ --- e $\nv{v}$ è il figlio così
+raggiunto --- oppure si arriva alla radice senza trovarlo, e in tal caso
+$\nv{v} = \mathrm{root}$. La risalita termina sempre, perché lungo la catena la profondità
+decresce strettamente: l'algoritmo non può andare in loop.
+
+\paragraph{Ordine di elaborazione.}
+Perché la ricorsione sia ben fondata i nodi vanno elaborati per profondità crescente, cioè
+con una visita per livelli: quando si calcola $\nv{v}$ il valore $\nv{v'}$ del padre deve
+essere già disponibile.
+
+\begin{algorithm}[H]
+\caption{Calcolo dei failure link di $K(\mathcal{P})$}
+\label{alg:failure-link}
+\begin{algorithmic}[1]
+\Require il keyword tree $K(\mathcal{P})$
+\Ensure $\nv{v}$ e $\mathit{lp}(v)$ per ogni nodo $v$ di $K(\mathcal{P})$
+\State $\nv{\mathrm{root}} \gets \mathrm{root}$
+\State $\mathit{lp}(\mathrm{root}) \gets 0$
+\For{ogni figlio $u$ della radice}
+  \State $\nv{u} \gets \mathrm{root}$
+  \State $\mathit{lp}(u) \gets 0$
+\EndFor
+\For{$d \gets 2, \dots, \text{altezza di } K(\mathcal{P})$}
+  \For{ogni nodo $v$ con $\mathrm{depth}(v) = d$}
+    \State $v' \gets \mathrm{parent}(v)$
+    \State $x \gets$ etichetta dell'arco $\tuplev{v', v}$
+    \State $u \gets \nv{v'}$
+    \While{$u \neq \mathrm{root}$ e $u$ non ha archi uscenti etichettati $x$}
+      \State $u \gets \nv{u}$
+    \EndWhile
+    \If{$u$ ha un arco uscente $\tuplev{u, u'}$ etichettato $x$}
+      \State $\nv{v} \gets u'$
+    \Else
+      \State $\nv{v} \gets \mathrm{root}$
+    \EndIf
+    \State $\mathit{lp}(v) \gets \mathrm{depth}(\nv{v})$
+  \EndFor
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+\paragraph{Complessità.}
+Il numero di nodi analizzati per determinare un singolo $\nv{v}$ è
+$\le \mathrm{depth}(v)$: da qui, mediante un'\textbf{analisi ammortizzata}, si ottiene una
+complessità \textbf{lineare}.
+
+\begin{osservazione}
+Il conto per singolo nodo darebbe soltanto il limite pessimistico
+$\Oh\bigl(n \cdot \max_i n_i\bigr)$. L'analisi ammortizzata va invece fatta lungo un intero
+cammino radice--foglia, cioè lungo un pattern $P_i$: usando come potenziale la profondità
+del candidato, $\mathit{lp}(\cdot) \ge 0$, si osserva che passando da un nodo al figlio
+successivo essa cresce al più di $1$ (si aggiunge un solo carattere), mentre ogni iterazione
+della risalita lungo la catena dei failure link la fa calare di almeno $1$. Il numero
+complessivo di risalite lungo il cammino è dunque $\le n_i$: al peggio si paga il doppio dei
+passi. Sommando su tutti i pattern,
+\[
+  T_{\text{preprocessing}} \;=\; \Oh\Bigl(\sum_{i=1}^{z} n_i\Bigr) \;=\; \Oh(n),
+\]
+nel modello in cui l'accesso al figlio dato il carattere costa $\Oh(1)$.
+\end{osservazione}
+
+% RICOSTRUZIONE (in fase di cucitura, non presente nel quaderno): il manoscritto non
+% formalizza mai la fase di ricerca.  Le posizioni l e c, l'invariante L(v) = T[l..c-1],
+% l'aggiornamento l <- c - lp(v), v <- n_v e la complessita' O(|T|+k) sono ricostruiti da
+% Gusfield sec. 3.4 e da L04_sintesi sec. 12.  Senza questa sezione il capitolo definirebbe
+% i failure link senza mai usarli.  Da registrare in NOTE-EDITORIALI.md (Ricostruzioni).
+\section{La fase di ricerca}
+\label{sec:ricerca-ac}
+
+Il preprocessing ha prodotto $K(\mathcal{P})$ con tutti i suoi failure link; la scansione di
+$T$ procede ora mantenendo un nodo corrente $v$ di $K(\mathcal{P})$, una posizione corrente
+$c$ in $T$ e la posizione $\ell$ in cui inizia l'allineamento corrente, con l'invariante
+$\L(v) = \sub{T}{\ell}{c-1}$. Finché da $v$ esce un arco etichettato $T[c]$ si scende
+lungo quell'arco e si incrementa $c$; se si raggiunge una foglia si riporta l'occorrenza del
+pattern corrispondente. In caso di mismatch si segue il failure link, ponendo nell'ordine
+\[
+  \ell \;\gets\; c - \mathit{lp}(v), \qquad v \;\gets\; \nv{v},
+\]
+senza mai decrementare $c$ (se il blocco avviene già sulla radice si incrementa
+semplicemente $c$): è esattamente per questo che i failure link sono stati introdotti.
+Poiché $c$ non arretra mai e a ogni salto $\ell$ cresce strettamente, la scansione costa
+$\Oh(\abs{T} + k)$.
+
+\section{Scarico dell'ipotesi: gli output link}
+\label{sec:output-link}
+
+\scan{15}
+
+\begin{domanda}
+Che succede se una stringa è \emph{fattore} di un'altra stringa?
+\end{domanda}
+
+\begin{esempio}
+Si consideri
+\[
+  \mathcal{P} = \set{\str{acatt},\ \str{ca}},
+  \qquad
+  T = \str{acatg}.
+\]
+Qui $\str{ca}$ è sottostringa di $\str{acatt}$ (posizioni $2$--$3$): l'ipotesi semplificativa
+«nessun $P_i$ è sottostringa di un altro $P_j$» è violata.
+\end{esempio}
+
+\begin{figure}[H]
+\centering
+\input{tikz/ac-output-link.tikz}
+\caption{Keyword tree di $\mathcal{P} = \set{\str{acatt}, \str{ca}}$. Scandendo
+$T = \str{acatg}$ la discesa segue gli archi $\str{a}, \str{c}, \str{a}, \str{t}$ e si
+arresta sul carattere $\str{g}$ ($\times$): la foglia di \str{ca} non viene mai visitata e
+l'occorrenza di \str{ca} in $\sub{T}{2}{3}$ va perduta.}
+\label{fig:ac-output-link}
+\end{figure}
+
+Percorrendo il cammino di \str{acatt} si passa «sopra» un'occorrenza di \str{ca} senza mai
+visitare la foglia corrispondente: ho perso l'occorrenza di \str{ca}!
+
+\paragraph{Soluzione.}
+Aggiungo a ogni nodo un \emph{output link} (equivalentemente, una \emph{output list}) di
+occorrenze da riportare, quelle dovute alle sottostringhe. Per ogni nodo $v$ si pone
+\[
+  \out(v) \;=\;
+  \begin{cases}
+    \nv{v} & \text{se } \L(\nv{v}) \in \mathcal{P},\\[2pt]
+    \out(\nv{v}) & \text{altrimenti,}
+  \end{cases}
+\]
+con $\out(v)$ indefinito se la catena raggiunge la radice senza incontrare la fine di un
+pattern. Arrivati in $v$ durante la ricerca si percorre la catena degli output link
+riportando tutte le occorrenze che terminano nella posizione corrente. Poiché $\out(v)$ si
+calcola in $\Oh(1)$ per nodo \emph{durante} la stessa visita per livelli che calcola i
+failure link (algoritmo~\ref{alg:failure-link}), il preprocessing resta $\Oh(n)$ e la ricerca
+resta $\Oh(\abs{T} + k)$. Scaricata l'ipotesi, va anche marcato come «fine di un pattern»
+ogni nodo, interno o foglia, la cui etichetta di cammino appartiene a $\mathcal{P}$.
+
+\section{Bilancio}
+
+Mettendo insieme le due fasi, l'algoritmo di Aho--Corasick costa
+\[
+  T_{\text{preprocessing}} = \Oh(n),
+  \qquad
+  T_{\text{ricerca}} = \Oh(\abs{T} + k),
+  \qquad
+  T_{\text{totale}} = \Oh\bigl(n + \abs{T} + k\bigr),
+\]
+da confrontare con l'$\Oh(z\,\abs{T} + n)$ della soluzione naive: il fattore $z$ è sparito e
+il testo viene scandito una volta sola, che era esattamente la sfida posta nella
+\autoref{sec:exact-set-matching}.

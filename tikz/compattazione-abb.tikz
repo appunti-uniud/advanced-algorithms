@@ -1,0 +1,62 @@
+% Contrazione di una catena unaria in un frammento di suffix trie:
+% i nodi v1, v2 (un solo figlio) spariscono e il cammino abb diventa un unico arco [k,p].
+\begin{tikzpicture}[
+    x=0.92cm,y=0.92cm,
+    arco/.style={draw=black,line width=0.5pt},
+    nd/.style={circle,fill=black,inner sep=0pt,minimum size=2.8pt},
+    ndg/.style={circle,fill=black,inner sep=0pt,minimum size=3.6pt},
+    vuoto/.style={circle,draw=black,fill=white,line width=0.5pt,
+                  inner sep=0pt,minimum size=4pt},
+    et/.style={font=\footnotesize,inner sep=1.5pt},
+    ann/.style={draw=accent,line width=1.1pt}]
+
+  % =====================================================================
+  % LIVELLO A -- il frammento di trie
+  % =====================================================================
+  \coordinate (u)  at ( 0.00, 0.00);
+  \coordinate (x)  at (-1.30,-1.20);   % altro figlio di u (non interessa)
+  \coordinate (v1) at ( 1.15,-1.15);
+  \coordinate (v2) at ( 2.30,-2.30);
+  \coordinate (w)  at ( 3.45,-3.45);
+  \coordinate (f1) at ( 2.85,-4.55);
+  \coordinate (f2) at ( 4.15,-4.55);
+
+  % l'albero prosegue verso la radice
+  \draw[arco] (0,1.90)
+      .. controls ( 0.22, 1.72) and (-0.22, 1.56) .. (0,1.40)
+      .. controls ( 0.22, 1.22) and (-0.22, 1.06) .. (0,0.90)
+      .. controls ( 0.22, 0.72) and (-0.22, 0.56) .. (0,0.40)
+      -- (u);
+
+  \draw[arco] (u)  -- (x);
+  \draw[arco] (u)  -- (v1) node[et,midway,anchor=south west]{$a$};
+  \draw[arco] (v1) -- (v2) node[et,midway,anchor=south west]{$b$};
+  \draw[arco] (v2) -- (w)  node[et,midway,anchor=south west]{$b$};
+  \draw[arco] (w)  -- (f1);
+  \draw[arco] (w)  -- (f2);
+
+  \node[ndg] at (u)  {};
+  \node[vuoto] at (x) {};
+  \node[nd] at (v1) {};
+  \node[nd] at (v2) {};
+  \node[ndg] at (w)  {};
+  \node[nd] at (f1) {};
+  \node[nd] at (f2) {};
+
+  % =====================================================================
+  % LIVELLO B -- l'annotazione della compattazione
+  % =====================================================================
+  % cancellatura dei due nodi con un solo figlio
+  \foreach \v in {v1,v2}{%
+    \draw[ann] ($(\v)+(-0.38,-0.13)$) -- ($(\v)+(0.38,0.13)$);
+    \draw[ann] ($(\v)+(-0.20,0.32)$)  -- ($(\v)+(0.20,-0.32)$);
+  }
+
+  % nuovo arco compattato u --> w, che scavalca la catena passando a sinistra
+  \draw[ann] (u) .. controls (-0.90,-1.80) and (1.20,-4.30) .. (w);
+
+  % etichetta dell'arco compattato
+  \node[accent,align=center,anchor=east,font=\footnotesize] at (-0.35,-2.55)
+        {\str{abb}\\[1pt]$[k,p]$};
+
+\end{tikzpicture}

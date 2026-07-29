@@ -1,0 +1,126 @@
+{
+ "pagina": 80,
+ "latex": "\\scan{80}\n\nProseguiamo la costruzione di WL-$k$ iniziata nella pagina precedente: i colori non\nstanno più sui singoli vertici, ma sulle $k$-uple $\\bar v = (v_1,\\dots,v_k) \\in V^k$,\nciascuna delle quali viene trattata come un unico oggetto da colorare.\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/p80-tupla.tikz}\n  \\caption{La $k$-upla $\\bar v = (v_1,\\dots,v_k)$ è vista come un solo oggetto: è ad\n  essa, e non ai vertici che la compongono, che WL-$k$ assegna un colore.}\n  \\label{fig:p80-tupla}\n\\end{figure}\n\n\\paragraph{Colorazione iniziale.}\n\\[\n  C_0^k(\\bar v) \\;=\\; \\operatorname{atp}(\\bar v)\n  \\qquad \\forall\\, \\bar v \\in V^k ,\n\\]\ndove $\\operatorname{atp}(\\bar v)$ è il \\emph{tipo atomico} della $k$-upla: l'informazione\nsu quali componenti coincidono ($v_i = v_j$) e su quali coppie ordinate $(v_i,v_j)$\nsono archi del grafo. Due $k$-uple partono dunque con lo stesso colore se e solo se\nla corrispondenza $v_i \\mapsto v_i'$ è un isomorfismo fra i due sottografi indotti,\ncomponente per componente.\n\n\\paragraph{Passo di raffinamento.}\nScriviamo $\\bar v[w/j]$ per la $k$-upla ottenuta da $\\bar v$ sostituendo la $j$-esima\ncomponente con $w$:\n\\[\n  \\bar v[w/j] \\;=\\; (v_1,\\dots,v_{j-1},\\,w,\\,v_{j+1},\\dots,v_k).\n\\]\nIl vicinato di $\\bar v$ al passo $i$ è il multi-insieme\n\\[\n  M_i^k(\\bar v) \\;=\\;\n  \\Bigl\\{\\!\\Bigl\\{\\;\n     \\bigl( C_{i-1}^k(\\bar v[w/1]),\\; \\dots,\\; C_{i-1}^k(\\bar v[w/k]) \\bigr)\n  \\;:\\; w \\in V \\;\\Bigr\\}\\!\\Bigr\\}\n\\]\ne il colore aggiornato è\n\\[\n  C_i^k(\\bar v) \\;=\\; \\bigl( C_{i-1}^k(\\bar v),\\; M_i^k(\\bar v) \\bigr).\n\\]\nOgni passo può solo raffinare la partizione delle $k$-uple indotta dal colore, quindi\ndopo al più $n^k$ iterazioni la colorazione si stabilizza.\n\n\\begin{esempio}[WL-2]\nPer $k = 2$ la tupla è una coppia $(u,v)$ e il vertice $w$, che scorre su tutto $V$,\nla spezza nei due «mezzi cammini» $(u,w)$ e $(w,v)$:\n\\[\n  M_i^2(u,v) \\;=\\;\n  \\Bigl\\{\\!\\Bigl\\{\\; \\bigl( C_{i-1}^2(u,w),\\; C_{i-1}^2(w,v) \\bigr) \\;:\\; w \\in V \\;\\Bigr\\}\\!\\Bigr\\}.\n\\]\nL'ordine delle due componenti della coppia è convenzionale: basta fissarlo una volta\nper tutte.\n\\end{esempio}\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/p80-wl2-esempio.tikz}\n  \\caption{WL-2: alla coppia $(u,v)$ si guarda attraverso un terzo vertice $w$. Le\n  frecce continue sono archi del grafo, il triangolo tratteggiato evidenzia le tre\n  \\emph{coppie} coinvolte nel passo di raffinamento: $(u,v)$, $(u,w)$ e $(w,v)$.}\n  \\label{fig:p80-wl2}\n\\end{figure}\n\n\\paragraph{FWL contro OWL.}\nLa definizione appena data è quella \\emph{folklore} (FWL): per ogni $w$ si raccoglie\nun'unica $k$-upla di colori, quindi il multi-insieme ricorda \\emph{quali} colori\nprovengono dallo stesso $w$. Nella variante \\emph{oblivious} (OWL) si tengono invece\n$k$ multi-insiemi separati, uno per posizione,\n\\[\n  M_i^{k,j}(\\bar v) \\;=\\; \\bigl\\{\\!\\bigl\\{\\, C_{i-1}^k(\\bar v[w/j]) \\;:\\; w \\in V \\,\\bigr\\}\\!\\bigr\\},\n  \\qquad j = 1,\\dots,k,\n\\]\n\\[\n  C_i^k(\\bar v) \\;=\\; \\bigl( C_{i-1}^k(\\bar v),\\; M_i^{k,1}(\\bar v),\\; \\dots,\\; M_i^{k,k}(\\bar v) \\bigr),\n\\]\ne la correlazione fra le posizioni va perduta: FWL legge i due mezzi cammini\n\\emph{insieme}, per lo stesso $w$; OWL li legge \\emph{separatamente}.\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/p80-fwl-owl.tikz}\n  \\caption{FWL contro OWL sulla coppia $(u,v)$. A sinistra la configurazione di\n  partenza; al centro FWL, che considera la coppia di colori nello stesso disegno\n  (stesso $w$); a destra OWL, che considera i due cammini separatamente, in due\n  multi-insiemi distinti.}\n  \\label{fig:p80-fwl-owl}\n\\end{figure}\n\n\\begin{osservazione}\nLe due varianti non hanno lo stesso potere distintivo a parità di $k$: $k$-FWL\ndistingue esattamente ciò che distingue $(k+1)$-OWL. In particolare $1$-OWL è il\nclassico \\emph{colour refinement} WL-1 visto sopra, mentre $1$-FWL equivale già a\n$2$-OWL.\n\\end{osservazione}\n\n\\paragraph{Minori esclusi.}\nEscludere un minore fisso comporta dimensione di WL limitata: per ogni grafo $H$\nesiste un $k = k(H)$ tale che ogni grafo che non contiene $H$ come minore viene\nidentificato da WL-$k$. Il caso emblematico è quello dei grafi planari, che per il\nteorema di Wagner sono esattamente i grafi privi di $K_5$ e di $K_{3,3}$ come minori.\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/p80-minori-esclusi.tikz}\n  \\caption{I due minori proibiti del teorema di Wagner: $K_{3,3}$ e $K_5$.}\n  \\label{fig:p80-minori}\n\\end{figure}\n",
+ "note": [
+  {
+   "tipo": "correzione",
+   "pagina": 80,
+   "risolto": true,
+   "testo": "Prima riga: il quaderno scrive «Initial colouring   C_0^k = atp(v̄)   ∀v̄ ∈ V^a». Ho scritto C_0^k(\\bar v) = atp(\\bar v) per ∀ v̄ ∈ V^k: (i) ho reso esplicito l'argomento di C_0^k, che nel quaderno è sottinteso; (ii) l'apice finale di V, che a bassa risoluzione sembra una «a», è una «k» (a 600 DPI ha la stessa forma della k in C_0^k e in M_i^k) — del resto le uple colorate da WL-k stanno per definizione in V^k."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 80,
+   "risolto": true,
+   "testo": "«atp» è la stessa abbreviazione introdotta a p.79 («atomic types, atp⟨u,v,w,...⟩»). Non esiste una macro in preamble.tex: ho usato \\operatorname{atp} e ho aggiunto in prosa la definizione di tipo atomico (quali componenti coincidono, quali coppie ordinate sono archi), che nel quaderno è solo evocata dalla parola."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 80,
+   "risolto": true,
+   "testo": "Il «Refinement step» nel quaderno è interrotto a metà: si legge soltanto «M_i^k = {{ ( C_{i-1}^k» e la riga finisce lì. Ho completato la definizione standard di k-FWL, M_i^k(v̄) = {{ (C_{i-1}^k(v̄[w/1]),…,C_{i-1}^k(v̄[w/k])) : w ∈ V }} e C_i^k(v̄) = (C_{i-1}^k(v̄), M_i^k(v̄)), introducendo la notazione v̄[w/j] (sostituzione della j-esima componente). La ricostruzione è vincolata dall'esempio WL-2 scritto per esteso più in basso nella stessa pagina, che è esattamente il caso k=2 di questa formula."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 80,
+   "risolto": true,
+   "testo": "Nella formula di WL-2 il quaderno quantifica con «∀ w⃗ ∈ V» (la lettera porta una freccetta sopra, notazione da vettore usata altrove per le uple). Ho scritto ∀ w ∈ V senza freccia: w è un singolo vertice che scorre su V, non una upla; con la freccia l'appartenenza a V sarebbe malposta."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 80,
+   "risolto": true,
+   "testo": "Il quaderno scrive la coppia nell'ordine (C_{i-1}^2(u,w), C_{i-1}^2(w,v)), cioè prima la sostituzione nella seconda posizione e poi quella nella prima; la forma generale che ho scritto elenca invece le posizioni in ordine 1,…,k. Le due convenzioni danno colorazioni equivalenti: l'ho segnalato con una riga di testo («l'ordine delle due componenti è convenzionale») invece di alterare la formula dell'esempio, che ho lasciato come nel quaderno."
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 80,
+   "risolto": true,
+   "testo": "Integrazione: la variante OWL è nel quaderno solo un disegno con la didascalia «considers paths separately». Ho aggiunto esplicitamente le formule di OWL (k multi-insiemi separati M_i^{k,j} e colore come (k+1)-upla) perché senza di esse il confronto FWL/OWL non è leggibile. Ho aggiunto anche la frase sul punto fisso in al più n^k iterazioni, che nel quaderno non c'è."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 80,
+   "risolto": false,
+   "testo": "Sotto il disegno «FWL» c'è la scritta «considers X», dove X è una parola di 3-4 lettere che non sono riuscito a decifrare nemmeno a 600 DPI con soglia sull'inchiostro: il primo grafema è un anello chiuso in basso con un'asta (un «&»/«b»/«6»), il secondo è un «z»/«2» con la coda. Candidati: «both», «&2», «62». Il senso però è fissato dal disegno e dal parallelo «considers paths separately» sotto OWL: FWL guarda i due mezzi cammini insieme (stesso w). Ho reso la didascalia con «considera la coppia di colori nello stesso disegno (stesso w)» senza marcatore nel testo, perché il contenuto matematico non è in dubbio."
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 80,
+   "risolto": true,
+   "testo": "Integrazione (osservazione): ho aggiunto il fatto standard che k-FWL ha lo stesso potere distintivo di (k+1)-OWL (e che 1-OWL è il colour refinement WL-1 di p.79). Nel quaderno non compare, ma è la ragione per cui la distinzione FWL/OWL viene fatta, e senza di essa il confronto resta un aneddoto grafico."
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 80,
+   "risolto": true,
+   "testo": "Ultima riga del quaderno: «excluding a fixed H as minor results in bounded WL-dimension» (teorema di Grohe). L'ho tradotta e resa esplicita nella forma quantificata («per ogni H esiste k=k(H) …»), e ho aggiunto il richiamo al teorema di Wagner (planari = privi di K_5 e K_{3,3} come minori) per dare senso ai due scarabocchi a matita etichettati «K-3-3» e «K-5» che stanno appena sopra la riga."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 80,
+   "risolto": true,
+   "testo": "Disegno in alto: quattro punti allineati etichettati v_1,…,v_4 con quattro segmenti che scendono e convergono su un unico punto sotto (alcuni tratti si fermano prima di toccarlo, il disegno è sbrigativo). Interpretato come la rappresentazione della k-upla come oggetto unico da colorare, che è esattamente il punto della colorazione iniziale scritta appena sopra."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 80,
+   "risolto": true,
+   "testo": "Disegno dell'esempio WL-2: quattro vertici, v in alto a sinistra, w a destra, u in basso al centro e un quarto vertice non etichettato in basso a sinistra (l'ho chiamato x). Frecce continue: w→v, x→v, u→v, u→w, u→x. Sopra e attorno c'è una linea tratteggiata che unisce v, w e u formando un triangolo: l'ho interpretata come l'evidenziazione delle tre coppie in gioco nel passo di raffinamento — (u,v), (u,w), (w,v) — e non come archi del grafo."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 80,
+   "risolto": true,
+   "testo": "Trittico «FWL vs OWL»: (a) a sinistra, senza etichetta, il triangolo v, w, u con w→v, u→w e il lato u–v (la coppia da colorare); (b) al centro, etichettato FWL, le due frecce u→w e w→v disegnate insieme (sotto il disegno c'è una traccia a matita cancellata del terzo lato); (c) a destra, etichettato OWL, gli stessi due archi disegnati in due schizzi staccati, ciascuno con la propria copia di w. Le didascalie manoscritte sono «considers …» (illeggibile, vedi nota) e «considers paths separately»."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 80,
+   "risolto": true,
+   "testo": "In fondo alla pagina, a matita e molto sbiaditi, due schizzi etichettati «K-3-3» e «K-5»: il primo è appena abbozzato (due terne di vertici), il secondo è un K_5 disegnato in modo riconoscibile, cerchiato. Li ho resi come una figura pulita dei due minori proibiti di Wagner."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 80,
+   "risolto": true,
+   "testo": "I quattro titoli della pagina («Initial colouring», «Refinement step», «Es. WL-2», «FWL vs OWL») sono espliciti nel quaderno: li ho resi con \\paragraph, tradotti in italiano; «Es.» è diventato l'ambiente esempio con argomento [WL-2]. La figura dell'esempio è stata messa fuori dall'ambiente esempio per non annidare un float dentro l'accentbox."
+  }
+ ],
+ "figure": [
+  {
+   "id": "p80-tupla",
+   "pagina": 80,
+   "tipo": "schema",
+   "fattibile_tikz": true,
+   "didascalia": "La k-upla come oggetto unico da colorare",
+   "specifica": "Quattro nodi pieni (cerchietti neri, r≈2pt) allineati orizzontalmente, equispaziati di circa 1.2 cm, etichettati sopra con $v_1$, $v_2$, $v_3$, $v_4$. Circa 2 cm più in basso, sotto lo spazio fra il primo e il secondo nodo, un quinto nodo pieno leggermente più grande, etichettato a destra con $\\bar v$. Dai quattro nodi in alto partono quattro segmenti rettilinei che convergono sul nodo in basso (nel quaderno alcuni tratti si fermano poco prima: in TikZ vanno disegnati completi). Nessuna freccia, nessuna etichetta sugli archi. Testo eventuale, in italiano, sotto il nodo basso: «$\\bar v = (v_1,\\dots,v_k)$». Layout compatto, larghezza complessiva ≈ 4 cm."
+  },
+  {
+   "id": "p80-wl2-esempio",
+   "pagina": 80,
+   "tipo": "grafo diretto con evidenziazione",
+   "fattibile_tikz": true,
+   "didascalia": "WL-2: la coppia (u,v) vista attraverso un terzo vertice w",
+   "specifica": "Quattro nodi pieni disposti così: $v$ in alto a sinistra (etichetta sopra a sinistra), $w$ a destra alla stessa altezza o poco più in basso (etichetta a destra), $u$ in basso al centro (etichetta sotto), $x$ in basso a sinistra (nel quaderno non è etichettato; etichettarlo $x$ in piccolo o lasciarlo senza etichetta). Archi diretti CONTINUI, con punta di freccia: $w \\to v$, $x \\to v$, $u \\to v$, $u \\to w$, $u \\to x$. Sovrapposto, un triangolo TRATTEGGIATO (linee grigie o dello stesso colore ma dashed, senza frecce) che unisce $v$, $w$ e $u$: lato superiore $v$–$w$ leggermente arcuato verso l'alto, lato destro $w$–$u$ arcuato verso destra, lato $v$–$u$ verticale al centro. Il tratteggio NON è un arco del grafo: rappresenta le tre coppie $(u,v)$, $(u,w)$, $(w,v)$ in gioco nel passo di raffinamento; se comodo, etichettare i tre lati tratteggiati con $(u,v)$, $(u,w)$, $(w,v)$ in carattere piccolo. Dimensione complessiva ≈ 4×4 cm."
+  },
+  {
+   "id": "p80-fwl-owl",
+   "pagina": 80,
+   "tipo": "trittico di schemi",
+   "fattibile_tikz": true,
+   "didascalia": "FWL contro OWL",
+   "specifica": "Tre pannelli affiancati, separati da spazio (eventualmente da linee verticali sottili), tutti con nodi pieni e frecce dello stesso stile.\n(a) PANNELLO SINISTRO, senza titolo: tre nodi, $v$ in alto a sinistra, $w$ in alto a destra, $u$ in basso al centro-sinistra; archi $w \\to v$ (freccia orizzontale verso sinistra), $u \\to w$ (freccia obliqua verso l'alto a destra) e il segmento $u$–$v$ (nel quaderno senza punta; renderlo come freccia $u \\to v$ tratteggiata o come segmento semplice, è la coppia da colorare). Didascalia sotto: «configurazione di partenza».\n(b) PANNELLO CENTRALE, titolo «FWL» in alto: gli stessi $v$ (sinistra), $w$ (destra), $u$ (in basso), con le due sole frecce $w \\to v$ e $u \\to w$ disegnate NELLO STESSO schema (unico $w$, condiviso). Didascalia sotto, in italiano: «considera la coppia: stesso $w$».\n(c) PANNELLO DESTRO, titolo «OWL» in alto: due schizzi staccati e sfalsati in verticale, ciascuno con la propria copia di $w$ — in alto la coppia $w \\to v$ (con $v$ a sinistra, $w$ a destra), più in basso e spostata a destra la coppia $u \\to w$ (con $u$ in basso a sinistra, $w$ in alto a destra). Nessun collegamento fra i due schizzi. Didascalia sotto, in italiano: «considera i cammini separatamente».\nAltezza complessiva ≈ 4 cm, larghezza ≈ 12 cm."
+  },
+  {
+   "id": "p80-minori-esclusi",
+   "pagina": 80,
+   "tipo": "grafi non orientati",
+   "fattibile_tikz": true,
+   "didascalia": "I minori proibiti di Wagner: K_{3,3} e K_5",
+   "specifica": "Due grafi non orientati affiancati, nodi pieni piccoli, archi sottili, nessuna freccia.\nA sinistra $K_{3,3}$: due file orizzontali di tre nodi ciascuna (fila superiore e fila inferiore, distanti ≈1.5 cm), tutti i 9 archi fra le due file. Etichetta sotto: $K_{3,3}$.\nA destra $K_5$: cinque nodi ai vertici di un pentagono regolare (raggio ≈1.2 cm) con tutti i 10 archi. Etichetta sotto: $K_5$.\nNel quaderno sono due scarabocchi a matita molto sbiaditi (il primo appena abbozzato, il secondo cerchiato a mano); vanno ridisegnati puliti. Etichette come in figura, larghezza complessiva ≈ 7 cm."
+  }
+ ],
+ "continuita": "La pagina continua senza soluzione di continuità p.79, dove erano stati introdotti WL-1 (colour refinement con i colori R/G/B e l'albero dei vicinati, con lo slogan «WL-1 true if isomorphic», «false ⟹ not isomorphic» e la freccia inversa barrata) e poi WL-k con «atomic types atp⟨u,v,w,…⟩» e «neighborhoods»: qui quelle due parole diventano le due fasi dell'algoritmo, colorazione iniziale C_0^k(v̄)=atp(v̄) e passo di raffinamento tramite il multi-insieme dei vicinati M_i^k(v̄). Restano fuori dalla pagina: il criterio di arresto e l'uso della colorazione stabile per decidere il non-isomorfismo (sono impliciti), e soprattutto la dimostrazione dell'equivalenza k-FWL ≡ (k+1)-OWL, qui solo enunciata in osservazione, e del teorema sui minori esclusi, citato nell'ultima riga senza prova. La pagina 81 riparte da «Fractional» (se esiste un isomorfismo frazionario allora WL-k fallisce), prosegue con la «Counting Logic» — il frammento C^k della logica del prim'ordine con k variabili e quantificatori di conteggio, che caratterizza logicamente WL-k — e apre il paragrafo «WL-Kernel»: il filone resta quindi quello delle caratterizzazioni alternative della gerarchia di Weisfeiler-Leman.",
+ "confidenza": "media"
+}

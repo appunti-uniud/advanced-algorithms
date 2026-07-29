@@ -1,0 +1,73 @@
+%!TeX program = lualatex
+%
+% Appunti di Algoritmi Avanzati -- trascrizione LaTeX degli appunti manoscritti.
+% Compilare con:  make        (oppure: lualatex main, due volte)
+%
+\documentclass[oneside]{academica}
+\input{preamble}
+
+\overtitle{appunti di}
+\title{Algoritmi Avanzati}
+\author{rw-r-r-0644}
+\date{}
+
+\begin{document}
+
+\frontmatter
+\maketitle
+
+\chapter*{Avvertenza}
+\markboth{Avvertenza}{Avvertenza}
+
+\begin{note}[Trascrizione automatica, non ancora rivista]
+Questi appunti sono stati trascritti da un LLM a partire da un quaderno scritto a
+mano. Non sono materiale ufficiale del corso e nessuno li ha ancora riletti.
+
+Il punto importante: dove pensava di esserne certo, il modello ha \textbf{corretto
+errori e ricostruito pezzi mancanti senza segnalarlo}. Ci sono quindi passaggi ---
+e figure --- che non erano negli appunti originali, e che possono divergere da
+quanto è stato detto a lezione. In più la calligrafia era difficile, quindi
+qualche simbolo può essere stato letto male.
+
+\textbf{Nessuna garanzia}, insomma: prima di fidarvi di un passaggio, a maggior
+ragione se state preparando l'esame, verificatelo sui libri o sul materiale del
+corso.
+
+Per controllare: la nota a margine \textsf{scan p.\,N} rimanda alla pagina della
+scansione da cui quel testo viene, e \texttt{note-trascrizione/NOTE-EDITORIALI.md}
+elenca tutte le scelte fatte. I dubbi rimasti aperti --- una quarantina --- sono
+marcati qui dentro con i riquadri \textbf{Dubbio} e \textbf{Lacuna}; occhio però a
+non fraintenderli, perché il resto è \emph{non marcato}, non \emph{verificato}.
+\end{note}
+
+\tableofcontents
+
+\mainmatter
+
+\part{String matching esatto}
+\input{lezioni/01-introduzione}
+\input{lezioni/02-kmp-z}
+\input{lezioni/03-boyer-moore}
+\input{lezioni/04-aho-corasick}
+\input{lezioni/05-suffix-tree}
+\input{lezioni/06-karp-rabin}
+\input{lezioni/07-shift-and}
+\input{lezioni/08-lca}
+
+\part{String matching inesatto}
+\input{lezioni/09-distanze-allineamento}
+\input{lezioni/10-landau-vishkin}
+
+\part{Algoritmi randomizzati}
+\input{lezioni/11-randqs}
+\input{lezioni/12-min-cut}
+\input{lezioni/13-randauto}
+\input{lezioni/14-random-walk-2sat}
+\input{lezioni/15-catene-markov}
+\input{lezioni/16-random-walk-grafi}
+
+\appendix
+\part{Appendice}
+\input{lezioni/A-weisfeiler-leman}
+
+\end{document}

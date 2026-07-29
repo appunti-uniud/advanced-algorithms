@@ -1,0 +1,42 @@
+% kr-schema-loop -- pag. 26
+% Lo schema "ingenuo" di Karp--Rabin: un unico test p = t_s, ripetuto per tutti
+% gli shift, con aggiornamento incrementale della finestra; l'annotazione in basso
+% e' il punto debole (il test non costa O(1)).
+\begin{tikzpicture}[
+    >=Latex,
+    et/.style={font=\footnotesize},
+    filo/.style={draw=black!75,line width=0.5pt},
+    blocco/.style={draw=black!75,line width=0.7pt,minimum width=3.6cm,
+                   minimum height=1.1cm,inner sep=4pt,font=\small}
+  ]
+
+  % ---- il blocco di test ----------------------------------------------------
+  \node[blocco] (test) at (0,0) {test\quad $p = t_s$};
+
+  % ---- uscite a ventaglio dal lato destro -----------------------------------
+  \coordinate (fork) at (1.80,0);
+  \node[et,anchor=west] (occ)   at (3.35, 0.80) {occorrenza};
+  \node[et,anchor=west] (shift) at (3.35,-0.80) {shift e somma};
+
+  \draw[filo,->] (fork) -- (3.25, 0.80);
+  \draw[filo,->] (fork) -- (3.25,-0.80);
+  \node[et] at (2.30, 0.62) {s\`i};
+  \node[et] at (2.30,-0.62) {no};
+
+  % ---- segnalata l'occorrenza, la scansione prosegue comunque ---------------
+  \draw[filo,->,black!45,densely dashed] (occ.south) -- (shift.north);
+
+  % ---- retroazione: il ciclo su tutti gli shift ------------------------------
+  \draw[filo,->]
+      (shift.south) to[out=-90,in=0] (1.10,-2.95)
+                    to[out=180,in=-90] (-3.45,-0.55)
+                    to[out=90,in=180] (test.west);
+  \node[et,below=2pt,black!70] at (1.10,-2.95) {ciclo su $s = 0,1,\dots,n-m$};
+
+  % ---- annotazione: il test non e' a costo unitario -------------------------
+  \draw[filo,black!60] (-0.50,-0.55) -- (-1.30,-1.05);
+  \node[anchor=north,align=center,font=\small] at (0.75,-1.05)
+    {{\large\bfseries NON} prende tempo $\Oh(1)$!\\[2pt]
+     \footnotesize Non si pu\`o usare il criterio di costo unitario};
+
+\end{tikzpicture}

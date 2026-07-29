@@ -1,0 +1,102 @@
+{
+ "pagina": 10,
+ "latex": "\\scan{10}\n\n\\subsection*{Regole}\n\nI confronti all'interno di un allineamento procedono da destra verso sinistra: al\nprimo mismatch il pattern viene spostato a destra applicando la più conveniente\nfra le due regole seguenti.\n\n\\begin{definizione}[Bad Character Rule (BCR)]\\label{def:bcr}\nDopo un mismatch con il carattere $x$ di $T$, si riposiziona il pattern cercando\nin $P$ l'occorrenza di $x$ \\emph{più a destra fra quelle a sinistra} del punto di\nmismatch.\n\\end{definizione}\n\n\\begin{definizione}[Good Suffix Rule (GSR)]\\label{def:gsr}\nDopo un mismatch che segue il suffisso $\\alpha$ già riconosciuto in $P$, si\nriposiziona $P$ cercando l'occorrenza di $\\alpha$ più a destra che non sia un\nsuffisso di $P$ (il preprocessing si riduce all'algoritmo $Z$).\n\\end{definizione}\n\n\\begin{osservazione}[Di quanto si sposta il pattern]\nSia $i$ la posizione di $P$ in cui cade il mismatch, cosicché\n$\\suf{P}{i+1}=\\alpha$ ha già fatto match e $P[i]\\neq x$. Posto\n\\[\n  R_i(x) \\defeq \\max\\set{\\, j \\;:\\; j<i \\ \\text{e}\\ P[j]=x \\,},\n  \\qquad R_i(x)=0 \\ \\text{se un tale } j \\text{ non esiste},\n\\]\nla BCR sposta $P$ di $i-R_i(x)$ posizioni, mentre la GSR lo sposta di\n$\\abs{P}-j_\\alpha$, dove $j_\\alpha$ è la posizione finale dell'occorrenza di\n$\\alpha$ individuata dalla regola. Si applica sempre il massimo dei due\nspostamenti: entrambe le regole sono \\emph{safe} (nessuna occorrenza viene\npersa), e quindi lo è anche il loro massimo.\n\\end{osservazione}\n\n\\begin{osservazione}\nSe $T=a^{m}$ e $P=a^{n}$ (qui $m=\\abs{T}$ e $n=\\abs{P}$), ogni allineamento\nproduce un'occorrenza completa e nessuna delle due regole permette di avanzare\ndi più di una posizione: l'algoritmo diventa l'algoritmo naive, con costo\nquadratico $\\Th(mn)$.\n\\end{osservazione}\n\n\\textbf{N.B.} È possibile, aggiungendo una struttura dati, rendere l'algoritmo\nlineare nel caso peggiore (Apostolico--Giancarlo) — \\emph{da approfondire}.\n\n\\subsection*{Implementazione della BCR}\n\nIl preprocessing riguarda il solo pattern $P$.\n\n\\begin{figure}[H]\\centering\n\\input{tikz/bm-bcr-preproc.tikz}\n\\caption{Preprocessing della BCR: dalla posizione $i$ si guarda all'indietro\ndentro $P$ per individuare la posizione $j<i$ più a destra con $P[j]=x$.}\n\\end{figure}\n\nPer ogni $i\\in\\set{1,\\dots,\\abs{P}}$ e per ogni $x\\in\\alfa$ serve il massimo\nindice $j$ tale che $j<i$ e $P[j]=x$, cioè esattamente il valore $R_i(x)$\ndefinito sopra. Ci sono due modi di memorizzarlo.\n\n\\begin{itemize}\n  \\item \\textbf{Matrice.} Si tabula direttamente $R_i(x)$ in una matrice\n  $\\abs{P}\\times\\abs{\\alfa}$: costa $\\Th(\\abs{P}\\,\\abs{\\alfa})$ in spazio e in\n  tempo di preprocessing, ma risponde a ogni interrogazione in tempo costante.\n\n  \\item \\textbf{Liste.} Per ogni $x\\in\\alfa(P)$ (l'insieme dei caratteri che\n  compaiono in $P$) si mantiene la lista delle posizioni di $P$ in cui occorre\n  $x$, in ordine decrescente. Lo spazio scende a $c\\,\\abs{P}$, cioè\n  $\\Th(\\abs{P})$, ma per calcolare $R_i(x)$ bisogna scorrere la lista.\n\\end{itemize}\n\nLa seconda soluzione sembra quadratica; facendo bene i conti, però, con\nun'analisi a complessità ammortizzata si vede che in realtà è lineare.\n\n\\begin{osservazione}[Perché il costo ammortizzato è lineare]\nPoiché la lista di $x$ è ordinata per posizione decrescente, per calcolare\n$R_i(x)$ basta scorrerla dalla testa scartando le posizioni $\\ge i$. In quel\nmomento, nell'allineamento corrente, sono già stati eseguiti $\\abs{P}-i+1$\nconfronti (le posizioni $\\abs{P},\\dots,i$ di $P$), e le posizioni scartate sono\ntutte comprese fra $i$ e $\\abs{P}$: sono quindi al più $\\abs{P}-i+1$. Il costo\ndella scansione della lista è perciò proporzionale al numero di confronti appena\neseguiti, e sull'intera esecuzione il sovraccosto complessivo resta lineare nel\nnumero totale di confronti: asintoticamente le due implementazioni si\nequivalgono.\n\\end{osservazione}",
+ "note": [
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 10,
+   "testo": "NOTAZIONE (da uniformare in fase di cucitura). Il quaderno usa m = |T| e n = |P|: qui scrive «T = a^m, P = a^n» (esponenti verificati a 600 DPI), a p.9 scrive «ci sono così O(m/n)» e a p.11 scrive «P[i,n]» e «L'(i) - (n-i) - 1». È la convenzione OPPOSTA a quella di Gusfield e deGli appunti del corso dell'anno precedente (n=|T|, m=|P|; cfr. anomalia A6 della sintesi L03). Ho mantenuto la convenzione del quaderno (fonte primaria) per non spezzare la coerenza con le pagine 9 e 11, aggiungendo però la glossa esplicita «(qui m=|T| e n=|P|)» nell'osservazione, che negli appunti non c'è. Nel resto della pagina il quaderno usa comunque |P| e |Sigma| per esteso, quindi il problema si limita a quell'unica riga.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 10,
+   "testo": "GSR, prima riga: la parola dopo «dopo un mismatch» è ripassata due volte a penna e risulta un groviglio (sembra «cheirisgue»). L'analisi dei tratti mostra con certezza una discendente a occhiello finale (g) seguita da «ue», quindi la parola termina in «-gue»: le sole candidate sensate sono «segue» / «esegue». Ho letto «che segue il suffisso alpha in P», che è anche l'unica lettura semanticamente coerente: nell'ordine di scansione (da destra a sinistra) il mismatch viene DOPO il suffisso già riconosciuto. Ho aggiunto «già riconosciuto» per disambiguare al lettore. Scartata «riconosce» (non ha discendente).",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 10,
+   "testo": "BCR, fine della terza riga: «del p.to di mismatch _ P». Il grafema prima di P ha ascendente e puntino: l'ho letto «in» (e non «di»), confrontandolo con il «di» della stessa riga, che è più basso e chiuso. Semanticamente «il punto di mismatch in P» è comunque la lettura corretta in entrambi i casi.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 10,
+   "testo": "Espansione delle abbreviazioni telegrafiche: «p.to» -> «punto», «dx»/«sx» -> «destra»/«sinistra», «⇒ l'algoritmo diventa naive! (quadratico)» -> frase in prosa. Il punto esclamativo e il doppio sottolineato di «naive» non sono stati riprodotti.",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 10,
+   "testo": "La formulazione della BCR data dallo studente («l'occorrenza più a destra fra quelle a sinistra del punto di mismatch») è più precisa e CORRETTA rispetto a quella dell'anno precedente («la prima occorrenza di x a sinistra di i», ambigua: cfr. anomalia A2 della sintesi L03, che può essere letta come leftmost e in tal caso renderebbe la regola scorretta). Nessuna correzione necessaria: ho solo enfatizzato in corsivo la parte discriminante.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 10,
+   "testo": "LACUNA COLMATA: negli appunti (come in quelli dell'anno precedente, anomalia A4) non è mai scritto DI QUANTO si sposta il pattern. Ho aggiunto l'osservazione «Di quanto si sposta il pattern» con shift_BCR = i - R_i(x), shift_GSR = |P| - j_alpha e la regola del massimo (quest'ultima è a p.9: «prendo la più conveniente ... max shift»), più la menzione della safety. Ho colto l'occasione per definire lì R_i(x), che serve subito dopo nella sezione di implementazione.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 10,
+   "testo": "Osservazione T=a^m, P=a^n: gli appunti scrivono solo «⇒ l'algoritmo diventa naive! (quadratico)». Ho esplicitato il PERCHÉ (ogni allineamento è un'occorrenza completa, quindi |P| confronti, e lo shift è 1) e il costo Theta(mn). Verificato: con P = a^n si ha l'(2) = n-1, quindi anche la GSR dopo un match completo sposta di n - (n-1) = 1.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 10,
+   "testo": "Notazione R_i(x): il quaderno non dà un nome alla quantità, scrive solo «voglio il massimo j t.c. j < i e P[j] = x». Ho introdotto il nome R_i(x) (coerente con Gusfield e con Gli appunti del corso dell'anno precedente) e la convenzione R_i(x)=0 quando j non esiste, che negli appunti non è scritta. NB: la macro \\bc{x} del preambolo rende «R(x)» SENZA indice, mentre qui serve la extended bad character rule dipendente da i; ho quindi scritto $R_i(x)$ per esteso invece di usare la macro.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 10,
+   "testo": "Implementazione a matrice: gli appunti scrivono solo «↳ matrice |P| x |Sigma|». Ho aggiunto il costo Theta(|P||Sigma|) in spazio/preprocessing e l'accesso in tempo costante, che è il motivo per cui la matrice è l'alternativa «costosa in spazio, veloce in tempo» (cfr. sintesi L03 §5.3).",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 10,
+   "testo": "Implementazione a liste: ho aggiunto «in ordine decrescente», che negli appunti non c'è ma è indispensabile perché la scansione trovi il PRIMO j < i partendo dalla testa (e perché regga l'argomento ammortizzato).",
+   "risolto": true
+  },
+  {
+   "tipo": "errore-anno-prec",
+   "pagina": 10,
+   "testo": "L'affermazione finale («sembra quadratico, ma con complessità ammortizzata è lineare») è data senza giustificazione, sia qui sia neGli appunti del corso dell'anno precedente; la sintesi L03 (anomalia A5) la liquida come «slogan, non teorema» e suggerisce che serva la ricerca binaria. Ho verificato che l'argomento ammortizzato è invece CORRETTO e l'ho scritto: se il mismatch cade in P[i], le posizioni scartate scorrendo la lista di x sono tutte >= i, quindi al più |P|-i+1, cioè al più quante i confronti appena eseguiti in quell'allineamento; il sovraccosto totale è dunque O(numero totale di confronti). Divergenza consapevole dalla sintesi degli appunti dell'anno precedente: qui lo studente ha ragione.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 10,
+   "testo": "«→ pensarci» sotto la nota su Apostolico–Giancarlo è un promemoria personale dello studente; l'ho reso con «— da approfondire» in corsivo anziché ometterlo. Il cognome «Giancarlo» è corretto (Raffaele Giancarlo): nessuna correzione.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 10,
+   "testo": "STRUTTURA: il quaderno ha due titoli espliciti a sé stanti, «Regole» e «Implementazione di BCR»; li ho resi con \\subsection*{} (non numerati) per non pregiudicare la struttura decisa in fase di cucitura. Le due implementazioni sono raggruppate nel manoscritto da una doppia barra verticale e da una graffa, senza etichette: le ho rese come itemize con i marcatori in grassetto «Matrice» / «Liste» (Gli appunti del corso dell'anno precedente le chiamano a) e b)). La prima frase introduttiva («I confronti all'interno di un allineamento procedono da destra verso sinistra...») è un raccordo mio, ricavato da p.9, per dare senso alla parola «mismatch» che apre entrambe le definizioni.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 10,
+   "testo": "Il disegno è ridottissimo: una sola barra orizzontale con etichetta P a destra e, a circa tre quarti della lunghezza, due tacche molto ravvicinate con una «i» sopra la barra e una «j» sotto (verificato a 600 DPI: la «j» ha puntino e discendente a uncino, la «i» ha puntino e nessuna discendente). Poiché il testo immediatamente sotto dice «voglio il massimo j t.c. j < i», ho interpretato le due tacche come le posizioni j (sinistra) e i (destra), con le etichette scritte una sopra e una sotto per mancanza di spazio. Nella specifica TikZ ho ARRICCHITO il disegno con il carattere x sulla cella j e una freccia curva da i verso j: aggiunta interpretativa, ma fedele alla figura corrispondente deGli appunti del corso dell'anno precedente (sintesi L03 §2, figura di p.1: barra P, cella x, cella i, freccia curva da i a x). Resta un margine di incertezza sull'attribuzione delle etichette alle due tacche; non l'ho marcato nel LaTeX perché il significato della figura non cambia.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "bm-bcr-preproc",
+   "pagina": 10,
+   "didascalia": "Preprocessing della BCR: dalla posizione $i$ si guarda all'indietro dentro $P$ per individuare la posizione $j<i$ più a destra con $P[j]=x$.",
+   "tipo": "schema di stringhe",
+   "specifica": "DISEGNO ORIGINALE (fedele). Un unico segmento orizzontale spesso, tratto azzurro pieno, lungo circa 9 quadretti, che rappresenta l'INTERO pattern P; nessun rettangolo, nessuna suddivisione in celle. Il segmento termina a destra con una piccola punta di freccia, seguita a circa mezzo quadretto di distanza dall'etichetta $P$. A circa tre quarti della lunghezza (contando da sinistra) ci sono DUE tacche verticali ravvicinate che attraversano il segmento, distanti fra loro circa mezzo quadretto: quella di sinistra ha l'etichetta $j$ scritta SOTTO il segmento, quella di destra ha l'etichetta $i$ scritta SOPRA il segmento. Nel manoscritto non c'è altro.\n\nRICOSTRUZIONE DA DISEGNARE (fedele nella sostanza, arricchita per leggibilità; l'arricchimento riprende la figura corrispondente degli appunti del docente per la BCR). Barra orizzontale spessa da (0,0) a (10,0), colore di accento tenue, con punta di freccia all'estremo destro; etichetta $P$ subito a destra della punta, allineata verticalmente al centro della barra. Tacca verticale (segmento corto che attraversa la barra, circa 0.25 sopra e 0.25 sotto) in $x=6.4$, etichettata $j$ SOTTO la barra; seconda tacca identica in $x=7.6$, etichettata $i$ SOPRA la barra. Nella cella compresa fra le due tacche, appena a destra della tacca $j$ e SOPRA la barra, il carattere $x$ (in corsivo matematico, più piccolo): è l'occorrenza cercata. Freccia curva TRATTEGGIATA che parte da sotto la barra all'ascissa della tacca $i$, scende di circa 0.8, e punta verso SINISTRA fino a sotto la tacca $j$ (verso di percorrenza: da $i$ verso $j$), a indicare che dalla posizione $i$ si guarda all'indietro dentro $P$ per trovare l'occorrenza di $x$ più vicina; nessuna etichetta obbligatoria sulla freccia (opzionale, in grigio piccolo: $i-R_i(x)$ come misura dello spostamento). Nessuna etichetta agli estremi della barra (facoltative, in grigio: $1$ a sinistra e $\\abs{P}$ a destra). Nessun altro elemento, nessun testo in inglese; tutte le etichette sono simboli matematici.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina chiude il quadro delle due euristiche (BCR e GSR) e sviluppa SOLO l'implementazione della BCR: matrice $|P|\\times|\\Sigma|$ contro array di liste di posizioni, con l'osservazione che il costo delle liste è lineare in senso ammortizzato. Restano in sospeso due cose. (1) L'implementazione della GSR: sulla pagina la GSR è accompagnata dal solo indizio «(← Z)», cioè che il preprocessing si riduce all'algoritmo Z; la pagina 11 apre esattamente con il titolo «Implementazione di GSR», risponde alla domanda «come eseguo il preprocessing sufficiente a implementare la GSR?» con «Z su $P^r$» e introduce $L'(i)$, $N_j[P]$, il teorema $L'(i)=\\max\\{j: N_j[P]=|P[i,n]|\\}$ e la riduzione $N_j[P]=Z_{m-j+1}[P^r]$. Attenzione alla notazione: la pagina 11 usa $n=|P|$, coerente con il $P=a^n$ di questa pagina. (2) Il richiamo ad Apostolico--Giancarlo (algoritmo lineare nel caso pessimo), annotato dallo studente come «da approfondire» e NON ripreso nella pagina 11: se il capitolo deve chiudersi su quel punto, la cosa va segnalata in fase di cucitura. Va inoltre notato che la GSR resta qui nella forma «debole» (occorrenza di $\\alpha$ che non sia un suffisso di $P$): la forma forte, con il vincolo sul carattere precedente, compare solo a pagina 11 nella condizione 2) della definizione di $L'(i)$.",
+ "confidenza": "alta"
+}

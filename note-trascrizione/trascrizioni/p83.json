@@ -1,0 +1,146 @@
+{
+ "pagina": 83,
+ "latex": "\\scan{83}\n\n% ---------------------------------------------------------------------------\n% Il teorema che segue è già enunciato, negli stessi quattro punti, alle\n% pp. 78--79; qui lo studente lo ripete in apertura di lezione, come premessa\n% al random walk su grafi. In fase di cucitura va tenuta una sola occorrenza.\n% ---------------------------------------------------------------------------\n\n\\begin{teorema}[Teorema fondamentale delle catene di Markov]\\label{thm:fondamentale-mc-83}\n  Ogni catena di Markov irriducibile, finita e aperiodica gode delle seguenti proprietà.\n  \\begin{enumerate}\n    \\item Tutti gli stati sono ergodici (e lo è dunque la catena stessa).\n    \\item Esiste un'unica distribuzione stazionaria $\\bar\\pi$, e per essa\n      \\[\n        \\forall i \\in \\{1, \\dots, n\\} \\qquad \\pi_i > 0 .\n      \\]\n    \\item Per ogni $i \\in \\{1, \\dots, n\\}$\n      \\[\n        f_{ii} = 1 \\qquad\\text{e}\\qquad h_{ii} = \\frac{1}{\\pi_i} .\n      \\]\n    \\item Detto $N(i,t)$ il numero medio di volte in cui la catena visita lo stato $i$\n      nei primi $t$ passi, vale\n      \\[\n        \\lim_{t \\to \\infty} \\frac{N(i,t)}{t} \\;=\\; \\pi_i .\n      \\]\n  \\end{enumerate}\n\\end{teorema}\n\n% ---------------------------------------------------------------------------\n% Nel quaderno comincia qui, con titolo esplicito sottolineato, «Random walks\n% on graphs»: il titolo è omesso perché coincide con quello del capitolo\n% (deciso in fase di cucitura).\n% ---------------------------------------------------------------------------\n\nSia $G = (V,E)$ un grafo \\emph{connesso}, \\emph{non orientato} e \\emph{non bipartito},\ncon\n\\[\n  \\abs{V} = n , \\qquad \\abs{E} = m .\n\\]\nL'ultima ipotesi — la non bipartitezza — serve a garantire la \\emph{non periodicità}\n(cioè l'aperiodicità) della catena che stiamo per costruire; sarà l'oggetto\ndell'osservazione in fondo alla pagina.\n\nDefiniamo $M_G$, la catena di Markov associata a $G$:\n\\begin{itemize}\n  \\item gli \\textbf{stati} sono i \\textbf{vertici} del grafo;\n  \\item per ogni $u, v \\in V$ la probabilità di transizione è\n    \\[\n      P_{u,v} \\;=\\;\n      \\begin{cases}\n        \\dfrac{1}{d(u)} & \\text{se } (u,v) \\in E,\\\\[8pt]\n        0 & \\text{altrimenti,}\n      \\end{cases}\n    \\]\n    dove $d(u)$ è il grado di $u$.\n\\end{itemize}\nIl passo elementare è dunque: dal vertice corrente $u$ si sceglie uniformemente a caso\nuno dei $d(u)$ archi incidenti e lo si attraversa.\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/p83-transizioni-mg.tikz}\n  \\caption{Un passo di $M_G$ a partire da $u$: dei $d(u)$ archi incidenti se ne sceglie\n  uno uniformemente a caso, dunque $P_{u,v} = 1/d(u)$ per ogni vicino $v$ di $u$.}\n  \\label{fig:p83-transizioni-mg}\n\\end{figure}\n\n\\begin{osservazione}\n  La \\emph{periodicità} di un vertice (cioè di uno stato) $v$ è\n  \\[\n    T_v \\;=\\; \\gcd\\bigl\\{\\, \\text{lunghezze di tutti i cammini chiusi (cicli) da } v \\,\\bigr\\}.\n  \\]\n  Nel caso di $M_G$:\n  \\begin{itemize}\n    \\item ogni arco di $G$, essendo non orientato, dà luogo alle due transizioni opposte\n      $u \\to v$ e $v \\to u$: abbiamo dunque cicli di lunghezza $2$;\n    \\item $G$ non è bipartito, quindi ci sono anche cicli di lunghezza dispari, diciamo\n      $2k+1$.\n  \\end{itemize}\n  Ne segue\n  \\[\n    T_v \\;=\\; \\gcd(2,\\, 2k+1) \\;=\\; 1\n  \\]\n  per ogni $v$, cioè $M_G$ è aperiodica.\n\\end{osservazione}\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/p83-arco-ciclo2.tikz}\n  \\caption{Ogni arco non orientato di $G$ diventa, in $M_G$, una coppia di transizioni\n  opposte, cioè un cammino chiuso di lunghezza $2$.}\n  \\label{fig:p83-arco-ciclo2}\n\\end{figure}\n\n\\begin{osservazione}\n  Perché l'argomento sia completo occorre che entrambi i cammini chiusi passino per lo\n  \\emph{stesso} vertice $v$. Per il primo non c'è nulla da dire: $G$ è connesso, quindi\n  ogni vertice ha almeno un arco incidente. Per il secondo: se il ciclo dispari non passa\n  per $v$, si raggiunge un suo vertice $w$ con un cammino di lunghezza $\\ell$, si percorre\n  il ciclo e si torna indietro lungo lo stesso cammino, ottenendo un cammino chiuso da $v$\n  di lunghezza $2\\ell + (2k+1)$, ancora dispari. La connessione di $G$ garantisce dunque\n  che ogni vertice stia su cammini chiusi di lunghezza $2$ e di lunghezza dispari.\n\\end{osservazione}\n",
+ "note": [
+  {
+   "tipo": "altro",
+   "pagina": 83,
+   "risolto": true,
+   "testo": "Il blocco in testa alla pagina è, parola per parola, il Teorema 6.2 (Fundamental Theorem of Markov Chains) di Motwani-Raghavan, §6.5: «Any irreducible, finite, and aperiodic Markov chain has the following properties: 1. All states are ergodic. 2. There is a unique stationary distribution pi-bar such that for 1<=i<=n, pi_i>0. 3. For 1<=i<=n, f_ii=1 and h_ii=1/pi_i. 4. Let N(i,t) be the number of times the Markov chain visits state i in t steps. Then lim_{t->inf} N(i,t)/t = pi_i». L'identificazione della fonte ha permesso di disambiguare con certezza i quattro punti, che nel quaderno sono scritti in modo molto compresso."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 83,
+   "risolto": true,
+   "testo": "ATTENZIONE ALLA DUPLICAZIONE: lo stesso teorema, negli stessi quattro punti, è già negli appunti alle pp. 78-79 (la trascrizione di p.79 contiene il punto 4 con il medesimo enunciato). Qui lo studente lo ripete in apertura di lezione, come premessa al random walk su grafi. Ho lasciato l'enunciato completo, con un commento LaTeX che segnala la duplicazione, e ho usato l'etichetta distinta thm:fondamentale-mc-83 per non collidere con quella di p.78. La scelta di quale occorrenza tenere spetta alla cucitura."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 83,
+   "risolto": true,
+   "testo": "Il titolo sottolineato del quaderno è «Teorema fondamentale delle M.C.»; ho sciolto l'abbreviazione in «Teorema fondamentale delle catene di Markov» e l'ho reso come argomento opzionale dell'ambiente teorema, evitando un \\subsection (la struttura viene decisa in cucitura)."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 83,
+   "risolto": true,
+   "testo": "Punto 1: il quaderno scrive «tutti gli stati sono (lo stesso è) ergodici», con la parentesi inserita fra «sono» ed «ergodici». La lettura più plausibile della glossa è «lo stesso è [vero per la catena]»: ho scritto «Tutti gli stati sono ergodici (e lo è dunque la catena stessa)», che è anche la terminologia standard (una catena i cui stati sono tutti ergodici si dice ergodica). Il contenuto matematico del punto 1 non dipende dalla glossa."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 83,
+   "risolto": true,
+   "testo": "Notazione della distribuzione stazionaria: il quaderno sovrascrive a pi una barra/tilde (e a p.84 una freccia) sia sul vettore sia sulle componenti. Ho adottato la convenzione di Motwani-Raghavan, già usata nella trascrizione di p.79: pi con barra ($\\bar\\pi$) per il vettore, $\\pi_i$ senza barra per le componenti."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 83,
+   "risolto": true,
+   "testo": "Punto 4: il quaderno scrive «N(i,t) num.o medio di volte che la catena visita i in t passi». Motwani-Raghavan dice «the number of times», non «the average number»; entrambe le versioni rendono vera l'identità al limite (se N(i,t) è la variabile aleatoria la convergenza è quasi certa, se è il valore atteso è un limite deterministico). Ho conservato «numero medio», sia perché è ciò che lo studente scrive sia per coerenza con la trascrizione di p.79, che usa la stessa formulazione."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 83,
+   "risolto": true,
+   "testo": "«Definisco M_G catena di M»: la M finale è l'abbreviazione di «Markov», sciolta in «Definiamo M_G, la catena di Markov associata a G». Analogamente «stati <=> vertici del grafo» è reso in prosa come primo item della definizione."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 83,
+   "risolto": true,
+   "testo": "Nel quaderno una freccia parte dall'annotazione «per non periodicità» e punta all'aggettivo «non bipartito» nella riga «G=(V,E) connesso, non orientato, non bipartito». Ho sciolto la freccia in una frase esplicita («L'ultima ipotesi — la non bipartitezza — serve a garantire la non periodicità ... della catena»), con rinvio all'osservazione in fondo alla pagina che la giustifica."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 83,
+   "risolto": true,
+   "testo": "Le altre due ipotesi non sono commentate su questa pagina: la connessione serve all'irriducibilità e la finitezza è ovvia. È p.84 ad esplicitarle («M_G è aperiodico / M_G è finita / M_G è irriducibile => posso applicare il teorema»), quindi non ho anticipato nulla qui."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 83,
+   "risolto": true,
+   "testo": "Ho conservato la scrittura del quaderno «(u,v) in E» nella definizione di P_{u,v}, benché G sia non orientato e sarebbe più corretto «{u,v} in E»: è un abuso di notazione innocuo e diffuso, e cambiarlo avrebbe reso il confronto con la scansione meno immediato."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 83,
+   "risolto": true,
+   "testo": "Il quaderno scrive «GCD»; ho usato l'operatore standard \\gcd (che compone «gcd»). Non esiste in preamble.tex una macro per «MCD», e non ne ho inventata una."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 83,
+   "risolto": true,
+   "testo": "N.B. finale: il quaderno scrive «Periodicità di v <=> T_v = GCD delle lunghezze di tutti i cammini chiusi (cicli) da v». La doppia freccia è qui un semplice «cioè»: l'ho resa con i due punti, perché non si tratta di un'equivalenza fra proposizioni ma della definizione di T_v."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 83,
+   "risolto": true,
+   "testo": "Nel quaderno la conclusione «=> T = 1» è scritta una sola volta, in fondo a destra, all'altezza del primo dei due punti elenco, con sotto «1 = GCD(2, 2k+1)»; è però la conseguenza di entrambi i punti. L'ho ricollocata dopo l'elenco, scrivendo T_v = gcd(2, 2k+1) = 1 per ogni v, cioè M_G è aperiodica."
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 83,
+   "risolto": true,
+   "testo": "Lacuna colmata (segnalata come osservazione aggiuntiva): l'argomento del quaderno confronta un ciclo di lunghezza 2 e un ciclo di lunghezza dispari, ma il gcd che definisce T_v riguarda i cammini chiusi che passano per lo stesso vertice v, e il ciclo dispari in generale non passa per v. Ho aggiunto l'osservazione standard: essendo G connesso, da v si raggiunge un vertice w del ciclo dispari con un cammino di lunghezza l, e il cammino chiuso «andata + ciclo + ritorno» ha lunghezza 2l + (2k+1), ancora dispari. Il contenuto è mio, non del quaderno."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 83,
+   "risolto": true,
+   "testo": "Terminologia: il quaderno dice «cammini chiusi (cicli)». In senso stretto il periodo è il gcd dell'insieme {t : P^t(v,v) > 0}, cioè delle lunghezze dei cammini chiusi (non necessariamente semplici); il quaderno glossa già la cosa con la parentesi e ho lasciato invariata la formulazione."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 83,
+   "risolto": true,
+   "testo": "Il titolo sottolineato «Random walks on graphs», che apre la seconda metà della pagina, è stato omesso perché coincide con il titolo del capitolo 16 («Random walk su grafi: hitting, commute e cover time», che inizia proprio a p.83). Ho lasciato al suo posto un commento LaTeX, come già fatto nella trascrizione di p.72 per «Catene di Markov» e in quella di p.79 per «Graph Isomorphism»."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 83,
+   "risolto": true,
+   "testo": "Il disegno centrale è una stella di archi uscenti da u: tre archi disegnati, uno verso un vicino in alto, uno verso v (a destra, etichettato 1/d(u) sopra l'arco) e uno verso un vicino in basso; un arco di cerchio attraversa il ventaglio ed è etichettato d(u) in basso a sinistra. L'ho interpretato come «il ventaglio dei d(u) archi incidenti a u, ciascuno scelto con probabilità 1/d(u)»: l'arco di cerchio è la graffa che conta gli archi, non un ulteriore lato del grafo."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 83,
+   "risolto": true,
+   "testo": "Sulla pagina compare due volte una micro-icona: due punti collegati da un arco sopra con freccia verso destra e da un arco sotto con freccia verso sinistra (un 2-ciclo). La prima volta è a destra dell'annotazione «per non periodicità», la seconda dentro il primo punto elenco dell'N.B., nella forma «perché [due punti con un arco] => [due punti con doppia freccia] abbiamo cicli di lungh. 2». Ho reso il ragionamento in prosa e ho estratto l'icona in un'unica figura (p83-arco-ciclo2)."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 83,
+   "risolto": true,
+   "testo": "Fra il disegno e l'N.B. il quaderno traccia una linea ondulata orizzontale, semplice separatore grafico: non è stata resa (la separazione è già data dagli ambienti)."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 83,
+   "risolto": true,
+   "testo": "A sinistra del disegno, sul margine, si intravedono tre ellissi a matita molto sbiadite con punti e frecce all'interno: sono l'impronta/trasparenza del disegno delle componenti fortemente connesse (cfr. p.76), non contenuto di questa pagina. Ignorate."
+  }
+ ],
+ "figure": [
+  {
+   "id": "p83-transizioni-mg",
+   "pagina": 83,
+   "didascalia": "Un passo di $M_G$ a partire da $u$: dei $d(u)$ archi incidenti se ne sceglie uno uniformemente a caso, dunque $P_{u,v} = 1/d(u)$ per ogni vicino $v$ di $u$.",
+   "tipo": "grafo (ventaglio di archi incidenti a un vertice, con graffa che ne conta il grado)",
+   "specifica": "Frammento di grafo non orientato, disegnato a mano libera. Al centro-sinistra un vertice u, rappresentato da un cerchietto vuoto di raggio medio, con l'etichetta 'u' subito sotto-sinistra. Da u escono tre archi (curve leggere) disposti a ventaglio verso destra: (a) uno sale verso destra e termina in un cerchietto piccolo vuoto in alto a destra, non etichettato; (b) uno va orizzontalmente verso destra e termina in un cerchietto vuoto, un po' piu' grande degli altri, etichettato 'v' alla sua destra; (c) uno scende verso destra e termina in un cerchietto piccolo vuoto in basso a destra, non etichettato. L'arco centrale u-v porta sopra di se', a meta' circa, l'etichetta $\\frac{1}{d(u)}$ (nel quaderno scritta come 1/d(u) con barra obliqua). Un arco di cerchio centrato in u attraversa tutti e tre gli archi del ventaglio, dall'arco (a) all'arco (c), come una graffa angolare; e' etichettato $d(u)$, etichetta posta in basso a sinistra, all'estremita' inferiore dell'arco di cerchio. Significato: il vertice u ha grado d(u) (l'arco di cerchio conta gli archi incidenti) e ciascuno dei suoi vicini viene scelto con probabilita' 1/d(u). Nel ridisegno mantenere il ventaglio di tre archi (il quaderno ne disegna tre, come campione dei d(u)) e la distinzione di ruolo fra v (etichettato) e i due vicini generici; niente frecce, il grafo e' non orientato.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "p83-arco-ciclo2",
+   "pagina": 83,
+   "didascalia": "Ogni arco non orientato di $G$ diventa, in $M_G$, una coppia di transizioni opposte, cioè un cammino chiuso di lunghezza $2$.",
+   "tipo": "schema (due pannelli affiancati: arco non orientato e corrispondente 2-ciclo orientato)",
+   "specifica": "Due micro-diagrammi affiancati, separati da una freccia di implicazione $\\Longrightarrow$. Pannello di sinistra: due punti pieni (piccoli dischi) allineati orizzontalmente, uniti da un unico arco curvo che li scavalca passando sopra; e' un arco non orientato di G, senza frecce e senza etichette. Pannello di destra: gli stessi due punti pieni allineati orizzontalmente, uniti da due archi curvi: uno sopra, orientato da sinistra verso destra (punta di freccia sull'estremo destro), e uno sotto, orientato da destra verso sinistra (punta di freccia sull'estremo sinistro); e' il 2-ciclo di M_G. Nel quaderno i due punti non sono etichettati; per la versione a stampa si possono etichettare i due nodi con $u$ e $v$ (a sinistra e a destra) in entrambi i pannelli, e le due frecce del pannello destro con $P_{u,v}$ e $P_{v,u}$. Sotto o accanto, la didascalia gia' presente nel quaderno: 'abbiamo cicli di lunghezza 2'. Il disegno compare due volte nel quaderno: in forma ridotta a destra di 'per non periodicita'' (solo il pannello destro) e in forma completa (entrambi i pannelli) dentro il primo punto elenco dell'N.B.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina 82 e' bianca: p.83 apre una nuova lezione (e, in cucitura, il capitolo «Random walk su grafi: hitting, commute e cover time»). Comincia ripetendo per intero il «Teorema fondamentale delle M.C.» — i quattro punti di Motwani-Raghavan Thm 6.2: ergodicita' di tutti gli stati, unicita' della distribuzione stazionaria con pi_i>0, f_ii=1 e h_ii=1/pi_i, e lim_t N(i,t)/t = pi_i — che pero' era GIA' negli appunti alle pp. 78-79 (p.78 i punti 1-3, p.79 il punto 4): in fase di cucitura va tenuta una sola occorrenza. Il resto della pagina apre il tema nuovo: la catena di Markov M_G associata a un grafo G=(V,E) connesso, non orientato e non bipartito con |V|=n e |E|=m, con stati = vertici e P_{u,v}=1/d(u) se (u,v) in E, 0 altrimenti; si chiude con l'N.B. sulla periodicita' T_v = gcd delle lunghezze dei cammini chiusi da v e con la verifica che T_v=1 (cicli di lunghezza 2 dagli archi non orientati, cicli dispari dalla non bipartitezza, gcd(2,2k+1)=1). Restano in sospeso, e sono esattamente cio' con cui riparte p.84: il fatto che M_G sia aperiodica, finita e irriducibile, e quindi che le si possa applicare il teorema fondamentale; poi l'esercizio sul mixing time del mazzo di carte (52! stati, top-in-at-random, T = T_1+...+T_K con E[T] = O(K log K)); e infine il Lemma che calcola la distribuzione stazionaria di M_G, pi_v = d(v)/(2m) per ogni v, con la dimostrazione che verifica pi = pi P.",
+ "confidenza": "alta"
+}

@@ -1,0 +1,130 @@
+{
+ "pagina": 48,
+ "latex": "\\scan{48}\n\nL'algoritmo di \\textbf{Landau--Vishkin} è un esempio di \\emph{programmazione dinamica\nibrida}: mescola la tabella di programmazione dinamica dell'allineamento con le\nstrutture dati per stringhe (i suffix tree), e arriva a\n\\[\n  \\Oh(m+n)\n\\]\nper risolvere l'allineamento a distanza $\\le k$, purché $k$ sia \\emph{costante}.\nNella notazione asintotica restano infatti nascoste delle costanti, e una di esse è\nproprio $k$: il costo effettivo è $\\Oh\\big(k\\,(m+n)\\big)$, che diventa lineare solo\nperché $k=\\Oh(1)$.\n\nCome di consueto $T$ è il testo e $P$ è il pattern, con $m=\\abs{T}$ e $n=\\abs{P}$,\ne nelle applicazioni $\\abs{P}\\ll\\abs{T}$.\n\n\\begin{figure}[H]\\centering\\input{tikz/lv-testo-pattern.tikz}\n\\caption{Il testo $T$ e il pattern $P$: si cercano le occorrenze di $P$ in $T$ a\ndistanza di edit $\\le k$.}\\end{figure}\n\nLa tabella di programmazione dinamica ha quindi $n+1$ righe (indicizzate dai caratteri\ndi $P$) e $m+1$ colonne (indicizzate dai caratteri di $T$). Se guardassi tutta la\nmatrice il costo sarebbe $\\Oh(m\\cdot n)$: l'idea è invece di non uscire mai da una\n\\emph{banda} di diagonali.\n\n\\begin{figure}[H]\\centering\\input{tikz/lv-banda-diagonali.tikz}\n\\caption{La banda di diagonali. Il cammino di allineamento parte lungo una diagonale\ne, avendo a disposizione $k$ errori, può scostarsene di al più $k$ posizioni in\nciascuna direzione: resta perciò confinato fra le due curve che delimitano la banda.}\n\\end{figure}\n\nOgni mossa non diagonale --- orizzontale (spazio in $P$) o verticale (spazio in $T$)\n--- sposta il cammino di esattamente una diagonale. Disponendo di al più $k$ errori,\nil cammino resta dunque confinato in una banda di $2k+1$ diagonali attorno a quella di\npartenza, e le celle da guardare scendono da $\\Th(m\\cdot n)$ a $\\Oh(k\\,(m+n))$.\nRestano però da attraversare rapidamente i lunghi tratti di \\emph{match} lungo una\nstessa diagonale: è esattamente a questo che serve l'intermezzo seguente.\n\n\\paragraph{Intermezzo: Longest Common Extension.}\nÈ uno dei \\emph{by-product} dello \\STree.\n\n\\begin{definizione}[Longest Common Extension]\\label{def:lce}\n  Siano $S_1$ e $S_2$ due stringhe e siano\n  \\[\n    i\\in\\set{1,\\dots,\\abs{S_1}}, \\qquad j\\in\\set{1,\\dots,\\abs{S_2}}.\n  \\]\n  Dati $S_1$, $S_2$, $i$ e $j$, si cerca il massimo $k$ tale che\n  \\[\n    \\sub{S_1}{i}{i+k-1} \\;=\\; \\sub{S_2}{j}{j+k-1},\n  \\]\n  cioè la lunghezza del più lungo prefisso comune dei due suffissi $\\suf{S_1}{i}$ e\n  $\\suf{S_2}{j}$. La indicheremo con $\\lcey(S_1,S_2,i,j)$.\n\\end{definizione}\n\n\\begin{osservazione}\n  Il $k$ della definizione di LCE è un semplice riuso del nome: non ha nulla a che\n  vedere con il numero $k$ di errori ammessi nell'allineamento.\n\\end{osservazione}\n\nLo strumento per rispondere è il suffix tree generalizzato delle due stringhe,\nconcatenate per mezzo di due terminatori distinti:\n\\[\n  \\STree\\left(S_1\\,\\texttt{\\$}\\,S_2\\,\\texttt{\\texteuro}\\right),\n\\]\nla cui costruzione richiede tempo lineare.\n\n\\begin{figure}[H]\\centering\\input{tikz/lv-stree-lce.tikz}\n\\caption{Nello \\STree di $S_1\\,\\texttt{\\$}\\,S_2\\,\\texttt{\\texteuro}$, la stringa\n$\\beta$ letta dalla radice fino a un nodo interno è l'estensione comune ai due\nsuffissi che scendono dai due rami sottostanti.}\\end{figure}\n\nOgni nodo dell'albero corrisponde infatti alla stringa $\\beta$ che si legge lungo il\ncammino dalla radice al nodo, e ogni tale $\\beta$ è un \\emph{prefisso di un suffisso}\ndi $S_1\\,\\texttt{\\$}\\,S_2\\,\\texttt{\\texteuro}$. Posso allora etichettare l'albero\nindicando quali di questi prefissi di suffissi occorrono sia in $S_1$ sia in $S_2$:\nsono esattamente i candidati a essere estensioni comuni alle due stringhe.",
+ "note": [
+  {
+   "tipo": "correzione",
+   "pagina": 48,
+   "testo": "Il titolo dell'intermezzo nel quaderno si legge come «Lowest Common Extension» (la seconda lettera-gruppo dopo «Lo» sembra una «w», senza discendente per la «g»). Ho scritto «Longest Common Extension»: è il nome standard del problema (Gusfield 12.2 / Harel--Tarjan) ed è quello usato daGli appunti del corso dell'anno precedente («Longest Common Extension (LCE)»); inoltre a p.49 lo studente stesso abbrevia in «LCE». Correzione silenziosa.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 48,
+   "testo": "Nel quaderno le due sottostringhe sono scritte affiancate senza segno di uguaglianza: «S_1[i, i+k-1]   S_2[j, j+k-1]» (c'è un vuoto di due quadretti fra le due). Ho inserito il «=»: senza di esso la condizione «cerco il max k t.c. ...» non ha senso. Correzione silenziosa.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 48,
+   "testo": "Il quaderno usa la notazione con virgola S_1[i, i+k-1]; ho uniformato alla convenzione del corso con la macro \\sub, che rende S_1[i..i+k-1].",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 48,
+   "testo": "Il quaderno scrive solo «O(m+n)» e «O(m×n)» senza dire quale fra m e n sia |T| e quale |P|. Ho fissato esplicitamente m=|T| (colonne) e n=|P| (righe), che è la convenzione di Gusfield cap. 12.2 usata anche daGli appunti del corso dell'anno precedente («n=|P| numero di righe, m=|T| numero di colonne»). La frase «e nelle applicazioni |P| << |T|» traduce in parole il disegno dei due segmenti (T lungo, P corto).",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 48,
+   "testo": "L'annotazione a margine collegata con una freccia a O(m+n) dice testualmente «costanti nascoste, una delle quali è k». L'ho espansa in «il costo effettivo è O(k(m+n)), che diventa lineare solo perché k=O(1)»: è ciò che l'annotazione significa, ed è confermato sia da p.47 (dove lo studente scrive la complessità di Landau--Vishkin come O(d(|sigma|+|tau|))) sia daGli appunti del corso dell'anno precedente (Theta((|T|+|P|)k) con k=O(1)).",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 48,
+   "testo": "Figura della banda: il quaderno disegna solo il rettangolo con due curve ondulate ai lati di una diagonale rettilinea e una croce di quattro frecce (su/giù/sinistra/destra) etichettata «k» sulla freccia verso il basso. Ho aggiunto in prosa la spiegazione «ogni mossa non diagonale sposta il cammino di esattamente una diagonale ⇒ banda di 2k+1 diagonali»: non è scritta su p.48, ma è il significato del disegno ed è esplicitata neGli appunti del corso dell'anno precedente (sezione 2). Ho inoltre aggiunto il passaggio da Theta(m·n) a O(k(m+n)) come conseguenza, coerente con «Se guardassi tutta la matrice, O(m×n)» scritto a fianco del disegno.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 48,
+   "testo": "Ho aggiunto la frase-ponte «Restano però da attraversare rapidamente i lunghi tratti di match lungo una stessa diagonale: è esattamente a questo che serve l'intermezzo seguente». Non c'è nel quaderno, che passa senza raccordo dal disegno della banda all'«Intermezzo»; serve a motivare l'introduzione della LCE ed è la logica dell'algoritmo (le query LCE fanno saltare in O(1) i run di match).",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 48,
+   "testo": "Ho introdotto già in questa pagina la notazione lce(S_1,S_2,i,j) (macro \\lcey). Nel quaderno compare solo a p.49 («query LCE(S_1,S_2,i,j) in tempo O(1)»); l'anticipazione serve alla continuità e non aggiunge contenuto.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 48,
+   "testo": "Ho aggiunto un blocco `osservazione` per segnalare che il k della definizione di LCE (lunghezza dell'estensione comune) non è il k degli errori ammessi. La collisione di nomi è nel quaderno (e in Gusfield); ho preferito segnalarla piuttosto che rinominare, per non allontanarmi dalla fonte.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 48,
+   "testo": "I due terminatori del suffix tree generalizzato sono, nel quaderno, «$» e «€» (esattamente come neGli appunti del corso dell'anno precedente). Li ho resi con \\texttt{\\$} e \\texttt{\\texteuro}; ho verificato compilando con lualatex + classe academica che \\texteuro produce il glifo corretto senza «Missing character».",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 48,
+   "testo": "L'annotazione a destra di «Intermezzo» si legge «Uno dei by-product dew STree»: l'ultima parola prima di STree è «dello» (la doppia l corsiva chiusa somiglia a «w»). Reso con «È uno dei by-product dello STree». Risolto con certezza dal contesto.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 48,
+   "testo": "Il quaderno scrive «STree(S_1 $ S_2 €) ~ lineare»: la tilde sta per «costruzione in tempo lineare». Espansa in prosa («la cui costruzione richiede tempo lineare»).",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 48,
+   "testo": "Struttura: il titolo sottolineato «Landau Vishkin» in cima alla pagina è il titolo del capitolo e quindi non è stato reso con \\section (come da convenzioni); l'ho trasformato nella frase di apertura. Il secondo titolo sottolineato, «Intermezzo: Longest Common Extension», è reso con \\paragraph perché è un titolo esplicito del quaderno.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 48,
+   "testo": "Avevo scritto \\autoref{def:lce} nell'osservazione, ma la classe academica numera l'ambiente `definizione` sul contatore inglese `definition` e \\autoref stampa «Definition 1». Ho sostituito con un riferimento testuale («il k della definizione di LCE»). Segnalazione utile per tutte le pagine: evitare \\autoref sugli ambienti italiani finché non si ridefinisce \\definitionautorefname.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 48,
+   "testo": "La caratterizzazione «programmazione dinamica ibrida = tabella DP + strutture dati per stringhe (suffix tree)» non è scritta a p.48 (il quaderno mette solo «↳ programmazione dinamica ibrida»); l'ho aggiunta in una riga, seguendo Gli appunti del corso dell'anno precedente («Hybrid Dynamic Programming → (Suffix Trees)»).",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 48,
+   "testo": "Figura dell'albero: il quaderno disegna un triangolo con un cammino ondulato dalla radice a un nodo interno marcato, etichettato β, e due rami che scendono dal nodo fino alla base. Le due foglie non sono etichettate nel quaderno; nella specifica TikZ le ho etichettate con i suffissi S_1[i..] e S_2[j..] perché è ciò che il disegno intende (a p.49 lo studente disegna la stessa cosa con le due foglie collegate a i e j da archi). Nel testo non ho però attribuito loro nomi, per non anticipare p.49.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "lv-testo-pattern",
+   "pagina": 48,
+   "didascalia": "Il testo $T$ e il pattern $P$: si cercano le occorrenze di $P$ in $T$ a distanza di edit $\\le k$.",
+   "tipo": "schema di stringhe",
+   "specifica": "Schema elementare a due segmenti orizzontali, disegnati a mano libera (nel quaderno sono leggermente ondulati; in TikZ va bene un tratto retto, eventualmente con decorazione `random steps` molto tenue).\n\n- Segmento LUNGO: parte da x=0 e arriva a x=10 (unità arbitrarie), alla quota y=0.8; spessore medio (`thick`). Subito a destra della sua estremità destra, l'etichetta $T$ in math mode.\n- Segmento CORTO: parte da x=3.1 e arriva a x=5.3 (quindi lungo circa 1/5 del primo, e collocato all'incirca sotto il terzo centrale del segmento lungo), alla quota y=0. Subito a destra della sua estremità destra, l'etichetta $P$.\n\nNessun'altra annotazione, nessuna freccia, nessun riquadro. Il senso è puramente illustrativo: $T$ è il testo (lungo, $m=|T|$ caratteri), $P$ è il pattern (corto, $n=|P|$ caratteri), con $|P|\\ll|T|$. Nel quaderno il disegno sta subito sotto la riga «$O(m+n)$ per risolvere l'allineamento a distanza $\\le k$ (costante)».\n\nDimensione finale suggerita: larghezza circa 0.55\\textwidth, altezza minima (2 righe).",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "lv-banda-diagonali",
+   "pagina": 48,
+   "didascalia": "La banda di diagonali. Il cammino di allineamento parte lungo una diagonale e, avendo a disposizione $k$ errori, può scostarsene di al più $k$ posizioni in ciascuna direzione: resta perciò confinato fra le due curve che delimitano la banda.",
+   "tipo": "matrice DP (schema, senza griglia)",
+   "specifica": "Rappresenta la tabella di programmazione dinamica dell'allineamento semi-globale, disegnata come un rettangolo VUOTO (nessuna griglia di celle: nel quaderno la matrice è solo un rettangolo largo e basso).\n\nGEOMETRIA DEL RETTANGOLO\n- Rettangolo di larghezza 12 e altezza 3 (rapporto circa 4:1, molto largo e basso: le colonne sono $m+1$, le righe $n+1$, con $m\\gg n$). Angoli in $(0,0)$ e $(12,3)$. Bordi disegnati a tratto spesso; nel quaderno i bordi superiore e inferiore sono leggermente ondulati (opzionale: `decorate, decoration={random steps, segment length=25pt, amplitude=0.6pt}`).\n\nETICHETTE DEI BORDI\n- $P$ subito a SINISTRA del bordo sinistro, a metà altezza (circa $(-0.45,1.5)$): le RIGHE sono indicizzate dai caratteri di $P$.\n- $T$ subito SOPRA l'angolo in alto a destra (circa $(12.2,3.3)$): le COLONNE sono indicizzate dai caratteri di $T$.\n\nCONTENUTO INTERNO — tre linee quasi parallele che scendono da sinistra-alto verso destra-basso (sono ripide, perché il rettangolo è largo e basso: una diagonale «a 45 gradi nella tabella» appare quasi verticale se il rettangolo viene disegnato con questo rapporto d'aspetto; nel quaderno la pendenza apparente è di circa 2.5 unità verticali ogni 2.5 orizzontali, cioè le linee attraversano tutta l'altezza spostandosi di circa 2.5 in orizzontale).\n1. Curva ONDULATA sinistra: dal bordo superiore in $(3.2,3)$ al bordo inferiore in $(5.5,0)$, tratto sottile, andamento a serpentina (`decorate, decoration={snake, amplitude=2pt, segment length=12pt}` oppure `random steps`).\n2. Segmento RETTILINEO centrale, tratto SPESSO e più scuro: dal bordo superiore in $(4.6,3)$ al bordo inferiore in $(6.9,0)$. È la diagonale di riferimento (il tratto «gratis» di match) lungo cui viaggia il cammino di allineamento.\n3. Curva ONDULATA destra: dal bordo superiore in $(6.0,3)$ al bordo inferiore in $(8.3,0)$, stessi parametri della 1.\nLe due curve ondulate delimitano la BANDA attorno alla diagonale rettilinea.\n\nCROCE DI FRECCE (annotazione centrale)\nCentrata sul punto medio del segmento rettilineo, cioè circa in $C=(5.75,1.5)$, quattro frecce che partono da $C$ (o da un intorno di $C$) e puntano verso l'esterno:\n- freccia VERSO L'ALTO, da $C$ a circa $(5.75,2.6)$;\n- freccia VERSO IL BASSO, da $C$ a circa $(5.75,0.5)$, con l'etichetta $k$ scritta subito a destra della punta (nel quaderno il «k» è scritto accanto a questa freccia, appena a destra, leggermente inclinato);\n- freccia VERSO SINISTRA, da $C$ a circa $(4.6,1.5)$ (arriva sulla curva ondulata sinistra);\n- freccia VERSO DESTRA, da $C$ a circa $(6.9,1.5)$ (arriva sulla curva ondulata destra).\nTutte con punta `-{Stealth}`, tratto medio. La croce dice: dalla diagonale posso scostarmi di al più $k$ in ciascuna direzione.\n\nSIGNIFICATO ALGORITMICO (da non scrivere nel disegno, serve solo a orientare il tracciato): ogni mossa orizzontale o verticale sposta il cammino di esattamente una diagonale; con al più $k$ errori il cammino resta in una banda di $2k+1$ diagonali, quindi non serve riempire tutte le $\\Theta(m\\cdot n)$ celle.\n\nNel quaderno, a destra del rettangolo, c'è l'annotazione «Se guardassi tutta la matrice, $O(m\\times n)$»: NON va inserita nella figura, perché è già riportata nel testo della trascrizione.\n\nDimensione finale suggerita: larghezza circa 0.9\\textwidth.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "lv-stree-lce",
+   "pagina": 48,
+   "didascalia": "Nello \\STree di $S_1\\,\\texttt{\\$}\\,S_2\\,\\texttt{\\texteuro}$, la stringa $\\beta$ letta dalla radice fino a un nodo interno è l'estensione comune ai due suffissi che scendono dai due rami sottostanti.",
+   "tipo": "albero (suffix tree schematizzato a triangolo)",
+   "specifica": "Suffix tree generalizzato di $S_1\\,\\$\\,S_2\\,\\texteuro$, disegnato — come sempre nel corso — come un TRIANGOLO con l'apice in alto (la radice) e la base in basso (il livello delle foglie).\n\nSAGOMA\n- Triangolo di vertici: apice $R=(0,4)$ (radice), base da $(-3.4,0)$ a $(3.4,0)$. Il lato sinistro e il lato destro sono tracciati a mano libera (leggermente convessi/ondulati), la base è una linea orizzontale ondulata. Tratto medio, nessun riempimento.\n\nCAMMINO $\\beta$ (radice → nodo interno)\n- Dalla radice $R$ scende, quasi verticalmente e con andamento leggermente ondulato, un arco fino al NODO INTERNO $v$ posto circa in $(0.05,1.9)$ (cioè poco sotto la metà dell'altezza, sull'asse del triangolo). Il nodo $v$ va marcato con un pallino pieno ben visibile (`circle, fill, inner sep=1.6pt`).\n- L'etichetta $\\beta$ va scritta a DESTRA di questo arco, all'incirca a metà strada fra $R$ e $v$, cioè attorno a $(0.55,3.0)$. È la stringa che si legge lungo il cammino radice→$v$.\n\nDUE RAMI SOTTO $v$\n- Da $v$ scendono due archi (anch'essi con andamento a mano libera, leggermente ondulato) fino alla base del triangolo:\n  * ramo SINISTRO: da $v$ a circa $(-0.9,0)$, dove termina in una foglia marcata (pallino pieno o piccolo trattino sulla base);\n  * ramo DESTRO: da $v$ a circa $(0.9,0)$, dove termina in una foglia marcata.\n- Etichette suggerite sotto le due foglie (NON presenti nel quaderno, ma coerenti con il disegno di p.49 e utili alla lettura): $\\suf{S_1}{i}$ sotto la foglia sinistra e $\\suf{S_2}{j}$ sotto la foglia destra, in corpo piccolo. Se si preferisce restare aderenti al manoscritto, si possono omettere.\n\nSIGNIFICATO ALGORITMICO: $v$ è l'antenato comune più profondo (lca) delle due foglie corrispondenti ai suffissi $S_1[i..]$ e $S_2[j..]$; la stringa $\\beta$ letta dalla radice a $v$ è la loro estensione comune massima, e la sua lunghezza (string-depth di $v$) è il $k$ cercato dalla LCE. Questo verrà detto esplicitamente a p.49: nella figura non va scritto.\n\nANNOTAZIONI A DESTRA (nel quaderno stanno fuori dal triangolo; sono già riportate nel testo della trascrizione, quindi NON vanno duplicate nella figura). Per riferimento: «$\\beta$ prefisso di un suffisso» all'altezza dell'apice, e «posso etichettare l'albero indicando i prefissi di suffissi che occorrono sia in $S_1$ che $S_2$» in basso, con una freccia che punta verso il lato destro del triangolo poco sopra la base.\n\nDimensione finale suggerita: larghezza circa 0.55\\textwidth.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina si chiude avendo (a) motivato la banda di $2k+1$ diagonali e (b) POSTO il problema della Longest Common Extension, costruito lo \\STree$(S_1\\,\\$\\,S_2\\,\\texteuro)$ in tempo lineare e osservato che ogni nodo corrisponde a un prefisso di un suffisso, etichettabile a seconda che occorra in $S_1$, in $S_2$ o in entrambe. Resta in sospeso: come si risponde a una query LCE, e con quale costo. La pagina 49 riprende esattamente da lì, con «LCE si risolve in tempo lineare:» e i tre passi 1) \\STree$(S_1\\,\\$\\,S_2\\,\\texteuro)$ (i due terminatori garantiscono la corrispondenza biunivoca suffissi--foglie), 2) visita bottom-up per identificare i nodi che corrispondono a prefissi di suffissi sia di $S_1$ sia di $S_2$, 3) $k$ = profondità massima di un nodo identificato da $i$ e $j$; poi l'N.B. su $\\lca$ (Harel--Tarjan) che dà query LCE in $O(1)$ con preprocessing lineare, e infine la convenzione di numerazione delle diagonali e la definizione di $d$-path. Chi cuce il capitolo NON deve ripetere su p.49 la definizione di LCE né la costruzione dello \\STree: sono già qui.",
+ "confidenza": "alta"
+}

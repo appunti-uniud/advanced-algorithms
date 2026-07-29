@@ -1,0 +1,63 @@
+% mincut-schema-taglio -- pag. 57
+% Il grafo G con un suo taglio C (la serpentina verticale). A sinistra una zona
+% rada, a destra un cluster denso (un K_4); soltanto due archi attraversano la
+% frontiera, quindi |C| = 2. E' questo squilibrio fra archi interni e archi del
+% taglio a rendere probabile che una contrazione casuale non distrugga C.
+\begin{tikzpicture}[x=1cm,y=1cm,line join=round,line cap=round,
+    font=\footnotesize,
+    nodo/.style={circle,draw,line width=0.6pt,fill=white,
+                 inner sep=0pt,minimum size=4.2pt},
+    arco/.style={line width=0.6pt},
+    contorno/.style={line width=0.9pt,black!55}]
+
+  % sagoma del grafo G
+  \def\sagoma{plot[smooth cycle,tension=0.72] coordinates {
+      (3.20,-0.05) (2.90,0.75) (2.15,1.30) (1.05,1.58) (-0.30,1.62) (-1.55,1.50)
+      (-2.55,1.05) (-3.10,0.35) (-3.20,-0.35) (-2.75,-1.05) (-1.80,-1.50)
+      (-0.55,-1.62) (0.85,-1.58) (2.05,-1.35) (2.95,-0.80)}}
+
+  \draw[contorno] \sagoma;
+  \node[anchor=east,inner sep=2pt] at (-2.92,1.00) {$G$};
+
+  % ---- il taglio: serpentina verticale, tagliata sul bordo della sagoma ----
+  \begin{scope}
+    \clip \sagoma;
+    \draw[line width=0.8pt] plot[domain=-1.90:1.90,samples=150,smooth]
+          ({-0.32+0.10*sin(\x*400)},{\x});
+  \end{scope}
+  \node[anchor=south,inner sep=1.5pt] at (-0.32,1.62) {$C$};
+
+  % ---- parte sinistra: rada ------------------------------------------------
+  \node[nodo] (A) at (-2.24, 0.16) {};
+  \node[nodo] (B) at (-1.15, 0.38) {};
+  \node[nodo] (D) at (-2.11,-0.96) {};
+  \node[nodo] (F) at (-1.02,-0.90) {};
+
+  \draw[arco] (A) -- (B);
+  \draw[arco] (A) -- (F);   % le due diagonali
+  \draw[arco] (B) -- (D);   % si incrociano
+  \draw[arco] (D) -- (F);
+
+  % ---- parte destra: cluster denso (K_4) -----------------------------------
+  \draw[contorno,line width=0.6pt]
+        plot[smooth cycle,tension=0.75] coordinates {
+          (2.52,-0.16) (2.12,0.78) (1.18,1.14) (0.22,0.80) (-0.14,-0.16)
+          (0.24,-1.10) (1.18,-1.44) (2.12,-1.08)};
+
+  \node[nodo] (P) at (0.50, 0.38) {};
+  \node[nodo] (Q) at (1.86, 0.38) {};
+  \node[nodo] (R) at (1.92,-0.58) {};
+  \node[nodo] (S) at (0.50,-0.70) {};
+
+  \draw[arco] (P) -- (Q);
+  \draw[arco] (Q) -- (R);
+  \draw[arco] (R) -- (S);
+  \draw[arco] (S) -- (P);
+  \draw[arco] (P) -- (R);
+  \draw[arco] (Q) -- (S);
+
+  % ---- gli unici due archi che attraversano il taglio ----------------------
+  \draw[arco] (B) -- (P);
+  \draw[arco] (F) -- (S);
+
+\end{tikzpicture}

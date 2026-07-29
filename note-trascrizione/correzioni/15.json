@@ -1,0 +1,78 @@
+{
+ "capitolo": "15-catene-markov",
+ "compila": true,
+ "applicate": [
+  {
+   "pagina": 73,
+   "categoria": "tracciabilita",
+   "cosa": "Riposizionati tre marcatori \\scan. Verificato sulla scansione (p73_b3.png): il fondo di p.73 contiene davvero il disegno della «patata» $S$ con $s_1,s_2,s_3$, la riga «Una generalizzazione della nozione di funzioni, S.T. Schwartz» e la riga finale «A condizione del presente, il futuro non dipende dal passato». Ho quindi aggiunto \\scan{73} prima del paragrafo «Tutta l'informazione sul passato…» (che introduce lo slogan) e prima del paragrafo «Alla matrice $P$ si associa naturalmente un grafo orientato…» (che introduce la Figura fig:p73-spazio-stati e la nota su Schwartz), e ripristinato \\scan{75} prima di «Quando gli stati sono pochi…», che invece introduce lo schizzo a due stati di p.75. Prima quei tre frammenti ricadevano sotto marcatori \\scan{75} e il rimando alla scansione portava alla pagina sbagliata. Nessuna modifica al testo."
+  },
+  {
+   "pagina": 74,
+   "categoria": "errore-logico",
+   "cosa": "Riscritto l'ambiente dubbio sulla glossa marginale della domanda (2). La versione precedente diceva della stessa lettura sia che era il caso degenere in cui l'evento condizionante e impossibile, sia che era «esattamente la situazione che fa fallire la (2)»: due cose incompatibili, perche se $\\Pr\\{X_1\\in A\\mid X_0=x_0\\}=0$ il membro sinistro non e definito e la (2) non e falsa, e semplicemente priva di senso. Ora le due letture di «qualche stato di $A$» sono separate ed etichettate: (a) tutto $A$ irraggiungibile da $x_0$ -> evento condizionante impossibile, la (2) non e ne vera ne falsa; (b) un particolare stato $a\\in A$ irraggiungibile -> e il meccanismo per cui la (2) fallisce (cambiano i pesi con cui gli stati di $A$ entrano nella media), cioe quello dell'osservazione precedente. Riportata nel dubbio anche l'alternativa di lettura «si»/«se» della prima parola, gia registrata in NOTE-EDITORIALI.md ma assente dal .tex."
+  },
+  {
+   "pagina": 74,
+   "categoria": "errore-logico",
+   "cosa": "Nell'osservazione dopo l'Esempio~es:ciclo6 il limite $\\vec q^{(t)}\\to(1/6,\\dots,1/6)$ non e piu attribuito al Teorema~thm:mc-fondamentale, che nei suoi quattro punti (ergodicita, esistenza di $\\pi>0$, $f_{ii}=1$ e $h_{ii}=1/\\pi_i$, limite di Cesaro $N(i,t)/t\\to\\pi_i$) non dice nulla sulla convergenza di $\\vec q^{(t)}$. Il teorema resta citato per cio che effettivamente da (la distribuzione stazionaria) e la convergenza e attribuita al basic limit theorem per catene ergodiche finite; ho inoltre esplicitato perche il limite e uniforme (se le colonne di $P$ sommano a 1, il vettore costante soddisfa $\\vec\\pi=\\vec\\pi P$). Ho preferito non aggiungere un quinto punto al teorema, che nella forma attuale e fedele al quaderno e a Motwani-Raghavan (Teorema 6.2)."
+  },
+  {
+   "pagina": 79,
+   "categoria": "omissione",
+   "cosa": "Aggiunto un capoverso all'osservazione che segue il Teorema~thm:mc-fondamentale, per ancorare l'affermazione usata a p.74: per una catena ergodica finita vale il basic limit theorem ($\\vec q^{(t)}\\to\\vec\\pi$ qualunque sia $\\vec q^{(0)}$), che va tenuto distinto dal punto~4 del teorema, il quale e un limite alla Cesaro e continua a valere per le catene irriducibili periodiche, dove invece $\\vec q^{(t)}$ in generale non converge."
+  },
+  {
+   "pagina": 75,
+   "categoria": "errore-matematico",
+   "cosa": "Resa esplicita la convenzione sull'hitting time. Presa alla lettera la definizione $h_{ij}=\\sum_{t>0} t\\,r^{(t)}_{ij}$, l'implicazione «$f_{ij}<1 \\Rightarrow h_{ij}=\\infty$» (che sta sul quaderno e in Motwani-Raghavan) e falsa: la serie e difettiva ma puo convergere (esempio: $P_{12}=P_{13}=1/2$ con 2 e 3 assorbenti da $f_{12}=1/2$ e $\\sum t\\,r^{(t)}_{12}=1/2$). Ora si definisce $T_{ij}$ come numero di passi della prima visita, con $T_{ij}=+\\infty$ sulle traiettorie che in $j$ non arrivano mai, e si pone $h_{ij}=\\E[T_{ij}]$: la somma lo calcola quando $f_{ij}=1$, mentre per $f_{ij}<1$ vale $\\infty$. L'osservazione successiva e stata riformulata di conseguenza (da affermazione a giustificazione della convenzione), esplicitando che la serie «puo benissimo convergere» ma che la massa residua $1-f_{ij}>0$ porta un tempo infinito. Nessun effetto sulla classificazione transiente/persistente di p.76, che con questa convenzione resta esattamente quella di Motwani-Raghavan."
+  },
+  {
+   "pagina": 78,
+   "categoria": "notazione",
+   "cosa": "Definizione def:mc-periodicita: le graffe racchiudevano una proposizione invece di un insieme di numeri ($\\max_{T\\in\\NN}\\{\\,\\varphi(T)\\,\\}$, cioe il massimo di un insieme di valori di verita). Portata la variabile dentro le graffe nella forma set-builder $\\max\\{\\,T\\in\\NN : \\exists\\vec q^{(0)}\\,\\exists a\\,\\forall t\\,(\\dots)\\,\\}$, che e il significato reso dalla prosa immediatamente successiva («la periodicita di $i$ e il piu grande fra questi $T$»), lasciata invariata."
+  },
+  {
+   "pagina": 78,
+   "categoria": "latex",
+   "cosa": "Nella stessa formula, $\\pmod{T}$ dentro $\\bigl(\\dots\\bigr)$ stampava una doppia chiusura «))» e inseriva un \\quad che spezzava l'implicazione. Sostituito con la macro \\mod del preambolo (\\text{ mod }), gia usata nel cap.~06: ora si legge «$t \\equiv a$ mod $T$» dentro un solo livello di parentesi. Verificato sul PDF ricompilato. La forma $\\pmod{T}$ resta nella prosa che segue, dove le parentesi non sono annidate ed e la resa tipografica giusta."
+  },
+  {
+   "pagina": 78,
+   "categoria": "errore-logico",
+   "cosa": "Riscritta l'osservazione sulla periodicita (contenuto redazionale, non del quaderno), che conteneva due affermazioni troppo forti. (a) «Poiche $T=1$ soddisfa sempre la condizione, la periodicita e ben definita»: l'ammissibilita di $T=1$ da solo la non vuotezza, non la limitatezza superiore, che e cio che serve perche il max esista. (b) L'equivalenza con $\\gcd\\{t\\ge1 : P^{(t)}_{ii}>0\\}$ non vale per la definizione come e scritta, perche $\\exists\\vec q^{(0)}$ spazia su tutte le distribuzioni iniziali: scegliendone una da cui $i$ non e raggiungibile, l'implicazione e vera a vuoto per ogni $T$ e l'insieme degli ammissibili e tutto $\\NN$. Ora l'osservazione parte da $\\vec q^{(0)}$ concentrata in $i$ (che forza $a\\equiv0$ e riduce la condizione a «$T$ divide ogni tempo di ritorno»), ricava il mcd, giustifica l'esistenza del massimo (limitato da un qualunque tempo di ritorno) e chiude segnalando che la quantificazione esistenziale non cambia il valore per le catene irriducibili — le sole per cui la nozione viene usata nel teorema fondamentale — mentre in generale la renderebbe inservibile. Verificato a parte che per una catena irriducibile di periodo $d$ nessuna $\\vec q^{(0)}$ puo dare un $T>d$: da ogni $j$ nel supporto si raggiunge $i$ in $\\ell$ passi e $\\ell+R\\subseteq\\{t : q^{(t)}_i>0\\}$, quindi $T$ divide ogni ritorno $r\\in R$ e dunque $d=\\gcd R$."
+  }
+ ],
+ "respinte": [
+  {
+   "pagina": 72,
+   "cosa": "Buco di un fattore 2 nella catena argomentativa del 2-SAT: il bound sul cover time da $\\E[X]\\le 2n^2$, ma l'esempio usa $\\E[X]=n^2$ per concludere $\\Pr[\\text{errore}]\\le1/2$ con $a=2n^2$ passi.",
+   "perche": "Segnalazione fondata ma fuori perimetro: riguarda lezioni/14-random-walk-2sat.tex (righe 565-582, 601, 617), non il capitolo Catene di Markov. La pagina 72 del quaderno e a cavallo fra i due capitoli e il referto punta interamente al cap.~14. Non ho toccato il file di un altro capitolo per non sovrascrivere il lavoro dell'agente che se ne occupa: la correzione va applicata li, insieme all'eventuale allineamento del ciclo interno dello pseudocodice."
+  },
+  {
+   "pagina": 72,
+   "cosa": "Convenzione incoerente su $L_n$ (n+1 nodi e m=n archi nel testo, contro «grafo lineare con n nodi» del quaderno e la figura grafo-lineare-L4.tikz a 4 nodi).",
+   "perche": "Come sopra: il difetto e in lezioni/14-random-walk-2sat.tex e in tikz/grafo-lineare-L4.tikz. Fuori dal perimetro di questo capitolo, che non nomina mai $L_n$ ne usa il cover time."
+  },
+  {
+   "pagina": 72,
+   "cosa": "Manca il rimando alla dimostrazione del bound sul cover time (dimostrato nel cap.~16) e la notazione $C_G$ / $C(G)$ e disallineata fra i due capitoli.",
+   "perche": "Riguarda lezioni/14-random-walk-2sat.tex (riga 569) e lezioni/16-*, non questo capitolo. E inoltre un rilievo di cucitura fra capitoli, da risolvere in fase di assemblaggio."
+  },
+  {
+   "pagina": 72,
+   "cosa": "Frase monca sull'errore unilaterale nell'osservazione finale del cap.~14 (riga 617).",
+   "perche": "Fuori perimetro: e prosa di lezioni/14-random-walk-2sat.tex."
+  },
+  {
+   "pagina": 79,
+   "cosa": "Le figure fig:wlk-tupla e fig:wlk-tipo-atomico stanno dalla parte sbagliata del marcatore \\scan{80}.",
+   "perche": "Riguarda lezioni/A-weisfeiler-leman.tex, non il capitolo Catene di Markov. La pagina 79 del quaderno e a cavallo fra la fine del cap.~15 (punto~4 del teorema fondamentale, dove lo \\scan{79} e collocato correttamente) e l'inizio del materiale su Weisfeiler-Leman. Il rilievo va girato all'agente dell'appendice."
+  },
+  {
+   "pagina": 79,
+   "cosa": "Disallineamento fra tikz/wl1-partizione-colori.tikz (quattro crocette) e le voci 106 e 1906 di NOTE-EDITORIALI.md (che ne dichiarano tre).",
+   "perche": "Riguarda una figura dell'appendice Weisfeiler-Leman e la sua nota editoriale: nessun legame con questo capitolo. Va risolto insieme al punto precedente."
+  }
+ ]
+}

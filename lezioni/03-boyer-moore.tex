@@ -1,0 +1,354 @@
+\chapter{Boyer--Moore}
+
+\scan{9}
+L'algoritmo di Boyer--Moore (1977) risolve lo stesso problema di Knuth--Morris--Pratt
+--- trovare tutte le occorrenze di un pattern $P$ dentro un testo $T$ --- ma cambia la
+direzione dei confronti all'interno di un singolo allineamento. Da questa sola idea
+discendono due euristiche di riposizionamento che, nei casi favorevoli, permettono di
+non leggere affatto alcuni caratteri del testo. Per tutto il capitolo poniamo
+\[
+  m=\abs{T},\qquad n=\abs{P},
+\]
+con indicizzazione a partire da $1$; $\alfa$ è l'alfabeto e $P^r$ denota il pattern
+\emph{rovesciato}.
+
+\section{L'idea: confronti da destra a sinistra}
+
+Il testo $T$ viene percorso da sinistra a destra, cioè gli allineamenti di $P$ su $T$
+avanzano come nell'algoritmo naive e in KMP; \emph{dentro} un allineamento, però, il
+pattern $P$ viene confrontato con il testo \emph{da destra a sinistra}. È questa
+l'idea che si aggiunge rispetto agli algoritmi visti finora.
+
+\begin{figure}[H]
+\centering
+\input{tikz/bm-mismatch.tikz}
+\caption{Un passo di Boyer--Moore: i confronti procedono da destra a sinistra,
+$\alpha$ è il suffisso di $P$ già riconosciuto e il mismatch è fra il carattere
+$y$ del pattern e il corrispondente carattere $x$ del testo; il pattern viene poi
+fatto scorrere verso destra, nel disegno addirittura di tutta la propria lunghezza.}
+\end{figure}
+
+Eseguo dunque i confronti da destra e, quando trovo un mismatch, applico la
+\emph{più conveniente} fra le due regole della sezione seguente, cioè quella che
+produce il \emph{massimo shift}.
+
+\begin{osservazione}
+Poiché dopo un mismatch il pattern può scorrere anche di tutta la propria lunghezza,
+ci sono casi in cui i confronti eseguiti --- e quindi i caratteri di $T$
+effettivamente letti --- sono soltanto $\Th(m/n)$: l'algoritmo può essere
+\emph{sublineare} nella lunghezza del testo, cioè terminare senza aver mai letto
+alcuni caratteri di $T$. Il preprocessing del pattern, $\Th(n)$, resta ovviamente
+da pagare.
+\end{osservazione}
+
+\section{Le due regole}\label{sec:bm-regole}
+
+\scan{10}
+Fissiamo la notazione di un allineamento. Supponiamo che $P$ sia allineato con la
+finestra di testo che termina in $T[k]$ e che i confronti da destra abbiano già
+riconosciuto il suffisso
+\[
+  \alpha=\sub{P}{i}{n}
+\]
+(con $\alpha=\vuota$ quando $i=n+1$, cioè quando il primissimo confronto fallisce).
+Il primo confronto che fallisce è allora quello fra il carattere $y=P[i-1]$ del
+pattern e il carattere $x$ del testo che gli sta di fronte, con $x\neq y$: in tutto
+il capitolo $x$ è dunque il carattere «cattivo» del \emph{testo} --- i due ruoli
+sono scambiati rispetto al capitolo precedente, dove $x$ era il carattere del
+pattern. Al mismatch il pattern viene spostato a destra applicando la più
+conveniente fra le due regole seguenti.
+
+\begin{definizione}[Bad character rule (BCR)]\label{def:bcr}
+Dopo un mismatch con il carattere $x$ di $T$, si riposiziona il pattern cercando in
+$P$ l'occorrenza di $x$ \emph{più a destra fra quelle a sinistra} del punto di
+mismatch.
+\end{definizione}
+
+\begin{definizione}[Good suffix rule (GSR)]\label{def:gsr}
+Dopo un mismatch che segue il suffisso $\alpha$ già riconosciuto in $P$, si
+riposiziona $P$ cercando l'occorrenza di $\alpha$ più a destra che non sia un
+suffisso di $P$.
+\end{definizione}
+
+Le due regole hanno costi di preprocessing molto diversi: la BCR si implementa
+direttamente, mentre il preprocessing della GSR si riduce all'algoritmo $Z$
+(\autoref{sec:bm-gsr}).
+
+\begin{osservazione}[Di quanto si sposta il pattern]
+Per ogni posizione $j$ e ogni $x\in\alfa$ poniamo
+\[
+  R_j(x) \defeq \max\set{\, p \;:\; 1\le p<j \ \text{e}\ P[p]=x \,},
+  \qquad R_j(x)=0 \ \text{se un tale } p \text{ non esiste}.
+\]
+Con la notazione fissata sopra, la BCR sposta $P$ di $(i-1)-R_{i-1}(x)$ posizioni,
+mentre la GSR lo sposta di $n-j_\alpha$, dove $j_\alpha$ è la posizione finale
+dell'occorrenza di $\alpha$ individuata dalla regola. Nella \autoref{sec:bm-gsr}
+rafforzeremo la regola, chiedendo in più che il carattere che precede
+l'occorrenza interna sia diverso da quello che ha provocato il mismatch, e vedremo
+che allora $j_\alpha$ è esattamente il valore $L'(i)$.
+Quando una tale occorrenza \emph{non} esiste --- cioè quando $L'(i)=0$ --- lo
+spostamento sarebbe di $n$ posizioni intere, e così com'è non è \emph{safe}: su
+$P=\str{aca}$ e $T=\str{bcaca}$ farebbe saltare l'occorrenza in posizione~3. Il
+caso va trattato a parte, come si vedrà nella \autoref{sec:bm-ricerca}.
+Con questa avvertenza entrambi gli spostamenti sono $\ge 1$, e si applica sempre
+il massimo dei due,
+\[
+  \mathit{shift} \;=\; \max\set{\,\mathit{shift}_{\mathrm{BCR}},\ \mathit{shift}_{\mathrm{GSR}}\,},
+\]
+il che è lecito perché entrambe le regole sono \emph{safe} --- nessuna occorrenza
+viene persa --- e quindi lo è anche il loro massimo.
+\end{osservazione}
+
+\begin{esempio*}[Comportamento sublineare]
+Siano $T=a^{m}$ e $P=b^{n}$. Ogni allineamento fallisce al primo confronto e il
+carattere cattivo $a$ non compare affatto in $P$: la BCR dà $R_n(a)=0$ e fa scorrere
+il pattern di tutta la sua lunghezza. Si esaminano così $m/n$ allineamenti con un
+solo confronto ciascuno, cioè $\Th(m/n)$ caratteri di $T$ in tutto.
+\end{esempio*}
+
+\begin{osservazione}
+All'estremo opposto, se $T=a^{m}$ e $P=a^{n}$ ogni allineamento produce
+un'occorrenza completa e nessuna delle due regole permette di avanzare di più di una
+posizione: l'algoritmo degenera nell'algoritmo naive, con costo quadratico
+$\Th(mn)$.
+\end{osservazione}
+
+\textbf{N.B.} È possibile, aggiungendo una struttura dati, rendere l'algoritmo
+lineare nel caso peggiore (Apostolico--Giancarlo) --- \emph{da approfondire}.
+
+\section{Implementazione della BCR}
+
+Il preprocessing riguarda il solo pattern $P$.
+
+\begin{figure}[H]
+\centering
+\input{tikz/bm-bcr-preproc.tikz}
+\caption{Preprocessing della BCR: dalla posizione $j$ si guarda all'indietro dentro
+$P$ per individuare la posizione $p<j$ più a destra con $P[p]=x$.}
+\end{figure}
+
+Per ogni $j\in\set{1,\dots,n}$ e per ogni $x\in\alfa$ serve il massimo indice $p$
+tale che $p<j$ e $P[p]=x$, cioè esattamente il valore $R_j(x)$ definito sopra. Ci
+sono due modi di memorizzarlo.
+
+\begin{itemize}
+  \item \textbf{Matrice.} Si tabula direttamente $R_j(x)$ in una matrice
+  $n\times\abs{\alfa}$: costa $\Th(n\,\abs{\alfa})$ in spazio e in tempo di
+  preprocessing, ma risponde a ogni interrogazione in tempo costante.
+
+  \item \textbf{Liste.} Per ogni carattere $x$ che compare in $P$ si mantiene la
+  lista delle posizioni di $P$ in cui $x$ occorre, in ordine decrescente. Lo spazio
+  scende a $\Th(n+\abs{\alfa})$, ma per calcolare $R_j(x)$ bisogna scorrere la
+  lista.
+\end{itemize}
+
+La seconda soluzione sembra quadratica; facendo bene i conti, però, con un'analisi a
+complessità ammortizzata si vede che in realtà è lineare.
+
+\begin{osservazione}[Perché il costo ammortizzato è lineare]
+Poiché la lista di $x$ è ordinata per posizione decrescente, per calcolare $R_j(x)$
+basta scorrerla dalla testa scartando le posizioni $\ge j$. Se il mismatch cade in
+$P[j]$, in quel momento sono già stati eseguiti $n-j+1$ confronti (le posizioni
+$n,\dots,j$ di $P$), e le posizioni scartate sono tutte comprese fra $j$ e $n$:
+sono quindi al più $n-j+1$. Il costo della scansione della lista è perciò
+proporzionale al numero di confronti appena eseguiti, e sull'intera esecuzione il
+sovraccosto complessivo resta lineare nel numero totale di confronti:
+asintoticamente le due implementazioni si equivalgono.
+\end{osservazione}
+
+\section{Implementazione della GSR}\label{sec:bm-gsr}
+
+\scan{11}
+Resta da capire quale sia il preprocessing sufficiente a implementare la
+\emph{good suffix rule}. La risposta è: l'algoritmo $Z$ applicato a $P^r$.
+
+\begin{definizione}[$L'(i)$]\label{def:bm-lprimo}
+Siano $P\in\alfa^*$ e $i\in\set{2,\dots,n}$. Allora $L'(i)$ è il \emph{massimo}
+indice $j$ tale che
+\begin{enumerate}
+  \item $\sub{P}{i}{n}$ è un suffisso di $\sub{P}{1}{j}$;
+  \item $P[i-1]\neq P[\,j-(n-i)-1\,]$;
+\end{enumerate}
+e $L'(i)=0$ se nessun indice soddisfa 1) e 2).
+\end{definizione}
+
+\begin{osservazione}
+La sola condizione~1), con il vincolo $j\le n-1$, definirebbe $L(i)$, cioè la
+versione «debole» della regola: l'occorrenza interna più a destra del suffisso già
+riconosciuto (il vincolo è indispensabile: $\sub{P}{i}{n}$ è sempre suffisso di
+$P$, quindi senza di esso il massimo sarebbe banalmente $j=n$). È la condizione~2)
+a giustificare l'apice in $L'(i)$: essa impone che il carattere che precede
+l'occorrenza interna sia \emph{diverso} da $P[i-1]$, cioè dal carattere che
+nell'allineamento corrente ha provocato il mismatch; senza questo vincolo lo
+spostamento riproporrebbe lo stesso mismatch e sarebbe quindi sprecato.
+
+Gli indici della condizione~2) si leggono così: se $\sub{P}{i}{n}$, che ha lunghezza
+$n-i+1$, è un suffisso di $\sub{P}{1}{j}$, allora occupa le posizioni
+$j-(n-i),\dots,j$, e il carattere che la precede sta in posizione $j-(n-i)-1$.
+
+Restano sottintese due convenzioni: se $j-(n-i)-1=0$ la posizione non esiste e la
+condizione~2) si intende soddisfatta; $L'(i)$ non è definito per $i=1$, perché la
+condizione~2) chiamerebbe in causa $P[0]$. Si noti infine che la~2) esclude
+automaticamente il valore $j=n$: in tal caso diventerebbe $P[i-1]\neq P[i-1]$, che è
+falsa. Dunque $L'(i)\le n-1$ senza bisogno di imporlo, ed è per questo che lo
+spostamento $n-L'(i)$ della GSR è sempre positivo.
+\end{osservazione}
+
+\begin{figure}[H]
+\centering
+\input{tikz/bm-lprimo.tikz}
+\caption{Lettura grafica della definizione di $L'(i)$: la stessa stringa
+$\sub{P}{i}{n}$ compare due volte in $P$ --- come suffisso e come occorrenza interna
+che termina in $L'(i)$ --- e i due caratteri che la precedono sono diversi.}
+\end{figure}
+
+\begin{definizione}[{{$N_j[P]$}}]\label{def:bm-nj}
+$N_j[P]$ è la lunghezza del massimo suffisso di $\sub{P}{1}{j}$ che è anche un
+suffisso di $P$, ossia
+\[
+  N_j[P]=\max\set{\ell\ge 0 \;:\; \sub{P}{j-\ell+1}{j}=\sub{P}{n-\ell+1}{n}},
+  \qquad j=1,\dots,n .
+\]
+\end{definizione}
+
+I valori $N_j$ sono l'analogo «riflesso» dei valori $Z$: $\Zv{k}$ guarda i prefissi
+da sinistra, $N_j$ guarda i suffissi da destra. In particolare $N_n[P]=n$.
+
+\begin{figure}[H]
+\centering
+\input{tikz/bm-nj.tikz}
+\caption{$N_j[P]=\abs{\alpha}$, dove $\alpha$ è la più lunga stringa che è
+simultaneamente suffisso di $\sub{P}{1}{j}$ e suffisso di $P$.}
+\end{figure}
+
+\begin{teorema}\label{thm:bm-lprimo-nj}
+Per ogni $i\in\set{2,\dots,n}$, $L'(i)$ è il massimo $j$ tale che
+\[
+  N_j[P]=\abs{\sub{P}{i}{n}}=n-i+1 .
+\]
+\end{teorema}
+
+\begin{dimostrazione}
+Basta mostrare che, per ogni indice $j$, le condizioni 1) e 2) della
+Definizione~\ref{def:bm-lprimo} valgono per quel $j$ se e solo se $N_j[P]=n-i+1$.
+
+Se valgono 1) e 2), la 1) dice che $\sub{P}{j-(n-i)}{j}=\sub{P}{i}{n}$, dunque
+$\sub{P}{1}{j}$ ha un suffisso di lunghezza $n-i+1$ che è anche suffisso di $P$ e
+quindi $N_j[P]\ge n-i+1$; se fosse $N_j[P]\ge n-i+2$ il match si estenderebbe di un
+carattere verso sinistra, cioè $P[j-(n-i)-1]=P[i-1]$, contro la 2).
+
+Viceversa, se $N_j[P]=n-i+1$ allora il suffisso comune di quella lunghezza è
+esattamente $\sub{P}{j-(n-i)}{j}=\sub{P}{i}{n}$, cioè vale la 1); e la
+\emph{massimalità} di $N_j$ impedisce l'estensione a sinistra, cioè
+$P[j-(n-i)-1]\neq P[i-1]$, che è la 2) (se $j-(n-i)-1=0$ la condizione è soddisfatta
+per convenzione, perché il match non può estendersi oltre l'inizio di $P$).
+
+Le due condizioni sono equivalenti indice per indice, quindi hanno lo stesso massimo.
+Si noti che per $i\ge 2$ il valore $j=n$ è automaticamente escluso, poiché
+$N_n[P]=n>n-i+1$.
+\end{dimostrazione}
+
+Da qui, e dalla definizione stessa di $N_j$, segue la riduzione all'algoritmo $Z$:
+per ogni $1\le j\le n-1$,
+\[
+  \boxed{\;N_j[P]=\Zv{n-j+1}[P^r]\;}
+\]
+Il solo valore escluso è $j=n$: chiamerebbe in causa $\Zv{1}[P^r]$, che la
+definizione della funzione $Z$ non contempla. Non è una perdita, perché
+$N_n[P]=n$ è noto a priori e nel seguito $N_j$ serve soltanto per $j\le n-1$.
+
+\begin{osservazione}
+Rovesciando $P$, la posizione $j$ di $P$ diventa la posizione $n-j+1$ di $P^r$; un
+suffisso di $\sub{P}{1}{j}$ diventa un prefisso di $\sub{P^r}{n-j+1}{n}$ e un
+suffisso di $P$ diventa un prefisso di $P^r$. Quindi il più lungo suffisso di
+$\sub{P}{1}{j}$ che è anche suffisso di $P$ ha la stessa lunghezza del più lungo
+prefisso di $\sub{P^r}{n-j+1}{n}$ che è anche prefisso di $P^r$, cioè
+$\Zv{n-j+1}[P^r]$.
+
+Poiché l'algoritmo $Z$ su una stringa di lunghezza $n$ costa $\Th(n)$, tutto il
+preprocessing della GSR costa $\Th(n)$ in tempo e in spazio.
+\end{osservazione}
+
+\section{Lo spostamento della GSR e il ciclo di ricerca}\label{sec:bm-ricerca}
+
+Sapere calcolare $L'(i)$ non basta ancora a far girare l'algoritmo: manca il caso in
+cui $L'(i)=0$, cioè quando il suffisso $\alpha$ già riconosciuto non ha alcuna
+ulteriore occorrenza utile dentro $P$. In quel caso non si può buttare via tutto:
+bisogna allineare il più lungo prefisso di $P$ che sia anche suffisso di $\alpha$.
+
+\begin{definizione}[$\ell'(i)$]\label{def:bm-lminuscolo}
+Per $i\in\set{2,\dots,n+1}$, $\ell'(i)$ è la lunghezza del più lungo suffisso di
+$\sub{P}{i}{n}$ che è anche un prefisso di $P$, e $\ell'(i)=0$ se un tale suffisso
+non esiste. In particolare $\ell'(i)\le n-i+1$.
+\end{definizione}
+
+Anche $L'$ e $\ell'$ si leggono direttamente dal vettore $N$:
+\begin{align*}
+  L'(i) &= \max\set{\,j \;:\; 1\le j\le n-1,\ N_j[P]=n-i+1\,},\\
+  \ell'(i) &= \max\set{\,j \;:\; 1\le j\le n-i+1,\ N_j[P]=j\,},
+\end{align*}
+dove il massimo su un insieme vuoto vale $0$; entrambi i vettori si riempiono con
+una singola scansione di $N$, quindi in tempo $\Th(n)$. La seconda formula si
+giustifica così: $N_j[P]=j$ significa che $\pre{P}{j}$ è anche un suffisso di $P$, e
+la limitazione $j\le n-i+1$ impone che quel suffisso stia dentro $\sub{P}{i}{n}$.
+
+Lo spostamento prodotto dalla GSR è allora
+\[
+  \sigma(i)\defeq
+  \begin{cases}
+    n-\ell'(2) & \text{se } i=1 \quad (\text{occorrenza completa}),\\[3pt]
+    n-L'(i)  & \text{se } 2\le i\le n \ \text{e}\ L'(i)>0,\\[3pt]
+    n-\ell'(i) & \text{se } 2\le i\le n \ \text{e}\ L'(i)=0,\\[3pt]
+    1        & \text{se } i=n+1 \quad (\alpha=\vuota).
+  \end{cases}
+\]
+L'ultimo caso è obbligato: se il primo confronto fallisce, nessun suffisso di $P$ è
+stato riconosciuto e la GSR non porta alcuna informazione. Negli altri casi
+$\sigma(i)\ge 1$, perché $L'(i)\le n-1$ e $\ell'(i)\le n-i+1\le n-1$.
+
+\begin{algorithm}[H]
+\caption{Boyer--Moore: ciclo di ricerca}
+\begin{algorithmic}[1]
+\Require testo $T$ di lunghezza $m$, pattern $P$ di lunghezza $n$
+\Ensure le posizioni iniziali di tutte le occorrenze di $P$ in $T$
+\State calcola $R_j(x)$, $L'$ e $\ell'$ con il preprocessing di $P$
+\State $k \gets n$ \Comment{$P[n]$ è allineato con $T[k]$}
+\While{$k \le m$}
+  \State $i \gets n+1$; \quad $h \gets k+1$
+  \While{$i>1$ \textbf{ e } $P[i-1]=T[h-1]$}
+    \State $i \gets i-1$; \quad $h \gets h-1$
+  \EndWhile
+  \If{$i=1$}
+    \State riporta l'occorrenza che inizia in $k-n+1$
+    \State $k \gets k+\sigma(1)$
+  \Else
+    \State $x \gets T[h-1]$ \Comment{il carattere «cattivo»}
+    \State $k \gets k+\max\set{\,(i-1)-R_{i-1}(x),\ \sigma(i)\,}$
+  \EndIf
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+L'invariante del ciclo interno è $\sub{P}{i}{n}=\sub{T}{h}{k}$; all'uscita, o $i=1$
+e si è trovata un'occorrenza, oppure $P[i-1]\neq T[h-1]$ e si è nella situazione
+descritta nella \autoref{sec:bm-regole}.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ll}
+\toprule
+\textbf{Fase} & \textbf{Costo} \\
+\midrule
+Preprocessing BCR, matrice & $\Th(n\abs{\alfa})$ tempo e spazio, interrogazioni $\Oh(1)$ \\
+Preprocessing BCR, liste   & $\Th(n+\abs{\alfa})$ spazio, costo ammortizzato equivalente \\
+Preprocessing GSR ($Z$ su $P^r$) & $\Th(n)$ tempo e spazio \\
+Ricerca, caso migliore     & $\Th(m/n)$ caratteri ispezionati (sublineare) \\
+Ricerca, caso peggiore     & $\Th(mn)$ (quadratico) \\
+\bottomrule
+\end{tabular}
+\caption{Riepilogo dei costi di Boyer--Moore.}
+\end{table}
+
+Il caso peggiore quadratico è quello già visto di $T=a^{m}$, $P=a^{n}$: è proprio
+per eliminarlo, senza rinunciare alle due euristiche, che serve la variante di
+Apostolico--Giancarlo.

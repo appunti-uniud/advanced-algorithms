@@ -1,0 +1,50 @@
+{
+ "capitolo": "07-shift-and",
+ "compila": true,
+ "applicate": [
+  {
+   "pagina": 29,
+   "categoria": "errore-logico",
+   "cosa": "Riscritto il paragrafo di transizione fra il dot-plot e l'algoritmo (ex righe 60-61 e 72-77). Il testo diceva 'La $j$-esima colonna e un array di $n$ bit... Per passare dall'array al tempo $j$ a quello al tempo $j+1$ bastano due operazioni bit a bit: uno shift... e un and... Un $1$ che arrivi fino all'ultima riga segnala un'occorrenza di $P$ in $T$', e l'unico antecedente possibile di 'colonna' era il dot-plot $D$. Rifatto il conto: la segnalazione e fondata. Per $D$ si ha $D_j = U_{T[j]}$ (dipende dal solo carattere $T[j]$), quindi la ricorrenza e falsa: con $P=aa$, $T=ba$ si ottiene $D_1=U_b=00$, $\\mathrm{shift}(D_1)=10$, $10\\ \\mathrm{AND}\\ U_a=10$, mentre $D_2=U_a=11$. Falso anche il criterio di occorrenza: sempre con $P=aa$, $T=ba$ si ha $D[2,2]=1$ perche $P[2]=T[2]=a$, ma $T[1..2]=ba$ non contiene $aa$. Il capitolo distingue $D$ da $M$ proprio per evitare questa confusione e qui la ricreava. Nuova formulazione: si dice esplicitamente che la colonna del dot-plot non e quella che conviene far evolvere ('in $D$ un $1$ dice soltanto che due singoli caratteri coincidono, non che un'occorrenza del pattern e arrivata fin li') e che il vettore mantenuto dall'algoritmo e la colonna della matrice $M$ della Sezione~\\ref{sec:shift-and-matrice}; il criterio dell'ultima riga e messo al futuro ('segnalera'), come promessa da riscuotere nella sezione 3. Ritoccata anche la domanda retorica di apertura ('Si, ma non cosi com'e. Il punto e che non occorre tenere in memoria un'intera matrice: basta muoversi per colonne, un carattere di testo alla volta'), che nella versione precedente prometteva di far evolvere proprio $D$."
+  },
+  {
+   "pagina": 29,
+   "categoria": "figura",
+   "cosa": "Didascalia di fig:shift-and-colonne: aggiunta la frase 'Le colonne disegnate sono quelle della matrice $M$ della Sezione~\\ref{sec:shift-and-matrice}, non del dot-plot $D$.' La figura sta nella sezione sul dot-plot (segue il quaderno) ma illustra la ricorrenza dello Shift--And, e senza la precisazione ereditava l'ambiguita del testo. Le etichette interne ($T[1]..T[m]$ sulle colonne, $P[1]..P[n]$ sulle righe) restano valide perche $M$ ha le stesse dimensioni e lo stesso orientamento."
+  },
+  {
+   "pagina": 29,
+   "categoria": "figura",
+   "cosa": "tikz/shift-and-colonne.tikz: il commento di intestazione recitava 'Il dot-plot letto per colonne', sostituito con 'Il vettore di stato letto per colonne' piu una riga di ATTENZIONE che ricorda che le colonne disegnate sono quelle di $M$ e non di $D$ (e che per $D$ la colonna $j$ e semplicemente la maschera $U_{T[j]}$). Nessuna modifica al disegno. Verificato con .build/prova-tikz.sh: 'OK: shift-and-colonne.tikz compila (larghezza 268.4705pt su 478.00813pt disponibili)'."
+  },
+  {
+   "pagina": 30,
+   "categoria": "riferimenti",
+   "cosa": "Aggiunta \\label{sec:shift-and-matrice} alla sezione 'La matrice dello Shift--And', necessaria per i due rimandi in avanti introdotti a p.29. Verificato con due passate di lualatex che il riferimento risolve (nel log restano solo due warning di font shape, nessun riferimento indefinito interno)."
+  },
+  {
+   "pagina": 30,
+   "categoria": "notazione",
+   "cosa": "Dominio della definizione di $M$ esteso da '$1\\le i\\le n$, $0\\le j\\le m$' a '$0\\le i\\le n$, $0\\le j\\le m$', con l'aggiunta della convenzione $\\pre{P}{0}=\\vuota$ e delle due condizioni al bordo che ne discendono: 'la riga $i=0$ e allora identicamente $1$ --- la stringa vuota e suffisso di ogni $\\pre{T}{j}$ --- e la colonna $j=0$ e nulla dalla riga $1$ in giu'. Segnalazione fondata: l'osservazione sullo shift usava $M[0,j]=1$ come condizione al bordo, ma la riga $0$ non apparteneva al dominio dichiarato, e la ricorrenza per $i=1$ (che chiede $M[0,j-1]$) restava formalmente priva di caso base. Con la convenzione tutto discende dalla definizione stessa, senza assiomi aggiuntivi: $\\pre{P}{0}=\\vuota$ e suffisso di ogni $\\pre{T}{j}$, dunque $M[0,j]=1$; e per $i\\ge1$ nessun prefisso non vuoto e suffisso di $\\pre{T}{0}=\\vuota$, dunque $M[i,0]=0$."
+  },
+  {
+   "pagina": 30,
+   "categoria": "notazione",
+   "cosa": "Coerenza a valle dell'estensione del dominio. (a) La colonna vettoriale e ora definita come '$M_j\\in\\set{0,1}^n$ la $j$-esima colonna di $M$ ristretta alle righe $1,\\dots,n$, cosicche $M_j[i]=M[i,j]$ per $i=1,\\dots,n$': senza la restrizione, $M_j$ avrebbe avuto $n+1$ componenti e la ricorrenza vettoriale non avrebbe piu avuto senso. (b) L'osservazione sullo shift non ripete piu la parentesi 'la stringa vuota e suffisso di ogni $\\pre{T}{j}$' (ora nella definizione) e dice invece che l'$1$ immesso in testa 'e la riga $i=0$ di $M$, quella che i vettori $M_j$ non contengono e che vale costantemente $1$'. (c) Il confronto fra $M$ e $D$ e stato circoscritto al dominio comune: 'dove entrambe sono definite, cioe per $i,j\\ge 1$, da $M[i,j]=1$ segue in particolare $P[i]=T[j]$, quindi $M\\le D$ componente per componente', perche $D$ non ha ne riga $0$ ne colonna $0$ e la disuguaglianza $M\\le D$ sarebbe stata falsa in $(0,j)$."
+  }
+ ],
+ "respinte": [
+  {
+   "pagina": 29,
+   "cosa": "Aggiungere una nota a pie di pagina o un inciso al paragrafo delle notazioni (righe 11-13) per avvertire che nel capitolo su Karp--Rabin le lettere sono scambiate ($m=\\abs{P}$, $n=\\abs{T}$).",
+   "perche": "La divergenza esiste, ma non e il capitolo 07 a doverla segnalare: e il capitolo 06 a essere l'unico fuori riga. Censite tutte le dichiarazioni di notazione dei capitoli: 01-introduzione riga 63 ('$\\abs{P}=n$ e $\\abs{T}=m$'), 02-kmp-z righe 6-7 ('$n=\\abs{P}$ e $m=\\abs{T}$'), 03-boyer-moore riga 10 ('$m=\\abs{T}$, $n=\\abs{P}$'), 10-landau-vishkin righe 15-16 ('$m=\\abs{T}$ e $n=\\abs{P}$') e 07-shift-and righe 11-13 usano tutti $n=\\abs{P}$, $m=\\abs{T}$; solo 06-karp-rabin riga 31 pone $m=\\abs{P}$, $n=\\abs{T}$. E anche la convenzione di Gusfield, testo di riferimento del corso ($P$ di lunghezza $n$, $T$ di lunghezza $m$). Mettere l'avvertenza in 07 significherebbe piazzare il cartello di deviazione sulla strada dritta invece che su quella storta, e sarebbe l'unico caveat del genere in un libro dove cinque capitoli su sei concordano. La segnalazione va girata al capitolo 06 (uniformarne la notazione, oppure metterci li l'inciso), non risolta qui. Il capitolo 07 e stato lasciato invariato su questo punto."
+  }
+ ],
+ "note": [
+  "Verificate presenti (e non rifatte) le sei correzioni gia applicate a mano: tikz/kmp-alfa-S.tikz riga 27 porta l'etichetta $i-\\spv{i}(S)+1$; 02-kmp-z riga 345 condiziona la copia dell'intera beta a $\\Zv{i'}\\le r-i+1$; 02-kmp-z riga 553 ha la convenzione $\\spp{i}(P)=0$ su insieme vuoto; 03-boyer-moore righe 83-84 dichiarano non safe lo shift della GSR quando $L'(i)=0$, col controesempio $P=aca$ / $T=bcaca$; 05-suffix-tree p.18 (righe 157-196) non contiene piu il riferimento ad $a^m b^m$ ne l'avverbio 'sempre' (le due occorrenze superstiti di $a^m b^m$, righe 130 e 466, sono l'esercizio legittimo sulla taglia quadratica del suffix trie, altra pagina); 05-suffix-tree righe 340 e 349-350 rendono $g$ parziale e attenuano il capoverso sul DFA. Nessuna di queste tocca il capitolo 07.",
+  "I referti p29 e p30 riportavano tre problemi in tutto (uno di gravita media, due bassa): due fondati e applicati, uno respinto perche di competenza del capitolo 06.",
+  "Il controesempio $P=aa$, $T=ba$ usato per confutare la vecchia formulazione di p.29 non e stato messo nel testo: appesantirebbe una pagina che e ancora in fase motivazionale e la distinzione $D$ vs $M$ e gia resa esplicita in prosa, oltre che ribadita nella sezione 3 ('$M\\le D$ componente per componente, ma non vale il viceversa').",
+  "La struttura della pagina 29 e rimasta quella del quaderno: domanda retorica, figura delle due colonne adiacenti, spiegazione delle due operazioni. Nessuna figura e stata spostata di sezione.",
+  "Compilazione finale, dopo due passate: 'OK: 07-shift-and.tex compila (5 pagine, 2 riferimenti indefiniti)'. I due 'undefined' contati dallo script non sono riferimenti ma warning di font shape (TU/cmbr/m/n e TU/Outfit-(0)/m/sc): tutti i \\ref del capitolo risolvono."
+ ]
+}

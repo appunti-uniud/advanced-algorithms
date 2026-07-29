@@ -1,0 +1,26 @@
+{
+ "pagina": 26,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "errore-matematico",
+   "dove": "lezioni/06-karp-rabin.tex, osservazione \"Il punto debole\" (ultima frase, ~riga 100)",
+   "descrizione": "\"Ripetendolo per tutti gli $n-m+1$ shift si ritorna a $\\Th(nm)$\": con la notazione $\\Th$ l'affermazione e' falsa quando $m$ e' dello stesso ordine di $n$ (per $m=n$ c'e' un solo shift e il costo totale e' $\\Th(n)$, non $\\Th(n^2)$). Il costo esatto dello schema ingenuo e' $\\Th((n-m+1)\\,m)$.",
+   "correzione": "Sostituire \"si ritorna a $\\Th(nm)$\" con \"si ritorna a $\\Th\\bigl((n-m+1)\\,m\\bigr)$\" (oppure indebolire a $\\Oh(nm)$)."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "notazione",
+   "dove": "figura kr-finestra-testo (tikz/kr-finestra-testo.tikz, inserita alla riga 44 di lezioni/06-karp-rabin.tex)",
+   "descrizione": "Le due graffe della figura sono etichettate $t_s$ e $t_{s+1}$, ma questi simboli vengono definiti solo piu' avanti nella stessa pagina (itemize \"Poniamo dunque\", righe 57-67). Nel manoscritto il disegno porta solo le etichette $T$ e $P$, quindi le etichette $t_s/t_{s+1}$ sono un'aggiunta editoriale che crea un riferimento in avanti.",
+   "correzione": "Spostare la figura dopo l'itemize che definisce $p$ e $t_s$, oppure etichettare le graffe con $\\sub{T}{s+1}{s+m}$ e $\\sub{T}{s+2}{s+m+1}$ (o \"finestra $s$\" / \"finestra $s+1$\")."
+  }
+ ],
+ "verificato": {
+  "fedelta": "Tutti i contenuti manoscritti della p.26 sono presenti: STree -> pre-processing del testo; 2 capitoli di applicazioni con le due diramazioni semplici/non-semplici; 'STree + Tarjan-Harel' con il disegno a montagna; titolo 'Algoritmo di Karp-Rabin'; disegno T/P; $T,P\\in\\S^*$; $\\S=\\{0,1,\\dots,9\\}$; 'Idea (di partenza)'; $P[1,m]$ come numero in base $d=|\\S|$; definizioni di $p$ e $t_s$; 'inizializzo $p$ e $t_0$'; 'calcolo $t_{s+1}$ a partire da $t_s$ con shift e somma'; diagramma 'check $p=t_s$' con le uscite si'/no e il ciclo; 'NON prende tempo $O(1)$! Non si puo' usare il criterio di costo unitario'. Nessuna omissione rilevata.",
+  "correzioni_silenziose_legittime": "Il quaderno scrive 'Tarjan-Harel'; la trascrizione usa l'ordine standard 'Harel--Tarjan', coerente con il cap. 8, il cap. 9 e il cap. 10. Il nome di Gusfield e il 'loop su $s=0,\\dots,n-m$' (nel quaderno il ciclo non e' etichettato; La fonte dell'anno precedentescrive '|T|-m volte', che e' off-by-one) sono integrazioni corrette.",
+  "matematica": "Formule $p=\\sum_{i=1}^m P[i]d^{m-i}$ e $t_s=\\sum_{i=1}^m T[s+i]d^{m-i}$ corrette; iniettivita' della scrittura posizionale a lunghezza fissa e quindi 's shift valido <=> p=t_s' corretta; il rolling update descritto a parole (togliere la cifra piu' significativa, moltiplicare per d, sommare la nuova cifra) coincide con la formula chiusa data dopo lo pseudocodice; $\\Th(m\\log d)=\\Th(m)$ bit e la soglia $m\\gtrsim\\log n$ per la parola di macchina sono corrette.",
+  "figure": "stree-lca-montagna riproduce fedelmente lo schizzo (radice all'apice, cammino evidenziato, nodo lca, due foglie a terra, etichetta STree dentro la sagoma) e ne esplicita la semantica lca; kr-schema-loop riproduce il box 'check p=t_s' con le due uscite e la retroazione, con l'aggiunta (corretta, tratteggiata) della prosecuzione della scansione dopo un'occorrenza; kr-finestra-testo riproduce T con due finestre traslate e P della stessa lunghezza (nel manoscritto la graffa superiore e' quella piu' a sinistra, nella figura e' quella piu' a destra: differenza puramente grafica, il manoscritto non etichetta le graffe)."
+ }
+}

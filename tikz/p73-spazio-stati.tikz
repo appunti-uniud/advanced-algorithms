@@ -1,0 +1,37 @@
+% p73-spazio-stati -- lo spazio degli stati S come "patata" con dentro un
+% pezzo del grafo di transizione (quaderno, pag. 73).
+% Tre stati s1, s2, s3; arco s1->s2, coppia s1<->s3 (lente), cappio su s3.
+\begin{tikzpicture}[
+    font=\footnotesize,
+    stato/.style={circle,draw,line width=0.7pt,fill=white,
+                  inner sep=0pt,minimum size=5.5pt},
+    arco/.style={line width=0.7pt,-{Stealth[length=4.5pt,width=3.5pt]}}]
+
+  %% ------------------- la "patata": l'insieme S degli stati -------------
+  \draw[line width=0.8pt,gray]
+    plot[smooth cycle,tension=0.75]
+    coordinates {(0.30,1.80) (1.10,3.00) (2.40,3.35) (3.10,2.70)
+                 (3.90,3.30) (5.00,3.10) (5.70,2.00) (5.20,0.90)
+                 (4.20,0.25) (3.10,0.55) (2.40,0.15) (1.20,0.50)
+                 (0.45,1.10)};
+
+  %% ------------------- glossa esterna ----------------------------------
+  \node[anchor=east,align=center] (etS) at (-0.70,2.15) {$S$\\[1pt]stati};
+  \draw[line width=0.5pt,gray] (etS.east) -- (0.34,1.90);
+
+  %% ------------------- gli stati ---------------------------------------
+  \node[stato] (s1) at (1.80,1.30) {};
+  \node[stato] (s2) at (2.65,2.25) {};
+  \node[stato] (s3) at (3.95,1.55) {};
+
+  \node[anchor=east]       at ([xshift=-2pt]s1.west)              {$s_1$};
+  \node[anchor=south]      at ([yshift=2pt]s2.north)              {$s_2$};
+  \node[anchor=north west] at ([shift={(1pt,-2pt)}]s3.south east) {$s_3$};
+
+  %% ------------------- transizioni --------------------------------------
+  \draw[arco] (s1) to[bend left=32] (s2);          % s1 -> s2
+  \draw[arco] (s1) to[bend left=24] (s3);          % s1 -> s3
+  \draw[arco] (s3) to[bend left=24] (s1);          % s3 -> s1
+  \draw[arco] (s3) to[out=62,in=2,looseness=1,min distance=7mm] (s3); % cappio
+
+\end{tikzpicture}

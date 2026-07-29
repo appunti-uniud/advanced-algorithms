@@ -1,0 +1,84 @@
+{
+ "pagina": 58,
+ "latex": "\\scan{58}\n\nNe segue che la probabilità che, dopo la prima contrazione, esista ancora un\ntaglio minimo che l'algoritmo può determinare è\n\\[\n  \\Pr[\\mathcal{E}_1] \\;\\ge\\; 1-\\frac{2}{\\abs{V}} .\n\\]\n\nPassiamo alla seconda contrazione e poniamo $n=\\abs{V}$. Sia $G_1$ il multigrafo\nottenuto dopo la prima contrazione e sia $E_1$ il suo insieme di archi: $G_1$ ha\n$n-1$ nodi e, condizionatamente a $\\mathcal{E}_1$, ammette ancora $C$ come taglio\nminimo, di cardinalità $k$. Ogni nodo di $G_1$ ha quindi grado almeno $k$, per cui\n\\[\n  \\abs{E_1}\\;\\ge\\;\\frac{k\\,(n-1)}{2}\n  \\qquad\\Longrightarrow\\qquad\n  \\Pr\\!\\left[\\overline{\\mathcal{E}_2}\\;\\middle|\\;\\mathcal{E}_1\\right]\n  \\;\\le\\;\\frac{\\abs{C}}{\\abs{E_1}}\n  \\;\\le\\;\\frac{k}{\\dfrac{k\\,(n-1)}{2}}\n  \\;=\\;\\frac{2}{n-1},\n\\]\ne passando all'evento complementare\n\\[\n  \\Pr[\\mathcal{E}_2\\mid\\mathcal{E}_1]\\;\\ge\\;1-\\frac{2}{n-1}.\n\\]\n\n\\begin{osservazione}\n  Il passaggio si ripete identico a ogni passo perché una contrazione non può\n  \\emph{diminuire} il valore del taglio minimo: ogni taglio del multigrafo\n  contratto $G_i$ è anche un taglio di $G$, e quindi contiene almeno $k$ archi.\n  Finché non si contrae un arco di $C$, il taglio minimo di $G_i$ vale\n  esattamente $k$, ogni nodo di $G_i$ ha grado $\\ge k$ e vale di nuovo la stima\n  sul numero di archi.\n\\end{osservazione}\n\nIn generale, dopo $i-1$ contrazioni restano $n-(i-1)=n-i+1$ nodi, dunque\n$\\abs{E_{i-1}}\\ge k\\,(n-i+1)/2$ e\n\\[\n  \\Pr\\!\\left[\\mathcal{E}_i \\;\\middle|\\; \\bigcap_{j=1}^{i-1}\\mathcal{E}_j\\right]\n  \\;\\ge\\; 1-\\frac{2}{n-i+1}.\n\\]\n\nLa quantità che interessa è la probabilità che la scelta dell'arco da contrarre\nsia \\emph{positiva} a \\emph{ogni} passo, cioè $\\Pr\\bigl[\\bigcap_{i=1}^{n-2}\\mathcal{E}_i\\bigr]$:\npoiché le scelte successive non sono indipendenti, la si calcola con la regola\ndella catena.\n\\begin{align*}\n  \\Pr\\!\\left[\\bigcap_{i=1}^{n-2}\\mathcal{E}_i\\right]\n  &= \\Pr[\\mathcal{E}_1]\\cdot\\Pr[\\mathcal{E}_2\\mid\\mathcal{E}_1]\\cdot\\;\\cdots\\;\\cdot\n     \\Pr\\!\\left[\\mathcal{E}_{n-2}\\;\\middle|\\;\\bigcap_{i=1}^{n-3}\\mathcal{E}_i\\right]\\\\[4pt]\n  &\\ge \\left(1-\\frac{2}{n}\\right)\\left(1-\\frac{2}{n-1}\\right)\\cdot\\;\\cdots\\;\\cdot\n       \\left(1-\\frac{2}{\\,n-(n-2)+1\\,}\\right)\\\\[4pt]\n  &= \\left(\\frac{n-2}{n}\\right)\\left(\\frac{n-3}{n-1}\\right)\\left(\\frac{n-4}{n-2}\\right)\n     \\cdots\\;\\frac{2}{4}\\cdot\\frac{1}{3}\n   \\;=\\;\\frac{2}{n(n-1)} ,\n\\end{align*}\ndove l'ultimo passaggio segue dal fatto che il prodotto è telescopico: ogni\nnumeratore si semplifica con il denominatore che compare due fattori più avanti,\ne sopravvivono soltanto i numeratori $2$ e $1$ degli ultimi due fattori e i\ndenominatori $n$ e $n-1$ dei primi due.\n\nLa probabilità che l'algoritmo dia una risposta corretta (cioè un taglio minimo) è\nquindi\n\\[\n  \\Pr[\\text{risposta corretta}] \\;\\ge\\; \\frac{2}{n(n-1)} \\;=\\; \\frac{1}{\\binom{n}{2}}\n  \\;\\ge\\; \\frac{2}{n^{2}} .\n\\]\n\n\\begin{osservazione}\n  La probabilità che il taglio $C$ restituito \\emph{non} sia corretto è\n  \\[\n    \\begin{aligned}\n      \\text{dopo un'esecuzione:}   &\\quad \\le\\; 1-\\frac{2}{n^{2}},\\\\[4pt]\n      \\text{dopo due esecuzioni:}  &\\quad \\le\\; \\left(1-\\frac{2}{n^{2}}\\right)^{\\!2},\\\\[4pt]\n      \\text{dopo $h$ esecuzioni:}  &\\quad \\le\\; \\left(1-\\frac{2}{n^{2}}\\right)^{\\!h}.\n    \\end{aligned}\n  \\]\n  Le $h$ esecuzioni sono infatti indipendenti fra loro e si restituisce il\n  migliore degli $h$ tagli trovati: si sbaglia soltanto se sbagliano tutte, da\n  cui il prodotto delle probabilità di errore.\n\\end{osservazione}\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/karger-tradeoff.tikz}\n  \\caption{Il compromesso fra costo e affidabilità: al crescere del numero $h$ di\n  ripetizioni aumenta la complessità computazionale e diminuisce la probabilità\n  di errore.}\n\\end{figure}",
+ "note": [
+  {
+   "tipo": "correzione",
+   "pagina": 58,
+   "testo": "Il quaderno scrive il passo generico come Pr[E_i | ∩_{j=1}^{i-1} E_j] ≥ 1 − 2/(n−i) (la lettura del denominatore «n−i», senza «+1», è certa: ingrandimento a 3x della banda centrale). Ho scritto 1 − 2/(n−i+1) perché: (a) dopo i−1 contrazioni restano n−(i−1)=n−i+1 nodi, quindi |E_{i−1}| ≥ k(n−i+1)/2 e Pr[non E_i | ...] ≤ 2/(n−i+1); (b) la formula del quaderno per i=2 darebbe 1−2/(n−2), in contraddizione con la riga immediatamente precedente della stessa pagina che afferma Pr[E_2|E_1] ≥ 1−2/(n−1); (c) l'ultimo fattore del prodotto, scritto poche righe sotto dallo stesso studente come 1 − 2/(n−(n−2)+1), è coerente con n−i+1 e non con n−i. Si tratta quindi di uno scivolamento di indice isolato.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 58,
+   "testo": "Il quaderno scrive «Pr[Ē_2|E_1] < |C|/|E_1| = K/(K·(n−1)) · 2 = 2/(n−1)»: il fattore 2 «migra» fuori dal denominatore, rendendo la catena formalmente scorretta, e il segno usato è < invece di ≤ (la maggiorazione |C|/|E_1| ≤ k/(k(n−1)/2) non è un'uguaglianza, perché |E_1| è solo ≥ k(n−1)/2). Ho riscritto la catena come Pr[Ē_2|E_1] ≤ |C|/|E_1| ≤ k/(k(n−1)/2) = 2/(n−1). La stessa imprecisione è presente neGli appunti del corso dell'anno precedente (cfr. anomalia 10 di L14_sintesi.md).",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 58,
+   "testo": "Né lo studente né La fonte dell'anno precedentegiustificano perché anche dopo le contrazioni ogni nodo abbia grado ≥ k (senza questo, la stima |E_i| ≥ k(n−i)/2 non è lecita). Ho aggiunto una breve osservazione con il lemma standard: ogni taglio di G_i è anche un taglio di G, quindi ha ≥ k archi; finché non si contrae un arco di C il min-cut di G_i vale esattamente k e il grado minimo resta ≥ k. Contenuto aggiunto per colmare la lacuna, non presente nel quaderno.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 58,
+   "testo": "Annotazione a margine sinistro (tre righe in corsivo con una freccia verso la catena di uguaglianze): letta come «La prob. che la scelta sia sempre positiva». La lettura è stata risolta grazie alla definizione data a p.57, dove E_i è definito come «la scelta dell'i-esimo arco contratto è POSITIVA se rimane ancora un min-cut, NEGATIVA altrimenti». Non essendoci una macro di nota a margine fra quelle disponibili, l'ho integrata come frase introduttiva del calcolo («La quantità che interessa è la probabilità che la scelta ... sia positiva a ogni passo»).",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 58,
+   "testo": "Nel prodotto telescopico il penultimo fattore, a bassa risoluzione, sembrava 3/4; l'ingrandimento a 8x mostra chiaramente 2/4. È anche l'unico valore corretto: per i=n−3 si ha (n−i−1)/(n−i+1)=2/4. Trascritto 2/4.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 58,
+   "testo": "Nel blocco «N.B.» il quaderno collega le probabilità di errore con una tilde (∼, «dopo un run ∼ 1 − 2/n²», ecc.), che è ambigua fra uguaglianza e approssimazione. Ho scritto ≤, che è la relazione corretta: da Pr[successo] ≥ 2/(n(n−1)) ≥ 2/n² segue Pr[errore] ≤ 1 − 2/n². Anche Gli appunti del corso dell'anno precedente scrivono «è» al posto di «≤» (loro anomalia 1). Ho inoltre tradotto l'anglicismo «run» con «esecuzione», come da regola di stile.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 58,
+   "testo": "Il quaderno passa senza commento da 2/(n(n−1)) (conclusione del prodotto telescopico) a 2/n² (usato nel N.B. sulle probabilità di errore). Ho esplicitato il ponte scrivendo 2/(n(n−1)) = 1/C(n,2) ≥ 2/n². La forma 1/binom(n,2) non compare nel quaderno di questa pagina: l'ho aggiunta perché è la forma canonica del risultato (presente neGli appunti del corso dell'anno precedente) e rende evidente il legame con il numero di coppie di vertici.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 58,
+   "testo": "Il quaderno scrive direttamente (1 − 2/n²)^h senza dire perché si possa moltiplicare: ho aggiunto una frase che chiarisce che le h esecuzioni sono indipendenti (a differenza dei passi interni a una singola esecuzione) e che si restituisce il migliore degli h tagli, cosicché si sbaglia solo se sbagliano tutte. Integrazione daGli appunti del corso dell'anno precedente (§6.2).",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 58,
+   "testo": "Etichetta della freccia verso l'alto nello schema del trade-off: il corsivo è molto compresso; per confronto con «minore» della riga sottostante e per il senso (più ripetizioni ⇒ più costo) l'ho letta «maggiore complessità». Nella figura e nella didascalia l'ho resa come «maggiore complessità computazionale» (La fonte dell'anno precedentescrive «Complessità computazionale ↑»).",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 58,
+   "testo": "Notazione: il quaderno usa la K maiuscola per la cardinalità del taglio minimo (definita a p.57: «K sia la cardinalità di un min-cut per G»); ho uniformato a k minuscolo, coerente con Gli appunti del corso dell'anno precedente e con la notazione standard di Motwani–Raghavan. Ho inoltre mantenuto |V| nella prima formula (come nel quaderno) e introdotto n=|V| subito dopo, dove lo introduce lo studente.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 58,
+   "testo": "L'unico elemento grafico della pagina sono le due frecce verticali (una in su, una in giù) con le rispettive etichette, disegnate a destra dell'elenco delle probabilità di errore. Le ho interpretate come lo schema del trade-off costo/affidabilità (corrisponde al riquadro «TRADEOFF» di p.4 deGli appunti del corso dell'anno precedente) e le ho rese come figura autonoma con didascalia.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "karger-tradeoff",
+   "pagina": 58,
+   "didascalia": "Il compromesso fra costo e affidabilità: al crescere del numero $h$ di ripetizioni aumenta la complessità computazionale e diminuisce la probabilità di errore.",
+   "tipo": "altro (schema a frecce / annotazione)",
+   "specifica": "Schema minimale composto da due frecce verticali affiancate in colonna, con etichetta testuale a destra di ciascuna.\n\nGEOMETRIA. Si lavori in una colonna verticale unica: tutte le frecce hanno la stessa ascissa x=0.\n- Freccia A (in alto): segmento verticale da (0,0) a (0,2), con punta di freccia (->) all'estremo SUPERIORE (0,2). Lunghezza circa 2 unità (nel quaderno occupa circa 3 quadretti).\n- Freccia B (in basso): segmento verticale da (0,-1) a (0,-3), con punta di freccia (->) all'estremo INFERIORE (0,-3). Stessa lunghezza della freccia A. Lo spazio vuoto fra la coda di A (y=0) e la testa di B (y=-1) è di circa mezza lunghezza di freccia.\n\nETICHETTE (in italiano, allineate a sinistra, poste a destra della colonna, a circa 0.6 unità dall'asse x=0):\n- accanto alla PUNTA della freccia A, all'altezza y=2 circa: «maggiore complessità computazionale»;\n- accanto alla PUNTA della freccia B, all'altezza y=-3 circa: «minore probabilità di errore».\nNel quaderno le etichette sono scritte in corsivo blu come «maggior complessità» e «minore prob. di errore»; in trascrizione vanno espanse come sopra.\n\nSTILE. Tratto sottile/medio, frecce con punta standard (stealth o latex), nessun riquadro, nessun colore particolare (nero o il colore di default del documento). Nessun nodo, nessun arco fra le due frecce, nessuna etichetta ulteriore.\n\nSIGNIFICATO ALGORITMICO. È il trade-off tipico degli algoritmi Monte Carlo applicato all'amplificazione per ripetizione dell'algoritmo di Karger: ripetendo h volte la procedura CONTRACT e restituendo il migliore fra gli h tagli trovati, la probabilità di errore scende come (1 - 2/n^2)^h (freccia verso il basso) mentre il tempo di calcolo cresce linearmente in h (freccia verso l'alto). Nel quaderno lo schema è disegnato immediatamente a destra dell'elenco «dopo un'esecuzione / dopo due esecuzioni / dopo h esecuzioni», e va letto come commento a quell'elenco.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina si chiude con la probabilità di errore dopo $h$ esecuzioni indipendenti, $\\left(1-\\frac{2}{n^2}\\right)^h$, e con lo schema del trade-off (complessità in su, probabilità di errore in giù), ma NON fissa ancora il valore di $h$. Resta quindi in sospeso la scelta di $h$ e la stima numerica del risultato. La pagina 59 (ultima del capitolo, quasi interamente vuota) contiene esattamente questo: il «N.B.» con $h=\\frac{n^2}{2}$ e la disuguaglianza $\\left(1-\\frac{1}{n^2/2}\\right)^{n^2/2}<\\frac1e$, con l'annotazione a matita $\\frac1e\\approx\\frac13\\approx 0{,}33$. Chi trascrive la p.59 dovrà quindi riprendere da qui: giustificazione $(1-x)\\le e^{-x}$, osservazione che $1/e$ è una costante (e che per un errore $o(1)$ serve $h=\\Theta(n^2\\log n)$) e, se si vuole, il costo complessivo $O(n^4)$. Alle spalle, la p.57 ha definito $\\mathcal{E}_i$ («la scelta dell'$i$-esimo arco contratto è positiva se rimane ancora un min-cut»), $k=|C|$, l'osservazione $\\forall v\\ d(v)\\ge k$ e la stima $|E|\\ge kn/2 \\Rightarrow |C|/|E|\\le 2/n$: la p.58 ne è la prosecuzione diretta (il «$\\Rightarrow$» di apertura si aggancia a quella catena).",
+ "confidenza": "alta"
+}

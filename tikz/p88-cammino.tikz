@@ -1,0 +1,35 @@
+% p88-cammino -- pag. 88
+% Il cammino su n vertici: l'albero con il minimo numero di archi, m = n-1.
+% E' il caso in cui la stima C(G) <= 2m(n-1) vale Theta(n^2).
+\begin{tikzpicture}[
+    x=1cm, y=1cm,
+    filo/.style = {draw=graydark, line width=0.7pt, line cap=round},
+    vert/.style = {circle, fill=graydark, inner sep=0pt, minimum size=4pt},
+    punto/.style= {circle, fill=graydark, inner sep=0pt, minimum size=2pt},
+    et/.style   = {font=\footnotesize},
+  ]
+
+  % ---- i primi quattro vertici del cammino --------------------------------
+  \foreach \i in {0,1,2,3} { \coordinate (n\i) at (1.55*\i, 0); }
+  \draw[filo] (n0) -- (n1) -- (n2) -- (n3);
+
+  % ---- lo stacco: il cammino prosegue -------------------------------------
+  \foreach \x in {5.60, 6.05, 6.50} { \node[punto] at (\x, 0) {}; }
+
+  % ---- gli ultimi due vertici ---------------------------------------------
+  \coordinate (m0) at (7.45, 0);
+  \coordinate (m1) at (9.00, 0);
+  \draw[filo] (m0) -- (m1);
+
+  % ---- i pallini ----------------------------------------------------------
+  \foreach \n in {n0,n1,n2,n3,m0,m1} { \node[vert] at (\n) {}; }
+
+  % ---- le etichette -------------------------------------------------------
+  \node[et, below=4pt] at (n0) {$v_1$};
+  \node[et, below=4pt] at (n1) {$v_2$};
+  \node[et, below=4pt] at (n2) {$v_3$};
+  \node[et, below=4pt] at (n3) {$v_4$};
+  \node[et, below=4pt] at (m0) {$v_{n-1}$};
+  \node[et, below=4pt] at (m1) {$v_n$};
+
+\end{tikzpicture}

@@ -1,0 +1,46 @@
+% allineamento-locale-ultima-riga -- pag. 46
+% La matrice sigma x T dell'allineamento locale, con l'ultima riga (indice
+% |sigma|) messa in evidenza: le tacche marcano le colonne di costo minimo,
+% cioe' le posizioni finali delle occorrenze approssimate di sigma in T.
+\begin{tikzpicture}[
+    x=1cm, y=1cm,
+    font=\footnotesize,
+    et/.style={font=\footnotesize, inner sep=1.5pt},
+  ]
+
+  % ---- geometria: matrice (0,0)--(8.4,-2.2); ultima riga: striscia [-1.75,-2.2]
+
+  \fill[black!8] (0,-1.75) rectangle (8.4,-2.2);
+
+  \draw[black!80, line width=0.7pt] (0,0) rectangle (8.4,-2.2);
+  \draw[black!80, line width=0.6pt] (0,-1.75) -- (8.4,-1.75);
+
+  % ---- etichette degli assi -------------------------------------------------
+  \node[et, anchor=south] at (4.2,0.08)   {$T$};
+  \node[et, anchor=east]  at (-0.18,-0.85) {$\sigma$};
+  \node[et, anchor=west]  at (8.58,-1.975) {ultima riga: $i=\abs{\sigma}$};
+
+  % ---- alcuni cammini di allineamento: partono dalla riga 0 (tutta a 0) e
+  %      terminano in una colonna di costo minimo dell'ultima riga -----------
+  \draw[black!35, line width=0.6pt, line join=round]
+        (1.20,0) -- (1.20,-0.45) -- (1.45,-0.45) -- (1.45,-0.90)
+                 -- (1.75,-0.90) -- (1.75,-1.35) -- (2.00,-1.35) -- (2.00,-1.75);
+  \draw[black!35, line width=0.6pt, line join=round]
+        (3.70,0) -- (3.70,-0.50) -- (4.00,-0.50) -- (4.00,-1.00)
+                 -- (4.30,-1.00) -- (4.30,-1.40) -- (4.60,-1.40) -- (4.60,-1.75);
+  \draw[black!35, line width=0.6pt, line join=round]
+        (6.10,0) -- (6.10,-0.45) -- (6.40,-0.45) -- (6.40,-0.95)
+                 -- (6.70,-0.95) -- (6.70,-1.40) -- (7.00,-1.40) -- (7.00,-1.75);
+
+  % ---- le tacche dei minimi -------------------------------------------------
+  \foreach \x in {2.00, 2.25, 4.60, 7.00, 7.25}
+    \draw[black, line width=1pt] (\x,-1.85) -- (\x,-2.10);
+
+  % ---- richiamo ai minimi ---------------------------------------------------
+  \foreach \x in {2.125, 4.60, 7.125}
+    \draw[black!60, line width=0.5pt, -{Stealth[length=4pt,width=3pt]}]
+          (\x,-2.60) -- (\x,-2.30);
+  \node[et, anchor=north, text=black!60] at (4.2,-2.62)
+        {colonne di costo minimo};
+
+\end{tikzpicture}

@@ -1,0 +1,28 @@
+% pm-allineamento -- il pattern P appoggiato sul testo T (quaderno, pag. 2).
+\begin{tikzpicture}[
+    >={Stealth[length=4pt,width=3pt]},
+    stringa/.style={line width=1pt},
+    car/.style={anchor=base,inner sep=0pt,font=\small},
+  ]
+
+  % --- il testo T ----------------------------------------------------------
+  \draw[stringa] (0,0) -- (8.4,0);
+  \node[car] at (0.30, 0.16) {$a$};
+  \node[car] at (0.90, 0.16) {$b$};
+  \node[car] at (1.50, 0.16) {$c$};
+  \node[car] at (2.15, 0.16) {$\cdots$};
+  \node[anchor=west,font=\small] at (8.6,0) {$T$};
+
+  % --- il pattern P --------------------------------------------------------
+  \draw[stringa] (0,-1.3) -- (3.4,-1.3);
+  \node[car] at (0.30,-1.14) {$a$};
+  \node[car] at (0.90,-1.14) {$b$};
+  \node[car] at (1.50,-1.14) {$c$};
+  \node[car] at (2.15,-1.14) {$\cdots$};
+  \node[anchor=west,font=\small] (etP) at (3.6,-1.3) {$P$};
+
+  % --- posizione corrente di confronto: stessa ascissa in T e in P ----------
+  \draw[->] (0.30,-0.52) -- (0.30,-0.10);
+  \draw[->] (0.30,-1.82) -- (0.30,-1.40);
+
+\end{tikzpicture}

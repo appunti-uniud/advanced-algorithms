@@ -1,0 +1,112 @@
+{
+ "pagina": 45,
+ "latex": "\\scan{45}\n\nPer calcolare la cella $(i,j)$ della matrice di programmazione dinamica servono\nsoltanto le tre celle $(i-1,j-1)$, $(i-1,j)$ e $(i,j-1)$: stanno tutte nella colonna\ncorrente o in quella immediatamente precedente. Mi basta dunque \\emph{spazio lineare}!\n\\dots\\ ma solo per la \\emph{distanza} (senza la stringa di edit).\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/dp-stencil-lineare.tikz}\n\\caption{Le tre celle da cui dipende $(i,j)$ cadono tutte fra la colonna $j-1$ e la\ncolonna $j$: per calcolare la sola distanza basta tenere in memoria due colonne.}\n\\end{figure}\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/dp-due-colonne.tikz}\n\\caption{La stessa osservazione letta sulla matrice: si conservano la colonna $j-1$\n(gi\\`a completata) e la colonna $j$ riempita fino alla riga $i-1$; le tre celle marcate\nsono esattamente quelle da cui dipende $(i,j)$.}\n\\end{figure}\n\n\\begin{itemize}\n  \\item La matrice consente di calcolare la distanza di Levenshtein fra $\\sigma_1$ e\n        $\\sigma_2$, cio\\`e $\\dedit(\\sigma_1,\\sigma_2)$, in $\\Oh(n_1\\times n_2)$ tempo\n        \\emph{e} spazio, dove $n_1=\\abs{\\sigma_1}$ e $n_2=\\abs{\\sigma_2}$.\n  \\item La matrice mi permette di calcolare \\emph{tutti} gli allineamenti di costo\n        $\\dedit(\\sigma_1,\\sigma_2)$.\n  \\item Se riduco la matrice \\dubbioinl{all'ultima colonna calcolata} riduco lo spazio a\n        $\\Oh(\\min(n_1,n_2))$, \\emph{ma non sono pi\\`u in grado di produrre $\\eta$}.\n\\end{itemize}\n\nPer ottenere \\emph{anche} $\\eta$ restando in spazio lineare: \\textbf{algoritmo di\nHirschberg}.\n\n\\begin{osservazione}[Remark]\nLa matrice non mi d\\`a soltanto $\\dedit(\\sigma_1,\\sigma_2)$: mi consente di avere\n\\[\n  \\dedit\\bigl(\\sub{\\sigma_1}{i}{j},\\ \\sub{\\sigma_2}{i'}{j'}\\bigr),\n\\]\ncio\\`e la distanza fra due \\emph{sottostringhe} qualsiasi. Ogni sottorettangolo della\nmatrice \\`e a sua volta un problema di allineamento fra due sottostringhe: \\`e questa\nla propriet\\`a che permette di spezzare il problema.\n\\end{osservazione}\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/hirschberg-divide.tikz}\n\\caption{Schema divide et impera di Hirschberg. La riga mediana $i^{*}$ taglia la\nmatrice in due met\\`a; il cammino ottimo la attraversa in una colonna $j^{*}$. Una volta\nindividuato $j^{*}$, il problema si spezza nei due sottorettangoli\n$[0,i^{*}]\\times[0,j^{*}]$ e $[i^{*},n_1]\\times[j^{*},n_2]$, sui quali si ricorre: le\naltre due regioni non vengono mai calcolate.}\n\\end{figure}\n\nPoich\\'e a ogni livello della ricorsione l'area complessiva da riempire si dimezza, il\ntempo resta $\\Th(n_1 n_2)$ mentre lo spazio scende a $\\Th(\\min(n_1,n_2))$, questa volta\n\\emph{senza} perdere l'allineamento $\\eta$.",
+ "note": [
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 45,
+   "testo": "Terzo punto elenco: fra «all'ultimo» e «riduco lo spazio» il quaderno ha una parola che non sono riuscito a decifrare. All'esame dei pixel nativi (la scansione e a 300 dpi, oltre e interpolazione) la parola e larga ~155 px e si scompone in: [s] curl a altezza x, [f] con occhiello superiore e occhiello inferiore (forma confermata confrontandola con la «f» di «prefisso» a p.46 e distinta dalla «p» di «spazio», che ha discendente dritto), poi tre unita che leggo come «a», «n», «o» finale con svolazzo di uscita: si legge dunque «sfano», che non e parola italiana. Nessun candidato plausibile (sfondo, sforzo, sfamo, colonna, giro, piano, passo, stadio) regge al confronto con il profilo dell'inchiostro. Ho reso il senso, che invece e certo (tenere solo l'ultima colonna calcolata => spazio O(min(n1,n2)), come illustrano le due figure sopra), scrivendo «all'ultima colonna calcolata» e marcandolo con \\dubbioinl.",
+   "risolto": false
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 45,
+   "testo": "Il quaderno scrive «O(min(sigma_1, sigma_2))»: il minimo va preso sulle lunghezze, non sulle stringhe. Ho scritto O(min(n_1,n_2)) coerentemente con l'O(n_1 x n_2) del primo punto.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 45,
+   "testo": "Nel primo punto il quaderno scrive «O(n_1 x n_2)» con n_1, n_2 mai definiti in pagina (altrove usa |sigma_1|, |sigma_2|). Ho esplicitato n_1 = |sigma_1|, n_2 = |sigma_2|.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 45,
+   "testo": "Il quaderno usa «d(sigma_1,sigma_2)» nel primo punto e «d_L(sigma_1,sigma_2)» nel secondo e nel Remark. Ho uniformato con la macro \\dedit (d_edit) prevista dal preambolo; annoto che nel manoscritto il pedice e L (Levenshtein).",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 45,
+   "testo": "Il nome scritto a mano si legge «Levhastein»/«Levenstein» e, piu sotto, «Hirshberg». Ho normalizzato a «Levenshtein» e «Hirschberg» (grafie corrette; anche Gli appunti del corso dell'anno precedente, L11 anomalia A12, scrivono «Hirshberg»).",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 45,
+   "testo": "Remark: il quaderno scrive letteralmente d_L(sigma_1[i,j], sigma_2[i,j]), con la STESSA coppia di indici per entrambe le stringhe: cosi com'e non ha senso. Due letture possibili: (a) prefisso-prefisso, d_L(sigma_1[1..i], sigma_2[1..j]), che e cio che contiene la cella (i,j); (b) sottostringa-sottostringa, con due intervalli indipendenti. Ho scelto (b) e scritto d_edit(sigma_1[i..j], sigma_2[i'..j']) perche e la lettura che serve alla figura immediatamente successiva (Hirschberg: ogni sottorettangolo e un problema di allineamento fra sottostringhe, e la meta inferiore si calcola all'indietro, cioe fra suffissi). Aggiunta la frase esplicativa «ogni sottorettangolo ... e questa la proprieta che permette di spezzare il problema», che nel quaderno non c'e.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 45,
+   "testo": "Il quaderno, dopo la figura di Hirschberg, non scrive nulla: la figura resta muta. Ho aggiunto (i) la lettura della figura nella caption (riga mediana i*, colonna di attraversamento j*, i due sottorettangoli, le due regioni mai calcolate) e (ii) la frase finale sul dimezzamento dell'area, con tempo Theta(n_1 n_2) e spazio Theta(min(n_1,n_2)) senza perdere eta. Entrambe sono ricostruzioni standard (Hirschberg 1975; cfr. L11 sintesi §7.4), non testo del quaderno.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 45,
+   "testo": "La frase introduttiva («Per calcolare la cella (i,j) servono soltanto le tre celle ...») e la mia verbalizzazione dello schizzo in alto a sinistra: il quaderno ha solo il disegno dello stencil dentro un ovale e le due righe «Mi basta spazio lineare!» / «... per la distanza (senza stringa)». Il testo manoscritto e stato incorporato nella prosa; «(senza stringa)» e reso con «(senza la stringa di edit)».",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 45,
+   "testo": "Figura 1 (schizzo in alto a sinistra, dentro un ovale a penna): e lo stencil della ricorrenza di programmazione dinamica, 2x2 celle con tre frecce (diagonale, verticale, orizzontale) convergenti sulla cella in basso a destra. L'ovale serve a dire «tutto quello che mi serve sta qui»: due sole colonne, da cui «spazio lineare».",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 45,
+   "testo": "Figura 2 (rettangolo sotto lo schizzo): i due segmenti verticali interni sono sfalsati nell'originale (quello di destra va dal bordo superiore a meta altezza, quello di sinistra da meta altezza al bordo inferiore) e portano tre pallini: due sulla colonna sinistra (righe i-1 e i) e uno sulla colonna destra (riga i-1). Ho interpretato la coppia di segmenti come colonna j-1 (gia completata) e colonna j (riempita fino a i-1) e i tre pallini come le tre celle dello stencil; la quarta cella, (i,j), e quella da calcolare e non e marcata. Sotto e a destra del rettangolo restano tracce a matita di uno schizzo cancellato («abcdef», «abcd», «abc»): non fanno parte del contenuto e non vanno riprodotte.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 45,
+   "testo": "Figura 3 (grande rettangolo in basso): due cammini a zig-zag, uno dall'angolo in alto a sinistra fino all'incrocio fra riga mediana e prima verticale, l'altro dall'incrocio fra riga mediana e seconda verticale fino all'angolo in basso a destra. Le due verticali sono distinte nell'originale, ma per Hirschberg si tratta di un'unica colonna di attraversamento j*: nel disegno sono separate per rendere visivamente disgiunti i due sottorettangoli (l'alternativa e che il cammino ottimo percorra orizzontalmente la riga mediana fra j_1 e j_2, cosa possibile ma non essenziale). Ho adottato la lettura «unica colonna j*» nella caption.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 45,
+   "testo": "Ordine dei contenuti: p.44 apre «Allineamento locale» in fondo, p.45 torna sulle proprieta della matrice DP e su Hirschberg, p.46 riprende e sviluppa l'allineamento locale. Ho trascritto p.45 come blocco autonomo senza tentare di ricucire la discontinuita, che va gestita in fase di assemblaggio del capitolo.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 45,
+   "testo": "Il testo sottolineato nel quaderno («tutti», «ma non sono piu in grado di produrre eta», «Remark») e reso con \\emph / titolo dell'ambiente osservazione anziche con \\underline, per coerenza tipografica.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "dp-stencil-lineare",
+   "pagina": 45,
+   "didascalia": "Le tre celle da cui dipende (i,j) cadono tutte fra la colonna j-1 e la colonna j: per calcolare la sola distanza basta tenere in memoria due colonne.",
+   "tipo": "matrice DP (stencil della ricorrenza)",
+   "specifica": "Schizzo piccolo, larghezza ~3 cm. Blocco 2x2 di celle di una matrice di programmazione dinamica, con righe che crescono verso il basso (indice i, su sigma_1) e colonne verso destra (indice j, su sigma_2).\n\nNODI (quattro pallini pieni, disposti ai vertici di un quadrato di lato ~1,2 cm):\n- in alto a sinistra: (i-1, j-1)\n- in alto a destra:  (i-1, j)\n- in basso a sinistra: (i, j-1)\n- in basso a destra: (i, j)  <- cella da calcolare\nNell'originale i quattro pallini sono blob di inchiostro; quello in alto a destra e disegnato come cerchietto aperto, gli altri tre pieni. Nel ridisegno: tutti pallini pieni, e la cella (i,j) evidenziata (cerchio piu grande o riempimento chiaro con bordo spesso).\n\nLINEE DI GRIGLIA (tratto sottile, residuo della griglia della matrice):\n- un segmento orizzontale che unisce i due nodi in alto;\n- un segmento verticale che unisce i due nodi a sinistra.\n\nFRECCE (tre, tutte convergenti su (i,j), tratto piu marcato, punta a freccia piena):\n- diagonale da (i-1,j-1) a (i,j);\n- verticale, verso il basso, da (i-1,j) a (i,j);\n- orizzontale, verso destra, da (i,j-1) a (i,j).\n\nCORNICE: tutto il blocco e racchiuso da un ovale allungato disegnato a mano libera (asse maggiore quasi verticale, leggermente inclinato), che nell'originale serve a dire «tutto cio che serve sta qui dentro». Nel ridisegno: ellisse tratteggiata o a tratto continuo sottile, ruotata di ~15 gradi.\n\nETICHETTE: (i-1,j-1), (i-1,j), (i,j-1), (i,j) accanto ai rispettivi nodi, in matematica, corpo piccolo. Facoltativo: le etichette di colonna j-1, j sotto e di riga i-1, i a sinistra.\n\nTESTO ACCANTO (nell'originale a destra dell'ovale, due righe manoscritte; nel ridisegno va nella caption, NON nella figura): «Mi basta spazio lineare!» e «... per la distanza (senza stringa)».\n\nSIGNIFICATO: la ricorrenza D(i,j) = min{D(i-1,j-1)+costo, D(i-1,j)+1, D(i,j-1)+1} usa solo celle della colonna j-1 e della colonna j, quindi due colonne bastano.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "dp-due-colonne",
+   "pagina": 45,
+   "didascalia": "La stessa osservazione letta sulla matrice: si conservano la colonna j-1 (gia completata) e la colonna j riempita fino alla riga i-1; le tre celle marcate sono esattamente quelle da cui dipende (i,j).",
+   "tipo": "matrice DP (schema delle due colonne in memoria)",
+   "specifica": "Rettangolo disegnato a mano libera, alto quanto largo circa (nell'originale ~2,5 x 3 cm, un po' piu alto che largo), bordi a penna con angoli non chiusi perfettamente. Rappresenta l'intera matrice di programmazione dinamica: righe = prefissi di sigma_1 (indice i, crescente verso il basso), colonne = prefissi di sigma_2 (indice j, crescente verso destra).\n\nCONTENUTO INTERNO (nell'originale): due segmenti verticali interni molto vicini fra loro (distanza ~2 mm), collocati poco a destra del centro del rettangolo e SFALSATI in altezza:\n- segmento di destra: dal bordo superiore del rettangolo fino a circa meta altezza;\n- segmento di sinistra: da circa meta altezza fino al bordo inferiore.\nTre celle sono marcate con pallini pieni: due sul segmento di SINISTRA (uno all'altezza in cui quel segmento comincia, uno un po' piu in basso) e uno sul segmento di DESTRA, alla stessa altezza del primo pallino di sinistra (nell'originale e un cerchietto aperto). Fra i due segmenti, due minuscoli trattini orizzontali (sbavature di penna, ignorabili).\n\nRIDISEGNO CONSIGLIATO (interpretazione, piu leggibile dell'originale): tracciare due colonne verticali adiacenti che attraversano tutto il rettangolo, etichettate j-1 (sinistra) e j (destra); riempire/ombreggiare la colonna j-1 per intero (gia calcolata) e la colonna j solo dalla riga 0 fino alla riga i-1 (parte gia calcolata). Marcare con pallini pieni le tre celle (i-1,j-1) e (i,j-1) sulla colonna j-1 e (i-1,j) sulla colonna j; marcare con un cerchietto vuoto (o un quadratino tratteggiato) la cella (i,j), che e quella da calcolare. Etichette j-1, j sotto le due colonne; i-1, i a sinistra delle due righe.\n\nDA NON RIPRODURRE: sotto il rettangolo e alla sua destra restano tracce a matita di uno schizzo precedente cancellato (si intravedono le sequenze «abcdef», «abcd», «abc» e una riga orizzontale sbiadita): sono rumore, vanno omesse.\n\nSIGNIFICATO: bastano due colonne (O(min(n_1,n_2)) memoria, avendo cura di far scorrere la matrice lungo il lato piu lungo) per calcolare la distanza, ma cosi si perde la possibilita di fare backtracking e quindi di produrre eta.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "hirschberg-divide",
+   "pagina": 45,
+   "didascalia": "Schema divide et impera di Hirschberg: la riga mediana i* taglia la matrice, il cammino ottimo la attraversa in una colonna j*, il problema si spezza nei due sottorettangoli in alto a sinistra e in basso a destra.",
+   "tipo": "matrice DP con cammino di backtracking (schema divide et impera)",
+   "specifica": "Grande rettangolo orizzontale disegnato a mano libera (nell'originale ~10 x 6 cm, rapporto larghezza:altezza circa 5:3), tratto spesso a penna, lati leggermente ondulati e non perfettamente chiusi agli angoli. Rappresenta l'intera matrice di programmazione dinamica: angolo in alto a sinistra = (0,0), angolo in basso a destra = (n_1, n_2); righe = sigma_1 (indice i, verso il basso), colonne = sigma_2 (indice j, verso destra).\n\nLINEE INTERNE:\n1. Una linea ORIZZONTALE mediana che attraversa tutto il rettangolo da bordo a bordo, a meta altezza: e la riga mediana i* = n_1/2. Nell'originale e tracciata in due tratti che si incontrano sulla prima verticale, con il tratto di destra un filo piu alto: nel ridisegno va fatta una sola linea orizzontale.\n2. Due linee VERTICALI interne che attraversano tutta l'altezza del rettangolo, dal bordo superiore a quello inferiore: la prima a circa 1/4 della larghezza, la seconda a circa 1/2 della larghezza. Nella semantica di Hirschberg sono la stessa colonna j* (il punto in cui il cammino ottimo attraversa la riga mediana), disegnata sdoppiata per rendere disgiunti i due sottorettangoli. Nel ridisegno si possono tenere due verticali ravvicinate (etichettate entrambe j*) oppure una sola verticale j*: preferibile una sola verticale j*, con i due sottorettangoli evidenziati.\n\nCAMMINI (tratto piu sottile, a zig-zag/scalinata irregolare, come un cammino di backtracking che alterna passi diagonali, verticali e orizzontali):\n- Cammino A: parte dall'angolo in alto a sinistra (0,0) e scende verso destra a gradini, terminando esattamente sull'incrocio fra la riga mediana e la PRIMA verticale, cioe nel punto (i*, j*).\n- Cammino B: parte dall'incrocio fra la riga mediana e la SECONDA verticale, cioe di nuovo (i*, j*), e scende verso destra a gradini fino all'angolo in basso a destra (n_1, n_2). Nell'originale il cammino B ha piu gradini e scende piu ripidamente verso destra.\nI due cammini restano dunque confinati, rispettivamente, nel sottorettangolo in ALTO A SINISTRA e in quello in BASSO A DESTRA.\n\nEVIDENZIAZIONE CONSIGLIATA (non presente nell'originale, ma utile): riempire con un grigio/colore tenue i due sottorettangoli [0,i*]x[0,j*] e [i*,n_1]x[j*,n_2] su cui la ricorsione lavora, lasciando bianche le due regioni in alto a destra e in basso a sinistra, che non vengono mai calcolate.\n\nETICHETTE (da aggiungere, assenti nell'originale): (0,0) all'angolo in alto a sinistra, (n_1,n_2) in basso a destra, i* a sinistra sulla riga mediana, j* sotto la verticale.\n\nSIGNIFICATO: divide et impera di Hirschberg. Calcolando in avanti la riga mediana per sigma_1[1..i*] contro sigma_2 e all'indietro la stessa riga per sigma_1[i*+1..n_1] contro sigma_2 (entrambe in spazio lineare) si individua la colonna j* che minimizza la somma; poi si ricorre sui due sottorettangoli. L'area totale si dimezza a ogni livello: tempo Theta(n_1 n_2), spazio Theta(min(n_1,n_2)), con l'allineamento eta ricostruito.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina chiude sul disegno del divide et impera di Hirschberg, lasciato senza commento scritto: resta in sospeso lo svolgimento dell'algoritmo (calcolo in avanti e all'indietro della riga mediana, scelta di j*, ricorsione) che non viene mai ripreso nelle pagine seguenti. Resta aperta anche la definizione precisa della Remark sulle sottostringhe. La pagina 46 NON prosegue su Hirschberg: riprende il filo interrotto in fondo a p.44 e sviluppa l'«Allineamento Locale» (prima riga della matrice posta a 0, gap iniziale gratuito, definizione della coppia <i, eta_i>, costo |sigma| x |T|, e il rimando a Landau-Vishkin '82 con allineamento locale + suffix tree + LCA). In fase di cucitura del capitolo va deciso se lasciare p.45 dove sta (creando una parentesi fra l'apertura di p.44 e lo sviluppo di p.46) oppure spostarla prima dell'apertura dell'allineamento locale: la seconda scelta ricostruisce l'ordine logico (matrice DP -> costi -> spazio lineare -> Hirschberg -> allineamento locale) ma altera l'ordine del quaderno.",
+ "confidenza": "alta"
+}

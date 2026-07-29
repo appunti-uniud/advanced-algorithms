@@ -1,0 +1,66 @@
+% path-number-alpha -- codifica di un nodo v di B: i bit del cammino radice->v
+% (la stringa alpha), poi il terminatore 1, poi gli 0 di riempimento (quaderno, pag. 33).
+\begin{tikzpicture}[
+    >={Stealth[length=5pt,width=4pt]},
+    font=\small,
+    sagoma/.style={semithick,draw=black!65},
+    nodo/.style={circle,fill=black,inner sep=0pt,minimum size=3pt},
+    parola/.style={thick},
+    sep/.style={semithick},
+  ]
+
+  %% ------------------------------------------------------------------
+  %% Pannello sinistro: la sagoma dell'albero binario completo B
+  %% ------------------------------------------------------------------
+  \draw[sagoma]
+      (-2.20,0.00)
+        to[out=68,in=228]  (-1.55,1.05)
+        to[out=48,in=252]  (-1.00,1.95)
+        to[out=72,in=232]  (-0.50,2.90)   % apice = radice
+        to[out=-42,in=152] (-0.02,2.25)
+        to[out=-28,in=172] ( 0.52,1.95)
+        to[out=-14,in=142] ( 1.20,1.00)
+        to[out=-44,in=118] ( 1.90,0.00)
+      % base ondulata
+        to[out=186,in=-6]  ( 0.75,-0.07)
+        to[out=174,in=-6]  (-0.55, 0.06)
+        to[out=174,in=-12] (-2.20, 0.00);
+
+  % cammino radice -> v (linea leggermente ondulata)
+  \draw[semithick,->]
+      (-0.50,2.82)
+        to[out=-86,in=94] (-0.42,2.45)
+        to[out=-86,in=94] (-0.58,2.10)
+        to[out=-86,in=94] (-0.42,1.78)
+        to[out=-86,in=98] (-0.50,1.52);
+  \node[nodo] (v) at (-0.50,1.44) {};
+  \node[right=2pt] at (v) {$v$};
+  \node[anchor=west] at (-0.34,2.06) {$\a$};
+
+  %% ------------------------------------------------------------------
+  %% Pannello destro: il path number di v come parola di d+1 bit
+  %% ------------------------------------------------------------------
+  \def\ay{1.10}          % quota della parola
+  \def\xa{2.60}          % delimitatore sinistro
+  \def\xb{5.40}          % fine della zona alpha
+  \def\xc{5.85}          % fine della cella del terminatore
+  \def\xd{8.20}          % delimitatore destro
+
+  \node[anchor=west,font=\footnotesize] at (\xa,\ay+0.78) {path number di $v$};
+
+  \draw[parola] (\xa,\ay) -- (\xd,\ay);
+  \draw[parola] (\xa,\ay-0.16) -- (\xa,\ay+0.16);
+  \draw[parola] (\xd,\ay-0.16) -- (\xd,\ay+0.16);
+  \draw[sep]    (\xb,\ay-0.11) -- (\xb,\ay+0.32);
+  \draw[sep]    (\xc,\ay-0.11) -- (\xc,\ay+0.32);
+
+  \node[above] at ({0.5*(\xa+\xb)},\ay+0.04) {$\a$};
+  \node[above] at ({0.5*(\xb+\xc)},\ay+0.04) {$1$};
+  \foreach \i in {0,...,6}{%
+    \node[above] at ({\xc+(\i+0.5)*(\xd-\xc)/7},\ay+0.04) {$0$};}
+
+  \draw[decorate,decoration={brace,amplitude=5pt,mirror,raise=2pt},draw=black!65]
+      (\xa,\ay-0.16) -- (\xd,\ay-0.16)
+      node[midway,below=8pt,font=\footnotesize]{$d+1$ bit};
+
+\end{tikzpicture}

@@ -1,0 +1,102 @@
+{
+ "pagina": 78,
+ "latex": "\\scan{78}\n\nQuando raggiungiamo la distribuzione stazionaria non ci sono più «sorprese»: la catena è\nentrata nel suo \\emph{steady state}.\n\n\\begin{definizione}[Periodicità di uno stato]\\label{def:mc-periodicita}\n  La \\emph{periodicità} di uno stato $i$ è\n  \\[\n    \\max_{T\\in\\NN}\n    \\Bigl\\{\\;\n      \\exists\\,\\vec{q}^{\\,(0)}\\;\\;\\exists\\,a\\in\\NN\\;\\;\\forall t\\;\\;\n      \\bigl(q_i^{(t)}>0 \\;\\to\\; t\\equiv a \\pmod{T}\\bigr)\n    \\;\\Bigr\\}.\n  \\]\n\\end{definizione}\n\nIn parole: il valore $T$ è ammissibile quando esistono una distribuzione iniziale\n$\\vec{q}^{\\,(0)}$ e una classe di resto $a$ modulo $T$ tali che lo stato $i$ possa essere\noccupato con probabilità non nulla soltanto negli istanti $t\\equiv a \\pmod{T}$; la\nperiodicità di $i$ è il più grande fra questi $T$.\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/p78-periodicita.tikz}\n  \\caption{La periodicità letta sull'asse dei tempi: lo stato $i$ può essere occupato\n  ($q_i^{(t)}>0$) soltanto negli istanti $a,\\,a+T,\\,a+2T,\\dots$, mentre in tutti gli altri\n  istanti si ha $q_i^{(t)}=0$.}\n  \\label{fig:p78-periodicita}\n\\end{figure}\n\n\\begin{osservazione}\n  Equivalentemente, la periodicità di $i$ è il massimo comune divisore dell'insieme\n  $\\set{\\,t\\ge 1 \\;:\\; P_{ii}^{(t)}>0\\,}$ dei possibili tempi di ritorno in $i$. Poiché\n  $T=1$ soddisfa sempre la condizione, la periodicità è ben definita e vale almeno $1$.\n\\end{osservazione}\n\n\\begin{definizione}\n  Lo stato $i$ è \\emph{periodico} se ha periodicità $>1$; altrimenti è \\emph{aperiodico}.\n\\end{definizione}\n\n\\begin{definizione}\n  Una catena è \\emph{aperiodica} se ogni suo stato lo è.\n\\end{definizione}\n\n\\begin{definizione}[Stato ergodico]\\label{def:mc-ergodico}\n  Uno stato è \\emph{ergodico} se è\n  \\begin{itemize}\n    \\item aperiodico;\n    \\item non nullo persistente.\n  \\end{itemize}\n\\end{definizione}\n\n\\begin{osservazione}\n  I due requisiti, messi insieme, dicono che un random walk sulla catena ritorna in quello\n  stato con probabilità $1$ (persistenza), dopo un tempo di attesa di valore atteso finito\n  (non nullità) e senza che gli istanti di visita siano confinati in una progressione\n  aritmetica (aperiodicità): il random walk continua dunque a visitare, indefinitamente nel\n  tempo, ogni suo stato.\n\\end{osservazione}\n\n\\begin{definizione}\n  Una catena di Markov è \\emph{ergodica} se ogni suo stato lo è.\n\\end{definizione}\n\n\\begin{teorema}[fondamentale sulle catene di Markov]\\label{thm:mc-fondamentale}\n  Ogni catena di Markov irriducibile, finita e aperiodica gode delle seguenti proprietà.\n  \\begin{enumerate}\n    \\item Tutti i suoi stati sono ergodici.\n    \\item Esiste una distribuzione stazionaria $\\vec{\\pi}$ tale che $\\pi_i>0$ per ogni $i$.\n    \\item Per ogni $i$ si ha\n      \\[\n        f_{ii}=1 \\qquad\\text{e}\\qquad h_{ii}=\\frac{1}{\\pi_i}.\n      \\]\n    \\item Detto $N(i,t)$ il numero medio di volte in cui la catena visita lo stato $i$ in\n      $t$ passi,\n      \\[\n        \\lim_{t\\to\\infty}\\frac{N(i,t)}{t}=\\pi_i .\n      \\]\n  \\end{enumerate}\n\\end{teorema}\n\n\\begin{osservazione}\n  La distribuzione stazionaria del punto 2 è anche \\emph{unica}, e i punti 3 e 4 ne danno\n  due letture concrete: $\\pi_i$ è il reciproco del tempo medio di ritorno in $i$, ed è la\n  frazione di tempo che, a lungo andare, la catena trascorre nello stato $i$.\n\\end{osservazione}\n",
+ "note": [
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 78,
+   "risolto": true,
+   "testo": "Nell'enunciato del teorema («Ogni ___ irriducibile, finita, aperiodica…») e nel punto 4 («…di volte che la ___ visita…») il quaderno usa una parola che a prima vista sembra «stato». Il confronto grafema per grafema con «una catena è aperiodica» (stessa pagina, terza definizione) e con la riscrittura pulita del punto 4 in cima a p.79 («che la catena visita i in t passi») mostra che si tratta di «catena»: il glifo ha la sequenza c-a-t-e-n-a, mentre «stato» in questa calligrafia è una legatura compatta st-t (cfr. «Periodicità di uno stato i» in cima alla pagina). Del resto irriducibilità e finitezza sono proprietà della catena, non di un singolo stato."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 78,
+   "risolto": true,
+   "testo": "Definizione di periodicità: il quaderno scrive max_{T∈N} { ∃q⃗^(0) ∃a∈N ( q_i^(t) > 0 → t ≡_T a ) }, senza quantificare t. Ho aggiunto ∀t, come nella Definizione 6.4 di Motwani–Raghavan («for all t, if q_i^(t) > 0 then t ≡ a mod T»): senza quel quantificatore la formula non è chiusa (t resta libera) e il max non è definito."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 78,
+   "risolto": true,
+   "testo": "Sempre nella stessa formula, la congruenza è annotata come «t ≡_T a» con «mod T» scritto a matita sotto il simbolo ≡ e una freccetta di rimando; l'ho resa nella forma standard t ≡ a (mod T). Ho lasciato a ∈ N come nel quaderno invece del a ∈ {0,…,T−1} di Motwani: le due versioni sono equivalenti a meno di riduzione modulo T."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 78,
+   "risolto": true,
+   "testo": "«i è periodico se ha periodicità > 1»: il glifo della disuguaglianza ha un puntino sotto il tratto del > e potrebbe leggersi ≥. Ho scritto > 1 perché la periodicità vale sempre almeno 1 (T = 1 soddisfa banalmente la condizione), quindi con ≥ 1 ogni stato risulterebbe periodico e la definizione sarebbe vuota; con > 1 si ottiene esattamente la definizione di Motwani–Raghavan (aperiodico ⟺ periodicità 1)."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 78,
+   "risolto": true,
+   "testo": "Nel disegno e in tutta la pagina lo zero è tracciato con il glifo ∅ (zero barrato, abitudine costante di questo quaderno); l'ho trascritto come 0."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 78,
+   "risolto": true,
+   "testo": "Nel disegno le condizioni sono scritte senza apice temporale («q_i > 0», «q_i = 0»). Ho ripristinato l'apice, q_i^{(t)}, perché la quantità in gioco è la componente i-esima del vettore di distribuzione al tempo t introdotto a p.77 (q⃗^(t) = (q_1^(t),…,q_n^(t))); senza apice la condizione non avrebbe senso in una figura che parla di istanti di tempo."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 78,
+   "risolto": true,
+   "testo": "La glossa sotto la definizione di stato ergodico è telegrafica e in parte abbreviata: «un r.w. visita in prob. continuamente ogni suo stato». L'ho sciolta in un'osservazione («random walk», «con probabilità 1», «indefinitamente nel tempo»), esplicitando quale dei due requisiti dà quale conseguenza: persistenza → ritorno con probabilità 1; non nullità → tempo medio di ritorno finito; aperiodicità → istanti di visita non confinati in una progressione aritmetica."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 78,
+   "risolto": true,
+   "testo": "Il punto 2 del teorema, nel quaderno, dice solo «esiste una distribuzione stazionaria π⃗ t.c. ∀i π_i > 0». Il Teorema 6.2 di Motwani–Raghavan afferma anche l'UNICITÀ di π⃗. Non ho alterato l'enunciato manoscritto: ho aggiunto l'unicità in una breve osservazione dopo il teorema, insieme alla lettura di h_ii = 1/π_i (tempo medio di ritorno) e del punto 4 (frazione di tempo trascorsa in i)."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 78,
+   "risolto": true,
+   "testo": "Ho aggiunto un'osservazione, non presente nel quaderno, con la caratterizzazione equivalente e standard della periodicità come mcd{ t ≥ 1 : P_ii^(t) > 0 }, e con il fatto che la periodicità è sempre ≥ 1. Serve a rendere leggibile e verificabile la definizione «con il max», che presa da sola è piuttosto opaca, e giustifica la scelta di «> 1» nella definizione successiva."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 78,
+   "risolto": true,
+   "testo": "Notazione: in questa pagina π è tracciato come una Π sormontata da una tilde ondulata — è la resa a mano del vettore (a p.77 lo stesso oggetto porta la freccia: π⃗ = π⃗P). Ho usato \\vec{\\pi} per il vettore e π_i per le componenti, coerentemente con p.77. Analogamente f_ii e h_ii sono quelli definiti a p.75–76 (f_ij = Σ_{t>0} r_ij^(t), h_ij = Σ_{t>0} t·r_ij^(t))."
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 78,
+   "risolto": true,
+   "testo": "Punto 4: Motwani–Raghavan definisce N(i,t) come il numero (aleatorio) di visite a i in t passi, e il limite N(i,t)/t → π_i va inteso quasi certamente. Il quaderno scrive «il numero MEDIO di volte» (sia qui sia nella riscrittura a p.79). Ho mantenuto «numero medio»: così com'è la formulazione è corretta (limite dei valori attesi) e rende deterministico il limite. Segnalo qui la differenza rispetto alla fonte."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 78,
+   "risolto": true,
+   "testo": "Punto 4: la parola che precede N(i,t) è scarabocchiata e in parte ricalcata (sembra «Sia»). A p.79, dove lo stesso punto è riscritto per esteso e in bella copia, si legge chiaramente «Detto»; ho usato «Detto»."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 78,
+   "risolto": true,
+   "testo": "Gli appunti del corso dell'anno precedente messi a disposizione (.build/supporto/L16_sintesi.md) riguardano la lezione sulla complessità randomizzata (MdT probabilistiche, RP/co-RP/ZPP/PP/BPP, random walk di Gamow, SAT/CNF) e NON contengono la parte sulle catene di Markov: non è stato possibile usarli come riscontro. Il confronto è stato fatto con Motwani–Raghavan, cap. 6 «Markov Chains and Random Walks», di cui questa pagina è un ricalco quasi letterale: Def. 6.4 (periodicità, aperiodicità), Def. 6.5 (stato/catena ergodica), Teorema 6.2 (Fundamental Theorem of Markov Chains, i quattro punti nell'ordine)."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 78,
+   "risolto": true,
+   "testo": "Il quaderno intitola il risultato «Teorema fondamentale sulle M.C.» con sottolineatura, come un titolo di sezione. Non avendo il permesso di usare \\section, l'ho reso come argomento opzionale dell'ambiente teorema: \\begin{teorema}[fondamentale sulle catene di Markov], che stampa «Teorema N (fondamentale sulle catene di Markov)». Ho sciolto «M.C.» in «catene di Markov» ovunque, come richiesto dalla policy sulle abbreviazioni."
+  }
+ ],
+ "figure": [
+  {
+   "id": "p78-periodicita",
+   "pagina": 78,
+   "didascalia": "La periodicità letta sull'asse dei tempi: lo stato i può essere occupato (q_i^{(t)}>0) soltanto negli istanti a, a+T, a+2T, …, mentre in tutti gli altri istanti si ha q_i^{(t)}=0.",
+   "tipo": "schema su asse dei tempi (linea tratteggiata con istanti marcati e graffa)",
+   "specifica": "Schema orizzontale largo circa 0,9 della colonna di testo, alto poco (2-3 righe): illustra la definizione di periodicità appena data.\n\nELEMENTI (da sinistra a destra):\n1. ASSE DEI TEMPI: una linea orizzontale TRATTEGGIATA (trattini brevi, spaziati, disegnati a mano nella scansione), che rappresenta gli istanti discreti t = 0, 1, 2, …. Comincia al bordo sinistro della figura e prosegue oltre l'ultimo punto marcato; nella scansione l'estremità destra si incurva leggermente verso l'alto — in TikZ basta terminarla con un tratto dritto seguito da «$\\cdots$».\n2. TRE PALLINI PIENI sulla linea, equispaziati, che marcano gli istanti t = a, t = a+T, t = a+2T. Sono gli unici punti disegnati in pieno (nella scansione sono macchie di inchiostro nettamente più marcate dei trattini).\n3. GRAFFA sotto il tratto iniziale: dall'estremo sinistro della linea (istante 0) fino al PRIMO pallino, una graffa rivolta verso il basso (decorate/brace,mirror), con l'etichetta «$a$» sotto il suo vertice. È lo sfasamento iniziale della progressione aritmetica.\n4. ETICHETTE SOTTO I PALLINI: sotto ciascuno dei tre pallini, in matematica, «$q_i^{(t)}>0$». Nella scansione la terza di queste etichette non stava sotto il pallino e l'autore l'ha collegata con una freccetta obliqua breve che parte dal pallino e scende a destra; in TikZ conviene metterle tutte e tre allineate sotto i rispettivi pallini e omettere la freccia.\n5. ETICHETTE FRA UN PALLINO E IL SUCCESSIVO (due volte, fra 1° e 2° e fra 2° e 3° pallino):\n   - SOPRA la linea, centrata nell'intervallo: «$T$ passi»;\n   - SOTTO la linea, nello stesso intervallo ma leggermente sfalsata rispetto a «$T$ passi»: «$q_i^{(t)}=0$».\n6. CONTINUAZIONE: dopo il terzo pallino la linea prosegue tratteggiata e si chiude con «$\\cdots$». (Nella scansione compare, dopo il terzo pallino, ancora un'etichetta «$q_i>0$» priva di pallino sopra: va letta come l'istante successivo a+3T della progressione, cioè come indicazione che lo schema si ripete; è preferibile renderla con i puntini di sospensione piuttosto che con un'etichetta orfana.)\n\nLAYOUT/STILE: tutto su un'unica riga di base; linea tratteggiata sottile in nero/blu tenue, pallini pieni; graffa e etichetta «$a$» sotto a sinistra; «$T$ passi» in tondo con la T in matematica; le condizioni su $q_i^{(t)}$ in matematica. Nessun asse verticale, nessuna scala numerica: la figura è puramente qualitativa. Testo delle etichette in italiano («passi»).",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina prosegue senza stacco da p.77, che si chiude con il vettore di distribuzione q⃗^(t) = (q_1^(t),…,q_n^(t)), la legge q⃗^(t+1) = q⃗^(t)P (quindi q⃗^(t) = q⃗_0 P^t) e la definizione di distribuzione stazionaria π⃗ = π⃗P: la prima riga di p.78 («quando raggiungiamo la distribuzione stazionaria non ci sono più sorprese ⇝ steady state») è il commento a quella definizione. Le nozioni usate nel teorema finale vengono da p.75 (P_ij, P_ij^(t), r_ij^(t), f_ij = Σ_{t>0} r_ij^(t), h_ij = Σ_{t>0} t·r_ij^(t)), da p.76 (transiente se f_ii<1; persistente se f_ii=1, non nullo se h_ii<∞ e nullo se h_ii=∞; su un numero finito di stati ogni stato è transiente o persistente non nullo; SCC) e da p.77 (SCC finale, catena irriducibile = una sola SCC finale). In coda alla pagina il punto 4 del teorema fondamentale è scritto in modo compresso, a filo del bordo inferiore; lo stesso punto 4 è poi RISCRITTO in bella copia in cima a p.79, con la stessa formula lim_{t→∞} N(i,t)/t = π_i. Chi trascrive p.79 deve trattare quelle prime due righe come una duplicazione della fine di p.78, non come contenuto nuovo. Subito dopo, p.79 cambia argomento: «Graph Isomorphism (processo nascente)», WL-1 e WL-k, atomic tuples, neighborhoods. Resta in sospeso, e non è trattato in questa pagina, il legame fra il teorema fondamentale e gli algoritmi randomizzati (2-CNF-SAT come random walk sulla retta, annunciato a p.72).",
+ "confidenza": "alta"
+}

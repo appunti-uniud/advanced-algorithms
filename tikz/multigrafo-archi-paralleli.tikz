@@ -1,0 +1,20 @@
+% multigrafo-archi-paralleli -- schemetto isolato (quaderno, pag. 55).
+% Due nodi uniti da tre archi paralleli: la molteplicita' degli archi va
+% conservata, percio' la contrazione lavora su multigrafi.
+\begin{tikzpicture}[
+    font=\footnotesize,
+    nodo/.style={circle,draw,line width=0.7pt,fill=white,
+                 inner sep=0pt,minimum size=4.5pt},
+    arco/.style={line width=0.7pt}]
+
+  \node[nodo] (u) at (0,0)   {};
+  \node[nodo] (v) at (2.8,0) {};
+
+  \draw[arco] (u) to[bend left=32]  (v);
+  \draw[arco] (u) --                (v);
+  \draw[arco] (u) to[bend right=32] (v);
+
+  \node[anchor=east] at ([xshift=-2pt]u.west) {$u$};
+  \node[anchor=west] at ([xshift= 2pt]v.east) {$v$};
+
+\end{tikzpicture}

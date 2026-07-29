@@ -1,0 +1,106 @@
+{
+ "pagina": 34,
+ "latex": "\\scan{34}\n\nFissiamo la struttura dell'albero binario completo e radicato $\\B$ sul quale risolviamo il\nproblema:\n\\[\n  \\B:\\qquad\n  p \\ \\text{foglie},\\qquad\n  2p-1 \\ \\text{nodi}\\ \\ (\\text{di cui } p-1 \\ \\text{interni}),\\qquad\n  d=\\log_2 p \\ \\text{di altezza}.\n\\]\nUn generico nodo di $\\B$ si codifica allora con $d+1$ bit.\n\n\\begin{definizione}[Path number]\\label{def:path-number}\nSia $v$ un nodo di $\\B$ a profondità $t$ (la radice ha $t=0$) e sia\n$\\a=b_1b_2\\cdots b_t$ la sequenza di bit che descrive il cammino dalla radice a $v$,\ncon la convenzione $0=\\text{scendo a sinistra}$, $1=\\text{scendo a destra}$.\nIl \\emph{path number} di $v$ è la parola di $d+1$ bit\n\\[\n  \\underbrace{\\ \\underbrace{b_1b_2\\cdots b_t}_{\\a}\\ \\underbrace{1}_{\\text{terminatore}}\\ \\underbrace{0\\cdots 0}_{d-t}\\ }_{d+1\\ \\text{bit}}\n\\]\n\\end{definizione}\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/lca-b-path-number.tikz}\n\\caption{Albero binario completo con $p=4$ foglie, $d=2$: ogni nodo è etichettato con il\nproprio path number (in binario e, sotto, in base dieci).}\n\\label{fig:lca-b-path-number}\n\\end{figure}\n\nDato $\\B$, assegno ad ogni nodo il suo path number e lo manipolo come array di bit: è un\npre-processing lineare.\n\n\\begin{domanda}\nCome si calcola $\\lca(i,j)$ in $\\B$?\n\\end{domanda}\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/lca-b-triangolo.tikz}\n\\caption{$k=\\lca(i,j)$ in $\\B$: il cammino dalla radice a $k$ è $\\y$, e da $k$ i due cammini\nverso $i$ e verso $j$ si separano subito.}\n\\label{fig:lca-b-triangolo}\n\\end{figure}\n\nSiano $i$ e $j$ due nodi distinti di $\\B$, nessuno dei due antenato dell'altro, e sia\n$k=\\lca(i,j)$. Detto $\\y$ il cammino dalla radice a $k$, i cammini che portano a $i$ e a $j$\nhanno entrambi $\\y$ come prefisso e subito dopo divergono: uno prosegue a sinistra (bit $0$)\ne l'altro a destra (bit $1$). Se $i<j$, sui path number questo si legge così (numeriamo le\nposizioni dei bit da destra a partire da $1$):\n\\[\n  \\begin{aligned}\n    i &: \\ \\y\\ 0\\ \\ast\\cdots\\ast\\ 1\\ 0\\cdots 0,\\\\\n    j &: \\ \\y\\ 1\\ \\ast\\cdots\\ast\\ 1\\ 0\\cdots 0,\\\\\n    k &: \\ \\y\\ 1\\ 0\\cdots\\cdots\\cdots\\cdots 0,\n  \\end{aligned}\n\\]\ndove $\\ast\\cdots\\ast$ sono blocchi di bit arbitrari e ciascun $1$ evidenziato è il\nterminatore del rispettivo nodo.\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/lca-b-array-bit.tikz}\n\\caption{I path number di $i$, $j$ e $k=\\lca(i,j)$ visti come array di bit. La colonna\nevidenziata è la prima in cui $i$ e $j$ differiscono: lì cade esattamente il terminatore\ndi $k$.}\n\\label{fig:lca-b-array-bit}\n\\end{figure}\n\nLa prima posizione (da sinistra) in cui i due path number differiscono è dunque esattamente\nla posizione del terminatore di $k$: il path number di $k$ si ottiene ricopiando i bit su cui\n$i$ e $j$ concordano, mettendo $1$ in quella posizione e $0$ in tutte le posizioni successive.\nSia $\\ell$ tale posizione, contata da destra: è la posizione dell'$1$ più significativo di\n$i \\oplus j$.\n\n\\begin{algorithm}[H]\n\\caption{$\\lca$ in un albero binario completo (nessuno dei due nodi antenato dell'altro)}\n\\begin{algorithmic}[1]\n\\Require i path number $i \\neq j$ di due nodi di $\\B$, ciascuno su $d+1$ bit\n\\Ensure il path number di $\\lca(i,j)$\n  \\State $x \\gets i \\oplus j$ \\Comment{1 \\textsc{xor}}\n  \\State $\\ell \\gets \\textsc{Leftmost1}(x)$ \\Comment{1 \\emph{leftmost} $1$}\n  \\State $m \\gets \\max\\{i,j\\}$ \\Comment{$m$ ha il bit $1$ in posizione $\\ell$}\n  \\State \\Return $\\bigl(m \\gg (\\ell-1)\\bigr) \\ll (\\ell-1)$ \\Comment{2 \\emph{shift}}\n\\end{algorithmic}\n\\end{algorithm}\n\n\\noindent\nIn forma simmetrica (senza il confronto) lo stesso risultato si scrive\n$\\bigl((i \\gg \\ell)\\ll \\ell\\bigr)\\ \\textsc{or}\\ 2^{\\ell-1}$.\nIl conto delle operazioni è\n\\[\n  1\\ \\textsc{xor} \\ +\\ 1\\ \\textit{leftmost } 1 \\ +\\ 2\\ \\textit{shift}\n  \\qquad\\Longrightarrow\\qquad \\Oh(1) \\ \\text{nel nuovo modello di calcolo.}\n\\]\n\n\\begin{esercizio}\nRisolvere il caso in cui $i$ è antenato o discendente di $j$.\n\\end{esercizio}",
+ "note": [
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 34,
+   "testo": "Prima riga: il quaderno abbrevia «2p-1 nodi (p-1 n.i.)». Sciolto in «2p-1 nodi (di cui p-1 interni)»: n.i. = nodi interni. Verificato: p foglie + (p-1) interni = 2p-1 = 2^{d+1}-1, coerente con d = log_2 p.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 34,
+   "testo": "Riquadro in alto a destra: array di bit [ alfa | 1 | 0...0 ] con graffa «d+1 bits» e freccia che punta alla frase «Codifico un generico nodo di B con d+1 bits». L'ho reso come formula in display con \\underbrace dentro la definizione di path number, invece che come figura separata: e' la stessa informazione, piu' leggibile in LaTeX. Non serve TikZ.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 34,
+   "testo": "Il quaderno non scrive la formula dell'lca: elenca solo le operazioni «1 XOR / 1 leftmost 1 / 2 shift } O(1) nel nuovo modello». Ho ricostruito l'algoritmo esplicito. Nota importante: la versione «2 shift» funziona solo se si prende m = max{i,j} (il nodo che ha 1 nella posizione di divergenza), da cui lca = (m >> (l-1)) << (l-1); con i generico servirebbe invece ((i>>l)<<l) OR 2^{l-1}, cioe' 2 shift PIU' un OR con la maschera. Ho messo la prima come algoritmo (per far tornare esattamente il conto del quaderno) e la seconda come variante simmetrica. Verificato su Fig. 8.2: lca(001,011)=010, lca(001,111)=100, lca(101,111)=110.",
+   "risolto": true
+  },
+  {
+   "tipo": "errore-anno-prec",
+   "pagina": 34,
+   "testo": "Nel disegno dei tre array di bit (in basso a destra) la cella di divergenza — quella compresa fra le due lunghe rette verticali di allineamento — contiene un «1» sia nella riga di i sia in quella di j. Matematicamente e' impossibile: proprio in quella posizione i due path number devono differire (uno scende a sinistra, l'altro a destra), ed e' li' che cade il terminatore di k. Ho corretto mettendo 0 nella riga di i e 1 nella riga di j (convenzione i<j), sia nel testo sia nella specifica della figura.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 34,
+   "testo": "Nei tre array il quaderno etichetta la prima cella (lunga) con alfa, beta e gamma rispettivamente, e traccia sotto la riga di j una graffa che abbraccia quella prima cella con l'etichetta gamma e una freccia. Interpretazione: alfa e beta sono i prefissi dei cammini di i e j, che coincidono fino alla colonna di divergenza; quella parte comune e' gamma, cioe' il cammino radice->k. Ho conservato le tre lettere nella figura e reso la relazione esplicita nel testo (gamma = piu' lungo prefisso comune).",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 34,
+   "testo": "Nel triangolo, la lettera greca scritta accanto alla freccia spessa che risale da k all'apice e' gamma (non r/y): coerente con la terza riga degli array, dove p.n.(k) = gamma 1 0...0. Le due lunghe rette verticali che attraversano gli array servono ad allineare la colonna di divergenza con il terminatore di k: le ho rese come linee tratteggiate di allineamento.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 34,
+   "testo": "Sotto la graffa dell'elenco delle operazioni il quaderno scrive tre parole sottolineate, di lettura difficile: «nel nuovo modello». Confermato dal contesto (p.33: «Prerequisito: modifico il modello di calcolo»). Reso come «O(1) nel nuovo modello di calcolo».",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 34,
+   "testo": "Ultima riga: «Esercizio: risolvere il caso in cui i e' antenato o discendente di j.» Le ultime parole sono molto compresse a fine riga ma la lettura e' confermata dal contenuto: la formula XOR/leftmost fallisce proprio in quel caso. Controesempio (d=2): i=010 (nodo 2), j=011 (nodo 3), j discendente di i; x=001, l=1, la formula restituisce 011=j invece di 010=i. Ho reso esplicita l'ipotesi «nessuno dei due antenato dell'altro» nella caption dell'algoritmo, cosi' l'esercizio risulta motivato.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 34,
+   "testo": "L'albero binario completo dell'esempio e' disegnato a mano in modo sbilenco (radice spostata a sinistra, sottoalbero destro piu' basso del sinistro). L'ho specificato per il ridisegno come albero regolare e simmetrico: la geometria irregolare e' solo un accidente della scrittura a mano.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 34,
+   "testo": "In alto a destra della figura dell'albero d'esempio, isolata a meta' pagina, compare una «I» maiuscola senza contesto (verosimilmente l'inizio abortito di una parola o un segno di penna). Ignorata: non trasferita nella trascrizione.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 34,
+   "testo": "Ho aggiunto la convenzione esplicita «posizioni dei bit numerate da destra a partire da 1», assente nel quaderno ma necessaria per dare senso a l (posizione del leftmost 1) e coerente con la definizione di h(k) che compare a p.35 («h(k) = posizione del rightmost 1»).",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 34,
+   "testo": "Gli appunti del corso dell'anno precedente (L08, §4) contano le operazioni in modo leggermente diverso — vi compare anche il test «i predecessore di j» con AND — e la loro ricostruzione dell'algoritmo usa ((i AND NOT(2^k-1)) OR 2^{k-1}), cioe' maschere invece di shift. Il quaderno dello studente conta invece «2 shift»: ho seguito lo studente (fonte primaria) e riportato la forma con maschera come variante.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "lca-b-path-number",
+   "pagina": 34,
+   "didascalia": "Albero binario completo con $p=4$ foglie, $d=2$: ogni nodo è etichettato con il proprio path number (in binario e, sotto, in base dieci).",
+   "tipo": "albero",
+   "specifica": "Albero binario completo, radicato, disegnato REGOLARE e SIMMETRICO (nel quaderno e' sbilenco: radice spostata a sinistra e sottoalbero destro piu' basso — va normalizzato). Profondita' d=2, p=4 foglie, 7 nodi. Nodi resi come piccoli pallini pieni; archi come segmenti dritti.\n\nStruttura e etichette (etichetta binaria in alto/accanto al nodo, valore decimale in piccolo appena SOTTO il binario, esattamente come nel quaderno):\n- radice: 100, sotto 4;\n- figlio sinistro della radice: 010, sotto 2 (etichetta a sinistra del nodo);\n- figlio destro della radice: 110, sotto 6 (etichetta a destra del nodo);\n- foglie da sinistra a destra: 001 / 1 ; 011 / 3 ; 101 / 5 ; 111 / 7. Le etichette delle foglie stanno sopra-a-lato del nodo, il decimale sotto.\n\nAnnotazioni:\n- in alto a destra della radice, il testo «$d+1$ bit» con una freccetta corta che punta all'etichetta \"100\" della radice (indica che il path number occupa d+1 = 3 bit);\n- a destra dell'albero, una graffa verticale (\\}) che abbraccia l'intera altezza dei tre livelli, con l'etichetta «$d=2$».\n\nSignificato algoritmico: il path number codifica il cammino radice->nodo (0 = sinistra, 1 = destra) seguito da un 1 terminatore e da zeri di riempimento fino a d+1 bit; i valori decimali coincidono con la numerazione in-order dell'albero.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "lca-b-triangolo",
+   "pagina": 34,
+   "didascalia": "$k=\\lca(i,j)$ in $\\B$: il cammino dalla radice a $k$ è $\\gamma$, e da $k$ i due cammini verso $i$ e verso $j$ si separano subito.",
+   "tipo": "schema",
+   "specifica": "Grande triangolo isoscele con apice in alto e base orizzontale in basso: rappresenta schematicamente l'albero binario completo $\\B$ (apice = radice, base = livello delle foglie).\n\nElementi interni:\n- una linea orizzontale sottile che attraversa il triangolo passando per l'apice (livello 0, quello della radice), estesa un po' oltre i lati del triangolo verso destra;\n- un nodo marcato (pallino pieno) sull'asse verticale del triangolo, a circa un quarto dell'altezza sotto l'apice, etichettato $k$ (etichetta subito a destra del pallino);\n- una seconda linea orizzontale sottile al livello di $k$, anch'essa estesa oltre i lati verso destra;\n- a destra, fuori dal triangolo, una freccia verticale a doppia punta fra le due linee orizzontali, con due trattini di battuta: misura la profondita' di $k$, cioe' la lunghezza di $\\gamma$ (nel quaderno non e' etichettata; si puo' lasciare senza etichetta oppure annotare $|\\gamma|$);\n- una freccia SPESSA che risale dal nodo $k$ fino all'apice, con la punta sull'apice; a sinistra di questa freccia, l'etichetta $\\gamma$ (indica il cammino radice$\\to k$, letto dall'alto verso il basso).\n\nDa $k$ scendono due cammini disegnati come spezzate ondulate/a zig-zag (non segmenti dritti: indicano cammini di lunghezza arbitraria):\n- uno verso il basso a sinistra fino a un pallino etichettato $i$ (etichetta sotto/a sinistra del pallino);\n- uno verso il basso a destra fino a un pallino etichettato $j$ (etichetta sotto/a destra).\nI due nodi $i$ e $j$ stanno all'incirca alla stessa altezza, a meta' del triangolo, ben sopra la base.\n\nSignificato: $k$ e' il piu' basso antenato comune; sopra $k$ i due cammini coincidono (parte $\\gamma$), sotto $k$ divergono immediatamente (uno a sinistra, bit 0; l'altro a destra, bit 1).",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "lca-b-array-bit",
+   "pagina": 34,
+   "didascalia": "I path number di $i$, $j$ e $k=\\lca(i,j)$ visti come array di bit. La colonna evidenziata è la prima in cui $i$ e $j$ differiscono: lì cade esattamente il terminatore di $k$.",
+   "tipo": "schema di stringhe",
+   "specifica": "Tre array di bit orizzontali, allineati, uno sotto l'altro, con spaziatura verticale ampia. Ciascun array e' disegnato come nel quaderno: un segmento orizzontale spesso con due barrette verticali agli estremi (delimitatori di inizio/fine), suddiviso internamente da brevi tacche verticali che separano le celle. Il contenuto di ogni cella e' scritto SOPRA il segmento.\n\nTutti e tre gli array hanno la stessa lunghezza (= d+1 bit) e sono allineati a sinistra e a destra.\n\nEtichette di riga, scritte sopra e a sinistra di ciascun array:\n- riga 1: «p.n. di $i$»\n- riga 2: «p.n. di $j$»\n- riga 3: «p.n. di $k$»\n\nContenuto delle celle (da sinistra a destra):\n- riga 1 ($i$): cella LUNGA etichettata $\\alpha$ | cella STRETTA con «0» | cella LUNGA vuota (bit arbitrari) | cella STRETTA con «1» | cella LUNGA con «0» (sta per 0...0).\n- riga 2 ($j$): cella LUNGA etichettata $\\beta$ | cella STRETTA con «1» | cella LUNGA vuota | cella STRETTA con «1» | cella LUNGA con «0».\n- riga 3 ($k$): cella LUNGA etichettata $\\gamma$ | cella STRETTA con «1» | cella LUNGA con «0» (fino alla fine dell'array).\n\nATTENZIONE (correzione rispetto al manoscritto): nel quaderno la cella stretta di divergenza contiene «1» in ENTRAMBE le righe 1 e 2; e' un errore, i due bit devono differire. Qui: 0 per $i$, 1 per $j$ (convenzione $i<j$).\n\nAllineamento verticale: due linee verticali sottili (nel quaderno sono due lunghe rette a mano; renderle TRATTEGGIATE) che scendono attraverso le tre righe delimitando a sinistra e a destra la cella stretta di divergenza delle righe 1 e 2 e, sulla riga 3, la cella stretta che contiene il terminatore «1» di $k$. Sono queste linee a dire il punto chiave: la colonna di divergenza di $i$ e $j$ e' esattamente la colonna del terminatore di $k$.\n\nSotto l'array della riga 2, una graffa orizzontale (\\underbrace) che abbraccia la sola prima cella lunga, con etichetta $\\gamma$ e una freccetta che va dalla graffa verso la colonna di divergenza: indica che $\\alpha$ e $\\beta$ coincidono fin li' e che quella parte comune e' $\\gamma$ (il cammino radice$\\to k$).\n\nOpzionale, coerente con il testo: annotare a destra della colonna evidenziata la posizione $\\ell$ (contata da destra).",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina 33 si chiudeva con «1) Risolvo il problema su $\\B$ albero binario completo», il modello di calcolo modificato (AND/OR/XOR/SHIFT/MASK/Leftmost-Rightmost significant 1 in $\\Oh(1)$ su array di $c\\log n$ bit) e il primo disegno dell'array [ $\\alpha$ | 1 | 0000000 ]. La pagina 34 completa quel punto 1): path number, pre-processing lineare, algoritmo di $\\lca$ su $\\B$ in $\\Oh(1)$. Resta aperto l'esercizio sul caso «$i$ antenato o discendente di $j$» (che richiede un test di antenato prima della formula XOR) e, soprattutto, resta da fare il passo dal caso completo al caso generale. La pagina 35 riparte infatti con «2) Mappa da $\\T$ a $\\B$ non iniettiva»: si introduce $I:\\T\\to\\B$, l'identificazione dei nodi di $\\T$ con i numeri DFS, $h(k)$ = posizione del rightmost 1 = «altezza di $k$ in $\\B$», gli esempi $I(1)=I(5)=I(8)=8$, le osservazioni $I(v)=v$ sulle foglie e $I(v)$ cresce salendo verso la radice, e si chiude con la domanda in riquadro «$I$ e' ben definita?».",
+ "confidenza": "alta"
+}

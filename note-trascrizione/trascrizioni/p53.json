@@ -1,0 +1,90 @@
+{
+ "pagina": 53,
+ "latex": "\\scan{53}\n\n\\paragraph{Linearità del valore atteso.}\nIl numero di confronti eseguiti dall'algoritmo è la variabile aleatoria\n$\\sum_{i=1}^{n}\\sum_{j>i} X_{ij}$, e per linearità del valore atteso — che non\nrichiede alcuna ipotesi di indipendenza fra le $X_{ij}$ — vale\n\\[\n  \\E\\!\\left[\\;\\sum_{i=1}^{n}\\sum_{j>i} X_{ij}\\right]\n  \\;=\\;\n  \\sum_{i=1}^{n}\\sum_{j>i} \\E\\!\\left[X_{ij}\\right].\n\\]\n\nPoiché $X_{ij}$ è una variabile indicatrice,\n\\[\n  \\E\\!\\left[X_{ij}\\right] \\;=\\; p_{ij}\\cdot 1 \\;+\\; (1-p_{ij})\\cdot 0 \\;=\\; p_{ij},\n\\]\ndove $p_{ij}$ è la probabilità che $x_i$ e $x_j$ vengano confrontati.\n\nDevo dunque calcolare la probabilità che $x_i$ e $x_j$ siano coinvolti in un\nconfronto.\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/randqs-separazione.tikz}\n\\caption{Se il pivot estratto cade strettamente fra $x_i$ e $x_j$, i due elementi\nfiniscono in sottoinsiemi diversi e non verranno mai confrontati.}\n\\end{figure}\n\n\\begin{osservazione}\n$x_i$ e $x_j$ \\emph{non} vengono confrontati se il pivot scelto è in\n$\\{x_{i+1},\\dots,x_{j-1}\\}$: un pivot interno all'intervallo separa i due\nelementi, mandandone uno in $S_1$ e l'altro in $S_2$, e da quel momento in poi\nnon potranno più essere confrontati.\n\\end{osservazione}\n\nOgni elemento $d \\in \\{x_i,\\dots,x_j\\}$ ha la stessa probabilità di essere scelto\ncome pivot; quindi la probabilità di scegliere $x_i$ oppure $x_j$ — cioè\n$p_{ij}$ — soddisfa\n\\[\n  p_{ij} \\;\\le\\; \\frac{2}{\\,j-i+1\\,}\n\\]\n(è il caso peggiore, quello in cui mi ritrovo con una partizione contenente\nesclusivamente $\\{x_i,\\dots,x_j\\}$; generalmente mi ritrovo in partizioni più\ngrandi, e la probabilità di pescare proprio uno dei due estremi è minore).\n\n\\begin{osservazione}\nIn realtà vale l'uguaglianza $p_{ij} = \\frac{2}{j-i+1}$. Finché nessuno fra\n$x_i, x_{i+1},\\dots,x_j$ è stato scelto come pivot, questi $j-i+1$ elementi\nstanno tutti nella stessa partizione (un pivot esterno all'intervallo non può\nsepararli); il primo di essi a diventare pivot è uniformemente distribuito fra i\n$j-i+1$ candidati, e $x_i$ e $x_j$ vengono confrontati esattamente quando tale\nprimo elemento è uno dei due estremi. Per la maggiorazione che segue basta\ncomunque la disuguaglianza.\n\\end{osservazione}\n\nSommando su tutte le coppie:\n\\[\n  \\sum_{i=1}^{n}\\sum_{j>i} p_{ij}\n  \\;=\\; \\sum_{i=1}^{n}\\sum_{j>i} \\frac{2}{\\,j-i+1\\,}\n  \\;\\le\\; 2\\sum_{i=1}^{n} \\underbrace{\\sum_{k=1}^{n}\\frac{1}{k}}_{H_n}\n  \\;=\\; 2\\sum_{i=1}^{n} H_n\n  \\;=\\; 2\\,n\\,H_n .\n\\]\n\n\\paragraph{Il numero armonico.}\n\\[\n  H_n \\;=\\; \\sum_{k=1}^{n}\\frac1k\n  \\;=\\; 1+\\frac12+\\frac13+\\frac14+\\frac15+\\frac16+\\frac17+\\cdots\n\\]\nRaggruppando i termini a blocchi di lunghezza $1,2,4,8,\\dots$ si ottengono le due\nstime:\n\\begin{align*}\n  H_n &\\;=\\; 1\n    + \\underbrace{\\left(\\frac12+\\frac13\\right)}_{\\le\\;\\frac12+\\frac12\\;=\\;1}\n    + \\underbrace{\\left(\\frac14+\\frac15+\\frac16+\\frac17\\right)}_{\\le\\;4\\cdot\\frac14\\;=\\;1}\n    + \\cdots \\;\\le\\; \\log n, \\\\[6pt]\n  H_n &\\;=\\; 1+\\frac12\n    + \\underbrace{\\left(\\frac13+\\frac14\\right)}_{\\ge\\;\\frac14+\\frac14\\;=\\;\\frac12}\n    + \\underbrace{\\left(\\frac15+\\frac16+\\frac17+\\frac18\\right)}_{\\ge\\;4\\cdot\\frac18\\;=\\;\\frac12}\n    + \\cdots \\;\\ge\\; \\frac12\\log n .\n\\end{align*}\n\nDunque $H_n \\in \\Th(\\log n)$, e il numero atteso di confronti è\n\\[\n  2\\,n\\,H_n \\;\\in\\; \\Th(n\\log n).\n\\]\n\n\\begin{osservazione}\nOgni scelta del pivot viene pagata in bit casuali: per estrarre uniformemente un\nelemento servono $\\log n$ bit letti dalla sorgente,\n\\[\n  \\text{scelta del pivot}\\;\\longleftarrow\\;\n  \\underbrace{0\\,1\\,0\\,1\\,0\\;\\cdots}_{\\log n\\ \\text{bit}}\n\\]\n\\end{osservazione}",
+ "note": [
+  {
+   "tipo": "correzione",
+   "pagina": 53,
+   "testo": "Limiti della doppia sommatoria. Il quaderno scrive $\\sum_{i=1}^{n}\\sum_{j=1}^{n}X_{ij}$ (verificato in alta risoluzione: sotto il secondo $\\Sigma$ c'e' chiaramente \"j=1\"; lo stesso errore compare gia' a p.52 e si ripete nella sommatoria finale delle $p_{ij}$). Ho scritto $\\sum_{i=1}^{n}\\sum_{j>i}$ ovunque perche': (a) con $j$ da 1 a $n$ ogni coppia sarebbe contata due volte e comparirebbero i termini diagonali $X_{ii}$, non definiti; (b) il passaggio successivo $\\sum_{j>i}\\frac{2}{j-i+1}\\le\\sum_{k=1}^{n}\\frac1k$ funziona solo se $j>i$ (i denominatori $j-i+1$ percorrono $2,3,\\dots,n-i+1$); (c) Gli appunti del corso dell'anno precedente e Motwani-Raghavan riportano $\\sum_i\\sum_{j>i}$.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 53,
+   "testo": "Insieme dei pivot separatori. Il quaderno scrive $\\{x_{i+1},\\dots,x_{j+1}\\}$ (ho ingrandito il pedice finale: e' inequivocabilmente un \"+\"). Ho scritto $\\{x_{i+1},\\dots,x_{j-1}\\}$: separano $x_i$ da $x_j$ solo gli elementi strettamente compresi fra i due; $x_j$ stesso e $x_{j+1}$ non li separano (anzi, se il pivot e' $x_j$ il confronto avviene). Con $j+1$ inoltre non tornerebbe il conto successivo $2/(j-i+1)$, che presuppone $j-i+1$ candidati $x_i,\\dots,x_j$.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 53,
+   "testo": "Il verbo della frase \"Devo ___ la probabilita' che $x_i$ e $x_j$ siano coinvolti in un confronto\" e' scritto in corsivo molto compresso (circa la stessa larghezza di \"Devo\"). La segmentazione dei tratti da [c-a][l][c-o][l][a-r-e], compatibile con \"calcolare\". Ho scritto \"calcolare\": la lettura e' semanticamente obbligata e coincide con Gli appunti del corso dell'anno precedente, che alla pagina corrispondente scrivono «come computo $p_{ij}$?». Qualunque sinonimo (valutare, stimare) non cambierebbe il contenuto.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 53,
+   "testo": "Ultimo passaggio della catena di maggiorazioni. Il quaderno scrive $2\\sum_{i=1}^{n}H_n \\le 2nH_n$; poiche' $\\sum_{i=1}^{n}H_n = nH_n$ esattamente (il sommando non dipende da $i$), ho sostituito il \"$\\le$\" con \"$=$\". La disuguaglianza vera della catena e' quella precedente, $\\sum_{j>i}\\frac{2}{j-i+1}\\le 2\\sum_{k=1}^{n}\\frac1k$, che ho mantenuto.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 53,
+   "testo": "Aggiunta l'osservazione sull'uguaglianza $p_{ij}=2/(j-i+1)$. Il quaderno si ferma alla disuguaglianza e la giustifica con un argomento \"di caso peggiore\" (la partizione corrente contiene esattamente $\\{x_i,\\dots,x_j\\}$, altrimenti e' piu' grande e la probabilita' di pescare un estremo e' minore): l'argomento e' euristico perche' confonde la probabilita' di estrazione a un singolo passo con la probabilita' sull'intera esecuzione, e non e' sufficiente a stabilire il valore di $p_{ij}$. Ho conservato integralmente il testo dello studente (serve solo il $\\le$ per il seguito) e ho aggiunto un'osservazione con l'argomento corretto, quello deGli appunti del corso dell'anno precedente: il primo fra $x_i,\\dots,x_j$ a diventare pivot e' uniforme fra i $j-i+1$ candidati.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 53,
+   "testo": "Il simbolo \"$\\le$\" davanti a $2/(j-i+1)$ e' scritto nel quaderno su una cancellatura marcata (verosimilmente un \"$=$\" ripassato in \"$\\le$\", oppure il contrario). Ho mantenuto \"$\\le$\", coerente con il commento sul caso peggiore che lo segue; il valore esatto e' comunque registrato nell'osservazione aggiunta.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 53,
+   "testo": "Layout del blocco sui numeri armonici. Nel quaderno la serie $1+\\frac12+\\frac13+\\frac14+\\frac15+\\frac16+\\frac17$ e' scritta una sola volta e annotata su due lati: SOPRA una graffa ondulata sul gruppo $(\\frac13+\\frac14)$ con l'annotazione $\\frac14+\\frac14$ e, in alto a destra, $\\frac12\\log n$ (letto come \"log n\" seguito da \"1/2\"); SOTTO due graffe ondulate sui gruppi $(\\frac12+\\frac13)$ e $(\\frac14+\\frac15+\\frac16+\\frac17)$ con le annotazioni $\\frac12+\\frac12$ e $\\frac14+\\frac14+\\frac14+\\frac14$ e, in basso a destra, $\\le\\log n$. A sinistra di \"H =\" sono impilati i simboli \"$\\ge$\" (sopra) e \"$\\le$\" (sotto) con un \"1\" ciascuno: sono le teste delle due catene. Ho separato le due stime in due righe distinte di un align* e ho esplicitato il secondo blocco della minorazione $(\\frac15+\\dots+\\frac18)$, non scritto ma implicito nei puntini, per rendere visibile lo schema diadico. Il quaderno scrive \"H\" senza pedice: ho scritto $H_n$ per uniformita' con il resto della catena.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 53,
+   "testo": "Ultima riga della pagina, sotto la catena: \"scelta pivot $\\leftarrow$ 01010 bit\" con \"$\\log n$\" scritto sopra la freccia. L'ho resa come osservazione finale sul costo in bit casuali di ogni estrazione di pivot (corrisponde all'annotazione dell'anno precedente «ogni scelta $\\log|S|$ (random) bits»). Non ho aggiunto il conto complessivo $O(n\\log n)$ bit, che sul quaderno non compare.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 53,
+   "testo": "\"Ogni elemento d in $\\{x_i,\\dots,x_j\\}$\": la lettera dopo \"elemento\" e' un cerchio con asta a destra, cioe' una \"d\" usata come nome di variabile generica (non un simbolo di appartenenza, che segue subito dopo nella parola \"in\"). L'ho resa come $d\\in\\{x_i,\\dots,x_j\\}$.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 53,
+   "testo": "\"Linearita' del valore atteso\" e' un titolo esplicito sottolineato in testa alla pagina, reso con \\paragraph. \"Il numero armonico\" invece NON e' un titolo del quaderno: l'ho introdotto io come \\paragraph per separare il blocco della stima di $H_n$, che nel manoscritto e' semplicemente appeso sotto la catena di sommatorie. \"Osservazione\" e' invece sottolineato nel quaderno e reso con l'ambiente osservazione.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 53,
+   "testo": "La figura al centro pagina e' una lunga retta tratteggiata con $x_i$ e $x_j$ marcati e, fra i due, un piccolo cerchio raggiunto dal basso da una freccia a zigzag. Il cerchio non e' etichettato nel quaderno: e' evidentemente il pivot estratto, e la figura illustra visivamente l'osservazione successiva (pivot interno all'intervallo = separazione). Nella specifica TikZ ho chiesto di aggiungere la piccola etichetta \"pivot scelto\" sotto la freccia, che nell'originale manca. Attorno a $x_i$ e $x_j$ si intravedono tratti verticali chiarissimi a matita: sono tracce di sottofondo/traspiranza dalla pagina retrostante, non elementi del disegno, e le ho ignorate.",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 53,
+   "testo": "Gli appunti del corso dell'anno precedente arrivano a $p_{ij}$ per via della catena di equivalenze \"confrontati $\\iff$ nessuno li separa $\\iff$ uno dei due e' primo nella sequenza dei pivot $\\pi$\", con uguaglianza esatta $p_{ij}=2/(j-i+1)$. Lo studente segue una strada diversa (evento complementare + argomento di caso peggiore) e ottiene solo $\\le$. Ho mantenuto l'impostazione dello studente come testo principale, essendo la fonte primaria, e ho relegato la versione dell'anno precedente nell'osservazione aggiunta.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "randqs-separazione",
+   "pagina": 53,
+   "didascalia": "Se il pivot estratto cade strettamente fra $x_i$ e $x_j$, i due elementi finiscono in sottoinsiemi diversi e non verranno mai confrontati.",
+   "tipo": "schema di stringhe",
+   "specifica": "Schema lineare su una sola riga, molto semplice, senza riquadri ne' assi.\n\nGEOMETRIA. Una unica retta ORIZZONTALE TRATTEGGIATA (tratti brevi e regolari, tipo `dashed` con dash pattern ~4pt on / 4pt off, spessore normale), larga circa 10-11 cm, centrata. La retta rappresenta la sequenza ORDINATA degli elementi dell'input, $x_1<x_2<\\dots<x_n$; il tratteggio prosegue fino a entrambi i bordi del disegno, cioe' non ha estremi marcati (il tratteggio stesso fa da \"...\").\n\nTRE PUNTI NOTEVOLI, tutti alla quota della retta:\n1. a circa il 28-30% della larghezza: l'etichetta matematica $x_i$ posta A CAVALLO della retta, cioe' il simbolo interrompe localmente il tratteggio (nel manoscritto la lettera e' scritta sopra la linea, che le passa attraverso). Rendere con un nodo `fill=white` (o `inner sep` sufficiente) contenente $x_i$.\n2. al CENTRO esatto (50%): un PICCOLO CERCHIO VUOTO (circonferenza, diametro ~3.5-4 pt, non riempito) disegnato sulla retta; anche qui il tratteggio si interrompe attorno al cerchio. E' la posizione dell'elemento estratto come pivot.\n3. a circa il 70-72% della larghezza: l'etichetta $x_j$, resa esattamente come $x_i$ al punto 1.\n\nFRECCIA. Dal basso sale verso il cerchio centrale una FRECCIA A ZIGZAG: una spezzata a denti di sega (4-5 oscillazioni di piccola ampiezza, ~2 mm di semiampiezza orizzontale), alta circa 1,5-2 cm, perfettamente verticale nel suo andamento medio, che parte sotto la retta e termina con una PUNTA DI FRECCIA che tocca il cerchio dal basso. In TikZ si puo' ottenere con `decorate,decoration={snake,amplitude=.6mm,segment length=3mm,post length=2mm},->`.\n\nETICHETTA AGGIUNTA (non presente nell'originale, da inserire per leggibilita'): sotto l'estremo inferiore della freccia, in corpo minore e in italiano, la dicitura «pivot scelto».\n\nSIGNIFICATO ALGORITMICO da preservare: la retta e' la sequenza ordinata; $x_i$ e $x_j$ sono i due elementi di cui si vuole la probabilita' di confronto $p_{ij}$; il cerchio marca un pivot che cade STRETTAMENTE FRA i due. In quel caso $x_i$ finisce in $S_1$, $x_j$ in $S_2$, e i due non verranno mai piu' confrontati: e' l'evento complementare a quello che definisce $X_{ij}=1$. Le proporzioni contano: il pivot deve trovarsi visibilmente in mezzo ai due, e i due elementi devono essere ben distanti fra loro (parecchi tratti di tratteggio in mezzo), per suggerire che l'intervallo $\\{x_i,\\dots,x_j\\}$ contiene molti elementi.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina chiude l'analisi di RandQS: numero atteso di confronti $\\le 2nH_n \\in \\Th(n\\log n)$, piu' la chiosa finale sul consumo di $\\log n$ bit casuali per ogni estrazione di pivot. Restano in sospeso due cose. (1) L'ipotesi, mai enunciata esplicitamente, che gli elementi di $S$ siano a due a due DISTINTI: e' proprio da li' che riparte p.54, con il disegno del pivot sull'array, la scritta \\\"elementi a due a due distinti\\\" e il trucco delle coppie $\\langle a_1,1\\rangle,\\dots,\\langle a_n,n\\rangle$ per rimuovere l'ambiguita' in presenza di duplicati. (2) La domanda \\\"e nel caso pessimo?\\\" / il costo in bit casuali complessivo, che il corso non riprende. Subito dopo p.54 apre il blocco MIN-CUT, presentato come esempio di algoritmo randomizzato Monte Carlo, con il richiamo alla probabilita' condizionata e $G=(V,E)$ grafo non orientato e connesso. Nota per la cucitura: p.54 contiene in testa un blocco su Min-Cut (blob $G$ con un taglio, osservazioni su algoritmi deterministici \\\"estremamente complicati\\\" vs. randomizzati semplici) che precede il ritorno a RandQS, quindi l'ordine espositivo del capitolo andra' riordinato.",
+ "confidenza": "alta"
+}

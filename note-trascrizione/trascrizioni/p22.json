@@ -1,0 +1,87 @@
+{
+ "pagina": 22,
+ "latex": "\\scan{22}\n\nIl \\emph{boundary path} è ciò che definisce i nodi finali dello \\STrie{}:\npercorrendolo si incontrano, nell'ordine, gli stati\n\\[\n  f^{\\,j}\\bigl(\\overline{t_1\\cdots t_{i-1}}\\bigr),\n  \\qquad j\\in\\{0,1,\\dots,i-1\\},\n\\]\ncioè $\\mathit{top}=\\overline{t_1\\cdots t_{i-1}}$ (per $j=0$), poi\n$\\overline{t_2\\cdots t_{i-1}}$, e così via fino alla radice $\\overline{\\vuota}$\n(per $j=i-1$): sono esattamente gli stati che rappresentano i suffissi di\n$T^{\\,i-1}$.\n\nIl passo $\\STrie(T^{\\,i-1})\\rightsquigarrow\\STrie(T^{\\,i})$ consiste allora nel\npercorrere il boundary path e, a ogni nodo che vi si incontra --- cioè a ogni\nnodo legato a un suffisso di $T^{\\,i-1}$ --- appendere un nuovo nodo con un arco\netichettato $t_i$, \\textbf{se} da quel nodo non escono già archi etichettati con\n$t_i$.\n\n\\begin{osservazione}\n  \\textbf{Non} è sempre necessario visitarlo tutto!\n\\end{osservazione}\n\nGli stati del boundary path rappresentano infatti suffissi via via più corti: se\n$\\bar s$ possiede già una $t_i$-transizione, allora $s\\,t_i$ occorre in\n$T^{\\,i-1}$, e quindi anche $s'\\,t_i$ occorre in $T^{\\,i-1}$ per ogni suffisso\n$s'$ di $s$. Tutti gli stati che seguono $\\bar s$ sul boundary path hanno perciò\ngià la loro $t_i$-transizione, e il ciclo \\textbf{while} può fermarsi al primo\nnodo $r$ per cui $g(r,t_i)$ è definita.\n\n\\subsection*{Dallo \\STrie{} allo \\STree{}}\n\nPer passare dallo \\STrie{} allo \\STree{} servono \\emph{due ingredienti}:\n\\begin{enumerate}\n  \\item[(i)] tenere i \\emph{soli nodi branching};\n  \\item[(ii)] rimpiazzare le etichette-stringa con coppie di interi,\n        $w \\rightsquigarrow [i,j]$.\n\\end{enumerate}\nEntrambi servono a limitare a $\\Oh(\\abs{T})$ la dimensione dello \\STree{}.\n\n\\begin{domanda}\n  Come uso (i) e (ii) nella definizione e nella costruzione dello \\STree{}?\n\\end{domanda}\n\n\\textbf{(i)} non è un problema: mi limiterò ai nodi branching e definirò le\ntransizioni \\emph{su stringhe},\n\\[\n  g(\\bar x,\\,w) \\;=\\; \\overline{xw},\n\\]\ndove il secondo argomento $w$ non è più un singolo carattere ma una stringa,\nrappresentata dalla coppia di interi $[i,j]$.",
+ "note": [
+  {
+   "tipo": "ricostruzione",
+   "pagina": 22,
+   "risolto": true,
+   "testo": "Il quaderno scrive la formula del boundary path come «f^j (t_1 ... t_{i-1}) per j in {0,...,i-1}», senza sopralineatura sull'argomento. Ho scritto f^j(\\overline{t_1...t_{i-1}}) perche a p.21 e fissata la convenzione di Ukkonen \\bar{x} = «stato che rappresenta la stringa x» (li si legge «sia x = ay, f(\\bar x) = \\bar y»): f e definita su STATI, non su stringhe. Verificato che il range j in {0,...,i-1} e corretto: j=0 da top = stato di t_1...t_{i-1}, j=i-1 da la radice (stringa vuota). Lo stato ausiliario \\bot di Ukkonen (che sarebbe j=i) non compare negli appunti e non l'ho aggiunto."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 22,
+   "risolto": true,
+   "testo": "Riga 1: «boundary path (definisce i nodi finali)». Verificata a 300 DPI con crop dedicato: l'ultima parola e «finali» (non «figli»). Corrisponde al risultato standard di Ukkonen: gli stati sul boundary path di STrie(T^i) sono esattamente gli stati finali dell'automa che riconosce i suffissi."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 22,
+   "risolto": true,
+   "testo": "Blocco di tre righe sotto «Non e sempre necessario visitarlo tutto!»: il quaderno scrive «appendo un nodo legato con un suffisso / etichettato t_i; SE non ci sono archi / uscenti etichettati con t_i». L'ultima parola della seconda riga era il grafema piu incerto: il crop a 4x mostra una parola breve con due aste, e la terza riga inizia con «uscenti», quindi l'unica lettura sensata e «archi» («SE non ci sono archi uscenti etichettati con t_i»); «delle uscenti» sarebbe agrammaticale. Risolto con certezza."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 22,
+   "risolto": true,
+   "testo": "Ho reso in prosa la frase telegrafica «appendo un nodo legato con un suffisso etichettato t_i» come «a ogni nodo legato a un suffisso di T^{i-1} appendere un nuovo nodo con un arco etichettato t_i»: l'etichetta t_i sta sull'ARCO, non sul nodo, ed e il corpo del while dell'Algoritmo 1 di p.21 (create new state r' and set g(r,t_i)=r'). Nessuna aggiunta di contenuto, solo disambiguazione sintattica."
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 22,
+   "risolto": true,
+   "testo": "Il quaderno afferma «Non e sempre necessario visitarlo tutto!» senza darne la ragione. Ho aggiunto il paragrafo di giustificazione (monotonia: se \\bar s ha gia una t_i-transizione allora s t_i occorre in T^{i-1}, e allora s' t_i occorre in T^{i-1} per ogni suffisso s' di s, quindi tutti gli stati piu corti sul boundary path hanno gia la transizione e il while si ferma). E la Proposizione 1 di Ukkonen 1995; e cio che rende ammortizzabile il while dell'Algoritmo 1 di p.21. Aggiunta segnalata qui perche non e nel manoscritto; il fatto in se e certo, quindi non ho lasciato marcatori nel LaTeX."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 22,
+   "risolto": true,
+   "testo": "Titolo esplicito nel quaderno: «STrie -> STree» sottolineato, con «2 ingredienti» scritto a destra sulla stessa riga. Ho usato \\subsection*{Dallo STrie allo STree} e ho portato «due ingredienti» nella frase introduttiva. Uso di \\subsection consentito dalle convenzioni perche il titolo e esplicito nel manoscritto."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 22,
+   "risolto": true,
+   "testo": "Sotto «ii) w ~> [i,j]» c'e una graffa/freccia disegnata a mano che parte da sotto l'etichetta [i,j], abbraccia i due punti (i) e (ii) e punta all'annotazione «servono a limitare a O(|T|) la dimensione del STree». Non e un vero disegno (nessun nodo/arco/matrice/schema di stringhe): l'ho reso in prosa con la frase «Entrambi servono a limitare a O(|T|) la dimensione dello STree», che ne conserva integralmente la semantica. Analogamente la freccia «|_> stringa [i,j]» sotto la w di g(x,w) e resa dalla frase finale. Nessuna voce in 'figure': la pagina 22 non contiene disegni veri e propri."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 22,
+   "risolto": true,
+   "testo": "Nella Domanda il quaderno sembra scrivere «(i) e (ii')» con un apostrofo spurio sul secondo elemento (in realta sono i puntini delle due i, che lo studente traccia come trattini). Ho scritto «(i) e (ii)»: e l'unica lettura coerente con l'elenco appena dato (i / ii) e con p.23, che si apre con «ii) per costruire STree(T^i) a partire da STree(T^{i-1}) dovro reintrodurre stati», cioe la risposta al punto (ii)."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 22,
+   "risolto": true,
+   "testo": "Il quaderno scrive la transizione come «g(x, w) = \\overline{xw}»: la sopralineatura e visibile solo sul membro destro. Ho scritto g(\\bar x, w) = \\overline{xw} perche il primo argomento di g deve essere uno STATO (convenzione \\bar{} di p.21 e p.23, dove si legge g'(s,w)=r con s,r stati). E la generalizzazione a stringhe della g(\\bar x, a) = \\overline{xa} dello STrie."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 22,
+   "risolto": true,
+   "testo": "Armonizzazione di tempo verbale: il quaderno scrive «mi limitero ai nodi branching e definisco le transizioni su stringhe» (futuro + presente). Ho scritto «mi limitero ... e definiro ...». Modifica puramente stilistica, nessun cambio di contenuto."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 22,
+   "risolto": true,
+   "testo": "Collisione di indici presente gia nel manoscritto: i e j denotano sia il passo dell'induzione / l'iterata del suffix link nella prima meta della pagina, sia gli estremi della coppia [i,j] che etichetta un arco nella seconda meta. Ho lasciato la notazione del quaderno (che e anche quella standard, cfr. appunti del corso dell'anno precedente L05 §4.2 e p.23) perche i due usi stanno in blocchi separati e non si incrociano mai; segnalo il punto per un eventuale rinominamento in fase di cucitura del capitolo."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 22,
+   "risolto": true,
+   "testo": "Confronto con Gli appunti del corso dell'anno precedente (L05_sintesi.md): i «2 ingredienti» di p.22 corrispondono esattamente alla Def. 4.1 (alberi con soli nodi branching) e alla §4.2 (etichette come coppie di interi) della lezione dell'anno precedente, e la conclusione «servono a limitare a O(|T|) la dimensione dello STree» coincide con il Cor. 4.5 (<= 2m+1 nodi, spazio O(m)). Nessuna divergenza rilevata. La prima meta della pagina (boundary path, Algoritmo 1) appartiene invece alla lezione SUCCESSIVA a L05, che si chiudeva annunciando «Strategia per la costruzione di un Suffix Tree»: L05_sintesi.md non la copre."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 22,
+   "risolto": true,
+   "testo": "Il LaTeX e stato compilato con lualatex + academica + preamble.tex del progetto: compila senza errori e impagina correttamente (verificato il rendering PDF). Ho usato \\STrie/\\STree (definite in preamble.tex, con \\xspace) e un \\enumerate con \\item[(i)]/\\item[(ii)] perche enumitem NON e caricato ne dalla classe ne dal preambolo (quindi niente label=(\\roman*))."
+  }
+ ],
+ "figure": [],
+ "continuita": "La pagina risponde solo al punto (i) della Domanda («come uso soli-nodi-branching ed etichette [i,j] nella definizione e costruzione dello STree?»), chiudendo con la definizione delle transizioni su stringhe g(\\bar x, w) = \\overline{xw}, dove w e rappresentata dalla coppia [i,j]. Resta aperto il punto (ii): come costruire STree(T^i) a partire da STree(T^{i-1}). La pagina 23 riparte esattamente da li («ii) per costruire STree(T^i) a partire da STree(T^{i-1}) dovro REINTRODURRE stati»), introduce la distinzione fra stati espliciti (branching) e impliciti (trie-only), i reference pair (s,w) = (s,[k,p]) e la definizione STree(T) = (Q u {\\bot}, root, g', f'). Da tenere presente in cucitura: l'osservazione «non e sempre necessario visitare tutto il boundary path» aggiunta qui e il presupposto dell'analisi ammortizzata che arrivera piu avanti; inoltre l'algoritmo cui la prima meta di p.22 si riferisce e l'«Algoritmo 1» scritto in fondo a p.21, per cui in fase di assemblaggio conviene inserire un \\label/\\autoref.",
+ "confidenza": "alta"
+}

@@ -1,0 +1,90 @@
+{
+ "pagina": 81,
+ "latex": "\\scan{81}\n\n\\paragraph{Isomorfismo frazionario.}\nSe fra due grafi sussiste un isomorfismo frazionario, allora WL-$k$ fallisce: i due\ngrafi ricevono la stessa colorazione e l'algoritmo non riesce a separarli.\n\n\\begin{definizione}[Isomorfismo frazionario]\nSiano $G$ e $H$ grafi su $n$ nodi, con matrici di adiacenza $A_G$ e $A_H$. Diciamo che\n$G$ e $H$ sono \\emph{frazionariamente isomorfi}, e scriviamo $G \\cong_f H$, se esiste\nuna matrice doppiamente stocastica $S \\in \\RR^{n \\times n}$ --- cioè con entrate non\nnegative e con tutte le righe e tutte le colonne di somma $1$ --- tale che\n\\[\n  A_G\\,S \\;=\\; S\\,A_H .\n\\]\n\\end{definizione}\n\n\\begin{osservazione}\nUn isomorfismo vero e proprio è una matrice di \\emph{permutazione} $P$ con\n$A_G P = P A_H$; l'isomorfismo frazionario è il rilassamento continuo di quella\ncondizione, cioè l'ammissibilità del programma lineare che si ottiene sostituendo le\nmatrici di permutazione con quelle doppiamente stocastiche. Il legame con\nWeisfeiler--Leman è esatto: $G \\cong_f H$ se e solo se il \\emph{color refinement},\ncioè WL-1, produce sui due grafi lo stesso multiinsieme di colori. È questo il senso\ndella frase qui sopra: quando l'isomorfismo frazionario c'è, la colorazione non ha più\nnulla su cui fare presa. Salendo nella gerarchia, la controparte di WL-$k$ non è più il\nprogramma lineare «nudo», ma il suo livello $k$ nella gerarchia di Sherali--Adams.\n\\end{osservazione}\n\n\\paragraph{Logica con conteggio (\\emph{counting logic}).}\n\\begin{definizione}[Il frammento $C^{k}$]\n$C^{k}$ è il frammento della logica del prim'ordine in cui si usano\n\\begin{itemize}\n  \\item al più $k$ variabili distinte;\n  \\item quantificatori esistenziali \\emph{con conteggio}\n    \\[\n      \\exists^{\\ge m} x \\; \\varphi(x), \\qquad m \\in \\NN,\n    \\]\n    da leggersi «esistono almeno $m$ elementi $x$ per cui vale $\\varphi(x)$».\n\\end{itemize}\n\\end{definizione}\n\n\\begin{lacuna}\nNel quaderno, sotto la definizione di $C^{k}$, compare un secondo punto elenco lasciato\nin bianco.\n\\end{lacuna}\n\n\\begin{osservazione}[Cai--Fürer--Immerman, 1992]\nIl punto rimasto in sospeso è quasi certamente l'enunciato che giustifica\nl'introduzione di $C^{k}$: WL-$k$ (nella versione \\emph{folklore} adottata qui)\ndistingue due grafi $G$ e $H$ se e solo se esiste un enunciato di $C^{k+1}$ vero in uno\ne falso nell'altro. Per $k = 1$ si ritrova il caso noto: il color refinement ha\nesattamente il potere distintivo di $C^{2}$, la logica a due variabili con conteggio.\n\\end{osservazione}\n\n\\paragraph{Il kernel di Weisfeiler--Leman (\\emph{WL-kernel}).}\nL'algoritmo si può usare anche come estrattore di caratteristiche: si eseguono $h$\niterazioni di Weisfeiler--Leman sul grafo e si conta quante volte compare ciascun\ncolore. Il vettore dei conteggi $\\varphi_h(G)$ è la rappresentazione del grafo, e il\nkernel è il prodotto scalare fra le rappresentazioni,\n\\[\n  K(G,H) \\;=\\; \\langle\\, \\varphi_h(G),\\; \\varphi_h(H) \\,\\rangle .\n\\]\n\n\\begin{figure}[H]\\centering\n\\input{tikz/p81-grafo-wl-kernel.tikz}\n\\caption{Il grafo disegnato a matita sotto il titolo «WL-kernel»: un ciclo di lunghezza\n$4$ con una corda, cioè $K_4$ privato di un lato.}\n\\end{figure}\n\n\\begin{osservazione}\nAnnotazione a matita, rimasta a metà: «grafi indistinguibili da WL-$k$\n$\\Longrightarrow$ \\dots». La conclusione non è stata scritta, ma è obbligata: se WL-$k$\nnon distingue $G$ da $H$, i due grafi hanno lo stesso multiinsieme di colori, dunque\n$\\varphi_h(G) = \\varphi_h(H)$ e il kernel non li separa.\n\\end{osservazione}\n\n% --- Gli appunti si interrompono qui: le pagine successive del quaderno sono bianche.\n",
+ "note": [
+  {
+   "tipo": "ricostruzione",
+   "pagina": 81,
+   "testo": "Il titolo della prima sezione nel quaderno è troncato: si legge «Fracti» (F-r-a-c-t-i, senza il resto della parola). Alla luce della riga immediatamente sotto («fractional isomorphism») è la parola «Fractional» lasciata a metà; ho reso il titolo con \\paragraph{Isomorfismo frazionario.}",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 81,
+   "testo": "Prima parola della pagina dopo il titolo: due glifi, il primo con asta verticale, occhiello superiore e gamba obliqua (leggibile come «R»/«B»), il secondo una «f» barrata con discendente. Ho confrontato con la prima parola di p80, che è certamente «Initial» (Initial colouring, c_0^k = atp(v)): la maiuscola ha lo stesso ductus. Ne segue che il glifo è una «I» e la parola è «If». Riga letta per intero: «If fractional isomorphism present ~> WL-k fails».",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 81,
+   "testo": "La terza parola della riga 1 è compressa; conta ~11 lettere e mostra due puntini (due «i»), un discendente («p») e un'asta con occhiello («h»): la lettura è «isomorphism». La quarta parola («present»/«persists») resta grafica­mente ambigua fra le due; il senso non cambia («se l'isomorfismo frazionario c'è / sussiste»). Ho tradotto con «sussiste».",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 81,
+   "testo": "Il quaderno scrive «WL-k fails». Il teorema esatto (Tinhofer 1986; Ramana--Scheinerman--Ullman 1994) è: G e H sono frazionariamente isomorfi se e solo se il color refinement, cioè WL-1, non li distingue. Ho lasciato «WL-$k$» nella frase telegrafica (fedeltà alla fonte) e ho aggiunto un'osservazione che precisa il caso k=1 e indica che la controparte di WL-k è il livello k della gerarchia di Sherali--Adams (Atserias--Maneva; Malkin; Grohe--Otto). Correzione non silenziosa, ma esplicitata nel testo.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 81,
+   "testo": "La definizione di isomorfismo frazionario non è nel quaderno (c'è solo il titolo e la riga telegrafica). L'ho aggiunta io (matrice doppiamente stocastica S con A_G S = S A_H, rilassamento LP delle matrici di permutazione) perché altrimenti la sezione sarebbe illeggibile. Contenuto aggiunto, standard e non controverso.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 81,
+   "testo": "Il punto elenco di «Counting Logic» si legge senza incertezze: «C^k fragment of logic with k variables and counting existential quantifier». L'ho reso come definizione, esplicitando il quantificatore di conteggio come ∃^{≥m}x φ(x), che è ciò che «counting existential quantifier» significa; nel quaderno il simbolo non compare.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 81,
+   "testo": "Sotto la definizione di C^k il quaderno ha un secondo bullet con SOLO il pallino: nessun testo. L'ho segnalato con l'ambiente lacuna e ho aggiunto subito dopo, come osservazione, l'enunciato che quasi certamente doveva starci (teorema di Cai--Fürer--Immerman 1992: WL-k folklore distingue G,H sse li distingue un enunciato di C^{k+1}; per k=1, color refinement ≡ C^2). L'indice k+1 è quello corretto per la versione folklore, che è quella definita a p80 con M_i^2(u,v) = {{ (c_{i-1}^2(u,w), c_{i-1}^2(w,v)) : ∀w ∈ V }}.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 81,
+   "testo": "Della sezione «WL-Kernel» il quaderno ha solo il titolo, il disegnino a matita e la mezza frase a matita. Ho aggiunto la definizione standard del kernel (Shervashidze et al., JMLR 2011): h iterazioni di WL, istogramma dei colori come vettore di feature φ_h(G), kernel = prodotto scalare. Contenuto aggiunto per colmare la lacuna.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 81,
+   "testo": "L'ultima riga della pagina è a matita, molto sbiadita: «WL-k indistinguishable graphs» seguito da un glifo isolato. Il glifo (due tratti quasi orizzontali che convergono in un vertice a sinistra, con uncino finale in basso) non è decifrabile con certezza: può essere una freccia ⟹/⟸ tracciata di fretta, una Σ o l'inizio di una parola abbandonata. Ho reso la riga come annotazione interrotta con «⟹ …» e ho scritto esplicitamente nel testo che la conclusione manca; la conclusione matematicamente obbligata (stesso vettore di feature, kernel non separante) è indicata come mia integrazione.",
+   "risolto": false
+  },
+  {
+   "tipo": "figura",
+   "pagina": 81,
+   "testo": "Il disegno a matita sotto «WL-Kernel» è un quadrato leggermente sbilenco con 4 nodi ai vertici, i 4 lati e una diagonale dal nodo in alto a destra a quello in basso a sinistra (tratto più leggero degli altri, ma presente: verificato separando le soglie di grigio della scansione a 600 DPI). È quindi K_4 meno un lato («diamante»), gradi 3,3,2,2. Non ci sono etichette né sui nodi né sugli archi. La diagonale mancante è quella alto-sinistra / basso-destra.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 81,
+   "testo": "I tre titoli del quaderno («Fract[ional]», «Counting Logic», «WL-Kernel») sono resi con \\paragraph e tradotti in italiano, mantenendo fra parentesi il termine inglese usato dal quaderno. Sono allo stesso livello visivo di «WL-1»/«WL-K» di p79 e di «FWL vs OWL» di p80: se in fase di cucitura quelli diventano \\subsection, vanno promossi anche questi.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 81,
+   "testo": "La pagina è per tre quarti bianca: dopo la riga a matita non c'è altro. Restano solo due macchioline d'inchiostro blu (una a circa metà pagina a destra del titolo «WL-Kernel», una più in basso al centro) prive di contenuto: non trascritte. Le pagine 82 e seguenti del quaderno sono completamente bianche, quindi p81 chiude gli appunti.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "p81-grafo-wl-kernel",
+   "pagina": 81,
+   "didascalia": "Il grafo disegnato a matita sotto il titolo «WL-kernel»: un ciclo di lunghezza 4 con una corda, cioè $K_4$ privato di un lato.",
+   "tipo": "grafo non orientato",
+   "specifica": "Grafo semplice non orientato con 4 nodi, disegnato molto in piccolo (circa 3x3 quadretti) e centrato orizzontalmente nella pagina. Nodi ai vertici di un quadrato leggermente irregolare/ruotato di pochi gradi (il lato destro è un po' più lungo del sinistro): a = alto-sinistra (0,2), b = alto-destra (2,2), c = basso-sinistra (0,0), d = basso-destra (2,0). Archi: a--b (lato superiore), a--c (lato sinistro), b--d (lato destro), c--d (lato inferiore) e la diagonale b--c, cioè dal nodo in alto a destra a quello in basso a sinistra (nella scansione è tracciata con tratto più leggero degli altri quattro: si può renderla con lo stesso spessore, oppure leggermente più sottile per fedeltà). NON c'è la diagonale a--d. Il risultato è K_4 privato di un lato, il cosiddetto 'diamante': b e c hanno grado 3, a e d grado 2. Nessuna etichetta sui nodi né sugli archi; i nodi sono semplici pallini pieni (circle, fill, inner sep=1.5pt). Nessuna direzione, nessun colore: il disegno originale è a matita, monocromo.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "Ultima pagina scritta del quaderno e chiusura del capitolo «Graph Isomorphism e la gerarchia di Weisfeiler--Leman». Riprende da p80, che aveva presentato la colorazione iniziale c_0^k = atp(v), il refinement step M_i^k, l'esempio WL-2, il confronto FWL vs OWL e la riga finale «excluding a fixed H as minor results in bounded WL-dimension». La p81 aggiunge tre code al capitolo: (i) isomorfismo frazionario come caratterizzazione del fallimento di WL, (ii) la counting logic C^k, che è la controparte logica della gerarchia WL, (iii) il WL-kernel, cioè l'uso di WL come estrattore di feature. La pagina 82 e tutte le successive (fino a 88) sono completamente bianche: qui gli appunti si interrompono, quindi non c'è continuità in avanti. La notazione WL-k / c_i^k / atp è quella già fissata a p79-p80; per la versione folklore (FWL) l'indice della counting logic corrispondente è k+1.",
+ "confidenza": "media"
+}

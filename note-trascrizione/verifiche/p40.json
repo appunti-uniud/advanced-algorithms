@@ -1,0 +1,20 @@
+{
+ "pagina": 40,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "latex",
+   "dove": "lezioni/08-lca.tex, riga 738 — osservazione subito dopo \\scan{40}",
+   "descrizione": "È scritto «si veda l\\'osservazione dopo la Definizione~\\ref{def:run}»: la sequenza \\'o è il comando di accento acuto, quindi il testo compila in «lósservazione» invece di «l'osservazione». Nel resto del capitolo l'apostrofo è sempre scritto direttamente (es. riga 700 «l'algoritmo»).",
+   "correzione": "Sostituire `l\\'osservazione` con `l'osservazione` (togliere la barra rovesciata)."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "notazione",
+   "dove": "lezioni/08-lca.tex, righe 745-747 — apertura della sezione «Realizzazione delle primitive»",
+   "descrizione": "La glossa «tutte le operazioni sugli array di $\\log n$ bit (le \\emph{parole} del modello)» contrasta con la definizione data nella stessa sezione richiamata: a riga 148 le \\emph{parole} sono gli array di $c\\log n$ bit. La distinzione non è oziosa qui, perché è proprio l'ipotesi «$\\log n$ bit» a dare $2^{\\log n}=n$ input e quindi tabelle di dimensione $\\Oh(n)$ (con $c\\log n$ bit si avrebbe $n^{c}$).",
+   "correzione": "Togliere la parentesi «(le \\emph{parole} del modello)», oppure esplicitare: «sugli array di $\\log n$ bit (una parola di $c\\log n$ bit si spezza in $\\Oh(1)$ blocchi di questa taglia)»."
+  }
+ ]
+}

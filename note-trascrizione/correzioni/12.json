@@ -1,0 +1,49 @@
+{
+ "capitolo": "12-min-cut",
+ "compila": true,
+ "applicate": [
+  {
+   "pagina": 54,
+   "categoria": "figura",
+   "cosa": "Correzione fondata e gia presente sui file quando l'ho raggiunta (la figura di anticipazione vive nel capitolo 11, non nel 12): tikz/mincut-anticipazione.tikz righe 25-26 etichettano ora i due vertici $x$ (sinistra) e $y$ (destra), e la didascalia di fig:mincut-anticipazione in lezioni/11-randqs.tex riga 302 dice «da un lato $x$, dall'altro $y$». Verificato contro p54_full.png: nel quaderno i due pallini sono effettivamente marcati x e y, e la nota editoriale di p.54 (NOTE-EDITORIALI.md riga 1836) lo conferma. La modifica elimina anche la collisione con la coppia $(u,v)$ del capitolo 12, dove $u$ e $v$ sono gli estremi dell'arco contratto (riga 128 di \\contract) e non i due lati del taglio. Rieseguito prova-tikz.sh mincut-anticipazione: OK (234.67pt su 478.01pt)."
+  },
+  {
+   "pagina": 55,
+   "categoria": "notazione",
+   "cosa": "Didascalia di fig:prob-condizionata-venn: «a destra il caso generale, con $\\mathcal{E}_1\\cap\\mathcal{E}_2\\neq\\emptyset$ evidenziata» -> «a destra il caso generale, con l'intersezione $\\mathcal{E}_1\\cap\\mathcal{E}_2$ evidenziata». Cio che il .tikz riempie di grigio (\\fill[black!18] nella lente di intersezione, pannello destro) e la regione di intersezione, non l'asserzione «l'intersezione e non vuota»; il participio «evidenziata» restava inoltre senza sostantivo con cui accordarsi. Il commento in testa al .tikz diceva gia «con l'intersezione non vuota evidenziata»: ora didascalia e figura concordano."
+  },
+  {
+   "pagina": 55,
+   "categoria": "errore-logico",
+   "cosa": "Frase di chiusura di p.55 (righe 106-108): «la loro molteplicita conta quanti archi originali di $G$ attraversano la bipartizione di $V$ corrispondente ai due super-nodi» -> «la molteplicita del fascio che unisce due super-nodi conta esattamente quanti archi originali di $G$ hanno un estremo in ciascuno dei due insiemi di vertici che quei super-nodi rappresentano». Il rilievo e fondato: in quel punto dell'esposizione siamo dopo *una* contrazione, il multigrafo ha in generale molti super-nodi (la figura appena mostrata ne ha piu di due) e i super-nodi inducono una partizione di $V$ in piu classi, non una bipartizione — quella e la situazione finale, trattata a p.56 nel lemma. La proprieta enunciata vale invece per una coppia qualsiasi di super-nodi, ed e proprio quella che serve piu avanti. Frase editoriale (nel quaderno c'e solo «si formano multi-grafi (piu archi tra i nodi)»), quindi riformulabile senza toccare la fedelta alla fonte."
+  },
+  {
+   "pagina": 56,
+   "categoria": "errore-matematico",
+   "cosa": "Osservazione dopo l'algoritmo \\contract, ultima frase. Diceva: «Il costo costante si ottiene solo con una realizzazione «pigra»: si tiene la lista degli archi di partenza, si fondono i nodi con una union--find e si scartano gli archi diventati self-loop soltanto nel momento in cui vengono estratti». Messa in parallelo con l'$\\Oh(n)$/$\\Oh(n^2)$ della rappresentazione esplicita, lasciava intendere che la realizzazione pigra renda costante il costo di una contrazione e quindi abbassi il costo di un tentativo, il che e falso: la union--find costa $\\Oh(\\alpha(n))$ e, soprattutto, un tentativo deve comunque disporre della lista degli archi, per cui il costo resta $\\Om(\\abs{E})$ (le estrazioni sono $\\Oh(\\abs{E}+n)$ perche ogni self-loop estratto esce dal pool una volta sola, ma $\\abs{E}$ non si evita). Riscritta cosi: il costo costante «va riferito alla sola fusione dei due nodi», segue la descrizione della realizzazione pigra, e si chiude con «Anche cosi, pero, il guadagno riguarda solo i grafi sparsi: il costo complessivo di una singola esecuzione resta $\\Om(\\abs{E})$, e sui grafi densi $\\abs{E}=\\Th(n^2)$, quindi non si guadagna nulla rispetto alla rappresentazione esplicita». Ho preferito questa formulazione a quella proposta dal verificatore («cioe $\\Oh(n^2)$ sui grafi densi») per non mescolare $\\Om$ e $\\Oh$/$\\Th$ nella stessa stima. Coerente con l'osservazione finale del capitolo, che continua a contare $\\Oh(n^2)$ per esecuzione con la rappresentazione esplicita. Usate solo macro esistenti (\\Om, \\Th, \\Oh, \\abs)."
+  },
+  {
+   "pagina": 57,
+   "categoria": "notazione",
+   "cosa": "Risolta la collisione sulla lettera $C$, che nel capitolo denotava sia il taglio restituito dall'algoritmo sia il taglio minimo fissato per l'analisi. Ho riservato $C$ al taglio minimo (uso standard, e coerente con Definizione/Teorema di Karger) e introdotto $F$ per l'insieme di archi prodotto da \\contract: Lemma «gli archi residui formano un taglio» e sua dimostrazione (5 occorrenze), didascalia di fig:karger-bipartizione-taglio, etichetta della linea ondulata in tikz/karger-bipartizione-taglio.tikz (nodo $C$ -> $F$, con i commenti del file aggiornati), e Domanda di p.57, che ora chiede «Qual e la probabilita che il taglio $F$ restituito dall'algoritmo sia un taglio minimo, e non semplicemente un taglio qualunque?». Ho scartato le due varianti proposte dal verificatore: $C_{out}$ e pesante in una didascalia e dentro la figura, e la sola frase «da qui in avanti $C$ indica un taglio minimo fissato» non basta, perche e la Domanda stessa a usare $C$ per l'output. Divergenza dal quaderno (che scrive «L'insieme C degli archi fra i due nodi rimasti» a p.56 e «qual e la prob. che C sia un min-cut» a p.57): e una scelta editoriale di disambiguazione, da annotare in NOTE-EDITORIALI. Il Teorema di Karger («restituisce proprio $C$») resta corretto e ora non ambiguo. prova-tikz.sh karger-bipartizione-taglio: OK (152.15pt su 478.01pt)."
+  },
+  {
+   "pagina": 58,
+   "categoria": "notazione",
+   "cosa": "Osservazione della sezione «Amplificazione per ripetizione»: «La probabilita che il taglio $C$ restituito non sia minimo e» -> «La probabilita che il taglio restituito da \\contract non sia minimo e». Con $C$ vincolato dalla riga «Fissiamo allora un taglio minimo $C$» e dal teorema che dice che \\contract restituisce proprio $C$, la frase si leggeva «la probabilita che il taglio minimo $C$ non sia minimo»: contraddittoria. Qui non ho usato nemmeno $F$, perche l'osservazione parla di $h$ esecuzioni indipendenti, ciascuna con il proprio output: nominarne uno solo sarebbe fuorviante."
+  },
+  {
+   "pagina": 59,
+   "categoria": "errore-matematico",
+   "cosa": "Osservazione sulla stima $(1-1/m)^m<e^{-1}$: «e il caso $m=n^2/2$ del limite notevole ... conseguenza immediata di $1-x\\le e^{-x}$ posto $x=1/m$» -> «e il caso $m=n^2/2$ della stima ... conseguenza immediata di $1-x<e^{-x}$ — vera per ogni $x\\neq 0$ — posto $x=1/m$». Il rilievo e fondato due volte: dalla maggiorazione debole $1-x\\le e^{-x}$ segue soltanto $(1-1/m)^m\\le e^{-1}$, mentre il testo (e il quaderno, p59_b1) afferma la disuguaglianza stretta, che richiede $1-x<e^{-x}$ per $x\\neq0$; e «limite notevole» denotava una disuguaglianza, non un limite. Con $m>1$ si ha $x=1/m\\in(0,1)$, quindi $0<1-1/m<e^{-1/m}$ e, elevando alla $m$ (funzione strettamente crescente sui positivi), $(1-1/m)^m<e^{-1}$: la catena e ora completa e stretta."
+  }
+ ],
+ "respinte": [],
+ "note": [
+  "Tutte e sei le segnalazioni (una per pagina, tutte di gravita bassa) sono state riesaminate rifacendo il conto o ricontrollando la scansione, e tutte e sei si sono rivelate fondate: nessuna respinta. In due casi ho pero applicato una correzione diversa da quella suggerita (p.56: $\\Om(\\abs{E})$ invece di «$\\Oh(n^2)$ sui grafi densi», per non mescolare le notazioni asintotiche; p.57: rinomina in $F$ invece di $C_{out}$ o di una semplice frase di avvertimento), e le motivazioni sono dentro le voci corrispondenti.",
+  "Verificate presenti e NON rifatte le sei correzioni gia applicate a mano: tikz/kmp-alfa-S.tikz (tacca $i-\\spv{i}(S)+1$), cap.02 (copia di beta condizionata a $\\Zv{i'}\\le r-i+1$; convenzione $\\spp{i}(P)=0$), cap.03 (shift GSR non safe con $L'(i)=0$, controesempio P=aca / T=bcaca), cap.05 (via il riferimento ad $a^m b^m$ e l'avverbio «sempre»; $g$ parziale e capoverso sul DFA attenuato). Nessuna di queste tocca le pagine 54-59.",
+  "La correzione di p.54 riguarda file del capitolo 11 (tikz/mincut-anticipazione.tikz e la didascalia in lezioni/11-randqs.tex): quando l'ho controllata era gia stata applicata — con esattamente il contenuto indicato dal referto — dalla passata sul capitolo 11 in corso in parallelo. Mi sono limitato a verificarla contro la scansione e a ricompilare la figura.",
+  "Da riportare in NOTE-EDITORIALI: (a) l'insieme restituito da \\contract si chiama ora $F$ e non piu $C$ come nel quaderno, perche $C$ e riservato al taglio minimo fissato nell'analisi; (b) la precisazione sul costo di una contrazione (osservazione di p.56) e un'aggiunta editoriale, ora corretta anche nel merito: la realizzazione pigra aiuta solo sui grafi sparsi; (c) l'osservazione di p.59 sulla stima $(1-1/m)^m<e^{-1}$ e anch'essa editoriale, e la disuguaglianza usata e ora quella stretta.",
+  "Marcatori \\scan{54}...\\scan{59} tutti conservati; nessuna macro nuova introdotta; nessun ambiente nuovo. Compilazione finale: «OK: 12-min-cut.tex compila (8 pagine, 2 riferimenti indefiniti)» — i riferimenti indefiniti sono i rimandi ad altri capitoli, attesi compilando il capitolo da solo. Ricompilate anche le due figure toccate: karger-bipartizione-taglio (152.15pt) e mincut-anticipazione (234.67pt), entrambe dentro i 478.01pt di testo."
+ ]
+}

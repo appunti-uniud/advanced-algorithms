@@ -1,0 +1,27 @@
+{
+ "pagina": 5,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "errore-matematico",
+   "dove": "lezioni/02-kmp-z.tex, \\begin{esempio}[analisi ammortizzata su uno stack] (riga ~208) e paragrafo conclusivo dopo la tabella (riga ~239)",
+   "descrizione": "Il costo totale di una sequenza di t operazioni Push/Multi-Pop e' maggiorato da 2t, non uguale a 2t: se le operazioni sono tutte Push il costo e' t, e il massimo effettivo e' 2t-2 (t-1 Push seguite da una Multi-Pop). Il testo scrive prima 'Il costo complessivo di tutta la sequenza e' quindi $2t$' e poi, peggiorando, 'ottiene il costo esatto $2t$'. La parola 'esatto' e' un'aggiunta del trascrittore (il manoscritto dice solo 'Il costo complessivo e' 2n') ed e' falsa.",
+   "correzione": "Nell'esempio: 'Il costo complessivo di tutta la sequenza e' quindi al piu' $2t$, dunque $\\Oh(t)$.' Nel paragrafo conclusivo: sostituire 'e ottiene il costo esatto $2t$' con 'e ottiene la maggiorazione lineare $2t$'."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "notazione",
+   "dove": "lezioni/02-kmp-z.tex, secondo item dell'itemize dentro \\begin{esempio}[analisi ammortizzata su uno stack] (riga ~201): 'e quindi $\\Oh(t)$ nel caso pessimo'",
+   "descrizione": "Il simbolo $t$ (numero di operazioni della sequenza) viene usato qui per la prima volta, ma e' introdotto solo nella frase successiva ('Quanto costa una sequenza arbitraria di $t$ operazioni...'). Nel manoscritto il costo di MULTI-POP era $O(n)$ con $n$ = altezza dello stack, quantita' diversa dal numero di operazioni: la riscrittura in $t$ e' corretta come maggiorazione, ma resta un riferimento in avanti a un simbolo non ancora definito.",
+   "correzione": "Nel secondo item scrivere '--- costo proporzionale al numero di elementi rimossi, e quindi lineare nel caso pessimo;' e lasciare l'introduzione di $t$ (e di $\\Oh(t^{2})$) alla frase successiva."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "errore-logico",
+   "dove": "lezioni/02-kmp-z.tex, riga ~285-286 (blocco \\scan{6}, subito dopo la Definizione 'Funzione $Z$' introdotta in pagina 5): 'c'e' bisogno di avere $\\Zv{i}(A)$ per ogni $i\\in\\set{1,\\dots,\\abs{A}}$'",
+   "descrizione": "La definizione data in pagina 5 restringe esplicitamente il dominio a $2\\le i\\le\\abs{S}$ (e l'osservazione successiva spiega perche' $i=1$ va escluso), ma il testo immediatamente seguente chiede $\\Zv{i}(A)$ per ogni $i\\in\\set{1,\\dots,\\abs{A}}$, cioe' anche per $i=1$, valore per cui la funzione non e' definita. Anche l'algoritmo esposto piu' avanti scandisce $i=2,3,\\dots,\\abs{S}$, quindi l'unico punto incoerente e' questo.",
+   "correzione": "Sostituire '$i\\in\\set{1,\\dots,\\abs{A}}$' con '$i\\in\\set{2,\\dots,\\abs{A}}$'."
+  }
+ ]
+}

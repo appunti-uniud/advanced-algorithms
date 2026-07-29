@@ -1,0 +1,46 @@
+% stack-push-multipop -- le due operazioni sullo stack (quaderno, pag. 5).
+% A sinistra PUSH: una sola cella in cima al contenuto.
+% A destra MULTI-POP: tutto il blocco degli elementi sovrastanti, in un colpo solo.
+\begin{tikzpicture}[
+    font=\footnotesize,
+    >={Stealth[length=4.5pt,width=3.5pt]},
+    parete/.style={line width=0.9pt},
+    cella/.style={line width=0.5pt},
+    guida/.style={gray!60!black, line width=0.6pt},
+  ]
+
+  % ============ STACK SINISTRO : PUSH ==================================
+  % contenitore aperto in alto
+  \draw[parete] (0,3.2) -- (0,0) -- (1.6,0) -- (1.6,3.2);
+  % contenuto gia' presente: 4 celle
+  \foreach \y in {0.4,0.8,1.2,1.6}{\draw[cella] (0,\y) -- (1.6,\y);}
+  % l'elemento appena inserito
+  \begin{scope}
+    \clip (0,1.6) rectangle (1.6,2.0);
+    \foreach \i in {-2,...,9}{%
+      \draw[guida,line width=0.4pt] ({\i*0.28},1.55) -- ({\i*0.28+0.5},2.05);
+    }
+  \end{scope}
+  \draw[cella] (0,2.0) -- (1.6,2.0);
+  % freccia di inserimento
+  \draw[->,line width=0.7pt] (-0.95,1.8) -- (-0.10,1.8);
+  \node[left,inner sep=3pt] at (-0.95,1.8) {\textsc{Push}};
+
+  % ============ STACK DESTRO : MULTI-POP ===============================
+  \begin{scope}[xshift=4.0cm]
+    \draw[parete] (0,3.2) -- (0,0) -- (1.6,0) -- (1.6,3.2);
+    % il blocco che viene rimosso tutto insieme
+    \begin{scope}
+      \clip (0,0.8) rectangle (1.6,2.0);
+      \foreach \i in {-4,...,12}{%
+        \draw[guida,line width=0.4pt] ({\i*0.28},0.75) -- ({\i*0.28+1.3},2.05);
+      }
+    \end{scope}
+    % celle del contenuto
+    \foreach \y in {0.4,0.8,1.2,1.6,2.0}{\draw[cella] (0,\y) -- (1.6,\y);}
+    % freccia di rimozione
+    \draw[->,line width=0.7pt] (-1.85,-0.20) to[out=25,in=200] (-0.05,0.80);
+    \node[below,inner sep=2pt] at (-1.05,-0.45) {\textsc{Multi-Pop}};
+  \end{scope}
+
+\end{tikzpicture}

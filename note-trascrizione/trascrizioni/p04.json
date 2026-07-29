@@ -1,0 +1,142 @@
+{
+ "pagina": 4,
+ "latex": "\\scan{4}\n\nFissiamo le notazioni: $P$ è il pattern e $T$ il testo, con $n=\\abs{P}$ e $m=\\abs{T}$; le\nstringhe sono indicizzate a partire da~$1$.\n\nPer il problema del pattern matching esatto i due termini del confronto sono\n\\[\n  \\text{naive}\\quad\n  \\begin{cases}\n    \\Oh(n\\cdot m) & \\text{(quadratico)}\\quad \\emph{upper bound}\\\\[3pt]\n    \\Om(n+m)      & \\text{(lineare)}\\quad \\emph{lower bound}\n  \\end{cases}\n\\]\nIl limite superiore $\\Oh(n\\cdot m)$ è quello raggiunto dall'algoritmo naive; il limite\ninferiore $\\Om(n+m)$ è invece un limite del \\emph{problema} (l'input va comunque letto per\nintero), ed è esattamente ciò che Knuth--Morris--Pratt riesce a ottenere.\n\n\\begin{definizione*}[Pre-processing del pattern]\nIl \\emph{pre-processing} di $P$ consiste nel calcolare, per ogni prefisso di $P$, il più\nlungo $\\alpha$ che sia contemporaneamente prefisso e suffisso \\emph{proprio} di quel\nprefisso.\n\\end{definizione*}\n\n\\noindent E come lo si calcola? È la domanda a cui risponde il resto della pagina.\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/kmp-alfa-P.tikz}\n  \\caption{Per ogni prefisso $\\sub{P}{1}{i}$ di $P$ si cerca il massimo $\\alpha$ che ne sia\n    al tempo stesso prefisso e suffisso.}\n\\end{figure}\n\n\\begin{osservazione}\nIl pre-processing prende tempo \\emph{lineare}.\n\\end{osservazione}\n\n\\noindent Lavoriamo allora su una generica stringa $S$, scrivendo $S_i \\defeq \\sub{S}{1}{i}$\nper il suo prefisso $i$-esimo.\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/kmp-alfa-S.tikz}\n  \\caption{La stessa situazione sul prefisso $S_i=\\sub{S}{1}{i}$: $\\alpha$ compare una volta\n    come prefisso di $S_i$ e una volta come suo suffisso, terminando in posizione $i$.}\n\\end{figure}\n\n\\begin{definizione*}[$\\spv{i}(S)$]\nPer $1\\le i\\le\\abs{S}$,\n\\[\n  \\spv{i}(S) \\defeq \\max\\set{\\,k \\;:\\; 0\\le k<i,\\ \\sub{S}{1}{k}=\\sub{S}{i-k+1}{i}\\,}\n\\]\nè la lunghezza del massimo suffisso/prefisso \\emph{proprio} del prefisso $i$-esimo di $S$.\nIn particolare $\\spv{1}(S)=0$, perché la stringa vuota $\\vuota$ è sempre un\nprefisso-suffisso.\n\\end{definizione*}\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/kmp-bordo-del-bordo.tikz}\n  \\caption{Il passo ricorsivo: $\\alpha$ è il massimo prefisso-suffisso di $S_{i-1}$ e\n    $\\beta$ è il massimo prefisso-suffisso di $\\alpha$. Nel disegno $S[i]=a \\ne b=S[k+1]$,\n    quindi $\\alpha$ non si estende e si ricade su $\\beta$.}\n\\end{figure}\n\nPer calcolare il massimo prefisso/suffisso di $S_i$ ci sono due casi. Posto\n$k=\\spv{i-1}(S)$ e $\\alpha=\\sub{S}{1}{k}$:\n\\begin{enumerate}\n  \\item (\\emph{caso base}) se $S[i]=S[k+1]$ posso estendere $\\alpha$ di un carattere, e\n    \\[\n      \\spv{i}(S) \\;=\\; \\spv{i-1}(S)+1 ;\n    \\]\n  \\item altrimenti $\\spv{i}(S)$ si ottiene ricorsivamente da $\\spv{i-1}(S)$: il candidato\n    successivo è $\\beta$, il massimo prefisso-suffisso di $\\alpha$, cioè\n    $\\abs{\\beta}=\\spv{k}(S)$, e si ripete il confronto fra $S[i]$ e $S[\\abs{\\beta}+1]$.\n\\end{enumerate}\nQuante chiamate ricorsive innesca il caso 2)?\n\n\\begin{osservazione}[Problema]\nIl caso 2) può innescare fino a $i$ chiamate ricorsive: per $i\\in\\set{1,\\dots,n}$ l'ordine\ndel caso pessimo farebbe concludere che il pre-processing è \\emph{quadratico}!\n\\end{osservazione}\n\n\\noindent Con l'analisi ammortizzata si vede invece che la somma delle operazioni su\n\\emph{tutte} le chiamate ricorsive, per $i\\in\\set{1,\\dots,n}$, è \\emph{lineare}.",
+ "note": [
+  {
+   "tipo": "altro",
+   "pagina": 4,
+   "testo": "La pagina si riapre con il titolo sottolineato «Knuth Morriss-Pratt (KNP)», già presente in testa a p.3. Non l'ho riemesso come titolo (la struttura si decide in cucitura e il capitolo lo porta già). Nel quaderno il cognome è scritto «Morriss» (doppia s) e la sigla è sistematicamente «KNP»: ho scritto «Morris» e, dove serviva, «KMP», che è la sigla standard.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 4,
+   "testo": "La pagina non dichiara mai chi sia n e chi sia m. Ho fissato |P|=n, |T|=m: lo impone l'ultima parte della pagina, dove il pre-processing (che si fa sul pattern) scandisce i prefissi S_i per i in {1,...,n}, quindi n = |S| = |P|. È anche la convenzione deGli appunti del corso dell'anno precedente (L01: |T|=m, |P|=n). Ho aggiunto la frase di apertura che fissa le notazioni e l'indicizzazione da 1: nel quaderno non c'è.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 4,
+   "testo": "Il quaderno appende entrambi i bound alla graffa «Naïve»: «Naïve ↗ O(n·m) (quadratica) upper-bound; ↘ Ω(n+m) (lineare) lower-bound ← (KNP)». Il Ω(n+m) non è un lower bound del naive ma del problema; ho esplicitato la distinzione e la ragione (l'input va letto per intero). Da notare che qui lo studente usa correttamente Ω, mentre Gli appunti del corso dell'anno precedente (L01, anomalia A2) scrivono «Lower bound O(m+n)».",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 4,
+   "testo": "Il quaderno dice «calcolo, per ogni prefisso di P, il max α prefisso/suffisso» senza mai dire «proprio». Ho aggiunto «proprio» (e il vincolo 0≤k<i nella definizione formale): senza di esso ogni prefisso sarebbe banalmente prefisso-suffisso di sé stesso e sp_i(S)=i.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 4,
+   "testo": "Il verbo della frase «Per ??? il max pref./suff. di S_i ci sono 2 casi»: i grafemi (piccolo-ALTO-piccolo-ALTO + '-ore') combaciano con «elaborare»; poche righe sopra la stessa mano scrive «calcolo» con un tracciato diverso. Ho scritto «Per calcolare», sinonimo esatto e più idiomatico in questo contesto.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 4,
+   "testo": "«Il caso 2) può innescare fino a ? chiamate ricorsive»: a bassa risoluzione il grafema sembra una 'k', ma a 700 dpi si vede il punto sopra e il tratto tipico della 'i' della stessa mano (cfr. 'i-1' nel disegno). Letto 'i', che è anche l'unica lettura sensata (la catena dei bordi di S_i ha al più i-1 anelli). Scritto 'i'.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 4,
+   "testo": "Il verbo dell'ultima riga del blocco «Problema» è riscritto sopra sé stesso; il tracciato si legge come «concluderebbe» (con-cl-ude-re-bbe). Con soggetto «l'ordine del caso pessimo» la reggenza sarebbe scorretta, quindi ho scritto «farebbe concludere che», che conserva il senso. Il resto della riga è sicuro: «che il pre-processing è quadratico!», con «quadratico» sottolineato.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 4,
+   "testo": "A destra della figura di S, in matita grigia (non in penna blu), c'è un abbozzo abbandonato: «sol(i)=s» e «sol(i) = 1 + sol(i-1) if S[», interrotto a metà. È chiaramente una prima stesura del caso 1 della ricorrenza. Non l'ho riportato come tale: l'ho recuperato nella forma corretta e completa sp_i(S) = sp_{i-1}(S) + 1 se S[i]=S[k+1], che è esattamente ciò che l'abbozzo voleva dire. Il quaderno, nel punto 1), scrive solo «posso estendere di un carattere sp_{i-1}(S)», senza formula né condizione.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 4,
+   "testo": "Il quaderno non enuncia la condizione che discrimina i due casi (dice solo «posso estendere» / «si ottiene ricorsivamente»). Ho esplicitato: caso 1 sse S[i]=S[k+1] con k=sp_{i-1}(S); caso 2 altrimenti, con il confronto successivo fra S[i] e S[|β|+1] dove |β|=sp_k(S). È la lettura obbligata dalla figura (le due celle marcate 'b' e 'a') e coincide con Gusfield e con L01 §6.2 dell'anno precedente.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 4,
+   "testo": "Come neGli appunti del corso dell'anno precedente (L01, anomalia A6), anche qui il caso 2 è presentato come un solo passo di ricaduta, mentre in generale va iterato lungo tutta la catena α, bord(α), bord²(α), ... fino a ε. Non ho aggiunto l'iterazione nel testo per non inventare contenuto: la pagina stessa la riconosce implicitamente subito dopo, dicendo che il caso 2 può innescare «fino a i chiamate ricorsive». Nessun marcatore nel LaTeX.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 4,
+   "testo": "La definizione di sp_i(S) nel quaderno è solo un riquadro con «sp_i(S)» e la glossa a margine «max suffisso/prefisso del prefisso i di S». Ho scritto la definizione formale con il max su {k : 0≤k<i, S[1..k]=S[i-k+1..i]} e aggiunto il caso base sp_1(S)=0 (assente nel quaderno), coerente con L01 §8.1.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 4,
+   "testo": "La parentesi che accompagna il caso 1 si legge «(caso base)» (verificata a 800 dpi). È semanticamente corretta: il caso 1 è la terminazione della ricorsione innescata dal caso 2. Mantenuta.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 4,
+   "testo": "Ultima riga: «Con l'analisi <asintotica> ammortizzata» — la parola 'asintotica' è scritta in corsivo e poi coperta/sostituita da 'ammortizzata' vergata in stampatello. Ho trascritto solo «ammortizzata». Ho aggiunto un «invece» per legare la frase al blocco «Problema» che la precede.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 4,
+   "testo": "Riordino minimo rispetto al quaderno: nel manoscritto la figura del bordo-del-bordo precede il riquadro con sp_i(S). Ho messo prima la definizione di sp_i(S) e poi la figura, così che la didascalia possa usare la notazione. Nessun contenuto aggiunto o tolto.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 4,
+   "testo": "Le prime due figure sono lo stesso schema disegnato due volte (una su P con graffa inferiore 'prefisso di P', una su S con graffa inferiore 'S_i = S[1,i]'). Le ho tenute entrambe perché la seconda introduce la notazione S_i usata da lì in avanti.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 4,
+   "testo": "Terza figura (bordo del bordo): nel manoscritto β è disegnato chiaramente come prefisso della copia sinistra di α, mentre nella copia destra il segmento β cade nella parte iniziale/centrale di α e non alla sua fine. Nella specifica TikZ l'ho posizionato come SUFFISSO della copia destra: è l'unica collocazione che rende il disegno matematicamente sensato (β è bordo di α, quindi suffisso di S_{i-1}, ed è il candidato successivo del caso 2). Resta un margine di incertezza sull'intenzione originale; segnalato.",
+   "risolto": false
+  },
+  {
+   "tipo": "figura",
+   "pagina": 4,
+   "testo": "Nella terza figura i due glifi che seguono le copie di α non sono etichette 'b1'/'a1' come sembrano a bassa risoluzione: a 900 dpi si vedono due celle quadrate (un carattere ciascuna) delimitate da tratti verticali, contenenti rispettivamente il carattere 'b' (subito dopo la copia prefisso di α, cioè S[k+1]) e il carattere 'a' (in posizione i, cioè S[i]). Essendo a ≠ b, la figura illustra il caso 2. Le tacche sotto la linea con le etichette 'i-1' e 'i' stanno sotto le due celle, non sotto i trattini.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 4,
+   "testo": "Annotazioni marginali del quaderno rese in prosa e non come note a margine: (a) «come?» con freccia ondulata verso la definizione di pre-processing → reso con «E come lo si calcola?»; (b) «quante chiamate ricorsive?» con doppia freccia verso il caso 2) → reso con «Quante chiamate ricorsive innesca il caso 2)?»; (c) «max suffisso/prefisso del prefisso i di S» sotto il riquadro sp_i(S) → assorbita nella definizione.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "kmp-alfa-P",
+   "pagina": 4,
+   "didascalia": "Per ogni prefisso $P[1..i]$ di $P$ si cerca il massimo $\\alpha$ che ne sia al tempo stesso prefisso e suffisso.",
+   "tipo": "schema di stringhe",
+   "specifica": "Schema a barre orizzontali su una sola riga. (1) Una lunga linea orizzontale spessa che rappresenta il pattern P, con tacca verticale corta all'estremo sinistro (posizione 1) e etichetta 'P' in tondo subito a destra dell'estremo destro. Lunghezza indicativa 10 unita. (2) Una seconda tacca verticale, piu marcata, a circa 1/3 della lunghezza (diciamo x=3.6): e la posizione i; l'etichetta '$i$' e scritta appena sotto la linea, immediatamente a destra della tacca (nel manoscritto e scritta in verticale lungo la tacca, ma in TikZ va bene sotto la linea). (3) Sopra la linea, due graffe orizzontali rivolte verso il basso, della STESSA larghezza (circa 1.6 unita), entrambe etichettate '$\\alpha$' al centro sopra la graffa: la prima parte da x=0 (posizione 1) e arriva a x=1.6; la seconda termina esattamente in x=3.6 (la posizione i) e quindi parte da x=2.0. (4) Sotto la linea, una terza graffa rivolta verso l'alto che va da x=0 a x=3.6, etichettata sotto con il testo 'prefisso di $P$'. Significato: $\\alpha$ e il massimo prefisso-suffisso (bordo) del prefisso $P[1..i]$: compare una volta all'inizio e una volta in coda, terminando in i. Tutto in italiano, colore unico (blu/nero) coerente con il resto del documento.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "kmp-alfa-S",
+   "pagina": 4,
+   "didascalia": "La stessa situazione sul prefisso $S_i=S[1..i]$: $\\alpha$ compare una volta come prefisso di $S_i$ e una volta come suo suffisso, terminando in posizione $i$.",
+   "tipo": "schema di stringhe",
+   "specifica": "Identico per struttura a 'kmp-alfa-P', ma sulla stringa generica S. (1) Lunga linea orizzontale spessa etichettata '$S$' a destra dell'estremo destro; tacca all'estremo sinistro (posizione 1). (2) Tacca verticale marcata a circa 1/3 (x=3.6) etichettata '$i$' sotto la linea. (3) Sopra la linea due graffe uguali (larghezza ~1.6) etichettate entrambe '$\\alpha$': la prima da x=0 a x=1.6, la seconda da x=2.0 a x=3.6 (termina in i). (4) Sotto la linea una graffa da x=0 a x=3.6 etichettata con la formula '$S_i = S[1..i]$'. Significato: si introduce la notazione $S_i$ per il prefisso i-esimo e si visualizza il suo massimo prefisso-suffisso $\\alpha$. Nel manoscritto, alla destra di questa figura, compare a matita un abbozzo abbandonato ('sol(i)=s', 'sol(i)=1+sol(i-1) if S['): NON va riprodotto.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "kmp-bordo-del-bordo",
+   "pagina": 4,
+   "didascalia": "Il passo ricorsivo: $\\alpha$ e il massimo prefisso-suffisso di $S_{i-1}$ e $\\beta$ e il massimo prefisso-suffisso di $\\alpha$. Nel disegno $S[i]=a \\ne b=S[k+1]$, quindi $\\alpha$ non si estende e si ricade su $\\beta$.",
+   "tipo": "schema di stringhe",
+   "specifica": "Schema a tre livelli sopra un'unica linea di base. LINEA DI BASE: linea orizzontale spessa che rappresenta S, da x=0 a x=13, con l'estremo destro aperto (la stringa prosegue); tacca corta a x=0 (posizione 1). LIVELLO 1 (subito sopra la linea, ~0.35 di altezza): due segmenti orizzontali con tacca verticale a entrambi gli estremi, della STESSA lunghezza (4 unita), entrambi etichettati '$\\alpha$' sopra il segmento, verso la sua meta/destra: - alpha sinistro da x=0 a x=4 (occorrenza come PREFISSO di S); - alpha destro da x=6 a x=10 (occorrenza come SUFFISSO di $S_{i-1}$: termina in posizione i-1). CELLE DI UN CARATTERE: subito a destra di ciascun alpha, una piccola cella quadrata (larghezza 0.8, altezza ~0.5) disegnata a cavallo/appoggiata sulla linea di base, delimitata da due tratti verticali e contenente una lettera in tondo: - cella [4.1, 4.9] contenente 'b' = il carattere $S[k+1]$ che segue la copia-prefisso di alpha (k=|alpha|); - cella [10.1, 10.9] contenente 'a' = il carattere $S[i]$. ETICHETTE SOTTO LA LINEA: '$i-1$' centrata sotto l'ultima cella dell'alpha destro (circa x=9.6, con una tacchetta verticale corta che attraversa la linea); '$i$' centrata sotto la cella che contiene 'a' (circa x=10.5). LIVELLO 2 (sopra il livello 1, ~0.75 di altezza): due segmenti piu corti (lunghezza 2 unita) con tacche agli estremi, entrambi etichettati '$\\beta$' sopra: - beta sinistro allineato all'INIZIO dell'alpha sinistro, cioe da x=0 a x=2 (beta e prefisso di alpha); - beta destro allineato alla FINE dell'alpha destro, cioe da x=8 a x=10 (beta e suffisso di alpha). Sopra l'estremo destro del beta destro, una piccola freccia verso il basso (nel manoscritto e un segno a stella/freccia sfrangiata) che marca il punto da cui riprende il confronto nel passo ricorsivo. SIGNIFICATO: alpha e il massimo prefisso-suffisso di $S_{i-1}=S[1..i-1]$ (quindi $k=|\\alpha|=sp_{i-1}(S)$) e beta e il massimo prefisso-suffisso di alpha. Se $S[i]$ coincide con il carattere che segue la copia-prefisso di alpha (cioe a=b) si estende, caso 1; qui a e diverso da b, quindi si ricade su beta e si confronta $S[i]$ con $S[|\\beta|+1]$, caso 2. Tutte le etichette testuali in italiano. NOTA PER IL DISEGNATORE: nel manoscritto il beta della copia destra e disegnato piu vicino all'inizio che alla fine di alpha; e stato normalizzato a suffisso perche e l'unica collocazione coerente con la matematica.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina si chiude con un'affermazione lasciata in sospeso: «con l'analisi ammortizzata si vede che la somma delle operazioni su tutte le chiamate ricorsive, per i in {1,...,n}, e lineare», cioe la dimostrazione che il pre-processing di KMP costa O(n) nonostante il caso 2 possa innescare fino a i ricadute. Resta inoltre aperta la domanda marginale «quante chiamate ricorsive?». Pagina 5 riprende esattamente da qui: apre con «Analisi ammortizzata: ogni volta che applico il caso 1) se il costo e k, alloco 2k => 'pago' in anticipo per ogni chiamata ricorsiva del 2) che ripaga per quella posizione», sviluppa l'esempio didattico PUSH/MULTI-POP su stack con il confronto «analisi semplice» (quadratica) vs «analisi ammortizzata» (2n), e poi cambia argomento introducendo la funzione Z_i(A) come approccio alternativo al pattern matching esatto. Le notazioni introdotte qui e riusate subito dopo sono S_i = S[1,i], sp_i(S), alpha e beta.",
+ "confidenza": "alta"
+}

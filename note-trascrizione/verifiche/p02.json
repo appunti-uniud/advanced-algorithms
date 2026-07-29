@@ -1,0 +1,13 @@
+{
+ "pagina": 2,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "errore-matematico",
+   "dove": "lezioni/01-introduzione.tex, sezione 'Complessita' (sec:naive-complessita), riga 143: 'si spendono esattamente $n(m-n+1)$ confronti --- cioe $\\Th(m^{2})$ non appena $n=\\Th(m)$ ---'",
+   "descrizione": "L'implicazione 'n = Theta(m) => n(m-n+1) = Theta(m^2)' e falsa nel caso degenere n = m (e piu in generale quando m-n = O(1)), che soddisfa n = Theta(m): li c'e un solo allineamento e il costo e n(m-n+1) = m = Theta(m), non Theta(m^2). La funzione n(m-n+1) e una parabola in n: vale Theta(m^2) solo quando sia n sia m-n sono Theta(m) (massimo in n = (m+1)/2). La stessa formulazione approssimativa compare neGli appunti del corso dell'anno precedente (L01_sintesi.md, 4.2), che pero la corregge subito dopo osservando 'massimizzando su n si ottiene n circa m/2'. Il quaderno scrive soltanto 'e tight!' e 'O(m.n) (e detta quadratica)', quindi la condizione e stata aggiunta in trascrizione e va resa corretta.",
+   "correzione": "Sostituire la condizione con una che escluda il caso degenere, per esempio: 'si spendono esattamente $n(m-n+1)$ confronti --- cioe $\\Th(m^{2})$ quando $n$ e $m-n$ sono entrambi $\\Th(m)$ (il massimo si ha per $n\\approx m/2$) ---'. In alternativa, la forma piu breve e ugualmente corretta: '... cioe $\\Th(m^2)$ gia per $n=m/2$ ---'."
+  }
+ ]
+}

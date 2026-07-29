@@ -1,0 +1,96 @@
+{
+ "pagina": 63,
+ "latex": "\\scan{63}\n\n\\begin{teorema}[dimensione attesa di \\textsc{RandAuto}]\\label{thm:randauto-size}\nIl valore atteso della dimensione dell'autopartizione prodotta da\n\\textsc{RandAuto} su un insieme $\\mathcal{S}$ di segmenti a due a due non\nintersecanti è\n\\[\n  \\E\\bigl[\\abs{P_\\pi}\\bigr]\\;=\\;\\Oh\\bigl(\\abs{\\mathcal{S}}\\log\\abs{\\mathcal{S}}\\bigr),\n\\]\ndove la media è presa sulla scelta uniforme della permutazione $\\pi$.\n\\end{teorema}\n\n\\begin{osservazione}\nIl teorema riguarda la \\emph{dimensione dell'output}. Il \\emph{tempo} di\nesecuzione di \\textsc{RandAuto} su $\\mathcal{S}$ è invece $\\Oh(n^2\\log n)$,\nposto $n=\\abs{\\mathcal{S}}$.\n\\end{osservazione}\n\n\\begin{corollario}[metodo probabilistico]\\label{cor:esiste-autopartizione}\nDato $\\mathcal{S}$, esiste \\emph{sempre} una BPP di $\\mathcal{S}$ di dimensione\n$\\Oh(\\abs{\\mathcal{S}}\\log\\abs{\\mathcal{S}})$.\n\\end{corollario}\n\n\\begin{dimostrazione}[del Corollario~\\ref{cor:esiste-autopartizione}]\nPer il teorema esiste una costante $c$ tale che\n$\\E[\\abs{P_\\pi}]\\le c\\,n\\log n$, con $n=\\abs{\\mathcal{S}}$. Una variabile\naleatoria non può assumere ovunque valori strettamente maggiori della propria\nmedia: esiste quindi almeno una permutazione $\\pi_0$ di $\\{1,\\dots,n\\}$ con\n$\\abs{P_{\\pi_0}}\\le c\\,n\\log n$. La partizione $P_{\\pi_0}$ è la BPP cercata\n(anzi, è addirittura un'autopartizione). Si noti che l'argomento è puramente\nesistenziale: non fornisce alcun modo di \\emph{esibire} $\\pi_0$.\n\\end{dimostrazione}\n\n\\bigskip\n\\textbf{Dimostrazione del Teorema~\\ref{thm:randauto-size}.}\nL'\\emph{intuizione} è la seguente: devo stimare quanti tagli di segmenti eseguo\nin un generico \\emph{run} dell'algoritmo. Servono due nozioni preliminari.\n\n\\begin{definizione}[$\\mathrm{index}$]\\label{def:index}\nDati $u,v\\in\\mathcal{S}$, definisco\n\\begin{align*}\n  \\mathrm{index}(u,v)&=i\n    &&\\text{sse } \\ell(u) \\text{ interseca } i-1 \\text{ segmenti prima di intersecare } v,\\\\\n  \\mathrm{index}(u,v)&=\\infty\n    &&\\text{sse } \\ell(u) \\text{ non interseca } v.\n\\end{align*}\nIl conteggio va inteso percorrendo $\\ell(u)$ a partire da $u$ nella direzione di\n$v$; dunque $\\mathrm{index}(u,v)=1$ significa che $v$ è il primo segmento che\n$\\ell(u)$ incontra uscendo da $u$.\n\\end{definizione}\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/randauto-index.tikz}\n\\caption{$\\mathrm{index}(u,v)=i$: percorrendo $\\ell(u)$ a partire da $u$ si\nincontrano i segmenti $u_1,u_2,\\dots,u_{i-1}$ ($i-1$ in tutto) prima di\nincontrare $v$.}\n\\label{fig:randauto-index}\n\\end{figure}\n\n\\begin{definizione}[notazione $u\\dashv v$]\\label{def:dashv}\nScriviamo\n\\[\n  u\\dashv v\n\\]\nse $\\ell(u)$ taglia $v$ durante l'esecuzione di \\textsc{RandAuto}. È l'evento\nche corrisponde all'aggiunta di una porzione di segmento in $P_\\pi$.\n\\end{definizione}\n\n\\begin{osservazione}\nSia $\\mathrm{index}(u,v)=i$ e siano $u_1,\\dots,u_{i-1}$ i segmenti che $\\ell(u)$\ninterseca prima di $v$. Allora $u\\dashv v$ si verifica \\emph{solo se} $u$ occorre\nin $\\pi$ prima di $u_1,\\dots,u_{i-1},v$: se infatti uno di questi $i$ segmenti\nvenisse scelto prima di $u$, la sua retta separerebbe $u$ da $v$ in due regioni\ndistinte (oppure, nel caso di $v$, sarebbe $\\ell(v)$ a essere usata per prima) e\n$\\ell(u)$ non potrebbe più tagliare $v$.\n\nPoiché $\\pi$ è scelta uniformemente fra le $n!$ permutazioni, ciascuno degli\n$i+1$ segmenti di $\\{u,u_1,\\dots,u_{i-1},v\\}$ ha la stessa probabilità di\nprecedere tutti gli altri. Che $u$ sia il primo è dunque un\n\\[\n  \\text{evento con probabilità } \\frac{1}{i+1}.\n\\]\n\\end{osservazione}",
+ "note": [
+  {
+   "tipo": "errore-anno-prec",
+   "pagina": 63,
+   "testo": "Il quaderno scrive «Oss.: u ⊣ v si verifica SE u occorre in π prima di u_1,...,u_{i-1}, v». La condizione è solo NECESSARIA, non sufficiente: anche se u precede tutti gli altri i segmenti in π, una retta ℓ(w) di un segmento w estraneo alla lista può aver già separato u da v in regioni diverse, e allora ℓ(u) non taglia v. Ho scritto «si verifica SOLO SE». È proprio questo che a p.64 produce la disuguaglianza Pr[u ⊣ v] ≤ 1/(index(u,v)+1) e non un'uguaglianza; Gli appunti del corso dell'anno precedente (L15_sintesi §4.3) riportano correttamente l'implicazione ⟹ e la stima ≤.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 63,
+   "testo": "Ho aggiunto la giustificazione della condizione necessaria (se uno fra u_1,...,u_{i-1},v precedesse u in π, la sua retta avrebbe già separato u da v). Nel quaderno la condizione è enunciata e basta; la motivazione è quella standard (Motwani–Raghavan §1.3) e compare neGli appunti del corso dell'anno precedente",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 63,
+   "testo": "Il quaderno scrive «Corollario: (Metodo Probabilistico) Dato S, esiste sempre una BPP di S di dimensione O(|S| log|S|)» senza dimostrazione: solo l'etichetta «Metodo Probabilistico» allude all'argomento. Ho colmato la lacuna con la dimostrazione in due righe (una v.a. non può stare ovunque strettamente sopra la propria media ⟹ esiste π_0 con |P_{π_0}| ≤ c n log n).",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 63,
+   "testo": "Il quaderno enuncia il corollario per una «BPP»; Gli appunti del corso dell'anno precedente (L15_sintesi §3.4) lo enunciano — più forte e più aderente al teorema — per una «autopartizione». Ho mantenuto la formulazione dello studente (BPP) nell'enunciato, aggiungendo nella dimostrazione l'inciso «anzi, è addirittura un'autopartizione», perché P_{π_0} è prodotta da RandAuto e quindi è per costruzione un'autopartizione.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 63,
+   "testo": "L'osservazione sulla complessità è scritta come «(Oss.: RandAuto(|S|) ha complessità O(n² log n) per n=|S|)»: le barre attorno alla S paiono presenti, ma l'argomento di RandAuto è l'insieme S, non la sua cardinalità (e n=|S| è già definito subito dopo). Ho scritto «RandAuto su S». Ho inoltre esplicitato che l'O(n² log n) riguarda il TEMPO, in contrapposizione all'O(n log n) del teorema che riguarda la dimensione dell'output: nel quaderno il contrasto è solo implicito nell'accostamento delle due righe (neGli appunti del corso dell'anno precedente la stima temporale è assegnata come esercizio).",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 63,
+   "testo": "Nell'annotazione a margine sotto «u ⊣ v» il quaderno scrive «Evento che corrisponde alla aggiunta di una porzione di segmento in P_π»: ho elisato in «all'aggiunta». Ho anche integrato quell'annotazione nel corpo della definizione anziché lasciarla come nota a lato con freccia.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 63,
+   "testo": "Il teorema nel quaderno è scritto in prosa telegrafica («Il valore atteso della dimensione dell'autopartizione prodotta da RandAuto(S) è O(|S| log|S|)»). Ho esplicitato la formula E[|P_π|] = O(|S| log|S|) e la precisazione «media presa sulla scelta uniforme di π» (P_π è la notazione introdotta a p.62 per l'output di RandAuto).",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 63,
+   "testo": "Macro mancanti: non esiste \\RandAuto (esiste solo \\RandQS), quindi ho scritto \\textsc{RandAuto} per esteso; non esiste una macro per la S calligrafica dell'insieme dei segmenti, ho scritto \\mathcal{S}. ATTENZIONE per la cucitura: «BPP» qui significa Binary Planar Partition e va scritto come testo semplice, NON con la macro \\BPP (che nel preambolo è la classe di complessità \\mathsf{BPP}); analogamente ho evitato \\P per la partizione, usando P_\\pi in matematica semplice.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 63,
+   "testo": "Scelta strutturale. Il quaderno apre qui il titolo sottolineato «Dimostrazione», che però si chiude solo a p.64. Per non lasciare un ambiente aperto a cavallo di pagina (e per non annidare tcolorbox dentro tcolorbox, dato che definizione/dimostrazione sono accentbox), ho reso il titolo come attacco in grassetto «Dimostrazione del Teorema~\\ref{thm:randauto-size}.» e ho lasciato le due definizioni come blocchi \\begin{definizione} autonomi. In fase di cucitura si può, volendo, racchiudere tutto (da qui fino alla fine di p.64) in un unico ambiente dimostrazione.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 63,
+   "testo": "Il glifo della relazione è disegnato come un trattino orizzontale seguito da una barra verticale: è \\dashv (u ⊣ v), coerente con Gli appunti del corso dell'anno precedente e con p.64, dove ricompare in «C_{uv} per u ⊣ v» e in «Pr[u ⊣ v]».",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 63,
+   "testo": "A destra dell'ultima riga del corollario (dopo O(|S| log|S|)) c'è un piccolo segno d'inchiostro che sembra una parentesi tonda aperta abbandonata. Non porta contenuto: ignorato.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 63,
+   "testo": "La figura al centro pagina è lo schema geometrico che illustra index(u,v)=i: retta orizzontale (tratteggiata a destra) = ℓ(u), con il segmento u disegnato in tratto spesso sul suo estremo sinistro; i segmenti u_1, u_2, ..., u_{i-1} attraversano la retta obliquamente, poi c'è v; una graffa sotto raggruppa u_1..u_{i-1} con etichetta «i-1». Il quaderno non etichetta esplicitamente la retta tratteggiata: che sia ℓ(u) si deduce dal fatto che prolunga u ed è la definizione appena data. Ho aggiunto l'etichetta ℓ(u) nella specifica TikZ e nella didascalia.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 63,
+   "testo": "Il box in fondo alla pagina («evento con probabilità 1/(i+1)», collegato da una freccia alla riga «di u_1,...,u_{i-1}, v») è corretto così com'è: quell'evento — u primo in π fra gli i+1 elementi di {u,u_1,...,u_{i-1},v} — ha probabilità ESATTAMENTE 1/(i+1). Ho conservato l'uguaglianza (non l'ho trasformata in ≤) e ho aggiunto la ragione (π uniforme ⟹ simmetria fra gli i+1 elementi). La disuguaglianza compare a p.64 applicandola a Pr[u ⊣ v].",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "randauto-index",
+   "pagina": 63,
+   "didascalia": "$\\mathrm{index}(u,v)=i$: percorrendo $\\ell(u)$ a partire da $u$ si incontrano i segmenti $u_1,u_2,\\dots,u_{i-1}$ ($i-1$ in tutto) prima di incontrare $v$.",
+   "tipo": "altro (schema geometrico: una retta e i segmenti che la attraversano)",
+   "specifica": "Schema lineare, tutto in un'unica riga orizzontale, larghezza complessiva ~12 cm, altezza ~2.5 cm. Sistema di coordinate suggerito: asse x da 0 a 12, asse y da -1.8 a +1.2, con la retta principale a y=0.\n\n(1) RETTA ℓ(u). Una linea orizzontale a y=0 che va da x=0 a x=12.\n   - Il tratto da x=0 a x=2.2 è disegnato SPESSO e CONTINUO: è il segmento u vero e proprio. Alle sue due estremità (x=0 e x=2.2) va messo un piccolo trattino verticale di ~0.15 di altezza, centrato sulla retta (serif che marca gli estremi del segmento), esattamente come nel manoscritto.\n   - Il tratto da x=2.4 a x=12 è disegnato SOTTILE e TRATTEGGIATO (dash pattern medio, es. `dashed`): è il prolungamento, cioè la retta ℓ(u). Il tratteggio prosegue oltre v fino al bordo destro (x=12), a indicare che ℓ(u) continua.\n   - Etichetta «$u$» in corsivo matematico appena SOPRA il tratto spesso, circa a x=0.9, y=0.35.\n   - Etichetta «$\\ell(u)$» appena SOTTO la parte tratteggiata all'estrema destra, circa a x=11.2, y=-0.4 (aggiunta editoriale: nel manoscritto la retta non è etichettata, ma è ℓ(u) per definizione).\n\n(2) SEGMENTI CHE ATTRAVERSANO ℓ(u). Quattro trattini obliqui sottili e continui, ciascuno lungo ~1.1, che tagliano la retta y=0 restando per metà sopra e per metà sotto. Da sinistra a destra:\n   - u_1: attraversa in x=3.6, inclinato con la sommità a SINISTRA (dall'alto-sinistra al basso-destra), es. dal punto (3.35,0.55) al punto (3.8,-0.55). Etichetta «$u_1$» sopra la sua estremità superiore, a ~(3.25,0.85).\n   - u_2: attraversa in x=5.2, inclinato nel verso OPPOSTO (dal basso-sinistra all'alto-destra), es. da (4.9,-0.55) a (5.5,0.6). Etichetta «$u_2$» sopra la sua estremità superiore, a ~(5.6,0.9).\n   - Puntini di sospensione: tre pallini pieni allineati ORIZZONTALMENTE, appoggiati sulla retta (leggermente sotto, y≈-0.08), fra x=6.4 e x=7.0. Indicano i segmenti omessi.\n   - u_{i-1}: attraversa in x=8.4, quasi VERTICALE con una leggerissima inclinazione, es. da (8.3,-0.55) a (8.5,0.6). Etichetta «$u_{i-1}$» sopra, a ~(8.5,0.9).\n   - v: attraversa in x=9.9, verticale/leggermente inclinato, disegnato un filo più lungo degli altri, es. da (9.85,-0.55) a (10.0,0.75). Etichetta «$v$» sopra la sua estremità superiore, a ~(10.15,1.0).\n   Nota: fra u_{i-1} (x=8.4) e v (x=9.9) la retta resta tratteggiata, e resta tratteggiata anche dopo v.\n\n(3) GRAFFA DI CONTEGGIO. Una graffa orizzontale rivolta verso l'alto (stile \\underbrace, `decorate, decoration={brace, amplitude=6pt, mirror}`) disegnata SOTTO la retta a y≈-0.75, che va da x=3.35 (subito a sinistra di u_1) a x=8.55 (subito a destra di u_{i-1}). NON deve includere v. Sotto il vertice della graffa, centrata a ~(5.95,-1.35), l'etichetta «$i-1$».\n\n(4) STILE. Monocromatico (nel manoscritto è tutto in penna blu): usare il nero o il colore d'accento del documento. Nessun riempimento, nessuna freccia. Le etichette sono in matematica corsiva, dimensione \\small.\n\n(5) SIGNIFICATO ALGORITMICO. Lo schema visualizza la definizione di index: partendo dal segmento u e percorrendo la retta ℓ(u) che lo prolunga (verso destra), si incontrano esattamente i-1 segmenti (u_1, u_2, ..., u_{i-1}) prima di incontrare v; dunque index(u,v)=i. La graffa etichettata «i-1» conta proprio quei segmenti intermedi, v escluso. Questo è l'insieme che, insieme a u e v, dà gli i+1 elementi fra cui u deve risultare primo nella permutazione π perché possa verificarsi u ⊣ v.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina si chiude a metà della dimostrazione del Teorema. Restano in sospeso: (a) la stima probabilistica vera e propria — l'osservazione finale dà solo la condizione necessaria e il valore 1/(i+1) per l'evento «u primo in π», ma non è ancora stato scritto Pr[u ⊣ v] ≤ 1/(index(u,v)+1); (b) il conteggio complessivo dei tagli. La pagina 64 riprende esattamente da qui: introduce la variabile indicatrice C_{u,v} per l'evento u ⊣ v, scrive E[C_{u,v}] = Pr[u ⊣ v] ≤ 1/(index(u,v)+1), calcola la dimensione attesa E[|P_π|] = n + E[Σ_u Σ_{v≠u} C_{u,v}] per linearità dell'attesa, osserva che fissato u ci sono al più DUE v con index(u,v)=i (uno per ciascuna delle due direzioni di ℓ(u)) da cui Σ_{v≠u} 1/(index(u,v)+1) ≤ Σ_{i=1}^{n-1} 2/(i+1), e conclude con n + 2n H_n ∈ O(n log n). Chi trascrive p.64 deve riusare le etichette qui definite (\\\\ref{thm:randauto-size}, \\\\ref{def:index}, \\\\ref{def:dashv}, \\\\ref{fig:randauto-index}), la notazione u ⊣ v (\\\\dashv), \\\\mathcal{S} per l'insieme dei segmenti, P_\\\\pi per l'autopartizione prodotta e \\\\textsc{RandAuto} per l'algoritmo; e deve tenere presente che l'attacco «\\\\textbf{Dimostrazione del Teorema~\\\\ref{thm:randauto-size}.}» è già stato dato qui, quindi p.64 non deve riaprirlo (semmai, in cucitura, si può chiudere la dimostrazione con il QED alla fine di p.64).",
+ "confidenza": "alta"
+}

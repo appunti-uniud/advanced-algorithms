@@ -1,0 +1,68 @@
+{
+ "capitolo": "09-distanze-allineamento",
+ "compila": true,
+ "applicate": [
+  {
+   "pagina": 41,
+   "categoria": "figura",
+   "cosa": "tikz/hamming-posizioni.tikz: la glossa a destra dei due nastri era «numero di $1$ nella $\\mathrm{XOR}(\\a,\\b)$», valida solo su alfabeto binario ma priva di qualificazione, e la figura precede l'osservazione che nel testo la subordina. Il nodo e' ora su due righe (align=left): «su alfabeto binario: / numero di $1$ nella $\\mathrm{XOR}(\\a,\\b)$». Figura riverificata con .build/prova-tikz.sh (316.85pt su 478.01pt disponibili, nessun allargamento problematico)."
+  },
+  {
+   "pagina": 43,
+   "categoria": "errore-logico",
+   "cosa": "Primo \\begin{esempio} di \\subsection{Matrici di costo e di punteggio}: «Nel DNA le purine $(a,g)$ e le pirimidine $(c,t)$ sono simili tra loro» affermava, letta alla lettera, che le purine sono simili alle pirimidine --- il contrario di quanto dice il quaderno e di quanto mostra la matrice che segue ($s(a,g)=s(c,t)=+1$, $s(a,c)=s(a,t)=s(c,g)=s(g,t)=-1$). Riformulata in «Nel DNA le due purine $(a,g)$ sono simili tra loro, e cosi' le due pirimidine $(c,t)$: una sostituzione interna a una delle due classi va quindi penalizzata meno di una sostituzione fra classi diverse.»"
+  },
+  {
+   "pagina": 44,
+   "categoria": "errore-matematico",
+   "cosa": "Osservazione dopo «Il costo e' esponenziale!»: il numero di chiamate non e' funzione della sola somma $n=i+j$ (i casi base scattano quando si annulla uno dei due indici, non quando $n$ e' piccolo), e il conteggio esatto $T(i,j)=1+T(i-1,j-1)+T(i-1,j)+T(i,j-1)$ e' un numero di Delannoy: per $i=j=m$ vale $\\Th((1+\\sqrt2)^{n}/\\sqrt n)$, quindi $\\Th((1+\\sqrt2)^{n})$ sovrastimava di un fattore $\\sqrt n$. Ora $C(n)$ e' definito come il *massimo* numero di chiamate su un'istanza con $i+j=n$, la ricorrenza e' scritta come maggiorazione $C(n)\\le 2C(n-1)+C(n-2)+1$ con $C(0)=C(1)=1$, e' esplicitato perche' non e' un'uguaglianza, e la conclusione e' $C(n)=\\Oh((1+\\sqrt2)^{n})$ invece di $\\Th$. La stima grossolana $\\Oh(3^n)$ e la conclusione qualitativa restano invariate. NB: la formulazione con $\\Theta$ era ereditata dalle materiali dell'anno precedente (L11), non introdotta dal trascrittore; corretta in base alla policy 4."
+  },
+  {
+   "pagina": 45,
+   "categoria": "errore-logico",
+   "cosa": "Caption di fig:hirschberg-divide: «le altre due regioni non vengono mai calcolate» era falso e in contraddizione con la frase successiva («a ogni livello l'area complessiva da riempire si dimezza», che presuppone di riempire tutto il rettangolo al livello 0). In Hirschberg a ogni livello si riempie l'INTERO rettangolo corrente --- in avanti sopra $i^*$, all'indietro sotto --- su tutte le colonne, proprio per trovare $j^*=\\argmin_j (F[j]+B[j])$; sono le chiamate ricorsive a limitarsi ai due sottorettangoli. Caption riscritta di conseguenza («individuata riempiendo l'intero rettangolo [...] le altre due regioni, attraversate una sola volta a questo livello, non entrano nelle chiamate ricorsive»)."
+  },
+  {
+   "pagina": 45,
+   "categoria": "figura",
+   "cosa": "tikz/hirschberg-divide.tikz: le due etichette «mai\\\\calcolata» sostituite con «esclusa dalla\\\\ricorsione»; aggiornato anche il commento in testa al file, che ora avverte esplicitamente che a questo livello l'intero rettangolo viene riempito e che sono le chiamate ricorsive a restringersi ai due sottorettangoli ombreggiati. Figura riverificata con .build/prova-tikz.sh (338.48pt su 478.01pt)."
+  },
+  {
+   "pagina": 46,
+   "categoria": "notazione",
+   "cosa": "Osservazione dopo la Definizione [Allineamento locale]: $\\Dm{i}{j}$ era gia' definito nel capitolo come la matrice dell'allineamento GLOBALE ($D(i,j)=\\dedit(\\sigma_1[1..i],\\sigma_2[1..j])$) e veniva riusato senza avviso per quella locale, con due equazioni contraddittorie a parita' di membro sinistro. Ho scelto la variante «riuso dichiarato» invece del rinominamento in $A(i,j)$ suggerito dal verificatore, per non spezzare l'uniformita' della macro \\Dm nel capitolo: l'osservazione ora dice «Ne indichiamo ancora le celle con $D(i,j)$, che d'ora in poi denota la matrice *locale* cosi' reinizializzata». Le formule restano invariate."
+  },
+  {
+   "pagina": 46,
+   "categoria": "omissione",
+   "cosa": "Il marcatore \\scan{47} era collocato prima del «Si'!», che invece sta a pagina 46 (verificato su p46_b3: «Si'!» + l'annotazione $\\Oh(1)$ su $d$ + il riquadro Landau-Vishkin + $\\Oh(|\\sigma|+|T|)$ + «All. locale + Suffix Tree + Harel-Tarjan» sono tutti sul foglio 46). La risposta e' stata riportata dentro il blocco di p.46, subito dopo l'ambiente domanda che la pone: «Si': se il numero $d$ di differenze ammesse e' una costante --- $d=\\Oh(1)$ --- si puo' fare molto meglio che riempire tutta la matrice.» (l'annotazione $\\Oh(1)$ del quaderno e' cosi' recuperata nel punto giusto). \\scan{47} apre ora la \\section{Verso Landau--Vishkin}, il cui primo capoverso e' stato raccordato («Limitandosi agli allineamenti con al piu' $d$ differenze, infatti, ...»)."
+  },
+  {
+   "pagina": 47,
+   "categoria": "figura",
+   "cosa": "Caption di fig:landau-vishkin-banda: trascriveva le tre frecce del disegno («al piu' di $d$ a sinistra, di $d$ a destra e di $d$ verso il basso») affermando due cose false --- un cammino di allineamento non si sposta mai a sinistra (le mosse sono solo →, ↓, ↘) e non esiste alcun limite $d$ all'estensione verso il basso, dato che il cammino attraversa tutte le $|\\sigma|$ righe. Caption riscritta in termini di indice di diagonale: «ogni mossa non diagonale sposta il cammino di esattamente una diagonale, quindi con al piu' $d$ differenze il cammino non si scosta di piu' di $d$ diagonali da quella di partenza e resta confinato nella banda di $2d+1$ diagonali [...] Le tre frecce marcate $d$ misurano questo scostamento massimo, contato in colonne (mosse orizzontali) o in righe (mosse verticali).» Il file tikz non e' stato toccato: e' fedele al disegno. La formulazione e' ora coerente con la riga 507 del capitolo e con la caption gemella del cap.10."
+  },
+  {
+   "pagina": 47,
+   "categoria": "notazione",
+   "cosa": "Voce \\item[Convesso:] delle funzioni di costo per i gap: la condizione $\\gamma(i+1)-\\gamma(i)\\le\\gamma(i)-\\gamma(i-1)$ aveva l'indice $i$ libero (come nel quaderno, verificato su p47_b1). Aggiunto il quantificatore «$\\qquad\\forall\\,i\\ge 1$», uniformandosi alle altre definizioni del capitolo ($\\Dm{i}{0}=i\\ \\forall i$, $\\Dm{0}{j}=0\\ \\forall j$) e a Gusfield."
+  },
+  {
+   "pagina": 47,
+   "categoria": "notazione",
+   "cosa": "Chiusa della \\section{Riepilogo}: «dove $m$ e' la lunghezza del pattern e $n$ quella del testo» invertiva la convenzione di tutto il corpus (cap.01 «$\\abs{P}=n$ e $\\abs{T}=m$», cap.02, cap.03, cap.10 «$m=\\abs{T}$ e $n=\\abs{P}$»). Sostituito con «dove, come di consueto, $n=\\abs{P}$ e' la lunghezza del pattern e $m=\\abs{T}$ quella del testo», che si allinea anche graficamente agli altri capitoli. Il valore delle stime non cambia ($m+n$ e $m\\times n$ sono simmetrici)."
+  },
+  {
+   "pagina": 47,
+   "categoria": "omissione",
+   "cosa": "Aggiunto \\scan{47}% dopo \\section{Riepilogo}: lo schema riassuntivo proviene dalla meta' inferiore di p.47 ma finiva su una pagina priva di rimando alla scansione. La ripetizione del marcatore e' gia' pratica del file (\\scan{43} e \\scan{44} compaiono due volte). Verificato nel PDF che la nota a margine si posiziona accanto al primo item senza introdurre spazio verticale spurio."
+  }
+ ],
+ "respinte": [
+  {
+   "pagina": 47,
+   "cosa": "Ripristinare «allineamento esatto» / «allineamento approssimato» al posto di «pattern matching esatto» / «pattern matching approssimato» nelle due righe dello schema di \\section{Riepilogo}.",
+   "perche": "La lettura del verificatore e' corretta --- ho riletto p47_b3 ingrandito e il quaderno scrive effettivamente «allineamento» in entrambe le righe --- ma la sostituzione fatta dal trascrittore e' una correzione silenziosa legittima (policy 1) e produce un testo migliore, non peggiore. Motivi: (a) sotto la prima riga stanno KMP, Boyer-Moore, Aho-Corasick e Ukkonen, che non calcolano nessun allineamento: «allineamento esatto» sarebbe un termine non standard e fuorviante proprio nel punto in cui il capitolo tira le somme; (b) «pattern matching esatto/approssimato» e' la terminologia standard ed e' gia' quella con cui il capitolo si apre («Il pattern matching esatto, di cui ci siamo occupati finora...») e con cui e' intitolato («Pattern matching inesatto»), quindi il riepilogo chiude il cerchio; (c) «allineamento approssimato» sarebbe per giunta impreciso: l'allineamento calcolato dalla programmazione dinamica e' esatto/ottimo, e' il *matching* a essere approssimato. Resta valida l'unica parte fondata dell'obiezione, cioe' che la sostituzione non era stata loggata: questa voce serve a farla finire in NOTE-EDITORIALI. Registrare quindi: p.47, il quaderno scrive «allineamento esatto» e «allineamento approssimato», reso con «pattern matching esatto» e «pattern matching approssimato»."
+  }
+ ]
+}

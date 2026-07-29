@@ -1,0 +1,46 @@
+% KMP: mismatch fra y (in T) e x = P[i+1].  Lo shift di i - sp_i(P) porta il
+% prefisso alpha = P[1..sp_i(P)] sotto l'occorrenza di alpha che termina in i:
+% il carattere di P che finisce sotto y e' allora z = P[sp_i(P)+1].
+\begin{tikzpicture}[x=0.9cm,y=1cm,font=\footnotesize,
+                    >={Stealth[length=4pt,width=3pt]}]
+
+  % =============================================================== il testo T
+  \draw[thick,->] (-0.6,2) -- (10.9,2);
+  \node[anchor=west,inner sep=2pt] at (10.9,2) {$T$};
+  \foreach \x in {5.0,7.2,8.0} \draw[thick] (\x,1.87) -- (\x,2.13);
+  \node[anchor=south,inner sep=1pt] at (7.6,2.12) {$y$};
+
+  % posizione corrente di confronto nel testo
+  \draw[->,thick] (7.6,3.00) -- (7.6,2.56);
+
+  % ============================================================== il pattern P
+  \draw[thick] (0,0) -- (9.5,0);
+  \foreach \x in {0,2.2,3.0,5.0,7.2,8.0,9.5} \draw[thick] (\x,-0.13) -- (\x,0.13);
+  \node[anchor=south,inner sep=1pt] at (2.6,0.12) {$z$};
+  \node[anchor=south,inner sep=1pt] at (7.6,0.12) {$x$};
+
+  % le due occorrenze di alpha: prefisso e suffisso di P[1..i]
+  \draw[decorate,decoration={brace,amplitude=4pt}] (0,0.45) -- (2.2,0.45);
+  \node[anchor=south,inner sep=2pt] at (1.1,0.61) {$\alpha$};
+  \draw[decorate,decoration={brace,amplitude=4pt}] (5.0,0.45) -- (7.2,0.45);
+  \node[anchor=south,inner sep=2pt] at (6.1,0.61) {$\alpha$};
+
+  % etichette di posizione
+  \node[anchor=north west,inner sep=2pt] at (0,-0.14)    {\scriptsize $1$};
+  \node[anchor=north east,inner sep=2pt] at (2.2,-0.14)  {\scriptsize $\spv{i}(P)$};
+  \node[anchor=north east,inner sep=2pt] at (5.0,-0.14)  {\scriptsize $i-\spv{i}(P)$};
+  \node[anchor=north east,inner sep=2pt] at (7.2,-0.14)  {\scriptsize $i$};
+  \node[anchor=north,inner sep=2pt]      at (7.6,-0.14)  {\scriptsize $i{+}1$};
+  \node[anchor=north east,inner sep=2pt] at (9.5,-0.14)  {\scriptsize $\abs{P}$};
+
+  % ================================================== il confronto che fallisce
+  \draw[->,dashed,gray!60!black] (7.6,1.78) -- (7.6,0.52);
+  \node[anchor=west,inner sep=3pt] at (7.72,1.15) {$x\neq y$};
+
+  % ============================================== effetto dello shift su z
+  \draw[->,gray!60!black]
+        (4.30,-1.15) .. controls (3.50,-1.15) and (2.60,-0.95) .. (2.60,-0.40);
+  \node[anchor=west,align=left,inner sep=3pt] at (4.40,-1.15)
+        {shift di $i-\spv{i}(P)$:\\ $z$ finisce sotto $y$};
+
+\end{tikzpicture}

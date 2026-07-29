@@ -1,0 +1,13 @@
+{
+ "pagina": 56,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "errore-matematico",
+   "dove": "lezioni/12-min-cut.tex, ambiente osservazione subito dopo l'algoritmo \\contract (righe 137-144), ultima frase: «Il costo costante si ottiene solo con una realizzazione «pigra»: ...»",
+   "descrizione": "L'osservazione e un'aggiunta editoriale (non e nel quaderno) e la sua ultima frase, messa in parallelo con «costa O(n) ... e una singola esecuzione costa O(n^2)», lascia intendere che la realizzazione pigra con lista di archi + union-find renda davvero costante il costo di una contrazione, e quindi migliori il costo di un tentativo. Non e cosi: la union-find costa O(alpha(n)) e soprattutto il campionamento uniforme richiede di scartare gli archi diventati self-loop, per cui il numero di estrazioni per ottenere una contrazione non e limitato da una costante (verso la fine restano pochissimi archi non-loop su |E| totali). Il costo complessivo di un tentativo resta Omega(|E|) — cioe Theta(n^2) sui grafi densi, esattamente come con la rappresentazione esplicita. In NOTE-EDITORIALI la stessa frase era formulata con «costo costante ammortizzato»; nel testo assemblato l'avverbio e caduto.",
+   "correzione": "Riformulare l'ultima frase, per esempio: «L'annotazione O(1) va riferita alla sola fusione dei due nodi: la si ottiene con una realizzazione «pigra» (lista degli archi di partenza, nodi fusi con una union-find, self-loop scartati solo quando vengono estratti), ma il costo complessivo di una singola esecuzione resta comunque Omega(|E|), cioe O(n^2) sui grafi densi.»"
+  }
+ ]
+}

@@ -1,0 +1,20 @@
+{
+ "pagina": 38,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "media",
+   "categoria": "errore-matematico",
+   "dove": "lezioni/08-lca.tex, blocco \\scan{38}, ambiente \\begin{dimostrazione*} del Lemma \\ref{lem:lca-I-ant}, secondo item, ultima frase (righe ~577-579): «Da qui segue che $I(x)$ e' discendente di $I(z)$ in $\\B$: il sottoalbero di $\\B$ radicato in un nodo $w$ e' infatti esattamente l'insieme dei path number che coincidono con $w$ in tutti i bit a sinistra della posizione $h(w)$.»",
+   "descrizione": "La caratterizzazione data come «esattamente» e' falsa: la sola coincidenza dei bit a sinistra di $h(w)$ NON basta a garantire di stare nel sottoalbero di $w$, perche' non esclude gli ANTENATI di $w$. Controesempio minimo con $d=2$ (3 bit, 7 nodi): $w=110$ (figlio destro, $h(w)=2$); la radice $100$ coincide con $w$ nell'unico bit a sinistra della posizione 2 (bit di posizione 3, pari a 1 in entrambi) ma e' un antenato di $w$, non un discendente. La caratterizzazione corretta richiede anche $h(\\cdot)\\le h(w)$: $u\\in\\B(w)$ sse $u$ coincide con $w$ in tutti i bit di posizione $>h(w)$ E il suo 1 meno significativo sta in posizione $\\le h(w)$ (equivalentemente: la stringa-cammino di $w$ e' prefisso di quella di $u$). Nel punto in cui viene usata la frase la conclusione resta comunque vera, perche' in quel ramo si e' appena stabilito $h(I(x))<h(I(z))=i$, quindi la condizione mancante e' soddisfatta; ma l'enunciato di supporto, cosi' come scritto, e' falso. L'imprecisione e' ereditata dalla sintesi degli appunti dell'anno precedente (L09, sezione 0 della notazione), che riporta la stessa formulazione monca: e' un caso in cui la policy chiede di correggere e annotare.",
+   "correzione": "Riformulare la frase aggiungendo la condizione mancante, ad es.: «Da qui segue che $I(x)$ e' discendente di $I(z)$ in $\\B$: il sottoalbero di $\\B$ radicato in un nodo $w$ e' infatti esattamente l'insieme dei path number che coincidono con $w$ in tutti i bit a sinistra della posizione $h(w)$ \\emph{e} il cui $1$ meno significativo sta in posizione $\\le h(w)$ (senza quest'ultima clausola si includerebbero anche gli antenati di $w$). Entrambe le condizioni sono soddisfatte: la prima per quanto appena visto, la seconda perche' $h(I(x))<i=h(I(z))$.»"
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "notazione",
+   "dove": "lezioni/08-lca.tex, blocco \\scan{38}, formula della \\emph{Traccia} dopo l'\\begin{esercizio}[il passaggio lasciato in sospeso] (riga ~592): $N=\\bigl(\\text{bit comuni a sinistra di }k\\bigr)\\,\\Vert\\,1\\,\\Vert\\,0\\cdots 0$; stessa notazione riusata a riga ~682 (pagina 39).",
+   "descrizione": "Il simbolo $\\Vert$ e' usato con il significato di concatenazione di stringhe di bit senza essere mai introdotto ne' in questo capitolo ne' altrove nel documento; il preambolo definisce invece la macro \\conc per la concatenazione. Un lettore puo' leggerlo come norma o come «parallelo». E' la prima occorrenza del simbolo nel documento, quindi la glossa (o l'uso della macro esistente) va messa qui.",
+   "correzione": "Glossare la prima occorrenza, ad es. «dove $\\Vert$ denota la giustapposizione (concatenazione) di stringhe di bit», oppure uniformarsi al preambolo usando \\conc in entrambe le formule (righe 592 e 682)."
+  }
+ ]
+}

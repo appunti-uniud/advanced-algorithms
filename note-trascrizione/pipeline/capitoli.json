@@ -1,0 +1,285 @@
+[
+ {
+  "id": "01",
+  "slug": "introduzione",
+  "titolo": "Introduzione e pattern matching esatto",
+  "parte": "I -- String matching esatto",
+  "pagine": [
+   1,
+   2
+  ],
+  "supporto": [
+   "L01"
+  ]
+ },
+ {
+  "id": "02",
+  "slug": "kmp-z",
+  "titolo": "Knuth--Morris--Pratt e la funzione $Z$",
+  "parte": "I -- String matching esatto",
+  "pagine": [
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9
+  ],
+  "supporto": [
+   "L01",
+   "L02"
+  ]
+ },
+ {
+  "id": "03",
+  "slug": "boyer-moore",
+  "titolo": "Boyer--Moore",
+  "parte": "I -- String matching esatto",
+  "pagine": [
+   9,
+   10,
+   11
+  ],
+  "supporto": [
+   "L03"
+  ]
+ },
+ {
+  "id": "04",
+  "slug": "aho-corasick",
+  "titolo": "Matching multi-pattern: keyword tree e Aho--Corasick",
+  "parte": "I -- String matching esatto",
+  "pagine": [
+   12,
+   13,
+   14,
+   15
+  ],
+  "supporto": [
+   "L04"
+  ]
+ },
+ {
+  "id": "05",
+  "slug": "suffix-tree",
+  "titolo": "Suffix trie, suffix tree e algoritmo di Ukkonen",
+  "parte": "I -- String matching esatto",
+  "pagine": [
+   16,
+   17,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23,
+   24,
+   25
+  ],
+  "supporto": [
+   "L05"
+  ]
+ },
+ {
+  "id": "06",
+  "slug": "karp-rabin",
+  "titolo": "Karp--Rabin",
+  "parte": "I -- String matching esatto",
+  "pagine": [
+   26,
+   27,
+   28
+  ],
+  "supporto": [
+   "L06"
+  ]
+ },
+ {
+  "id": "07",
+  "slug": "shift-and",
+  "titolo": "Shift--And",
+  "parte": "I -- String matching esatto",
+  "pagine": [
+   29,
+   30
+  ],
+  "supporto": [
+   "L07"
+  ]
+ },
+ {
+  "id": "08",
+  "slug": "lca",
+  "titolo": "Lowest Common Ancestor in tempo costante",
+  "parte": "I -- String matching esatto",
+  "pagine": [
+   31,
+   32,
+   33,
+   34,
+   35,
+   36,
+   37,
+   38,
+   39,
+   40
+  ],
+  "supporto": [
+   "L07",
+   "L08",
+   "L09"
+  ]
+ },
+ {
+  "id": "09",
+  "slug": "distanze-allineamento",
+  "titolo": "Pattern matching inesatto: distanze e allineamento",
+  "parte": "II -- String matching inesatto",
+  "pagine": [
+   41,
+   42,
+   43,
+   44,
+   45,
+   46,
+   47
+  ],
+  "supporto": [
+   "L09",
+   "L10",
+   "L11"
+  ]
+ },
+ {
+  "id": "10",
+  "slug": "landau-vishkin",
+  "titolo": "Landau--Vishkin",
+  "parte": "II -- String matching inesatto",
+  "pagine": [
+   48,
+   49,
+   50,
+   51
+  ],
+  "supporto": [
+   "L12"
+  ]
+ },
+ {
+  "id": "11",
+  "slug": "randqs",
+  "titolo": "Algoritmi randomizzati e RandQS",
+  "parte": "III -- Algoritmi randomizzati",
+  "pagine": [
+   51,
+   52,
+   53,
+   54
+  ],
+  "supporto": [
+   "L13"
+  ]
+ },
+ {
+  "id": "12",
+  "slug": "min-cut",
+  "titolo": "Min-Cut di Karger",
+  "parte": "III -- Algoritmi randomizzati",
+  "pagine": [
+   54,
+   55,
+   56,
+   57,
+   58,
+   59
+  ],
+  "supporto": [
+   "L14"
+  ]
+ },
+ {
+  "id": "13",
+  "slug": "randauto",
+  "titolo": "Partizioni binarie del piano e RandAuto",
+  "parte": "III -- Algoritmi randomizzati",
+  "pagine": [
+   60,
+   61,
+   62,
+   63,
+   64
+  ],
+  "supporto": [
+   "L15"
+  ]
+ },
+ {
+  "id": "14",
+  "slug": "random-walk-2sat",
+  "titolo": "Random walk e algoritmo randomizzato per 2-SAT",
+  "parte": "III -- Algoritmi randomizzati",
+  "pagine": [
+   65,
+   66,
+   67,
+   68,
+   69,
+   70,
+   71,
+   72
+  ],
+  "supporto": [
+   "L17",
+   "L16"
+  ]
+ },
+ {
+  "id": "15",
+  "slug": "catene-markov",
+  "titolo": "Catene di Markov",
+  "parte": "III -- Algoritmi randomizzati",
+  "pagine": [
+   72,
+   73,
+   74,
+   75,
+   76,
+   77,
+   78,
+   79
+  ],
+  "supporto": [
+   "L16"
+  ]
+ },
+ {
+  "id": "16",
+  "slug": "random-walk-grafi",
+  "titolo": "Random walk su grafi: hitting, commute e cover time",
+  "parte": "III -- Algoritmi randomizzati",
+  "pagine": [
+   83,
+   84,
+   85,
+   86,
+   87,
+   88
+  ],
+  "supporto": [
+   "L16"
+  ]
+ },
+ {
+  "id": "A",
+  "slug": "weisfeiler-leman",
+  "titolo": "Graph Isomorphism e la gerarchia di Weisfeiler--Leman",
+  "parte": "Appendice",
+  "pagine": [
+   79,
+   80,
+   81
+  ],
+  "supporto": []
+ }
+]

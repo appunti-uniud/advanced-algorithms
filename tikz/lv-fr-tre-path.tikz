@@ -1,0 +1,81 @@
+% Passo induttivo di Landau--Vishkin.  Dai tre f.r. (d-1)-path che terminano
+% sulle diagonali i-1, i, i+1 si ricavano i cammini R1 (mossa orizzontale),
+% R2 (mossa diagonale con mismatch) e R3 (mossa verticale): tutti e tre
+% terminano sulla diagonale i.  Il piu' lontano -- qui R3 -- individua la
+% cella di riga v e colonna u (con u-v=i), da cui si scorre gratis lungo la
+% diagonale con una query di longest common extension.
+%
+% Vincolo geometrico rispettato ovunque: le diagonali i-1, i, i+1 partono
+% dalle colonne 2.5, 3.5, 4.5 della riga 0 e ogni mossa d'errore e' lunga
+% esattamente una cella, cosicche' per tutti i punti d'arrivo si ha
+% colonna - riga = 3.5, cioe' stanno davvero sulla diagonale i.
+\begin{tikzpicture}[
+    scale=0.74,
+    font=\footnotesize,
+    bordo/.style={semithick},
+    guida/.style={thin,black!45},
+    frpath/.style={semithick,black!65,rounded corners=1.6pt},
+    mossa/.style={thick,-{Stealth[length=4.5pt]}},
+    lce/.style={line width=1.2pt},
+    nodo/.style={circle,fill,inner sep=0pt,minimum size=3.2pt},
+    nodone/.style={circle,fill,inner sep=0pt,minimum size=5.2pt},
+    etich/.style={inner sep=1pt,fill=white}]
+
+  % ---- i due bordi (la tabella resta aperta a destra e in basso) ------------
+  \draw[bordo] (0,0) -- (10.3,0);     % riga 0
+  \draw[bordo] (0,0) -- (0,-6.3);     % colonna 0
+
+  % ---- diagonali di riferimento ---------------------------------------------
+  \foreach \c/\lab in {2.5/{i-1}, 3.5/{i}, 4.5/{i+1}} {
+    \draw[guida] (\c,0) -- ++(5.2,-5.2);
+    \node[anchor=south,inner sep=2pt] at (\c,0) {$\lab$};
+  }
+
+  % ---- colonna u e riga v: si incontrano sulla diagonale i ------------------
+  \draw[guida] (7.9,0) -- (7.9,-5.1);
+  \node[anchor=south,inner sep=2pt] at (7.9,0) {$u$};
+  \draw[guida] (0,-4.4) -- (9.7,-4.4);
+  \node[anchor=east,inner sep=3pt] at (0,-4.4) {$v$};
+
+  % ---- i tre f.r. (d-1)-path ------------------------------------------------
+  % termina sulla diagonale i+1
+  \draw[frpath] (0.6,0) -- (0.6,-1.1) -- (1.15,-1.1) -- (1.15,-1.85)
+             -- (1.9,-1.85) -- (1.9,-2.45) -- (2.75,-2.45) -- (2.75,-2.85)
+             -- (3.8,-2.85) -- (3.8,-3.1) -- (5.2,-3.1) -- (5.2,-3.25)
+             -- (6.4,-3.25) -- (6.4,-3.4) -- (7.9,-3.4);
+  % termina sulla diagonale i
+  \draw[frpath] (1.5,0) -- (1.5,-0.85) -- (2.05,-0.85) -- (2.05,-1.45)
+             -- (2.8,-1.45) -- (2.8,-1.9) -- (3.45,-1.9) -- (3.45,-2.35)
+             -- (4.6,-2.35) -- (4.6,-2.6) -- (6.3,-2.8);
+  % termina sulla diagonale i-1
+  \draw[frpath] (2.4,0) -- (2.4,-0.75) -- (2.95,-0.75) -- (2.95,-1.25)
+             -- (3.5,-1.25) -- (3.5,-1.75) -- (4.05,-1.75) -- (4.05,-2.2)
+             -- (4.7,-2.2);
+
+  \node[nodo] at (4.7,-2.2) {};   % fine del f.r. (d-1)-path su i-1
+  \node[nodo] at (6.3,-2.8) {};   % fine del f.r. (d-1)-path su i
+  \node[nodo] at (7.9,-3.4) {};   % fine del f.r. (d-1)-path su i+1
+
+  \draw[guida,decorate,decoration={brace,mirror,amplitude=4pt}]
+       (0.9,-3.55) -- (4.3,-3.55);
+  \node[anchor=north,inner sep=3pt] at (2.6,-3.78) {f.r.\ $(d-1)$-path};
+
+  % ---- le tre mosse d'errore, tutte verso la diagonale i --------------------
+  \draw[mossa] (4.7,-2.2) -- (5.7,-2.2);   % orizzontale: da i-1 a i
+  \draw[mossa] (6.3,-2.8) -- (7.3,-3.8);   % diagonale con mismatch: resta su i
+  \draw[mossa] (7.9,-3.4) -- (7.9,-4.4);   % verticale: da i+1 a i
+  \node[etich,anchor=south] at (5.20,-2.16) {$R_1$};
+  \node[etich,anchor=east]  at (6.20,-3.05) {$R_2$};
+  \node[etich,anchor=west]  at (8.02,-3.90) {$R_3$};
+
+  \node[nodo] at (5.7,-2.2) {};   % arrivo di R1 sulla diagonale i
+  \node[nodo] at (7.3,-3.8) {};   % arrivo di R2 sulla diagonale i
+
+  % ---- la cella (v,u) e l'estensione trovata dalla query lce ---------------
+  \node[nodone] at (7.9,-4.4) {};          % il piu' lontano dei tre arrivi
+  \draw[lce] (7.9,-4.4) -- (9.5,-6.0);
+  \node[nodo] at (9.5,-6.0) {};
+  \draw[guida] (9.55,-5.95) -- (10.8,-2.9);
+  \node[anchor=west,inner sep=2pt] at (10.8,-2.9) {$\lcey(P,T,v+1,u+1)$};
+
+\end{tikzpicture}

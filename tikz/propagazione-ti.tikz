@@ -1,0 +1,31 @@
+% Le t_i-transizioni si propagano lungo i suffix link: tre stati consecutivi
+% del boundary path (a profondita' decrescente, quindi disegnati sempre piu' in alto),
+% ciascuno con la propria t_i-transizione.
+\begin{tikzpicture}[
+    font=\footnotesize,
+    >={Stealth[length=2mm]},
+    stato/.style  = {circle,fill=black,inner sep=0pt,minimum size=3.4pt},
+    figlio/.style = {circle,fill=black,inner sep=0pt,minimum size=2.6pt},
+    arco/.style   = {line width=0.5pt},
+    slink/.style  = {->,line width=0.6pt,blue!50!black},
+  ]
+
+  \node[stato]  (s1) at (0.00, 0.00) {};
+  \node[stato]  (s2) at (1.70, 0.70) {};
+  \node[stato]  (s3) at (3.40, 1.40) {};
+
+  \node[figlio] (c1) at (0.00,-1.10) {};
+  \node[figlio] (c2) at (1.70,-0.40) {};
+  \node[figlio] (c3) at (3.40, 0.30) {};
+
+  % prosecuzione del cammino verso la radice
+  \draw[arco,black!45] (s1) -- (-0.70,0.72);
+
+  \draw[arco] (s1) -- (c1) node[midway,right,inner sep=2pt] {$t_i$};
+  \draw[arco] (s2) -- (c2) node[midway,right,inner sep=2pt] {$t_i$};
+  \draw[arco] (s3) -- (c3) node[midway,right,inner sep=2pt] {$t_i$};
+
+  \draw[slink] (s1) to[bend left=32] node[midway,above,inner sep=2pt] {$f$} (s2);
+  \draw[slink] (s2) to[bend left=32] node[midway,above,inner sep=2pt] {$f$} (s3);
+
+\end{tikzpicture}

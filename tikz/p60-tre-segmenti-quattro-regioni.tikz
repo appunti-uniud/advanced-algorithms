@@ -1,0 +1,55 @@
+% Tre segmenti «a girandola»: nessuna partizione binaria del piano riesce a
+% separarli con tre sole regioni.  Tratto pieno = i segmenti; tratteggio = le
+% rette che li prolungano, usate come tagli.  Prima si taglia con l(s_2), che
+% attraversa s_3 e lo spezza; poi, nel semipiano superiore, con l(s_1) e, in
+% quello inferiore, con l(s_3).  Ogni taglio e' disegnato solo dentro la
+% regione che spezza, quindi l(s_1) e l(s_3) si fermano su l(s_2).
+% Risultato: quattro regioni r_1,...,r_4 per tre segmenti.
+\begin{tikzpicture}[
+    scale=1.0,
+    segmento/.style={draw=black,line width=1.3pt,line cap=round},
+    taglio/.style={draw=graydark,line width=0.7pt,line cap=round,
+                   dash pattern=on 3.2pt off 2.4pt},
+    et/.style={font=\footnotesize},
+    etg/.style={font=\footnotesize,text=graydark},
+    testo/.style={font=\footnotesize},
+  ]
+
+  \useasboundingbox (-0.10,-0.10) rectangle (8.60,5.70);
+
+  % ---- rette di taglio -----------------------------------------------------
+  % l(s_2): il primo taglio, attraversa tutto il piano e spezza s_3
+  \draw[taglio] (0.30,2.4042) -- (7.30,2.2875);
+  \node[etg,anchor=west] at (7.38,2.30) {$\ell(s_2)$};
+  % l(s_1): taglia il semipiano superiore, si ferma su l(s_2)
+  \draw[taglio] (2.6191,5.30) -- (4.704,2.3311);
+  \node[etg] at (2.42,5.48) {$\ell(s_1)$};
+  % l(s_3): taglia il semipiano inferiore, si ferma su l(s_2)
+  \draw[taglio] (2.3634,0.30) -- (3.5138,2.3506);
+  \node[etg,anchor=north east] at (2.30,0.22) {$\ell(s_3)$};
+
+  % ---- i tre segmenti (a due a due non intersecanti) ----------------------
+  \draw[segmento] (2.70,0.90) -- (3.85,2.95);   % s_3, spezzato da l(s_2)
+  \draw[segmento] (3.05,4.686) -- (4.42,2.735); % s_1
+  \draw[segmento] (3.80,2.3459) -- (6.55,2.30);  % s_2, giace su l(s_2); l'estremo
+                                                 % sinistro sta staccato dal punto
+                                                 % in cui l(s_2) spezza s_3
+
+  % punto in cui l(s_2) spezza s_3
+  \filldraw[fill=white,draw=black,line width=0.5pt] (3.5138,2.3506) circle (1.7pt);
+
+  % ---- etichette dei segmenti --------------------------------------------
+  \node[et] at (2.80,1.90) {$s_3$};
+  \node[et] at (4.34,3.30) {$s_1$};
+  \node[et] at (5.00,1.98) {$s_2$};
+
+  % ---- etichette delle regioni -------------------------------------------
+  \node[et] at (2.00,3.90) {$r_4$};   % sopra l(s_2), a sinistra di l(s_1): porzione alta di s_3
+  \node[et] at (5.60,4.10) {$r_2$};   % sopra l(s_2), a destra di l(s_1): contiene s_1
+  \node[et] at (1.80,1.30) {$r_3$};   % sotto l(s_2), a sinistra di l(s_3): porzione bassa di s_3
+  \node[et] at (5.10,0.85) {$r_1$};   % sotto l(s_2), a destra di l(s_3): contiene s_2
+
+  % ---- annotazione --------------------------------------------------------
+  \node[testo,anchor=west] at (6.55,1.55) {3 segmenti};
+  \node[testo,anchor=west] at (6.55,1.05) {4 regioni};
+\end{tikzpicture}

@@ -1,0 +1,27 @@
+{
+ "pagina": 68,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "media",
+   "categoria": "figura",
+   "dove": "lezioni/14-random-walk-2sat.tex, righe 339-346 (frase «di $L_n$, il grafo lineare (cammino) i cui nodi sono gli stati $0,1,\\dots,n$» + figura tikz/grafo-lineare-L4.tikz con caption «Il grafo lineare $L_4$»)",
+   "descrizione": "Off-by-one fra la definizione di $L_n$ data nel testo e la figura. Il testo definisce $L_n$ come il cammino sui nodi $0,1,\\dots,n$ (dunque $n+1$ nodi; la stessa convenzione e ribadita a riga 578-581: «che ha $n+1$ nodi ed $m=n$ archi»), ma la figura di $L_4$ disegna un cammino con 4 nodi e 3 archi. Con la convenzione del testo $L_4$ dovrebbe avere 5 nodi e 4 archi. Il quaderno (p. 69) e la sintesi degli appunti dell'anno precedente usano invece l'altra convenzione, «$L_n$ grafo lineare con $n$ nodi», coerente col disegno di $L_4$ a 4 nodi: la divergenza e stata introdotta dalla trascrizione, che ha aggiunto «i cui nodi sono gli stati $0,1,\\dots,n$».",
+   "correzione": "Uniformare il conteggio dei nodi. Opzione minimale e fedele al quaderno: a riga 339-340 scrivere «Posso quindi vedere la mia ricerca come una visita randomizzata del grafo lineare (cammino) i cui nodi sono gli $n+1$ stati $0,1,\\dots,n$», riservando la notazione $L_m$ al cammino con $m$ nodi (cosi $L_4$ = 4 nodi resta corretto e la linea degli stati e $L_{n+1}$); adeguare di conseguenza riga 578-581, dove il conto resta identico: $m=n$ archi, $n+1$ nodi, $C \\le 2n\\bigl((n+1)-1\\bigr)=2n^2$. Opzione alternativa: lasciare il testo com'e e ridisegnare tikz/grafo-lineare-L4.tikz con 5 nodi etichettati $0,1,2,3,4$ e 4 archi."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "errore-logico",
+   "dove": "lezioni/14-random-walk-2sat.tex, righe 355-362 (paragrafo «Per il tempo, vedremo che ... $\\Oh(n^2)$ passi ... bastano a rendere alta la probabilita ...»)",
+   "descrizione": "La frase si contraddice al proprio interno: prima afferma che $\\Oh(n^2)$ passi «bastano a rendere alta la probabilita di aver percorso tutta la linea», subito dopo che «il numero di passi che rende alta la probabilita di aver visitato tutto il grafo e di poco superiore a questo». Le due proposizioni dicono la stessa cosa in modo incompatibile. L'annotazione del quaderno («$\\Oh(n^2)$ ~~> probabilita di visitare tutto il grafo e poco piu alta di questo») va letta come: $\\Oh(n^2)$ e il numero atteso di passi, e il numero di passi che rende alta la probabilita di copertura e di poco superiore.",
+   "correzione": "Riscrivere il paragrafo cosi: «Per il tempo, vedremo che il numero atteso di passi necessari a percorrere tutta la linea e \\[\\Oh(n^2),\\] e che il numero di passi che rende alta la probabilita di aver visitato tutto il grafo e di poco superiore a questo. La giustificazione arrivera nella Sezione~\\ref{sec:cover-lineare}, con il bound sul cover time di un random walk su grafi.»"
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "notazione",
+   "dove": "lezioni/14-random-walk-2sat.tex, marcatori \\scan alle righe 287 (\\scan{69}), 301 (\\scan{68}), 376 (\\scan{69}); blocchi righe 310-322 e 339-346",
+   "descrizione": "Il blocco che sta sotto \\scan{68} contiene materiale che sul quaderno sta a p. 69 e non a p. 68: l'osservazione su $f^{*}$ e su $k=\\#\\set{i : f(x_i)=f^{*}(x_i)}$ con la probabilita $\\ge 1/2$ (righe 310-322) e il passaggio «visita randomizzata di $L_n$» con la figura di $L_4$ (righe 339-346) sono trascritti dalla p. 69; la p. 68 contiene solo titolo, la clausola $\\cdots\\wedge(\\ell_1\\vee\\ell_2)\\wedge\\cdots$, l'assegnamento $f$, il FLIP casuale, il disegno della linea con $k-1,k,k+1,n$, il riquadro SPAZIO $\\Oh(n)$ bit, l'annotazione $\\Oh(n^2)$ e l'osservazione finale. Di conseguenza \\scan{69} compare due volte (righe 287 e 376) a cavallo di \\scan{68} e i rimandi a margine risultano nell'ordine 67, 69, 68, 69, 70. La fusione e comprensibile (le pagine 68 e 69 sono in gran parte duplicate e la p. 68 usa $k$ senza averlo definito), ma rompe la corrispondenza blocco<->pagina su cui si basa la convenzione \\scan{NN}.",
+   "correzione": "Non ristrutturare il testo (la fusione e editorialmente sensata), ma registrare esplicitamente in NOTE-EDITORIALI.md che le pagine 68 e 69 del quaderno sono duplicate e sono state fuse, e che i paragrafi alle righe 310-322 e 339-346 provengono dalla p. 69 pur trovandosi dopo \\scan{68}. In alternativa, spostare quei due paragrafi dopo lo \\scan{69} di riga 376, lasciando sotto \\scan{68} il solo contenuto della p. 68."
+  }
+ ]
+}

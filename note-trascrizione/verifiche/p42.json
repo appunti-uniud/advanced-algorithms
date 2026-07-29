@@ -1,0 +1,14 @@
+{
+ "pagina": 42,
+ "esito": "ok",
+ "problemi": [],
+ "note": [
+  "Testo verificato riga per riga sulle tre bande a 300 DPI: prima riga ('Introduciamo la distanza (di Levenshtein) misurando il lavoro da fare per ottenere una stringa dall'altra'), esempio (sigma_1 = acgtcatca, sigma_2 = taagtgtca), '4 operazioni elementari', tabella costi (0 per m; 1 per i, d, s con i nomi match/insert/delete/substitute), domanda sul costo minimo 'per ottenere sigma_2 da sigma_1', freccia '-> stiamo definendo il costo dell'allineamento di sigma_1 e sigma_2', 'L'allineamento e una stringa in {m,i,d,s}*', figura dell'allineamento con '??', box 'Problema', formula finale d_H(s1,s2) >= d_L(s1,s2). Tutto presente nel .tex.",
+  "Verificata la direzione della disuguaglianza: nel manoscritto e' chiaramente d_H >= d_L (zoom sulla formula), coerente con \\dham >= \\dedit alla riga 148 e con l'esercizio dell'anno precedente (L09: d_L <= d_H).",
+  "Verificata la figura tikz/allineamento-esempio.tikz colonna per colonna contro il manoscritto (posizioni x dei glifi): 10 colonne; sigma_1 occupa le colonne 2-10 (colonna 1 vuota = inserzione), eta = i m s m m s d m m m, sigma_2 occupa 1-6 e 8-10 (colonna 7 vuota = cancellazione). Corrisponde esattamente. Costo 1(i)+2(s)+1(d) = 4, come nella sintesi degli appunti dell'anno precedente (L09, sezione 10).",
+  "L'ultimo carattere della riga superiore nel manoscritto sembra graficamente una 'd' ma e' una 'a' (stesso tratto della 'a' finale di sigma_2, e sigma_1 = acgtcatca sia nell'esempio in alto sia neGli appunti del corso dell'anno precedente): la trascrizione e' corretta.",
+  "Nel manoscritto la riga inferiore della figura NON ha etichetta (compare solo 'sigma_1 =' e 'eta =>'); il tikz aggiunge 'sigma_2 =': chiarimento editoriale legittimo, non un difetto.",
+  "La Definizione [Distanza di Levenshtein] (righe 127-136) e la giustificazione di d_H >= d_L (righe 143-151) non sono letteralmente sul foglio ma sono ricostruzioni corrette e coerenti con la traccia dell'esercizio dell'anno precedente; nessuna duplicazione con il resto del capitolo (grep su 'Levenshtein'/'dedit' e su \\label).",
+  "Compilazione verificata: il capitolo compila senza errori con la classe academica; la figura tikz e' stata renderizzata e ispezionata visivamente."
+ ]
+}

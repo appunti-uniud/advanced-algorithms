@@ -1,0 +1,63 @@
+% ubriaco-griglia -- pag. 65
+% Il "drunkard's walk" di Gamow: il piano xy visto in prospettiva (parallelogramma),
+% i due lati obliqui fanno da assi cartesiani; al centro l'ubriaco u accanto al
+% lampione da cui parte, e attorno il cammino irregolare (ellisse + curva tratteggiata).
+% Il callout in alto a destra nomina la cosa: random walk, 2D su una griglia.
+\begin{tikzpicture}[
+    >=Latex,
+    scale=0.95,
+    font=\footnotesize,
+    piano/.style={draw=black,line width=0.9pt},
+    filo/.style={draw=black!75,line width=0.6pt},
+    tratto/.style={draw=black!60,line width=0.7pt}]
+
+  % ---- il piano (la piazza) in prospettiva ---------------------------------
+  \coordinate (A) at (0.00,0.00);   % basso a sinistra
+  \coordinate (B) at (4.00,0.00);   % basso a destra
+  \coordinate (C) at (5.90,2.30);   % alto a destra
+  \coordinate (D) at (1.90,2.30);   % alto a sinistra
+
+  \draw[piano] (A) -- (B);
+  \draw[piano] (D) -- (C);
+  % lato AD prolungato oltre D: e' l'asse y
+  \draw[piano,->] (A) -- (2.22,2.69);
+  % lato BC con la punta di freccia a un terzo dell'altezza: e' l'asse x
+  \draw[piano,postaction={decorate,decoration={markings,
+        mark=at position 0.38 with {\arrow{Latex}}}}] (B) -- (C);
+
+  \node[anchor=south east] at (2.16,2.66) {$y$};
+  \node[anchor=north]      at (4.08,-0.10) {$x$};
+
+  % ---- l'ubriaco ------------------------------------------------------------
+  \draw[filo] (2.35,1.52) circle (0.13);            % testa
+  \draw[filo] (2.35,1.39) -- (2.35,0.82);           % busto
+  \draw[filo] (2.08,0.92) -- (2.35,1.25) -- (2.62,0.92);  % braccia
+  \draw[filo] (2.35,0.82) -- (2.14,0.42);           % gambe
+  \draw[filo] (2.35,0.82) -- (2.56,0.42);
+  \node[anchor=east] at (2.00,1.20) {$u$};
+
+  % ---- il lampione ----------------------------------------------------------
+  \draw[filo,line width=1.0pt] (3.10,0.55) -- (3.10,1.76);
+  \draw[filo] (3.10,2.32) -- (3.27,2.02) -- (3.10,1.72) -- (2.93,2.02) -- cycle;
+
+  % ---- il cammino: prima l'orbita "regolare"... -----------------------------
+  \draw[tratto,rotate around={10:(2.75,0.62)}] (2.75,0.62) ellipse (1.10 and 0.42);
+
+  % ---- ...poi il vagabondaggio disordinato attorno ad essa -------------------
+  \draw[tratto,densely dashed] plot[smooth cycle,tension=0.85] coordinates {
+      (4.20,0.92) (3.96,1.32) (3.40,1.58) (2.70,1.66) (2.00,1.50) (1.38,1.18)
+      (1.15,0.78) (1.35,0.42) (1.90,0.20) (2.60,0.14) (3.32,0.24) (3.96,0.50) };
+
+  % ---- la domanda ------------------------------------------------------------
+  \draw[filo,->] (2.45,0.02) to[out=-90,in=170] (3.52,-0.82);
+  \node[anchor=west] at (3.60,-0.84) {\emph{arriver\`a a casa?}};
+
+  % ---- il callout -------------------------------------------------------------
+  \draw[filo] plot[smooth cycle,tension=0.85] coordinates {
+      (8.45,3.32) (8.25,3.74) (7.58,3.94) (6.85,3.92) (6.15,3.70) (5.88,3.32)
+      (6.18,2.94) (6.90,2.80) (7.72,2.82) (8.30,3.02) };
+  \node at (7.15,3.36) {\textsf{random walk}};
+  \draw[filo,->] (6.22,2.92) to[out=235,in=65] (5.96,2.40);
+  \node[anchor=west] at (6.20,2.10) {($2$D su una griglia)};
+
+\end{tikzpicture}
