@@ -1,0 +1,28 @@
+{
+ "pagina": 66,
+ "esito": "problemi-minori",
+ "file_scritto": "/home/rob/UNI/algoritmi_avanzati/lezioni/14-random-walk-2sat.tex",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "errore-logico",
+   "dove": "lezioni/14-random-walk-2sat.tex, righe 103-105 (frase subito dopo il display \\begin{cases} del calcolo proposizionale)",
+   "descrizione": "La frase «si ottengono le formule (che contengono variabili proposizionali); se in piu si ammettono i quantificatori forall ed exists sulle variabili proposizionali si ottengono gli enunciati» rende male la distinzione del manoscritto («formule (con variabili) / enunciati (forall, exists)»). Cosi com'e scritta e tecnicamente falsa: aggiungere quantificatori a una formula da in generale un'altra formula, non un enunciato (p.es. exists P (P and Q) ha Q libera). Il criterio corretto - assenza di variabili libere - compare solo dopo, dentro l'esempio, e non nella frase che dovrebbe definirlo. Inoltre il parentetico «(che contengono variabili proposizionali)» non discrimina: anche gli enunciati contengono variabili (vincolate).",
+   "correzione": "Riscrivere: «Combinando simboli proposizionali e connettivi si ottengono le \\emph{formule}, che possono contenere variabili \\emph{libere}; ammettendo anche i quantificatori $\\forall$ ed $\\exists$ sulle variabili proposizionali, una formula in cui nessuna variabile resta libera si dice \\emph{enunciato}.»"
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "errore-logico",
+   "dove": "lezioni/14-random-walk-2sat.tex, riga 141 (giustificazione della catena 2-SAT subseteq 3-SAT subseteq SAT, righe 136-142)",
+   "descrizione": "La giustificazione «perche una clausola di due letterali e in particolare una clausola di al piu tre letterali» non segue dalle definizioni date poche righe sopra: nel display delle righe 128-131 il 3-SAT e definito con clausole di esattamente tre letterali (ell^j_1 vee ell^j_2 vee ell^j_3). Con quella definizione 2-SAT non e sottoinsieme di 3-SAT. La convenzione «al piu k letterali» e quella usata dagli appunti dell'anno precedente (L16, sez. 5.3: «k-SAT = SAT ristretto a formule CNF in cui ogni clausola ha (al piu) k letterali»), ma qui non e mai dichiarata.",
+   "correzione": "Dopo il display delle tre forme, aggiungere l'inciso che fissa la convenzione, p.es.: «...e $K$ e il numero di clausole dell'istanza; come d'uso, in $k$-SAT si richiede che ogni clausola abbia \\emph{al piu} $k$ letterali (i display sopra mostrano il caso pieno).» Cosi la catena 2-SAT $\\subseteq$ 3-SAT $\\subseteq$ SAT e la sua motivazione diventano coerenti col display."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "notazione",
+   "dove": "lezioni/14-random-walk-2sat.tex: itemize CNF/DNF di p.66 (righe 161-166) vs. display SAT -> CNF/DNF di p.67 (righe 170-176)",
+   "descrizione": "Le glosse «congiunzione di disgiunzioni di letterali» e «disgiunzione di congiunzioni di letterali» compaiono due volte identiche a quattro righe di distanza: una volta nell'itemize della sottosezione «Forme normali» (contenuto di p.66) e una volta come parentetici nel display di p.67. Nel manoscritto p.67 in alto c'e solo «SAT < CNF / DNF», senza glosse: i parentetici del display sono un'aggiunta del trascrittore che duplica p.66. Nel PDF compilato la ripetizione e ben visibile (pag. 4 del capitolo).",
+   "correzione": "Togliere i parentetici dal display di p.67, lasciando solo `\\;\\longrightarrow\\;\\text{CNF}` e `\\;\\longrightarrow\\;\\text{DNF}` (le definizioni restano nell'itemize di p.66, che e la loro sede nel manoscritto)."
+  }
+ ]
+}

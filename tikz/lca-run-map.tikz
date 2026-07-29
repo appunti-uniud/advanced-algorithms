@@ -1,0 +1,104 @@
+% A sinistra l'albero generico T con i sette run; a destra l'albero binario
+% completo B con i sette nodi immagine marcati.
+\begin{tikzpicture}[
+    x=1cm, y=1cm,
+    nodo/.style={circle, fill=black, inner sep=0pt, minimum size=3.2pt},
+    nodog/.style={circle, fill=black!45, inner sep=0pt, minimum size=2.6pt},
+    anello/.style={circle, draw=black, line width=0.5pt, inner sep=0pt,
+                   minimum size=7pt},
+    ramo/.style={line width=0.5pt, black!70},
+    ramog/.style={line width=0.45pt, black!45},
+    run/.style={dash pattern=on 2pt off 1.6pt, line width=0.5pt, black!60},
+    et/.style={align=center, inner sep=1pt, font=\scriptsize},
+    etg/.style={et, text=black!50}
+  ]
+
+  %% ================= PANNELLO SINISTRO: albero T =================
+  \coordinate (t1)  at (1.90,  0.00);
+  \coordinate (t2)  at (0.85, -0.90);
+  \coordinate (t5)  at (2.85, -0.90);
+  \coordinate (t3)  at (-0.05, -1.80);
+  \coordinate (t4)  at (0.85, -1.80);
+  \coordinate (t6)  at (2.10, -1.80);
+  \coordinate (t7)  at (2.95, -1.80);
+  \coordinate (t8)  at (3.80, -1.80);
+  \coordinate (t9)  at (3.58, -2.70);
+  \coordinate (t10) at (4.40, -2.70);
+
+  \draw[ramo] (t1) -- (t2) (t1) -- (t5)
+              (t2) -- (t3) (t2) -- (t4)
+              (t5) -- (t6) (t5) -- (t7) (t5) -- (t8)
+              (t8) -- (t9) (t8) -- (t10);
+
+  \foreach \n in {1,2,3,4,5,6,7,8,9,10} { \node[nodo] at (t\n) {}; }
+
+  % --- i sette run ---
+  \begin{scope}[rotate around={-43.45:(2.85,-0.90)}]
+    \draw[run] (2.85,-0.90) ellipse [x radius=1.57, y radius=0.27];
+  \end{scope}
+  \draw[run] (0.85,-1.35) ellipse [x radius=0.25, y radius=0.70];
+  \foreach \n in {3,6,7,9,10} { \draw[run] (t\n) circle [radius=0.22]; }
+
+  % --- etichette: dfs-numero e path number su 4 bit ---
+  \node[et, anchor=south]      at (1.90,  0.28) {$0001$\\$1$};
+  \node[et, anchor=south east] at (0.62, -0.72) {$0010$\\$2$};
+  \node[et, anchor=south west] at (3.02, -0.55) {$0101$\\$5$};
+  \node[et, anchor=north]      at (-0.05, -2.10) {$3$\\$0011$};
+  \node[et, anchor=north]      at (0.85, -2.10) {$4$\\$0100$};
+  \node[et, anchor=north]      at (2.10, -2.10) {$6$\\$0110$};
+  \node[et, anchor=north]      at (2.95, -2.10) {$7$\\$0111$};
+  \node[et, anchor=south west] at (4.00, -1.50) {$8=1000$};
+  \node[et, anchor=north]      at (3.58, -2.96) {$9$\\$1001$};
+  \node[et, anchor=north]      at (4.40, -2.96) {$10$\\$1010$};
+
+  \node[anchor=west, font=\small] at (-0.15, 0.40) {$\T$};
+
+  %% ================= PANNELLO DESTRO: albero binario completo B =========
+  \coordinate (b1000) at (8.40,  0.00);
+  \coordinate (b0100) at (7.00, -0.85);
+  \coordinate (b1100) at (9.80, -0.85);
+  \coordinate (b0010) at (6.30, -1.70);
+  \coordinate (b0110) at (7.70, -1.70);
+  \coordinate (b1010) at (9.10, -1.70);
+  \coordinate (b1110) at (10.50,-1.70);
+  \coordinate (b0001) at (5.95, -2.55);
+  \coordinate (b0011) at (6.65, -2.55);
+  \coordinate (b0101) at (7.35, -2.55);
+  \coordinate (b0111) at (8.05, -2.55);
+  \coordinate (b1001) at (8.75, -2.55);
+  \coordinate (b1011) at (9.45, -2.55);
+  \coordinate (b1101) at (10.15,-2.55);
+  \coordinate (b1111) at (10.85,-2.55);
+
+  \draw[ramog] (b1000) -- (b0100) (b1000) -- (b1100)
+               (b0100) -- (b0010) (b0100) -- (b0110)
+               (b1100) -- (b1010) (b1100) -- (b1110)
+               (b0010) -- (b0001) (b0010) -- (b0011)
+               (b0110) -- (b0101) (b0110) -- (b0111)
+               (b1010) -- (b1001) (b1010) -- (b1011)
+               (b1110) -- (b1101) (b1110) -- (b1111);
+
+  % nodi non marcati
+  \foreach \n in {0010,0101,1100,1110,0001,1011,1101,1111}
+    { \node[nodog] at (b\n) {}; }
+  % nodi marcati: immagine di un run di T
+  \foreach \n in {1000,0100,0110,1010,0011,0111,1001}
+    { \node[anello] at (b\n) {}; \node[nodo] at (b\n) {}; }
+
+  \node[et, anchor=south]      at (8.40,  0.14) {$1000$};
+  \node[et, anchor=south east] at (6.88, -0.74) {$0100$};
+  \node[etg,anchor=south west] at (9.92, -0.74) {$1100$};
+  \node[et, anchor=north east] at (7.52, -1.82) {$0110$};
+  \node[et, anchor=south east] at (8.96, -1.60) {$1010$};
+  \node[et, anchor=north]      at (6.65, -2.70) {$0011$};
+  \node[et, anchor=north]      at (8.05, -2.70) {$0111$};
+  \node[et, anchor=north]      at (8.75, -2.70) {$1001$};
+
+  \node[anchor=west, font=\small] at (5.85, 0.40) {$\B$};
+
+  %% ================= la mappa I =================
+  \draw[-{Latex[length=4pt,width=3.2pt]}, dashed, line width=0.6pt, black!60]
+        (5.08,-2.00) -- (5.86,-2.00)
+        node[midway, above=1pt, font=\scriptsize, text=black] {$I$};
+
+\end{tikzpicture}

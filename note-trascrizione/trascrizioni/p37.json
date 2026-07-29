@@ -1,0 +1,90 @@
+{
+ "pagina": 37,
+ "latex": "\\scan{37}\n\nEseguiamo un pre-processing lineare in cui, per ogni nodo $v$ di $\\T$, calcoliamo\n\\[\n\\begin{cases}\nI(v),\\\\[2pt]\nL(v) = \\text{il \\emph{leader} del suo run},\\\\[2pt]\nA_v = \\text{un array ausiliario}.\n\\end{cases}\n\\]\n\n\\begin{osservazione}\nIl nodo di $\\T(v)$ su cui $h$ è massimo --- cioè $I(v)$ --- è il nodo più \\emph{basso}\ndel run: è il \\emph{bottom} del run.\n\\end{osservazione}\n\n\\begin{definizione}[Leader di un run]\nDefinisco \\emph{leader} (o \\emph{head}) di un run il nodo più \\emph{alto} del run,\ncioè quello più vicino alla radice di $\\T$.\n\\end{definizione}\n\n\\paragraph{Pre-processing.}\n\\begin{enumerate}\n  \\item \\textsc{dfs} di $\\T$ $\\longrightarrow$ computo il \\emph{dfs-numbering} e $h(v)$\n        per ogni $v$.\n\n  \\item Usando $h(\\cdot)$ determino $I(\\cdot)$ per ogni $v$ mediante una visita\n        \\emph{bottom-up}. Nella stessa visita determino il leader di ogni run\n        (la tabella dei leader è indicizzata dai valori di $I$: $L(v)=L(I(v))$).\n        Ora, per ogni $v$, leggo $I(v)$ e $L(v)$ in tempo $\\Oh(1)$.\n\n  \\item Costruisco $\\B$, l'albero binario completo di profondità\n        $\\lceil \\log n\\rceil - 1$.\n\n  \\item Per ogni $v$ costruisco $A_v$, array di $\\lceil \\log n\\rceil$ bit definito da\n        \\[\n          A_v(i) = 1 \\iff \\exists\\, w \\text{ antenato di } v \\text{ in } \\T\n          \\text{ t.c. } h\\bigl(I(w)\\bigr) = i .\n        \\]\n        (Con la convenzione che $v$ è antenato di se stesso.)\n\\end{enumerate}\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/av-bitvector.tikz}\n\\caption{Il vettore di bit $A_v$: un $1$ in posizione $i$ significa che esiste un\nantenato $w$ di $v$ che viene mappato ad altezza $i$ in $\\B$.}\n\\end{figure}\n\n\\begin{osservazione}\nTutti e quattro i passi costano $\\Oh(n)$: in particolare $A_v$ si calcola con una\nvisita top-down ponendo\n\\[\n  A_v = A_{\\padre(v)} \\ \\textsc{or}\\ 2^{\\,h(I(v))-1},\n\\]\ncioè con un'operazione $\\Oh(1)$ per nodo. Il pre-processing complessivo è dunque\nlineare.\n\\end{osservazione}",
+ "note": [
+  {
+   "tipo": "correzione",
+   "pagina": 37,
+   "testo": "Passo 3 del pre-processing: il quaderno scrive «Costruisco B di altezza ⌈log n⌉ − 1». Ho scritto «profondità ⌈log n⌉ − 1» perché in questo capitolo «altezza» (height in B) ha il significato tecnico di *numero di nodi* sul cammino dal nodo a una foglia (le foglie hanno altezza 1, la radice altezza d+1): con quella convenzione l'altezza della radice sarebbe ⌈log n⌉, non ⌈log n⌉ − 1. Gusfield (tree map, §8.5) e la sintesi degli appunti dell'anno precedente (L08 §9) dicono esplicitamente «complete binary tree B with depth d = ⌈log n⌉ − 1».",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 37,
+   "testo": "Passo 4: il quaderno scrive «A_v array di ⌈log n⌉ − 1 bit». Ho scritto ⌈log n⌉ bit. Motivo: A_v è indicizzato dalle possibili altezze in B, che vanno da 1 a d+1 = ⌈log n⌉; con ⌈log n⌉ − 1 bit non si potrebbe rappresentare l'altezza della radice di B (nell'esempio con n = 10, h(I(1)) = 4 = ⌈log 10⌉). Il «− 1» è quasi certamente un riporto meccanico dal passo 3. La sintesi degli appunti dell'anno precedente (L09 §0) conferma: «A_v = numero di ⌈log₂ n⌉ bit».",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 37,
+   "testo": "Ho aggiunto la precisazione «(con la convenzione che v è antenato di se stesso)» dopo la definizione di A_v. Il quaderno scrive solo «∃ w antenato di v in T t.c. h(I(w)) = i». La convenzione è necessaria: nella dimostrazione del Teorema 1 (pagine seguenti) si usa il fatto che la posizione dell'1 più a destra di A_x è esattamente h(I(x)), il che vale solo se x conta fra i propri antenati. La fonte dell'anno precedentelo esplicita in L09 §0: «∃ u antenato di v (o u = v) con h(I(u)) = k».",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 37,
+   "testo": "Terza riga della graffa iniziale: il quaderno scrive «A array ausiliario», senza pedice. Ho scritto A_v perché il passo 4 e il disegno usano entrambi A_v; la A senza pedice è una semplice abbreviazione della graffa.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 37,
+   "testo": "La graffa iniziale scrive «il leader del suo run  L(v)», mentre la tabella dei leader costruita al passo 2 (e usata da p.38 in poi, cfr. L09 §5 passo 3c: «cerca il nodo L(I(w))») è indicizzata dal valore di I, non dal nodo. Ho mantenuto la notazione L(v) del quaderno aggiungendo al passo 2 l'inciso «(la tabella dei leader è indicizzata dai valori di I: L(v) = L(I(v)))», per evitare l'ambiguità nel seguito del capitolo.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 37,
+   "testo": "Passo 2, l'inciso fra parentesi del quaderno è «(Ora ho I/L per ogni v in tempo O(1))». L'ho reso con «Ora, per ogni v, leggo I(v) e L(v) in tempo O(1)»: la frase riguarda l'accesso dopo il pre-processing, non il costo del calcolo (che è O(n) per l'intera visita bottom-up).",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 37,
+   "testo": "Osservazione ①: il quaderno scrive telegraficamente «max h è il nodo più basso del run». L'ho espansa in «il nodo di T(v) su cui h è massimo — cioè I(v) — è il nodo più basso del run: è il bottom del run», coerentemente con la lezione precedente (ogni run è un cammino verticale in T, con bottom = I(v) e top = leader).",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 37,
+   "testo": "Ho aggiunto in coda una breve osservazione sulla linearità del pre-processing, con la formula A_v = A_{padre(v)} OR 2^{h(I(v))−1} (visita top-down). Il quaderno afferma «pre-processing lineare» all'inizio ma non giustifica il costo del passo 4; la formula è quella standard (Gusfield §8.5, e L09 §0 della sintesi degli appunti dell'anno precedente). Segnalo che è contenuto aggiunto per colmare la lacuna.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 37,
+   "testo": "Nel passo 4 compare un piccolo segno «×» sopra la doppia freccia «⟺»; l'ho interpretato come segno di cancellatura/ritocco della freccia (il tratto sottostante è ripassato) e non l'ho trascritto.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 37,
+   "testo": "Sopra l'estremità destra del rettangolo di A_v c'è una scritta a matita quasi completamente cancellata, leggibile come «h(v)» (probabilmente un primo tentativo di annotare che l'1 più a destra sta in posizione h(I(v))). Non l'ho riprodotta nella figura, ma la segnalo perché è matematicamente corretta e verrà usata a p.39 (passo 3a dell'algoritmo di query).",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 37,
+   "testo": "Nella metà inferiore della pagina si intravedono, a matita cancellata, uno scarabocchio di grafo con nodi cerchiati e la sequenza «5 4 3 2 1 0»: è un residuo di un disegno abbandonato (riconducibile alla figura dei run di p.36) e non ha contenuto proprio. Non trascritto.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 37,
+   "testo": "Nel LaTeX ho usato la macro \\padre{} per «padre di v» nell'osservazione finale: NON è nell'elenco delle macro disponibili. Se non esiste in preamble.tex va sostituita con \\mathrm{padre}(v) (oppure \\mathrm{parent}(v)). Segnalato come richiesto dalle convenzioni.",
+   "risolto": false
+  }
+ ],
+ "figure": [
+  {
+   "id": "av-bitvector",
+   "pagina": 37,
+   "didascalia": "Il vettore di bit $A_v$: un $1$ in posizione $i$ significa che esiste un antenato $w$ di $v$ che viene mappato ad altezza $i$ in $\\B$.",
+   "tipo": "schema di stringhe (vettore di bit / parola di macchina)",
+   "specifica": "DISEGNO ORIGINALE: una sola parola di macchina disegnata come rettangolo orizzontale, con etichetta a sinistra e una freccia verso il basso con glossa.\n\nLAYOUT.\n1) A sinistra, fuori dal rettangolo e allineata verticalmente al suo centro, l'etichetta matematica $A_v$ (A maiuscola con pedice v).\n2) A destra dell'etichetta, distanziata di circa 1 cm, un rettangolo orizzontale lungo e basso (rapporto circa 7:1, es. 7,5 cm x 1,1 cm), a linea singola marcata. Nel manoscritto il bordo inferiore sporge un po' a sinistra rispetto al bordo sinistro: è un'imprecisione, disegnare il rettangolo chiuso e regolare.\n3) Il rettangolo è diviso da segmenti verticali interni (non su tutta l'altezza nel manoscritto, ma disegnarli a tutta altezza) in celle. Da SINISTRA (bit piu' significativi) a DESTRA (bit meno significativi):\n   - CELLA 1, larga circa metà del rettangolo: NON contiene cifre ma una LINEA ONDULATA orizzontale (tratto sinuoso, 3-4 ondulazioni) che significa \"bit qualsiasi / non specificati\";\n   - separatore verticale;\n   - CELLA 2, stretta: contiene la cifra 1 (in nero/blu, evidenziata: è il bit su cui punta la freccia);\n   - separatore verticale;\n   - CELLA 3, stretta: contiene una PICCOLA ONDULAZIONE (una tilde ~), di nuovo \"bit qualsiasi\";\n   - separatore verticale;\n   - CELLA 4, stretta: cifra 1;\n   - CELLA 5, stretta: cifra 0;\n   - CELLA 6, stretta (ultima, addossata al bordo destro): cifra 0.\n   Nel manoscritto le ultime tre cifre 1,0,0 sono scritte una accanto all'altra senza separatori interni marcati: si possono rendere come tre celle contigue o come un'unica cella con il contenuto \"1\\,0\\,0\". Il gruppo finale \"1 0 0\" rappresenta l'1 piu' a destra di $A_v$ seguito da zeri (posizione $h(I(v))$).\n4) SOTTO la CELLA 2 (quella con l'1 evidenziato), una FRECCIA VERTICALE che parte dal bordo inferiore del rettangolo e punta verso il basso, lunga circa 1 cm, con punta piena.\n5) SOTTO la freccia, allineato con essa e spostato verso destra, il testo in due righe (font testo, italiano):\n      \"significa che esiste $w$ antenato di $v$ che mappa\"\n      \"ad altezza $i$\"\n   La freccia parte dalla cella e finisce appena sopra la prima riga di testo.\n\nSEMANTICA (per chi ridisegna): il rettangolo e' UNA PAROLA di $\\lceil\\log n\\rceil$ bit; i bit sono numerati DA DESTRA a partire da 1 (posizione 1 = bit meno significativo). La cella indicata dalla freccia e' la posizione $i$; $A_v(i)=1$ codifica l'esistenza di un antenato $w$ di $v$ in $\\T$ con $h(I(w))=i$, cioe' un antenato che la tree map manda su un nodo di $\\B$ di altezza $i$. Se si vuole rendere il disegno piu' leggibile si puo' aggiungere sotto la cella puntata dalla freccia la piccola etichetta \"$i$\" (non presente nell'originale, ma coerente con la glossa).\n\nDA NON RIPRODURRE: sopra l'estremita' destra del rettangolo, nell'originale, c'e' una scritta a matita quasi cancellata leggibile come \"h(v)\"; e piu' in basso nella pagina uno scarabocchio a matita (grafo con nodi cerchiati e la sequenza 5 4 3 2 1 0). Sono residui cancellati, non fanno parte della figura.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina si chiude con la definizione dell'array ausiliario $A_v$ (passo 4 del pre-processing) e la sua lettura grafica: resta in sospeso il PERCHÉ di $A_v$, cioè come i tre ingredienti $I$, $L$, $A_v$ permettano di rispondere alle query. La pagina 38 riprende esattamente da qui con la Proposizione «$I$ mantiene la relazione antenato/discendente», il Lemma $x\\in\\T(z)\\Rightarrow I(x)\\in\\B(I(z))$ (Gusfield 8.7.1) con la sua dimostrazione, e gli enunciati del Teorema 1 (noto $h(I(z))$ si determina $z$ in $\\Oh(1)$) e del Teorema 2 ($h(I(z))=\\min\\{k\\ge h(\\mathrm{lca}_\\B(I(x),I(y))) : A_x[k]=A_y[k]=1\\}$), più l'inizio della dimostrazione del Teorema 1 con i nodi $\\bar x,\\bar y$. Attenzione in fase di cucitura: da p.38 in poi l'array è indicizzato con la notazione $A_x[k]$ (parentesi quadre) mentre qui è $A_v(i)$ — uniformare.",
+ "confidenza": "alta"
+}

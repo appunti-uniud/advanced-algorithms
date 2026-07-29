@@ -1,0 +1,20 @@
+{
+ "pagina": 25,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "notazione",
+   "dove": "lezioni/05-suffix-tree.tex, righe ~709-716: la formula $f\\bigl(s,[k,p]\\bigr)=\\bigl(f(s),[k,p]\\bigr)$ e la frase immediatamente successiva «Nella figura seguente lo stato $s'$ in cui si atterra è appunto descritto dalla coppia $\\bigl(s,[k,p]\\bigr)$: $s$ è il nodo esplicito da cui si riparte...» (stesso conflitto nella didascalia di fig:ukkonen-refpair-f)",
+   "descrizione": "Il simbolo $s$ (e con esso l'indice $k$) è usato in due sensi diversi a una riga di distanza. Nella formula $s$ è il nodo esplicito di PARTENZA, quello a cui si applica $f$; nella frase seguente e nella figura $s$ è il nodo esplicito di ARRIVO, cioè il risultato di $f$ dopo la ri-canonizzazione — che in generale è un nodo diverso da $f(s)$ e con una coppia di indici diversa (la canonizzazione fa crescere $k$). Letto alla lettera, «lo stato $s'$ raggiunto applicando $f$ è rappresentato dalla coppia $(s,[k,p])$» dice che si torna sul nodo di partenza con gli stessi indici, cioè che $f$ è l'identità sulla prima componente. Il manoscritto non ha il problema perché la formula $f(s,[k,p])=(f(s),[k,p])$ non c'è: nel foglio compare solo l'annotazione «$f \\Rightarrow (s,(k,p))$» accanto alla figura, dove $s$ è il nodo disegnato (quello di arrivo).",
+   "correzione": "Usare una lettera diversa nella formula e dire esplicitamente che la figura mostra il risultato: p.es. «$f\\bigl(r,[k,p]\\bigr)=\\bigl(f(r),[k,p]\\bigr)$, lasciando invariata la coppia di indici; il risultato va poi ri-canonizzato, scendendo da $f(r)$ finché non si raggiunge il nodo esplicito più profondo. Nella figura seguente $s$ denota proprio il nodo esplicito ottenuto dopo la ri-canonizzazione e $[k,p]$ la coppia aggiornata: lo stato $s'$ in cui si atterra è descritto dalla coppia $(s,[k,p])$...»."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "notazione",
+   "dove": "lezioni/05-suffix-tree.tex, riga 651: «\\textbf{3) Dettagli.}», da confrontare con l'\\texttt{enumerate} di righe 639-645 (fine di p.24)",
+   "descrizione": "Nel quaderno «3) Dettagli» è il terzo elemento della lista 1)/2) che comincia a p.24 («Modifico quindi la costruzione...»). Nella trascrizione i primi due punti sono un enumerate standard (nel PDF stampano «1.» e «2.») mentre il terzo diventa testo in grassetto «3)» dopo un titolo di sottosezione: nel PDF si legge «1. 2. ... [titolo] ... 3) Dettagli.», con marcatori disomogenei e numerazione che pende nel vuoto. (Stesso problema già segnalato dal lato p.24; qui va sistemata anche la riga 651.)",
+   "correzione": "Uniformare i marcatori: usare \\texttt{\\textbackslash item[1)]} e \\texttt{\\textbackslash item[2)]} nell'enumerate di p.24, oppure togliere il «3)» dalla riga 651 lasciando solo \\textbf{Dettagli.} (la sottosezione già segnala lo stacco)."
+  }
+ ]
+}

@@ -1,0 +1,35 @@
+% wlk-tupla -- pag. 80
+% Le k componenti v_1,...,v_k sono raccolte in un unico oggetto vbar: e' a
+% questo, e non ai singoli vertici, che WL-k assegna un colore.
+% NB: nel quaderno i nodi in alto sono quattro (v_1..v_4) e il nodo in basso e'
+% spostato verso sinistra; qui l'ultimo nodo e' etichettato v_k, con i puntini
+% di sospensione, per accordarsi alla notazione del testo, e il nodo in basso
+% e' centrato sotto la fila.
+\begin{tikzpicture}[x=1cm,y=1cm,line join=round,line cap=round,font=\footnotesize,
+    nodo/.style={circle,fill,inner sep=0pt,minimum size=3.4pt},
+    tupla/.style={circle,fill,inner sep=0pt,minimum size=5pt},
+    arco/.style={line width=0.7pt}]
+
+  % ---- le componenti della k-upla -----------------------------------------
+  \node[nodo] (v1) at (0.0,0) {};
+  \node[nodo] (v2) at (1.2,0) {};
+  \node[nodo] (v3) at (2.4,0) {};
+  \node[nodo] (vk) at (3.6,0) {};
+
+  \node[anchor=south,inner sep=2.5pt] at (v1.north) {$v_1$};
+  \node[anchor=south,inner sep=2.5pt] at (v2.north) {$v_2$};
+  \node[anchor=south,inner sep=2.5pt] at (v3.north) {$v_3$};
+  \node[anchor=south,inner sep=2.5pt] at (vk.north) {$v_k$};
+
+  \node[inner sep=1pt] at (3.0,0) {$\cdots$};
+
+  % ---- la k-upla, vista come un solo oggetto ------------------------------
+  \node[tupla] (vb) at (1.8,-1.8) {};
+  \node[anchor=north,inner sep=4pt] at (vb.south) {$\bar v$};
+
+  \draw[arco] (v1) -- (vb);
+  \draw[arco] (v2) -- (vb);
+  \draw[arco] (v3) -- (vb);
+  \draw[arco] (vk) -- (vb);
+
+\end{tikzpicture}

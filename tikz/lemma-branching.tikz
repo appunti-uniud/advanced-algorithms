@@ -1,0 +1,66 @@
+% Il lemma "ogni nodo interno e' branching" a colpo d'occhio.
+% Stesso albero (4 foglie, 3 nodi interni) disegnato due volte:
+%  a sinistra l'addebito nodo interno -> foglia, a destra la contrazione di una ciliegia.
+\begin{tikzpicture}[
+    x=1cm, y=1cm, font=\footnotesize,
+    arco/.style={draw=black,line width=0.5pt},
+    nodo/.style={circle,draw=black,fill=white,line width=0.5pt,
+                 inner sep=0pt,minimum size=4.5pt},
+    addebito/.style={draw=graydark,line width=0.5pt,densely dashed,
+                     -{Latex[length=4pt,width=3pt]}}]
+
+  %% ===================================================================
+  %% PANNELLO SINISTRO -- ogni nodo interno addebitato a una foglia
+  %% ===================================================================
+  \begin{scope}[shift={(0,0)}]
+    \coordinate (r)  at (1.50, 2.00);
+    \coordinate (u)  at (0.75, 1.00);
+    \coordinate (w)  at (2.25, 1.00);
+    \coordinate (f1) at (0.25, 0.00);
+    \coordinate (f2) at (1.25, 0.00);
+    \coordinate (f3) at (1.75, 0.00);
+    \coordinate (f4) at (2.75, 0.00);
+
+    \draw[arco] (r) -- (u);  \draw[arco] (r) -- (w);
+    \draw[arco] (u) -- (f1); \draw[arco] (u) -- (f2);
+    \draw[arco] (w) -- (f3); \draw[arco] (w) -- (f4);
+
+    % l'addebito: da ogni nodo interno si scende a una foglia del suo sottoalbero
+    \draw[addebito] (1.50,1.82) -- (1.50,-0.30);
+    \draw[addebito] (0.75,0.82) -- (0.75,-0.30);
+    \draw[addebito] (2.25,0.82) -- (2.25,-0.30);
+
+    \foreach \n in {r,u,w,f1,f2,f3,f4} \node[nodo] at (\n) {};
+
+    \node[anchor=north,align=center] at (1.50,-0.62)
+          {addebito nodo interno $\to$ foglia\\[1pt] $I \le \ell$};
+  \end{scope}
+
+  %% ===================================================================
+  %% PANNELLO DESTRO -- contrazione di una ciliegia
+  %% ===================================================================
+  \begin{scope}[shift={(5.60,0)}]
+    \coordinate (R)  at (1.50, 2.00);
+    \coordinate (U)  at (0.75, 1.00);
+    \coordinate (W)  at (2.25, 1.00);
+    \coordinate (g1) at (0.25, 0.00);
+    \coordinate (g2) at (1.25, 0.00);
+    \coordinate (g3) at (1.75, 0.00);
+    \coordinate (g4) at (2.75, 0.00);
+
+    \draw[arco] (R) -- (U);  \draw[arco] (R) -- (W);
+    \draw[arco] (U) -- (g1); \draw[arco] (U) -- (g2);
+    \draw[arco] (W) -- (g3); \draw[arco] (W) -- (g4);
+
+    % la ciliegia: nodo branching i cui figli sono tutte foglie
+    \draw[draw=accent,line width=1.1pt]
+      plot[smooth cycle,tension=0.75] coordinates
+      {(0.75,1.40) (1.36,0.52) (1.42,-0.34) (0.06,-0.42) (-0.20,0.45)};
+
+    \foreach \n in {R,U,W,g1,g2,g3,g4} \node[nodo] at (\n) {};
+
+    \node[anchor=north,align=center] at (1.50,-0.62)
+          {contrazione di una ciliegia\\[1pt] $(I,\ell) \to (I-1,\ell-1)$};
+  \end{scope}
+
+\end{tikzpicture}

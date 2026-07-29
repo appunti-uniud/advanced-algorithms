@@ -1,0 +1,35 @@
+% karger-due-nodi-taglio -- situazione dopo n-2 contrazioni (quaderno, pag. 56).
+% Restano due super-nodi a e b uniti da quattro archi paralleli; la linea
+% ondulata verticale li attraversa tutti: quel fascio di archi e' un taglio
+% del grafo di partenza.
+\begin{tikzpicture}[
+    font=\footnotesize,
+    nodo/.style={circle,draw,line width=0.8pt,fill=white,
+                 inner sep=0pt,minimum size=5pt},
+    nodopieno/.style={circle,draw,line width=0.8pt,fill=black,
+                 inner sep=0pt,minimum size=5pt},
+    arco/.style={line width=0.8pt},
+    taglio/.style={line width=0.7pt,black!70}]
+
+  % ---- i due super-nodi residui --------------------------------------------
+  \node[nodo]      (a) at (0,0) {};
+  \node[nodopieno] (b) at (4,0) {};
+  \node[anchor=north east] at ([shift={(-0.08,-0.12)}]a.south west) {$a$};
+  \node[anchor=west]       at ([shift={( 0.26,-0.14)}]b.east)       {$b$};
+
+  % ---- fascio di quattro archi paralleli -----------------------------------
+  \draw[arco] (a) to[bend left=58]  (b);
+  \draw[arco] (a) to[bend left=10]  (b);
+  \draw[arco] (a) to[bend right=15] (b);
+  \draw[arco] (a) to[bend right=58] (b);
+
+  % ---- linea di taglio: serpentina verticale, tracciata sopra gli archi ----
+  \draw[taglio] plot[domain=-1.50:1.50,samples=100,smooth]
+        ({1.80+0.07*sin(\x*720)},{\x});
+  \draw[taglio] (1.80,-1.50) -- (1.77,-2.30);
+
+  % ---- annotazione ---------------------------------------------------------
+  \draw[line width=0.5pt] (1.96,-2.28) -- (2.36,-2.28);
+  \node[anchor=west,align=left] at (2.44,-2.44) {questo è un\\taglio};
+
+\end{tikzpicture}

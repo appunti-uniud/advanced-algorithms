@@ -1,0 +1,27 @@
+{
+ "pagina": 78,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "latex",
+   "dove": "lezioni/15-catene-markov.tex, definizione def:mc-periodicita (riga ~497): \\bigl(q_i^{(t)}>0 \\;\\to\\; t\\equiv a \\pmod{T}\\bigr)",
+   "descrizione": "\\pmod{T} genera gia' le proprie parentesi tonde, quindi la formula viene stampata come «( q_i^{(t)} > 0 -> t == a  (mod T))»: la parentesi di \\bigr) si somma a quella di \\pmod e il lettore vede una doppia chiusura «))» apparentemente sbilanciata. In piu' \\pmod inserisce un \\quad che, dentro una parentesi \\bigl(...\\bigr), spezza visivamente l'implicazione. Verificato sul PDF compilato (chk78, p. 9).",
+   "correzione": "Evitare le parentesi annidate, per esempio scrivendo \\bigl(q_i^{(t)}>0 \\;\\to\\; t\\equiv a \\bmod T\\bigr) oppure, piu' vicino al quaderno che annota «mod T» sotto il simbolo, \\bigl(q_i^{(t)}>0 \\;\\to\\; t\\equiv_T a\\bigr) con la glossa «(congruenza modulo T)» nella prosa gia' presente."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "notazione",
+   "dove": "lezioni/15-catene-markov.tex, definizione def:mc-periodicita (righe 494-499): \\max_{T\\in\\NN}\\Bigl\\{ \\exists\\vec{q}^{(0)} \\dots \\Bigr\\}",
+   "descrizione": "Le graffe racchiudono una proposizione, non un insieme di numeri: letteralmente si sta scrivendo «massimo, al variare di T in N, dell'insieme il cui unico elemento e' un valore di verita'», che non e' ben formato. E' la scrittura del quaderno, ma la prosa immediatamente successiva («la periodicita' di i e' il piu' grande fra questi T») mostra che il significato inteso e' quello del set-builder.",
+   "correzione": "Portare la variabile dentro le graffe: \\max\\Bigl\\{\\, T\\in\\NN \\;:\\; \\exists\\,\\vec{q}^{\\,(0)}\\;\\exists\\,a\\in\\NN\\;\\forall t\\;\\bigl(q_i^{(t)}>0 \\to t\\equiv a \\bmod T\\bigr) \\Bigr\\}. La prosa che segue resta valida senza modifiche."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "errore-logico",
+   "dove": "lezioni/15-catene-markov.tex, osservazione dopo def:mc-periodicita (righe 516-520)",
+   "descrizione": "L'osservazione (contenuto aggiunto in redazione, non presente nel quaderno) contiene due affermazioni troppo forti. (a) «Poiche' T=1 soddisfa sempre la condizione, la periodicita' e' ben definita»: l'ammissibilita' di T=1 prova solo che l'insieme dei T ammissibili e' NON VUOTO, non che sia limitato superiormente, che e' cio' che serve perche' il max esista. (b) L'equivalenza con mcd{t>=1 : P_ii^{(t)}>0} non vale per la definizione cosi' come e' scritta, perche' il quantificatore e' \\exists\\vec{q}^{(0)} su TUTTE le distribuzioni iniziali: se si sceglie una q^{(0)} il cui supporto non raggiunge i (possibile appena la catena non e' irriducibile), allora q_i^{(t)}=0 per ogni t, l'implicazione e' vera a vuoto per ogni T e l'insieme dei T ammissibili e' tutto N, quindi il max non esiste. Con q^{(0)}=e_i, invece, il conto torna esattamente: q_i^{(0)}=1>0 forza a==0, e la condizione diventa «T divide ogni t con P_ii^{(t)}>0», il cui massimo e' il mcd. Per catene irriducibili (il caso in cui la nozione viene poi usata nel Teorema fondamentale) l'equivalenza e' corretta.",
+   "correzione": "Riformulare l'osservazione, per esempio: «Prendendo q^{(0)} concentrata in i, la condizione diventa: T divide ogni t per cui P_ii^{(t)}>0; dunque la periodicita' di i coincide con il massimo comune divisore dell'insieme {t>=1 : P_ii^{(t)}>0} dei possibili tempi di ritorno in i. In particolare, se i ammette almeno un ritorno l'insieme dei T ammissibili e' non vuoto (T=1) e limitato superiormente (da un qualunque tempo di ritorno), quindi il massimo esiste e vale almeno 1.» In alternativa, restringere esplicitamente l'osservazione alle catene irriducibili."
+  }
+ ]
+}

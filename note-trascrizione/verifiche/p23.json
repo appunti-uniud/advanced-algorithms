@@ -1,0 +1,20 @@
+{
+ "pagina": 23,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "media",
+   "categoria": "figura",
+   "dove": "lezioni/05-suffix-tree.tex, righe 535-543: didascalia della figura \\label{fig:reference-pair} (\\input{tikz/reference-pair.tikz})",
+   "descrizione": "La didascalia afferma «Due reference pair per uno stesso stato implicito», ma la figura disegnata (tikz/reference-pair.tikz) mostra due schizzi con lo STESSO stato esplicito s e due graffe di lunghezza diversa (\\tfin = 0.42 e 0.82): due stringhe w diverse lette dallo stesso s individuano due stati impliciti DIVERSI, non lo stesso stato. L'enunciato della didascalia e quindi falso rispetto a cio che la figura mostra. Che si tratti di un lapsus in fase di cucitura e confermato dal commento in testa al file .tikz, che dice correttamente «Due reference pair (s,w) per uno stesso TIPO di stato implicito»; inoltre il caso «stesso stato, due rappresentazioni diverse» e quello di p.24 (fig. coppia-canonica), dove pero a cambiare e s (piu o meno profondo), non w. Nel quaderno i due schizzi seguono la scritta «es.» e sono due semplici ESEMPI di reference pair, entrambi marcati con un segno di spunta.",
+   "correzione": "Riscrivere la didascalia togliendo «per uno stesso stato implicito», p.es.: «Due esempi di reference pair $(s,w)$: dallo stato esplicito $s$ (nodo pieno) si legge la stringa $w$ scendendo lungo l'arco, i cui stati intermedi (i cerchietti vuoti) sono impliciti. Le due coppie individuano due stati impliciti diversi lungo lo stesso arco e sono entrambe rappresentazioni lecite; quale sia la forma \\emph{canonica} e la questione discussa subito dopo.»"
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "figura",
+   "dove": "lezioni/05-suffix-tree.tex: l'ambiente figure delle righe 583-593 (\\input{tikz/boundary-path-tripartizione.tikz}) si trova dentro il blocco \\scan{24} (\\scan{24} e a riga 548), mentre il disegno e sul foglio 23",
+   "descrizione": "Il disegno che occupa quasi meta della pagina 23 (il boundary path a dente di sega da «top» fino a $\\bot$, con etichetta «boundary path bp», le due tacche di active point ed end point, le tre zone «appendiamo a foglia» / «appendiamo nuove foglie» / «non serve appendere nulla» e il dettaglio staccato dell'arco-foglia con etichetta aperta $T[j,\\infty]$) e ricostruito fedelmente in tikz/boundary-path-tripartizione.tikz, ma e collocato nel blocco della scansione 24. Risultato: nel blocco \\scan{23} non resta traccia della figura piu grande della pagina, e il rimando a margine \\scan{24} attribuisce il disegno a una pagina che ha invece tre figure sue (coppia canonica, active/end point con $s_{j'}$ e $s_{j''}$, propagazione di $t_i$ lungo i suffix link). La tracciabilita foglio->LaTeX si perde. Il contenuto in se e corretto e la ricostruzione TikZ e fedele (ordine top -> active point -> end point -> $\\bot$, verso dei suffix link, posizione delle tre graffe e del dettaglio con «bp» e $[k,\\infty]$).",
+   "correzione": "Spostare l'ambiente figure delle righe 583-593 nel blocco \\scan{23}, subito dopo la riga 510 («... dovro \\emph{reintrodurre stati}.»), come nel quaderno, aggiungendo in didascalia un rimando in avanti alla Definizione~\\ref{def:active-end-point}; in alternativa, se si preferisce tenerla nella sezione «Active point ed end point» per non usare i termini prima di averli definiti, aggiungere in didascalia la precisazione che lo schizzo e a scansione 23."
+  }
+ ]
+}

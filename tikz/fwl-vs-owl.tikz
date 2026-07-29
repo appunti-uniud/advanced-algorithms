@@ -1,0 +1,60 @@
+% fwl-vs-owl -- pag. 80
+% Trittico.  (a) configurazione di partenza: la coppia (u,v) da colorare
+% (tratteggiata, come in wl2-esempio) e i due mezzi cammini u->w, w->v.
+% (b) FWL: i due mezzi cammini stanno nello STESSO disegno, con un solo w:
+%     il multi-insieme ricorda che i due colori vengono dallo stesso w.
+% (c) OWL: i due mezzi cammini vivono in due schemi staccati, ciascuno con la
+%     propria copia di w: la correlazione fra le due posizioni e' persa.
+\begin{tikzpicture}[
+    >=Latex,
+    font=\footnotesize,
+    nodo/.style={circle,fill=black,inner sep=0pt,minimum size=3.2pt},
+    arco/.style={->,line width=0.7pt},
+    coppia/.style={dashed,dash pattern=on 2.4pt off 1.8pt,
+                   line width=0.6pt,draw=black!55},
+    titolo/.style={font=\footnotesize\scshape},
+    glossa/.style={font=\footnotesize,align=center,text width=3.5cm}]
+
+  %% =================== (a) configurazione di partenza ======================
+  \begin{scope}[shift={(0,0)}]
+    \node[nodo,label={[inner sep=2pt]above left:$v$}] (av) at (0.00,1.45) {};
+    \node[nodo,label={[inner sep=2pt]right:$w$}]      (aw) at (1.70,1.30) {};
+    \node[nodo,label={[inner sep=3pt]below:$u$}]      (au) at (0.75,0.00) {};
+    \draw[arco]   (aw) -- (av);
+    \draw[arco]   (au) -- (aw);
+    \draw[coppia] (au) -- (av);
+    \node[glossa] at (0.85,-0.85) {configurazione\\di partenza};
+  \end{scope}
+
+  %% ------------------------------ separatore -------------------------------
+  \draw[draw=black!25,line width=0.5pt] (2.95,-1.15) -- (2.95,2.15);
+
+  %% ============================== (b) FWL ==================================
+  \begin{scope}[shift={(3.75,0)}]
+    \node[titolo] at (0.85,2.00) {FWL};
+    \node[nodo,label={[inner sep=2pt]above left:$v$}] (bv) at (0.00,1.45) {};
+    \node[nodo,label={[inner sep=2pt]right:$w$}]      (bw) at (1.70,1.30) {};
+    \node[nodo,label={[inner sep=3pt]below:$u$}]      (bu) at (0.75,0.00) {};
+    \draw[arco] (bw) -- (bv);
+    \draw[arco] (bu) -- (bw);
+    \node[glossa] at (0.85,-0.85) {considera la coppia:\\lo stesso $w$};
+  \end{scope}
+
+  %% ------------------------------ separatore -------------------------------
+  \draw[draw=black!25,line width=0.5pt] (6.70,-1.15) -- (6.70,2.15);
+
+  %% ============================== (c) OWL ==================================
+  \begin{scope}[shift={(7.50,0)}]
+    \node[titolo] at (1.05,2.00) {OWL};
+    % primo mezzo cammino: w -> v
+    \node[nodo,label={[inner sep=2pt]above left:$v$}] (cv)  at (0.00,1.65) {};
+    \node[nodo,label={[inner sep=2pt]right:$w$}]      (cw1) at (1.00,1.20) {};
+    \draw[arco] (cw1) -- (cv);
+    % secondo mezzo cammino: u -> w  (copia distinta di w, schema staccato)
+    \node[nodo,label={[inner sep=3pt]below:$u$}]      (cu)  at (0.85,0.00) {};
+    \node[nodo,label={[inner sep=2pt]right:$w$}]      (cw2) at (1.85,0.65) {};
+    \draw[arco] (cu) -- (cw2);
+    \node[glossa] at (1.05,-0.85) {considera i cammini\\separatamente};
+  \end{scope}
+
+\end{tikzpicture}

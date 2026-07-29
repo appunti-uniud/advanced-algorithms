@@ -1,0 +1,60 @@
+% Keyword tree dei suffissi di T$ (suffix trie): schema generico, ogni foglia porta la
+% sentinella $. Nessuna etichetta di carattere sugli archi (come nel manoscritto).
+\begin{tikzpicture}[
+    x=1cm,y=1cm,
+    arco/.style={draw=black!65,line width=0.6pt},
+    interno/.style={circle,fill=black!65,inner sep=0pt,minimum size=2.4pt},
+    radice/.style={circle,fill=black,inner sep=0pt,minimum size=3.4pt},
+    foglia/.style={inner sep=1pt,fill=white,font=\footnotesize}]
+
+  % ---- coordinate ------------------------------------------------------
+  \coordinate (r)   at ( 0.00, 0.00);   % radice
+
+  \coordinate (la)  at ( 0.95,-0.80);   % foglia del suffisso "$"
+  \coordinate (lb)  at ( 4.30,-3.30);   % foglia del suffisso piu' lungo (tutta T$)
+
+  \coordinate (v1)  at (-2.30,-1.50);
+  \coordinate (lc1) at (-3.60,-2.60);
+  \coordinate (v1p) at (-2.50,-2.70);
+  \coordinate (lc2) at (-3.20,-3.75);
+  \coordinate (lc3) at (-1.90,-3.75);
+
+  \coordinate (v2)  at (-0.80,-1.70);
+  \coordinate (ld1) at (-1.65,-2.90);
+  \coordinate (v2p) at (-0.40,-2.80);
+  \coordinate (ld2) at (-0.90,-3.85);
+  \coordinate (ld3) at ( 0.30,-3.85);
+
+  % ---- archi -----------------------------------------------------------
+  % (a) arco cortissimo: il suffisso costituito dalla sola sentinella
+  \draw[arco] (r) to[bend left=8] (la);
+
+  % (b) arco lunghissimo e curvo: il suffisso piu' lungo, ovvero tutto T$
+  \draw[arco] (r) .. controls (2.10,-0.35) and (4.05,-1.55) .. (lb);
+
+  % (c) ramo sinistro
+  \draw[arco] (r) to[bend right=6] (v1);
+  \draw[arco] (v1) -- (lc1);
+  \draw[arco] (v1) -- (v1p);
+  \draw[arco] (v1p) -- (lc2);
+  \draw[arco] (v1p) -- (lc3);
+
+  % (d) ramo centrale
+  \draw[arco] (r) -- (v2);
+  \draw[arco] (v2) -- (ld1);
+  \draw[arco] (v2) -- (v2p);
+  \draw[arco] (v2p) -- (ld2);
+  \draw[arco] (v2p) -- (ld3);
+
+  % ---- nodi ------------------------------------------------------------
+  \node[radice]  at (r)   {};
+  \node[interno] at (v1)  {};
+  \node[interno] at (v1p) {};
+  \node[interno] at (v2)  {};
+  \node[interno] at (v2p) {};
+
+  % ---- foglie: tutte marcate con la sentinella -------------------------
+  \foreach \f in {la,lb,lc1,lc2,lc3,ld1,ld2,ld3}
+    \node[foglia] at (\f) {$\$$};
+
+\end{tikzpicture}

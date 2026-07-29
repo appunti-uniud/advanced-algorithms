@@ -1,0 +1,63 @@
+{
+ "pagina": 59,
+ "latex": "\\scan{59}\n\nResta da fissare il numero $h$ di ripetizioni indipendenti dell'algoritmo. Prendendo\n\\[\n  h \\;=\\; \\frac{n^{2}}{2}\n\\]\nsi ottiene\n\\[\n  \\left(1-\\frac{1}{\\,n^{2}/2\\,}\\right)^{\\!n^{2}/2}\n  \\;=\\;\\left(1-\\frac{2}{n^{2}}\\right)^{\\!n^{2}/2}\n  \\;<\\;\\frac{1}{e},\n\\]\ncioè la probabilità che \\emph{nessuna} delle $h$ esecuzioni abbia prodotto un taglio minimo scende sotto $1/e$.\n\n\\begin{osservazione}\n  La disuguaglianza è il caso $m=n^{2}/2$ del limite notevole\n  $\\bigl(1-\\tfrac{1}{m}\\bigr)^{m}<e^{-1}$, valido per ogni $m>1$ e conseguenza immediata\n  di $1-x\\le e^{-x}$ posto $x=\\tfrac{1}{m}$.\n\\end{osservazione}\n\nNumericamente\n\\[\n  \\frac{1}{e}\\;\\approx\\;\\frac{1}{3}\\;\\approx\\;0{,}33\n\\]\n(più precisamente $1/e\\approx 0{,}368$): con $h=n^{2}/2$ ripetizioni la probabilità di errore\nè dunque una \\emph{costante} minore di $1$, indipendente da $n$. Trattandosi di una costante,\nla si abbatte quanto si vuole continuando a iterare: con $h=\\frac{n^{2}}{2}\\ln\\frac{1}{\\delta}$\nesecuzioni la probabilità di errore è al più $\\delta$.",
+ "note": [
+  {
+   "tipo": "correzione",
+   "pagina": 59,
+   "testo": "Il quaderno scrive «per h = n/2» (la n del numeratore è priva dell'esponente 2). Ho scritto h = n^2/2 perché: (i) sulla stessa riga l'esponente della potenza è chiaramente n^2/2, (ii) a p.58 la probabilità di errore dopo h run è (1-2/n^2)^h, quindi solo h=n^2/2 produce l'esponente scritto, (iii) con h=n/2 la disuguaglianza < 1/e sarebbe falsa (si otterrebbe (1-2/n^2)^{n/2} -> 1). Semplice omissione del 2 in apice.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 59,
+   "testo": "Nella calligrafia dello studente 'h' e 'n' sono quasi identici. Ho confrontato pixel per pixel i quattro grafemi della riga (la 'h' di «h =», la 'n' di «n/2», il grafema all'esponente e quello al denominatore interno): la 'h' ha l'asta sinistra nettamente più alta dell'arco, mentre gli altri tre hanno asta e arco alla stessa altezza. Concludo che esponente e denominatore interno sono entrambi n^2, non h^2. Lettura risolta con certezza, nessun marcatore nel LaTeX.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 59,
+   "testo": "Il quaderno scrive la base della potenza nella forma (1 - 1/(n^2/2)). Ho aggiunto esplicitamente l'uguaglianza 1/(n^2/2) = 2/n^2 per raccordare la formula con quella di p.58, dove la probabilità di errore dopo h run è scritta come (1-2/n^2)^h. Nessun contenuto nuovo: solo una riscrittura algebrica banale che rende evidente la continuità fra le due pagine.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 59,
+   "testo": "Gli appunti asseriscono (1-1/(n^2/2))^{n^2/2} < 1/e senza alcuna giustificazione. Ho colmato la lacuna con una breve osservazione: è l'istanza m = n^2/2 di (1-1/m)^m < e^{-1}, che segue da 1-x <= e^{-x}. La disuguaglianza stretta scritta dallo studente è corretta: (1-1/m)^m cresce verso 1/e restando sempre strettamente minore. Integrazione non presente nel manoscritto (né, esplicitamente, neGli appunti del corso dell'anno precedente, che la dà per nota).",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 59,
+   "testo": "A metà pagina, a matita (quindi verosimilmente aggiunta in un secondo momento), compare «1/e ~ 1/3 ~ 0,33». Ho trascritto la stima così com'è, ma ho aggiunto fra parentesi il valore corretto: 1/e ~ 0,368. La catena 1/e ~ 1/3 ~ 0,33 è un promemoria mnemonico che sottostima il vero valore di circa il 10%; siccome 1/e è un maggiorante della probabilità di errore, arrotondare per difetto a 0,33 renderebbe la stima non conservativa, per questo ho ritenuto opportuno esplicitare 0,368.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 59,
+   "testo": "Ho aggiunto la frase conclusiva sulla generalizzazione h = (n^2/2)·ln(1/delta) => Pr[errore] <= delta, che negli appunti dello studente non c'è: la pagina (e con essa il capitolo Min-Cut) si chiude bruscamente su una probabilità di errore costante, senza dire come renderla piccola a piacere. La fonte dell'anno precedente, sul punto, annota solo «e in O(1)» (abuso di notazione, cfr. le sue note §6.3). Chiusura aggiunta per non lasciare il lettore con l'impressione che l'algoritmo si fermi a errore costante.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 59,
+   "testo": "Al centro-alto della pagina, sotto la riga a penna, c'è uno scarabocchio a matita molto sbiadito: tre ovali (uno in alto a destra, uno al centro-sinistra, uno in basso a destra) attraversati da un lungo segmento diagonale e da un segmento orizzontale. Non è etichettato, non ha alcun rapporto con il testo circostante ed è tracciato con pressione minima (probabile abbozzo abbandonato o trasparenza dal verso del foglio). Ho deciso di NON trascriverlo come figura: non veicola contenuto algoritmico ricostruibile. Per questo il campo `figure` è vuoto.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 59,
+   "testo": "La pagina è quasi interamente bianca: contiene solo la riga a penna in alto (il «N.B.» finale) e la stima a matita di 1/e. Ho reso il «N.B.» come prosa di raccordo con p.58 anziché come marcatore isolato, coerentemente con la regola di stile che chiede prosa scorrevole. Non ho usato l'ambiente `osservazione` per il N.B. stesso perché il contenuto è la conclusione naturale del calcolo iniziato a p.58, non un inciso.",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 59,
+   "testo": "Gli appunti del corso dell'anno precedente (L14 §6.3) scrivono la stessa cosa nella forma (1-2/n^2)^{n^2/2} < 1/e; lo studente usa la forma equivalente (1-1/(n^2/2))^{n^2/2}, che rende più evidente il limite notevole. Ho mantenuto la forma dello studente (fonte primaria) affiancandole quella dell'anno precedente tramite l'uguaglianza intermedia. Inoltre La fonte dell'anno precedenteaggiunge l'annotazione «e in O(1)»: non compare negli appunti dello studente e, essendo un abuso di notazione, non l'ho riportata, sostituendola con l'affermazione corretta «costante minore di 1, indipendente da n».",
+   "risolto": true
+  }
+ ],
+ "figure": [],
+ "continuita": "La pagina 59 chiude il capitolo sul Min-Cut di Karger: è la coda del calcolo iniziato a p.58 (dove la probabilità di errore dopo h esecuzioni indipendenti è stimata con (1-2/n^2)^h e compare il TRADEOFF fra complessità e probabilità di errore), e ne fissa il parametro h = n^2/2, ottenendo errore < 1/e. Resta in sospeso, e non viene mai ripreso, qualsiasi discorso di complessità temporale dell'algoritmo (né per la singola esecuzione, O(n^2), né per le h ripetizioni, O(n^4)): gli appunti si limitano al TRADEOFF qualitativo di p.58. Resta implicito anche il corollario classico (un grafo ha al più binom(n,2) tagli minimi distinti). La pagina 60 non prosegue il Min-Cut: apre un argomento completamente nuovo, il «Binary Planar Partition Problem» (partizionare il piano in regioni contenenti al più un segmento o un suo frammento, dati n segmenti non intersecanti), con le due domande «esiste sempre una partizione che genera n regioni? NO» e «esiste sempre una partizione che genera O(n) frammenti? PROBLEMA APERTO», e la menzione di O(n log n). In fase di cucitura, p.59 è quindi l'ultima pagina del capitolo Karger e va seguita da un cambio di sezione.",
+ "confidenza": "alta"
+}

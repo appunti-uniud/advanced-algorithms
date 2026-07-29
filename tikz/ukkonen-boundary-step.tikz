@@ -1,0 +1,52 @@
+% Due passi consecutivi lungo il boundary path.
+% Convenzioni: cerchio vuoto = nodo esplicito / foglia; tratto ondulato = cammino
+% di lunghezza arbitraria (stringa w); pallino pieno dentro il quadratino = stato
+% corrente, reso esplicito spezzando l'arco; freccia f = suffix link.
+\begin{tikzpicture}[
+    font=\footnotesize,
+    >={Stealth[length=2mm]},
+    esplicito/.style = {circle,draw,line width=0.5pt,inner sep=0pt,minimum size=3.6mm},
+    split/.style     = {rectangle,draw,line width=0.4pt,inner sep=0pt,minimum size=4.6mm},
+    stato/.style     = {circle,fill=black,inner sep=0pt,minimum size=3.2pt},
+    arco/.style      = {line width=0.5pt},
+    onda/.style      = {line width=0.5pt,decorate,
+                        decoration={snake,amplitude=1.4pt,segment length=5.5pt,
+                                    pre length=1pt,post length=1pt}},
+    slink/.style     = {->,line width=0.6pt,blue!50!black},
+  ]
+
+  %% =============== frammento sinistro (stato s_j) =====================
+  \node[esplicito] (Lc)   at (0.00, 0.00) {};
+  \node[split]     (Ls)   at (0.60,-1.90) {};
+  \node[stato]            at (Ls)         {};
+  \node[esplicito] (Ll)   at (0.40,-3.50) {};
+  \node[esplicito] (Lnew) at (1.95,-3.30) {};
+
+  \draw[onda] (Lc) -- (Ls);
+  \node at (0.02,-0.98) {$w$};
+
+  \draw[arco] (Ls) -- (Ll);
+  \draw[arco] (Ls) -- (Lnew) node[midway,above right,inner sep=1pt] {$t_i$};
+
+  % suffix link in arrivo dal passo precedente
+  \draw[slink] (-2.20,-0.90) .. controls (-1.40,-0.55) and (-0.85,-0.18) .. (Lc);
+  \node at (-1.55,-0.20) {$f$};
+
+  %% =============== frammento destro (stato s_{j+1}) ===================
+  \node[esplicito] (Rc)   at (5.50, 1.15) {};
+  \node[split]     (Rs)   at (6.00,-0.75) {};
+  \node[stato]            at (Rs)         {};
+  \node[esplicito] (Rl)   at (5.80,-2.35) {};
+  \node[esplicito] (Rnew) at (7.35,-2.15) {};
+
+  \draw[onda] (Rc) -- (Rs);
+  \node at (6.02,0.17) {$w$};
+
+  \draw[arco] (Rs) -- (Rl);
+  \draw[arco] (Rs) -- (Rnew) node[midway,above right,inner sep=1pt] {$t_i$};
+
+  %% =============== passaggio da un frammento all'altro ================
+  \draw[slink] (Ls) .. controls (2.30,-1.35) and (3.90,0.85) ..
+        node[pos=0.62,above,inner sep=2pt] {$f$} (Rc);
+
+\end{tikzpicture}

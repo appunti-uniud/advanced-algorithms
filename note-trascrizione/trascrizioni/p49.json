@@ -1,0 +1,104 @@
+{
+ "pagina": 49,
+ "latex": "\\scan{49}\n\nIn definitiva, $\\lcey$ si risolve in tempo lineare procedendo in tre passi.\n\n\\begin{enumerate}\n  \\item Si costruisce lo suffix tree generalizzato $\\STree(S_1\\,\\$\\,S_2\\,\\text{\\texteuro})$:\n        usando i due terminatori distinti \\$ e \\texteuro{} ogni suffisso è associato ad una\n        foglia (nessun suffisso è prefisso proprio di un altro, quindi la corrispondenza\n        fra suffissi e foglie è biunivoca).\n  \\item Con una visita \\emph{bottom-up} si identificano i nodi che corrispondono a\n        prefissi di suffissi sia di $S_1$ sia di $S_2$.\n  \\item $k$ corrisponde alla profondità massima di un nodo identificato da $i$ e da $j$:\n        è cioè la profondità, misurata in caratteri, del più profondo antenato comune\n        delle due foglie.\n\\end{enumerate}\n\n\\begin{osservazione}\n  I tre passi, insieme al preprocessing per le query di $\\lca$ su\n  $\\STree(S_1\\,\\$\\,S_2\\,\\text{\\texteuro})$, consentono di rispondere a una query\n  $\\lcey(S_1,S_2,i,j)$ in tempo $\\Oh(1)$; il preprocessing complessivo resta lineare.\n\\end{osservazione}\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/lce-lca.tikz}\n\\caption{La query $\\lcey(S_1,S_2,i,j)$ si riduce a una query di $\\lca$ sullo suffix tree\n         generalizzato di $S_1\\,\\$\\,S_2\\,\\text{\\texteuro}$: la profondità in caratteri del\n         più profondo antenato comune delle foglie di $i$ e di $j$ vale esattamente $k$.}\n\\end{figure}\n\n\\begin{osservazione}\n  Perché il meccanismo funzioni devo mantenere i collegamenti fra ogni indice $i$, $j$ e\n  la corrispondente foglia dell'albero, e anche delle informazioni sulla profondità di\n  ogni nodo: il costo resta comunque proprio lineare.\n\\end{osservazione}\n\nTorniamo alla tabella di programmazione dinamica e fissiamo una convenzione per\nidentificare le sue diagonali: la diagonale che parte dalla cella $(0,c)$ della prima\nriga porta il numero $c\\ge 0$, quella che parte dalla cella $(l,0)$ della prima colonna\nporta il numero $-l$. Equivalentemente, la cella $(l,c)$ appartiene alla diagonale $c-l$;\ni numeri di diagonale vanno da $-n$ a $m$, dove $n=\\abs{P}$ è il numero di righe e\n$m=\\abs{T}$ il numero di colonne, e la diagonale $0$ è la diagonale principale. Si tratta\nappunto di una pura convenzione di nomi: le diagonali non le posso costruire davvero,\nimpiegherei troppo tempo.\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/diagonali-numerate.tikz}\n\\caption{Convenzione per la numerazione delle diagonali della tabella di programmazione\n         dinamica: la cella $(l,c)$ sta sulla diagonale $c-l$.}\n\\end{figure}\n\n\\begin{definizione}[$d$-path]\n  Un \\emph{$d$-path} è un cammino nella matrice che parte dalla riga $0$ e ``usa''\n  esattamente $d$ errori, dove per errore si intende una mossa\n  \\begin{itemize}\n    \\item orizzontale;\n    \\item verticale;\n    \\item diagonale con caratteri diversi in riga e in colonna (cioè una sostituzione).\n  \\end{itemize}\n  Le mosse diagonali fra caratteri uguali sono invece gratuite e non vengono contate.\n\\end{definizione}\n",
+ "note": [
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 49,
+   "testo": "Il primo separatore in «STree(S1 ? S2 €)» a bassa risoluzione sembra un cancelletto «#». Ho riestratto la pagina dal PDF a 600 dpi e ingrandito il grafema: si vede chiaramente una «S» attraversata da una barra verticale, cioè il simbolo «$». Ho quindi scritto $S_1\\,\\$\\,S_2\\,\\texteuro$, coerentemente con p.48 (stesso glifo) e con Gli appunti del corso dell'anno precedente (L12_sintesi §5.2, che usa esplicitamente $ e €). Risolto.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 49,
+   "testo": "Riga 2 dell'elenco: il quaderno scrive «Con una visita [parola] identifico i nodi…»; la parola, ingrandita, si legge «bottom up» (le due metà cadono a cavallo del ritaglio della banda b1, per questo appariva illeggibile). Scritto «visita \\emph{bottom-up}», mantenendo l'inglese come nel quaderno. Risolto.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 49,
+   "testo": "Punto 3: il quaderno scrive solo «K corrisponde alla profondità massima di un nodo identificato da i e j». Ho aggiunto la chiosa «è cioè la profondità, misurata in caratteri, del più profondo antenato comune delle due foglie»: il nodo più profondo marcato sia dal cammino verso la foglia i sia da quello verso la foglia j è per definizione il loro lca, ed è quanto la N.B. immediatamente successiva usa esplicitamente («+ lca(S1 $ S2 €)»). Ho precisato «in caratteri» perché la profondità rilevante è la string-depth, non il numero di archi.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 49,
+   "testo": "Nota a margine destro (7 righe), leggibile solo riestraendo a 600 dpi (le bande b2/b3 la tagliano a destra). Letta come: «N.B. devo mantenere link tra ogni i,j e foglie dell'albero e anche delle inf. sulla prof. di ogni nodo ⇝ proprio lineare». Il verbo dopo «devo» è molto compresso (un solo ascendente centrale): letto «mantenere», unica lettura che regge semanticamente («memorizzare»/«mettere» darebbero comunque lo stesso significato, quindi l'incertezza è innocua). Le abbreviazioni «inf.» e «prof.» sono state sciolte in «informazioni» e «profondità» (la i puntata di «inf.» è visibile a forte ingrandimento; una prima lettura come «rif.» era errata). Reso come ambiente osservazione.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 49,
+   "testo": "L'annotazione a destra della figura delle diagonali («← convenzione per identificare le diagonali (che non posso costruire, impiegherebbe troppo tempo)») non è stata inserita nel disegno ma sciolta in prosa nel paragrafo che introduce la figura, per non duplicare testo dentro il TikZ.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 49,
+   "testo": "L'intervallo dei numeri di diagonale ($-n \\le c-l \\le m$, con $n=|P|$ righe e $m=|T|$ colonne) NON è scritto in questa pagina: l'ho aggiunto ricostruendolo da p.48 (la tabella ha P sulle righe e T sulle colonne) e da p.50 («for i = -n to m do» nello pseudocodice di Landau–Vishkin). Coerente con Gli appunti del corso dell'anno precedente (L12_sintesi §3.2).",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 49,
+   "testo": "La definizione di $d$-path nel quaderno elenca solo le tre mosse che contano come errore (orizzontale, verticale, diagonale con caratteri diversi in riga/colonna) ma non dice mai che le diagonali di match sono gratuite. Ho aggiunto la frase finale «Le mosse diagonali fra caratteri uguali sono invece gratuite e non vengono contate»: è il complemento logico necessario perché «esattamente d errori» abbia senso, ed è esplicito in Gusfield e neGli appunti del corso dell'anno precedente (§4).",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 49,
+   "testo": "Nell'annotazione a graffa in fondo alla pagina («mosse ⟨orizz. / vert. / …⟩») la terza voce è in parte macchiata; ingrandita si legge «diag. con diversi caratteri in riga/colonna». Resa come «diagonale con caratteri diversi in riga e in colonna (cioè una sostituzione)», con la glossa «sostituzione» che esplicita il significato algoritmico. Risolto.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 49,
+   "testo": "Figura centrale: interpretata come lo schema «LCE via lca su suffix tree generalizzato». La barra rettangolare in alto a sinistra è la stringa concatenata S1 $ S2 €; le due tacche sotto di essa sono le posizioni i e j; le due lunghe curve con punta di freccia collegano i e j alle rispettive foglie del triangolo-albero disegnato a destra; la graffa etichettata k a fianco del segmento radice–lca misura la string-depth del lca. Nella barra ci sono due segni minuscoli e illeggibili agli estremi interni (verosimilmente «1» e «n», gli estremi della stringa): non li ho riportati nella specifica, per non fissare una lettura incerta.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 49,
+   "testo": "Figura in basso: l'ultima etichetta della colonna di sinistra (dopo 0, -1, -2, -3 e i puntini di sospensione) è un semplice tratto verticale, senza segno meno leggibile. L'ho reso con $-n$, perché la tabella ha $n=|P|$ righe e p.50 fa variare l'indice di diagonale a partire da $-n$. Nel quaderno il grafema potrebbe essere anche una «i» generica.",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 49,
+   "testo": "Gli appunti del corso dell'anno precedente (L12_sintesi §5.2) esplicitano la traslazione dell'indice: la foglia del suffisso $S_2[j..]$ nella stringa concatenata ha indice $|S_1|+1+j$, e il risultato è lca(i, |S1|+1+j). Lo studente non scrive la traslazione: nel corpo del testo l'ho lasciata implicita (per non aggiungere contenuto), ma l'ho indicata come etichetta alternativa nella specifica della figura, dove serve per capire il disegno.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 49,
+   "testo": "Il passo 2 («visita bottom-up per identificare i nodi che corrispondono a prefissi di suffissi sia di S1 sia di S2») non è in realtà indispensabile per una singola query LCE: l'lca di due foglie appartenenti a stringhe diverse è automaticamente un nodo di quel tipo. È però la marcatura standard dello suffix tree generalizzato, ed è la visita in cui si calcolano anche le string-depth (come dice la nota a margine). Trascritto fedelmente senza correzioni.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 49,
+   "testo": "Note tecniche LaTeX: (a) ho usato la macro del preambolo $\\lcey$, che compone «lce» minuscolo, mentre il quaderno scrive «LCE»; (b) per il terminatore € ho usato \\texteuro (comando del kernel LaTeX, non una macro inventata) e in matematica \\text{\\texteuro}; (c) ho verificato con una compilazione lualatex di prova sulla classe academica + preamble.tex che tutto compili e che il glifo € sia presente nel font Outfit — nessun «Missing character» nel log; (d) ho usato le virgolette ``…'' invece dei caporali attorno a «usa», per non dipendere dalla presenza di « » nel font.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "lce-lca",
+   "pagina": 49,
+   "didascalia": "La query $\\lcey(S_1,S_2,i,j)$ si riduce a una query di $\\lca$ sullo suffix tree generalizzato di $S_1\\,\\$\\,S_2\\,\\text{\\texteuro}$: la profondità in caratteri del più profondo antenato comune delle foglie di $i$ e di $j$ vale esattamente $k$.",
+   "tipo": "schema di stringhe + albero (suffix tree generalizzato)",
+   "specifica": "Figura composta da due blocchi affiancati, collegati da due curve.\n\nBLOCCO SINISTRO (in alto a sinistra) — la stringa concatenata.\n- Un rettangolo orizzontale molto largo e basso (rapporto circa 12:1, per esempio 7 cm x 0,55 cm), tratto semplice, senza riempimento: rappresenta la stringa concatenata $S = S_1\\,\\$\\,S_2\\,\\text{\\texteuro}$. Etichettarlo «$S_1\\,\\$\\,S_2\\,\\texteuro$» sopra il bordo superiore oppure a sinistra. (Nell'originale ci sono solo due segni minuscoli e illeggibili agli estremi interni, verosimilmente «1» e «n»: non riprodurli.)\n- Sotto il rettangolo, due tacche/frecce verticali corte che puntano verso l'alto al bordo inferiore della barra, in corrispondenza di due posizioni interne: la prima a circa il 30% della lunghezza, etichettata $i$; la seconda a circa il 55%, etichettata $j$. Le etichette stanno appena sotto la barra.\n\nBLOCCO DESTRO — lo suffix tree generalizzato.\n- Sagoma triangolare disegnata come contorno chiuso (apice in alto, base in basso; larghezza alla base circa 4 cm, altezza circa 3,5 cm). Nell'originale il contorno è tracciato a mano libera e irregolare: in TikZ va bene un triangolo con lati leggermente ondulati oppure un triangolo pulito.\n- Apice = radice dell'albero, segnata con un pallino pieno.\n- Dalla radice scende un breve segmento (circa 1/4 dell'altezza del triangolo) fino a un nodo interno disegnato con un pallino pieno più marcato: è il nodo $v = \\lca$ delle due foglie. Etichettarlo «$v=\\lca$» a sinistra.\n- A destra del segmento radice–$v$, una graffa verticale (decorations.pathreplacing) che ne misura la lunghezza, con etichetta $k$ a destra della graffa; nell'originale una freccetta punta dalla lettera $k$ verso la graffa. Significato: $k$ è la string-depth di $v$, cioè la lunghezza del prefisso comune ai due suffissi.\n- Da $v$ scendono due cammini interni al triangolo:\n  * ramo sinistro: scende obliquamente verso sinistra e termina in una foglia sulla base del triangolo, nella metà sinistra, segnata con un pallino pieno; etichetta della foglia: $i$;\n  * ramo destro: scende obliquamente verso destra, attraversa un ulteriore nodo interno (pallino pieno, circa a metà strada) e termina in una foglia sulla base, all'estremità destra, segnata con un pallino pieno; etichetta della foglia: $j$ (in alternativa, più preciso: $|S_1|+1+j$, cioè l'indice del suffisso $S_2[j..]$ dentro la stringa concatenata).\n\nCOLLEGAMENTI FRA I DUE BLOCCHI.\n- Dalla tacca $i$ parte una lunga curva morbida (arco di Bézier con concavità verso l'alto) che scende, si allarga verso destra passando sotto tutto il disegno e termina con una punta di freccia sulla foglia sinistra dell'albero.\n- Dalla tacca $j$ parte una seconda curva analoga, più ampia, che termina con una punta di freccia sulla foglia destra dell'albero. Le due curve corrono quasi parallele e si sfiorano/incrociano leggermente in basso.\n\nSEMANTICA da rendere evidente: la posizione $i$ di $S_1$ e la posizione $j$ di $S_2$ individuano due foglie dello suffix tree generalizzato; il loro antenato comune più profondo ha string-depth $k$, che è esattamente la lunghezza del più lungo prefisso comune dei due suffissi, cioè $\\lcey(S_1,S_2,i,j)$.\n\nTutto il testo in italiano. Nessuna annotazione discorsiva dentro la figura.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "diagonali-numerate",
+   "pagina": 49,
+   "didascalia": "Convenzione per la numerazione delle diagonali della tabella di programmazione dinamica: la cella $(l,c)$ sta sulla diagonale $c-l$.",
+   "tipo": "matrice DP / schema delle diagonali",
+   "specifica": "Schema dell'angolo in alto a sinistra della tabella di programmazione dinamica, con le diagonali numerate.\n\nSTRUTTURA.\n- Nell'originale sono tracciati solo due bordi: una lunga linea orizzontale (bordo superiore della tabella) che prosegue molto a destra, ben oltre la zona occupata dalle diagonali (circa il doppio), e una linea verticale (bordo sinistro) che scende per circa 7–8 quadretti. La tabella non è chiusa né a destra né in basso.\n- Nel ridisegno si può mantenere questa resa «ad angolo» (consigliata: è quella del quaderno) oppure disegnare un rettangolo largo e basso con griglia molto leggera. In entrambi i casi la griglia NON va marcata: le diagonali devono restare l'elemento dominante.\n\nETICHETTE.\n- Sopra il bordo superiore, allineate alle colonne $0,1,2,3,\\dots$: la sequenza «$0\\ \\ 1\\ \\ 2\\ \\ 3\\ \\ \\cdots$» (nell'originale dopo il 3 ci sono tre puntini e un trattino). Sono i numeri delle diagonali non negative, scritti nella cella iniziale di ciascuna diagonale.\n- A sinistra del bordo sinistro, allineate alle righe $0,1,2,3,\\dots$, dall'alto in basso: $0$, $-1$, $-2$, $-3$, poi $\\vdots$ e infine $-n$. Sono i numeri delle diagonali negative. (Nell'originale l'ultima etichetta è un tratto verticale poco leggibile, interpretato come $-n$ con $n=|P|$ = numero di righe.)\n\nDIAGONALI.\n- Sei o sette segmenti paralleli con pendenza a 45 gradi verso il basso a destra, che partono dalle celle iniziali etichettate: quattro dal bordo superiore (colonne $0,1,2,3$) e tre dal bordo sinistro (righe $1,2,3$, cioè le diagonali $-1,-2,-3$).\n- Nell'originale sono tracciati a mano libera, leggermente ondulati, e terminano a lunghezze diverse e sfalsate, senza raggiungere alcun bordo. Nel ridisegno: rette pulite e parallele, tutte della stessa lunghezza (o troncate al bordo della zona disegnata), tratto medio.\n- Facoltativo: evidenziare leggermente (tratto più spesso, o etichetta «diagonale principale») la diagonale che parte da $(0,0)$, cioè la diagonale $0$.\n\nDA NON INSERIRE: l'annotazione manoscritta a destra («← convenzione per identificare le diagonali (che non posso costruire, impiegherebbe troppo tempo)») con la relativa freccia — è già resa in prosa nel corpo del testo.\n\nSEMANTICA: la cella $(l,c)$ appartiene alla diagonale $c-l$; le diagonali non negative iniziano nella prima riga, quelle negative nella prima colonna.\n\nTutto il testo in italiano.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina si chiude esattamente sulla definizione di $d$-path (cammino che parte dalla riga $0$ e usa esattamente $d$ errori), senza ancora dire a cosa serva. Restano in sospeso: (a) il legame fra un $d$-path che raggiunge l'ultima riga e un'occorrenza approssimata di $P$ in $T$; (b) la nozione di $d$-path farthest reaching; (c) l'algoritmo vero e proprio. Pagina 50 riprende proprio da lì: una figura di un $d$-path dentro la tabella (rettangolo con $P$ a sinistra e $T$ in alto, cammino a scalini fra le colonne $i$ e $j$), poi l'osservazione «se il $d$-path termina sull'ultima riga allora ho trovato un'occorrenza di $P$ in $T$ tale che $d_L(P,T[i..j])=d$», quindi la definizione di farthest-reaching $d$-path (quello che termina nella colonna $j$ massima) e infine lo pseudocodice dell'algoritmo di Landau–Vishkin, che riusa in modo essenziale sia le query $\\lcey$ in $\\Oh(1)$ introdotte qui, sia la numerazione delle diagonali ($i$ che varia da $-n$ a $m$).",
+ "confidenza": "alta"
+}

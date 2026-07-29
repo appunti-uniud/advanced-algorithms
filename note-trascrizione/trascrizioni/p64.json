@@ -1,0 +1,93 @@
+{
+ "pagina": 64,
+ "latex": "\\scan{64}\n\nIntroduciamo, per ogni coppia di segmenti distinti $u,v\\in S$, la \\emph{variabile indicatrice} dell'evento $u\\dashv v$:\n\\[\n  C_{u,v}\\;\\defeq\\;\\indic{u\\dashv v}\\;=\\;\n  \\begin{cases}\n    1 & \\text{se }\\ell(u)\\text{ taglia }v\\text{ durante l'esecuzione di }\\RandAuto,\\\\[2pt]\n    0 & \\text{altrimenti.}\n  \\end{cases}\n\\]\n\nDall'osservazione con cui si è chiusa la pagina precedente segue immediatamente\n\\[\n  \\E\\bigl[C_{u,v}\\bigr]\\;=\\;\\Pr\\bigl[u\\dashv v\\bigr]\\;\\le\\;\\frac{1}{\\mathrm{index}(u,v)+1}.\n\\]\n\n\\begin{osservazione}\nSe $\\mathrm{index}(u,v)=\\infty$, cioè se $\\ell(u)$ non interseca affatto $v$, il membro destro va letto come $0$: in tal caso l'evento $u\\dashv v$ è impossibile e $C_{u,v}=0$ con certezza.\n\\end{osservazione}\n\n\\paragraph{Dimensione attesa di $P_\\pi$.}\nLa partizione parte dagli $n=\\abs{S}$ segmenti e ogni taglio \\emph{effettivo} spezza un segmento in due, aggiungendo esattamente un frammento (e quindi una foglia occupata). Perciò la dimensione attesa di $P_\\pi$ è $n$ più il numero atteso di tagli:\n\\begin{align*}\n  \\E\\bigl[\\abs{P_\\pi}\\bigr]\n    &\\;=\\; n+\\E\\Bigl[\\;\\sum_{u\\in S}\\;\\sum_{v\\in S,\\;v\\neq u} C_{u,v}\\Bigr]\\\\[2pt]\n    &\\;=\\; n+\\sum_{u\\in S}\\;\\sum_{v\\neq u}\\E\\bigl[C_{u,v}\\bigr]\\\\[2pt]\n    &\\;=\\; n+\\sum_{u\\in S}\\;\\sum_{v\\neq u}\\Pr\\bigl[u\\dashv v\\bigr]\\\\[2pt]\n    &\\;\\le\\; n+\\sum_{u\\in S}\\;\\sum_{v\\neq u}\\frac{1}{\\mathrm{index}(u,v)+1}.\n\\end{align*}\nIl secondo passaggio è la sola \\emph{linearità del valore atteso}: le $C_{u,v}$ non sono affatto indipendenti, ma qui l'indipendenza non serve.\n\n\\begin{osservazione}\nFissato $u$, ci sono \\textbf{al più due} segmenti $v$ tali che $\\mathrm{index}(u,v)=i$: uno a destra e uno a sinistra di $u$ lungo $\\ell(u)$. Infatti percorrendo $\\ell(u)$ a partire da $u$ le direzioni possibili sono solo due e, in ciascuna di esse, il segmento preceduto da esattamente $i-1$ segmenti è unico.\n\\end{osservazione}\n\nRaggruppando allora gli addendi della somma interna secondo il valore $i=\\mathrm{index}(u,v)$, che varia fra $1$ e $n-1$ (gli altri segmenti sono $n-1$), si ottiene, per ogni $u\\in S$ fissato,\n\\[\n  \\sum_{v\\neq u}\\frac{1}{\\mathrm{index}(u,v)+1}\\;\\le\\;\\sum_{i=1}^{n-1}\\frac{2}{i+1}.\n\\]\n\nSostituendo nella stima precedente:\n\\begin{align*}\n  \\E\\bigl[\\abs{P_\\pi}\\bigr]\n    &\\;\\le\\; n+\\sum_{u\\in S}\\;\\sum_{i=1}^{n-1}\\frac{2}{i+1}\n     \\;=\\; n+2n\\sum_{i=1}^{n-1}\\frac{1}{i+1}\n     \\;=\\; n+2n\\bigl(H_n-1\\bigr)\\\\[2pt]\n    &\\;\\le\\; n+2n\\,H_n\\;\\in\\;\\Oh(n\\log n),\n\\end{align*}\ndove $H_n=\\sum_{k=1}^{n}\\frac{1}{k}=\\ln n+\\Th(1)$ è l'$n$-esimo numero armonico.\n\nQuesto è esattamente l'enunciato del teorema: il valore atteso della dimensione dell'autopartizione prodotta da $\\RandAuto$ su un insieme $S$ di $n$ segmenti a due a due non intersecanti è $\\Oh(n\\log n)$.",
+ "note": [
+  {
+   "tipo": "correzione",
+   "pagina": 64,
+   "risolto": true,
+   "testo": "Ultima riga della pagina: il quaderno scrive \"n + \\sum_u \\sum_{i=1}^{n-1} 2/(i+1) \\le n + n H_n \\in O(n log n)\", cioe manca il fattore 2 nel membro destro. Verificato: \\sum_{i=1}^{n-1} 2/(i+1) = 2(H_n-1) e, sommando su tutti gli n segmenti u, si ottiene 2n(H_n-1); la maggiorazione corretta e quindi n + 2n H_n (come neGli appunti del corso dell'anno precedente, sez. 4.6). Con \"n + n H_n\" la disuguaglianza sarebbe falsa gia per H_n > 2. Ho scritto la catena esplicita n + 2n\\sum 1/(i+1) = n + 2n(H_n-1) \\le n + 2n H_n. Il bound O(n log n) resta invariato."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 64,
+   "risolto": true,
+   "testo": "Nella prima riga della catena il quaderno scrive l'indicatore come C_{v,u} (\"n + E[\\sum \\sum C_{v,u}]\") mentre nelle righe successive scrive E[C_{uv}]. Le due scritture sono incoerenti fra loro, e la prima riga della pagina definisce C_{uv} \"per u \\dashv v\". Ho uniformato a C_{u,v} ovunque. La somma doppia ha comunque lo stesso valore sotto scambio dei nomi delle variabili mute, quindi il risultato non cambia."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 64,
+   "risolto": true,
+   "testo": "L'indice della sommatoria esterna e tracciato con un grafema che assomiglia a una \"n\" (e nell'ultima formula e vistosamente ripassato/corretto sopra un tratto precedente). Un indice di sommatoria \"n\" non ha senso: si tratta della somma sugli n segmenti, cioe \\sum_{u\\in S}. Ho scritto \\sum_{u\\in S}, coerentemente con Gli appunti del corso dell'anno precedente (\\sum_u \\sum_{v\\neq u}) e con Motwani-Raghavan."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 64,
+   "risolto": true,
+   "testo": "La somma interna e scritta \"v\\neq u\" nella prima riga e \"u\\neq v\" nelle righe successive; ho uniformato a v \\neq u (con u indice esterno gia fissato), che e la forma non ambigua."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 64,
+   "risolto": true,
+   "testo": "Il simbolo della relazione e tracciato in modo incoerente: nella riga di intestazione (\"C_{uv} per u ? v\") la barra verticale precede il tratto orizzontale (sembra \\vdash), mentre in E[C_uv]=P[u ? v] la barra verticale sta all'estremita destra (\\dashv). Motwani-Raghavan e Gli appunti del corso dell'anno precedente usano u \\dashv v; ho adottato \\dashv ovunque, coerentemente con p.63 dove la notazione viene introdotta."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 64,
+   "risolto": true,
+   "testo": "Il quaderno annota telegraficamente \"Dimensione attesa di P_pi e n + n.ro di tagli in valore atteso\". Ho espanso in prosa spiegando perche compare il termine n e perche ogni taglio effettivo contribuisce esattamente +1 (spezza un segmento in due, aggiungendo un frammento e quindi una foglia occupata), come neGli appunti del corso dell'anno precedente"
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 64,
+   "risolto": true,
+   "testo": "Aggiunta (non presente negli appunti dello studente) l'osservazione che il passaggio E[\\sum\\sum C] = \\sum\\sum E[C] e pura linearita del valore atteso e non richiede indipendenza. E il punto metodologico centrale del capitolo ed e esplicito neGli appunti del corso dell'anno precedente"
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 64,
+   "risolto": true,
+   "testo": "Aggiunta l'osservazione sul caso index(u,v)=infinito (membro destro da leggersi come 0). Non e negli appunti dello studente ma serve a rendere ben definita la disuguaglianza E[C_{u,v}] \\le 1/(index+1) per tutte le coppie; e segnalata anche neGli appunti del corso dell'anno precedente"
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 64,
+   "risolto": true,
+   "testo": "Il quaderno scrive solo \"Fissato u ci sono al piu 2 v t.c. index(u,v)=i (uno a dx e uno a sx di l(u))\" seguito dalla disuguaglianza. Ho aggiunto la giustificazione (lungo l(u) le direzioni sono due e in ciascuna il segmento con esattamente i-1 predecessori e unico) e ho esplicitato che i varia da 1 a n-1 perche i segmenti diversi da u sono n-1."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 64,
+   "risolto": true,
+   "testo": "Abbreviazioni espanse secondo la policy: \"n.ro\" -> \"numero\", \"t.c.\" -> \"tali che\", \"dx\"/\"sx\" -> \"destra\"/\"sinistra\"."
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 64,
+   "risolto": false,
+   "testo": "Nel quaderno non compare alcun simbolo esplicito di fine dimostrazione (quadratino), benche la dimostrazione termini qui. Ho chiuso con una frase che richiama l'enunciato del teorema, senza aprire/chiudere ambienti: il testo di p.64 va inserito nell'ambiente `dimostrazione` aperto a p.63, che va chiuso qui in fase di cucitura. Punto da risolvere in assemblaggio, non nella trascrizione di pagina."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 64,
+   "risolto": true,
+   "testo": "Macro: non esiste una macro per \"index\", quindi ho scritto \\mathrm{index}(u,v) per esteso (segnalato come da convenzioni). Usate invece le macro esistenti \\indic, \\E, \\Pr, \\RandAuto, \\abs, \\defeq, \\Oh, \\Th. Usato \\paragraph per il solo titoletto \"Dimensione attesa di P_pi\", che nel quaderno e una riga di testo a se stante."
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 64,
+   "risolto": true,
+   "testo": "Gli appunti del corso dell'anno precedente (L15_sintesi.md) collocano la conclusione della dimostrazione a p.5 e proseguono subito con \"Il modello di calcolo e le classi di complessita\" (MdT deterministica Def. 1.2, MdT probabilistica, albero delle computazioni). Gli appunti dello studente non contengono quel blocco: p.65 apre un argomento del tutto diverso (Gamow, random walk). Anno di corso diverso: nessuna lacuna da colmare, nessuna aggiunta fatta."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 64,
+   "risolto": true,
+   "testo": "La pagina 64 non contiene alcun disegno: e interamente testo e formule (meta inferiore del foglio bianca). L'array figure e quindi vuoto. Lo schema lineare con u, u_1, ..., u_{i-1}, v che illustra index(u,v) sta a p.63, non qui."
+  }
+ ],
+ "figure": [],
+ "continuita": "La pagina chiude la dimostrazione del Teorema (dimensione attesa dell'autopartizione prodotta da RandAuto in O(n log n)) iniziata a p.63: da p.63 arrivano la definizione di index(u,v), la notazione u ⊣ v e l'osservazione che u ⊣ v richiede che u preceda in π tutti gli elementi di {u_1,...,u_{i-1}, v}, da cui Pr[u ⊣ v] ≤ 1/(i+1) — stima che qui viene usata senza ridimostrarla. A fine pagina non resta in sospeso nulla di matematico: il capitolo su BPP/RandAuto termina qui (la meta inferiore del foglio e bianca). Resta solo il fatto redazionale che il testo di p.64 vada racchiuso nell'ambiente `dimostrazione` aperto a p.63, da chiudere in fase di cucitura con il simbolo di fine dimostrazione. La pagina 65 apre un argomento nuovo e indipendente (Gamow, «One, Two, Three... Infinity», legge del disordine e random walk 2D su griglia, con la stima R = √N·√(x²+y²)), quindi ci si aspetta un cambio di sezione. Da notare che Gli appunti del corso dell'anno precedente dell'anno precedente proseguivano invece con «Il modello di calcolo e le classi di complessita» (MdT deterministica/probabilistica, albero delle computazioni): quel blocco non compare in questi appunti.",
+ "confidenza": "alta"
+}

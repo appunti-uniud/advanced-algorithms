@@ -1,0 +1,69 @@
+{
+ "pagina": 66,
+ "latex": "\\scan{66}\n\n\\subsection{SAT, 3-SAT, 2-SAT}\n\nRichiamiamo gli ingredienti del \\emph{calcolo proposizionale}:\n\\[\n\\text{calcolo proposizionale}\\quad\n\\begin{cases}\nP,\\; Q,\\; R,\\; X,\\;\\dots & \\text{simboli proposizionali, con valori } 0/1,\\\\[6pt]\n\\wedge \\qquad \\vee \\qquad \\neg & \\text{connettivi.}\n\\end{cases}\n\\]\nCombinando simboli proposizionali e connettivi si ottengono le \\emph{formule}\n(che contengono variabili proposizionali); se in più si ammettono i\nquantificatori $\\forall$ ed $\\exists$ sulle variabili proposizionali si\nottengono gli \\emph{enunciati}.\n\n\\begin{esempio*}\n\\[\n\\forall Q\\;\\forall R\\;\\exists P\\;\\bigl[(P\\wedge Q)\\vee(\\neg R\\vee Q\\vee\\neg P)\\bigr]\n\\]\nè un enunciato: nessuna variabile resta libera. Formule di questa forma si\nchiamano \\emph{Quantified Boolean Formulae}; il problema di deciderne la verità\nsi indica con QBF ed è \\PSPACE-completo.\n\\end{esempio*}\n\n\\begin{osservazione}\nAccanto a QBF gli appunti riportano la sigla «\\NP-completo», cancellata: è\nproprio questo il punto. Passare da SAT (\\NP-completo) alla sua versione\n\\emph{quantificata} fa salire la complessità da \\NP\\ a \\PSPACE, e QBF risulta\ncompleto per \\PSPACE\\ (sarebbe \\NP-completo solo se $\\NP=\\PSPACE$).\n\\end{osservazione}\n\nI tre problemi che ci interessano si scrivono allora nella forma seguente, in\ncui tutte le variabili sono quantificate \\emph{esistenzialmente}:\n\\[\n\\left\\{\n\\begin{array}{l@{\\qquad}l@{\\quad}l}\n\\text{SAT}   & \\exists x_1,\\dots,x_n & \\varphi\\\\[10pt]\n\\text{3-SAT} & \\exists x_1,\\dots,x_n &\n   \\displaystyle\\bigwedge_{j=1}^{K}\\bigl(L^{j}_{1}\\vee L^{j}_{2}\\vee L^{j}_{3}\\bigr)\\\\[16pt]\n\\text{2-SAT} & \\exists x_1,\\dots,x_n &\n   \\displaystyle\\bigwedge_{j=1}^{K}\\bigl(L^{j}_{1}\\vee L^{j}_{2}\\bigr)\n\\end{array}\n\\right.\n\\]\ndove ogni $L^{j}_{i}$ è un \\emph{letterale}, cioè una variabile proposizionale\noppure la sua negazione. Le tre famiglie di istanze sono incluse l'una\nnell'altra,\n\\[\n\\text{2-SAT}\\ \\subseteq\\ \\text{3-SAT}\\ \\subseteq\\ \\text{SAT},\n\\]\nperché una clausola di due letterali è in particolare una clausola di al più tre\nletterali, e una congiunzione di clausole è in particolare una formula. In tutti\ne tre i casi si tratta del \\textbf{problema della soddisfacibilità} (per formule\noppure per enunciati) di un dato tipo.\n\n\\paragraph{Versioni quantificate.}\nRimuovendo il vincolo che il prefisso sia puramente esistenziale, e ammettendo\nun'alternanza arbitraria di $\\forall$ ed $\\exists$, si ottengono le\ncorrispondenti versioni quantificate\n\\[\n\\text{QBF}\\qquad \\text{3-QBF}\\qquad \\text{2-QBF}.\n\\]\n\n\\paragraph{Problemi di soddisfacibilità.}\n\\begin{definizione}[Soddisfacibilità]\nRisolvere un problema di soddisfacibilità significa cercare un\n\\emph{assegnamento} di valori di verità (cioè di valori $0/1$) alle variabili\nproposizionali che compaiono nella formula, in modo da renderla vera.\n\\end{definizione}\n\nDue forme normali ricorrenti per le formule proposizionali:\n\\begin{itemize}\n  \\item \\textbf{CNF} (\\emph{conjunctive normal form}): congiunzione di\n        disgiunzioni di letterali;\n  \\item \\textbf{DNF} (\\emph{disjunctive normal form}): disgiunzione di\n        congiunzioni di letterali.\n\\end{itemize}",
+ "note": [
+  {
+   "tipo": "figura",
+   "pagina": 66,
+   "risolto": true,
+   "testo": "Nella fascia centrale della pagina (attorno alla riga «formule (con variabili) / enunciati» e alla riga «∀Q ∀R ∃P …») compaiono numerose tracce grigio-matita: cerchietti, due frecce che convergono a «<», alcune «x». NON sono contenuto di p.66: sono trasparenza dal verso del foglio, cioè da p.67. Verificato sperimentalmente sovrapponendo p66_full.png con p67_full.png specchiata orizzontalmente (script PIL in scratchpad): le tracce coincidono esattamente con il diagramma di p.67 «\"moltiplicazione\" (barrato) / mi interessa solo l'equisoddisfacibilità», con la sua parentesi angolare e le due frecce. Di conseguenza p.66 NON contiene alcun disegno da ridisegnare in TikZ: l'array `figure` è vuoto. Le sole strutture grafiche vere sono graffe e frecce di raggruppamento, rese tipograficamente con `cases`/`array`/`\\left\\{`."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 66,
+   "risolto": true,
+   "testo": "Dopo «⇒ QBF» il quaderno scrive «(NPC)» e lo BARRA con un tratto, proseguendo con «P-SPACE completa». Ingrandendo a 600 dpi la sigla è leggibile come N, P, C (la «c» minuscola) con un tratto di cancellazione che l'attraversa. Ho reso il contenuto come «QBF è PSPACE-completo» nel testo principale e ho aggiunto un'osservazione che esplicita la cancellazione: QBF non è NP-completo (lo sarebbe solo se NP = PSPACE), è PSPACE-completo. Lettura coerente con l'intento didattico (il salto di complessità fra SAT quantificato solo esistenzialmente e QBF con quantificatori alternati) e con Aspvall–Plass–Tarjan citati a p.67."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 66,
+   "risolto": true,
+   "testo": "Fra le righe «SAT» e «3-SAT» e fra «3-SAT» e «2-SAT», a sinistra, ci sono due piccoli simboli ruotati di 90°. Ruotandoli di −90° con PIL si leggono chiaramente come «⊆» (curva a «c/<» con la barra sotto). Come sono scritti sulla pagina la parte larga punta verso l'alto: significano quindi che la riga sottostante è contenuta in quella soprastante, cioè 2-SAT ⊆ 3-SAT ⊆ SAT. L'ho scritto esplicitamente come formula, aggiungendo la giustificazione («una clausola di due letterali è in particolare una clausola di al più tre letterali»), coerente con la definizione di k-SAT «ogni clausola ha AL PIÙ k letterali» usata dagli appunti dell'anno precedente (L16_sintesi §5.3). Dubbio risolto, nessun marcatore nel LaTeX."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 66,
+   "risolto": true,
+   "testo": "Il quaderno scrive l'esempio di QBF senza parentesi esterne: «∀Q ∀R ∃P (P∧Q) ∨ (¬R ∨ Q ∨ ¬P)». Ho aggiunto le parentesi quadre esterne per delimitare senza ambiguità lo scopo dei tre quantificatori. Nessun altro cambiamento alla formula: letterali, negazioni e connettivi sono stati verificati sulle bande a 300 dpi e su ritagli a 600 dpi (il ∧ interno e i ∨ sono scritti in piccolo sotto la riga di base, ma sono inequivocabili). Si noti per inciso che l'enunciato è vero: scegliendo P = 0 il disgiunto ¬P rende vera la seconda clausola per ogni Q, R."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 66,
+   "risolto": true,
+   "testo": "Espanse le abbreviazioni telegrafiche come da policy: «(i.e. 0/1)» → «cioè di valori 0/1»; «nella f.la» → «nella formula»; la grafia compressa del titoletto (confermata a 600 dpi) → «calcolo proposizionale». Il testo discorsivo è stato riscritto in prosa scorrevole a partire dalle righe telegrafiche del quaderno, senza aggiungere contenuto."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 66,
+   "risolto": true,
+   "testo": "La formula generica di SAT è scritta a mano come una Φ maiuscola con un tratto orizzontale sopra. L'ho resa con \\varphi, coerentemente con la notazione dell'anno precedente (L16/L17_sintesi) e con il resto del capitolo; nessuna differenza semantica. Il limite superiore della congiunzione è la stessa lettera K in 3-SAT e in 2-SAT: è un K generico (numero di clausole dell'istanza), non lo stesso valore nei due problemi; l'ho mantenuto tale e quale perché non induce ambiguità."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 66,
+   "risolto": true,
+   "testo": "La riga finale del blocco SAT/3-SAT/2-SAT, raggiunta da una freccia che parte dalla graffa grande di sinistra, dice: «Problema della soddisfacibilità (per formule / enunciati) di tipo …», con i puntini di sospensione lasciati aperti dal quaderno. L'ho resa come «In tutti e tre i casi si tratta del problema della soddisfacibilità (per formule oppure per enunciati) di un dato tipo», sciogliendo i puntini senza inventare contenuto: il «tipo» sono appunto SAT / 3-SAT / 2-SAT elencati sopra."
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 66,
+   "risolto": true,
+   "testo": "La riga «Versioni quantificate: QBF 3-QBF 2-QBF» è nel quaderno un semplice elenco senza commento. Ho aggiunto una frase-ponte di una riga («rimuovendo il vincolo che il prefisso sia puramente esistenziale, ammettendo un'alternanza arbitraria di ∀ ed ∃») per rendere esplicito il contrasto con il blocco precedente, dove tutte e tre le righe hanno prefisso ∃x_1,…,x_n. È esattamente il contrasto che la pagina costruisce (esempio ∀Q∀R∃P in alto vs. ∃x_1…x_n in mezzo), ma non era scritto a parole: lacuna colmata e qui annotata."
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 66,
+   "risolto": true,
+   "testo": "Gli appunti del corso dell'anno precedente (L16_sintesi §5 / L17_sintesi §1) trattano lo stesso materiale ma NON introducono le versioni quantificate QBF/3-QBF/2-QBF né la formulazione di SAT come ∃x_1,…,x_n φ; nella sintesi degli appunti dell'anno precedente si passa direttamente da CNF/letterali all'esercizio sulla DNF. La formulazione «SAT = QBF con prefisso solo esistenziale», con la catena 2-SAT ⊆ 3-SAT ⊆ SAT e le corrispondenti 2-QBF/3-QBF/QBF, è specifica degli appunti dello studente (anno del corso seguito) ed è preparatoria al riferimento Aspvall–Plass–Tarjan di p.67, il cui titolo parla infatti di «certain Quantified Boolean Formulas» e il cui risultato è O(n) per 2-QBF. Ho seguito lo studente, che qui è più completo dell'anno precedente."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 66,
+   "risolto": true,
+   "testo": "Il titolo manoscritto «SAT   3-SAT   2-SAT» è sottolineato tre volte (una per sigla). Nota: la sintesi degli appunti dell'anno precedente afferma che nei suoi appunti «SAT è cancellato/barrato»; negli appunti dello studente NON c'è alcuna cancellazione, solo sottolineature. Ho reso il titolo con \\subsection{SAT, 3-SAT, 2-SAT} perché il quaderno ha qui un titolo esplicito (come consentito dalle convenzioni); resta al montaggio decidere il livello gerarchico definitivo."
+  }
+ ],
+ "figure": [],
+ "continuita": "La pagina si chiude sulle due forme normali CNF e DNF, definite ma non ancora messe a confronto: resta in sospeso il costo della trasformazione di una formula qualsiasi in forma normale. La pagina 67 riparte esattamente da lì, con lo schema «SAT ↗ CNF / ↘ DNF», la distinzione fra equivalenza logica ed equisoddisfacibilità (la «moltiplicazione» distributiva barrata, con l'introduzione di nuove variabili u alla Tseitin: (cl1∧cl2)∨(cl3∧cl4) ⇝ (cl1∨u)∧(cl2∨u)∧(cl3∨¬u)∧(cl4∨¬u)), la riduzione CNF ⟶ 3-CNF che spezza una clausola lunga in clausole di tre letterali con variabili fresche, e infine il riferimento Aspvall–Plass–Tarjan con l'algoritmo O(n) per 2-QBF basato sul grafo delle implicazioni (da (ℓ1∨ℓ2) gli archi ¬ℓ1→ℓ2 e ¬ℓ2→ℓ1) e sulle componenti fortemente connesse. Attenzione al montaggio: le tracce grigie visibili su p.66 sono la trasparenza di p.67, quindi i due contenuti non vanno confusi.",
+ "confidenza": "alta"
+}

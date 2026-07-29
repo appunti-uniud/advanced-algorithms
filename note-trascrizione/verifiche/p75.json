@@ -1,0 +1,14 @@
+{
+ "pagina": 75,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "errore-matematico",
+   "dove": "lezioni/15-catene-markov.tex, sezione \"Raggiungibilita, tempi di attesa...\" (dopo \\scan{75}): formula \\[ f_{ij} = \\sum_{t>0} r^{(t)}_{ij}, \\qquad h_{ij} = \\sum_{t>0} t\\, r^{(t)}_{ij} \\] e osservazione immediatamente successiva (\"Se $f_{ij} < 1$ ... allora $h_{ij} = \\infty$\")",
+   "descrizione": "Con h_{ij} definito letteralmente come la serie \\sum_{t>0} t r^{(t)}_{ij}, l'affermazione \"f_{ij} < 1 => h_{ij} = infinito\" e' falsa: la serie e' difettiva ma puo' essere finita. Controesempio: S = {1,2,3} con P_{12} = P_{13} = 1/2 e 2,3 assorbenti; allora r^{(1)}_{12} = 1/2, r^{(t)}_{12} = 0 per t >= 2, quindi f_{12} = 1/2 < 1 ma \\sum_{t>0} t r^{(t)}_{12} = 1/2, non infinito. L'uguaglianza h_{ij} = infinito vale solo adottando la convenzione (implicita in Motwani-Raghavan) per cui h_{ij} = E[T_{ij}] con T_{ij} = +infinito sull'evento \"j non viene mai raggiunto\". La prosa dell'osservazione allude alla cosa (\"la massa residua 1 - f_{ij} > 0 corrisponde a traiettorie ... per le quali il numero di passi e' infinito\") ma non sana la definizione scritta sopra, che resta in contraddizione formale con la conclusione.",
+   "correzione": "Rendere esplicita la convenzione al momento della definizione, p.es.: \"detto $T_{ij}$ il tempo di prima visita in $j$ partendo da $i$ (con $T_{ij} = +\\infty$ se $j$ non viene mai raggiunto), si pone $h_{ij} = \\E[T_{ij}]$; se $f_{ij} = 1$ questo vale $\\sum_{t>0} t\\, r^{(t)}_{ij}$, mentre se $f_{ij} < 1$ si ha $h_{ij} = \\infty$\". In alternativa, aggiungere nella formula la postilla \"(la somma esprime $h_{ij}$ solo quando $f_{ij}=1$)\"."
+  }
+ ],
+ "note": "Verificato per il resto: fedelta' completa (heading '(Discrete) M.C.' con le glosse 'stati ben distinti' e 'insieme (finito) di stati'; 'Processo stocastico su S'; sequenza X_0 X_1 ... X_t X_{t+1}; proprieta' di Markov; Notazione P_ij e P^{(t)}_ij = Pr[X_t=j|X_0=i]; 'Stato iniziale X_0: fisso / generato da una distribuzione iniziale'; Def. r^{(t)}_{ij} first transition into j (from i); f_ij e h_ij; glossa 'hitting time'; schizzo a matita della catena a 2 stati). La correzione silenziosa del quantificatore (il quaderno scrive forall s in {0,...,t-1}, il file scrive {1,...,t-1}) e' necessaria e corretta: con {0,...,t-1} si avrebbe r^{(t)}_{jj} = 0 per ogni t e la classificazione transiente/persistente collasserebbe. La figura tikz/p75-mc-due-stati.tikz e' stata compilata e riproduce fedelmente lo schizzo (1->2 = 0,8; 2->1 = 0,2; cappio su 1 = 0,2; cappio su 2 = 0,2): le quattro etichette a matita sono state riverificate a forte ingrandimento e il 'dubbio' sull'incongruenza della riga 2 (somma 0,4) e' fondato."
+}

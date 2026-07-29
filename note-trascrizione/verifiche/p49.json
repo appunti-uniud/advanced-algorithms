@@ -1,0 +1,20 @@
+{
+ "pagina": 49,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "media",
+   "categoria": "errore-logico",
+   "dove": "lezioni/10-landau-vishkin.tex, righe 104-105: frase che apre il blocco \\scan{49}, subito prima dell'enumerate dei tre passi ('In definitiva, una query di longest common extension si risolve in tempo costante procedendo in tre passi.')",
+   "descrizione": "Il manoscritto apre la pagina con 'LCE si risolve in tempo lineare:' e solo dopo, nel N.B. ('1)+2)+3) + lca(S_1 $ S_2 EUR) mi consente di rispondere a query LCE(S_1,S_2,i,j) in tempo O(1) -- pre-processing lineare'), arriva all'O(1) per query. La trascrizione anticipa la conclusione e, presa alla lettera, afferma il falso: i tre passi elencati sono la costruzione del suffix tree generalizzato (passo 1) e una visita completa dell'albero (passo 2), entrambi Theta(|S_1|+|S_2|), quindi nessuna singola query si risolve 'procedendo in tre passi' in tempo costante. La frase contraddice inoltre l'osservazione immediatamente successiva (righe 121-127), che dice 'I primi due passi sono un preprocessing lineare, da eseguire una volta sola' e presenta l'O(1) come conclusione nuova.",
+   "correzione": "Riportare la frase alla formulazione del foglio, p.es.: 'In definitiva, la longest common extension si risolve in tempo lineare procedendo in tre passi.', lasciando all'osservazione successiva (righe 121-127) la conclusione sull'O(1) per query."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "notazione",
+   "dove": "lezioni/10-landau-vishkin.tex, righe 157-158 (sezione 'Diagonali e d-path'): '... i numeri di diagonale vanno da $-n$ a $m$, dove $n=\\abs{P}$ e il numero di righe e $m=\\abs{T}$ il numero di colonne'",
+   "descrizione": "Contraddice righe 31-32 dello stesso capitolo ('La tabella di programmazione dinamica ha quindi $n+1$ righe ... e $m+1$ colonne'), che e la versione corretta: le righe sono indicizzate da 0 a n e le colonne da 0 a m, ed e esattamente da questo che discende l'intervallo -n..m dei numeri di diagonale usato subito dopo (e nel ciclo 'for i = -n to m' dell'algoritmo, riga 247). Chiamare n 'il numero di righe' e uno scarto di uno rispetto a quanto gia scritto nel capitolo.",
+   "correzione": "Sostituire con 'dove $n=\\abs{P}$ e $m=\\abs{T}$' oppure, per esplicitare, 'dove le righe sono numerate da $0$ a $n=\\abs{P}$ e le colonne da $0$ a $m=\\abs{T}$'."
+  }
+ ]
+}

@@ -1,0 +1,27 @@
+{
+ "pagina": 60,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "media",
+   "categoria": "figura",
+   "dove": "tikz/p60-bpp-esempio.tikz, retta di taglio \\ell_3 (riga 27) e \\ell_2 (riga 24); ricade sulla didascalia della figura in 13-randauto.tex, blocco \\scan{60}",
+   "descrizione": "Nella ricostruzione TikZ l'ordine dei tagli e' \\ell_1 (piano), \\ell_2 (semipiano inferiore), \\ell_3 (regione a sinistra di \\ell_2). Ma dopo \\ell_1 e \\ell_2 la regione a sinistra di \\ell_2 contiene UN SOLO segmento, s_3 (verificato: s_3 = (1.00,1.60)-(2.15,2.95) sta tutto a sinistra di \\ell_2, che a quelle quote passa per x = 2.415 e x = 2.596). Quindi \\ell_3 taglia una regione gia' risolta e spezza s_3 senza alcuna necessita': la partizione disegnata non e' un esito possibile di nessuna costruzione sensata di BPP (la condizione del while di RandAuto, piu' avanti nel capitolo, e' proprio \"la regione contiene piu' di un segmento\"), e bastava omettere \\ell_3 per ottenere 5 regioni. L'esempio, che dovrebbe mostrare che le regioni possono eccedere i segmenti, si autodistrugge. Nel manoscritto non e' cosi': la retta che attraversa s_0 (il segmento che la trascrizione rinomina s_3) e' quella lunga che scende dall'alto a sinistra fino a terminare sul taglio radice diagonale, e separa la porzione bassa di s_0 dalla regione che contiene ancora la porzione alta di s_0 e il segmento centrale; la retta quasi verticale e' invece quella corta, che si ferma a T sulla prima. Il taglio che spezza il segmento e' quindi indispensabile.",
+   "correzione": "Scambiare estensione e ruolo delle due rette: (a) prolungare la retta che spezza s_3 fino al bordo inferiore, cioe' \\draw[taglio] (1.45,4.10) -- (3.438,0); e chiamarla \\ell_2; (b) troncare la quasi-verticale alla giunzione a T, cioe' \\draw[taglio] (2.75,4.10) -- (2.4683,2.00); e chiamarla \\ell_3; (c) spostare l'estremo sinistro di \\ell_5 sul nuovo confine: da (2.361,1.20) a (2.856,1.20) (punto di \\ell_2 alla stessa quota), lasciando invariato l'estremo destro (5.7296,3.13) che continua a cadere su \\ell_4. Segmenti ed etichette di regione restano dove sono: si verifica che l'albero diventa \\ell_1: {s_5} | resto; \\ell_2: r_4 = {s_3 basso} | resto; \\ell_3: r_6 = {s_3 alto} | resto; \\ell_4: r_2 = {s_1} | resto; \\ell_5: r_5 = {s_4} | r_3 = {s_2}, con ogni taglio applicato a una regione con almeno due frammenti."
+  },
+  {
+   "gravita": "media",
+   "categoria": "figura",
+   "dove": "tikz/p60-tre-segmenti-quattro-regioni.tikz, riga 34 (\\draw[segmento] (3.55,2.35) -- (6.55,2.30)) e pallino bianco di riga 37",
+   "descrizione": "L'estremo sinistro di s_2 (x = 3.55) dista solo 0.036 cm dal punto (3.5138,2.3506) in cui s_3 attraversa \\ell(s_2). Con line width 1.3pt e line cap=round i due tratti si sovrappongono, e il pallino bianco di raggio 1.7pt (che copre x in [3.454,3.574]) mangia l'inizio di s_2: nel PDF compilato s_2 e s_3 appaiono incidenti nello stesso punto. La figura contraddice cosi' l'ipotesi enunciata due righe sopra («tre segmenti ... a due a due non intersecanti»). Nel manoscritto il distacco e' invece ben visibile: s_3 taglia l'orizzontale intorno a 2/3 della distanza fra l'estremo sinistro dell'orizzontale tratteggiata e l'inizio del tratto pieno di s_2.",
+   "correzione": "Arretrare a destra l'estremo sinistro di s_2 restando su \\ell(s_2): \\draw[segmento] (3.80,2.3459) -- (6.55,2.30); (il gap dal punto di rottura diventa 0.29 cm, circa 8pt). Attenzione a non spostarlo oltre x = 4.05: l'estremo sinistro di s_2 deve restare dentro conv(s_1 U s_3), altrimenti si perde la proprieta' «girandola» (esisterebbe una retta che separa s_2 dagli altri due e la configurazione smetterebbe di essere un controesempio). L'intersezione \\ell(s_1) ∩ \\ell(s_2) cade in x = 4.712 e resta interna a s_2."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "omissione",
+   "dove": "13-randauto.tex, fine del blocco \\scan{60} (riga 52), prima di \\section{La BPP come albero binario}",
+   "descrizione": "L'ultimo riquadro di p.60 («Domanda: dati n segmenti esiste sempre una partizione che genera O(n) segmenti? PROBLEMA APERTO!», con sotto, sottolineato, O(n log n)) non compare nel blocco \\scan{60}: e' reso solo dopo \\scan{61} (ambiente domanda[problema aperto] e frase su O(|S| log |S|)). La scelta e' difendibile perche' p.61 ripete la stessa domanda in forma piu' precisa («Problema aperto (Clark): esiste sempre BPP(S) con O(|S|) foglie?»), ma chi segue il rimando \\scan{60} non ritrova sul foglio-60 nulla che corrisponda alla chiusa della pagina.",
+   "correzione": "Facoltativo: chiudere il blocco di p.60 con un rinvio esplicito, p.es. «La domanda — se cioe' esistano sempre partizioni con O(n) regioni — e' un problema aperto, e la si ritrova formulata con precisione nella sezione seguente», oppure anticipare li' l'ambiente domanda[problema aperto]."
+  }
+ ]
+}

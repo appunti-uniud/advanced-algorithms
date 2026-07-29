@@ -1,0 +1,112 @@
+{
+ "pagina": 26,
+ "latex": "\\scan{26}\n\nUn'ultima annotazione chiude il blocco sui suffix tree. Il suffix tree è la struttura che\nrealizza il \\emph{pre-processing del testo}; Gusfield vi dedica due capitoli di applicazioni,\nche si dividono in due famiglie:\n\\begin{itemize}\n  \\item applicazioni \\emph{semplici};\n  \\item applicazioni \\emph{non semplici}, che nascono dalla combinazione\n        ``suffix tree $+$ Harel--Tarjan''.\n\\end{itemize}\n\nIl motivo della seconda voce è che, una volta costruito il suffix tree di $T$, moltissime\ndomande su $T$ si riducono a calcolare il \\lca{} di due foglie. Il teorema di Harel--Tarjan\ngarantisce che, dopo un pre-processing lineare nella dimensione dell'albero, ogni query di\nlowest common ancestor viene risolta in tempo $\\Oh(1)$: è questo che rende praticabili --- e\nal tempo stesso non banali --- le applicazioni della seconda famiglia.\n\n\\begin{figure}[H]\\centering\\input{tikz/stree-lca-montagna.tikz}\n\\caption{Applicazioni ``non semplici'': dentro il suffix tree di $T$ si individua il lowest\ncommon ancestor di due foglie, che con il pre-processing di Harel--Tarjan costa $\\Oh(1)$.}\n\\end{figure}\n\n% Titolo del quaderno (sottolineato): «Algoritmo di Karp--Rabin».\n\nSiano $T,P \\in \\S^{*}$ e poniamo $m = \\abs{P}$, $n = \\abs{T}$. Negli appunti l'alfabeto di\nriferimento è quello delle cifre decimali,\n\\[\n  \\S = \\set{0,1,\\dots,9}, \\qquad d = \\abs{\\S} = 10,\n\\]\nma la scelta è puramente espositiva: l'unica ipotesi che conta davvero è che l'alfabeto abbia\ntaglia costante, $d = \\abs{\\S} \\in \\Oh(1)$.\n\nIl problema è il consueto problema di pattern matching: determinare tutti gli \\emph{shift\nvalidi}, cioè gli $s \\in \\set{0,1,\\dots,n-m}$ tali che $P = \\sub{T}{s+1}{s+m}$.\n\n\\begin{figure}[H]\\centering\\input{tikz/kr-finestra-testo.tikz}\n\\caption{Il testo $T$, la finestra corrente $\\sub{T}{s+1}{s+m}$ e la finestra successiva\n(traslata di una posizione); il pattern $P$ ha la stessa lunghezza $m$ della finestra.}\n\\end{figure}\n\n\\begin{osservazione}[Idea di partenza]\n$\\sub{P}{1}{m}$ può essere visto come un \\emph{numero} scritto in base $d = \\abs{\\S}$: ogni\ncarattere è una cifra e la stringa non è altro che la sua rappresentazione posizionale. La\nstessa lettura si applica, evidentemente, a ogni finestra di $T$ lunga $m$.\n\\end{osservazione}\n\nPoniamo dunque:\n\\begin{itemize}\n  \\item $p$ è il valore di $\\sub{P}{1}{m}$ letto in base $d$, cioè\n    \\[\n      p \\;=\\; \\sum_{i=1}^{m} P[i]\\, d^{\\,m-i}\n        \\;=\\; P[1]d^{\\,m-1} + P[2]d^{\\,m-2} + \\dots + P[m-1]d + P[m];\n    \\]\n  \\item $t_s$ è il valore di $\\sub{T}{s+1}{s+m}$ letto in base $d$, cioè\n    \\[\n      t_s \\;=\\; \\sum_{i=1}^{m} T[s+i]\\, d^{\\,m-i}.\n    \\]\n\\end{itemize}\n\nPoiché la scrittura posizionale in base $d$ di stringhe di lunghezza \\emph{fissa} $m$ è\niniettiva, vale\n\\[\n  s \\text{ è uno shift valido} \\iff p = t_s,\n\\]\ne il confronto fra stringhe si è trasformato in un confronto fra interi.\n\nLo schema di algoritmo che ne discende è il seguente.\n\\begin{enumerate}\n  \\item Inizializzo $p$ e $t_0$.\n  \\item Calcolo $t_{s+1}$ a partire da $t_s$ con uno \\emph{shift} e una \\emph{somma}: dalla\n    finestra esce il carattere $T[s+1]$ ed entra $T[s+m+1]$, quindi basta togliere la cifra\n    più significativa, moltiplicare per $d$ (lo shift) e sommare la nuova cifra meno\n    significativa.\n  \\item A ogni passo confronto $p$ con $t_s$: se sono uguali segnalo un'occorrenza,\n    altrimenti eseguo lo shift e passo a $s+1$.\n\\end{enumerate}\n\n\\begin{figure}[H]\\centering\\input{tikz/kr-schema-loop.tikz}\n\\caption{Lo schema di Karp--Rabin: un unico test $p = t_s$ ripetuto per tutti gli shift, con\naggiornamento incrementale della finestra.}\n\\end{figure}\n\n\\begin{osservazione}[Il punto debole]\nIl test $p = t_s$ \\textbf{non} prende tempo $\\Oh(1)$: su questi dati non si può usare il\ncriterio di costo unitario. Infatti $p$ e i $t_s$ sono numeri di $m$ cifre in base $d$, cioè\nrichiedono $\\Th(m \\log d) = \\Th(m)$ bit; non appena $m$ supera l'ordine di $\\log n$ non stanno\npiù in una parola di macchina, e allora ogni confronto (come ogni aggiornamento) costa\n$\\Th(m)$ anziché $\\Oh(1)$. Ripetendolo per tutti gli $n-m+1$ shift si ritorna a $\\Th(nm)$:\nnessun guadagno rispetto all'algoritmo ingenuo.\n\\end{osservazione}\n\nIl problema, insomma, è che $p$ e i $t_s$ sono \\emph{troppo grandi}; il rimedio --- lavorare\ncon i loro resti modulo un primo $q$ --- è l'oggetto della pagina seguente.",
+ "note": [
+  {
+   "tipo": "figura",
+   "pagina": 26,
+   "testo": "La «montagna» in alto è il disegno-tipo dell'anno precedente per un albero: contorno chiuso e frastagliato con apice in alto (radice) e base ondulata (le foglie). Il quaderno non etichetta i nodi: c'è solo la scritta «STree» dentro la sagoma, un pallino grosso a metà altezza, un pallino più piccolo sul ramo di sinistra e due pallini sul bordo inferiore, collegati da segmenti. Ho interpretato il pallino grosso come lca(l1,l2), i due pallini sul bordo inferiore come le foglie l1 e l2, il tratto chiaro che scende dall'apice al pallino grosso come il cammino dalla radice. Nella specifica TikZ ho aggiunto le etichette (radice, l1, l2, lca) che nell'originale non ci sono.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 26,
+   "testo": "Il quaderno scrive «Tarjan-Harel»; ho scritto «Harel--Tarjan», che è l'attribuzione standard (D. Harel, R. E. Tarjan, «Fast algorithms for finding nearest common ancestors», SIAM J. Comput. 1984). Anche Gli appunti del corso dell'anno precedente (L06, §2) invertono i nomi; è lo stesso errore, ripetuto.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 26,
+   "testo": "Il quaderno scrive telegraficamente «STree -> pre-processing del testo / 2 capitoli di applicazioni» con due frecce verso «semplici» e «non-semplici», e poi «STree + Tarjan-Harel» sopra il disegno, senza spiegare il nesso. Ho esplicitato (i) che i due capitoli sono di Gusfield (indicazione presente neGli appunti del corso dell'anno precedente, L06 §1) e (ii) che il legame con Harel--Tarjan è il calcolo di lca in O(1) dopo pre-processing lineare, che è ciò che il disegno mostra. Nessun contenuto nuovo rispetto a quanto la pagina implica.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 26,
+   "testo": "Prima di «Idea (di partenza)» c'è un glifo scarabocchiato e ripassato (sembra una lettera cancellata) seguito da una piccola freccia a gomito verso destra. Ingrandito a 300 DPI non porta contenuto: è una cancellatura più il marcatore di elenco. Omesso dalla trascrizione.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 26,
+   "testo": "La pagina definisce solo a parole «p sia il valore di P[1,m] in base d» e «t_s sia il valore di T[s+1,s+m]». Ho aggiunto le due formule esplicite p = sum_{i=1}^m P[i] d^{m-i} e t_s = sum_{i=1}^m T[s+i] d^{m-i} (presenti neGli appunti del corso dell'anno precedente, L06 §3) perché fissano la convenzione di indicizzazione da 1 e la direzione delle potenze, altrimenti ambigua.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 26,
+   "testo": "L'equivalenza «s è shift valido <=> p = t_s» non è scritta da nessuna parte sulla pagina, ma è esattamente il presupposto del box «check p = t_s» del diagramma. L'ho enunciata esplicitamente e giustificata con l'iniettività della rappresentazione posizionale a lunghezza fissa m (senza lunghezza fissa l'implicazione salterebbe, per via degli zeri iniziali).",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 26,
+   "testo": "La nozione di «shift valido» e il range s in {0,...,n-m} non compaiono su questa pagina (compare solo il pedice s in t_s). Li ho introdotti perché servono a dare senso al ciclo del diagramma; sono coerenti con lo pseudocodice di p.27 («for s = 0 to n-m»). Ho anche introdotto n = |T|, che nel quaderno appare solo a p.27 come T.length.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 26,
+   "testo": "Il quaderno annota l'aggiornamento solo con la graffa «{shift, somma}». Ho espanso in prosa il significato (esce T[s+1], entra T[s+m+1]; si toglie la cifra più significativa, si moltiplica per d, si somma la nuova cifra), senza però anticipare la formula chiusa t_{s+1} = d(t_s - d^{m-1} T[s+1]) + T[s+m+1], che nel quaderno arriva a p.27 dentro lo pseudocodice.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 26,
+   "testo": "Il quaderno chiude con «NON prende tempo O(1)! Non si può usare il criterio di costo unitario» e basta. Ho aggiunto la quantificazione: p e t_s hanno Theta(m log d) = Theta(m) bit, quindi confronto e aggiornamento costano Theta(m) e lo schema torna a Theta(nm). È la conclusione che la pagina lascia implicita e che motiva il passaggio a mod q di p.27; il legame m >> log n con la parola di macchina è ricavato daGli appunti del corso dell'anno precedente (L06 §4).",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 26,
+   "testo": "Sigma = {0,1,...,9} (quindi d = 10) è l'alfabeto scelto dallo studente, coerente con l'esempio decimale di CLRS 32.2. Ho segnalato in prosa che è una scelta espositiva e che l'ipotesi realmente usata è |Sigma| = O(1), altrimenti il lettore potrebbe credere che l'algoritmo richieda cifre decimali.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 26,
+   "testo": "Notazione: il quaderno usa la virgola, P[1,m] e T[s+1, s+m]. Ho trascritto con la macro \\sub, che rende P[1..m] e T[s+1..s+m], come da convenzioni del documento.",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 26,
+   "testo": "Lo studente intitola «Algoritmo di Karp-Rabin»; Gli appunti del corso dell'anno precedente e CLRS lo chiamano «Rabin-Karp». Ho mantenuto Karp--Rabin, fonte primaria. Il titolo, sottolineato nel quaderno, è stato lasciato come commento LaTeX perché diventerà il titolo del capitolo in fase di cucitura (le convenzioni vietano \\section nella trascrizione di pagina).",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 26,
+   "testo": "Non ho usato la macro \\STree in prosa (né \\STrie) perché non conosco con certezza se si espanda in modalità testo o matematica; ho scritto «suffix tree» per esteso. Nessun'altra macro fuori elenco è stata inventata.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "stree-lca-montagna",
+   "pagina": 26,
+   "didascalia": "Applicazioni «non semplici»: dentro il suffix tree di T si individua il lowest common ancestor di due foglie, che con il pre-processing di Harel--Tarjan costa O(1).",
+   "tipo": "albero",
+   "specifica": "Disegno «a montagna» (il modo in cui La fonte dell'anno precedenteabbozza un albero grande di cui non interessa la struttura interna).\n\nSOPRA LA FIGURA: la scritta «STree + Harel--Tarjan», centrata, con «Harel--Tarjan» sottolineato (nel quaderno la sottolineatura è una riga ondulata azzurra che parte sotto il «+»).\n\nSAGOMA: un contorno chiuso, tracciato a mano libera con tratto spesso azzurro, largo circa 5 cm e alto circa 3,5 cm. Apice appuntito in alto, leggermente a destra del centro (è la RADICE). Dall'apice il profilo scende a sinistra con un paio di gradini/spallette irregolari fino all'angolo in basso a sinistra; a destra scende con due o tre gradini più marcati fino all'angolo in basso a destra. La base non è una retta ma una linea ondulata che sporge un po' a sinistra e a destra oltre gli spigoli (fa da «terreno»): è il livello delle foglie.\n\nNODI INTERNI (pallini pieni, blu scuro, più marcati del contorno):\n  - A = pallino GRANDE circa a metà altezza, sull'asse verticale che scende dall'apice, poco più a sinistra dell'apice. È lca(l1,l2).\n  - B = pallino più piccolo, in basso a sinistra rispetto ad A (circa 1/4 di larghezza a sinistra e 1/6 di altezza sotto): nodo interno intermedio sul ramo sinistro.\n\nFOGLIE (pallini pieni sulla linea di base):\n  - l1 sulla base, a circa 1/3 della larghezza da sinistra;\n  - l2 sulla base, a circa metà larghezza (leggermente a destra di l1, sotto ad A).\n\nARCHI (tratti azzurri sottili, dritti o appena curvi):\n  - dall'APICE scende verso A un tratto verticale disegnato con doppio segno / colore più chiaro e sbiadito (nel quaderno è ripassato due volte): è il cammino radice -> lca; conviene renderlo come una linea più chiara o tratteggiata.\n  - A -> B (obliquo verso il basso a sinistra), poi B -> l1 (obliquo verso il basso a sinistra fino alla base);\n  - A -> l2 (obliquo verso il basso a destra, poi quasi verticale fino alla base).\n\nETICHETTA INTERNA: la parola «STree» scritta in corsivo dentro la sagoma, a metà altezza, appena a sinistra del centro, sopra la base e sotto A (nel quaderno si sovrappone leggermente agli archi; in TikZ conviene metterla appena spostata a sinistra per non collidere).\n\nETICHETTE DA AGGIUNGERE (assenti nell'originale, ricostruite): «radice» accanto all'apice; «$\\lca(\\ell_1,\\ell_2)$» a destra del pallino A; «$\\ell_1$» sotto la foglia sinistra; «$\\ell_2$» sotto la foglia destra. Tutto il testo in italiano.\n\nSIGNIFICATO: l'albero è il suffix tree del testo; il risultato di Harel--Tarjan dice che, dopo un pre-processing lineare, il nodo A si ottiene in tempo costante a partire da l1 e l2, ed è questo che abilita le applicazioni «non semplici» dei suffix tree.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "kr-finestra-testo",
+   "pagina": 26,
+   "didascalia": "Il testo T, la finestra corrente T[s+1..s+m] e la finestra successiva (traslata di una posizione); il pattern P ha la stessa lunghezza m della finestra.",
+   "tipo": "schema di stringhe",
+   "specifica": "Due segmenti orizzontali paralleli, tratto spesso azzurro, disegnati a mano libera (nel quaderno sono leggermente ondulati).\n\nSEGMENTO SUPERIORE: lunghezza piena (diciamo 9 cm), rappresenta il TESTO. Etichetta «$T$» subito a destra dell'estremo destro, con l'ultimo tratto del segmento ispessito/blu scuro (nel quaderno l'estremo è ricalcato).\n\nSEGMENTO INFERIORE: parte dalla stessa ascissa di inizio del primo (allineato a sinistra), lungo circa 1/4 del primo (diciamo 2,2 cm), posto circa 1,2 cm più in basso. Rappresenta il PATTERN. Etichetta «$P$» subito a destra del suo estremo destro, anch'esso ispessito. La lunghezza di questo segmento è visivamente uguale all'ampiezza delle graffe descritte sotto: è m.\n\nDUE GRAFFE/ARCHI SOPRA IL SEGMENTO SUPERIORE, nel suo quarto sinistro, disegnate come archi ondulati piatti (nel quaderno sono due tratti orizzontali con una gobbetta centrale, tipo overbrace stilizzato):\n  - graffa 1 (la più alta, circa 0,7 cm sopra la linea di T): copre l'intervallo che va dall'estremo sinistro di T fino a un'ascissa x1; ampiezza = m.\n  - graffa 2 (più bassa, circa 0,3 cm sopra la linea di T): stessa ampiezza m, ma TRASLATA A DESTRA di una piccola quantità (nel quaderno circa un quadretto, cioè ~1/5 della propria ampiezza). Parte quindi poco dopo l'estremo sinistro di T e finisce poco dopo x1.\nLe due graffe si sovrappongono quasi completamente: è proprio questo lo scopo del disegno, mostrare che la finestra si sposta di UNA posizione.\n\nETICHETTE DA AGGIUNGERE (assenti nell'originale, ricostruite): sopra la graffa 1 «$t_s$» oppure «$T[s+1..s+m]$»; sotto/accanto alla graffa 2 «$t_{s+1}$»; una piccola freccia orizzontale corta fra le due, con etichetta «shift», per rendere esplicito lo scorrimento. Testo in italiano.\n\nNOTA: nell'originale, a destra del disegno, ci sono le formule «$T,P\\in\\Sigma^*$» e «$\\Sigma=\\{0,1,\\dots,9\\}$»; NON vanno messe nella figura, sono già nel testo corrente.\n\nSIGNIFICATO: fissa la geometria del problema (finestra di lunghezza m che scorre sul testo) e prepara l'idea dell'aggiornamento incrementale t_s -> t_{s+1}.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "kr-schema-loop",
+   "pagina": 26,
+   "didascalia": "Lo schema di Karp--Rabin: un unico test p = t_s ripetuto per tutti gli shift, con aggiornamento incrementale della finestra.",
+   "tipo": "schema a blocchi (diagramma di flusso)",
+   "specifica": "Diagramma di flusso a mano libera, tratto azzurro.\n\nBLOCCO CENTRALE: un rettangolo (nel quaderno i lati sono tracciati a mano e non si chiudono perfettamente agli angoli), largo circa 4 cm e alto circa 1,2 cm, contenente il testo «check $\\;p = t_s$» (la parola «check» a sinistra, la formula a destra, ben distanziate).\n\nINGRESSO: una freccia entra nel lato SINISTRO del rettangolo, orizzontale, con la punta sul bordo.\n\nUSCITE: dal lato DESTRO del rettangolo partono DUE frecce a ventaglio (formano una «<» rovesciata, cioè divergono da uno stesso punto sul bordo destro, a metà altezza):\n  - freccia SUPERIORE, diretta in alto a destra, etichettata «sì» sopra la punta, che punta alla scritta «occorrenza»;\n  - freccia INFERIORE, diretta in basso a destra, etichettata «no» prima della scritta, che punta alla scritta «shift e somma».\n\nRETROAZIONE: dalla zona di «shift e somma» (estremo destro, sotto il rettangolo) parte una lunga curva che scende, attraversa tutta la larghezza del disegno passando ben sotto il rettangolo con una concavità verso l'alto (una grande ellisse schiacciata, aperta), risale a sinistra e si raccorda con la freccia di ingresso al lato sinistro del rettangolo. Etichettarla «ciclo su $s = 0,\\dots,n-m$» (etichetta ricostruita, nell'originale la curva è muta).\n\nANNOTAZIONE: dal bordo INFERIORE del rettangolo, circa a metà, parte un breve segmento obliquo verso il basso a sinistra (nel quaderno è un tratto spesso, quasi un puntatore) che collega il blocco alla scritta sottostante, in caratteri molto grandi:\n  «\\textbf{NON} prende tempo $O(1)$!»\ne, su una seconda riga più piccola immediatamente sotto:\n  «Non si può usare il criterio di costo unitario».\nNel quaderno la parola NON è scritta in stampatello gigante, alta il doppio del resto: renderla in grassetto e a corpo maggiore.\n\nSIGNIFICATO: è lo schema «ingenuo» con i valori numerici: un unico confronto ripetuto su tutti gli shift, con aggiornamento O(1) della finestra; l'annotazione in basso segnala che il confronto NON è a costo costante perché p e t_s occupano Theta(m) bit, ed è ciò che motiva il passaggio all'aritmetica modulo q nella pagina successiva.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina si chiude su un problema aperto e dichiarato: lo schema di Karp--Rabin funziona concettualmente (shift valido <=> p = t_s, aggiornamento incrementale della finestra con shift e somma) ma il test p = t_s non è a costo costante, perché p e i t_s sono interi di Theta(m) bit e il criterio di costo unitario non è applicabile. Restano quindi in sospeso: (a) come rendere O(1) il confronto; (b) come inizializzare p e t_0 e come aggiornare t_s -> t_{s+1} in concreto. La pagina 27 riparte esattamente da lì, con «p e t_s sono troppo grandi», introduce p mod q e t_s mod q con q parametro scelto in modo che i residui siano manipolabili in O(1), enuncia il filtro one-sided (p mod q != t_s mod q => p != t_s, mentre l'uguaglianza dei resti NON implica p = t_s, caso |p - t_s| mod q = 0), elenca i tre «Problemi» (come scegliere q; come calcolare e aggiornare t_s mod q; cosa fare quando p mod q = t_s mod q) e presenta lo pseudocodice RK(T,P,d,q) con la regola di Horner e il rolling update. Da p.26 vanno portati avanti: le definizioni di p e t_s, m = |P|, n = |T|, d = |Sigma|, il range degli shift s in {0,...,n-m} e la costante h = d^{m-1}.",
+ "confidenza": "alta"
+}

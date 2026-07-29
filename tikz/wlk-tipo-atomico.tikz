@@ -1,0 +1,28 @@
+% wlk-tipo-atomico -- pag. 79
+% Il tipo atomico di una k-upla e' la sua "fotografia locale": quali componenti
+% coincidono e quali coppie ordinate sono archi. Qui la tripla (u,v,w) con
+% u -> v e v -> w, e nessun arco fra u e w.
+% NB: nel quaderno le parentesi sono angolari e la freccia v -> w si ferma poco
+% prima del pallino; qui parentesi tonde (come nel testo) e freccia che tocca
+% il nodo.
+\begin{tikzpicture}[x=1cm,y=1cm,line join=round,line cap=round,font=\footnotesize,
+    nodo/.style={circle,fill,inner sep=0pt,minimum size=3.6pt},
+    arco/.style={line width=0.8pt,-{Stealth[length=4pt,width=3pt]},shorten >=0.6pt}]
+
+  % ---- la scritta a sinistra, come nel quaderno ----------------------------
+  \node[anchor=east,inner sep=0pt] at (-0.75,0.28) {$\operatorname{atp}(u,v,w,\dots)$};
+
+  % ---- i tre vertici della tripla -----------------------------------------
+  \node[nodo] (u) at (0.00, 0.00) {};
+  \node[nodo] (v) at (1.10, 0.90) {};
+  \node[nodo] (w) at (1.15,-0.35) {};
+
+  \node[anchor=south east,inner sep=2pt] at (u.north west) {$u$};
+  \node[anchor=south,inner sep=2.5pt]    at (v.north)      {$v$};
+  \node[anchor=west,inner sep=3pt]       at (w.east)       {$w$};
+
+  % ---- gli archi orientati -------------------------------------------------
+  \draw[arco] (u) -- (v);
+  \draw[arco] (v) -- (w);
+
+\end{tikzpicture}

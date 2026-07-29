@@ -1,0 +1,90 @@
+{
+ "pagina": 13,
+ "latex": "\\scan{13}\n\n\\begin{definizione}[Keyword tree]\\label{def:keyword-tree}\nDato $\\mathcal{P} = \\set{P_1, \\dots, P_z}$ con $P_i \\in \\S^*$ per $i \\in \\set{1, \\dots, z}$,\nil \\emph{keyword tree} di $\\mathcal{P}$ è un albero $K$ i cui archi sono etichettati con\nelementi di $\\S$ e tale che:\n\\begin{enumerate}\n  \\item archi uscenti dallo stesso nodo hanno etichette distinte;\n  \\item ogni cammino radice--foglia corrisponde a $P_i$ per qualche $i \\in \\set{1,\\dots,z}$,\n        e viceversa ogni $P_i$ si legge lungo un cammino radice--foglia.\n\\end{enumerate}\nScriviamo $K(\\mathcal{P})$ per il keyword tree di $\\mathcal{P}$.\n\\end{definizione}\n\n\\begin{osservazione}\nLe due condizioni dicono, rispettivamente:\n\\begin{itemize}\n  \\item la (1) che ogni stringa individua in $K$ un \\emph{cammino univoco}: la discesa dalla\n        radice è deterministica e due nodi distinti non possono avere la stessa etichetta di\n        cammino. I nodi di $K$ sono dunque in biiezione con i prefissi degli elementi di\n        $\\mathcal{P}$: il keyword tree è il \\emph{trie} dei pattern, cioè una rappresentazione\n        \\emph{non ridondante sui prefissi};\n  \\item la (2) che i \\emph{cammini} radice--foglia sono in corrispondenza con gli\n        \\emph{elementi di $\\mathcal{P}$}.\n\\end{itemize}\n\\end{osservazione}\n\n\\paragraph{Ipotesi.}\nAssumo che ogni $P_i$ \\emph{non} sia fattore proprio di $P_j$ (per $i \\neq j$), cioè che nessun\npattern sia sottostringa propria di un altro. Scaricheremo questa ipotesi.\n\n\\begin{osservazione}\nL'ipotesi garantisce che foglie di $K(\\mathcal{P})$ ed elementi di $\\mathcal{P}$ siano in\ncorrispondenza biunivoca, e soprattutto che durante la ricerca ogni occorrenza venga scoperta\narrivando in una foglia: se infatti $P_j$ fosse sottostringa di $P_i$, percorrendo il cammino\ndi $P_i$ si passerebbe \\emph{sopra} un'occorrenza di $P_j$ senza mai visitarne la foglia.\n\\end{osservazione}\n\nPoniamo $n_i = \\abs{P_i}$ e $n = \\sum_{i=1}^{z} n_i$: in queste pagine $n$ è dunque la lunghezza\n\\emph{complessiva} dei pattern, non $\\abs{T}$. Le tre misure di $K(\\mathcal{P})$ sono\n\\[\n\\begin{aligned}\n  \\text{dimensione di } K(\\mathcal{P}) \\;&\\le\\; \\sum_{i=1}^{z} n_i \\;=\\; n, \\\\[2pt]\n  \\text{altezza di } K(\\mathcal{P}) \\;&=\\; \\max_{1 \\le i \\le z} \\set{n_i}, \\\\[2pt]\n  \\text{grado (fan-out) di } K(\\mathcal{P}) \\;&\\le\\; \\min\\set{\\abs{\\S},\\, z}.\n\\end{aligned}\n\\]\n\n\\begin{osservazione}\nPer \\emph{dimensione} si intende il numero di archi, che in un albero è pari al numero di nodi\nmeno uno: ogni pattern contribuisce al più $n_i$ archi e i prefissi condivisi vengono contati\nuna sola volta, per cui $\\#\\text{archi} \\le n$, con uguaglianza se e solo se nessuna coppia di\npattern condivide un prefisso non vuoto. Lo spazio è quindi $\\Th(n)$.\nL'altezza è la lunghezza del pattern più lungo. Il grado di un nodo è $\\le \\abs{\\S}$ per la\nproprietà (1) della \\autoref{def:keyword-tree}, ed è $\\le z$ perché ogni sottoalbero figlio\ncontiene almeno una foglia e le foglie sono esattamente $z$.\n\\end{osservazione}\n\nPer utilizzare $K(\\mathcal{P})$ durante la ricerca devo completarlo con i \\emph{failure link},\npensati per consentire al puntatore sul testo di avanzare \\emph{sempre}: in caso di mismatch non\nsi ricomincia la discesa dalla radice riportando indietro il puntatore su $T$, ma si salta al\nnodo la cui etichetta di cammino è il più lungo suffisso di quanto già riconosciuto.\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/failure-link-idea.tikz}\n\\caption{Idea del failure link. Se la discesa si blocca nel nodo $v$, si salta al nodo $\\nv{v}$,\nla cui etichetta di cammino $\\a$ è il più lungo suffisso proprio dell'etichetta di cammino di\n$v$ che sia ancora un cammino dalla radice in $K(\\mathcal{P})$: la porzione di testo già\nriconosciuta resta allineata e il puntatore su $T$ non arretra.}\n\\label{fig:failure-link-idea}\n\\end{figure}",
+ "note": [
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 13,
+   "testo": "Nella riga «Ipotesi» la parola dopo «non sia» è pesantemente ripassata/corretta e quasi illeggibile. Letta come «fattore»: (a) il numero di lettere (~7) e il profilo dei tratti (f iniziale con ascendente+discendente, doppia t barrata, o-r-e finale) corrispondono; (b) l'aggettivo successivo è chiaramente «proprio» (maschile), incompatibile con «sottostringa propria»; (c) a p.15 lo stesso studente scrive «Che succede se una stringa è fattore di un'altra stringa?», usando quindi «fattore» come sinonimo di sottostringa. Trascritto «fattore proprio» con la glossa «cioè sottostringa propria» per chiarezza.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 13,
+   "testo": "Il quaderno scrive «Grado (fan-out) ≤ max{|Σ|, z}». Ho scritto «≤ min{|Σ|, z}». Come scritta la disuguaglianza è formalmente vera ma inutile (con |Σ|=4 e z=1000 direbbe fan-out ≤ 1000); il grado di un nodo è ≤ |Σ| per la proprietà (1) del keyword tree e ≤ z perché ogni sottoalbero figlio contiene almeno una foglia e le foglie sono z (sotto l'ipotesi semplificativa della pagina). Entrambi i limiti valgono, quindi il vincolo corretto e stretto è il minimo. Ho aggiunto l'osservazione con la giustificazione dei due limiti.",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 13,
+   "testo": "Gli appunti del corso dell'anno precedente (L04, §6) danno solo «fan-out ≤ |Σ|»; lo studente aggiunge il vincolo z. L'aggiunta è corretta e più informativa, quindi l'ho mantenuta (nella forma con il min).",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 13,
+   "testo": "Conflitto di notazione sulle lunghezze. Lo studente usa n_i = |P_i| e n = Σ_{i=1}^z n_i (coerente con la nota a margine di p.12: «dimensione del K.T. ≤ Σ n_i = n»), mentre La fonte dell'anno precedenteusa m_i, m e riserva n a |T|; la convenzione standard (Gusfield) è n = |T|. Ho mantenuto la notazione dello studente (fonte primaria, internamente coerente in queste 4 pagine) ma ho aggiunto esplicitamente la frase «Poniamo n_i = |P_i| e n = Σ n_i: in queste pagine n è la lunghezza complessiva dei pattern, non |T|», per evitare l'ambiguità in fase di cucitura del capitolo. Da rivedere se in un capitolo successivo compare la complessità O(n+m+k).",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 13,
+   "testo": "Le due annotazioni a margine a sinistra delle proprietà 1) e 2) («cammino univoco …k», con la seconda riga di lettura non del tutto sicura, e «cammini ↔ elementi di ⓟ», con P cerchiata) sono state rese come una osservazione discorsiva subito dopo la definizione, invece che come note a margine. Il senso è certo: la (1) garantisce l'univocità del cammino che legge una stringa, la (2) la corrispondenza cammini radice–foglia ↔ elementi di P.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 13,
+   "testo": "Alla proprietà (1) ho aggiunto la conseguenza standard (non scritta a mano ma presente neGli appunti del corso dell'anno precedente, L04 §4 [RIC]): la mappa nodo ↦ etichetta del cammino è iniettiva, i nodi sono in biiezione con i prefissi dei pattern, quindi K(P) è il trie dei pattern («non ridondante sui prefissi»). Aggiunta editoriale, motivata perché rende la definizione utilizzabile nel seguito.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 13,
+   "testo": "Il quaderno enuncia l'ipotesi semplificativa senza dirne il motivo. Ho colmato con l'osservazione presa daGli appunti del corso dell'anno precedente (L04 §5): biiezione foglie ↔ pattern e, soprattutto, garanzia che ogni occorrenza si scopra arrivando in una foglia (altrimenti servono gli output link, che infatti compaiono a p.15). Nota: per la sola biiezione foglie↔pattern basterebbe l'ipotesi più debole «nessun P_i prefisso di P_j»; ho evitato di appesantire il testo con questa distinzione.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 13,
+   "testo": "Nel punto 2) della definizione il quaderno, arrivato a fine riga, scrive «i ∈ {1,…z}» e poi lo riscrive a capo come «i ∈ {1,z}» (ripassato) prima di «(e viceversa)»: è una sola occorrenza spezzata dall'a-capo, trascritta una volta sola come i ∈ {1,…,z}. Il laconico «(e viceversa)» è stato espanso in «e viceversa ogni P_i si legge lungo un cammino radice–foglia».",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 13,
+   "testo": "Il quaderno scrive solo «Dimensione di K(P) ≤ Σ n_i = n» senza dire di che dimensione si tratti. Ho esplicitato (come nel fonte dell'anno precedente, L04 §6) che si tratta del numero di archi = numero di nodi − 1, con la condizione di uguaglianza (nessun prefisso non vuoto condiviso) e lo spazio Θ(n).",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 13,
+   "testo": "Notazione LaTeX: il preambolo del progetto ridefinisce \\P come \\mathsf{P} (classe di complessità), sovrascrivendo la \\P calligrafica della classe academica. Per l'insieme dei pattern ho quindi scritto \\mathcal{P} per esteso, non \\P. Segnalato come richiesto dalle convenzioni (macro non utilizzabile).",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 13,
+   "testo": "L'unico disegno della pagina (in fondo) è uno schizzo a mano libera senza etichette se non due α. Interpretazione: è la figura canonica del failure link (stessa che compare, più elaborata, a p.12 e neGli appunti del corso dell'anno precedente L04 §7): triangolo = K(P) con radice all'apice, cammino radice→v che scende a sinistra fino a un nodo v (pallino pieno in basso a sinistra), suffisso terminale α di quel cammino, secondo cammino radice→n_v che scende a destra ed è interamente etichettato α, freccia tratteggiata v→n_v (failure link) con punta sul nodo n_v (nel manoscritto marcato da una crocetta ×). Nella ricostruzione TikZ ho aggiunto le etichette v, n_v e «failure link», assenti nel manoscritto (i nomi v e n_v compaiono solo a p.14), perché senza di esse la figura è muta.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 13,
+   "testo": "La frase finale è letta «pensati per consentire al puntatore sul testo di avanzare sempre» («avanzare» è sottolineato nel quaderno, «sempre» è l'ultima parola della riga). La lettura è coerente con l'invariante di Aho–Corasick (il puntatore su T non arretra mai) e con la freccia che collega il riquadro «failure link» alla frase. Ho aggiunto una coda esplicativa («in caso di mismatch non si ricomincia dalla radice…») per introdurre la figura.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "failure-link-idea",
+   "pagina": 13,
+   "didascalia": "Idea del failure link: dal nodo v si salta a n_v, la cui etichetta di cammino α è il più lungo suffisso proprio dell'etichetta di cammino di v che sia ancora un cammino dalla radice in K(P).",
+   "tipo": "albero",
+   "specifica": "Schema del keyword tree con il failure link (schizzo a mano libera nel quaderno, da rendere pulito).\n\nGEOMETRIA GENERALE. Un grande triangolo isoscele con l'apice IN ALTO al centro (l'apice è la radice di K(P)); i due lati scendono verso il basso-sinistra e il basso-destra; la base è aperta oppure tracciata leggera. Il triangolo rappresenta il keyword tree K(P): etichettarlo con «K(P)» in alto a sinistra fuori dal triangolo, oppure appena sotto l'apice. Nel manoscritto i lati sono tracciati con linea ondulata/a mano libera; una resa con `decorate[decoration=snake]` o semplicemente con linee dritte va bene, purché il triangolo sia riconoscibile.\n\nCONTENUTO INTERNO (due cammini + un link).\n\n1) CAMMINO SINISTRO (radice → v). Dalla radice (apice) parte una spezzata leggermente ondulata che scende verso il basso-sinistra e termina nel nodo v, posto in basso a sinistra all'interno del triangolo, vicino al vertice inferiore sinistro (nel manoscritto è a circa il 25% della larghezza e all'85% dell'altezza del triangolo). Il nodo v è un PALLINO PIENO. A circa metà di questo cammino c'è un secondo PALLINO PIENO, il nodo intermedio u (nel manoscritto è il puntino scuro al centro del disegno, sul tratto diagonale che scende dall'apice). Il tratto u → v, cioè la PARTE FINALE del cammino radice→v, è quello etichettato con «α»: mettere la α accanto/sopra questo tratto (nel manoscritto la α è scritta in alto a sinistra, sopra la parte bassa del cammino). Facoltativo ma utile: rendere il tratto u→v più spesso o evidenziato (nel manoscritto quella zona è ripassata) e/o affiancarlo con una graffa `decorate[decoration=brace]` che porti l'etichetta α.\n\n2) CAMMINO DESTRO (radice → n_v). Dalla radice parte una seconda spezzata ondulata che scende verso il basso-destra e termina nel nodo n_v, posto nella metà destra del triangolo a una profondità MINORE di quella di v (nel manoscritto: circa il 75% della larghezza e il 60% dell'altezza; è essenziale che n_v stia PIÙ IN ALTO di v, perché depth(n_v) < depth(v)). Il nodo n_v è un PALLINO PIENO; nel manoscritto è marcato da una crocetta «×» sovrapposta — si può rendere come pallino pieno, oppure come pallino con una × accanto. L'INTERO cammino radice → n_v è etichettato «α»: mettere la α accanto alla parte alta di questo cammino (nel manoscritto è scritta in alto a destra, appena fuori dal cammino). Anche qui è utile una graffa lungo tutto il cammino radice→n_v con etichetta α, per far vedere che le due α sono la stessa stringa.\n\n3) FAILURE LINK. Una FRECCIA TRATTEGGIATA che parte da v (in basso a sinistra) e arriva a n_v (a destra, più in alto), con punta piena su n_v. Nel manoscritto è una linea a trattini lunghi con una grossa punta triangolare piena in prossimità di n_v. Etichettarla «failure link» (testo in corsivo, posto sopra o sotto la parte centrale della freccia). La freccia attraversa l'interno del triangolo.\n\nETICHETTE DEI NODI (assenti nel manoscritto, da aggiungere): «$v$» sotto/a sinistra del pallino in basso a sinistra; «$n_v$» sotto/a destra del pallino di destra; «$u$» opzionale sul nodo intermedio del cammino sinistro (si può anche omettere e lasciare solo il pallino). «root» oppure «$\\mathrm{root}(K)$» accanto all'apice.\n\nSEMANTICA DA COMUNICARE. Le due α sono la stessa stringa: α = L(n_v) è il più lungo suffisso proprio di L(v) che sia ancora l'etichetta di un cammino dalla radice in K(P) (equivalentemente: il più lungo suffisso di quanto già letto che sia anche prefisso di almeno un pattern). Quando la discesa si blocca in v, il failure link porta in n_v senza far arretrare il puntatore sul testo, perché la coda del testo già riconosciuto coincide già con α.\n\nDIMENSIONI SUGGERITE: larghezza circa 8 cm, altezza circa 5 cm. Colori: tutto in nero/grigio scuro, con eventuale accento (colore della classe) sui due tratti etichettati α e sulla freccia tratteggiata.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina 13 si chiude introducendo i failure link solo a livello di idea (frase «pensati per consentire al puntatore sul testo di avanzare sempre» + schizzo del salto v → n_v): restano in sospeso la definizione formale di n_v, la prova che esiste ed è unico, e l'algoritmo per calcolarli. La pagina 14 riprende esattamente da qui con il titolo «Formalizziamo»: definisce L(v) (stringa delle etichette del cammino root(K(P)) → v), n_v (nodo tale che L(n_v) è il più lungo suffisso proprio di L(v)) e lp(v) = |L(n_v)|; enuncia il Lemma «∀ v ∈ K(P) ∃! n_v» (dimostrazione lasciata per esercizio, con l'avvertenza che n_v può essere la radice); definisce il failure link come la coppia ⟨v, n_v⟩ e annuncia l'algoritmo per determinare n_v dato v, illustrato da un disegno. La pagina 15 svolge poi l'algoritmo (caso base root → root, passo induttivo con w = parent(v)), la terminazione, l'analisi ammortizzata e l'esempio P = {acatt, ca} che scarica l'ipotesi introdotta qui, con gli output link. Da coordinare in fase di cucitura: la notazione n_i / n fissata in questa pagina (n = lunghezza complessiva dei pattern) e l'etichetta \\\\autoref{def:keyword-tree}, richiamata nell'osservazione sul fan-out.",
+ "confidenza": "alta"
+}

@@ -1,0 +1,56 @@
+% hirschberg-divide -- pag. 45
+% Schema divide et impera di Hirschberg: la riga mediana i* taglia la matrice a
+% meta'; il cammino ottimo la attraversa in una colonna j*; si ricorre sui due
+% sottorettangoli [0,i*]x[0,j*] e [i*,n1]x[j*,n2].
+% Nell'originale la colonna j* e' disegnata come DUE verticali (solo per
+% separare visivamente i due sottorettangoli): qui una sola verticale, con le
+% due regioni escluse dalla ricorsione lasciate in bianco. Attenzione: a questo
+% livello l'INTERO rettangolo viene riempito (in avanti sopra i*, all'indietro
+% sotto i*) per individuare j*; sono le CHIAMATE RICORSIVE a limitarsi ai due
+% sottorettangoli ombreggiati.
+\begin{tikzpicture}[
+    x=1cm, y=1cm,
+    font=\footnotesize,
+    et/.style={font=\footnotesize, inner sep=1.5pt},
+    cam/.style={black, line width=0.9pt, line join=round},
+  ]
+
+  % ---- geometria ------------------------------------------------------------
+  % matrice (0,0) -- (9.6,-5.6);  riga mediana y=-2.8;  colonna j* in x=3.6
+
+  % ---- i due sottorettangoli su cui si ricorre ------------------------------
+  \fill[black!9] (0,0)      rectangle (3.6,-2.8);
+  \fill[black!9] (3.6,-2.8) rectangle (9.6,-5.6);
+
+  % ---- bordo e linee di taglio ---------------------------------------------
+  \draw[black!80, line width=0.7pt] (0,0) rectangle (9.6,-5.6);
+  \draw[black!70, line width=0.6pt] (0,-2.8) -- (9.6,-2.8);                 % riga i*
+  \draw[black!70, line width=0.6pt, densely dashed] (3.6,0) -- (3.6,-5.6);  % colonna j*
+
+  % ---- le due regioni escluse dalle chiamate ricorsive ---------------------
+  \node[et, text=black!50, align=center] at (6.60,-1.35) {esclusa dalla\\ricorsione};
+  \node[et, text=black!50, align=center] at (1.80,-4.20) {esclusa dalla\\ricorsione};
+
+  % ---- il cammino ottimo ----------------------------------------------------
+  % meta' superiore: da (0,0) alla riga mediana, nella colonna j*
+  \draw[cam] (0,0) -- (0.40,-0.40) -- (0.40,-0.80) -- (0.85,-1.25) -- (1.30,-1.25)
+                   -- (1.30,-1.65) -- (1.75,-2.10) -- (2.20,-2.10) -- (2.60,-2.50)
+                   -- (3.10,-2.50) -- (3.60,-2.80);
+  % meta' inferiore: da (i*,j*) fino a (n1,n2)
+  \draw[cam] (3.60,-2.80) -- (3.95,-3.15) -- (4.45,-3.15) -- (4.85,-3.55)
+                   -- (5.35,-3.55) -- (5.35,-3.95) -- (5.85,-4.30) -- (6.45,-4.30)
+                   -- (6.85,-4.65) -- (7.45,-4.65) -- (7.85,-5.00) -- (8.45,-5.00)
+                   -- (8.90,-5.30) -- (9.20,-5.30) -- (9.60,-5.60);
+
+  \fill[black] (3.6,-2.8) circle (2.4pt);
+
+  % ---- etichette ------------------------------------------------------------
+  \node[et, anchor=south east] at (-0.02,0.06) {$(0,0)$};
+  \node[et, anchor=north west] at (9.62,-5.66) {$(n_1,n_2)$};
+  \node[et, anchor=east]       at (-0.12,-2.8) {$i^{*}$};
+  \node[et, anchor=north]      at (3.60,-5.74) {$j^{*}$};
+
+  \node[et, anchor=south] at (4.8,0.06) {$\sigma_2$};
+  \node[et, rotate=90]    at (-0.58,-1.40) {$\sigma_1$};
+
+\end{tikzpicture}

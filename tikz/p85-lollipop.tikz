@@ -1,0 +1,46 @@
+% p85-lollipop -- pag. 85 (la stessa figura torna a p. 88, deduplicata)
+% Il lollipop graph L_n: la clique K_{n/2} e' rappresentata astrattamente da un
+% cerchio (vertici e archi interni non si disegnano); nel vertice u -- l'unico
+% pieno, sul bordo destro del cerchio -- e' incollato un cammino di n/2 vertici
+% che termina in v.  In tutto n vertici.
+% Il quaderno e' tutto a penna blu: qui si usa il nero come nelle altre figure.
+\begin{tikzpicture}[
+    x=1cm, y=1cm, line join=round, line cap=round,
+    font=\footnotesize,
+    nodo/.style   = {circle, draw, line width=0.8pt, fill=white,
+                     inner sep=0pt, minimum size=5pt},
+    nodou/.style  = {circle, draw, fill=black, line width=0.8pt,
+                     inner sep=0pt, minimum size=5pt},
+    arco/.style   = {line width=0.8pt},
+    graffa/.style = {decorate, decoration={brace, amplitude=5pt},
+                     gray!70!black, line width=0.7pt},
+  ]
+
+  % =================== la clique K_{n/2} ==================================
+  \draw[arco, line width=1pt] (0,0) circle (1.15);
+  \node at (0,0) {$K_{n/2}$};
+
+  % =================== il bastoncino: cammino di n/2 vertici ==============
+  \node[nodou] (u)  at (1.15,0) {};
+  \node[nodo]  (p1) at (2.05,0) {};
+  \node[nodo]  (p2) at (2.95,0) {};
+  \node[nodo]  (p3) at (3.85,0) {};
+  \node[nodo]  (v)  at (5.35,0) {};
+
+  \draw[arco] (u)  -- (p1);
+  \draw[arco] (p1) -- (p2);
+  \draw[arco] (p2) -- (p3);
+
+  % i vertici omessi
+  \draw[arco] (p3) -- (4.15,0);
+  \foreach \x in {4.38,4.60,4.82}{\fill (\x,0) circle (0.7pt);}
+  \draw[arco] (5.05,0) -- (v);
+
+  \node[anchor=north, inner sep=4pt] at (1.30,-0.09) {$u$};
+  \node[anchor=north, inner sep=4pt] at (5.48,-0.09) {$v$};
+
+  % =================== la graffa che misura il bastoncino =================
+  \draw[graffa] (1.18,0.42) -- (5.35,0.42)
+        node[midway, above=6pt, black] {$n/2$};
+
+\end{tikzpicture}

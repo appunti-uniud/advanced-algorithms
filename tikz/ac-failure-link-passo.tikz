@@ -1,0 +1,75 @@
+% Passo ricorsivo del calcolo dei failure link in Aho--Corasick.
+% A sinistra il cammino root ~> u ~> v' -> v; a destra il cammino root ~> n_{v'} -> n_v.
+% I due tratti marcati portano la stessa stringa alfa = L(n_{v'}); i due archi x sono
+% paralleli e di uguale lunghezza, cosi' la regola si legge a colpo d'occhio.
+\begin{tikzpicture}[
+    cammino/.style = {draw=graydark, line width=0.6pt, line cap=round, line join=round},
+    marcato/.style = {draw=accent, line width=2.6pt, line cap=round, opacity=0.7},
+    tacca/.style   = {draw=black, line width=1.1pt, line cap=round},
+    prosegue/.style= {draw=graydark, line width=0.6pt, dotted, line cap=round},
+    noto/.style    = {draw=black, line width=0.7pt, dash pattern=on 3.5pt off 2.5pt,
+                      -{Triangle[length=5.5pt,width=4.5pt]}},
+    cercato/.style = {draw=gray, line width=0.7pt, dash pattern=on 1.6pt off 2pt,
+                      -{Triangle[length=5pt,width=4pt]}},
+    et/.style      = {font=\footnotesize},
+    pic/.style     = {font=\scriptsize},
+  ]
+
+  % ---- sagoma di K(P) ---------------------------------------------------
+  \fill[black!5, draw=gray!55, line width=0.4pt]
+      (0,5.6) .. controls (2.30,4.90) and (4.20,2.90) .. (5.0,0.15)
+              .. controls (2.5,-0.35) and (-2.5,-0.35) .. (-5.0,0.15)
+              .. controls (-4.20,2.90) and (-2.30,4.90) .. cycle;
+
+  % ---- nodi -------------------------------------------------------------
+  \coordinate (r)   at ( 0.000, 5.60);
+  \coordinate (u)   at (-1.350, 3.55);
+  \coordinate (vp)  at (-2.850, 1.55);
+  \coordinate (v)   at (-3.470, 0.55);
+  \coordinate (np)  at ( 1.325, 3.48);
+  \coordinate (nv)  at ( 1.945, 2.48);
+
+  % ---- tratti marcati (la stessa stringa alfa) --------------------------
+  \draw[marcato] (u) -- (vp);
+  \draw[marcato] (r) -- (np);
+
+  % ---- cammino di sinistra ---------------------------------------------
+  \draw[cammino] (r) -- (u) -- (vp) -- (v);
+  \draw[prosegue] (v) -- (-3.80,0.02);
+
+  % ---- cammino di destra ------------------------------------------------
+  \draw[cammino] (r) -- (np) -- (nv);
+  \draw[cammino] (np) -- (2.16,3.14);          % moncone dell'arco y
+  \draw[prosegue] (nv) -- (2.26,1.98);
+
+  % ---- tacche trasversali sui nodi --------------------------------------
+  \draw[tacca] ($(u)!3pt!90:(vp)$)   -- ($(u)!3pt!-90:(vp)$);
+  \draw[tacca] ($(vp)!4pt!90:(v)$)   -- ($(vp)!4pt!-90:(v)$);
+  \draw[tacca] ($(v)!4pt!90:(vp)$)   -- ($(v)!4pt!-90:(vp)$);
+  \draw[tacca] ($(np)!4pt!90:(nv)$)  -- ($(np)!4pt!-90:(nv)$);
+  \draw[tacca] ($(nv)!4pt!90:(np)$)  -- ($(nv)!4pt!-90:(np)$);
+  \fill[graydark] (r) circle (1.8pt);
+
+  % ---- failure link -----------------------------------------------------
+  \draw[noto]    (vp) -- (np)
+      node[pic,pos=0.56,sloped,above=1pt] {\emph{failure link} (noto)};
+  \draw[cercato] (v) -- (nv)
+      node[pic,pos=0.50,sloped,below=1pt,text=gray] {\emph{failure link} cercato};
+
+  % ---- etichette del cammino di sinistra --------------------------------
+  \node[et,above=3pt] at (r) {$\mathrm{root}$};
+  \node[et,anchor=east,xshift=-4pt] at (u)  {$u$};
+  \node[et,anchor=east,xshift=-5pt,yshift=4pt] at (vp) {$v'$};
+  \node[et,anchor=east,xshift=-5pt,yshift=-3pt] at (v) {$v$};
+  \node[et,anchor=east] at (-3.44,1.14) {$x$};
+  \node[et] at (-2.52,2.74) {$\a$};
+
+  % ---- etichette del cammino di destra ----------------------------------
+  \node[et,anchor=west] at (1.60,3.70) {$\nv{v'}$};
+  \node[et,anchor=west,xshift=3pt,yshift=-2pt] at (nv) {$\nv{v}$};
+  \node[et,anchor=east] at (1.52,2.84) {$x$};
+  \node[et,anchor=west] at (2.24,3.06) {$y \neq x$};
+  \node[et] at (1.06,4.76) {$\a$};
+
+  \node[et] at (3.55,0.60) {$K(\mathcal{P})$};
+\end{tikzpicture}

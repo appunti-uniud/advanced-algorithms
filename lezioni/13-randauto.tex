@@ -1,0 +1,338 @@
+\chapter{Partizioni binarie del piano e RandAuto}
+
+\section{Il problema della partizione binaria del piano}
+
+\scan{60}
+
+Dati $n$ segmenti del piano a due a due \emph{non intersecanti}, vogliamo partizionare il
+piano in modo tale che in ogni regione ci sia al più un segmento, oppure una parte di esso.
+Scriveremo $S=\set{s_1,\dots,s_n}$ per l'insieme dei segmenti dati, e useremo indifferentemente
+$n$ e $\abs{S}$ per la loro cardinalità. Una partizione di questo tipo si chiama
+\emph{partizione binaria del piano} (\emph{binary planar partition}, in breve BPP): «binaria»
+perché la si costruisce tagliando ripetutamente una regione in due con una retta.
+
+\begin{esempio}
+Cinque segmenti $s_1,\dots,s_5$ e una partizione che li separa. I tagli (tratteggiati)
+vengono eseguiti uno dopo l'altro, ciascuno all'interno della regione che si vuole spezzare,
+e producono le sei regioni $r_1,\dots,r_6$. Uno dei tagli attraversa $s_3$ e lo spezza in due
+parti, che finiscono in due regioni diverse ($r_6$ e $r_4$): per questo le regioni sono
+\emph{sei} e non cinque.
+
+\begin{figure}[H]
+\centering
+\input{tikz/p60-bpp-esempio.tikz}
+\caption{Una partizione binaria del piano per cinque segmenti non intersecanti: in tratto
+continuo i segmenti $s_1,\dots,s_5$, tratteggiate le rette di taglio. Ognuna delle sei
+regioni $r_1,\dots,r_6$ contiene esattamente un segmento o una porzione di segmento;
+$s_3$ è l'unico segmento spezzato.}
+\end{figure}
+\end{esempio}
+
+\begin{domanda}
+Dati $n$ segmenti, esiste sempre una partizione che genera $n$ regioni?
+\end{domanda}
+
+La risposta è \emph{no}, ed eppure i segmenti che bastano a farla cadere sono soltanto tre:
+tre segmenti disposti «a girandola» — ciascuno rivolto verso il successivo, e a due a due
+non intersecanti — non si lasciano separare da sole tre regioni.
+Tagliando con la retta che prolunga $s_2$ si spezza $s_3$ in due parti; con altri due tagli,
+le rette che prolungano $s_1$ e $s_3$, si isolano i quattro frammenti così ottenuti. Le
+regioni finali sono quattro.
+
+\begin{figure}[H]
+\centering
+\input{tikz/p60-tre-segmenti-quattro-regioni.tikz}
+\caption{Tre segmenti bastano a impedire una partizione con tre sole regioni. Le tre rette
+tratteggiate prolungano i tre segmenti; la prima, quella di $s_2$, spezza $s_3$, e le
+regioni finali sono quattro: $r_1,\dots,r_4$.}
+\end{figure}
+
+Il numero di regioni, dunque, può eccedere il numero dei segmenti. La domanda interessante
+diventa allora \emph{di quanto} lo può eccedere: bastano sempre $\Oh(n)$ regioni? È una
+domanda tutt'altro che facile, e per porla in modo preciso conviene prima darsi una
+rappresentazione formale delle partizioni.
+
+\section{La BPP come albero binario}
+
+\scan{61}
+
+Rappresenteremo una BPP come un \emph{albero binario} i cui nodi interni sono coppie
+\[
+  (r,\ \ell)
+\]
+dove $r$ è la \emph{regione} associata al nodo e $\ell$ è il \emph{limite}, cioè la retta
+che divide $r$: i due figli del nodo corrispondono alle due sottoregioni in cui $\ell$ taglia
+$r$. Ogni foglia è etichettata dal segmento — o dalla porzione di segmento — contenuto nella
+regione corrispondente. Chiamiamo \emph{dimensione} della partizione $P$ il numero delle sue
+foglie, e la indichiamo con $\abs{P}$: è la quantità che vogliamo tenere piccola.
+
+Le foglie sono almeno $n$, e possono essere di più.
+
+\begin{esempio}
+Sia $S=\set{s_1,s_2,s_3}$. La prima retta $\ell_1$ attraversa $s_3$ e lo spezza nelle due
+porzioni $s_{3,1}$ e $s_{3,2}$: da una parte di $\ell_1$ restano $s_1$ e $s_{3,1}$, che
+vengono separati da $\ell_2$; dall'altra restano $s_2$ e $s_{3,2}$, separati da $\ell_3$.
+L'albero ha allora tre nodi interni e \emph{quattro} foglie, una in più dei tre segmenti di
+partenza, proprio perché $s_3$ è stato spezzato.
+
+\begin{figure}[H]
+\centering
+\input{tikz/bpp-albero.tikz}
+\caption{Una BPP di $S=\set{s_1,s_2,s_3}$ (a sinistra la scena, a destra l'albero che la
+rappresenta). La retta $\ell_1$ spezza $s_3$ in $s_{3,1}$ e $s_{3,2}$: le foglie sono
+quattro, una più dei segmenti.}
+\end{figure}
+\end{esempio}
+
+\begin{osservazione}
+L'albero che rappresenta la $\mathrm{BPP}(S)$ è sempre un albero binario con un numero di
+foglie pari a
+\[
+  \#\text{foglie} \;=\; n + \#\text{tagli},
+\]
+dove $\#\text{tagli}$ conta i tagli che spezzano un segmento: ogni taglio che spezza un
+segmento produce una porzione in più, e quindi una foglia in più (un segmento attraversato da
+$k$ tagli dà origine a $k+1$ porzioni). Questo numero non dipende solo da $S$, ma dalle scelte
+fatte, cioè dalle rette con cui si decide di partizionare.
+\end{osservazione}
+
+\begin{center}
+\fbox{\textbf{Goal:} tenere \emph{basso} il numero di tagli.}
+\end{center}
+
+\begin{domanda}[problema aperto]
+Esiste sempre una $\mathrm{BPP}(S)$ con $\Oh(\abs{S})$ foglie, cioè con $\Oh(\abs{S})$
+frammenti di segmento e quindi $\Oh(\abs{S})$ regioni?
+\dubbioinl{negli appunti «Problema aperto» è seguito da una parola fra parentesi, di lettura
+incerta: forse un nome proprio, «Clark»}
+\end{domanda}
+
+Negli appunti il problema è dato per aperto, come in Motwani--Raghavan da cui la domanda è
+ripresa. Quello che sappiamo fare è $\Oh(\abs{S}\log\abs{S})$: diamo infatti un algoritmo
+randomizzato, \textsc{RandAuto}, che dimostra che esiste sempre una $\mathrm{BPP}(S)$ con
+quel numero di foglie.
+
+\section{Applicazione: il \emph{painter's algorithm}}
+
+\scan{62}
+
+Una prima applicazione delle partizioni binarie del piano è il \emph{painter's algorithm}:
+si usa l'albero della BPP come struttura dati per disegnare una scena.
+
+Fissata la posizione dell'osservatore, l'albero viene visitato ricorsivamente: in ogni nodo
+interno $(r,\ell)$ si disegna per prima la regione figlia che sta dalla parte di $\ell$
+\emph{opposta} all'osservatore e poi l'altra. Si ottiene così un ordine di disegno dal più
+lontano al più vicino, in cui gli oggetti vicini sovrascrivono quelli lontani e la rimozione
+delle superfici nascoste è automatica. Il tempo di disegno è proporzionale a $\abs{P}$, cioè
+al numero di foglie dell'albero: da qui l'interesse per partizioni di dimensione piccola.
+
+\begin{figure}[H]
+\centering
+\input{tikz/p62-painter.tikz}
+\caption{La scena, con i suoi segmenti, e l'osservatore. I tagli della BPP suddividono la
+scena in regioni; l'albero della partizione fornisce, per ogni posizione dell'osservatore,
+un ordine di disegno dal più lontano al più vicino.}
+\end{figure}
+
+\section{Autopartizioni e l'algoritmo \textsc{RandAuto}}
+
+\begin{definizione}[autopartizione]\label{def:autopartizione}
+Un'\emph{autopartizione} è una BPP tale che ogni retta $\ell_i$ che compare nei suoi nodi
+interni $(r_i,\ell_i)$ è una delle rette su cui giace un segmento di $S$, o una parte di esso.
+\end{definizione}
+
+Per $s\in S$ scriviamo $\ell(s)$ per la retta su cui giace $s$, cioè il prolungamento di $s$
+a tutta la retta.
+
+\begin{figure}[H]
+\centering
+\input{tikz/p62-autopartizione.tikz}
+\caption{Il segmento $s$ giace sulla retta $\ell=\ell(s)$: tagliando con $\ell$, $s$ finisce
+sulla frontiera comune alle due regioni $r_\ell$ e $r'_\ell$ e va assegnato all'una oppure
+all'altra.}
+\end{figure}
+
+\begin{osservazione}\label{oss:frontiera}
+Definita la retta $\ell$ su cui giace $s$, il segmento $s$ si trova esattamente sulla
+frontiera comune alle due regioni in cui $\ell$ divide la regione corrente. Sceglieremo
+allora di collocare $s$ nella regione a destra oppure in quella a sinistra, a seconda di
+dove conviene: per esempio nella regione con meno porzioni di segmenti. In particolare
+$\ell(s)$ non taglia mai $s$, e quindi in un'autopartizione un segmento può essere spezzato
+soltanto dalle rette \emph{degli altri} segmenti.
+\end{osservazione}
+
+L'algoritmo randomizzato che costruisce un'autopartizione è il seguente.
+
+\begin{algorithm}[H]
+\caption{\textsc{RandAuto}}
+\begin{algorithmic}[1]
+\Require $S=\set{s_1,\dots,s_n}$, segmenti a due a due non intersecanti.
+\Ensure $P_\pi$, un'autopartizione binaria del piano (\emph{binary planar autopartition})
+di $S$.
+\State scegli uniformemente a caso una permutazione $\pi$ di $\set{1,\dots,n}$;
+\While{esiste una regione $r$ che contiene più di una porzione di segmento}
+    \State taglia $r$ usando $\ell(s_i)$, dove $s_i$ è il primo segmento nell'ordine dato
+    da $\pi$ tale che $s_i$ (o una sua porzione) sia contenuto in $r$.
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+Tutte le scelte casuali sono concentrate nel passo~1: una volta estratta $\pi$, il resto
+dell'esecuzione è completamente deterministico, e per questo la partizione prodotta si indica
+con $P_\pi$.
+
+\section{Analisi: la dimensione attesa di \texorpdfstring{$P_\pi$}{P pi}}
+
+\scan{63}
+
+\begin{teorema}[dimensione attesa di \textsc{RandAuto}]\label{thm:randauto-size}
+Il valore atteso della dimensione dell'autopartizione prodotta da \textsc{RandAuto} su un
+insieme $S$ di segmenti a due a due non intersecanti è
+\[
+  \E\bigl[\abs{P_\pi}\bigr]\;=\;\Oh\bigl(\abs{S}\log\abs{S}\bigr),
+\]
+dove la media è presa sulla scelta uniforme della permutazione $\pi$.
+\end{teorema}
+
+Il teorema riguarda la \emph{dimensione dell'output}, non il tempo di esecuzione.
+
+\begin{esercizio}
+Dimostrare che il \emph{tempo} di esecuzione di \textsc{RandAuto} su $S$ è, anch'esso in
+valore atteso, $\Oh(n^2\log n)$, posto $n=\abs{S}$.
+\end{esercizio}
+
+\begin{corollario}[metodo probabilistico]\label{cor:esiste-autopartizione}
+Dato $S$, esiste \emph{sempre} una BPP di $S$ di dimensione $\Oh(\abs{S}\log\abs{S})$.
+\end{corollario}
+
+\begin{dimostrazione}[del corollario]
+Per il teorema esiste una costante $c$ tale che $\E[\abs{P_\pi}]\le c\,n\log n$, con
+$n=\abs{S}$. Una variabile aleatoria non può assumere ovunque valori strettamente maggiori
+della propria media: esiste quindi almeno una permutazione $\pi_0$ di $\set{1,\dots,n}$ con
+$\abs{P_{\pi_0}}\le c\,n\log n$. La partizione $P_{\pi_0}$ è la BPP cercata (anzi, è
+addirittura un'autopartizione). Si noti che l'argomento è puramente esistenziale: non
+fornisce alcun modo di \emph{esibire} $\pi_0$.
+\end{dimostrazione}
+
+\bigskip
+\textbf{Dimostrazione del Teorema~\ref{thm:randauto-size}.}
+L'\emph{intuizione} è la seguente: dobbiamo stimare quanti tagli di segmenti vengono eseguiti
+in un generico \emph{run} dell'algoritmo. Servono due nozioni preliminari.
+
+\begin{definizione}[$\mathrm{index}$]\label{def:index}
+Dati $u,v\in S$, definiamo
+\begin{align*}
+  \mathrm{index}(u,v)&=i
+    &&\text{sse } \ell(u) \text{ interseca } i-1 \text{ segmenti prima di intersecare } v,\\
+  \mathrm{index}(u,v)&=\infty
+    &&\text{sse } \ell(u) \text{ non interseca } v.
+\end{align*}
+Il conteggio va inteso percorrendo $\ell(u)$ a partire da $u$ nella direzione di $v$; dunque
+$\mathrm{index}(u,v)=1$ significa che $v$ è il primo segmento che $\ell(u)$ incontra uscendo
+da $u$.
+\end{definizione}
+
+\begin{figure}[H]
+\centering
+\input{tikz/randauto-index.tikz}
+\caption{$\mathrm{index}(u,v)=i$: percorrendo $\ell(u)$ a partire da $u$ si incontrano i
+segmenti $u_1,u_2,\dots,u_{i-1}$ ($i-1$ in tutto) prima di incontrare $v$.}
+\label{fig:randauto-index}
+\end{figure}
+
+\begin{definizione}[notazione $u\dashv v$]\label{def:dashv}
+Scriviamo
+\[
+  u\dashv v
+\]
+se $\ell(u)$ taglia $v$ durante l'esecuzione di \textsc{RandAuto}. È l'evento che corrisponde
+all'aggiunta di una porzione di segmento in $P_\pi$.
+\end{definizione}
+
+\begin{osservazione}\label{oss:primo-in-pi}
+Sia $\mathrm{index}(u,v)=i$ e siano $u_1,\dots,u_{i-1}$ i segmenti che $\ell(u)$ interseca
+prima di $v$. Allora $u\dashv v$ si verifica \emph{solo se} $u$ occorre in $\pi$ prima di
+$u_1,\dots,u_{i-1},v$. Se infatti uno degli $u_j$ venisse scelto prima di $u$, la retta
+$\ell(u_j)$ attraverserebbe il tratto di $\ell(u)$ compreso fra $u$ e $v$, separandoli in due
+regioni distinte, e $\ell(u)$ non potrebbe più tagliare $v$; se invece fosse $v$ a precedere
+$u$, allora $\ell(v)$ verrebbe usata come taglio prima di $\ell(u)$ e $v$ si troverebbe sulla
+frontiera della propria regione (Osservazione~\ref{oss:frontiera}), dove $\ell(u)$ non può
+più spezzarlo.
+
+Poiché $\pi$ è scelta uniformemente fra le $n!$ permutazioni, ciascuno degli $i+1$ segmenti
+di $\set{u,u_1,\dots,u_{i-1},v}$ ha la stessa probabilità di precedere tutti gli altri. Che
+$u$ sia il primo è dunque un evento di probabilità esattamente $\dfrac{1}{i+1}$.
+\end{osservazione}
+
+\scan{64}
+
+Introduciamo, per ogni coppia di segmenti distinti $u,v\in S$, la \emph{variabile indicatrice}
+dell'evento $u\dashv v$:
+\[
+  C_{u,v}\;\defeq\;\indic{u\dashv v}\;=\;
+  \begin{cases}
+    1 & \text{se }\ell(u)\text{ taglia }v\text{ durante l'esecuzione di \textsc{RandAuto}},\\[2pt]
+    0 & \text{altrimenti.}
+  \end{cases}
+\]
+
+Dall'Osservazione~\ref{oss:primo-in-pi} segue immediatamente
+\[
+  \E\bigl[C_{u,v}\bigr]\;=\;\Pr\bigl[u\dashv v\bigr]\;\le\;\frac{1}{\mathrm{index}(u,v)+1}.
+\]
+Si noti che la condizione dell'osservazione è soltanto necessaria: per questo si ottiene una
+disuguaglianza e non un'uguaglianza.
+
+\begin{osservazione}
+Se $\mathrm{index}(u,v)=\infty$, cioè se $\ell(u)$ non interseca affatto $v$, il membro destro
+va letto come $0$: in tal caso l'evento $u\dashv v$ è impossibile e $C_{u,v}=0$ con certezza.
+\end{osservazione}
+
+\paragraph{Dimensione attesa di $P_\pi$.}
+La partizione parte dagli $n=\abs{S}$ segmenti e ogni taglio \emph{effettivo} spezza un
+segmento in due, aggiungendo esattamente un frammento (e quindi una foglia occupata). Perciò
+la dimensione attesa di $P_\pi$ è $n$ più il numero atteso di tagli:
+\begin{align*}
+  \E\bigl[\abs{P_\pi}\bigr]
+    &\;=\; n+\E\Bigl[\;\sum_{u\in S}\;\sum_{v\in S,\;v\neq u} C_{u,v}\Bigr]\\[2pt]
+    &\;=\; n+\sum_{u\in S}\;\sum_{v\neq u}\E\bigl[C_{u,v}\bigr]\\[2pt]
+    &\;=\; n+\sum_{u\in S}\;\sum_{v\neq u}\Pr\bigl[u\dashv v\bigr]\\[2pt]
+    &\;\le\; n+\sum_{u\in S}\;\sum_{v\neq u}\frac{1}{\mathrm{index}(u,v)+1}.
+\end{align*}
+Il secondo passaggio è la sola \emph{linearità del valore atteso}: le $C_{u,v}$ non sono
+affatto indipendenti, ma qui l'indipendenza non serve.
+
+\begin{osservazione}
+Fissato $u$, ci sono \textbf{al più due} segmenti $v$ tali che $\mathrm{index}(u,v)=i$: uno a
+destra e uno a sinistra di $u$ lungo $\ell(u)$. Infatti percorrendo $\ell(u)$ a partire da $u$
+le direzioni possibili sono solo due e, in ciascuna di esse, il segmento preceduto da
+esattamente $i-1$ segmenti è unico.
+\end{osservazione}
+
+Raggruppando allora gli addendi della somma interna secondo il valore $i=\mathrm{index}(u,v)$,
+che varia fra $1$ e $n-1$ (gli altri segmenti sono $n-1$), si ottiene, per ogni $u\in S$
+fissato,
+\[
+  \sum_{v\neq u}\frac{1}{\mathrm{index}(u,v)+1}\;\le\;\sum_{i=1}^{n-1}\frac{2}{i+1}.
+\]
+
+Sostituendo nella stima precedente:
+\begin{align*}
+  \E\bigl[\abs{P_\pi}\bigr]
+    &\;\le\; n+\sum_{u\in S}\;\sum_{i=1}^{n-1}\frac{2}{i+1}
+     \;=\; n+2n\sum_{i=1}^{n-1}\frac{1}{i+1}
+     \;=\; n+2n\bigl(H_n-1\bigr)\\[2pt]
+    &\;\le\; n+2n\,H_n\;\in\;\Oh(n\log n),
+\end{align*}
+dove $H_n=\sum_{k=1}^{n}\frac{1}{k}=\ln n+\Th(1)$ è l'$n$-esimo numero armonico.
+
+Questo è esattamente l'enunciato del teorema: il valore atteso della dimensione
+dell'autopartizione prodotta da \textsc{RandAuto} su un insieme $S$ di $n$ segmenti a due a
+due non intersecanti è $\Oh(n\log n)$.
+\hfill$\square$
+
+\begin{osservazione}
+Il risultato è di Paterson e Yao, e il fattore logaritmico non è un artefatto dell'analisi:
+si sa che esistono insiemi di $n$ segmenti in cui \emph{ogni} autopartizione ha
+$\Om(n\log n/\log\log n)$ foglie, e dunque per questa via non si arriva a $\Oh(n)$.
+\end{osservazione}

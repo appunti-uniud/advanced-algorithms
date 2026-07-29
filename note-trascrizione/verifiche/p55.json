@@ -1,0 +1,20 @@
+{
+ "pagina": 55,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "notazione",
+   "dove": "lezioni/12-min-cut.tex, caption di \\begin{figure} fig:prob-condizionata-venn (righe 53-54)",
+   "descrizione": "La didascalia recita «a destra il caso generale, con $\\mathcal{E}_1\\cap\\mathcal{E}_2\\neq\\emptyset$ evidenziata». Cio' che nel disegno e' evidenziato (riempito di grigio nel .tikz) e' la regione di intersezione, non l'asserzione «l'intersezione e' non vuota»; il participio femminile «evidenziata» resta senza sostantivo cui accordarsi.",
+   "correzione": "Sostituire con: «a destra il caso generale, con l'intersezione $\\mathcal{E}_1\\cap\\mathcal{E}_2$ evidenziata.»"
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "errore-logico",
+   "dove": "lezioni/12-min-cut.tex, righe 106-107 (frase finale della pagina 55, subito dopo fig:karger-contrazione)",
+   "descrizione": "«la loro molteplicita' conta quanti archi originali di $G$ attraversano la bipartizione di $V$ corrispondente ai due super-nodi»: in quel punto dell'esposizione il multigrafo ha in generale piu' di due super-nodi (la figura appena mostrata ne ha quattro), quindi «i due super-nodi» e' un riferimento pendente e «bipartizione di $V$» e' impropria — i super-nodi inducono una partizione di $V$ in piu' classi, non una bipartizione. La formulazione corretta vale per una coppia qualsiasi di super-nodi; il caso bipartizione e' quello finale, trattato solo a pagina 56.",
+   "correzione": "Riformulare, per esempio: «Mantenere gli archi paralleli e' essenziale: la molteplicita' del fascio che unisce due super-nodi conta esattamente quanti archi \\emph{originali} di $G$ hanno un estremo in ciascuno dei due insiemi di vertici che essi rappresentano.»"
+  }
+ ]
+}

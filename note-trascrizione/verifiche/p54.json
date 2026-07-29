@@ -1,0 +1,13 @@
+{
+ "pagina": 54,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "figura",
+   "dove": "tikz/mincut-anticipazione.tikz (nodi dei due vertici) e caption di fig:mincut-anticipazione in lezioni/11-randqs.tex (righe ~300-302)",
+   "descrizione": "Nel quaderno i due vertici separati dal taglio sono etichettati x (a sinistra) e y (a destra) - lo conferma anche la nota editoriale di p.54 in NOTE-EDITORIALI.md riga 1836, che descrive esplicitamente 'etichetta x a sinistra e y a destra'. La figura TikZ e la didascalia usano invece u e v. Oltre a essere infedele alla scansione, la scelta collide con la notazione del capitolo 12, dove (u,v) e' l'arco estratto e contratto (cfr. caption di fig:karger-contrazione e riga 127 dell'algoritmo \\contract): nel disegno di anticipazione u e v sono invece due vertici che stanno da parti opposte del taglio.",
+   "correzione": "In tikz/mincut-anticipazione.tikz sostituire i due nodi con $x$ e $y$: '\\fill (-2.00,0.35) circle (2.4pt) node[anchor=north,yshift=-2pt] {$x$};' e '\\fill ( 2.50,0.15) circle (2.4pt) node[anchor=north,yshift=-2pt] {$y$};'. Nella caption di 11-randqs.tex cambiare 'da un lato $u$, dall'altro $v$' in 'da un lato $x$, dall'altro $y$'."
+  }
+ ]
+}

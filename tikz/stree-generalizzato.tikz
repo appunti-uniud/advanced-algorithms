@@ -1,0 +1,43 @@
+% Suffix tree generalizzato: STree(T_1 $ T_2 EURO).
+% Si scende fino al nodo alpha e si leggono le foglie del suo sottoalbero;
+% l'etichetta apposta in preprocessing dice se il suffisso comincia in T_1
+% oppure in T_2 (Gusfield, APL4: piu' lunga sottostringa comune).
+\begin{tikzpicture}[>=Latex,line join=round]
+  \footnotesize
+
+  % ---- sagoma dello STree --------------------------------------------------
+  \draw[line width=0.7pt] (0,3.00) -- (-2.20,0) (0,3.00) -- (2.20,0);
+  \node[anchor=west] at (0.55,2.72)
+       {$\STree\bigl(T_1\,\text{\$}\,T_2\,\text{\texteuro}\bigr)$};
+  \draw[gray,line width=0.4pt] (0.50,2.70) -- (0.16,2.62);
+
+  % ---- livello delle foglie, percorso da sinistra a destra -----------------
+  \draw[line width=1.0pt,->] (-2.55,0) -- (3.05,0);
+
+  % ---- cammino dalla radice fino ad alpha ----------------------------------
+  \draw[line width=0.9pt]
+       (0,3.00) .. controls (-0.18,2.78) and (0.04,2.62) .. (-0.14,2.42)
+                .. controls (-0.32,2.24) and (-0.12,2.20) .. (-0.30,2.05);
+  \fill (-0.30,2.05) circle (2.0pt);
+  \node[anchor=west] at (-0.18,2.14) {$\a$};
+
+  % ---- sottoalbero radicato in alpha ---------------------------------------
+  \draw[line width=0.7pt] (-0.95,0) -- (-0.30,2.05) -- (0.85,0);
+
+  % ---- foglie del sottoalbero, etichettate in preprocessing ----------------
+  \foreach \x/\lab in {-0.78/T_1,-0.26/T_2,0.26/T_2,0.70/T_1}{%
+    \fill (\x,0) circle (1.4pt);
+    \node[anchor=north,inner sep=2pt,font=\scriptsize] at (\x,-0.06) {$\lab$};}
+
+  \draw[line width=0.5pt,decorate,decoration={brace,amplitude=4pt}]
+       (0.90,-0.52) -- (-1.00,-0.52);
+  \node[anchor=north] at (-0.05,-0.70) {foglie di $\albero{\a}$};
+
+  % ---- nota ----------------------------------------------------------------
+  \node[anchor=west,align=left] at (3.15,0)
+       {lettura delle foglie:\\
+        suffisso con \$ (forma $\dots\text{\$}\dots\text{\texteuro}$)
+        $\Rightarrow$ dentro $T_1$\\
+        suffisso senza \$ (forma $\dots\text{\texteuro}$)
+        $\Rightarrow$ dentro $T_2$};
+\end{tikzpicture}

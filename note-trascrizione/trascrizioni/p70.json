@@ -1,0 +1,93 @@
+{
+ "pagina": 70,
+ "latex": "\\scan{70}\n\nQuello che serve è dunque il \\emph{valore atteso del numero di tentativi fino al primo\nsuccesso}:\n\\[\n  \\E[X] \\;=\\; \\sum_{t=1}^{\\infty} t\\,(1-p)^{t-1}\\,p ,\n\\]\ndove l'indice $t$ conta il numero di passi.\n\nIl calcolo si ottiene derivando rispetto a $p$ la serie geometrica; nel seguito l'apice\ndenota $\\frac{d}{dp}$:\n\\begin{align*}\n  \\sum_{t=1}^{\\infty} t\\,(1-p)^{t-1}\\,p\n    &= p\\left(-\\sum_{t=1}^{\\infty}(1-p)^{t}\\right)'\n     \\;=\\; -p\\left(\\left(\\sum_{t=0}^{\\infty}(1-p)^{t}\\right)-1\\right)' \\\\[4pt]\n    &= -p\\left(\\frac{1}{1-1+p}-1\\right)'\n     \\;=\\; -p\\left(\\frac{1-p}{p}\\right)'\n     \\;=\\; -p\\left(-\\frac{1}{p^{2}}\\right)\n     \\;=\\; \\frac{1}{p} .\n\\end{align*}\n\nNel caso dell'esercizio precedente si ha $p=\\frac{1}{n-1}$: il valore atteso del numero di\npassi per andare da $u$ a $v$ in $K_n$ (l'\\emph{hitting time}) è quindi $n-1$.\n\n\\begin{esercizio}[Cover time su $K_n$]\\label{ex:cover-kn}\n  Calcolare il valore atteso del numero di passi necessari per visitare tutto $K_n$,\n  partendo da un vertice $u$. Questo valore atteso è il \\emph{cover time} di $K_n$.\n\\end{esercizio}\n\nSia $\\tau_i$ la variabile aleatoria che conta il numero di passi effettuati per visitare i\nprimi $i$ nodi. Per costruzione i suoi valori crescono:\n\\[\n  \\tau_0 = 0 \\;<\\; \\tau_1 = 1 \\;<\\; \\tau_2 \\;<\\; \\tau_3 \\;<\\; \\tau_4 \\;<\\; \\cdots \\;<\\; \\tau_n .\n\\]\n\nLa differenza $\\tau_{i+1}-\\tau_i$ misura il numero di passi necessari per visitare\nl'$(i+1)$-esimo nodo. Ragionando come nell'esercizio~1, la probabilità di successo — cioè\ndi raggiungere in un passo un nodo non ancora visitato — quando $i$ nodi sono già stati\nvisitati vale\n\\[\n  p_i \\;=\\; \\frac{n-i}{n-1}\n\\]\n(dei $n-1$ vicini del nodo corrente, esattamente $n-i$ non sono ancora stati visitati).\n\nConviene allora calcolare $\\E(\\tau_{i+1}-\\tau_i)$, in quanto, per telescopia e linearità del\nvalore atteso,\n\\[\n  \\E(\\tau_n) \\;=\\; \\sum_{i=0}^{n-1} \\E\\bigl(\\tau_{i+1}-\\tau_i\\bigr) .\n\\]\n\nOgni incremento è distribuito geometricamente con parametro $p_i$, quindi si ricade nel\ncalcolo appena svolto:\n\\[\n  \\E\\bigl(\\tau_{i+1}-\\tau_i\\bigr) \\;=\\; \\sum_{t=1}^{\\infty} t\\,p_i\\,(1-p_i)^{t-1}\n  \\;=\\; \\frac{1}{p_i} \\;=\\; \\frac{n-1}{\\,n-i\\,} .\n\\]\n\n\\begin{osservazione}\n  Il termine con $i=0$ va inteso a parte: $\\tau_1-\\tau_0=1$ per definizione, mentre\n  $p_0=\\frac{n}{n-1}>1$ non è una probabilità. L'identità\n  $\\E(\\tau_{i+1}-\\tau_i)=1/p_i$ vale dunque per $i\\ge 1$; l'ordine di grandezza del cover\n  time non cambia.\n\\end{osservazione}",
+ "note": [
+  {
+   "tipo": "ricostruzione",
+   "pagina": 70,
+   "testo": "La catena di uguaglianze in alto si interrompe nel quaderno a «$=-p\\cdot\\frac{1-p}{p}$» (con l'apice di derivata appena accennato). Ho completato con i due passaggi mancanti $-p\\left(\\frac{1-p}{p}\\right)'=-p\\left(-\\frac{1}{p^2}\\right)=\\frac1p$, perché il risultato $1/p$ viene poi usato in fondo alla stessa pagina ($=1/p_i$) e a p.71. Coincide con Gli appunti del corso dell'anno precedente (L17, §3.2).",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 70,
+   "testo": "Gli apici di derivata sono scritti in modo incostante (chiarissimo dopo la prima parentesi, quasi invisibile dopo $\\left(\\frac{1}{1-1+p}-1\\right)$ e dopo $\\frac{1-p}{p}$). Li ho ripristinati tutti e ho aggiunto la precisazione «l'apice denota $d/dp$», assente nel quaderno ma necessaria perché la catena abbia senso.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 70,
+   "testo": "L'esercizio 1 (hitting time su $K_n$, iniziato a p.69) non viene mai concluso esplicitamente nel quaderno: manca la sostituzione $p=1/(n-1)\\Rightarrow \\E=n-1$. L'ho aggiunta in una riga per chiudere il conto, coerentemente con L17 §3.2 dell'anno precedente.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 70,
+   "testo": "«visitare tutto $K_n$ (partendo da ?)»: il grafema finale è ambiguo fra $u$ e $n$. Ingrandendo si vede una $u$ (due aste verticali unite in basso, tratto superiore aperto), contrariamente alla $a$ chiusa di «da». Ho scritto $u$, anche perché $u$ è il vertice di partenza fissato nell'esercizio 1 a p.69.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 70,
+   "testo": "Il quaderno scrive «$\\tau_i$ rappresenta il valore atteso del numero di passi per visitare i primi $i$ nodi». È un'imprecisione: $\\tau_i$ compare subito dopo dentro $\\E(\\tau_n)$ e $\\E(\\tau_{i+1}-\\tau_i)$, quindi deve essere una variabile aleatoria, non già un valore atteso. Ho scritto «la variabile aleatoria che conta il numero di passi…», come neGli appunti del corso dell'anno precedente (L17 §4).",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 70,
+   "testo": "Per la stessa ragione ho eliminato l'inciso «(attesi)» in «il numero di passi (attesi) per visitare l'$i+1$-esimo nodo»: $\\tau_{i+1}-\\tau_i$ è una v.a., la media si prende esplicitamente dopo.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 70,
+   "testo": "Nella formula finale il quaderno scrive $\\sum_{t=0}^{\\ } t\\,p_i(1-p_i)^{t-1}$ (indice iniziale $t=0$, estremo superiore non indicato). Ho scritto $\\sum_{t=1}^{\\infty}$: per una geometrica il supporto parte da $t=1$ e l'esponente $t-1$ sarebbe negativo per $t=0$. Il termine $t=0$ è comunque nullo, quindi il valore non cambia. Nella prima serie in cima alla pagina l'indice $t=1$ è invece scritto correttamente.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 70,
+   "testo": "$\\tau_0$ è scritto con lo zero barrato, graficamente identico a $\\emptyset$. Va letto come lo zero: $\\tau_0=0$ (coerente con $\\tau_1=1$ e con la telescopia $\\tau_n-\\tau_0=\\sum(\\tau_{i+1}-\\tau_i)$).",
+   "risolto": true
+  },
+  {
+   "tipo": "errore-anno-prec",
+   "pagina": 70,
+   "testo": "Incongruenza di indici presente sia negli appunti dello studente sia in quelli dell'anno precedente: con la convenzione $\\tau_0=0<\\tau_1=1$ e $p_i=\\frac{n-i}{n-1}$, il termine $i=0$ della somma telescopica dà $p_0=\\frac{n}{n-1}>1$, che non è una probabilità (il primo passo raggiunge sempre un nodo nuovo, quindi $\\tau_1-\\tau_0=1$ è deterministico). La convenzione pulita sarebbe «$\\tau_i$ = passi per aver visitato $i$ vertici distinti, contando quello di partenza», da cui $\\tau_1=0$ e $\\E(\\tau_n)=\\sum_{i=1}^{n-1}\\frac{n-1}{n-i}=(n-1)H_{n-1}$. Ho lasciato intatte le formule del quaderno (p.71 prosegue sommando da $i=0$ e ottiene $\\approx nH_n$, stesso ordine $\\Theta(n\\log n)$) e ho aggiunto un'osservazione che segnala il caso degenere $i=0$.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 70,
+   "testo": "Sopra la formula telescopica c'è un abbozzo a matita, semi-cancellato: $\\sum \\frac{n-i}{n-1}$. È una bozza sbagliata (numeratore e denominatore invertiti rispetto a $1/p_i=\\frac{n-1}{n-i}$) e non fa parte del testo definitivo: non l'ho trascritta.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 70,
+   "testo": "Ho aggiunto la giustificazione fra parentesi di $p_i$ («dei $n-1$ vicini del nodo corrente, esattamente $n-i$ non sono ancora stati visitati»), che nel quaderno è solo implicita in «Ragiono come prima (1)».",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 70,
+   "testo": "La catena $\\tau_0=\\emptyset\\;\\wedge\\;\\tau_1=1\\;\\wedge\\;\\tau_2\\;\\wedge\\;\\tau_3\\;\\wedge\\;\\tau_4\\;\\wedge\\;\\vdots\\;\\wedge\\;\\tau_n$ è disposta verticalmente al centro pagina: i simboli «$\\wedge$» sono segni di minore «$<$» ruotati di 90°, non congiunzioni logiche. Non è un disegno: l'ho resa come catena orizzontale di disuguaglianze in display. Le due annotazioni a destra (raccolte da una grande parentesi tonda) sono state riassorbite nella prosa. Una freccia curva a sinistra di $\\tau_n$ si limita a evidenziare $\\tau_n$ (il cover time) e una freccia verso il basso collega «Calcolo $\\E(\\tau_{i+1}-\\tau_i)$» alla formula sottostante: entrambe sono puri segni di rimando, non trascritte. Per questo la lista `figure` è vuota.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 70,
+   "testo": "Le barre verticali «]» e i puntini a sinistra delle righe $=-p(\\dots)$ sono segni di allineamento/continuazione della catena di uguaglianze, non contenuto matematico: resi con `align*`.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 70,
+   "testo": "«Ragiono come prima /(1) con probabilità di successo pari a …»: il riferimento «(1)» è l'esercizio 1 di p.69. L'ho reso come «come nell'esercizio~1». La numerazione «2)» dell'esercizio è stata sostituita dall'ambiente `esercizio` (numerazione automatica decisa in cucitura); ho aggiunto il titolo «Cover time su $K_n$» ricavato dall'annotazione «⟸ Cover time» a fine riga.",
+   "risolto": true
+  }
+ ],
+ "figure": [],
+ "continuita": "La pagina si chiude con $\\E(\\tau_{i+1}-\\tau_i)=\\frac{1}{p_i}=\\frac{n-1}{n-i}$: resta da sommare gli incrementi. Pagina 71 riparte esattamente da lì con «$\\Rightarrow \\E(\\tau_n)=\\sum_{i=0}^{n-1}\\frac{1}{p_i}=\\sum_{i=0}^{n-1}\\frac{n-1}{n-i}=(n-1)\\sum_{i=0}^{n-1}\\frac{1}{n-i}\\approx n H_n = \\Oh(n\\log n)$», quindi con l'osservazione «Cover $\\iff$ Visita $\\iff$ valore atteso? $\\to$ quando mi fermo?» e con la disuguaglianza di Markov e la sua dimostrazione. Il risultato $1/p$ dimostrato in cima a questa pagina è lo strumento riusato in entrambi i punti.",
+ "confidenza": "alta"
+}

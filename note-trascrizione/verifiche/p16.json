@@ -1,0 +1,17 @@
+{
+ "pagina": 16,
+ "esito": "ok",
+ "file_scritto": "/home/rob/UNI/algoritmi_avanzati/lezioni/05-suffix-tree.tex",
+ "problemi": [],
+ "verifiche_svolte": [
+  "Confronto riga per riga con p16_full/b1/b2/b3: tutti i 12 elementi del foglio (K(P) collezione di pattern; nota cerchiata 'posso usare i suffissi di T come collezione di pattern'; 'Suffix Trie' con freccia 'pre-processing del testo'; '(Suffix-Tree) ~ dopo'; PROBLEMA 'data S determino la piu lunga sottostringa ripetuta in S'; figura barra S con $ e due graffe beta; naive O(n^2); Knuth O(n log n) con T(n)=2T(n/2)+O(n); O(n) con la battuta su Knuth; 'KW-tree dei suffissi: (come lo costruisco?)'; disegno dell'albero con 8 foglie marcate $; 'se ho il KW-tree a disposizione mi basta visitarlo e cercare il nodo branching di profondita max') sono presenti nel LaTeX (lines 5-71).",
+  "La parentetica '(come lo costruisco?)' non e persa: e stata spostata alla lista delle due domande aperte (line 92-96), che corrisponde al riquadro 'Problemi: 1) Quanto e grande il K.T. dei suffissi di S? 2) Come lo costruisco?' di p.17. Verificato su p17_full.png.",
+  "Ricorrenza: C(n) = 2C(n/2) + O(n) da' Theta(n log n) per il Master Theorem (caso 2) -- coerente con l'O(n log n) attribuito a Knuth. La rinomina T(n) -> C(n) elimina la collisione con il testo T ed e una correzione silenziosa legittima.",
+  "Enunciato del criterio 'nodo branching di profondita massima': corretto e ben posto grazie alla sentinella. Verificato che nessun nodo branching puo avere $ nella path-label (il $ occorre una sola volta, in coda, quindi ogni nodo la cui etichetta contiene $ e una foglia); quindi path(v) e davvero una sottostringa di T e non di T$. Controllato il caso limite T = aa (nodo 'a' di profondita 1, path 'a' = piu lunga ripetuta) e T = abc (solo la radice e branching, ripetuta = epsilon).",
+  "Il paragrafo aggiunto sulla sentinella e corretto: con $ notin Sigma nessun suffisso di T$ e prefisso proprio di un altro, quindi ogni suffisso finisce in una foglia distinta. Aggiunta gia registrata in NOTE-EDITORIALI.md.",
+  "Figura tikz/sottostringa-ripetuta.tikz: barra con etichetta T in alto a destra, sentinella $ ingrandita in coda, due graffe rovesciate di lunghezza identica (2.2 cm ciascuna) etichettate beta. Fedele al disegno (nel manoscritto le due graffe misurano 250 e 235 px, cioe uguali entro l'errore di tratto).",
+  "Figura tikz/kwtree-suffissi.tikz: 8 foglie tutte marcate $, esattamente quante ne conta il disegno originale (contate sul crop ingrandito: due a sinistra + una piu in basso + tre al centro + una corta in alto a destra + una lontana in basso a destra). L'arco cortissimo -> foglia $ (suffisso costituito dalla sola sentinella) e l'arco lunghissimo -> foglia $ (l'intero T$) sono interpretati correttamente. La topologia interna e uno schema, come nel manoscritto.",
+  "Coerenza notazionale: \\mathcal{P} come nel cap. 04; n = |T| dichiarato esplicitamente (il cap. 04 usava n per la lunghezza totale dei pattern, ma la ridefinizione e locale e dichiarata); \\b = beta, \\Oh, \\abs, \\S, \\cammino{v} usati secondo CONVENZIONI.md; \\suf{T}{i} rende T[i..], compatibile con la definizione T_i = T[i..n] data a p.17.",
+  "Compilazione: algoritmi.log senza errori; rese le pp. 47-48 del PDF, entrambe le figure e tutte le formule della pagina 16 rendono correttamente (incluso $\\$ \\notin \\S$ e $T\\$$)."
+ ]
+}

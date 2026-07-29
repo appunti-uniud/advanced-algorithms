@@ -1,0 +1,69 @@
+% Esempio di partizione binaria del piano (BPP) per cinque segmenti non
+% intersecanti.  Tratto pieno = segmenti s_1,...,s_5; tratteggio = rette di
+% taglio l_1,...,l_5, disegnate nell'ordine in cui la partizione le esegue
+% (ogni taglio vive soltanto dentro la regione che spezza, e l_3 termina con
+% una giunzione a T su l_2).  L'unico segmento attraversato da un taglio e'
+% s_3: lo spezza l_2, e le due porzioni finiscono in r_4 (quella bassa) e in
+% r_6 (quella alta).  Sei regioni per cinque segmenti.
+%
+% Ogni taglio agisce su una regione che contiene almeno due porzioni di
+% segmento, come vuole la costruzione:
+%   l_1 : {s_5}            | resto
+%   l_2 : r_4 = {s_3 basso}| resto
+%   l_3 : r_6 = {s_3 alto} | resto
+%   l_4 : r_2 = {s_1}      | resto
+%   l_5 : r_5 = {s_4}      | r_3 = {s_2}
+\begin{tikzpicture}[
+    scale=0.95,
+    segmento/.style={draw=black,line width=1.3pt,line cap=round},
+    taglio/.style={draw=graydark,line width=0.7pt,line cap=round,
+                   dash pattern=on 3.2pt off 2.4pt},
+    et/.style={font=\footnotesize},
+    etg/.style={font=\footnotesize,text=graydark},
+  ]
+
+  % ---- riquadro implicito (nessuna cornice disegnata) ---------------------
+  \useasboundingbox (-0.15,-0.55) rectangle (9.15,6.05);
+
+  % ---- rette di taglio, nell'ordine di esecuzione -------------------------
+  % l_1: taglia tutto il piano
+  \draw[taglio] (0,4.10) -- (9,4.10);
+  \node[etg] at (0.42,4.36) {$\ell_1$};
+  % l_2: taglia il semipiano inferiore e spezza s_3
+  \draw[taglio] (1.45,4.10) -- (3.438,0);
+  \node[etg] at (3.44,-0.28) {$\ell_2$};
+  % l_3: taglia la regione a destra di l_2 (giunzione a T su l_2)
+  \draw[taglio] (2.75,4.10) -- (2.4683,2.00);
+  \node[etg] at (3.05,3.80) {$\ell_3$};
+  % l_4: taglia la regione a destra di l_3
+  \draw[taglio] (5.15,4.10) -- (7.60,0);
+  \node[etg] at (7.60,-0.28) {$\ell_4$};
+  % l_5: taglia la regione compresa fra l_2 e l_4
+  \draw[taglio] (2.856,1.20) -- (5.7296,3.13)
+        node[etg,pos=0.86,below=2.5pt,sloped] {$\ell_5$};
+
+  % ---- segmenti -----------------------------------------------------------
+  \draw[segmento] (2.00,5.30) -- (2.70,4.35);           % s_5, sopra l_1
+  \draw[segmento] (1.00,1.60) -- (2.15,2.95);           % s_3, spezzato da l_2
+  \draw[segmento] (3.10,2.40) -- (5.00,3.75);           % s_4
+  \draw[segmento] (4.60,1.55) -- (4.85,0.85);           % s_2
+  \draw[segmento] (6.50,2.60) -- (8.20,2.45);           % s_1
+
+  % punto in cui l_2 spezza s_3
+  \filldraw[fill=white,draw=black,line width=0.5pt] (2.059,2.844) circle (1.7pt);
+
+  % ---- etichette dei segmenti --------------------------------------------
+  \node[et] at (3.00,4.98) {$s_5$};
+  \node[et] at (0.72,2.50) {$s_3$};
+  \node[et] at (3.90,2.66) {$s_4$};
+  \node[et] at (5.20,1.18) {$s_2$};
+  \node[et] at (7.45,2.92) {$s_1$};
+
+  % ---- etichette delle regioni -------------------------------------------
+  \node[et] at (7.50,5.20) {$r_1$};   % sopra l_1: contiene s_5
+  \node[et] at (2.20,3.55) {$r_6$};   % fra l_2 e l_3, sotto l_1: porzione alta di s_3
+  \node[et] at (1.30,1.35) {$r_4$};   % a sinistra di l_2: porzione bassa di s_3
+  \node[et] at (2.92,2.10) {$r_5$};   % fra l_3, l_4 e sopra l_5: contiene s_4
+  \node[et] at (3.90,0.60) {$r_3$};   % sotto l_5: contiene s_2
+  \node[et] at (8.30,0.90) {$r_2$};   % a destra di l_4: contiene s_1
+\end{tikzpicture}

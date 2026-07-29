@@ -1,0 +1,21 @@
+{
+ "pagina": 43,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "errore-logico",
+   "dove": "lezioni/09-distanze-allineamento.tex, primo \\begin{esempio} dopo \\subsection{Matrici di costo e di punteggio} (riga 173): «Nel DNA le purine $(a,g)$ e le pirimidine $(c,t)$ sono simili tra loro»",
+   "descrizione": "Il soggetto composto «le purine e le pirimidine ... sono simili tra loro» in italiano afferma che le purine sono simili alle pirimidine: e' il contrario di cio' che dice il quaderno («(a,g) purine / (c,t) pirimidine» con l'annotazione 'simili tra loro' riferita a ciascuna delle due righe/classi) ed e' contraddetto dalla matrice che segue, dove s(a,c)=s(a,t)=s(c,g)=s(g,t)=-1 e s(a,g)=s(c,t)=+1. La subordinata successiva ('una sostituzione interna a una delle due classi va penalizzata meno') recupera il senso, ma la prima proposizione resta falsa se letta da sola.",
+   "correzione": "Riformulare: «Nel DNA le due purine $(a,g)$ sono simili tra loro, e cosi' le due pirimidine $(c,t)$; una sostituzione interna a una delle due classi va quindi penalizzata meno di una sostituzione fra classi diverse.»"
+  }
+ ],
+ "note": [
+  "Matrice di punteggio verificata cella per cella sul ritaglio a 300 DPI ingrandito: a: 2 -1 1 -1; c: -1 2 -1 1; g: 1 -1 2 -1; t: -1 1 -1 2. Coincide con il .tex e con la matrice dell'anno precedente (L10 sez.3). I tre glifi ambigui segnalati dal trascrittore (c/a che sembra -3, g/c che sembra =1, t/g col meno attaccato) sono stati riesaminati: la lettura -1 e' corretta (simmetria + confronto con gli altri '1' con svolazzo della stessa mano).",
+  "Fedelta' verificata su tutti gli elementi della pagina: 'Costo (down) - Punteggio (up)  duali'; titolo sottolineato 'Matrice di costo/punteggio' + 'posso assegnare costi diversi alle sostituzioni' (con il richiamo della parola 'sostituzioni' scritta sotto); 'es. (a,g) purine / (c,t) pirimidine simili tra loro'; 'es. matrice di punteggio' con freccia curva; 'es. penalizziamo l'apertura di un gap' + 'es. nel DNA e' molto probab. che un gap si estenda una volta aperto'; titolo sottolineato 'Quale distanza usare?' + 'Generalmente ~ stringhe lunghe <-> Levenshtein / stringhe corte <-> Hamming'; schizzo a matita dello stencil. Nessuna omissione. L'unico elemento non riportato e' il marcatore 'N.B.' a matita accanto allo schizzo, privo di contenuto e gia' logato in NOTE-EDITORIALI.",
+  "Figura tikz/dp-stencil.tikz: contenuto corretto. Nel manoscritto gli assi sono i->destra, j->basso; il tikz li scambia adottando la convenzione del capitolo (i = righe/sigma_1, j = colonne/sigma_2) e lo dichiara nel commento. La scelta e' coerente con dp-stencil-lineare.tikz, dp-due-colonne.tikz e con la sezione sull'allineamento locale (D(0,j)=0 per ogni colonna, 'la prima riga vale 0'), ed e' anche coerente con lo schizzo di p.45, dove lo stesso studente usa gia' j sull'orizzontale. Le glosse aggiunte (i+1 = cancellazione, j+1 = inserzione, diagonale = match/sostituzione) sono corrette e coerenti con lo pseudocodice di p.44 (c_D su (i-1,j), c_I su (i,j-1)) e con la ricorrenza dell'anno precedente (L10 sez.8.4).",
+  "Ricontrollata la ricorrenza ricostruita che cade nel tratto \\scan{43}-\\scan{44} (sez. 9.3.1): D(i,j)=d_edit(sigma_1[1..i],sigma_2[1..j]), D(i,0)=i, D(0,j)=j, D(i,j)=min{D(i-1,j-1)+cost, D(i-1,j)+1, D(i,j-1)+1}. Casi base e verso delle mosse corretti; non e' scritta ne' su p.43 ne' su p.44/p.45 (e' una cucitura), ma e' matematicamente corretta e coerente con il capitolo.",
+  "Il blocco 'Funzioni di costo per i gap' inserito fra i due frammenti di p.43 e' marcato \\scan{47} ed e' effettivamente presente su p.47 (lineare n*g, convesso gamma(i+1)-gamma(i) <= gamma(i)-gamma(i-1), affine g_o+(n-1)*g_e): nessun contenuto inventato.",
+  "Compilazione e resa verificate: il documento compila senza errori e le pagine 78-80 del PDF sono state ispezionate visivamente; la figura 9.3 e la matrice 4x4 rendono correttamente. Unico difetto tipografico (non segnalato come problema): il box 'Esempio 8' si spezza fra due pagine lasciando 'Una possibile matrice di punteggio e' allora' + matrice in cima alla pagina successiva."
+ ]
+}

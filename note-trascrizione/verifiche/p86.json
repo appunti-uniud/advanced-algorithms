@@ -1,0 +1,13 @@
+{
+ "pagina": 86,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "errore-logico",
+   "dove": "lezioni/16-random-walk-grafi.tex, riga 312 (frase fra l'enunciato del Lemma 'Commute time lungo un arco' e la sua dimostrazione)",
+   "descrizione": "La frase aggiunta dall'editore recita: «L'ipotesi di adiacenza e essenziale: se cade, la disuguaglianza e falsa.» Cosi formulata e un'affermazione universale ed e falsa: se u e v non sono adiacenti la disuguaglianza C_{u,v} <= 2m puo benissimo continuare a valere. Poiche C_{u,v} = 2m * R_eff(u,v), basta una coppia non adiacente con resistenza efficace <= 1: p.es. u e v uniti da k >= 2 cammini interni disgiunti di lunghezza 2 (a cui si appenda un triangolo per rispettare l'ipotesi di non bipartitezza del capitolo) danno R_eff(u,v) = 2/k <= 1, quindi C_{u,v} <= 2m pur essendo (u,v) non in E. Cio che il controesempio del lollipop mostra e solo che l'ipotesi non e eliminabile, non che la sua caduta implichi la falsita della tesi.",
+   "correzione": "Sostituire con: «L'ipotesi di adiacenza e essenziale: se cade, la disuguaglianza puo essere falsa.» (oppure «non vale piu in generale»). Il resto del periodo, con il controesempio del lollipop, resta invariato."
+  }
+ ]
+}

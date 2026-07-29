@@ -1,0 +1,104 @@
+{
+ "pagina": 69,
+ "latex": "\\scan{69}\n\nRiepilogo delle forme normali e del costo dei due algoritmi deterministici visti per il caso\nbinario:\n\\[\n  \\text{CNF}\\qquad \\text{3-CNF}\\qquad \\text{2-CNF}\n  \\;\\begin{cases}\n    \\longrightarrow\\ \\text{riconoscimento di (2-QBF)} & \\Oh(n)\\\\[4pt]\n    \\longrightarrow\\ \\text{risoluzione} & \\Oh(n^{2})\n  \\end{cases}\n\\]\n\nPossiamo semplificare ulteriormente e usare la \\emph{randomness}.\n\n\\paragraph{Algoritmo randomizzato per 2-CNF.}\nSia data una formula in 2-CNF e se ne consideri una clausola:\n\\[\n  \\cdots\\;\\wedge\\;(\\ell_1\\vee\\ell_2)\\;\\wedge\\;\\cdots\n\\]\n\n\\begin{osservazione}\nSe $\\ell_1$ ed $\\ell_2$ hanno entrambi valore di verità $\\bot$ --- cioè se la clausola\n$(\\ell_1\\vee\\ell_2)$ non è soddisfatta --- allora, nell'ipotesi che la formula iniziale sia\nsoddisfacibile, posso «avvicinarmi» con probabilità almeno $\\tfrac12$ ad un assegnamento che\nsoddisfa la formula iniziale: basta cambiare il valore di verità a uno fra $\\ell_1$ ed\n$\\ell_2$, scelto a caso.\n\\end{osservazione}\n\nIl motivo è che un assegnamento che soddisfa la formula rende vero almeno uno dei due\nletterali della clausola; scegliendo a caso quale dei due invertire, con probabilità almeno\n$\\tfrac12$ si «corregge» una variabile e ci si avvicina di un passo all'assegnamento\nobiettivo. Se allora si misura la distanza dall'obiettivo con il numero di variabili sulle\nquali i due assegnamenti coincidono, ogni passo dell'algoritmo diventa uno spostamento di\nuna posizione lungo la linea $0,1,\\dots,n$:\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/rw-linea-2sat.tikz}\n\\caption{Il passo dell'algoritmo visto come passeggiata aleatoria sulla linea degli stati\n$0,1,2,\\dots,n$: dallo stato corrente ci si sposta a sinistra oppure a destra di una\nposizione, a destra con probabilità almeno $\\tfrac12$.}\n\\end{figure}\n\nPosso quindi vedere la mia ricerca come una \\emph{visita randomizzata} di $L_n$, il\n\\emph{grafo lineare} con $n$ nodi. (Sulla linea compaiono gli stati $0,1,\\dots,n$, che sono\n$n+1$: la discrepanza con «$n$ nodi» è irrilevante per gli ordini di grandezza.)\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/grafo-lineare-L4.tikz}\n\\caption{Il grafo lineare $L_4$.}\n\\end{figure}\n\n\\begin{esercizio}[Hitting time su $K_n$]\\label{ex:hitting-kn}\nCalcolare il valore atteso del numero di passi in $K_n$ (il \\emph{complete graph}) per\nandare da $u$ a $v$: è l'\\emph{hitting time}.\n\\end{esercizio}\n\nIl punto di partenza del conto è il numero $n-1$: tanti sono i vicini di ogni nodo di $K_n$,\ne fra essi si sceglie uniformemente ad ogni passo. Le mosse possibili sono $n-1$ e non $n$\nperché nei grafi non ci sono self-loop: un arco congiunge sempre due nodi distinti. Dunque\n\\begin{align*}\n  \\Pr[\\,\\text{trovo } v \\text{ in } 1 \\text{ passo}\\,]  &= \\frac{1}{n-1},\\\\[4pt]\n  \\Pr[\\,\\text{trovo } v \\text{ in } 2 \\text{ passi}\\,]  &= \\Bigl(1-\\frac{1}{n-1}\\Bigr)\\frac{1}{n-1},\\\\[4pt]\n  &\\;\\;\\vdots\\\\[2pt]\n  \\Pr[\\,\\text{trovo } v \\text{ in } t \\text{ passi}\\,]  &= \\Bigl(1-\\frac{1}{n-1}\\Bigr)^{t-1}\\frac{1}{n-1}.\n\\end{align*}\n\nSi ricade quindi in uno schema di Bernoulli con probabilità di successo\n\\[\n  p \\;=\\; \\frac{1}{n-1}.\n\\]\n\n\\begin{osservazione}\nBernoulliane sono le singole prove (il singolo passo del cammino, che «riesce» se porta\nproprio in $v$); la variabile aleatoria di cui si vuole il valore atteso --- il numero di\npassi necessari per raggiungere $v$ --- è invece \\emph{geometrica} di parametro $p$.\n\\end{osservazione}\n",
+ "note": [
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 69,
+   "testo": "Intestazione, prima freccia: il quaderno abbrevia la parola con una desinenza in apice («Ricogn.^{to} di (2-QBF) O(n)»). L'ho sciolta in «riconoscimento di (2-QBF)», lettura obbligata dal contesto: è il risultato di Aspvall–Plass–Tarjan già registrato a p.67 («O(n) per 2-QBF»), contrapposto alla seconda freccia «risoluzione O(n^2)» (l'algoritmo quadratico per risoluzione, p.67 e appunti fonte dell'anno precedente L17 §2).",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 69,
+   "testo": "Il quaderno scrive «Se ℓ1 e ℓ2 hanno valore di verità ⊥» con il simbolo tracciato come un «1» sormontato da una barra alla base. Ho letto ⊥ (falso) e non «1»: il glifo ha la barra orizzontale di base che gli altri «1» della pagina (in «1 passo», «1/(n-1)») non hanno, e soprattutto la clausola dev'essere NON soddisfatta perché l'algoritmo faccia il flip. Coerente con la notazione dell'anno precedente (0 = ⊥, 1 = ⊤) e con p.68 («Se (ℓ1 ∨ ℓ2) non è soddisfatta da f»).",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 69,
+   "testo": "Il quaderno scrive «posso \"avvicinarmi\" con probabilità 1/2»; ho scritto «con probabilità almeno 1/2». Se l'assegnamento obiettivo differisce da quello corrente su entrambi i letterali della clausola la probabilità di migliorare è 1, quindi il valore corretto è ≥ 1/2 (così anche neGli appunti del corso dell'anno precedente, L17 §3: Pr[le cose migliorino] ≥ 1/2).",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 69,
+   "testo": "Il quaderno scrive «cambiando il valore di verità a ℓ1 e ℓ2 (scelgo a caso)». Il connettivo scritto è «e» (stesso glifo di «Se ℓ1 e ℓ2»), ma l'algoritmo inverte un solo letterale: ho reso «a uno fra ℓ1 ed ℓ2, scelto a caso», che conserva la «e» e rende corretta la semantica. L'inciso «(scelgo a caso)» conferma che la scelta è fra i due.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 69,
+   "testo": "Ho aggiunto due frasi di raccordo assenti dal quaderno: (a) la giustificazione dell'osservazione (un assegnamento soddisfacente rende vero almeno uno dei due letterali); (b) l'esplicitazione che la posizione sulla linea è il numero di variabili in comune con l'assegnamento obiettivo. Senza (b) il disegno della retta 0..n resta senza spiegazione in questa pagina (la spiegazione con k−1/k+1 sta a p.68). Contenuto preso daGli appunti del corso dell'anno precedente (L17 §3 e §6, la funzione f(A)).",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 69,
+   "testo": "La riga sotto l'esercizio 1 comincia con una parola che leggo «Starting» seguita da «: n−1» (S maiuscola, due aste alte, terminazione -ing). L'ho resa in italiano come «Il punto di partenza del conto è il numero n−1: tanti sono i vicini di ogni nodo di K_n». La lettura del singolo vocabolo resta incerta, ma il contenuto è determinato dal disegnino accanto (un arco fra due nodi distinti) e dalla parentesi sui self-loop.",
+   "risolto": false
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 69,
+   "testo": "La parentesi accanto al disegnino di un arco si legge «(… self-loop nei grafi)»: la prima parola (5-6 lettere, iniziale con discendente) non è decifrabile con certezza — candidate «niente» / «privi». Ho scritto «nei grafi non ci sono self-loop: un arco congiunge sempre due nodi distinti», che è l'unico significato compatibile con il disegno e con il fatto che i vicini siano n−1 e non n.",
+   "risolto": false
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 69,
+   "testo": "Il quaderno dà solo i casi «1 passo» e «2 passi». Ho aggiunto il termine generale (1−1/(n−1))^{t−1}·1/(n−1), che è quello effettivamente sommato a p.70 nel calcolo di E[X] = Σ t(1−p)^{t−1}p; neGli appunti del corso dell'anno precedente (L17 §3.2) la tabella arriva infatti fino al terzo passo e poi ai puntini.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 69,
+   "testo": "Il quaderno chiude con «→ Distribuzione Bernoulli con p = 1/(n−1)» (con la glossa «prob. successo» sotto p). Ho scritto «schema di Bernoulli con probabilità di successo p = 1/(n−1)» e aggiunto un'osservazione: bernoulliane sono le singole prove, mentre il numero di passi fino al successo è geometrico di parametro p. È la stessa precisazione già usata a p.70 («ogni incremento è distribuito geometricamente con parametro p_i») e neGli appunti del corso dell'anno precedente (L17 §3.2).",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 69,
+   "testo": "Verifica di indici: la retta disegnata porta gli stati 0,1,2,3,4,…,n, cioè n+1 nodi, mentre il testo dice «L_n grafo lineare con n nodi». Ho segnalato la discrepanza con un inciso breve invece di correggerla, perché è innocua (a p.72 si userà C_{L_n} ≤ 2n^2, dove il fattore in più è assorbito).",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 69,
+   "testo": "Accanto a «Starting: n−1» il quaderno traccia un mini-disegno di due pallini uniti da un segmento (un arco fra due nodi distinti), con la parentesi sui self-loop. Non gli ho dedicato una figura: un float per un solo arco sarebbe editorialmente sproporzionato, e il suo contenuto è reso in prosa («un arco congiunge sempre due nodi distinti»).",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 69,
+   "testo": "Continuità/ordine: p.68 (titolo «Algoritmo randomizzato per 2-CNF», FLIP, SPAZIO O(n) bit, O(n^2)) contiene materiale logicamente successivo a questa pagina; p.69 riparte dall'intestazione di riepilogo CNF/3-CNF/2-CNF e ripete il titolo dell'algoritmo. In fase di assemblaggio va deciso se p.68 sia una pagina a fronte (recap) o una vera inversione di sequenza: la trascrizione di p.69 non presuppone p.68.",
+   "risolto": false
+  },
+  {
+   "tipo": "altro",
+   "pagina": 69,
+   "testo": "Espansioni telegrafiche silenziose: «Possiamo semplificare ulteriormente e usare la randomness», «Posso vedere la mia ricerca come una visita randomizzata di L_n → grafo lineare con n nodi», «1) Calcolare il valore atteso del numero di passi in K_n per andare da u a v ⟸ hitting time» con la glossa «complete graph» agganciata a K_n. La sottolineatura di «una visita randomizzata» è stata resa con \\emph; l'esercizio numerato «1)» è stato reso con l'ambiente esercizio (coerente con p.70, che usa esercizio per il cover time e rimanda all'«esercizio 1»).",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "rw-linea-2sat",
+   "pagina": 69,
+   "didascalia": "Il passo dell'algoritmo visto come passeggiata aleatoria sulla linea degli stati 0,1,2,…,n: dallo stato corrente ci si sposta a sinistra oppure a destra di una posizione, a destra con probabilità almeno 1/2.",
+   "tipo": "retta degli stati / random walk 1-D",
+   "specifica": "Asse orizzontale disegnato a mano libera, spesso, che attraversa tutta la larghezza della figura e termina a destra con una punta di freccia. Sull'asse, in corrispondenza dello 0, una piccola asta VERTICALE che taglia l'asse (marcatore di origine, sporge sia sopra sia sotto). Nodi = pallini pieni sull'asse, equispaziati (passo ~1 quadretto e mezzo), alle posizioni 0, 1, 2, 3, 4; poi un lungo tratto vuoto con dei puntini di sospensione «……» posti SOTTO l'asse, e infine un ultimo pallino pieno etichettato n; dopo n l'asse prosegue ancora un po' fino alla punta di freccia. Etichette poste SOTTO i pallini, allineate: 0, 1, 2, 3, 4, ……, n. Sopra l'asse due archi di freccia curvi che partono entrambi dal nodo 3: (a) uno curva verso SINISTRA e termina con punta di freccia sopra il nodo 2; (b) uno curva verso DESTRA e termina con punta di freccia sopra il nodo 4; i due archi sono disegnati come piccoli semicerchi appiattiti, alti circa mezzo quadretto, e le loro code si toccano quasi sopra il 3. A sinistra della figura arriva, dall'alto, una lunga freccia curva (viene dalla graffa che nel manoscritto racchiude il blocco «Se ℓ1 e ℓ2 hanno valore di verità ⊥ … (scelgo a caso)»): scende con curvatura ampia e termina con una punta di freccia piena, triangolare, che punta verso destra all'estremo sinistro dell'asse. In TikZ questa freccia può essere resa come una freccia curva che entra da sinistra-alto e si aggancia all'inizio dell'asse. Semantica: la posizione sulla retta è il numero di variabili sulle quali l'assegnamento corrente coincide con un assegnamento soddisfacente fissato; ogni flip sposta di ±1; lo stato n è quello di arresto. Nessun testo dentro la figura oltre alle etichette numeriche.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "grafo-lineare-L4",
+   "pagina": 69,
+   "didascalia": "Il grafo lineare $L_4$.",
+   "tipo": "grafo (cammino)",
+   "specifica": "Cammino orizzontale con 4 nodi e 3 archi, disegnato in piccolo e centrato. I nodi sono pallini (il primo e l'ultimo pieni, i due centrali disegnati come piccoli cerchietti vuoti nel manoscritto: si può uniformare a 4 cerchietti dello stesso stile). Gli archi sono segmenti orizzontali rettilinei di lunghezza uguale (~1,5 quadretti ciascuno). Nessuna etichetta sui nodi. A destra del disegno, staccata di circa due quadretti e leggermente più in basso, l'etichetta in matematica $L_4$. Semantica: istanza piccola del grafo lineare $L_n$ su cui si svolge la visita randomizzata.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina apre il blocco randomizzato per 2-SAT: dopo il riepilogo (2-CNF risolto in O(n) via riconoscimento di 2-QBF, oppure in O(n^2) per risoluzione) introduce l'algoritmo randomizzato, l'osservazione chiave sul flip di un letterale in una clausola falsa (probabilità almeno 1/2 di avvicinarsi a un assegnamento soddisfacente) e la lettura della ricerca come visita randomizzata del grafo lineare L_n. Si apre poi il primo dei due esercizi propedeutici, l'hitting time su K_n, e si arriva fino a riconoscere lo schema di Bernoulli con p = 1/(n-1); resta in sospeso il calcolo del valore atteso. La pagina 70 riparte esattamente di lì: E[X] = Σ_{t≥1} t(1-p)^{t-1} p, il calcolo per derivazione della serie geometrica che dà 1/p, quindi hitting time = n-1 su K_n, e poi il secondo esercizio (cover time). All'indietro, p.67 chiude con Aspvall–Plass–Tarjan e il grafo delle implicazioni, di cui l'intestazione di questa pagina è il riassunto; attenzione al fatto che p.68 contiene materiale logicamente successivo (SPAZIO O(n) bit, O(n^2) passi).",
+ "confidenza": "alta"
+}

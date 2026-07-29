@@ -1,0 +1,44 @@
+% randqs-albero-chiamate -- pag. 52
+% Albero delle chiamate ricorsive nel caso bilanciato: e' un albero binario
+% completo di altezza h = log_2 n; su ogni livello i sottoproblemi si
+% ripartiscono gli n elementi, quindi il costo per livello e' O(n).
+\begin{tikzpicture}[
+    x=1cm, y=1cm, >=Latex,
+    filo/.style={draw=black!80,line width=0.7pt},
+    nodo/.style={circle,draw=black!80,fill=white,line width=0.7pt,
+                 inner sep=0pt,minimum size=4.5pt},
+    radice/.style={circle,draw=black!80,fill=black!80,inner sep=0pt,
+                   minimum size=5.5pt},
+    onda/.style={filo,->,decorate,
+                 decoration={snake,amplitude=0.5mm,segment length=3mm,
+                             post length=2mm,pre length=1mm}}
+  ]
+
+  % ---- i nodi ---------------------------------------------------------------
+  \node[radice] (r)  at ( 0.00,2.40) {};
+  \node[nodo]   (a)  at (-1.15,1.20) {};
+  \node[nodo]   (b)  at ( 1.15,1.20) {};
+  \node[nodo]   (a1) at (-1.75,0.00) {};
+  \node[nodo]   (a2) at (-0.55,0.00) {};
+  \node[nodo]   (b1) at ( 0.55,0.00) {};
+  \node[nodo]   (b2) at ( 1.75,0.00) {};
+
+  % ---- gli archi ------------------------------------------------------------
+  \draw[filo] (r) -- (a);   \draw[filo] (r) -- (b);
+  \draw[filo] (a) -- (a1);  \draw[filo] (a) -- (a2);
+  \draw[filo] (b) -- (b1);  \draw[filo] (b) -- (b2);
+
+  % ---- l'altezza dell'albero ------------------------------------------------
+  \draw[filo,decorate,decoration={brace,amplitude=6pt}]
+       (-2.60,-0.18) -- (-2.60,2.58);
+  \node[anchor=east] at (-2.85,1.20) {$h$};
+
+  % ---- il costo di ciascun livello ------------------------------------------
+  \draw[onda] (0.25,2.40) -- (2.80,2.40);
+  \draw[onda] (1.40,1.20) -- (2.80,1.20);
+  \draw[onda] (1.95,0.00) -- (2.80,0.00);
+  \node[anchor=west] at (2.95,2.40) {$\Oh(n)$};
+  \node[anchor=west] at (2.95,1.20) {$\Oh(n)$};
+  \node[anchor=west] at (2.95,0.00) {$\Oh(n)$};
+
+\end{tikzpicture}

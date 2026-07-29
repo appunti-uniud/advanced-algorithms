@@ -1,0 +1,32 @@
+% N_j[P] = |alpha|, con alpha suffisso di P[1..j] e insieme suffisso di P.
+\begin{tikzpicture}[font=\footnotesize,
+    tacca/.style = {line width=1pt},
+    ets/.style   = {font=\scriptsize,graydark}]
+
+  %% il pattern P: posizione 1 in x=0, posizione n in x=10.4
+  \draw[deepsea,line width=2.2pt,-{Latex[length=5pt,width=4.5pt]}] (0,0) -- (10.8,0);
+  \node[anchor=west] at (11.1,0) {$P$};
+
+  %% tacche agli estremi delle due occorrenze di alpha
+  \foreach \t in {2.3,4.3,8.4,10.4} \draw[tacca] (\t,-0.3) -- (\t,0.3);
+
+  %% occorrenza che termina in j
+  \draw[decorate,decoration={brace,amplitude=5pt,raise=3pt},graydark,line width=0.7pt]
+        (2.3,0) -- (4.3,0);
+  \node[anchor=south] at (3.3,0.36) {$\alpha$};
+
+  %% occorrenza che termina in n: alpha e' anche un suffisso di P
+  \draw[decorate,decoration={brace,amplitude=5pt,raise=3pt},graydark,line width=0.7pt]
+        (8.4,0) -- (10.4,0);
+  \node[anchor=south] at (9.4,0.36) {$\alpha$};
+
+  %% le due occorrenze sono la stessa stringa
+  \draw[gray,dashed,line width=0.7pt]
+        (3.3,0.78) .. controls (4.4,1.9) and (8.3,1.9) .. (9.4,0.78);
+  \node[fill=white,inner sep=3pt] at (6.35,1.62) {$=$};
+
+  %% etichette delle posizioni
+  \node[ets,anchor=north] at (0,-0.3) {$1$};
+  \node[anchor=north] at (4.3,-0.3) {$j$};
+  \node[ets,anchor=north] at (10.4,-0.3) {$n$};
+\end{tikzpicture}

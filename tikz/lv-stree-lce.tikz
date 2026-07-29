@@ -1,0 +1,38 @@
+% lv-stree-lce -- lo STree generalizzato di S_1 $ S_2 € visto come triangolo:
+% la stringa beta letta dalla radice a un nodo interno v e' l'estensione comune
+% ai due suffissi che scendono dai rami sotto v (quaderno, pag. 48).
+\begin{tikzpicture}[
+    x=0.92cm, y=0.92cm,
+    font=\footnotesize,
+    nodo/.style={circle,fill=black,inner sep=0pt,minimum size=3.6pt},
+    ramo/.style={line width=0.7pt, rounded corners=2pt, line join=round},
+  ]
+
+  %% ---- la sagoma dell'albero ---------------------------------------
+  \coordinate (R) at (0,4);
+  \draw[line width=0.8pt, line join=round] (-3.4,0) -- (R) -- (3.4,0) -- cycle;
+
+  %% ---- il cammino radice -> v, etichettato beta ---------------------
+  \node[nodo] at (R) {};
+  \draw[ramo,line width=1.0pt]
+      (0,4) -- (0.12,3.55) -- (-0.06,3.10) -- (0.14,2.65) -- (-0.04,2.25)
+           -- (0.05,1.90);
+  \node[font=\normalsize] at (0.45,2.85) {$\beta$};
+
+  \node[nodo,minimum size=4.4pt] (v) at (0.05,1.90) {};
+  \node[left=4pt] at (v) {$v$};
+
+  %% ---- i due rami che scendono da v ---------------------------------
+  \draw[ramo]
+      (0.05,1.90) -- (-0.30,1.55) -- (-0.40,1.15) -- (-0.74,0.85)
+                  -- (-0.86,0.50) -- (-1.22,0.26) -- (-1.45,0);
+  \draw[ramo]
+      (0.05,1.90) -- ( 0.42,1.55) -- ( 0.54,1.18) -- ( 0.82,0.86)
+                  -- ( 0.94,0.48) -- ( 1.26,0.24) -- ( 1.45,0);
+
+  \node[nodo] (fi) at (-1.45,0) {};
+  \node[nodo] (fj) at ( 1.45,0) {};
+  \node[below=3pt] at (fi) {$\suf{S_1}{i}$};
+  \node[below=3pt] at (fj) {$\suf{S_2}{j}$};
+
+\end{tikzpicture}

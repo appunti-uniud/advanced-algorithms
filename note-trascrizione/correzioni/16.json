@@ -1,0 +1,73 @@
+{
+ "capitolo": "16-random-walk-grafi",
+ "compila": true,
+ "applicate": [
+  {
+   "pagina": 83,
+   "categoria": "notazione",
+   "cosa": "Uniformata la grafia del vettore stazionario con il capitolo 15: le cinque occorrenze di $\\bar\\pi$ (righe 17, 200, 202, 354, 360) sono diventate $\\vec{\\pi}$. Ho scelto la direzione opposta a quella suggerita dal referto (portare il cap. 15 a $\\bar\\pi$) perche il cap. 15 non usa $\\vec{\\pi}$ isolatamente: usa la stessa decorazione per tutti i vettori riga di probabilita ($\\vec{q}^{(0)}$, $\\vec{q}^{(t)}$, righe 249-322). Cambiare li' solo $\\pi$ avrebbe spezzato la coerenza interna di quel capitolo, mentre nel cap. 16 non c'e nessun altro vettore soprallineato. In piu il cap. 15 e' il capitolo che introduce e definisce il simbolo, quindi e' quello che detta la convenzione."
+  },
+  {
+   "pagina": 83,
+   "categoria": "latex",
+   "cosa": "Nel richiamo del teorema fondamentale il rimando generico «Il teorema e' stato enunciato e discusso nel capitolo precedente» e' diventato puntuale: «Il Teorema~\\ref{thm:mc-fondamentale} e' stato enunciato e discusso nel capitolo precedente». Compilando il capitolo da solo il riferimento resta indefinito (e' l'unico del capitolo)."
+  },
+  {
+   "pagina": 84,
+   "categoria": "errore-matematico",
+   "cosa": "Corretta la conclusione numerica dell'osservazione sul mescolamento. Da «Per $K = 52$ servono dunque circa $52 \\ln 52 \\approx 205$ mescolate» a «Per $K = 52$ servono dunque in media $52\\,H_{52} \\approx 236$ mescolate: l'ordine di grandezza e' $K \\ln K \\approx 205$, e i circa $30$ passi di differenza sono il termine $\\gamma K$ che l'approssimazione $H_K \\approx \\ln K$ trascura». Verificato: $H_{52} = 4{,}538$, $52 H_{52} = 235{,}98$, $52 \\ln 52 = 205{,}46$, $\\gamma \\cdot 52 = 30{,}02$. Il «dunque» ora non fa piu' discendere da una formula esatta un numero sbagliato di 30 unita, e resta comunque visibile la stima classica $n \\ln n$ del top-in-at-random."
+  },
+  {
+   "pagina": 85,
+   "categoria": "notazione",
+   "cosa": "Tolta l'identificazione fra vertici e archi nella dimostrazione della distribuzione stazionaria: «perche i vicini di $u$ --- cioe gli archi incidenti a $u$ --- sono esattamente $d(u)$» e' diventato «perche la somma ha esattamente $\\abs{\\Gamma(u)} = d(u)$ addendi, uno per ogni vicino di $u$», coerente con l'indice di somma $v \\in \\Gamma(u)$ usato nella catena di uguaglianze."
+  },
+  {
+   "pagina": 86,
+   "categoria": "errore-logico",
+   "cosa": "Attenuata l'affermazione universale sull'ipotesi di adiacenza nel Lemma del commute time: «se cade, la disuguaglianza e' falsa» diventa «se cade, la disuguaglianza puo' essere falsa». Il controesempio del lollipop mostra infatti che l'ipotesi non e' eliminabile, non che ogni coppia non adiacente violi la stima (bastano due vertici non adiacenti con resistenza efficace $\\le 1$, p.es. uniti da $k \\ge 2$ cammini interni disgiunti di lunghezza 2, per avere $C_{u,v} = 2m R_{\\text{eff}}(u,v) \\le 2m$)."
+  },
+  {
+   "pagina": 87,
+   "categoria": "errore-logico",
+   "cosa": "Aggiunta la verifica delle ipotesi del teorema fondamentale per la catena ausiliaria $Q$ sugli archi orientati, che prima veniva invocato senza giustificazione (le ipotesi erano state controllate solo per $M_G$, la catena sui vertici). Nuovo periodo prima di «La distribuzione stazionaria di una matrice doubly stochastic e' quella uniforme»: finita ($2m$ stati); irriducibile (nello stato $(u,v)$ la passeggiata e' in $v$, e per la connessione di $G$ raggiunge ogni vertice $x$ e poi attraversa un qualunque arco $x \\to y$); aperiodica ($(u,v) \\to (v,u) \\to (u,v)$ ha lunghezza 2, mentre un cammino chiuso dispari da $v$ a $v$ --- esiste perche $G$ non e' bipartito, per l'osservazione gia' fatta a p. 83 --- seguito da $v \\to u \\to v$ riporta in $(u,v)$ in un numero dispari di passi). L'argomento dell'irriducibilita e' stato semplificato rispetto a quello proposto dal referto (non serve passare per $(v,u)$: basta la connessione)."
+  },
+  {
+   "pagina": 87,
+   "categoria": "notazione",
+   "cosa": "Disambiguata la frazione in linea: $\\pi_{(u,v)} = 1/2m$ e' diventato $\\pi_{(u,v)} = 1/(2m)$. Ho preferito le parentesi a $\\frac{1}{2m}$ perche e' la forma gia' usata in linea altrove nel capitolo (p. 86: «geometrica di parametro $1/(n-1)$») e non altera l'interlinea del capoverso."
+  },
+  {
+   "pagina": 87,
+   "categoria": "notazione",
+   "cosa": "«La quantita $h_{(u,v),(u,v)}$ e' il tempo che intercorre...» diventa «e' il tempo medio che intercorre...»: il tempo di ritorno e' una variabile aleatoria, $h$ e' la sua media, come detto ovunque nel resto del capitolo."
+  },
+  {
+   "pagina": 88,
+   "categoria": "errore-logico",
+   "cosa": "Tolta la contraddizione dell'osservazione finale: il conto del cover time di $K_n$ era dichiarato «annunciato sopra e mai svolto» tre righe dopo averlo usato, ed era gia' svolto nell'osservazione di p. 86 ($(n-1)H_{n-1} = \\Th(n \\log n)$, collezionista di figurine). Il periodo e' ora al singolare e cita il solo conto davvero rimasto in sospeso: «Resta invece impregiudicato il conto annunciato sopra e mai svolto: la stima puntuale $h_{u,v} = \\Th(n^3)$ e $h_{v,u} = \\Th(n^2)$ sul lollipop, che risponde negativamente alla Domanda~\\ref{q:simmetria-hitting}.»"
+  },
+  {
+   "pagina": 88,
+   "categoria": "errore-logico",
+   "cosa": "Sanata l'attrito fra l'ipotesi permanente di non bipartitezza (p. 83) e il primo esempio, che applica la stima del cover time a un cammino, che e' bipartito. Aggiunto nell'esempio: «Il cammino e' bipartito, e cade quindi fuori dalle ipotesi permanenti fissate all'inizio del capitolo; la stima vale lo stesso, perche di quelle ipotesi la catena di deduzioni usa soltanto l'unicita della distribuzione stazionaria e l'identita $h_{i,i} = 1/\\pi_i$, che valgono per ogni catena finita e irriducibile, anche periodica: la non bipartitezza serve a garantire la convergenza alla distribuzione stazionaria, che qui non viene mai invocata.» Rispetto al referto ho incluso anche l'unicita della distribuzione stazionaria, che la dimostrazione del Lemma sul commute time usa quanto l'identita $h_{i,i} = 1/\\pi_i$ (ed e' anch'essa valida per ogni catena finita e irriducibile)."
+  }
+ ],
+ "respinte": [
+  {
+   "pagina": 83,
+   "cosa": "Scrivere $f_{ii}$ e $h_{ii}$ senza virgola (come nel cap. 15) nel richiamo del teorema fondamentale, riservando la virgola ai soli stati composti.",
+   "perche": "Il capitolo 16 usa la virgola in modo sistematico per tutti i doppi indici: $P_{u,v}$, $h_{u,v}$, $h_{v,u}$, $C_{u,v}$, $h_{v,v}$ (riga 232), $Q_{(u,v),(v,w)}$, $h_{(u,v),(u,v)}$. Scrivere $h_{ii}$ nel richiamo di p. 83 e poi $h_{v,v}$ due pagine dopo, per la stessa grandezza e nello stesso capitolo, creerebbe una incoerenza interna peggiore della divergenza dal capitolo precedente: la virgola qui non e' un vezzo, e' obbligata dagli stati composti $(u,v)$ della catena ausiliaria, e i vertici sono indicizzati da lettere ($u$, $v$) e non da numeri, il che rende $h_{uv}$ leggibile come un prodotto. Ho invece accolto e applicato la parte del rilievo che riguarda $\\pi$, dove l'incoerenza non aveva contropartite."
+  },
+  {
+   "pagina": 87,
+   "cosa": "Spostare \\scan{87} (e controllare \\scan{83} e \\scan{88}) perche il \\marginnote non compare nel PDF quando cade dentro un tcolorbox che occupa l'intera pagina.",
+   "perche": "Il rilievo e' vero come osservazione sul PDF esaminato, ma la diagnosi e' sbagliata e la correzione proposta non risolve nulla. Ho ricompilato il solo capitolo 16 con la geometria reale del documento (classe academica in twoside, due passate) e i sei marcatori --- 83, 84, 85, 86, 87, 88 --- compaiono tutti regolarmente in margine, con il file non modificato: il costrutto «\\medskip + \\scan dentro l'ambiente dimostrazione» funziona. Il problema e' del documento assemblato, non di questo capitolo: contando i marcatori estraibili da algoritmi.pdf ce ne sono 39 su ~88, mancanti a blocchi in tutti i capitoli, e alcuni compaiono su pagine sbagliate (p.es. «scan p. 47» prima di «scan p. 44»). E' il tipico sintomo di marginnote su impaginazione non convergente: il pacchetto ricava la posizione della nota dal .aux della passata precedente (chiave note.<pagina-assoluta>.<n>), e finche la paginazione si sposta fra una passata e l'altra --- come succede ora, con tutti i capitoli in fase di correzione --- le note vengono collocate male o perse. Spostare \\scan{87} di qualche riga cambierebbe soltanto quali note vanno perse alla prossima paginazione. La cura sta a monte (piu' passate a testo stabile, o un meccanismo di rimando meno fragile nel preambolo) e va fatta a documento fermo, non capitolo per capitolo. Nota di servizio: per fare questa verifica ho ricostruito algoritmi.pdf; la ricostruzione e' fallita per un errore LaTeX transitorio in 14-random-walk-2sat.tex (in quel momento in mano a un altro agente), quindi ho ripristinato il PDF preesistente dal backup: algoritmi.pdf e' quello di partenza."
+  },
+  {
+   "pagina": 88,
+   "cosa": "Reintrodurre a fine capitolo il blocco a matita della meta' bassa di p. 88 («GIOVEDI 14:30 --- seminario algoritmi avanzati / automi ibridi / differenza tra descrizione automa ibrido e automa minimo»), oppure correggere le voci di NOTE-EDITORIALI.md che lo danno per trascritto.",
+   "perche": "La divergenza fra log e documento e' reale (la trascrizione di p. 88 lo rendeva come osservazione «Appunto a matita in calce alla pagina», l'assemblaggio l'ha scartato), ma la scelta dell'assemblaggio e' quella giusta e la confermo: e' un promemoria personale su un seminario, senza alcun rapporto con hitting/commute/cover time, e chiuderebbe il capitolo --- e l'intero volume, essendo p. 88 l'ultima pagina del quaderno --- con tre righe di agenda. Reintrodurlo peggiorerebbe il documento. Non ho toccato nemmeno NOTE-EDITORIALI.md, perche e' un file generato da .build/genera-note.py a partire da .build/trascrizioni/*.json: una modifica a mano verrebbe sovrascritta alla prima rigenerazione, e le note in questione (p88.json, voci 8 e 9) descrivono correttamente cio' che il trascrittore ha fatto nel suo stadio della catena. Metto qui a verbale la decisione, che e' la sede giusta: il promemoria a matita di p. 88 e' escluso dal documento finale perche estraneo al contenuto della lezione."
+  }
+ ]
+}

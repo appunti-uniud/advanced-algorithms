@@ -1,0 +1,20 @@
+{
+ "pagina": 52,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "latex",
+   "dove": "lezioni/11-randqs.tex, riga 66 (algorithm RandQS, passo 3): \\RandQS($S_1$) e \\RandQS($S_2$)",
+   "descrizione": "\\RandQS e definita come \\textsc{RandQS}\\xspace; la parentesi tonda aperta non e nella lista di eccezioni di \\xspace, quindi viene inserito uno spazio spurio. Nel PDF gia compilato si legge infatti \"ordina ricorsivamente con RandQS (S1 ) e RandQS (S2 )\" (verificato con pdftotext su algoritmi.pdf).",
+   "correzione": "Sostituire con \\RandQS{}($S_1$) e \\RandQS{}($S_2$) (oppure \\textsc{RandQS}($S_1$)), cosi \\xspace non aggiunge spazio."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "latex",
+   "dove": "lezioni/11-randqs.tex, riga 254 (subito fuori dal blocco p.52, ma riferito al teorema thm:randqs-confronti introdotto in p.52): \\autoref{thm:randqs-confronti}",
+   "descrizione": "L'ambiente italiano `teorema` riusa il contatore `theorem` della classe academica, quindi hyperref costruisce il nome con \\theoremautorefname, che nella classe vale \"Theorem\". Nel PDF si legge \"come annunciato dal Theorem 4\" mentre il box e intitolato \"Teorema 4\": incoerenza di lingua visibile in output.",
+   "correzione": "Aggiungere nel preambolo, accanto agli altri alias italiani, \\renewcommand{\\theoremautorefname}{Teorema} (e analoghi per definition/proposition/corollary/proof/example/exercise/question), oppure scrivere \"dal Teorema~\\ref{thm:randqs-confronti}\"."
+  }
+ ]
+}

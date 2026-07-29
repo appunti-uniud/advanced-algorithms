@@ -1,0 +1,41 @@
+% p62-autopartizione -- il segmento s giace sulla retta ell = ell(s).
+% La retta ell (tratteggiata) e' il prolungamento di s (tratto spesso, con le
+% crocette agli estremi).  Tagliando la regione corrente con ell si ottengono
+% le due regioni r_ell e r'_ell: s sta esattamente sulla loro frontiera comune
+% e va assegnato all'una oppure all'altra.  Le due frecce, perpendicolari a
+% ell e uscenti dall'estremo superiore di s, indicano proprio questa scelta.
+\begin{tikzpicture}[
+    font=\footnotesize,
+    >={Stealth[length=4pt,width=3pt]},
+    retta/.style={line width=0.5pt,dash pattern=on 2.2pt off 2.4pt},
+    segmento/.style={line width=1.4pt},
+    freccia/.style={->,line width=0.6pt},
+  ]
+
+  % ---- la retta ell : direzione (6.5,2.9), cioe' circa 24 gradi -----------
+  \coordinate (P0) at (0,0.15);      % estremo sinistro del tratteggio
+  \coordinate (P1) at (6.5,3.05);    % estremo destro del tratteggio
+  \coordinate (A)  at (2.145,1.107); % estremo inferiore di s   (t = 0.33)
+  \coordinate (B)  at (4.290,2.064); % estremo superiore di s   (t = 0.66)
+
+  \draw[retta] (P0) -- (P1);
+  \node[inner sep=1pt] at (6.78,3.16) {$\ell$};
+
+  % ---- il segmento s -----------------------------------------------------
+  \draw[segmento] (A) -- (B);
+  \foreach \P in {A,B}{%
+    \draw[line width=0.6pt] ($(\P)+(-1.1mm,-1.1mm)$) -- ($(\P)+(1.1mm,1.1mm)$);
+    \draw[line width=0.6pt] ($(\P)+(-1.1mm, 1.1mm)$) -- ($(\P)+(1.1mm,-1.1mm)$);
+  }
+  \node[inner sep=1pt] at (3.05,1.99) {$s$};
+
+  % ---- le due direzioni possibili, perpendicolari a ell ------------------
+  % normale unitaria a ell:  n = (-0.4074, 0.9130)
+  \draw[freccia] (4.209,2.247) -- (3.923,2.886);   % verso la regione r_ell
+  \draw[freccia] (4.372,1.881) -- (4.657,1.242);   % verso la regione r'_ell
+
+  % ---- le due regioni ----------------------------------------------------
+  \node[inner sep=1pt] at (2.05,2.45) {$r_\ell$};
+  \node[inner sep=1pt] at (4.95,1.08) {$r'_\ell$};
+
+\end{tikzpicture}

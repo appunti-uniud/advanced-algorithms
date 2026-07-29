@@ -1,0 +1,53 @@
+% stree-lca-montagna -- pag. 26
+% Il suffix tree disegnato "a montagna": radice in cima, foglie sulla linea di base,
+% il nodo lca(l1,l2) a meta' altezza raggiunto in O(1) grazie a Harel--Tarjan.
+\begin{tikzpicture}[
+    >=Latex,
+    ramo/.style={draw=black!75,line width=0.5pt},
+    nodo/.style={circle,fill=black!80,inner sep=0pt},
+    et/.style={font=\footnotesize}
+  ]
+
+  % ---- intestazione dello schizzo -------------------------------------------
+  \node[font=\small] at (0.1,4.15) {\STree $+$ \underline{Harel--Tarjan}};
+
+  % ---- sagoma "a montagna" del suffix tree ----------------------------------
+  \draw[line width=0.9pt,draw=black!55,fill=black!5]
+      (0.40,3.50) -- (0.10,2.85) -- (-0.15,2.60) -- (-0.45,2.35)
+      -- (-0.85,1.95) -- (-1.05,1.45) -- (-1.55,1.05) -- (-1.85,0.60)
+      -- (-2.45,0.02) -- (2.45,0.02)
+      -- (2.00,0.55) -- (1.80,1.05) -- (1.35,1.45) -- (1.20,2.05)
+      -- (0.85,2.35) -- (0.70,2.80) -- cycle;
+
+  % ---- "terreno": e' il livello delle foglie --------------------------------
+  \draw[line width=0.9pt,draw=black!55]
+      plot[smooth,tension=0.8] coordinates
+      {(-2.90,0.12) (-2.30,-0.02) (-1.60,0.07) (-0.90,-0.02)
+       (-0.10,0.07) (0.70,-0.02) (1.50,0.07) (2.20,-0.02) (2.90,0.12)};
+
+  % ---- cammino radice -> lca (nel quaderno e' ripassato due volte) ----------
+  \draw[line width=2.4pt,black!20] (0.40,3.50) -- (0.10,1.85);
+  \draw[ramo,dashed] (0.40,3.50) -- (0.10,1.85);
+
+  % ---- archi lca -> foglie --------------------------------------------------
+  \draw[ramo] (0.10,1.85) -- (-0.55,1.05) -- (-0.95,0.02);
+  \draw[ramo] (0.10,1.85) -- (0.35,0.02);
+
+  % ---- nodi -----------------------------------------------------------------
+  \node[nodo,minimum size=3pt] (rad) at (0.40,3.50) {};
+  \node[nodo,minimum size=6pt] (a)   at (0.10,1.85) {};
+  \node[nodo,minimum size=4pt] (b)   at (-0.55,1.05) {};
+  \node[nodo,minimum size=4pt] (l1)  at (-0.95,0.02) {};
+  \node[nodo,minimum size=4pt] (l2)  at (0.35,0.02) {};
+
+  % ---- etichette ------------------------------------------------------------
+  \node[et,right=3pt] at (rad.east) {radice};
+  \node[font=\small\itshape] at (-1.30,0.62) {\STree};
+
+  \draw[black!45,line width=0.4pt] (a) -- (2.10,2.45);
+  \node[et,anchor=west] at (2.10,2.45) {$\lca(\ell_1,\ell_2)$};
+
+  \node[et,below=2pt] at (l1) {$\ell_1$};
+  \node[et,below=2pt] at (l2) {$\ell_2$};
+
+\end{tikzpicture}

@@ -1,0 +1,50 @@
+% Idea del failure link: se la discesa si blocca in v si salta a n_v, il nodo la cui
+% etichetta di cammino alfa e' il piu' lungo suffisso proprio di L(v) che sia ancora
+% un cammino dalla radice.  I due tratti marcati alfa hanno la stessa lunghezza.
+\begin{tikzpicture}[
+    cammino/.style = {draw=graydark, line width=0.6pt, line cap=round, line join=round},
+    marcato/.style = {draw=accent, line width=2.6pt, line cap=round, opacity=0.7},
+    nodo/.style    = {circle, fill=graydark, inner sep=0pt, minimum size=3.6pt},
+    flink/.style   = {draw=black, line width=0.7pt, dash pattern=on 3.5pt off 2.5pt,
+                      -{Triangle[length=5.5pt,width=4.5pt]}},
+    prosegue/.style= {draw=graydark, line width=0.6pt, dotted, line cap=round},
+    et/.style      = {font=\footnotesize},
+  ]
+
+  % ---- sagoma di K(P) ---------------------------------------------------
+  \fill[black!5, draw=gray!55, line width=0.4pt]
+      (0,4.8) .. controls (2.02,4.2) and (3.70,2.49) .. (4.4,0.145)
+              .. controls (2.2,-0.30) and (-2.2,-0.30) .. (-4.4,0.145)
+              .. controls (-3.70,2.49) and (-2.02,4.2) .. cycle;
+
+  % ---- nodi -------------------------------------------------------------
+  \coordinate (r)  at ( 0.00, 4.80);
+  \coordinate (u)  at (-1.02, 3.07);
+  \coordinate (v)  at (-2.30, 0.90);
+  \coordinate (nv) at ( 1.36, 2.70);
+
+  % ---- cammini: i due tratti che portano alfa sono marcati ---------------
+  \draw[marcato] (u) -- (v);
+  \draw[marcato] (r) -- (nv);
+  \draw[cammino] (r) -- (u) -- (v);
+  \draw[cammino] (r) -- (nv);
+  \draw[prosegue] (nv) -- (1.78,2.05);
+
+  \node[nodo] at (r)  {};
+  \node[nodo] at (u)  {};
+  \node[nodo] at (v)  {};
+  \node[nodo] at (nv) {};
+
+  % ---- failure link -----------------------------------------------------
+  \draw[flink] (v) -- (nv)
+      node[et,midway,sloped,above=1pt] {\emph{failure link}};
+
+  % ---- etichette --------------------------------------------------------
+  \node[et,above=2pt]           at (r)  {$\mathrm{root}$};
+  \node[et,anchor=east,xshift=-3pt]  at (u)  {$u$};
+  \node[et,anchor=east,xshift=-3pt]  at (v)  {$v$};
+  \node[et,anchor=west,xshift=4pt,yshift=3pt] at (nv) {$\nv{v}$};
+  \node[et] at (-2.12, 2.24) {$\a$};
+  \node[et] at ( 1.08, 4.00) {$\a$};
+  \node[et] at ( 2.95, 0.70) {$K(\mathcal{P})$};
+\end{tikzpicture}

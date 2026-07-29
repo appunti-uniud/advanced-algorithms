@@ -1,0 +1,69 @@
+% Una BPP di S = {s_1,s_2,s_3} e l'albero binario che la rappresenta.
+% A sinistra la scena: la prima retta l_1 taglia tutto il piano e attraversa
+% s_3, spezzandolo in s_{3,1} (sopra l_1) e s_{3,2} (sotto l_1); l_2 e l_3
+% sono i tagli delle due regioni figlie e sono quindi semirette che partono
+% da l_1 e non la oltrepassano.
+% A destra l'albero: nodi interni = coppie (r,l), foglie = segmenti o porzioni
+% di segmento.  Tre nodi interni (tre tagli) e quattro foglie = 3 segmenti + 1
+% spezzamento; le due foglie evidenziate sono le due porzioni di s_3.
+\begin{tikzpicture}[
+    segmento/.style={draw=black,line width=1.3pt,line cap=round},
+    taglio/.style={draw=graydark,line width=0.7pt,line cap=round,
+                   dash pattern=on 3.2pt off 2.4pt},
+    et/.style={font=\footnotesize},
+    etg/.style={font=\footnotesize,text=graydark},
+    interno/.style={ellipse,draw=black,line width=0.6pt,inner sep=1.5pt,
+                    minimum width=1.5cm,minimum height=0.74cm,font=\footnotesize},
+    foglia/.style={circle,draw=black,line width=0.6pt,inner sep=0.5pt,
+                   minimum size=0.76cm,font=\footnotesize},
+    spezzata/.style={foglia,fill=accent!25},
+    arco/.style={draw=black,line width=0.6pt},
+  ]
+
+  %% ======================= (a) la scena ==================================
+  \begin{scope}[scale=0.78]
+
+    % l_1: primo taglio, attraversa tutto il piano e spezza s_3
+    \draw[taglio] (0.80,7.05) -- (6.50,2.10);
+    \node[etg] at (6.90,1.80) {$\ell_1$};
+    % l_2: taglia la regione sopra l_1 (semiretta uscente da l_1)
+    \draw[taglio] (4.00,4.271) -- (6.10,6.85);
+    \node[etg] at (6.42,7.10) {$\ell_2$};
+    % l_3: taglia la regione sotto l_1 (semiretta uscente da l_1)
+    \draw[taglio] (3.50,4.705) -- (3.85,1.15);
+    \node[etg] at (3.92,0.78) {$\ell_3$};
+
+    % i tre segmenti
+    \draw[segmento] (2.30,6.00) -- (4.30,6.80);   % s_1
+    \draw[segmento] (1.30,5.85) -- (2.40,3.80);   % s_2
+    \draw[segmento] (4.40,3.20) -- (5.80,5.05);   % s_3, spezzato da l_1
+
+    % punto in cui l_1 spezza s_3
+    \filldraw[fill=white,draw=black,line width=0.5pt] (4.7305,3.6368) circle (2.2pt);
+
+    \node[et] at (3.00,7.15) {$s_1$};
+    \node[et] at (0.95,4.90) {$s_2$};
+    \node[et] at (6.10,5.25) {$s_3$};
+    \node[etg] at (5.72,4.00) {$s_{3,1}$};
+    \node[etg] at (4.30,2.72) {$s_{3,2}$};
+  \end{scope}
+
+  %% ======================= (b) l'albero ==================================
+  \begin{scope}[shift={(8.60,1.55)}]
+    \node[interno] (n1) at ( 0.00,3.00) {$r_1\ \ \ell_1$};
+    \node[interno] (n2) at (-1.50,1.50) {$r_2\ \ \ell_2$};
+    \node[interno] (n3) at ( 1.50,1.50) {$r_3\ \ \ell_3$};
+
+    \node[foglia]   (f1) at (-2.10,0.00) {$s_1$};
+    \node[spezzata] (f2) at (-0.90,0.00) {$s_{3,1}$};
+    \node[foglia]   (f3) at ( 0.90,0.00) {$s_2$};
+    \node[spezzata] (f4) at ( 2.10,0.00) {$s_{3,2}$};
+
+    \draw[arco] (n1) -- (n2);
+    \draw[arco] (n1) -- (n3);
+    \draw[arco] (n2) -- (f1);
+    \draw[arco] (n2) -- (f2);
+    \draw[arco] (n3) -- (f3);
+    \draw[arco] (n3) -- (f4);
+  \end{scope}
+\end{tikzpicture}

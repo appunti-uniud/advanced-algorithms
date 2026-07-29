@@ -1,0 +1,51 @@
+% random-walk-linea-2sat -- pagg. 68 e 69 (i due schizzi rappresentano la stessa cosa
+% e qui sono fusi in un'unica figura).
+% La linea degli stati 0,1,...,n: lo stato k conta le variabili su cui l'assegnamento
+% corrente f coincide con l'assegnamento soddisfacente fissato f*.  Ogni FLIP sposta
+% di +-1, e a k+1 si va con probabilita' almeno 1/2; n e' lo stato di arresto.
+\begin{tikzpicture}[
+    >=Latex,
+    font=\footnotesize,
+    asse/.style={line width=0.7pt},
+    tacca/.style={line width=0.7pt},
+    stato/.style={circle,fill,inner sep=0pt,minimum size=3.2pt},
+    salto/.style={->,line width=0.6pt}]
+
+  % ---- asse degli stati ----------------------------------------------------
+  \draw[asse,->] (-0.55,0) -- (7.40,0);
+
+  % ---- gli stati -----------------------------------------------------------
+  \node[stato] at (0.00,0) {};
+  \node[stato] at (0.75,0) {};
+  \node[stato] at (1.45,0) {};
+  \node[stato] at (2.95,0) {};
+  \node[stato] at (3.95,0) {};
+  \node[stato] at (4.95,0) {};
+  \node[stato] at (6.55,0) {};
+
+  % ---- tacche che attraversano l'asse: origine, stato corrente, arresto ----
+  \draw[tacca] (0.00,-0.30) -- (0.00,0.30);
+  \draw[tacca] (3.95,-0.26) -- (3.95,0.26);
+  \draw[tacca] (6.55,-0.22) -- (6.55,0.22);
+
+  % ---- etichette, tutte sulla stessa linea di base --------------------------
+  \node[anchor=north] at (0.00,-0.34) {$0$};
+  \node[anchor=north] at (0.75,-0.34) {$1$};
+  \node[anchor=north] at (1.45,-0.34) {$2$};
+  \node[anchor=north] at (2.15,-0.34) {$\cdots$};
+  \node[anchor=north] at (2.95,-0.34) {$k-1$};
+  \node[anchor=north] at (3.95,-0.34) {$k$};
+  \node[anchor=north] at (4.95,-0.34) {$k+1$};
+  \node[anchor=north] at (5.85,-0.34) {$\cdots$};
+  \node[anchor=north] at (6.55,-0.34) {$n$};
+
+  % ---- il passo: da k si va a k-1 oppure a k+1 ------------------------------
+  \draw[salto] (3.88,0.32) to[out=145,in=55] (3.00,0.18);
+  \draw[salto] (4.02,0.32) to[out=35,in=125] (4.90,0.18);
+  \node[anchor=west,font=\scriptsize] at (5.05,0.46) {$\ge \tfrac12$};
+
+  % ---- che cosa conta n -----------------------------------------------------
+  \node[anchor=north west,align=left,font=\scriptsize,text=black!70]
+    at (6.90,-0.26) {$n$ variabili\\proposizionali};
+
+\end{tikzpicture}

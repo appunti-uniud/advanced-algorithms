@@ -1,0 +1,10 @@
+# Figura `p73-spazio-stati`
+
+- **Pagina della scansione:** 73
+- **Tipo:** schema insiemistico (curva chiusa irregolare) contenente un piccolo grafo orientato
+- **Didascalia prevista:** L'insieme $S$ degli stati e alcune transizioni possibili fra di essi.
+- **Ritenuta fattibile in TikZ:** True
+
+## Specifica
+
+Una curva chiusa irregolare disegnata a mano libera (forma a «patata», bordo ondulato con un paio di rientranze, larga circa il doppio dell'altezza) racchiude lo spazio degli stati. FUORI dalla patata, a sinistra e all'altezza della sua meta superiore, l'etichetta su due righe: 'S' (grande, in alto) e sotto 'stati'; nel quaderno le due parole sono sovrapposte come un'unica glossa 'S = stati'. DENTRO la patata, tre stati disegnati come cerchietti vuoti di piccolo diametro, disposti a triangolo: s_1 in basso a sinistra (etichetta 's_1' scritta subito a sinistra del cerchietto), s_2 in alto al centro-destra rispetto a s_1 (etichetta 's_2' subito a sinistra/sopra il cerchietto), s_3 a destra e leggermente piu in alto di s_1 (etichetta 's_3' subito sotto-a destra del cerchietto). ARCHI ORIENTATI, tutti senza etichette di probabilita: (1) un arco curvo che sale da s_1 a s_2, con punta di freccia su s_2; (2) una coppia di archi fra s_1 e s_3 che formano una lente: l'arco superiore va da s_1 a s_3 con punta su s_3, l'arco inferiore torna da s_3 a s_1 con punta su s_1; (3) un cappio (self-loop) su s_3, disegnato come un piccolo anello che esce e rientra dal cerchietto verso l'alto-destra. Nessun altro arco: in particolare s_2 non ha archi uscenti disegnati. Il disegno serve solo a dire che una catena di Markov e un grafo orientato sull'insieme degli stati, con archi = transizioni possibili. Testo della figura in italiano. NOTA DI CUCITURA: nel testo del capitolo questa figura e introdotta come «il grafo orientato associato a P: i nodi sono gli stati, c'e un arco da i a j quando P_ij > 0» ed e richiamata piu avanti (Sezione sulle SCC), quindi deve leggersi come grafo di transizione generico.

@@ -1,0 +1,44 @@
+% Landau--Vishkin: la banda di O(d) diagonali nella matrice sigma x T.
+% Coordinate normalizzate: (0,0) = angolo in alto a sinistra, (1,1) = angolo in
+% basso a destra; l'unita' y e' negativa cosi' y cresce verso il basso.
+\begin{tikzpicture}[
+  x=10.8cm, y=-4.0cm,
+  font=\footnotesize,
+  cammino/.style={draw=blue!55!black, line width=0.7pt, line join=round},
+  freccia/.style={draw=blue!55!black, line width=0.7pt,
+                  -{Stealth[length=1.8mm,width=1.4mm]}},
+]
+
+  % --- banda di O(d) diagonali (le due rette hanno la stessa pendenza) ---
+  \fill[black!5]
+    (0.20,0) -- (0.50,0) -- (0.74,1) -- (0.44,1) -- cycle;
+  \draw[gray!70, line width=0.4pt] (0.20,0) -- (0.44,1);
+  \draw[gray!70, line width=0.4pt] (0.50,0) -- (0.74,1);
+
+  % --- bordo della matrice di programmazione dinamica ---
+  \draw[black, line width=0.8pt] (0,0) rectangle (1,1);
+
+  % --- etichette degli assi ---
+  \node[left=2pt]  at (0,0.45)  {$\sigma$};
+  \node[above=2pt] at (0.93,0)  {$T$};
+
+  % --- cammino di allineamento (a scaletta, dentro la banda) ---
+  \draw[cammino]
+    (0.32,0)       -- (0.32,0.1333)  -- (0.36,0.1333)   -- (0.36,0.2667) --
+    (0.40,0.2667)  -- (0.40,0.40)    -- (0.45,0.45)     -- (0.45,0.5875) --
+    (0.49333,0.5875)--(0.49333,0.725)-- (0.53667,0.725) -- (0.53667,0.8625)--
+    (0.58,0.8625)  -- (0.58,1);
+
+  % --- cella generica e scostamenti consentiti ---
+  \fill[blue!55!black] (0.42,0.42) circle (1.5pt);
+
+  \draw[freccia] (0.42,0.42) -- (0.33,0.42);
+  \node[above=1pt, blue!55!black] at (0.375,0.42) {$d$};
+
+  \draw[freccia] (0.42,0.42) -- (0.51,0.42);
+  \node[above=1pt, blue!55!black] at (0.465,0.42) {$d$};
+
+  \draw[freccia] (0.42,0.42) -- (0.42,0.70);
+  \node[left=1pt, blue!55!black] at (0.42,0.56) {$d$};
+
+\end{tikzpicture}

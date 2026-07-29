@@ -1,0 +1,13 @@
+{
+ "pagina": 57,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "notazione",
+   "dove": "lezioni/12-min-cut.tex, blocco \\scan{57}: ambiente domanda (\"Qual è la probabilità che l'insieme C restituito dall'algoritmo sia un taglio minimo\") vs. caption di fig:mincut-c-in-e (\"Il taglio minimo C come sottoinsieme di E\") e paragrafo \"Fissiamo allora un taglio minimo C e poniamo k=|C|\"",
+   "descrizione": "Nella stessa pagina la lettera C denota due oggetti diversi: prima il taglio restituito dall'algoritmo (ripreso dal Lemma di p.56, dove C è l'insieme degli archi fra i due nodi rimasti), poi un taglio minimo fissato a priori che si vuole preservare. La collisione è già negli appunti, ma nella versione LaTeX produce un'incoerenza locale visibile: la didascalia della Figura 12.7 chiama 'il taglio minimo C' proprio l'oggetto che la Domanda 12, tre capoversi sopra, ha appena definito come output dell'algoritmo e di cui si sta chiedendo se sia minimo. Lo stesso doppio uso ritorna nel Teorema di Karger e nell'osservazione sull'amplificazione.",
+   "correzione": "Riservare C al taglio minimo fissato per l'analisi e usare un altro nome per l'output. Concretamente: nell'ambiente domanda scrivere «Qual è la probabilità che il taglio restituito dall'algoritmo sia un taglio minimo, e non semplicemente un taglio qualunque?» (togliendo la lettera C), e coerentemente rinominare l'insieme del Lemma di p.56 (per es. C_out) e dell'osservazione sull'amplificazione; oppure, in alternativa, anticipare prima della Domanda una frase del tipo «da qui in avanti C indica un taglio minimo fissato di G»."
+  }
+ ]
+}

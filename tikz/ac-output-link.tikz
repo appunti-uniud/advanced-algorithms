@@ -1,0 +1,59 @@
+% Keyword tree di P = {acatt, ca}.  La scansione di T = acatg scende lungo il ramo
+% sinistro (a, c, a, t) e si blocca sulla g: la foglia di ca non viene mai raggiunta
+% e l'occorrenza di ca in T[2..3] va perduta.
+\begin{tikzpicture}[
+    arco/.style   = {draw=graydark, line width=0.55pt, line cap=round},
+    nodo/.style   = {circle, fill=black, inner sep=0pt, minimum size=3.2pt},
+    car/.style    = {font=\footnotesize\ttfamily, text=graydark},
+    et/.style     = {font=\footnotesize},
+    lieve/.style  = {font=\scriptsize\ttfamily, text=gray},
+    scan/.style   = {draw=accent, line width=2.8pt, line cap=round, line join=round,
+                     opacity=0.55},
+    chev/.style   = {draw=accent!65!black, line width=0.7pt, line cap=round,
+                     -{Stealth[length=4.5pt,width=3.4pt]}},
+  ]
+
+  % ---- nodi -------------------------------------------------------------
+  \coordinate (r)  at ( 0.0,  0.0);
+  \coordinate (u1) at ( 1.2, -1.1);
+  \coordinate (u2) at ( 2.2, -2.2);
+  \coordinate (v1) at (-1.0, -1.1);
+  \coordinate (v2) at (-1.9, -2.2);
+  \coordinate (v3) at (-2.8, -3.3);
+  \coordinate (v4) at (-3.7, -4.4);
+  \coordinate (v5) at (-4.6, -5.5);
+
+  % ---- cammino di scansione (evidenziato) -------------------------------
+  \draw[scan, rounded corners=8pt]
+      (0.15,-0.35) -- (-0.55,-1.05) -- (-1.45,-2.15) -- (-2.35,-3.25) -- (-3.45,-4.55);
+  \draw[accent!65!black, line width=0.9pt, line cap=round,
+        -{Triangle[length=5pt,width=4.5pt]}] (-3.50,-4.55) -- (-3.50,-5.58);
+  \foreach \p in {{-0.55,-1.05},{-1.45,-2.15},{-2.35,-3.25}}
+      \draw[chev] ($(\p)+(51:0.22)$) -- ($(\p)+(231:0.16)$);
+
+  % ---- archi ------------------------------------------------------------
+  \draw[arco] (r) -- (v1) -- (v2) -- (v3) -- (v4) -- (v5);
+  \draw[arco] (r) -- (u1) -- (u2);
+
+  \foreach \n in {r,u1,u2,v1,v2,v3,v4,v5} \node[nodo] at (\n) {};
+
+  % ---- etichette degli archi -------------------------------------------
+  \node[car] at (-0.74,-0.34) {a};
+  \node[car] at (-1.70,-1.45) {c};
+  \node[car] at (-2.60,-2.55) {a};
+  \node[car] at (-3.50,-3.65) {t};
+  \node[car] at (-4.40,-4.75) {t};
+  \node[car] at ( 0.82,-0.32) {c};
+  \node[car] at ( 1.94,-1.44) {a};
+
+  % ---- fine dei due pattern --------------------------------------------
+  \node[lieve,anchor=north] at ($(v5)+(0,-0.12)$) {acatt};
+  \node[lieve,anchor=west]  at ($(u2)+(0.16,-0.06)$) {ca};
+
+  % ---- punto di fallimento ---------------------------------------------
+  \draw[accent!65!black, line width=1.5pt, line cap=round]
+      (-3.74,-4.88) -- (-3.26,-5.36)  (-3.74,-5.36) -- (-3.26,-4.88);
+
+  \node[et, anchor=north west, align=left] at (-3.08,-4.94)
+      {ho perso l'occorrenza\\ di \str{ca}!};
+\end{tikzpicture}

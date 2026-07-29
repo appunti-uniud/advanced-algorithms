@@ -1,0 +1,44 @@
+% Un passo di Ukkonen: dal prefisso T^{i-1} (gia' processato) a T^i, leggendo t_i.
+% La riga superiore ricorda un generico suffisso T_j che attraversa il passo.
+\begin{tikzpicture}[
+    x=0.84cm, y=0.84cm, font=\small,
+    testo/.style={draw=black,line width=1.1pt,line cap=round},
+    tacca/.style={draw=black,line width=0.5pt,line cap=round}]
+
+  % la cella del carattere corrente t_i, sullo sfondo
+  \fill[black!14] (5.40,-0.10) rectangle (5.90,0.55);
+
+  %% ---------------- le due barre --------------------------------------
+  \draw[testo] (0,0)    -- (12,0);       % il testo T
+  \draw[testo] (3,0.45) -- (12,0.45);    % il suffisso T_j
+  \node[anchor=west,inner sep=4pt] at (12,0) {$T$};
+
+  %% ---------------- tacche --------------------------------------------
+  \draw[tacca] (0,-0.20) -- (0,0.25);                    % inizio del testo
+  \draw[tacca] (3,-0.28) -- (3,0.66);                    % posizione j
+  \draw[tacca] (5.40,-0.30) -- (5.40,1.00);              % coppia che
+  \draw[tacca] (5.90,-0.30) -- (5.90,1.00);              % isola t_i
+
+  \node[anchor=south,inner sep=2pt] at (3,0.68) {$T_j$};
+  \node[anchor=north,inner sep=2pt] at (3,-0.30) {$j$};
+
+  \node[anchor=west,inner sep=1pt] (lti) at (6.55,1.28) {$t_i$};
+  \draw[-{Latex[length=4pt,width=3pt]},line width=0.5pt]
+        (lti.west) -- (5.66,1.06);
+
+  %% ---------------- graffa sul prefisso gia' letto ---------------------
+  \draw[line width=0.5pt,decorate,decoration={brace,mirror,amplitude=5pt}]
+        (0,-0.95) -- (5.40,-0.95);
+
+  % collegamento fra la tacca in i e la riga in basso
+  \draw[draw=graylight,line width=0.4pt,densely dashed]
+        (5.40,-0.34) -- (5.40,-1.72);
+
+  %% ---------------- la riga del passo ---------------------------------
+  \node[anchor=center] at (2.70,-1.95) {$\STrie{}(T^{\,i-1})$};
+  \draw[-{Latex[length=4.5pt,width=3.2pt]},line width=0.5pt]
+        (5.20,-1.95) -- (6.40,-1.95);
+  \node[anchor=south,inner sep=2pt] at (5.80,-1.88) {$t_i$};
+  \node[anchor=west] at (6.60,-1.95) {$\STrie{}(T^{\,i})$};
+
+\end{tikzpicture}

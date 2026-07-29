@@ -1,0 +1,21 @@
+{
+ "pagina": 39,
+ "esito": "problemi-minori",
+ "file_scritto": "/home/rob/UNI/algoritmi_avanzati/lezioni/08-lca.tex",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "errore-logico",
+   "dove": "lezioni/08-lca.tex, righe 689-696, ambiente osservazione subito dopo l'itemize delle quattro osservazioni (fine di dimostrazione* del Teorema 1)",
+   "descrizione": "L'osservazione afferma che «Il secondo e il terzo punto si appoggiano al Lemma [lem:lca-I-ant]». Il terzo punto (w = L(I(w))) non usa il lemma: discende dal fatto, gia dimostrato poco sopra, che w e il leader del proprio run e dal fatto che la tabella L e indicizzata dai valori di I. Il lemma serve solo al secondo punto, come del resto conferma l'ultima frase della stessa osservazione («E esattamente questo che permette di ricostruire I(w) a partire da I(x)»), che parla solo del secondo punto.",
+   "correzione": "Sostituire «Il secondo e il terzo punto si appoggiano al Lemma~\\ref{lem:lca-I-ant}» con «Il secondo punto si appoggia al Lemma~\\ref{lem:lca-I-ant}» (in alternativa, se si vuole conservare il plurale, riformulare come «Il secondo punto si appoggia al Lemma ...; il terzo si appoggia invece al fatto che w e il leader del proprio run e che la tabella L e indicizzata dai valori di I»)."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "latex",
+   "dove": "lezioni/08-lca.tex, riga 738 (ambiente osservazione subito dopo \\scan{40}, quindi al confine immediato del blocco di pagina 39)",
+   "descrizione": "E scritto «l\\'osservazione»: la sequenza \\' e l'accento acuto LaTeX, quindi il PDF stampa «losservazione» con la o accentata (verificato nel PDF compilato, p. 72). Va usato un apostrofo tipografico, non \\'.",
+   "correzione": "Sostituire «l\\'osservazione» con «l'osservazione» (apostrofo semplice, come nel resto del capitolo)."
+  }
+ ]
+}

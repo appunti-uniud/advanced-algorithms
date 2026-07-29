@@ -1,0 +1,10 @@
+# Figura `p75-mc-due-stati`
+
+- **Pagina della scansione:** 75
+- **Tipo:** diagramma di transizione (grafo orientato etichettato)
+- **Didascalia prevista:** Catena di Markov a due stati, abbozzata a margine della pagina.
+- **Ritenuta fattibile in TikZ:** True
+
+## Specifica
+
+Diagramma di transizione di una catena di Markov a due stati, disegnato a matita nel margine in basso a destra del quaderno. Layout: due nodi circolari piccoli, allineati orizzontalmente, a distanza circa 3,5 cm; nel quaderno i cerchi sono VUOTI, ma vanno etichettati 1 (sinistra) e 2 (destra) perche il testo li cita. Archi (tutti orientati, con punta di freccia): (a) cappio su 1, disegnato come lobo ampio che esce dal nodo verso SINISTRA e rientra nel nodo da sotto/da destra, etichetta 0,2 posta in alto a sinistra del lobo; (b) arco 1 -> 2 che si inarca SOPRA i due nodi (curvatura ampia, apice circa un nodo-e-mezzo sopra la linea dei nodi), punta di freccia sul nodo 2, etichetta 0,8 posta sopra l'apice dell'arco; (c) arco 2 -> 1 che si inarca SOTTO i due nodi (curvatura speculare alla precedente), punta di freccia sul nodo 1, etichetta 0,2 posta sotto l'arco, verso l'estremo di sinistra; (d) cappio su 2, disegnato come lobo ampio che esce dal nodo verso DESTRA e rientra nel nodo, etichetta 0,2 posta in basso a destra del lobo. Stile: tratto sottile, aspetto di schizzo; niente riempimenti. Etichette con la virgola decimale italiana (0,2 e 0,8). ATTENZIONE: le etichette vanno riprodotte esattamente cosi come elencate (0,2 / 0,8 / 0,2 / 0,2), benche le uscite dal nodo 2 non sommino a 1 - l'incongruenza e dichiarata nell'ambiente dubbio subito dopo la figura. Dimensioni indicative: 5 cm di larghezza, 3 cm di altezza. NOTA DI CUCITURA: l'id e stato rinominato da 'mc-due-stati' a 'p75-mc-due-stati' per uniformita con gli altri; nel capitolo la figura e collocata nella sezione sulla matrice di transizione (illustra un diagramma di transizione con probabilita sugli archi), non piu accanto all'hitting time.

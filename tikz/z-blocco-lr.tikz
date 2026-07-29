@@ -1,0 +1,27 @@
+% z-blocco-lr -- l'invariante: il blocco [l,r] con S[l..r] prefisso di S e i dentro.
+\begin{tikzpicture}[
+    x=1.00cm, y=1cm,
+    font=\footnotesize,
+    tacca/.style={gray!80!black, line width=0.5pt},
+    linea/.style={line width=0.7pt},
+  ]
+
+  % --- la stringa S ---------------------------------------------------
+  \draw[linea] (0,0) -- (10,0);
+  \node[right, inner sep=2pt] at (10.15,0) {$S$};
+
+  % --- tacche: 1, ell, i, r -------------------------------------------
+  \foreach \x in {0,5.0,5.6,6.9}{%
+    \draw[tacca] (\x,-0.22) -- (\x,0.22);
+  }
+
+  % --- il blocco [ell,r], evidenziato da un tratto sopra la retta ------
+  \draw[gray!70!black, line width=0.5pt]
+    (5.0,0.26) -- (5.0,0.46) -- (6.9,0.46) -- (6.9,0.26);
+  \node[above, inner sep=2pt] at (5.0,0.46) {$\ell$};
+  \node[above, inner sep=2pt] at (6.9,0.46) {$r$};
+
+  % --- l'indice corrente, dentro il blocco ----------------------------
+  \node[below, inner sep=3pt] at (5.6,-0.22) {$i$};
+
+\end{tikzpicture}

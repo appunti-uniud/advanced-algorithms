@@ -1,0 +1,104 @@
+{
+ "pagina": 25,
+ "latex": "\\scan{25}\n\n\\noindent\\textbf{3) Dettagli.}\n\n\\begin{enumerate}\n  \\item[i)] Definisco gli stati \\emph{impliciti} ed \\emph{espliciti} e li identifico con una\n    \\emph{reference pair} (coppia di riferimento)\n    \\[\n      (s,w)\\;=\\;\\bigl(s,[k,p]\\bigr),\n    \\]\n    dove $s$ è uno stato esplicito (branching) e $w=t_k\\cdots t_p=\\sub{T}{k}{p}$ è la stringa\n    che si compita scendendo da $s$ fino allo stato rappresentato. La stringa $w$ non viene mai\n    memorizzata: bastano i due indici $[k,p]$, perché il testo $T$ è comunque tenuto in memoria.\n    Fra le molte coppie che rappresentano lo stesso stato si usa sempre quella \\emph{canonica},\n    cioè quella con $s$ il più profondo possibile.\n\n  \\item[ii)] L'\\emph{end-point} di $\\STree{}(T^{i-1})$ è l'\\emph{active-point} di\n    $\\STree{}(T^{i})$.\n\\end{enumerate}\n\nIl punto~ii) va letto così: l'aggiornamento che porta da $\\STree{}(T^{i-1})$ a $\\STree{}(T^{i})$\npercorre il boundary path e si arresta nell'end-point, cioè nel primo stato che possiede già una\n$t_i$\\nobreakdash-transizione; se tale end-point è la coppia $\\bigl(s,[k,i-1]\\bigr)$, allora\nl'active-point di $\\STree{}(T^{i})$ è\n\\[\n  \\bigl(s,[k,i]\\bigr),\n\\]\ncioè lo stesso stato esteso del carattere $t_i$ appena letto. Non occorre dunque cercarlo: lo si\nha già in mano alla fine del passo precedente.\n\nLa conseguenza è che la scansione del boundary path non ricomincia mai da capo: il passo $i+1$\nriparte esattamente da dove si era fermato il passo $i$, l'indice del suffisso da cui si riparte\nnon decresce mai e i costi delle singole visite telescopizzano. Il numero complessivo di stati\nvisitati lungo tutti i boundary path resta così $\\Oh(m)$.\n\nIl lavoro da fare in ciascuno stato visitato è sempre lo stesso: se lo stato non ha una\n$t_i$\\nobreakdash-transizione, lo si rende esplicito (spezzando l'arco su cui giace, se è uno\nstato implicito) e vi si innesta un nuovo arco etichettato $t_i$ verso una nuova foglia; poi si\npassa allo stato successivo del boundary path seguendo il suffix link $f$ e si ripete.\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/ukkonen-boundary-step.tikz}\n  \\caption{Due passi consecutivi lungo il boundary path. In ciascuno dei due frammenti si scende\n  dal nodo esplicito (cerchio) lungo la stringa $w$ fino allo stato corrente (pallino pieno);\n  lì l'arco viene spezzato (quadratino) e si innesta il nuovo arco etichettato $t_i$ verso una\n  nuova foglia. Il suffix link $f$ porta allo stato successivo, dove si ripete la stessa\n  operazione con la stessa $w$.}\n\\end{figure}\n\nIl suffix link è però definito soltanto sugli stati espliciti: sulle coppie di riferimento $f$\nagisce sulla prima componente,\n\\[\n  f\\bigl(s,[k,p]\\bigr)\\;=\\;\\bigl(f(s),[k,p]\\bigr),\n\\]\nlasciando invariata la coppia di indici; il risultato va poi ri\\nobreakdash-canonizzato,\nscendendo da $f(s)$ finché non si raggiunge il nodo esplicito più profondo. Nella figura seguente\nlo stato $s'$ in cui si atterra è appunto descritto dalla coppia $\\bigl(s,[k,p]\\bigr)$: $s$ è il\nnodo esplicito da cui si riparte, $t_k$ il primo carattere dell'arco uscente (è il solo carattere\nche serve per scegliere la transizione) e $[k,p]$ la porzione di testo ancora da percorrere.\nAnche in $s'$ si innesta il nuovo arco etichettato $t_i$.\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/ukkonen-refpair-f.tikz}\n  \\caption{Il suffix link letto sulle coppie di riferimento: lo stato $s'$ raggiunto applicando\n  $f$ è rappresentato dalla coppia $\\bigl(s,[k,p]\\bigr)$, con $t_k$ primo carattere dell'arco\n  uscente da $s$; da $s'$ pende il nuovo arco etichettato $t_i$.}\n\\end{figure}",
+ "note": [
+  {
+   "tipo": "ricostruzione",
+   "pagina": 25,
+   "testo": "Il quaderno scrive solo, telegraficamente, «ii) end-point di STree(T^{i-1}) è active-point di STree(T^i)». Preso alla lettera l'enunciato è impreciso: i due stati non coincidono, differiscono per il carattere t_i. Ho aggiunto la formulazione esatta (se l'end-point è (s,[k,i-1]) allora l'active-point di STree(T^i) è (s,[k,i])), che è il Teorema 1 di Ukkonen (1995). Ho anche esplicitato che l'end-point è «il primo stato del boundary path che possiede già una t_i-transizione», definizione data dallo studente a p.22 («aggiungo un nodo foglia con un suffisso etichettato t_i SE non ci sono archi uscenti etichettati con t_i»).",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 25,
+   "testo": "La conseguenza algoritmica del punto ii) (la scansione non ricomincia da capo, l'indice j non decresce, i costi telescopizzano, totale O(m) stati visitati) NON è scritta in questa pagina: è la ragione per cui il dettaglio viene enunciato, ed è coerente con il punto 2) di p.24 («uso active/end point per limitare il lavoro alla regione active → end»). Aggiunta per rendere leggibile la pagina, che altrimenti sarebbe due righe più due disegni.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 25,
+   "testo": "La formula f(s,[k,p]) = (f(s),[k,p]) con successiva ri-canonizzazione non è scritta a parole: è la lettura della seconda figura (freccia «f ⟶ (s,(k,p))» accanto al disegno in cui lo stato s' è raggiunto da s leggendo t_k...t_p). L'ho scritta esplicitamente perché è il contenuto della figura ed è la definizione standard di Ukkonen. La nozione di coppia canonica era già stata data a p.24 («(s,w) è canonica quando da s, leggendo w, non ci sono branching point: s è il più profondo possibile»).",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 25,
+   "testo": "Notazione delle coppie di indici: nel testo lo studente scrive (s,[k,p]) con parentesi quadre (come già a p.22 e p.23), mentre nelle due figure scrive (k,p) con parentesi tonde (notazione di Ukkonen). Ho uniformato tutto alla forma [k,p], comprese le etichette delle figure, per coerenza con il resto del capitolo; nessun contenuto cambia.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 25,
+   "testo": "Riga i): l'ultima parola è di lettura difficile; a 450 dpi si legge «identificarli» (la costruzione «Definisco ... e identificarli» è un'anacoluto tipico degli appunti presi in fretta). L'ho resa con «li identifico con una reference pair», concordando i verbi.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 25,
+   "testo": "Figura 1 — il piccolo quadrato (parallelogramma) disegnato a cavallo dell'arco, presente identico in entrambi i frammenti, non ha un'etichetta e non compare in nessuna altra pagina del capitolo. Interpretazione adottata: marca il punto in cui l'arco viene spezzato per rendere esplicito lo stato, cioè il nodo branching creato dallo split, dal quale parte il nuovo arco t_i (nel disegno l'arco t_i esce infatti dal lato destro del quadrato e l'arco originale prosegue oltre di esso fino alla foglia). Interpretazione plausibile ma non certa: potrebbe anche essere una semplice cornice di «zoom» sul punto di interesse.",
+   "risolto": false
+  },
+  {
+   "tipo": "figura",
+   "pagina": 25,
+   "testo": "Figura 1 — la lunga freccia curva etichettata f parte dal pallino pieno del frammento di sinistra e punta al cerchio in alto del frammento di destra. Letta alla lettera sarebbe incoerente (i suffix link vanno da stato branching a stato branching, e f dello stato dovrebbe essere lo stato corrispondente, non il nodo sopra di esso). L'ho interpretata come «il suffix link porta al frammento successivo, dove si riparte dal nodo esplicito e si rilegge la stessa w»: è coerente con l'etichetta w scritta solo nel frammento di destra e con la formula f(s,[k,p]) = (f(s),[k,p]) della seconda figura. Nella didascalia ho reso questa lettura.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 25,
+   "testo": "Figura 1 (frammento di sinistra) — accanto al pallino pieno c'è un triangolo pieno con una breve coda ondulata che scende a destra e si interrompe nel vuoto: è un puntatore («qui») senza etichetta, dello stesso tipo di quello che nella seconda figura punta a s'. L'ho mantenuto nella specifica ma non gli ho attribuito significato algoritmico. Nel frammento di sinistra il pallino ha inoltre un ramo ondulato aggiuntivo che si interrompe nel vuoto (sottoalbero già esistente, elisi): serve a mostrare che lo stato può essere già branching.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 25,
+   "testo": "Convenzione grafica del quaderno (usata in tutto il capitolo e rispettata nelle specifiche): tratto ondulato = cammino/stringa di lunghezza arbitraria, con estremo libero quando il sottoalbero è eliso; cerchio vuoto = foglia o nodo esplicito; pallino pieno = stato marcato (punto corrente sul boundary path, oppure nuova foglia appena creata).",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 25,
+   "testo": "La metà inferiore della pagina è occupata da tracce di matita cancellata (ben visibili in scansione): un albero con nodi s, etichette t_i', w, e più in basso «prefix of a suffix», «(k,p')», «(p',p)». È un abbozzo mai ripassato a penna, che corrisponde al passo di canonizzazione di Ukkonen (accorciamento della coppia quando la transizione uscente è più corta di p-k+1). Non l'ho trascritto perché cancellato e non appartenente al testo finale; lo segnalo perché mostra che l'argomento canonize era stato iniziato e poi abbandonato.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 25,
+   "testo": "Il capitolo si chiude qui: a p.26 gli appunti passano a «STree → pre-processing del testo» e poi all'algoritmo di Karp-Rabin. Non vengono mai scritti gli pseudocodici di Ukkonen (update, canonize, test-and-split) né la dimostrazione formale della linearità: restano enunciati i tre ingredienti (p.24 punti 1-2, p.25 punto 3). Non ho aggiunto pseudocodice per non inventare contenuto assente; ho però esplicitato la ricanonizzazione dopo il salto con f, che è l'unico passo indispensabile a rendere sensata la figura 2.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 25,
+   "testo": "Numerazione: il «3)» di «Dettagli» prosegue l'elenco iniziato a p.24 («1) STree(T^i) è un automa senza F i cui stati sono sempre branching o foglie», «2) uso active/end point per limitare il lavoro alla regione active → end»). L'ho reso con \\textbf{3) Dettagli.} seguito da un enumerate con etichette i)/ii) esplicite, per non dipendere da come verrà cucito l'elenco di p.24 e per non usare pacchetti (enumitem/resume) che potrebbero non essere caricati.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 25,
+   "testo": "Uso di \\STree{}: la macro è definita con \\xspace, quindi prima di una parentesi tonda inserirebbe uno spazio spurio; ho scritto \\STree{}(T^{i-1}) con il gruppo vuoto per sopprimerlo.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "ukkonen-boundary-step",
+   "pagina": 25,
+   "didascalia": "Due passi consecutivi lungo il boundary path: in ciascuno stato si innesta il nuovo arco etichettato $t_i$, poi il suffix link $f$ porta allo stato successivo.",
+   "tipo": "albero (due frammenti di suffix tree collegati da un suffix link)",
+   "specifica": "Figura composta da DUE frammenti di suffix tree affiancati, il frammento destro più in alto e a destra del sinistro (nel manoscritto il sinistro occupa la fascia bassa, il destro quella alta). Convenzioni grafiche da rispettare: tratto ONDULATO (snake/decorate) = cammino di lunghezza arbitraria, con estremo libero quando il sottoalbero è eliso; cerchio VUOTO = foglia o nodo esplicito; pallino PIENO = stato corrente marcato.\n\nFRAMMENTO SINISTRO (in basso a sinistra):\n- In alto un cerchio vuoto, diametro ~4 mm: nodo esplicito (branching).\n- Una freccia curva entra da sinistra (concavità verso l'alto, ampia) e punta con punta piena al cerchio; sopra il suo tratto iniziale, in alto a sinistra, l'etichetta $f$ in corsivo matematico. Rappresenta il suffix link che ci ha portato in questo frammento dallo stato precedente.\n- Dal fondo del cerchio scende, leggermente inclinato a destra, un tratto ONDULATO lungo ~2,5 cm che termina in un PALLINO PIENO (diametro ~2,5 mm): è lo stato corrente sul boundary path.\n- Immediatamente a destra del pallino, un piccolo TRIANGOLO PIENO che punta verso il pallino (verso alto-sinistra), con una breve coda ondulata che scende verso il basso-destra per ~1,5 cm e si interrompe nel vuoto: è un puntatore non etichettato che marca lo stato. (Facoltativo: può essere reso come una freccetta con punta piena; nel manoscritto è ben visibile.)\n- Dal pallino scende un SEGMENTO RETTILINEO quasi verticale (lieve inclinazione a destra), lungo ~3 cm, che termina in un cerchio vuoto (foglia già esistente).\n- A circa metà di questo segmento è disegnato un piccolo QUADRATO (in realtà un parallelogramma leggermente inclinato, lato ~7 mm) a cavallo del segmento, che lo attraversa da parte a parte; il lato destro del quadrato ha un tratto verticale che sporge un po' sopra il lato superiore. Il quadrato marca il punto in cui l'arco viene spezzato (split) per rendere esplicito lo stato.\n- Dal lato destro/inferiore del quadrato parte un arco RETTILINEO obliquo verso il basso-destra, lungo ~3 cm, etichettato $t_i$ (etichetta a metà arco, sopra di esso), che termina in un cerchio vuoto: la NUOVA foglia appena creata.\n\nFRAMMENTO DESTRO (in alto a destra, stessa struttura ma senza il ramo ondulato laterale):\n- In alto un cerchio vuoto: nodo esplicito. È il bersaglio della lunga freccia $f$ descritta sotto.\n- Dal cerchio scende un tratto ONDULATO lungo ~2,5 cm, etichettato $w$ (etichetta in corsivo matematico posta a destra del tratto, all'altezza del suo primo terzo), che termina in un PALLINO PIENO (nel manoscritto è un pallino scarabocchiato, più marcato degli altri): lo stato corrente.\n- Dal pallino scende un segmento rettilineo verticale con lo stesso piccolo QUADRATO a cavallo, disegnato come sopra.\n- Il segmento prosegue oltre il quadrato e termina in un cerchio vuoto (foglia esistente).\n- Dal lato destro/inferiore del quadrato parte un arco rettilineo obliquo verso il basso-destra etichettato $t_i$, che termina in un cerchio vuoto (nuova foglia).\n\nCOLLEGAMENTO FRA I DUE FRAMMENTI:\n- Una lunga freccia curva (arco molto ampio, concavità verso il basso-destra) parte dal pallino pieno del frammento SINISTRO, sale verso destra attraversando tutta la larghezza della figura e termina con punta piena sul cerchio in alto del frammento DESTRO. Nel manoscritto non è etichettata (l'etichetta $f$ compare solo sulla freccia entrante a sinistra): nella versione TikZ conviene etichettarla $f$ a metà arco, sopra di essa, per rendere leggibile la figura.\n\nSIGNIFICATO ALGORITMICO da preservare: si sta aggiornando $\\STree{}(T^{i-1})$ in $\\STree{}(T^{i})$; in ogni stato del boundary path privo di $t_i$-transizione si spezza l'arco (quadrato) e si appende una nuova foglia con l'arco etichettato $t_i$; poi si segue il suffix link $f$ verso lo stato successivo, dove si rilegge la stessa stringa $w$ e si ripete.",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "ukkonen-refpair-f",
+   "pagina": 25,
+   "didascalia": "Il suffix link letto sulle coppie di riferimento: lo stato $s'$ è rappresentato da $(s,[k,p])$.",
+   "tipo": "albero (frammento di suffix tree con coppia di riferimento)",
+   "specifica": "Figura in due parti: a sinistra una scritta simbolica, a destra un frammento di albero. Stesse convenzioni grafiche della figura precedente (tratto ondulato = cammino eliso; pallino pieno = stato/foglia).\n\nPARTE SIMBOLICA (in alto a sinistra):\n- La lettera $f$ in corsivo matematico.\n- Subito sotto/a destra, una freccia curva ampia che sale da sinistra verso destra (concavità verso l'alto) e termina, con punta a V aperta, immediatamente prima della scritta $\\bigl(s,[k,p]\\bigr)$, posta in alto a destra della freccia. Nel manoscritto la coppia è scritta con parentesi tonde, $(s,(k,p))$: uniformare a $\\bigl(s,[k,p]\\bigr)$.\n\nFRAMMENTO DI ALBERO (a destra, sotto e a destra della scritta):\n- In alto un PALLINO PIENO piccolo con l'etichetta $s$ scritta sopra a destra: il nodo esplicito.\n- Da $s$ parte verso DESTRA un tratto ONDULATO quasi orizzontale, lungo ~3 cm, che si interrompe nel vuoto: sottoalbero eliso.\n- Da $s$ scende verso il basso un tratto ONDULATO lungo ~2,5 cm. Subito sotto $s$, sul tratto, un TRATTINO SPESSO TRASVERSALE (marca il primo carattere dell'etichetta dell'arco); a sinistra del trattino l'etichetta $t_k$.\n- Il tratto ondulato termina in un PALLINO PIENO: lo stato $s'$. L'etichetta $s'$ è scritta a sinistra del pallino; a destra del pallino la scritta $[k,p]$ (nel manoscritto $(k,p)$).\n- Una freccia con lunga CODA ONDULATA orizzontale arriva da SINISTRA (entra da fuori figura, lunga ~5 cm) e termina con una vistosa PUNTA PIENA TRIANGOLARE puntata esattamente su $s'$: è il puntatore che collega la scritta simbolica al disegno.\n- Da $s'$ scende verso il basso-SINISTRA un tratto ONDULATO lungo ~2,5 cm che si interrompe nel vuoto: sottoalbero già esistente, eliso.\n- Da $s'$ parte verso il basso-DESTRA un SEGMENTO RETTILINEO lungo ~2,5 cm, etichettato $t_i$ (etichetta a destra, a metà del segmento), che termina in un PALLINO PIENO: la nuova foglia creata.\n\nSIGNIFICATO ALGORITMICO da preservare: dopo aver seguito il suffix link si atterra nello stato $s'$, che la coppia di riferimento descrive come $(s,[k,p])$: $s$ è il nodo esplicito da cui si riparte, $t_k$ il primo carattere dell'arco uscente (unico carattere necessario per scegliere la transizione, cfr. p.23), $[k,p]$ la porzione di testo ancora da percorrere. Anche in $s'$ si innesta il nuovo arco etichettato $t_i$.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina 25 CHIUDE il capitolo su suffix trie/suffix tree/Ukkonen. Restano in sospeso i dettagli operativi mai scritti dallo studente: gli pseudocodici di Ukkonen (update, canonize, test-and-split), la dimostrazione formale del tempo O(m) e la gestione della sentinella; un abbozzo a matita cancellato sulla stessa pagina (nodi s, «prefix of a suffix», «(k,p')», «(p',p)») mostra che la canonizzazione era stata iniziata e poi abbandonata. La pagina 26 NON prosegue l'argomento: apre con «STree → pre-processing del testo, 2 capitoli di applicazioni: semplici / non-semplici», cita «STree + Tarjan-Havel» con un piccolo disegno a monte, e poi comincia un nuovo capitolo, «Algoritmo di Karp-Rabin». Chi cuce il documento deve quindi chiudere il capitolo qui, eventualmente ricollegando il «3) Dettagli» di questa pagina all'elenco «1) ... 2) ...» aperto a p.24.",
+ "confidenza": "alta"
+}

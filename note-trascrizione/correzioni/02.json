@@ -1,0 +1,63 @@
+{
+ "capitolo": "02-kmp-z",
+ "compila": true,
+ "applicate": [
+  {
+   "pagina": 3,
+   "categoria": "figura",
+   "cosa": "tikz/kmp-shift.tikz: le due barre che rappresentano la STESSA stringa P avevano lunghezze diverse (riga 2 = [1,12], 11 unita; riga 3 = [3.5,15.5], 12 unita), e nel PDF la barra inferiore risultava visibilmente piu lunga. Ora entrambe sono lunghe 11 unita (riga 2 = [1,12], riga 3 = [3,14]). Verificato misurando il PDF renderizzato: i due rettangoli di P sono larghi 339 e 338 px a 150 DPI."
+  },
+  {
+   "pagina": 3,
+   "categoria": "figura",
+   "cosa": "tikz/kmp-shift.tikz: la zona tratteggiata della riga 2 era larga esattamente quanto il blocco alpha (2.5 unita entrambe), cioe la figura cadeva nel caso degenere i=2|alpha|, in cui lo spostamento coincide numericamente con |alpha| e il lettore puo leggere dal disegno la regola sbagliata 'mi sposto di |alpha|' invece di 'mi sposto di i-|alpha|'. Riportata la figura alle proporzioni del manoscritto (misurate su p03_b1: tratteggio circa 105 px, alpha circa 150 px, spostamento circa 95 px, cioe 2 : 3 : 2 quadretti): ora il separatore e a x=3, i=5 unita, |alpha|=3, spostamento=2. Di conseguenza l'arco di annotazione che marca il prefisso alpha di P e stato portato da [1.05,3.45] a [1.05,3.95] (lunghezza |alpha|), cosi oltrepassa la zona tratteggiata come nel quaderno, e sono stati riallineati l'etichetta alpha (x da 1.50/1.65 a 2.00/2.10), la freccia tratteggiata dello scorrimento (arrivo da 3.42 a 2.92) e l'arco sotto la riga 3 (da [3.60,5.85] a [3.10,5.90]). Aggiornati anche la posizione del separatore sulla riga 1 (3.5 -> 3), le tre etichette alpha (4.75 -> 4.5), il dominio della linea ondulata di T (0.45:3.05 -> 0.45:2.55) e il commento in testa al file, che diceva erroneamente 'il prefisso alpha di P, tratteggiato' mentre il tratteggio marca la porzione scartata dallo scorrimento. Figura ricompilata con prova-tikz.sh: OK, 312.6pt su 478.0pt."
+  },
+  {
+   "pagina": 4,
+   "categoria": "trascrizione-errata",
+   "cosa": "Il marcatore \\scan{5} era posto prima della frase «Con l'analisi ammortizzata si vede invece che la somma delle operazioni su tutte le chiamate ricorsive, per i in {1,...,n}, e lineare», che pero e l'ULTIMA riga della pagina 4 (verificata su p04_b3: «Con l'analisi ~~asintotica~~ ammortizzata si vede che la somma delle operazioni su tutte le chiamate ricorsive per i in {1,...,n}, e lineare», sottolineata). La pagina 5 comincia invece con «Analisi ammortizzata: ogni volta che applico il caso 1) se il costo e k, allora 2K» (verificato su p05_b1). La frase e stata spostata in coda al blocco di p.4, subito dopo l'osservazione [Problema], e il blocco \\scan{5} ora comincia con «Lo schema e il seguente: ...»."
+  },
+  {
+   "pagina": 5,
+   "categoria": "errore-matematico",
+   "cosa": "Nell'esempio [analisi ammortizzata su uno stack] il costo di una sequenza di t operazioni Push/Multi-Pop era dato come uguale a 2t. E solo una maggiorazione: se p sono le Push e t-p le Multi-Pop, il costo totale e al piu 2p <= 2t, e il massimo effettivo e 2t-2 (t-1 Push seguite da una Multi-Pop che svuota lo stack); con t Push il costo e t. Corretto in «il costo complessivo di tutta la sequenza e quindi al piu $2t$, dunque lineare». Nel capoverso conclusivo dopo la tabella, «e ottiene il costo esatto $2t$» -> «e ottiene la maggiorazione lineare $2t$»: la parola 'esatto' era un'aggiunta della trascrizione (il manoscritto, p05_b2, scrive solo «il costo complessivo e 2n») ed era falsa."
+  },
+  {
+   "pagina": 5,
+   "categoria": "notazione",
+   "cosa": "Nel secondo item dell'esempio sullo stack il costo di Multi-Pop era dato come $\\Oh(t)$, ma $t$ (numero di operazioni della sequenza) viene introdotto solo nella frase successiva: riferimento in avanti a un simbolo non ancora definito. Riscritto in «costo proporzionale al numero di elementi rimossi, e quindi lineare nell'altezza dello stack», che e anche piu vicino al manoscritto (p05_b1 scrive O(n) con n = altezza dello stack). L'introduzione di $t$ e di $\\Oh(t^{2})$ resta alla frase seguente, dove il lettore ricava da se che l'altezza dello stack e al piu $t$."
+  },
+  {
+   "pagina": 6,
+   "categoria": "errore-logico",
+   "cosa": "In sec:z-riduzione si chiedeva $\\Zv{i}(A)$ per ogni $i\\in\\set{1,\\dots,\\abs{A}}$, ma la Definizione def:funzione-z dello stesso capitolo restringe il dominio a $2\\le i\\le\\abs{S}$, l'osservazione successiva dice esplicitamente «La posizione $i=1$ va invece esclusa a mano» e l'\\Ensure di Zcalc produce i soli $\\Zv{2},\\dots,\\Zv{\\abs{S}}$: il testo rinviava a un valore $\\Zv{1}(A)$ che il capitolo dichiara privo di senso. Corretto in $i\\in\\set{2,\\dots,\\abs{A}}$. Il manoscritto (p06_b1) scrive effettivamente «per ogni i in [1,...,|A|]», ma e una svista dell'anno precedente e l'incoerenza e interna al capitolo: correzione silenziosa secondo la policy 1, registrata qui secondo la policy 3."
+  },
+  {
+   "pagina": 6,
+   "categoria": "omissione",
+   "cosa": "Tutta la meta inferiore della pagina 6 (il titolo sottolineato «Calcolo di $Z_i$», il punto 1) con l'intervallo/blocco $[\\ell,r]$ e la figura relativa, il punto 2) con la corrispondenza $i \\mapsto i'$ e i sottocasi 2a/2b) era confluita in una sezione marcata solo \\scan{7}: la sequenza dei marcatori nel file era 3,4,5,5,6,7,6,8 e la pagina 6 perdeva la tracciabilita richiesta dalla convenzione. Verificato sulle scansioni: p06_b1 contiene il titolo «Calcolo di $Z_i$» e p06_b2/p06_b3 i punti 1), 2), 2a), 2b); la pagina 7 (p07_b1) ripresenta gli stessi punti in forma piu dettagliata, a partire da «Come calcolo Z? <- Ricorsivo (e analisi ammortizzata della complessita)». Ora \\subsection{Calcolo di Z} porta \\scan{6} e il \\scan{7} e stato spostato al capoverso «Scandiamo $i=2,3,\\dots,\\abs{S}$», dove comincia il materiale proprio della pagina 7. Sequenza dei marcatori: 3,4,5,5,6,6,7,6,8,8,9."
+  },
+  {
+   "pagina": 9,
+   "categoria": "errore-logico",
+   "cosa": "La funzione di transizione $\\delta(i,c)$ dell'automa real-time usava il test «se $P[i+1]=c$» anche per $i=n=\\abs{P}$, dove $P[n+1]$ non esiste: ed e proprio il caso che serve dopo un'occorrenza completa, in cui l'automa deve ripartire da $\\spv{n,c}(P)+1$. Il primo ramo e ora «se $i<n$ e $P[i+1]=c$», cosi il secondo ramo copre anche $i=n$. Inoltre il dominio dichiarato $i\\in\\set{1,\\dots,n}$ non comprendeva lo stato iniziale $0$ dell'automa, benche la definizione funzioni correttamente anche li (per $i=0$ l'insieme $\\set{k : 0\\le k<0,\\dots}$ e vuoto, quindi $\\spv{0,c}(P)=-1$ e $\\delta(0,c)=0$ per $c\\neq P[1]$, mentre $c=P[1]$ porta allo stato 1): dominio esteso a $i\\in\\set{0,1,\\dots,n}$ con la precisazione «lo stato $i=0$ corrisponde al prefisso vuoto». Il commento dopo la formula ora dice anche che lo stato 0 e lo stato iniziale e che per $i=n$ si ricade sempre nel secondo ramo. Coerente con il bordo gia trattato esplicitamente nella Definizione def:sp-primo («$i=\\abs{P}$ oppure $P[k+1]\\ne P[i+1]$»)."
+  }
+ ],
+ "respinte": [
+  {
+   "pagina": 8,
+   "cosa": "Sostituire $\\spp{i}(P)$ con $\\spv{i}(P)$ nella frase di chiusura della sezione sp'_i: «con lo stesso costo posso chiedere una funzione che mi faccia avanzare $P$ piu velocemente di $\\spp{i}(P)$», perche sull'ultima riga del foglio il manoscritto scriverebbe 'sp_i' senza apice.",
+   "perche": "Segnalazione non fondata come difetto, e lo riconosce lo stesso verificatore, che consiglia di mantenere la lezione con apice. Entrambe le letture danno una frase vera, perche $\\spv{i,c}\\le\\spp{i}\\le\\spv{i}$: chi avanza piu di sp'_i avanza a maggior ragione piu di sp_i. La versione con apice e pero l'enunciato piu forte e informativo, ed e l'unico raccordo corretto con la sezione seguente, dove la 'funzione ancora migliore' e $\\spv{i,c}$, che domina proprio $\\spp{i}$; con $\\spv{i}$ la frase diventerebbe una promessa piu debole di quanto la sezione successiva mantiene, e la scaletta dell'anno precedente ('meglio' -> 'ancora meglio') si spezzerebbe. La lettura del glifo e per di piu incerta (l'apice e distinguibile dal punto della 'i' solo ingrandendo), quindi non c'e nemmeno una fonte certa contro cui la trascrizione stia divergendo. La policy 1 prescrive di correggere e ripulire quando si e sicuri: qui si e sicuri del contenuto matematico, e la sostituzione proposta lo peggiorerebbe. La divergenza dalla lettura letterale resta registrata qui per le note editoriali (policy 3)."
+  },
+  {
+   "pagina": 9,
+   "cosa": "Scambiare le etichette $x$ e $y$ in tikz/bm-mismatch.tikz e nella didascalia in lezioni/03-boyer-moore.tex, e riallineare la riga 51 di 03-boyer-moore.tex; in alternativa dichiarare esplicitamente la convenzione 'x = carattere di T, y = carattere di P' del capitolo 03.",
+   "perche": "Fuori dal perimetro di questo intervento: la figura e la prosa incriminate stanno nel capitolo 03 (Boyer-Moore), non nel capitolo 02, e vanno sanate quando si lavora quel capitolo, dove sta anche il resto della convenzione da rendere coerente (p.10, $R_j(x)$, la GSR). Per la parte che tocca il capitolo 02 non c'e nulla da fare: la sezione sp'_i scrive «$T$ presenta il carattere $y$, mentre $P$ presenta $x=P[i+1]$», che e esattamente la convenzione del quaderno (x = carattere del pattern, y = carattere del testo), la stessa usata in fig:kmp-shift e in fig:kmp-sp-primo; il capitolo 02 e quindi gia internamente coerente e fedele alla fonte, ed e il capitolo 03 a doversi allineare, non il contrario. Segnalazione girata al capitolo 03."
+  },
+  {
+   "pagina": 9,
+   "cosa": "Riformulare l'osservazione «ci sono casi in cui il costo complessivo e $\\Oh(m/n)$» in lezioni/03-boyer-moore.tex, perche il preprocessing costa comunque $\\Th(n)$ e il totale e $\\Th(n+m/n)$.",
+   "perche": "Fuori dal perimetro: la frase sta nel capitolo 03 (Boyer-Moore), non nel capitolo 02, e nel capitolo 02 non compare nulla di analogo. Nel merito il rilievo e corretto (cio che e sublineare e il numero di caratteri di $T$ letti, non il costo totale), ma la correzione va applicata lavorando il capitolo 03; segnalazione girata li."
+  }
+ ]
+}

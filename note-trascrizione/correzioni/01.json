@@ -1,0 +1,24 @@
+{
+ "capitolo": "01-introduzione",
+ "compila": true,
+ "applicate": [
+  {
+   "pagina": 2,
+   "categoria": "errore-matematico",
+   "cosa": "In sec:naive-complessita la condizione sotto cui il costo del naive e quadratico era sbagliata. Il testo diceva: 'si spendono esattamente $n(m-n+1)$ confronti --- cioe $\\Th(m^{2})$ non appena $n=\\Th(m)$ ---'. L'implicazione e falsa nel caso degenere: $n=m$ soddisfa $n=\\Th(m)$ ma da $n(m-n+1)=m=\\Th(m)$, perche c'e un solo allineamento (verificato numericamente: m=1000, n=1000 -> 1000 confronti, non ~10^6). La funzione $n(m-n+1)$ e una parabola in $n$, massima in $n=(m+1)/2$, e vale $\\Th(m^2)$ solo se sia $n$ sia $m-n$ crescono come $m$. Riscritto in: '--- cioe $\\Th(m^{2})$ quando $n$ e $m-n$ sono entrambi $\\Th(m)$, con il massimo per $n\\approx m/2$ ---'. La condizione non era negli appunti manoscritti (che scrivono solo 'e tight!' e 'O(m.n) (e detta quadratica)'): era stata aggiunta in trascrizione, quindi si correggeva senza toccare la fedelta alla fonte."
+  },
+  {
+   "pagina": 1,
+   "categoria": "latex",
+   "cosa": "Il primo paragrafo del capitolo produceva un Overfull \\hbox di 5.46pt: la riga sbordava nel margine destro fino a toccare la nota a margine generata da \\scan{1}. Il paragrafo e stato riformulato togliendo l'indirizzo e-mail (vedi la nota sulla rimozione dei dati personali), il che elimina il \\texttt{} lungo e con esso lo sforamento."
+  }
+ ],
+ "respinte": [],
+ "note": [
+  "Verificate presenti (e non rifatte) le sei correzioni gia applicate a mano: tikz/kmp-alfa-S.tikz riga 27 ha l'etichetta $i-\\spv{i}(S)+1$; 02 riga 345 condiziona la copia dell'intera beta a $\\Zv{i'}\\le r-i+1$; 02 riga 553 ha la convenzione $\\spp{i}(P)=0$ su insieme vuoto; 03 righe 82-84 segnalano che lo shift non e safe quando $L'(i)=0$ col controesempio P=aca / T=bcaca; 05 non contiene piu il riferimento ad $a^m b^m$; 05 righe 340 e 349-350 rendono $g$ parziale e attenuano il capoverso sul DFA. Nessuna di queste tocca le pagine 1-2, cioe il capitolo 01.",
+  "Entrambi i referti (p01, p02) segnalavano un solo problema ciascuno, entrambi di gravita bassa, ed entrambi si sono rivelati fondati: nessuna segnalazione respinta.",
+  "I rilievi archiviati dai verificatori stessi sotto 'non_segnalato' (ridondanza fra l'annuncio delle tre parti e la ripresa sulla numerazione dei testi; attribuzione 'appunti (non ufficiali) del docente') sono stati riesaminati e confermati come scelte espositive legittime: nessun intervento.",
+  "Il punto rimasto aperto in NOTE-EDITORIALI.md per p.1 (se \\MonteCarlo e \\LasVegas siano usabili in corpo di testo) si puo chiudere: preamble.tex righe 214-215 li definisce con \\xspace come macro di testo, quindi l'uso attuale nell'osservazione e corretto.",
+  "Compilazione finale: 'OK: 01-introduzione.tex compila (3 pagine, 2 riferimenti indefiniti)'. I riferimenti indefiniti sono i rimandi ad altri capitoli, attesi compilando il capitolo da solo."
+ ]
+}

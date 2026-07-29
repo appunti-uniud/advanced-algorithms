@@ -1,0 +1,37 @@
+% dp-stencil -- pag. 43
+% Stencil "in avanti" della ricorsione: dalla cella (i,j) si puo' passare a
+% (i,j+1) (avanza solo sigma_2: inserzione), a (i+1,j) (avanza solo sigma_1:
+% cancellazione) oppure a (i+1,j+1) (avanzano entrambe: match o sostituzione).
+% NB: nel manoscritto gli assi sono scambiati (i+1 sull'orizzontale e j+1 sulla
+% verticale); qui si adotta la convenzione usata in tutto il capitolo, cioe'
+% i cresce verso il basso (righe, su sigma_1) e j verso destra (colonne, su sigma_2).
+\begin{tikzpicture}[
+    font=\footnotesize,
+    >={Stealth[length=4.5pt,width=3.5pt]},
+    mossa/.style={->,line width=0.6pt},
+    glossa/.style={black!60,font=\scriptsize},
+  ]
+
+  \def\h{0.55}   % semilato della cella
+
+  % ---- la cella (i,j) ------------------------------------------------------
+  \draw[line width=0.6pt] (-\h,-\h) rectangle (\h,\h);
+  \node[above left,inner sep=2pt] at (-\h,\h) {$(i,j)$};
+
+  % ---- avanza solo sigma_2: inserzione -> (i, j+1) --------------------------
+  \draw[mossa] (\h,0) -- (3.30,0);
+  \node[above,inner sep=3pt] at (3.10,0) {$j+1$};
+  \node[glossa,below,inner sep=4pt] at (1.95,0) {inserzione};
+
+  % ---- avanza solo sigma_1: cancellazione -> (i+1, j) -----------------------
+  \draw[mossa] (0,-\h) -- (0,-3.00);
+  \node[below,inner sep=3pt] at (0,-2.95) {$i+1$};
+  \node[glossa,left,inner sep=4pt] at (0,-1.75) {cancellazione};
+
+  % ---- avanzano entrambe: match o sostituzione -> (i+1, j+1) ----------------
+  \draw[mossa] (\h,-\h) -- (2.70,-2.70)
+        node[glossa,pos=0.45,sloped,above,inner sep=2pt]
+          {match / sostituzione};
+  \node[right,inner sep=4pt,align=center] at (2.70,-2.70) {$i+1$\\$j+1$};
+
+\end{tikzpicture}

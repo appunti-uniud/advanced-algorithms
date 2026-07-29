@@ -1,0 +1,63 @@
+{
+ "capitolo": "04-aho-corasick",
+ "compila": true,
+ "applicate": [
+  {
+   "pagina": 12,
+   "categoria": "figura",
+   "cosa": "tikz/keyword-tree-panoramica.tikz: i quattro tratti in accento (le due coppie di sottocammini che portano la stessa stringa) si leggevano come tre, perche sul bordo destro beta = root->D e alfa = D->F->C erano contigui e nello stesso stile, e nel PDF si fondevano in un unico tratto spesso root->C. Verificato sulla scansione a 400 DPI (pdftoppm su appunti.pdf, p.12): fra i due tratti ripassati del bordo destro il manoscritto ha un segmento a penna sottile lungo circa un quarto del cammino D->C, che li separa. Ripristinata la separazione: il tratto marcato di destra ora parte da (H2) = ($(D)!0.2328!(F)$) e non da (D). Scartata l'alternativa proposta dal referto (due colori diversi per le due coppie), perche il manoscritto usa una penna sola e le altre due figure del capitolo (failure-link-idea, ac-failure-link-passo) usano un solo stile 'marcato'. Approfittando della modifica ho anche reso ESATTAMENTE uguali le lunghezze dei due tratti di ciascuna coppia, che e l'informazione che la figura deve trasmettere e che nelle altre due figure del capitolo e gia rispettata: alfa = 4.611 su entrambi i lati (era 4.611 a sinistra contro 4.116 a destra), beta = 1.392 contro 1.381. Per farlo C e passato da (4.10,1.87) a (4.655,0.935) e la foglia P8 da (4.83,0.44) a (5.05,0.30) - il cammino radice->C doveva allungarsi di quanto basta a ospitare il distacco sotto D piu un tratto lungo come alfa - e la Bezier tratteggiata del failure link lungo e stata ridisegnata a partire dalla nuova C: controlli (3.30,0.62) e (1.30,1.42) .. (-0.70,2.05) .. (-1.95,2.40) e (-2.95,2.64). Le proporzioni restano quelle del manoscritto (C profondo, vicino alla foglia P8; il tratteggio che attraversa i sottoalberi). Verificato con prova-tikz.sh (OK, 302.1pt su 478.0pt) e rendendo il capitolo a 400 DPI: il distacco sotto D e ben visibile a dimensione di stampa."
+  },
+  {
+   "pagina": 12,
+   "categoria": "figura",
+   "cosa": "Didascalia della figura~\\ref{fig:keyword-tree-panoramica}: ne il testo ne la caption dicevano che cosa fossero i tratti in evidenza, che nel manoscritto hanno la funzione dell'evidenziatore delle figure dell'anno precedente. Aggiunta la frase «In evidenza, per ciascun failure link $\\tuplev{v, \\nv{v}}$, i due sottocammini che portano la stessa stringa: il cammino dalla radice a $\\nv{v}$ e il suffisso di pari lunghezza del cammino dalla radice a $v$.» Cosi la regola di accoppiamento e enunciata e le lunghezze uguali diventano verificabili a colpo d'occhio."
+  },
+  {
+   "pagina": 13,
+   "categoria": "errore-matematico",
+   "cosa": "Osservazione sulle misure di $K(\\mathcal{P})$: «$\\#\\text{archi} \\le n$, con uguaglianza se e solo se nessuna coppia di pattern condivide un prefisso non vuoto; lo spazio e $\\Th(n)$». Le due meta della frase si contraddicono: la dimensione puo essere asintoticamente minore di $n$. Controesempio (rispetta l'ipotesi semplificativa, perche i pattern sono tutti della stessa lunghezza e distinti): $z$ pattern di lunghezza $L$ che condividono il prefisso di lunghezza $L-1$ e differiscono nell'ultimo carattere danno $n = zL$ e $\\#\\text{archi} = L-1+z$; per $L = z$ si ha $n = z^{2}$ e $\\#\\text{archi} = 2z-1 = \\Th(\\sqrt{n}) = o(n)$. Corretto in «lo spazio e quindi $\\Oh(n)$, e $\\Th(n)$ soltanto nel caso peggiore»."
+  },
+  {
+   "pagina": 13,
+   "categoria": "errore-logico",
+   "cosa": "Apertura della \\section{I failure link}: «si salta al nodo la cui etichetta di cammino e il piu lungo suffisso di quanto gia riconosciuto». Presa alla lettera descrive un'operazione nulla, perche il piu lungo suffisso di $\\L(v)$ e $\\L(v)$ stessa, cioe $v$: il puntatore non si sposterebbe. Mancano le due qualificazioni che il capitolo esplicita poi correttamente nella Definizione~\\ref{def:ac-failure-node} e nella didascalia della figura~\\ref{fig:failure-link-idea}. Riscritto in «il piu lungo suffisso \\emph{proprio} di quanto gia riconosciuto che sia ancora etichetta di un cammino dalla radice in $K(\\mathcal{P})$ --- equivalentemente, che sia ancora prefisso di almeno un pattern», con la stessa formulazione della definizione formale."
+  },
+  {
+   "pagina": 14,
+   "categoria": "notazione",
+   "cosa": "Ultima frase dell'osservazione dopo la Definizione~\\ref{def:ac-failure-node}: $\\nv{\\cdot}$ si compone come $n_{\\cdot}$ e nel PDF si legge come una «n» seguita da un punto, cioe come un'abbreviazione o una fine di frase, lasciando senza soggetto leggibile «e la generalizzazione ad albero della funzione di fallimento di KMP». Sostituito con la funzione scritta per esteso: «la mappa $v \\mapsto \\nv{v}$ e la generalizzazione ad albero della funzione di fallimento di KMP»."
+  },
+  {
+   "pagina": 14,
+   "categoria": "notazione",
+   "cosa": "Accolta la seconda opzione del referto sulla collisione fra $n_i$ (lunghezza del pattern $P_i$) e $\\nv{v}$ (failure node), respinta invece la rinomina generale in $m_i$/$m$ (v. respinte). Aggiunta in testa all'osservazione che segue la Definizione~\\ref{def:ac-failure-node}, cioe nel punto in cui $\\nv{v}$ compare per la prima volta: «Attenzione al pedice, perche la lettera $n$ e ormai sovraccarica: in $n_i$ il pedice e l'indice di un pattern e $n_i$ e una \\emph{lunghezza}, in $\\nv{v}$ il pedice e un nodo e $\\nv{v}$ e a sua volta un \\emph{nodo} di $K(\\mathcal{P})$.» Disinnesca la lettura sbagliata nel paragrafo di complessita, dove $\\nv{v}$ e $\\Oh(n\\cdot\\max_i n_i)$ compaiono a distanza di due frasi."
+  },
+  {
+   "pagina": 15,
+   "categoria": "errore-logico",
+   "cosa": "\\paragraph{Passo induttivo}: era enunciato senza restrizione sulla profondita di $v$, ed e falso per $\\mathrm{depth}(v) = 1$. Se $v' = \\mathrm{parent}(v) = \\mathrm{root}$ allora $\\nv{v'} = \\mathrm{root}$ per la convenzione adottata poco sopra, e la radice un figlio raggiunto dall'arco etichettato $x$ ce l'ha - e $v$ stesso - da cui si concluderebbe $\\nv{v} = v$ invece di $\\nv{v} = \\mathrm{root}$. Il caso era coperto solo implicitamente dal capoverso «Caso base» e dallo pseudocodice, il cui ciclo esterno parte da $d = 2$. Aggiunta la restrizione esplicita in apertura del passo, con la ragione: «Sia ora $\\mathrm{depth}(v) \\ge 2$: i nodi di profondita $\\le 1$ sono gia coperti dal caso base, e vanno esclusi qui perche per essi il ragionamento che segue darebbe la risposta sbagliata (...)»."
+  },
+  {
+   "pagina": 15,
+   "categoria": "omissione",
+   "cosa": "Algoritmo «Calcolo dei failure link di $K(\\mathcal{P})$»: $\\mathit{lp}(\\cdot)$ era assegnato soltanto dentro il ciclo sui nodi di profondita $d \\ge 2$, quindi $\\mathit{lp}(\\mathrm{root})$ e $\\mathit{lp}(u)$ per i figli della radice restavano indefiniti, mentre la \\autoref{sec:ricerca-ac} usa $\\ell \\gets c - \\mathit{lp}(v)$ per un nodo corrente qualsiasi, radice compresa (ed e proprio il caso discusso nell'inciso «se il blocco avviene gia sulla radice»). Aggiunte \\State $\\mathit{lp}(\\mathrm{root}) \\gets 0$ subito dopo $\\nv{\\mathrm{root}} \\gets \\mathrm{root}$ e \\State $\\mathit{lp}(u) \\gets 0$ dentro il ciclo sui figli della radice; l'\\Ensure passa da «$\\nv{v}$ per ogni nodo $v$» a «$\\nv{v}$ e $\\mathit{lp}(v)$ per ogni nodo $v$». I valori coincidono con la convenzione gia enunciata nell'osservazione dopo il Lemma~\\ref{lem:ac-nv}."
+  },
+  {
+   "pagina": 15,
+   "categoria": "tracciabilita",
+   "cosa": "La \\section{La fase di ricerca} e interamente ricostruita e non era registrata da nessuna parte. Verificato sulla scansione di p.15: il foglio contiene il titolo dell'algoritmo, «Caso base», «Passo induttivo», l'osservazione «il numero di nodi analizzati e $\\le \\mathrm{depth}(v) \\Rightarrow$ analisi ammortizzata $\\Rightarrow$ complessita lineare» e poi subito la domanda sui fattori; le posizioni $\\ell$ e $c$, l'invariante $\\L(v) = \\sub{T}{\\ell}{c-1}$, l'aggiornamento $\\ell \\gets c - \\mathit{lp}(v)$, $v \\gets \\nv{v}$ e la complessita $\\Oh(\\abs{T}+k)$ non ci sono. Inserito nel sorgente, prima della sezione, un commento LaTeX che la marca come ricostruzione (Gusfield §3.4 / L04_sintesi §12) e ne spiega la necessita, e aggiunta una voce di tipo «ricostruzione» in .build/trascrizioni/p15.json, che alimenta la sezione Ricostruzioni di NOTE-EDITORIALI.md. Nessun marcatore nel testo composto: il contenuto e certo e la policy 1 vuole appunti puliti. NON adottata l'altra alternativa proposta dal referto (spostare il secondo \\scan{15} prima della sezione): i due \\scan{15} racchiudono correttamente materiale di p.15 e spostarne uno attribuirebbe la ricostruzione alla scansione invece di distinguerla."
+  },
+  {
+   "pagina": 15,
+   "categoria": "tracciabilita",
+   "cosa": "Aggiornate in .build/trascrizioni/p15.json le due voci di log che contraddicevano il deliverable (compaiono in NOTE-EDITORIALI.md sotto «Divergenze dagli appunti dell'anno precedente» e «Altre scelte»). La prima dichiarava di aver scelto di NON inserire un blocco algorithm/algorithmic, mentre il capitolo contiene lo pseudocodice: ora registra che la scelta e stata rovesciata in fase di cucitura, con la motivazione (senza il blocco restavano implicite la visita per livelli e l'inizializzazione di $\\nv{\\mathrm{root}}$ e dei figli della radice) e con la precisazione che la forma discorsiva «Caso base / Passo induttivo» del quaderno e stata comunque conservata. La seconda dichiarava riprodotto come \\subsection il titolo manoscritto «Algoritmo per la determinazione dei failure link (Ricorsione + analisi ammortizzata della complessita)», mentre la sottosezione si intitola «Calcolo dei failure link»: ora registra l'accorciamento e il motivo (i due contenuti fra parentesi sono diventati blocchi distinti). NOTE-EDITORIALI.md non e stato toccato a mano perche e generato da .build/genera-note.py."
+  }
+ ],
+ "respinte": [
+  {
+   "pagina": 14,
+   "cosa": "Rinominare le lunghezze dei pattern da $n_i$/$n$ a $m_i$/$m$ in tutto il capitolo, per lasciare $n_v$ al solo failure node.",
+   "perche": "La premessa del rilievo e falsa. Il referto sostiene che «anche il manoscritto scrive $m = \\sum m_i$»: ho riletto la scansione di p.12 a 400 DPI (pdftoppm su appunti.pdf) e il N.B. a destra del disegno dice testualmente «dimensione del K.T. $\\le \\sum n_i = n$», con una $n$ e il pedice $i$, non una $m$. La fonte primaria - gli appunti dello studente, che la policy antepone a quelli dell'anno precedente - usa dunque proprio $n_i$ e $n$. Anche Gusfield §3.4, il riferimento del capitolo, usa esattamente questa coppia: $n$ per la lunghezza complessiva dei pattern e $n_v$ per il failure node; la «collisione» e quella standard della letteratura, e chi andasse sul libro la ritroverebbe identica. Sul merito, poi, l'ambiguita e apparente: la Definizione dice esplicitamente «$\\nv{v}$: il \\emph{nodo} di $K(\\mathcal{P})$ tale che...», il capitolo avverte gia in apertura che «in questo capitolo $n$ e la lunghezza complessiva dei pattern e non quella del testo», e i due pedici non si confondono (in $n_i$ e un indice di pattern, in $\\nv{v}$ e un nodo). Infine il costo: la rinomina toccherebbe una ventina di occorrenze, disallineerebbe il testo dalla scansione e introdurrebbe $m$ con un significato ($\\sum_i \\abs{P_i}$) diverso da quello che $m$ ha nei capitoli 02 e 03 (dove e la lunghezza dell'unico pattern), spostando la collisione invece di eliminarla. Ho accolto invece l'alternativa che il referto stesso indica in subordine - una nota esplicita nel punto in cui $\\nv{v}$ viene introdotto - che costa una frase e risolve il rischio reale, cioe la lettura di $\\nv{v}$ come «lunghezza del pattern $P_v$» nel paragrafo di complessita."
+  }
+ ]
+}

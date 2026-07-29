@@ -1,0 +1,44 @@
+% randauto-index -- la definizione di index(u,v) = i.
+% Il tratto spesso a sinistra e' il segmento u (con i trattini agli estremi);
+% il tratteggio che lo prolunga e' la retta ell(u).  Percorrendo ell(u) a
+% partire da u si incontrano i segmenti u_1, u_2, ..., u_{i-1} -- contati
+% dalla graffa, i-1 in tutto -- e solo dopo si incontra v.
+\begin{tikzpicture}[
+    scale=0.9,
+    font=\small,
+    retta/.style={line width=0.5pt,dash pattern=on 3.2pt off 3.2pt},
+    segU/.style={line width=1.3pt},
+    taglia/.style={line width=0.7pt},
+  ]
+
+  % ---- il segmento u e la retta ell(u) -----------------------------------
+  \draw[segU] (0,0) -- (2.2,0);
+  \draw[segU] (0,-0.15) -- (0,0.15);
+  \draw[segU] (2.2,-0.15) -- (2.2,0.15);
+  \draw[retta] (2.4,0) -- (12,0);
+
+  \node[inner sep=1pt] at (1.1,0.42) {$u$};
+  \node[inner sep=1pt] at (11.2,-0.45) {$\ell(u)$};
+
+  % ---- i segmenti attraversati da ell(u) ---------------------------------
+  \draw[taglia] (3.35,0.55) -- (3.80,-0.55);
+  \node[inner sep=1pt] at (3.16,0.86) {$u_1$};
+
+  \draw[taglia] (4.90,-0.55) -- (5.50,0.60);
+  \node[inner sep=1pt] at (5.72,0.90) {$u_2$};
+
+  \foreach \x in {6.4,6.7,7.0}{\fill (\x,-0.22) circle (1.3pt);}
+
+  \draw[taglia] (8.30,-0.55) -- (8.50,0.60);
+  \node[inner sep=1pt] at (8.66,0.90) {$u_{i-1}$};
+
+  \draw[taglia] (9.85,-0.55) -- (10.00,0.78);
+  \node[inner sep=1pt] at (10.22,1.05) {$v$};
+
+  % ---- la graffa che conta gli i-1 segmenti intermedi (v escluso) --------
+  \draw[line width=0.5pt,decorate,
+        decoration={brace,amplitude=6pt,mirror,raise=1pt}]
+       (3.35,-0.75) -- (8.55,-0.75);
+  \node[inner sep=1pt] at (5.95,-1.42) {$i-1$};
+
+\end{tikzpicture}

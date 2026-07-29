@@ -1,0 +1,37 @@
+{
+ "capitolo": "06-karp-rabin",
+ "compila": true,
+ "applicate": [
+  {
+   "pagina": 26,
+   "categoria": "errore-matematico",
+   "cosa": "Nell'osservazione «Il punto debole» il costo dello schema ingenuo passa da $\\Th(nm)$ a $\\Th\\bigl((n-m+1)\\,m\\bigr)$. Con il $\\Th$ l'affermazione era falsa nel regime $m=\\Th(n)$ con $n-m=o(n)$: per $m=n$ c'e un solo allineamento e il costo e $\\Th(n)$, non $\\Th(n^2)$. La forma esatta e quella di CLRS ed e anche piu coerente con la frase, che gli shift li conta gia ($n-m+1$)."
+  },
+  {
+   "pagina": 26,
+   "categoria": "notazione",
+   "cosa": "tikz/kr-finestra-testo.tikz: le due graffe non sono piu etichettate $t_s$ e $t_{s+1}$ (simboli definiti solo dopo la figura, riferimento in avanti) ma $\\sub{T}{s+1}{s+m}$ e $\\sub{T}{s+2}{s+m+1}$, cioe con la stessa notazione della didascalia e delle tacche $s+1$ / $s+m$ gia presenti sull'asse. Ho preferito rietichettare invece di spostare la figura dopo l'itemize, perche la figura serve a capire l'enunciato del problema (shift validi) che la precede. Le etichette nuove sono molto piu larghe delle vecchie: ho rialzato la graffa superiore a $y=1.40$ (etichetta a $1.90$) e portato la freccia «shift di una posizione» a $y=1.05$, altrimenti l'etichetta della finestra corrente andava a sbattere contro la freccia. Riverificata con prova-tikz.sh (compila, 260.80pt su 478.01pt) e riletta a video sul PDF: nessuna sovrapposizione."
+  },
+  {
+   "pagina": 27,
+   "categoria": "errore-logico",
+   "cosa": "Proposizione «Il test modulare e un filtro a un lato»: la seconda meta dell'enunciato cadeva sotto il «per ogni intero $q\\ge1$» iniziale ed era quindi falsa per $q$ grande (se $q\\ge d^{\\,m}$ allora $p\\bmod q=p$ e $t_s\\bmod q=t_s$, e l'implicazione inversa vale). Ora si legge: «L'implicazione inversa, invece, non vale in generale: non appena $q<d^{\\,m}$ esistono un pattern e una finestra di testo con $p\\neq t_s$ e $p\\bmod q=t_s\\bmod q$». Nella dimostrazione ho tappato il buco gemello: da $q\\mid p-t_s$ non segue $p\\neq t_s$, quindi ho anteposto l'argomento dei cassetti ($d^{\\,m}$ valori possibili contro $q$ resti) e ipotizzato esplicitamente $p\\neq t_s$ nel caso considerato. Aggiunta una parentesi finale sul caso $q\\ge d^{\\,m}$ (test esatto, ma resti grandi quanto $p$ e $t_s$: si torna al problema di partenza), che collega la condizione al motivo per cui si lavora modulo $q$."
+  },
+  {
+   "pagina": 28,
+   "categoria": "errore-logico",
+   "cosa": "Osservazione «Annotazione a matita»: l'affermazione che su testo uniforme e casuale il numero atteso di occorrenze $(n-m+1)/d^{\\,m}$ e «praticamente nullo» era incondizionata, ed e vera solo se $d^{\\,m}\\gg n$. Ora e condizionata al regime $m\\gtrsim\\log_d n$, con un inciso sul caso opposto: per $m$ piccolissimo il valore atteso di $v$ puo essere $\\Th(n)$ anche su testo casuale, ma allora $m\\,\\E[v]\\le nm/d^{\\,m}=\\Oh(n)$ e la complessita resta lineare lo stesso. Il punto sostanziale (l'ipotesi $v=\\Oh(1)$ cade sui testi ripetitivi, non su quelli casuali, e quindi l'annotazione a matita va capovolta) e rimasto invariato."
+  },
+  {
+   "pagina": 28,
+   "categoria": "errore-matematico",
+   "cosa": "Per coerenza con la correzione di p.26, altre due occorrenze di $\\Th(nm)$ portate alla forma esatta $\\Th\\bigl((n-m+1)\\,m\\bigr)$: nel controesempio $P=a^m$, $T=a^n$ («nessun algoritmo che verifichi tutte le occorrenze puo scendere sotto...», dove le occorrenze sono $n-m+1$ e ognuna costa $m$) e nell'osservazione «Che cosa e davvero aleatorio» («un testo costruito ad arte puo far collidere tutti gli shift e riportare il costo a...»). In entrambi i casi il conto e $(n-m+1)$ verifiche da $\\Oh(m)$ ciascuna. Resta invariato l'$\\Oh(m\\cdot n)$ dell'itemize su $v$ alto, che essendo una maggiorazione e corretto com'e."
+  },
+  {
+   "pagina": 28,
+   "categoria": "omissione",
+   "cosa": "Rilievo di logging (policy 3), non di testo: il vincolo «$q$ e $d\\cdot q$ devono stare in una parola di macchina, cioe $\\Oh(\\log n)$ bit» e l'osservazione «Che cosa e davvero aleatorio» sono integrazioni corrette ma assenti dal foglio, e non erano registrate. Il testo LaTeX e rimasto invariato (e giusto e viene da L06); ho aggiunto le due voci mancanti in .build/trascrizioni/p28.json (tipo «lacuna», la fonte da cui genera-note.py costruisce NOTE-EDITORIALI.md) e rigenerato NOTE-EDITORIALI.md."
+  }
+ ],
+ "respinte": []
+}

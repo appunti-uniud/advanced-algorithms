@@ -1,0 +1,20 @@
+{
+ "pagina": 33,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "figura",
+   "dove": "lezioni/08-lca.tex, figura fig:path-number-alpha (righe 201-207), collocata DOPO \\scan{34} (riga 190); e, in senso opposto, il blocco \\[ \\B: p foglie, 2p-1 nodi, d=log_2 p \\] alle righe 167-174, collocato PRIMA di \\scan{34}",
+   "descrizione": "I due marcatori di scansione sono incrociati rispetto alla fonte. Il disegno 'sagoma con il cammino alpha dalla radice al nodo v + parola alpha||1||0000000' sta in fondo a pagina 33 (lo dichiara anche il commento in testa a tikz/path-number-alpha.tikz: 'quaderno, pag. 33'), ma nel .tex compare dopo \\scan{34}; viceversa la riga 'B: p foglie, 2p-1 nodi (p-1 n.i.), d=log_2 p altezza' e la frase 'Codifico un generico nodo di B con d+1 bits' stanno in alto a pagina 34 e nel .tex compaiono sotto \\scan{33}. Il contenuto complessivo e integro (nulla e perso ne inventato), ma il rimando alla scansione non e piu tracciabile per questi due elementi.",
+   "correzione": "Spostare l'ambiente figure di fig:path-number-alpha (righe 201-207) subito dopo il paragrafo delle righe 184-188 (che e proprio la sua descrizione) e quindi PRIMA di \\scan{34}; lasciare \\scan{34} immediatamente prima della \\begin{definizione}[Path number]. In alternativa, se si preferisce tenere la figura accanto alla definizione, spostare \\scan{34} alla riga 167 (prima di 'E il caso facile del piano'), cosi che il blocco 'p foglie / 2p-1 nodi / d=log_2 p' resti sotto il marcatore della pagina da cui proviene."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "notazione",
+   "dove": "lezioni/08-lca.tex, riga 147-148 ('operazioni su array di $c\\log n$ bit, che chiameremo \\emph{parole}') contro riga 746-747 ('tutte le operazioni sugli array di $\\log n$ bit (le \\emph{parole} del modello)') e righe 760-765 ('$2^{\\log n} = n$ input')",
+   "descrizione": "Il termine 'parola' viene battezzato qui (blocco di pagina 33) come array di $c\\log n$ bit, ma nella Sezione sec:lca-primitive la stessa parola indica un array di $\\log n$ bit, ed e su questa seconda lettura che poggia il conteggio della tabulazione ($2^{\\log n}=n$ entrate per le operazioni unarie, $\\sqrt n\\times\\sqrt n=n$ per le binarie). Con $c>1$ il conteggio scritto sarebbe $2^{c\\log n}=n^c$. L'argomento resta salvabile (una parola di $c\\log n$ bit e concatenazione di $\\Oh(1)$ blocchi da $\\log n$ bit, quindi bastano $\\Oh(1)$ accessi in tabella), ma cosi com'e il capitolo usa lo stesso nome per due oggetti di taglia diversa. La costante $c$ e fedele al quaderno ('array di c log(n) bit'), quindi la correzione va fatta sul raccordo, non cancellando la $c$.",
+   "correzione": "Alla riga 147-148 scrivere: 'le seguenti operazioni su array di $c\\log n$ bit, cioe su $\\Oh(1)$ \\emph{parole} da $\\log n$ bit ciascuna'. Cosi 'parola' = $\\log n$ bit ovunque e la Sezione sec:lca-primitive (tabelle con $2^{\\log n}=n$ entrate, mezze parole da $\\tfrac{\\log n}{2}$ bit) resta coerente; in alternativa aggiungere in sec:lca-primitive una frase del tipo 'assumiamo qui $c=1$: una parola di $c\\log n$ bit si spezza in $\\Oh(1)$ blocchi da $\\log n$ bit e si tratta con $\\Oh(1)$ accessi alle stesse tabelle'."
+  }
+ ]
+}

@@ -1,0 +1,36 @@
+% lv-banda-diagonali -- la tabella di programmazione dinamica (n+1 righe, m+1
+% colonne, con m >> n: rettangolo largo e basso) e la banda di 2k+1 diagonali
+% attorno alla diagonale di riferimento (quaderno, pag. 48).
+\begin{tikzpicture}[
+    font=\footnotesize,
+    bordo/.style={line width=0.9pt, line join=round},
+    onda/.style={draw=black!70, line width=0.6pt},
+    diag/.style={line width=1.4pt, line cap=round},
+    fre/.style={line width=0.6pt, -{Stealth[length=2.2mm,width=1.7mm]}},
+  ]
+
+  \def\Hh{2.6}
+
+  % --- bordo della tabella: le righe sono indicizzate da P, le colonne da T ---
+  \draw[bordo] (0,0) rectangle (11,\Hh);
+  \node[left=4pt,font=\normalsize]  at (0,1.30)     {$P$};
+  \node[above=3pt,font=\normalsize] at (10.75,\Hh) {$T$};
+
+  % --- le due curve che delimitano la banda -------------------------------
+  \draw[onda] plot[domain=0:1,samples=80,smooth,variable=\x]
+      ({3.0+2.3*\x+0.13*sin(720*\x)},{\Hh*(1-\x)});
+  \draw[onda] plot[domain=0:1,samples=80,smooth,variable=\x]
+      ({5.8+2.3*\x+0.13*sin(720*\x)},{\Hh*(1-\x)});
+
+  % --- la diagonale di riferimento: il tratto di match "gratis" -----------
+  \draw[diag] (4.4,\Hh) -- (6.7,0);
+
+  % --- scostamento massimo dalla diagonale --------------------------------
+  \coordinate (C) at (5.55,1.30);
+  \draw[fre] (C) -- (5.55,2.30);
+  \draw[fre] (C) -- (5.55,0.32);
+  \draw[fre] (C) -- (4.28,1.30);
+  \draw[fre] (C) -- (6.82,1.30);
+  \node at (5.88,0.55) {$k$};
+
+\end{tikzpicture}

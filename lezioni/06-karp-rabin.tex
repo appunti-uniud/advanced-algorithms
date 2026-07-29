@@ -1,0 +1,336 @@
+\chapter{Karp--Rabin}
+\label{cap:karp-rabin}
+
+\section{Coda: le applicazioni del suffix tree}
+
+\scan{26}
+Un'ultima annotazione chiude il blocco sui suffix tree. Il suffix tree è la struttura che
+realizza il \emph{pre-processing del testo}; Gusfield vi dedica due capitoli di applicazioni,
+che si dividono in due famiglie:
+\begin{itemize}
+  \item applicazioni \emph{semplici};
+  \item applicazioni \emph{non semplici}, che nascono dalla combinazione
+        ``suffix tree $+$ Harel--Tarjan''.
+\end{itemize}
+
+Il motivo della seconda voce è che, una volta costruito il suffix tree di $T$, moltissime
+domande su $T$ si riducono a calcolare il $\lca$ di due foglie. Il teorema di Harel--Tarjan
+garantisce che, dopo un pre-processing lineare nella dimensione dell'albero, ogni query di
+lowest common ancestor viene risolta in tempo $\Oh(1)$: è questo che rende praticabili --- e
+al tempo stesso non banali --- le applicazioni della seconda famiglia. Al teorema, e alla sua
+dimostrazione, è dedicato un capitolo a sé più avanti.
+
+\begin{figure}[H]\centering\input{tikz/stree-lca-montagna.tikz}
+\caption{Applicazioni ``non semplici'': dentro il suffix tree di $T$ si individua il lowest
+common ancestor di due foglie, che con il pre-processing di Harel--Tarjan costa $\Oh(1)$.}
+\label{fig:stree-lca-montagna}
+\end{figure}
+
+\section{Impostazione: dalle stringhe ai numeri}
+
+Siano $T,P \in \S^{*}$ e poniamo $m = \abs{P}$, $n = \abs{T}$. Negli appunti l'alfabeto di
+riferimento è quello delle cifre decimali,
+\[
+  \S = \set{0,1,\dots,9}, \qquad d = \abs{\S} = 10,
+\]
+ma la scelta è puramente espositiva: l'unica ipotesi che conta davvero è che l'alfabeto abbia
+taglia costante, $d = \abs{\S} \in \Oh(1)$. In generale identifichiamo ogni carattere con la
+cifra corrispondente in $\set{0,1,\dots,d-1}$, così che scrivere $P[i]$ o $T[j]$ dentro una
+formula abbia senso.
+
+Il problema è il consueto problema di pattern matching: determinare tutti gli \emph{shift
+validi}, cioè gli $s \in \set{0,1,\dots,n-m}$ tali che $P = \sub{T}{s+1}{s+m}$.
+
+\begin{figure}[H]\centering\input{tikz/kr-finestra-testo.tikz}
+\caption{Il testo $T$, la finestra corrente $\sub{T}{s+1}{s+m}$ e la finestra successiva
+(traslata di una posizione); il pattern $P$ ha la stessa lunghezza $m$ della finestra.}
+\label{fig:kr-finestra-testo}
+\end{figure}
+
+\begin{osservazione}[Idea di partenza]
+$\sub{P}{1}{m}$ può essere visto come un \emph{numero} scritto in base $d = \abs{\S}$: ogni
+carattere è una cifra e la stringa non è altro che la sua rappresentazione posizionale. La
+stessa lettura si applica, evidentemente, a ogni finestra di $T$ lunga $m$.
+\end{osservazione}
+
+Poniamo dunque:
+\begin{itemize}
+  \item $p$ è il valore di $\sub{P}{1}{m}$ letto in base $d$, cioè
+    \[
+      p \;=\; \sum_{i=1}^{m} P[i]\, d^{\,m-i}
+        \;=\; P[1]d^{\,m-1} + P[2]d^{\,m-2} + \dots + P[m-1]d + P[m];
+    \]
+  \item $t_s$ è il valore di $\sub{T}{s+1}{s+m}$ letto in base $d$, cioè
+    \[
+      t_s \;=\; \sum_{i=1}^{m} T[s+i]\, d^{\,m-i}.
+    \]
+\end{itemize}
+
+Poiché la scrittura posizionale in base $d$ di stringhe di lunghezza \emph{fissa} $m$ è
+iniettiva, vale
+\[
+  s \text{ è uno shift valido} \iff p = t_s,
+\]
+e il confronto fra stringhe si è trasformato in un confronto fra interi.
+
+\subsection{Lo schema di partenza}
+
+Lo schema di algoritmo che ne discende è il seguente.
+\begin{enumerate}
+  \item Inizializzo $p$ e $t_0$.
+  \item Calcolo $t_{s+1}$ a partire da $t_s$ con uno \emph{shift} e una \emph{somma}: dalla
+    finestra esce il carattere $T[s+1]$ ed entra $T[s+m+1]$, quindi basta togliere la cifra
+    più significativa, moltiplicare per $d$ (lo shift) e sommare la nuova cifra meno
+    significativa.
+  \item A ogni passo confronto $p$ con $t_s$: se sono uguali segnalo un'occorrenza,
+    altrimenti eseguo lo shift e passo a $s+1$.
+\end{enumerate}
+
+\begin{figure}[H]\centering\input{tikz/kr-schema-loop.tikz}
+\caption{Lo schema di Karp--Rabin: un unico test $p = t_s$ ripetuto per tutti gli shift, con
+aggiornamento incrementale della finestra.}
+\label{fig:kr-schema-loop}
+\end{figure}
+
+\begin{osservazione}[Il punto debole]
+Il test $p = t_s$ \textbf{non} prende tempo $\Oh(1)$: su questi dati non si può usare il
+criterio di costo unitario. Infatti $p$ e i $t_s$ sono numeri di $m$ cifre in base $d$, cioè
+richiedono $\Th(m \log d) = \Th(m)$ bit; non appena $m$ supera l'ordine di $\log n$ non stanno
+più in una parola di macchina, e allora ogni confronto (come ogni aggiornamento) costa
+$\Th(m)$ anziché $\Oh(1)$. Ripetendolo per tutti gli $n-m+1$ shift si ritorna a
+$\Th\bigl((n-m+1)\,m\bigr)$: nessun guadagno rispetto all'algoritmo naive.
+\end{osservazione}
+
+\section{Il rimedio: lavorare modulo \texorpdfstring{$q$}{q}}
+
+\scan{27}
+Il problema, insomma, è che \emph{$p$ e i $t_s$ sono troppo grandi}. La via d'uscita è non
+manipolarli mai, ma manipolare soltanto i loro resti
+\[
+  p \mod q, \qquad t_s \mod q,
+\]
+dove $q$ è un parametro scelto in modo da garantire che $p \mod q$ (e analogamente ogni
+$t_s \mod q$) sia manipolabile in tempo $\Oh(1)$.
+
+\begin{proposizione}[Il test modulare è un filtro a un lato]\label{prop:kr-filtro}
+Per ogni intero $q \ge 1$ e per ogni shift $s$ vale l'implicazione
+\[
+  p \mod q \neq t_s \mod q \implies p \neq t_s,
+\]
+e dunque $s$ non è uno shift valido. L'implicazione inversa, invece, \emph{non} vale in
+generale: non appena $q < d^{\,m}$ esistono un pattern e una finestra di testo con
+$p \neq t_s$ e $p \mod q = t_s \mod q$, cioè
+\[
+  p \mod q = t_s \mod q \;\nRightarrow\; p = t_s .
+\]
+\end{proposizione}
+
+\begin{dimostrazione}
+La prima implicazione è la contronominale del fatto che interi uguali hanno lo stesso resto:
+se $p = t_s$ allora $p \mod q = t_s \mod q$. Dunque, se i due resti differiscono,
+necessariamente $p \neq t_s$ e quindi --- essendo la scrittura in base $d$ di una stringa di
+lunghezza fissa $m$ iniettiva --- lo shift $s$ non è valido.
+
+La seconda non vale: $p$ e $t_s$ variano in $\set{0,1,\dots,d^{\,m}-1}$, che ha $d^{\,m}$
+elementi, mentre i resti modulo $q$ sono soltanto $q$; se $q < d^{\,m}$, per il principio dei
+cassetti due valori distinti finiscono sullo stesso resto. Basta dunque considerare il caso in
+cui $p \neq t_s$ ma
+\[
+  \abs{p - t_s} \mod q = 0,
+\]
+cioè $q \mid p - t_s$ con $p \neq t_s$: allora $p$ e $t_s$ hanno lo stesso resto modulo $q$
+pur essendo diversi, e il test modulare non li distingue. (Se $q \ge d^{\,m}$ il test è
+esatto, ma è proprio il caso che si vuole evitare: i resti sarebbero grandi quanto $p$ e
+$t_s$, e si tornerebbe al problema di partenza.)
+\end{dimostrazione}
+
+\begin{osservazione}
+Il confronto fra resti è quindi un filtro a un solo lato: quando i resti differiscono lo
+shift si può scartare con certezza (mai un falso negativo), ma quando coincidono non si
+conclude nulla, perché $p \mod q = t_s \mod q$ è solo condizione \emph{necessaria} perché $s$
+sia uno shift valido. I falsi positivi sono esattamente le posizioni con $p \neq t_s$ e
+$q \mid p - t_s$; ognuna di esse va smascherata con una verifica esplicita.
+\end{osservazione}
+
+\paragraph{Problemi.}
+\begin{enumerate}
+  \item[i)] come scelgo $q$?
+  \item[ii)] come calcolo e aggiorno $t_s \mod q$?
+  \item[iii)] cosa faccio quando $p \mod q = t_s \mod q$?
+\end{enumerate}
+
+\begin{dubbio}[Annotazione a matita, in parte cancellata]
+A metà pagina compare, a matita e quasi del tutto cancellata, la fattorizzazione
+\[
+  q = d^{\,n}\cdot a
+  \qquad\longleftrightarrow\qquad
+  \begin{cases}
+    q' \mod d^{\,n} & \dfrac{1}{d^{\,n}}\\[2ex]
+    q'' \mod a      & \dfrac{1}{a}
+  \end{cases}
+  \qquad\qquad \frac{1}{d^{\,n}}\cdot\frac{1}{a},
+\]
+accanto a uno schizzo (anch'esso a matita e cancellato) di un segmento con alcune tacche e un
+cappio, privo di etichette. L'esponente, letto $n$, non ha nulla a che vedere con
+$n = \abs{T}$, e la lettera $a$ è qui un cofattore, non il carattere entrante dello
+pseudocodice.
+
+La lettura più plausibile è che si tratti di una verifica della probabilità $1/q$ di
+collisione: se $q$ si fattorizza come $d^{\,n}\cdot a$ con $\gcd(d^{\,n},a)=1$, per il
+teorema cinese del resto la condizione $p \equiv t_s \pmod q$ equivale alla congiunzione di
+$p \equiv t_s \pmod{d^{\,n}}$ e $p \equiv t_s \pmod a$, eventi ``indipendenti'' di
+probabilità $1/d^{\,n}$ e $1/a$, il cui prodotto è appunto $1/q$. Si noti però che un $q$ di
+quella forma sarebbe una pessima scelta: la riduzione modulo $d^{\,n}$ (con $d = \abs{\S}$ la
+base) legge soltanto gli ultimi $n$ caratteri della finestra. È anche per evitare queste
+degenerazioni che si prenderà $q$ primo.
+\end{dubbio}
+
+\section{L'algoritmo}
+
+Rimandata la scelta di $q$, l'algoritmo prende la forma seguente. Da qui in avanti le
+variabili che si chiamano $p$ e $t_s$ contengono i \emph{resti} $p \mod q$ e $t_s \mod q$,
+non più i due interi grandi: è l'abuso di notazione consueto, e non crea ambiguità perché
+$p$ e $t_s$ nel loro significato originario non vengono mai calcolati.
+
+\begin{algorithm}[H]
+\caption{\textsc{Karp--Rabin}$(T,P,d,q)$}
+\label{alg:karp-rabin}
+\begin{algorithmic}[1]
+  \State $m \gets P.\mathit{length}$
+  \State $n \gets T.\mathit{length}$
+  \State $h \gets d^{\,m-1} \mod q$
+  \State $p \gets 0$
+  \State $t_0 \gets 0$
+  \For{$i \gets 1$ \textbf{to} $m$} \Comment{regola di Horner, modulo $q$}
+    \State $p   \gets (d\cdot p   + P[i]) \mod q$
+    \State $t_0 \gets (d\cdot t_0 + T[i]) \mod q$
+  \EndFor
+  \For{$s \gets 0$ \textbf{to} $n-m$}
+    \If{$p = t_s$} \Comment{filtro}
+      \If{$\sub{P}{1}{m} = \sub{T}{s+1}{s+m}$} \Comment{verifica}
+        \State \textbf{match} allo shift $s$
+      \EndIf
+    \EndIf
+    \If{$s < n-m$} \Comment{aggiornamento della finestra}
+      \State $r \gets (T[s+1]\cdot h) \mod q$
+      \State $a \gets T[s+m+1]$
+      \State $t_{s+1} \gets \bigl(d\,(t_s - r) + a\bigr) \mod q$
+    \EndIf
+  \EndFor
+\end{algorithmic}
+\end{algorithm}
+
+Negli appunti una graffa raccoglie le righe $1$--$9$ e le etichetta $\Oh(m)$: è tutto il
+pre-processing, cioè le due valutazioni con la regola di Horner, una moltiplicazione e una
+somma per carattere, eseguite direttamente modulo $q$. Anche la riga $3$ rientra nel budget:
+$h = d^{\,m-1} \mod q$ si calcola con l'esponenziazione veloce in $\Oh(\log m)$ operazioni, o
+banalmente in $\Oh(m)$.
+
+Le tre righe interne al secondo ciclo sono l'aggiornamento incrementale della finestra
+descritto al passo $2$ dello schema: $r$ è il contributo della cifra che esce, $a$ è la cifra
+che entra, e in forma chiusa
+\[
+  t_{s+1} = \bigl(d\,(t_s - T[s+1]\cdot h) + T[s+m+1]\bigr) \mod q,
+  \qquad h = d^{\,m-1} \mod q,
+\]
+cioè $\Oh(1)$ operazioni per shift; la guardia $s < n-m$ serve solo a non leggere $T[s+m+1]$
+oltre la fine del testo. Che tutto questo si possa fare direttamente sui resti dipende dal
+fatto che la riduzione modulo $q$ commuta con somma, differenza e prodotto.
+
+Il confronto $p = t_s$ è il filtro della Proposizione~\ref{prop:kr-filtro}, e il confronto
+carattere per carattere $\sub{P}{1}{m} = \sub{T}{s+1}{s+m}$ è la verifica che esso rende
+necessaria --- la risposta al problema iii): al più $m$ confronti, ed è il punto in cui si
+concentrerà l'analisi di complessità.
+
+\section{La scelta di \texorpdfstring{$q$}{q}}
+
+\scan{28}
+Resta aperto il problema i). Il parametro $q$ va preso \emph{primo}, e più grande è, meglio
+è: il che è ovvio, dato che la probabilità di un falso positivo sarà $1/q$. Dall'altro lato
+$q$ non può crescere quanto si vuole, perché tutto l'impianto si regge sull'ipotesi che le
+operazioni modulo $q$ costino $\Oh(1)$: $q$ (e con esso $d\cdot q$) deve stare in una parola
+di macchina, cioè occupare $\Oh(\log n)$ bit. I due vincoli sono compatibili --- l'analisi
+della prossima sezione mostrerà che basta $q$ dell'ordine di $m$, e $m \le n$ --- e resta da
+capire se un primo della taglia voluta esista davvero e se sia facile trovarlo: per questo
+useremo il teorema sulla distribuzione dei primi.
+
+Il modulo mappa gli interi in $\set{0,\dots,q-1}$. In modo uniforme? Sì --- o, più
+onestamente, \emph{lo assumiamo}: è esattamente questa ipotesi che permette di dire che per
+uno shift non valido la congruenza $p \equiv t_s \pmod{q}$ si presenta con probabilità $1/q$.
+
+\section{Analisi di complessità}
+
+Prima dell'analisi vera e propria, negli appunti si apre a margine una parentesi
+terminologica.
+
+\begin{osservazione}[Smoothed complexity]
+La \emph{smoothed complexity} ``liscia'' la superficie di complessità. Ci sono algoritmi, come
+QuickSort, che benché su carta siano $\Oh(n^{2})$, nella pratica sono solitamente più veloci:
+l'analisi smoothed serve proprio a rendere conto di questo scarto, facendo pesare di meno i
+casi peggiori isolati --- gli \emph{outlier}.
+\end{osservazione}
+
+\begin{dubbio}[Ultima riga della parentesi]
+L'ultima riga della parentesi si legge ``nella smoothed complexity si \dots{} gruppi maggiori
+ridotti dai outlier'', con due verbi separati da una barra che non è stato possibile
+decifrare. La lettura qui adottata --- si valuta il costo su \emph{gruppi} (intorni) di input
+anziché sul singolo input, così che il contributo degli outlier risulti ridotto --- è
+congetturale.
+\end{dubbio}
+
+Veniamo all'analisi. Siano
+\begin{itemize}
+  \item $v$ il numero di posizioni in cui $p \equiv t_s \pmod{q}$ \emph{e} $P$ occorre
+        davvero (occorrenze \emph{valide});
+  \item $k$ il numero di posizioni in cui $p \equiv t_s \pmod{q}$ \emph{ma} $P$ non occorre
+        (occorrenze \emph{spurie}).
+\end{itemize}
+In entrambi i casi scatta il confronto carattere per carattere, che costa $\Oh(m)$.
+
+Da qui due conseguenze immediate:
+\begin{itemize}
+  \item se $v$ è alto, Karp--Rabin costa $\Oh(m\cdot n)$, esattamente quanto l'algoritmo
+        naive;
+  \item assumo dunque che $v$ sia $\Oh(1)$.
+\end{itemize}
+
+\begin{osservazione}[Annotazione a matita]
+Accanto all'ipotesi $v = \Oh(1)$ il quaderno annota, a matita: ``non è vero per testi
+completamente random''. L'osservazione va però capovolta: se $T$ è davvero uniforme e casuale
+su un alfabeto di taglia $d$, il numero atteso di occorrenze di $P$ è $(n-m+1)/d^{\,m}$, che
+è praticamente nullo non appena $d^{\,m} \gg n$, cioè per $m \gtrsim \log_d n$: in quel regime
+l'ipotesi $v = \Oh(1)$ è ampiamente soddisfatta. (Per $m$ molto piccolo il valore atteso di
+$v$ può essere $\Th(n)$ anche su testo casuale, ma allora $m\,\E[v]$ resta $\Oh(n)$ e la
+complessità non ne risente.) È sui testi \emph{ripetitivi} che l'ipotesi cade: con $P = a^{m}$
+e $T = a^{n}$ si ha $v = n-m+1$, e in quel caso nessun algoritmo che verifichi tutte le
+occorrenze può scendere sotto $\Th\bigl((n-m+1)\,m\bigr)$.
+\end{osservazione}
+
+Quanto a $k$, sono costretto a spendere $\Oh(m)$ ogni volta che
+\[
+  p - t_s \equiv 0 \pmod{q},
+\]
+cosa che --- sotto l'ipotesi di uniformità di poco fa --- avviene con probabilità $1/q$;
+dunque
+\[
+  \E[k] \;\le\; \frac{n-m+1}{q} \;=\; \Oh\!\left(\frac{n}{q}\right).
+\]
+
+Mettendo tutto insieme (il primo addendo è la scansione del testo con l'aggiornamento
+incrementale della finestra, il secondo sono le verifiche esplicite) si ottiene, in valore
+atteso,
+\begin{align*}
+  \Oh(n) + \Oh\bigl(m\,(v+k)\bigr)
+    &= \Oh(n) + \underbrace{\Oh(m\,v)}_{v \,=\, \Oh(1)} + \Oh(m\,k) \\[2pt]
+    &= \Oh(n) + \Oh(m) + \Oh\!\left(\frac{m\cdot n}{q}\right),
+\end{align*}
+e con $q \gtrsim m$ il tutto è \emph{lineare}: $\Oh(n+m) = \Oh(n)$.
+
+\begin{osservazione}[Che cosa è davvero aleatorio]
+Il conto appena fatto è un conto \emph{in valore atteso}, e l'aspettazione è presa rispetto
+all'ipotesi di uniformità dei resti. Con $q$ fissato una volta per tutte quell'ipotesi è una
+comodità di analisi e non un teorema: un testo costruito ad arte può far collidere tutti gli
+shift e riportare il costo a $\Th\bigl((n-m+1)\,m\bigr)$. La versione rigorosa sceglie $q$ primo \emph{a caso}
+in un intervallo opportuno, ed è allora la scelta di $q$ --- non il testo --- a fornire
+l'aleatorietà su cui si prende il valore atteso.
+\end{osservazione}

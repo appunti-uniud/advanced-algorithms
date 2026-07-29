@@ -1,0 +1,53 @@
+% top-in-at-random -- pag. 84
+% Il mescolamento top-in-at-random: il mazzo e' visto di taglio (una carta = un
+% segmento orizzontale).  Pannello superiore: la carta in cima viene tolta e
+% reinserita in una posizione scelta a caso; B e' la carta in fondo al mazzo.
+% Pannello inferiore: dopo un certo numero di passi B e' risalita e le carte che
+% le sono passate sotto sono in ordine uniformemente casuale (l'invariante).
+% Nel quaderno i due mazzi hanno 6 e 7 carte: qui entrambi ne hanno 7, perche' il
+% numero di carte non cambia lungo il mescolamento.
+\begin{tikzpicture}[
+    x=1cm, y=1cm, line join=round, line cap=round,
+    font=\footnotesize,
+    carta/.style  = {line width=0.8pt},
+    cartaB/.style = {line width=1.7pt},
+    frec/.style   = {line width=0.7pt, -{Latex[length=2mm,width=1.6mm]}},
+    graffa/.style = {decorate, decoration={brace, amplitude=4pt},
+                     gray!70!black, line width=0.6pt},
+  ]
+
+  \def\W{1.9}     % larghezza del mazzo
+  \def\P{0.3}     % passo verticale fra due carte
+
+  % =================== intestazione =======================================
+  \node[anchor=south] at (1.55, 0.45) {\emph{top-in-at-random}};
+
+  % =================== pannello superiore: il mazzo iniziale ==============
+  % sette carte, y = 0, -0.3, ..., -1.8;  B e' l'ultima
+  \foreach \i in {0,...,5}{\draw[carta] (0,-\i*\P) -- (\W,-\i*\P);}
+  \draw[cartaB] (0,-6*\P) -- (\W,-6*\P);
+  \node[anchor=east, inner sep=4pt] at (0,-6*\P) {$B$};
+
+  % la carta in cima esce e rientra in una posizione a caso
+  \draw[frec] (\W,0.03) .. controls (2.85,0.14) and (2.95,-1.02) .. (1.62,-1.06);
+  \node[anchor=west, inner sep=2pt] at (2.62,-0.42) {a caso};
+
+  % =================== transizione fra i due pannelli =====================
+  \draw[line width=1.5pt, -{Latex[length=3mm,width=2.6mm]}]
+        (\W/2,-2.24) -- (\W/2,-2.86);
+  \node[anchor=west, inner sep=5pt, align=left, gray!70!black]
+        at (\W/2,-2.55) {dopo un certo\\numero di passi};
+
+  % =================== pannello inferiore: dopo alcuni passi ==============
+  % sette carte, y = -3.3, ..., -5.1;  B e' la quarta (tre sopra, tre sotto)
+  \def\Y{-3.3}
+  \foreach \i in {0,1,2}{\draw[carta] (0,\Y-\i*\P) -- (\W,\Y-\i*\P);}
+  \draw[cartaB] (0,\Y-3*\P) -- (\W+0.22,\Y-3*\P);
+  \node[anchor=east, inner sep=4pt] at (0,\Y-3*\P) {$B$};
+  \foreach \i in {4,5,6}{\draw[carta] (0,\Y-\i*\P) -- (\W,\Y-\i*\P);}
+
+  % le carte finite sotto B sono in ordine uniformemente casuale
+  \draw[graffa] (\W+0.42,\Y-3.6*\P) -- (\W+0.42,\Y-6.4*\P);
+  \node[anchor=west, inner sep=8pt] at (\W+0.42,\Y-5*\P) {a caso};
+
+\end{tikzpicture}

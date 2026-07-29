@@ -1,0 +1,99 @@
+{
+ "pagina": 27,
+ "latex": "\\scan{27}\n\nIl punto debole dello schema appena visto è che \\emph{$p$ e i $t_s$ sono troppo\ngrandi}: non stanno in una parola di macchina, quindi né i confronti né gli\naggiornamenti si possono contare come operazioni elementari.\n\nLa via d'uscita è non manipolare mai $p$ e $t_s$, ma soltanto i loro resti\n\\[\n  p \\mod q, \\qquad t_s \\mod q,\n\\]\ndove $q$ è un parametro scelto in modo da garantire che $p \\mod q$ (e\nanalogamente ogni $t_s \\mod q$) sia manipolabile in tempo $\\Oh(1)$.\n\n\\begin{proposizione}[Il test modulare è un filtro a un lato]\nPer ogni intero $q \\ge 1$ e per ogni shift $s$ vale l'implicazione\n\\[\n  p \\mod q \\neq t_s \\mod q \\implies p \\neq t_s,\n\\]\nmentre l'implicazione inversa \\emph{non} vale:\n\\[\n  p \\mod q \\neq t_s \\mod q \\nLeftarrow p \\neq t_s .\n\\]\n\\end{proposizione}\n\n\\begin{dimostrazione}\nLa prima implicazione è la contronominale del fatto che interi uguali hanno lo\nstesso resto: se $p = t_s$ allora $p \\mod q = t_s \\mod q$. Dunque, se i due\nresti differiscono, necessariamente $p \\neq t_s$ e quindi — essendo la scrittura\nin base $d$ di una stringa di lunghezza fissa $m$ iniettiva — lo shift $s$ non è\nvalido.\n\nLa seconda non vale: basta considerare il caso in cui\n\\[\n  \\abs{p - t_s} \\mod q = 0,\n\\]\ncioè $q \\mid p - t_s$. Allora $p$ e $t_s$ hanno lo stesso resto modulo $q$ pur\nessendo diversi, e il test modulare non li distingue.\n\\end{dimostrazione}\n\n\\begin{osservazione}\nIl confronto fra resti è quindi un filtro a un solo lato: quando i resti\ndifferiscono lo shift si può scartare con certezza (mai un falso negativo), ma\nquando coincidono non si conclude nulla, perché $p \\mod q = t_s \\mod q$ è solo\ncondizione \\emph{necessaria} perché $s$ sia uno shift valido. I falsi positivi\nsono esattamente le posizioni con $p \\neq t_s$ e $q \\mid p - t_s$.\n\\end{osservazione}\n\n\\paragraph{Problemi.}\n\\begin{enumerate}\n  \\item[i)] come scelgo $q$?\n  \\item[ii)] come calcolo e aggiorno $t_s \\mod q$?\n  \\item[iii)] cosa faccio quando $p \\mod q = t_s \\mod q$?\n\\end{enumerate}\n\n\\begin{dubbio}[Annotazione a matita, in parte cancellata]\nA metà pagina compare, a matita e quasi del tutto cancellata, la fattorizzazione\n\\[\n  q = d^{\\,n}\\cdot a\n  \\qquad\\longleftrightarrow\\qquad\n  \\begin{cases}\n    q' \\mod d^{\\,n} & \\dfrac{1}{d^{\\,n}}\\\\[2ex]\n    q'' \\mod a      & \\dfrac{1}{a}\n  \\end{cases}\n  \\qquad\\qquad \\frac{1}{d^{\\,n}}\\cdot\\frac{1}{a},\n\\]\naccanto a uno schizzo (anch'esso a matita e cancellato) di un segmento con\nalcune tacche e un cappio, privo di etichette. La lettura più plausibile è che\nsi tratti di una verifica della probabilità $1/q$ di collisione: se $q$ si\nfattorizza come $d^{\\,n}\\cdot a$ con $\\gcd(d^{\\,n},a)=1$, per il teorema cinese\ndel resto la condizione $p \\equiv t_s \\pmod q$ equivale alla congiunzione di\n$p \\equiv t_s \\pmod{d^{\\,n}}$ e $p \\equiv t_s \\pmod a$, eventi «indipendenti» di\nprobabilità $1/d^{\\,n}$ e $1/a$, il cui prodotto è appunto $1/q$. Si noti però\nche un $q$ di quella forma sarebbe una pessima scelta: la riduzione modulo\n$d^{\\,n}$ (con $d = \\abs{\\S}$ la base) legge soltanto gli ultimi $n$ caratteri\ndella finestra. È anche per evitare queste degenerazioni che si prenderà $q$\nprimo.\n\\end{dubbio}\n\n\\bigskip\nRimandata la scelta di $q$, l'algoritmo prende la forma seguente.\n\n\\begin{algorithm}[H]\n\\caption{\\textsc{Karp--Rabin}$(T,P,d,q)$}\n\\begin{algorithmic}[1]\n  \\State $m \\gets P.\\mathit{length}$\n  \\State $n \\gets T.\\mathit{length}$\n  \\State $h \\gets d^{\\,m-1} \\mod q$\n  \\State $p \\gets 0$\n  \\State $t_0 \\gets 0$\n  \\For{$i \\gets 1$ \\textbf{to} $m$} \\Comment{regola di Horner, modulo $q$}\n    \\State $p   \\gets (d\\cdot p   + P[i]) \\mod q$\n    \\State $t_0 \\gets (d\\cdot t_0 + T[i]) \\mod q$\n  \\EndFor\n  \\For{$s \\gets 0$ \\textbf{to} $n-m$}\n    \\If{$p = t_s$} \\Comment{filtro}\n      \\If{$\\sub{P}{1}{m} = \\sub{T}{s+1}{s+m}$} \\Comment{verifica}\n        \\State \\textbf{match} allo shift $s$\n      \\EndIf\n    \\EndIf\n    \\If{$s < n-m$} \\Comment{aggiornamento della finestra}\n      \\State $r \\gets T[s+1]\\cdot h \\mod q$\n      \\State $a \\gets T[s+m+1]$\n      \\State $t_{s+1} \\gets \\bigl(d\\,(t_s - r) + a\\bigr) \\mod q$\n    \\EndIf\n  \\EndFor\n\\end{algorithmic}\n\\end{algorithm}\n\nNegli appunti una graffa raccoglie le righe \\(1\\)--\\(9\\) e le etichetta $\\Oh(m)$:\nè tutto il pre-processing, cioè le due valutazioni con la regola di Horner, una\nmoltiplicazione e una somma per carattere, eseguite direttamente modulo $q$.\n\nLe tre righe interne al secondo ciclo sono l'aggiornamento incrementale della\nfinestra: $r$ è il contributo del carattere che esce, $a$ è il carattere che\nentra, e\n\\[\n  t_{s+1} = \\bigl(d\\,(t_s - T[s+1]\\cdot h) + T[s+m+1]\\bigr) \\mod q,\n  \\qquad h = d^{\\,m-1} \\mod q,\n\\]\ncioè $\\Oh(1)$ operazioni per shift; la guardia $s < n-m$ serve solo a non\nleggere $T[s+m+1]$ oltre la fine del testo. Il confronto $p = t_s$ è il filtro\ndella proposizione precedente, e il confronto carattere per carattere\n$\\sub{P}{1}{m} = \\sub{T}{s+1}{s+m}$ è la verifica che esso rende necessaria: al\npiù $m$ confronti, ed è il punto in cui si concentrerà l'analisi di complessità.",
+ "note": [
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 27,
+   "testo": "Nella parte alta il quaderno scrive due righe: «p mod q ≠ t_s mod q ⟹ p ≠ t_s» e, sotto, una freccia doppia sbarrata seguita da «p ≠ t_s». Il grafema sbarrato è una freccia VERSO SINISTRA (⇐) con un tratto obliquo sopra: si legge quindi «p mod q ≠ t_s mod q ⇍ p ≠ t_s», cioè l'implicazione inversa non vale. La lettura è confermata dalla parentesi immediatamente sotto, «(considera il caso |p−t_s| mod q = 0)», che è esattamente il controesempio all'implicazione inversa. Ho reso il tutto con \\implies e \\nLeftarrow (amssymb) e ho aggiunto una dimostrazione in due righe che negli appunti è solo accennata dalla parentesi.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 27,
+   "testo": "Nello pseudocodice il quaderno scrive «for i := 0 to m» (lo zero è lo zero slashato che lo studente usa anche in «p := ø» e «t := ø»). Con indicizzazione da 1 (il quaderno usa P[1,m] e T[s+1,s+m]) il ciclo di Horner deve andare da 1 a m: partendo da 0 si leggerebbe P[0]/T[0] e si farebbero m+1 iterazioni. Ho scritto «for i ← 1 to m», come in CLRS §32.2. Il secondo ciclo, «for s = 0 to n−m», è invece corretto così com'è.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 27,
+   "testo": "Nel ciclo di matching il quaderno scrive «if p == t_0» e «t_{s+1} := (d(t_0 − r) + a) mod q», usando t_0 anche dove serve il valore della finestra corrente. È un errore di notazione: t_0 è il valore della PRIMA finestra, calcolato nel pre-processing; nel ciclo va usato t_s (l'assegnamento a t_{s+1} lo conferma). Ho scritto t_s in entrambi i punti. Nel blocco di pre-processing ho invece mantenuto t_0, coerentemente con CLRS.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 27,
+   "testo": "Nell'inizializzazione il quaderno scrive «t := ø» senza pedice, mentre due righe più sotto (dentro il ciclo di Horner) scrive «t_0 := (d·t_0 + T[i]) mod q» con il pedice. Ho uniformato a «t_0 ← 0».",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 27,
+   "testo": "Il quaderno annota accanto a «p mod q» soltanto «q parametro che garantisce che p mod q sia manipolabile in O(1)». Ho espanso in prosa aggiungendo che l'osservazione vale analogamente per ogni t_s mod q (implicito: è il punto di tutto lo schema) e collegando la frase al punto lasciato in sospeso a p. 26 («p e t_s sono troppo grandi», cioè non stanno in una parola di macchina). Non ho introdotto il vincolo quantitativo su q (O(log|T|) bit), che negli appunti dello studente non compare in questa pagina.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 27,
+   "testo": "L'osservazione sul «filtro a un solo lato» (nessun falso negativo, possibili falsi positivi esattamente quando p ≠ t_s ma q | p − t_s) non è scritta con queste parole: negli appunti c'è solo la coppia di frecce e la parentesi. È però esattamente ciò che quelle due righe affermano, e l'ho esplicitata come osservazione per rendere leggibile la pagina. La terminologia coincide con quella deGli appunti del corso dell'anno precedente (L06, §6).",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 27,
+   "testo": "Nella banda centrale, fra l'elenco dei «Problemi» e lo pseudocodice, c'è un disegno a MATITA quasi interamente cancellato: un segmento orizzontale con quattro o cinque tacche verticali e un cappio/ovale che parte dalla seconda tacca, scende e risale verso la terza. È completamente privo di etichette. Non l'ho ricostruito in TikZ perché qualsiasi ricostruzione sarebbe invenzione: non c'è modo di stabilire se rappresenti il testo T con una finestra evidenziata, la retta dei numeri partizionata in blocchi di ampiezza q, o altro. Ne ho dato conto dentro l'ambiente dubbio insieme alla formula a matita che lo accompagna. Nessuna voce in 'figure'.",
+   "risolto": false
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 27,
+   "testo": "La formula a matita accanto allo schizzo si legge «q = d^n · a ⟷ { q' mod d^n : 1/d^n ; q'' mod a : 1/a }» con «1/d^n · 1/a» in alto a destra. La lettera «a» è quella che lo studente disegna come una 'ə' (stessa forma della variabile a := T[s+m+1] nello pseudocodice, il che conferma la lettura). L'esponente è letto come n (stessa forma in tutte e tre le occorrenze). Il senso non è dichiarato in nessun punto della pagina: ho proposto dentro l'ambiente dubbio la lettura più plausibile (verifica via teorema cinese del resto che le probabilità 1/d^n e 1/a si moltiplicano dando 1/q) e ho segnalato che un q di quella forma sarebbe comunque una scelta pessima, perché mod d^n dipende solo dagli ultimi n caratteri della finestra. Resta marcato come dubbio.",
+   "risolto": false
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 27,
+   "testo": "Lo pseudocodice sul quaderno è disposto su DUE COLONNE separate da una lunga linea verticale (a sinistra intestazione + pre-processing, a destra il ciclo di matching). L'ho ricomposto in un'unica sequenza numerata dentro algorithm/algorithmic. La graffa marginale etichettata O(m) copre l'intestazione e tutto il blocco di pre-processing: l'ho resa con una frase dopo l'algoritmo invece che con una graffa grafica.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 27,
+   "testo": "Il quaderno scrive «match s» sottolineato come corpo dell'if più interno; l'ho reso con «match allo shift s». I commenti «filtro», «verifica», «regola di Horner, modulo q», «aggiornamento della finestra» sono miei, aggiunti come \\Comment per rendere leggibile lo pseudocodice; il quaderno non li ha (La fonte dell'anno precedente, nei suoi appunti L06, annota a mano «Horner (modulo q)» e «main + check» sulle stesse righe, quindi l'aggiunta è coerente con la fonte di supporto).",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 27,
+   "testo": "Il paragrafo finale (ruoli di h, r, a; formula del rolling update; funzione della guardia s < n−m; costo al più m confronti per la verifica) non è scritto negli appunti: è la lettura esplicita dello pseudocodice che c'è. L'ho aggiunto perché la pagina altrimenti si chiuderebbe su tre righe di codice non commentate e perché la formula di aggiornamento non compare mai in forma chiusa negli appunti dello studente (compare invece a p.3 deGli appunti del corso dell'anno precedente).",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 27,
+   "testo": "La procedura sul quaderno si chiama «Rk (T, P, d, q)». Ho scritto \\textsc{Karp--Rabin}$(T,P,d,q)$ per coerenza con il titolo che lo studente stesso dà all'algoritmo a p. 26 («Algoritmo di Karp-Rabin») e con il titolo del capitolo; La fonte dell'anno precedentee CLRS usano l'ordine inverso (Rabin--Karp / RABIN-KARP-MATCHER).",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 27,
+   "testo": "Rispetto allo pseudocodice dell'anno precedente (CLRS 32.2), lo studente spezza la riga di aggiornamento in tre: r := T[s+1]·h mod q, a := T[s+m+1], t_{s+1} := (d(t_s − r) + a) mod q. È equivalente e ho mantenuto la versione dello studente (fonte primaria). Ho invece NON aggiunto l'avvertenza implementativa che (t_s − r) può risultare negativo e va normalizzato aggiungendo q: non c'è né negli appunti dello studente né in quelli dell'anno precedente, e aggiungerla sarebbe contenuto nuovo.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 27,
+   "testo": "Nel quaderno la riga «if s < n−m» è scritta due volte, una prima volta con tratto più leggero e poi ricalcata/riscritta appena sotto: è una semplice ripetizione della stessa istruzione, trascritta una volta sola.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 27,
+   "testo": "Ho evitato la macro \\d (che nella classe academica vale δ) e ho scritto la base semplicemente d. Ho usato \\mod (= \" mod \"), \\Oh, \\abs, \\sub, \\S dal preamble; \\nLeftarrow viene da amssymb, già caricato dalla classe. Non ho inventato macro nuove.",
+   "risolto": true
+  }
+ ],
+ "figure": [],
+ "continuita": "La pagina lascia aperti esplicitamente i tre «Problemi» numerati i)–iii). Lo pseudocodice risponde già a ii) (Horner in pre-processing + rolling update in O(1) per shift) e a iii) (la verifica carattere per carattere dopo il filtro), ma il costo di quella verifica non è ancora contato. Resta completamente aperto i): come scegliere q. La pagina 28 riparte proprio da lì — «q primo, più grande è meglio è (ovvio!) → vedremo il teorema sulla distribuzione dei primi», poi l'ipotesi di uniformità della riduzione modulare («il modulo mappa interi in {0,…,q−1}… in modo uniforme? sì, lo assumiamo»), preceduta da una digressione su smoothed complexity, e infine la sezione «Complessità: analisi» con i contatori v (occorrenze vere) e k (falsi positivi), la probabilità 1/q, e la conclusione O(n) + O(m·k) con q ≳ m. L'annotazione a matita su q = d^n·a lasciata in dubbio a p. 27 trova lì la sua risposta implicita (q primo). Anche l'assunzione «v = O(1)» e il caso quadratico compariranno solo a p. 28.",
+ "confidenza": "alta"
+}

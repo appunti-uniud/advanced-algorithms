@@ -1,0 +1,35 @@
+% corso-tre-parti -- mappa delle tre parti del corso (quaderno, pag. 1).
+\begin{tikzpicture}[
+    >={Stealth[length=4.5pt,width=3.5pt]},
+    font=\small,
+    ramo/.style={->,semithick,shorten >=1.5pt},
+    voce/.style={anchor=west,inner sep=1pt},
+    glossa/.style={anchor=west,inner sep=1pt,font=\footnotesize},
+  ]
+
+  % --- livello 0: la radice ------------------------------------------------
+  \node[anchor=west,inner sep=1pt] (radice) at (0,0) {3 parti};
+  \coordinate (fork) at ($(radice.east)+(0.20,0)$);
+
+  % --- livello 1: le tre parti del corso -----------------------------------
+  \node[voce] (r1) at (2.00, 1.10) {\underline{string matching}};
+  \node[voce] (r2) at (2.00, 0.00) {\underline{algoritmi randomizzati}};
+  \node[voce] (r3) at (2.00,-1.10) {\underline{strutture dati compresse}};
+
+  \draw[ramo] (fork) -- (r1.west);
+  \draw[ramo] (fork) -- (r2.west);
+  \draw[ramo] (fork) -- (r3.west);
+
+  % --- diramazione: le due classi di algoritmi randomizzati -----------------
+  \coordinate (v) at ($(r2.east)+(0.22,0)$);
+  \node[glossa] (s1) at ($(v)+(0.40, 0.50)$) {Monte Carlo --- non sempre corretti};
+  \node[glossa] (s2) at ($(v)+(0.40,-0.50)$) {Las Vegas --- sempre corretti};
+  \draw[semithick] (v) -- ($(s1.west)+(-0.08,0)$);
+  \draw[semithick] (v) -- ($(s2.west)+(-0.08,0)$);
+
+  % --- glossa sull'obiettivo delle strutture dati compresse -----------------
+  \node[glossa] (tilde) at ($(r3.east)+(0.14,0)$) {$\sim$};
+  \node[glossa] (g3) at ($(tilde.east)+(0.08,0)$)
+        {comprimere dati anche molto complessi};
+
+\end{tikzpicture}

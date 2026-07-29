@@ -1,0 +1,27 @@
+{
+ "capitolo": "11-randqs",
+ "compila": true,
+ "applicate": [
+  {
+   "pagina": 52,
+   "categoria": "latex",
+   "cosa": "Nel passo 3 dell'algoritmo RandQS ho sostituito \\RandQS($S_1$) / \\RandQS($S_2$) con \\RandQS{}($S_1$) / \\RandQS{}($S_2$). \\RandQS e definita come \\textsc{RandQS}\\xspace e la parentesi tonda aperta non e nella lista di eccezioni di xspace, quindi veniva inserito uno spazio spurio. Verificato su algoritmi.pdf con pdftotext: prima si leggeva \"RandQS (S1 ) e RandQS (S2 )\", ora la ricompilazione del capitolo produce \"RandQS(S1 ) e RandQS(S2 )\"."
+  },
+  {
+   "pagina": 52,
+   "categoria": "latex",
+   "cosa": "Sostituito \\autoref{thm:randqs-confronti} con Teorema~\\ref{thm:randqs-confronti} nella riga di chiusura dell'analisi. L'ambiente italiano `teorema` riusa il contatore `theorem` della classe academica, e \\autoref sceglie il nome in base al CONTATORE, non all'ambiente: usava quindi \\theoremautorefname (\"Theorem\", default di hyperref) e non \\teoremaautorefname definito in preambolo. Verificato su algoritmi.pdf: si leggeva \"come annunciato dal Theorem 4\" sotto un box intitolato \"Teorema 4\". Ho scelto la correzione locale invece della patch globale in preamble.tex (\\theoremautorefname, \\definitionautorefname, \\figureautorefname, ...) perche il workflow lancia i capitoli in parallelo e una modifica concorrente al preambolo condiviso e rischiosa. La patch globale resta comunque consigliabile e andrebbe fatta una volta sola, centralmente: risolverebbe anche \\autoref{fig:karger-tradeoff} in 12-min-cut.tex (riga 398), che oggi stampa \"Figure\", e chiuderebbe la segnalazione gia registrata in NOTE-EDITORIALI.md per la p.48."
+  },
+  {
+   "pagina": 53,
+   "categoria": "errore-matematico",
+   "cosa": "Riformulata la frase introduttiva alle due stime di H_n. Diceva che i blocchi di lunghezza 1,2,4,8,... sono \\lfloor\\log_2 n\\rfloor+1 \"ciascuno di somma compresa fra 1/2 e 1\": falso per l'ultimo blocco, che in generale e troncato (per n=5 i blocchi sono {1}, {1/2,1/3}, {1/4,1/5}, con somme 1, 0.833 e 0.45). Ora si legge: \"i blocchi sono \\lfloor\\log_2 n\\rfloor+1 e ogni blocco COMPLETO ha somma compresa fra 1/2 e 1, mentre l'ultimo puo essere parziale --- si ottengono le due stime, la seconda con i blocchi traslati di un posto\". La seconda precisazione serve perche la minorazione nell'align* usa il raggruppamento traslato 1 | 1/2 | (1/3+1/4) | (1/5+...+1/8), non quello descritto. Entrambe le stime erano e restano valide (la maggiorazione usa solo il <=1 per blocco, la minorazione solo i blocchi completi): il difetto era nella frase di accompagnamento, che e un'aggiunta editoriale non presente nel quaderno."
+  },
+  {
+   "pagina": 54,
+   "categoria": "figura",
+   "cosa": "In tikz/mincut-anticipazione.tikz i due vertici separati dal taglio sono passati da $u$/$v$ a $x$/$y$, e la didascalia di fig:mincut-anticipazione da \"da un lato $u$, dall'altro $v$\" a \"da un lato $x$, dall'altro $y$\". Ho riletto la banda p54_b1.png: nel manoscritto il pallino di sinistra e etichettato x e quello di destra y (coerente con la nota editoriale di p.54). Oltre alla fedelta alla scansione, u e v erano in collisione con la notazione del cap. 12, dove (u,v) e l'arco estratto e contratto da \\contract, mentre qui sono due vertici da parti opposte del taglio. Figura riverificata con .build/prova-tikz.sh: compila, 234.67pt su 478.01pt disponibili."
+  }
+ ],
+ "respinte": []
+}

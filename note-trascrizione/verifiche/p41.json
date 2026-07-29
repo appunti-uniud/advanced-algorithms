@@ -1,0 +1,13 @@
+{
+ "pagina": 41,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "figura",
+   "dove": "tikz/hamming-posizioni.tikz, nodo glossa a destra: \"numero di $1$ nella $\\mathrm{XOR}(\\a,\\b)$\" (figura fig:hamming-posizioni)",
+   "descrizione": "Nel testo (righe 45-48 del capitolo) la riscrittura tramite XOR viene giustamente subordinata all'ipotesi \"Su alfabeto binario\", perche per |Sigma|>2 la formula non ha senso letterale. La stessa glossa compare pero dentro la figura senza alcuna qualificazione, e la didascalia non la richiama: la figura precede la definizione formale e l'osservazione, quindi il lettore incontra prima la versione non qualificata. E l'unica incoerenza fra prosa e figura sulla pagina.",
+   "correzione": "Qualificare la glossa nel file tikz, p.es. \"numero di $1$ nella $\\mathrm{XOR}(\\a,\\b)$ (alfabeto binario)\", oppure aggiungere in coda alla didascalia di fig:hamming-posizioni una frase del tipo \"Sull'alfabeto binario il numero di posizioni discordi e il numero di $1$ nella $\\mathrm{XOR}(\\a,\\b)$.\""
+  }
+ ]
+}

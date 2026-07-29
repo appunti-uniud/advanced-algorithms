@@ -1,0 +1,102 @@
+{
+ "pagina": 47,
+ "latex": "\\scan{47}\n\n\\paragraph{Costo per i gap.}\nIn un allineamento chiamiamo \\emph{gap} un blocco massimale di spazi\nconsecutivi e indichiamo con $\\gamma(n)$ il costo di un gap di lunghezza $n$.\nI modelli di costo che si usano sono tre.\n\n\\begin{description}\n  \\item[Lineare:] un gap di lunghezza $n$ ha costo\n    \\[\n      \\gamma(n)\\;\\equiv\\;n\\cdot g .\n    \\]\n  \\item[Convesso:] un gap di lunghezza $n$ ha costo $\\gamma(n)$ tale che\n    \\[\n      \\gamma(i+1)-\\gamma(i)\\;\\le\\;\\gamma(i)-\\gamma(i-1)\n    \\]\n    (gli incrementi non crescono: allungare un gap già lungo costa\n    marginalmente meno).\n  \\item[Affine:]\n    \\[\n      \\gamma(n)\\;\\equiv\\;g_o+(n-1)\\cdot g_e ,\n    \\]\n    dove $g_o$ è il costo di \\emph{apertura} del gap e $g_e$ quello di\n    \\emph{estensione}.\n\\end{description}\n\n\\paragraph{Landau--Vishkin ('82).}\nSe ci si limita agli allineamenti con al più $d$ differenze non serve riempire\ntutta la matrice: il cammino di allineamento non può allontanarsi di più di $d$\ndiagonali da quella di partenza, quindi basta calcolare una banda di $\\Oh(d)$\ndiagonali.\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/landau-vishkin-banda.tikz}\n  \\caption{Landau--Vishkin: da una cella generica il cammino può spostarsi al\n  più di $d$ a sinistra, di $d$ a destra e di $d$ verso il basso, e resta quindi\n  confinato nella banda di $\\Oh(d)$ diagonali delimitata dalle due rette\n  grigie.}\n\\end{figure}\n\nIl costo complessivo è\n\\[\n  \\Oh\\bigl(d\\,(\\abs{\\s}+\\abs{T})\\bigr),\n\\]\ncioè lineare quando il numero $d$ di differenze ammesse è costante. La ricetta\nè: \\emph{allineamento locale} $+$ \\emph{suffix tree} $+$ \\emph{Harel--Tarjan},\nossia LCA in tempo costante.\n\n\\paragraph{Riepilogo.}\n\\begin{itemize}\n  \\item $\\Oh(m+n)$ --- allineamento \\textbf{esatto}:\n    \\begin{itemize}\n      \\item KMP;\n      \\item Boyer--Moore;\n      \\item Aho--Corasick;\n      \\item Ukkonen $\\Rightarrow$ \\STree.\n    \\end{itemize}\n  \\item $\\Oh(m\\times n)$ --- allineamento \\textbf{approssimato}:\n    \\begin{itemize}\n      \\item algoritmo di \\dubbioinl{Miller};\n      \\item distanze: Hamming e Levenshtein, quest'ultima calcolata per\n        programmazione dinamica.\n    \\end{itemize}\n\\end{itemize}",
+ "note": [
+  {
+   "tipo": "ricostruzione",
+   "pagina": 47,
+   "risolto": true,
+   "testo": "Il titolo del quaderno è sottolineato e telegrafico: «Costo per i Gap». Reso come \\paragraph{Costo per i gap.} (niente \\section, come da convenzioni). Le tre voci sono scritte come etichette sottolineate «Lineare:», «Convesso:», «Affine» seguite dalla formula: rese con un ambiente description."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 47,
+   "risolto": true,
+   "testo": "Le tre formule sui gap sono state decifrate carattere per carattere sulle bande a 400/900 dpi e coincidono verbatim con L11_sintesi §11.1 dell'anno precedente: gamma(n) = n·g (lineare); gamma(i+1)-gamma(i) <= gamma(i)-gamma(i-1) (convesso); gamma(n) = g_o + (n-1)·g_e (affine). Verificate in particolare la direzione della disuguaglianza (<=, non >=) e gli indici (i+1, i, i-1). Nessun dubbio residuo."
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 47,
+   "risolto": true,
+   "testo": "Glosse aggiunte perché il quaderno è telegrafico (fonte: L11_sintesi §11.1 dell'anno precedente): (a) la definizione di gap come «blocco massimale di spazi consecutivi»; (b) «g_o = costo di apertura, g_e = costo di estensione» (nel quaderno ci sono solo i pedici o/e); (c) la parentetica «gli incrementi non crescono...» che spiega la condizione di convessità. Non aggiungono contenuto nuovo, esplicitano la notazione."
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 47,
+   "risolto": true,
+   "testo": "La condizione gamma(i+1)-gamma(i) <= gamma(i)-gamma(i-1) è, in senso matematico, una condizione di CONCAVITÀ discreta, non di convessità. La terminologia «convex gap weight» è però quella standard nella letteratura sulle sequenze (Gusfield, Waterman) ed è quella usata dagli appunti dell'anno precedente (stessa anomalia A8 in L11_sintesi). Ho lasciato «Convesso» senza correggere, segnalando qui la cosa."
+  },
+  {
+   "tipo": "errore-anno-prec",
+   "pagina": 47,
+   "risolto": true,
+   "testo": "«Landau Vishkin '82»: la datazione è sbagliata. L'algoritmo a k differenze di Landau e Vishkin è del 1985 (FOCS, «Efficient string matching in the presence of errors») e successivi (JCSS 1988, J. Algorithms 1989). Ho mantenuto '82 perché compare identico anche a p.46 (quindi è ciò che è stato detto/scritto a lezione, non un lapsus di trascrizione), ma la data corretta è 1985-1989."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 47,
+   "risolto": true,
+   "testo": "Complessità: il quaderno scrive O(d(|sigma|+|T|)). Confermato ingrandendo: la 'd' fuori dalla parentesi interna è netta. Coerente con p.46, che dà il caso particolare O(|sigma|+|T|), e con p.48, che scrive O(m+n) «per risolvere allineamento a distanza <= k (costante)». Ho aggiunto la chiosa «cioè lineare quando d è costante» per raccordare le tre pagine."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 47,
+   "risolto": true,
+   "testo": "L'ultimo addendo della 'ricetta' (riga «all. locale + suffix tree + ...») a prima vista sembra «Sched-Vejor»/«Bord-Regio». È in realtà «Harel-Tarjan»: la stessa scritta compare identica in fondo a p.46, e il quaderno usa quel nome (nell'ordine «Tarjan - Harel») come titolo a p.31 e come annuncio a p.26 per l'algoritmo di LCA in tempo costante. La lettura è confermata dai grafemi (prima parola di 5 lettere che finisce con l'asta di 'l'; seconda con la 'j' puntata e discendente di Tarjan) ed è obbligata dalla semantica: Landau-Vishkin = allineamento locale + suffix tree + query LCA in O(1). Ho scritto «Harel-Tarjan» (ordine storico, Harel-Tarjan 1984); il quaderno altrove scrive «Tarjan-Harel»."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 47,
+   "risolto": true,
+   "testo": "Nel riepilogo il quaderno scrive «Ukkomber.» (sottolineato due volte, con «STree» sotto). È «Ukkonen»: è l'unico algoritmo di costruzione del suffix tree in tempo lineare trattato nel corso e la doppia sottolineatura lo lega esplicitamente a STree. Trascritto «Ukkonen => \\STree»."
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 47,
+   "risolto": false,
+   "testo": "Nel riepilogo, sotto «O(m×n) allineamento approssimato», c'è «Alg. di M...». Ingrandendo a 900 dpi si distinguono: una maiuscola cursiva a tre aste (M o N), una lettera bassa con il PUNTINO sopra (quindi una 'i'), due aste ascendenti consecutive, una lettera bassa, uno svolazzo discendente finale (che in questa calligrafia è spesso solo un ghirigoro di chiusura: cfr. 'Landau' a p.46). Il candidato migliore è «Miller» (M-i-ll-e-r); alternative considerate e scartate: «Myers» (la discendente cadrebbe in 2a posizione), «Hirschberg» (parola molto più lunga - confrontata direttamente con la stessa parola scritta a p.45), «Needleman» (manca la 'i' puntata), «Sellers» (iniziale non compatibile). Lasciato marcato con \\dubbioinl{Miller}."
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 47,
+   "risolto": false,
+   "testo": "Subito a destra di «Alg. di M...» c'è una parola scritta con la penna quasi scarica (azzurro sbiadito), di 5-7 lettere: illeggibile anche isolando il canale del blu e alzando il contrasto. Non trascritta. Potrebbe essere un secondo cognome (il secondo autore) o una glossa."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 47,
+   "risolto": true,
+   "testo": "Interpretazione della figura centrale: è la matrice di programmazione dinamica sigma × T (sigma = pattern sulle righe, etichetta a sinistra; T = testo sulle colonne, etichetta in alto a destra), con due rette grigie a matita parallele che delimitano una banda di diagonali, un cammino a zig-zag blu che resta dentro la banda e, da un punto marcato del cammino, tre frecce (sinistra, destra, basso) tutte etichettate d. Significato: un allineamento con <= d differenze devia al più di d diagonali, quindi si calcola solo una banda di O(d) diagonali. Coerente con la figura analoga di p.48 (stesso schema con etichetta k) e con la nota a lato di p.48 «se guardassi tutta la matrice, O(m×n)»."
+  },
+  {
+   "tipo": "figura",
+   "pagina": 47,
+   "risolto": true,
+   "testo": "Lo schema riassuntivo in fondo alla pagina (graffa + frecce verso KMP/BM/AC, e la seconda riga con «distanze - Hamming / Levenshtein -> programmazione dinamica») è stato reso come elenco puntato annidato invece che come figura TikZ: non ha contenuto geometrico e come lista è più leggibile. Nessuna perdita di informazione."
+  },
+  {
+   "tipo": "altro",
+   "pagina": 47,
+   "risolto": true,
+   "testo": "Nella metà inferiore della pagina ci sono scarabocchi a matita non pertinenti (una figura ovale con dentro un disegnino, tratti casuali che attraversano il riepilogo) e una riga a matita quasi cancellata sopra «KMP» che sembra dire «... suffix tree ... T». Non trascritti perché illeggibili e verosimilmente estranei (il foglio è stato usato anche per altro: cfr. la scritta capovolta «NBA» a p.46)."
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 47,
+   "risolto": true,
+   "testo": "Nel riepilogo il quaderno scrive «O(m×n)» con il prodotto (non «m+n») per l'allineamento approssimato, in contrapposizione a «O(m+n)» per quello esatto: verificato ingrandendo, il segno è una × e non un +. Mantenuto."
+  }
+ ],
+ "figure": [
+  {
+   "id": "landau-vishkin-banda",
+   "pagina": 47,
+   "didascalia": "Landau--Vishkin: da una cella generica il cammino può spostarsi al più di $d$ a sinistra, di $d$ a destra e di $d$ verso il basso, e resta quindi confinato nella banda di $\\Oh(d)$ diagonali delimitata dalle due rette grigie.",
+   "tipo": "matrice DP (rettangolo con banda di diagonali e cammino di allineamento)",
+   "specifica": "Schema della matrice di programmazione dinamica di Landau-Vishkin. Nell'originale è disegnato a mano libera con i bordi ondulati: va ridisegnato PULITO.\n\nGEOMETRIA. Un rettangolo vuoto (nessuna griglia interna), largo circa 2,7 volte l'altezza; dimensioni suggerite 12 cm × 4,4 cm. Chiamo W la larghezza e H l'altezza, con origine (0,0) nell'angolo in alto a sinistra e y crescente verso il basso. Tutte le posizioni seguenti sono misurate sull'originale e normalizzate a W e H.\n\nETICHETTE DEGLI ASSI.\n- $\\sigma$ (il pattern) in math mode, FUORI dal rettangolo, a sinistra del bordo sinistro, all'altezza y ~ 0,45H. Le righe della matrice sono indicizzate da sigma.\n- $T$ (il testo) in math mode, FUORI dal rettangolo, SOPRA il bordo superiore, vicino all'angolo in alto a destra (x ~ 0,93W). Le colonne sono indicizzate da T.\n\nBANDA DI DIAGONALI: due rette sottili grigio chiaro (nell'originale sono a matita), parallele fra loro, che attraversano tutto il rettangolo dal bordo superiore a quello inferiore con pendenza verso il basso a destra:\n- retta 1: da (0,22W, 0) a (0,44W, H);\n- retta 2: da (0,50W, 0) a (0,75W, H).\nDelimitano la banda dentro cui l'algoritmo lavora.\n\nCAMMINO DI ALLINEAMENTO: una polilinea blu di spessore medio, disegnata «a scaletta/ondulata» (nell'originale è una successione di piccoli gradini orizzontali e verticali con andamento complessivo diagonale, tipo onda quadra inclinata; va bene una decorazione snake/zigzag oppure una scaletta di 8-10 piccoli scalini). Il cammino sta tutto DENTRO la banda, all'incirca parallelo alle due rette grigie, e va da bordo a bordo:\n- parte sul bordo superiore in (0,32W, 0);\n- scende fino al punto marcato P = (0,42W, 0,42H);\n- riparte da P e scende fino al bordo inferiore in (0,58W, H).\nP è un nodo pieno (pallino blu scuro, piccolo).\n\nTRE FRECCE USCENTI DA P (blu, con punta a freccia, stesso spessore del cammino), che rappresentano l'ampiezza d dello scostamento consentito:\n- freccia verso SINISTRA, orizzontale, da P a (0,33W, 0,42H); etichetta $d$ in math mode posta SOPRA il tratto, a metà circa;\n- freccia verso DESTRA, orizzontale, da P a (0,51W, 0,42H); etichetta $d$ SOPRA il tratto, a metà circa;\n- freccia verso il BASSO, verticale, da P a (0,42W, 0,70H); etichetta $d$ a SINISTRA del tratto, a metà circa.\nNell'originale NON c'è freccia verso l'alto.\n\nSIGNIFICATO (per chi disegna): il rettangolo è la matrice sigma × T dell'allineamento locale; un allineamento con al più d differenze non può allontanarsi di più di d diagonali dalla diagonale di partenza, perciò basta calcolare la banda di O(d) diagonali compresa fra le due rette grigie invece di tutta la matrice. Le tre frecce etichettate d quantificano lo scostamento massimo a partire da una cella generica. Tutto il testo della figura è simbolico (sigma, T, d): non serve testo in italiano.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina chiude annunciando Landau-Vishkin: la banda di O(d) diagonali (figura), il costo O(d(|sigma|+|T|)) e i tre ingredienti della ricetta - allineamento locale + suffix tree + Harel-Tarjan (LCA in tempo costante) - ma non sviluppa nulla di tutto ciò. Restano in sospeso: (i) perché il cammino non può uscire dalla banda; (ii) come si salta da un errore al successivo lungo una diagonale; (iii) come si ottengono le query LCA in O(1). Il riepilogo finale (O(m+n) esatto vs O(m×n) approssimato) è una parentesi di ricapitolazione e non apre nulla. Pagina 48 riparte esattamente da qui: titolo «Landau Vishkin», qualifica «programmazione dinamica ibrida», nota O(m+n) per distanza <= k costante, la stessa figura della banda (con k al posto di d) e l'«Intermezzo: Longest Common Extension», che è il pezzo mancante per usare suffix tree + LCA. Da p.47 a p.48 la notazione passa da (sigma, T) a (P, T) e da d a k: in fase di cucitura conviene uniformarla.",
+ "confidenza": "alta"
+}

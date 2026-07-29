@@ -1,0 +1,27 @@
+{
+ "pagina": 1,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "bassa",
+   "categoria": "latex",
+   "dove": "lezioni/01-introduzione.tex, primo paragrafo dopo \\scan{1}",
+   "descrizione": "Il paragrafo produce un Overfull \\hbox di 5.46pt (algoritmi.log riga 1873, \"in paragraph at lines 8--10\"). Nel PDF compilato (pagina 18 del PDF, prima pagina del cap. 1) la riga sborda dal blocco di testo: la parentesi chiusa e il punto finale finiscono nel margine destro e si toccano con la nota a margine generata da \\scan{1} (\"scan p. 1\"), che compare attaccata al testo. I due \\allowbreak gia presenti non bastano: TeX preferisce comunque la riga troppo lunga.",
+   "correzione": "Risolto a monte: l'indirizzo e-mail riportato sulla p.1 del quaderno non e stato trascritto (dato personale di terzi, inopportuno in un repository pubblico). Restano il nome del corso e del docente. Togliendo il \\texttt{} lungo e sparito anche l'Overfull \\hbox."
+  }
+ ],
+ "note_verifica": {
+  "fedelta": "Tutto il contenuto manoscritto della pagina risulta presente: e-mail del docente, titolo, schema \"3 parti\" (string matching / algoritmi randomizzati / strutture dati compresse) con le due glosse laterali, i tre libri, \"+ Appunti (non ufficiali), nostri appunti\", \"Materiale su Teams\", il blocco \"Esame:\" con i tre punti. Nessuna omissione rilevata.",
+  "letture_verificate": [
+   "Glossa Monte Carlo/Las Vegas: verificata a 300 DPI nativi (immagine JPEG originale del PDF, ruotata di 180 gradi). La parola andata a capo e in entrambi i casi lo stesso grafema, con la doppia t barrata e l'uncino finale della i: lettura \"corretti\" confermata. La grafia del secondo e piu compressa e inclinata, ma i tratti coincidono.",
+   "Glossa sulle strutture dati compresse: \"comprimere dati anche molto complessi\" - confermata; la parola a fine prima riga isolata sembra \"onde\" ma il confronto con il resto della riga e il senso danno \"anche\".",
+   "Blocco esame: \"- orale / - spunti per approfondimenti / -> (approfondimento +) esame orale\" (con \"orale\" sottolineato) - confermato a 300 DPI. La resa in prosa con \"(eventuale) approfondimento\" e fedele all'uso delle parentesi.",
+   "Correzione silenziosa \"R. Ragavan\" -> \"P. Raghavan\": corretta (Prabhakar Raghavan), gia registrata in NOTE-EDITORIALI.md.",
+   "Normalizzazione \"Montecarlo\" -> \"Monte Carlo\": corretta, gia registrata."
+  ],
+  "correttezza": "La sola affermazione di merito della pagina e l'osservazione sulla dicotomia Monte Carlo / Las Vegas: tempo deterministico + risposta talvolta errata vs. risposta sempre corretta + tempo aleatorio. E la formulazione standard del corso ed e coerente con lezioni/11-randqs.tex righe 40-41 (\"risultato potenzialmente sbagliato, complessita fissa\" / \"complessita variabile, risultato sempre corretto\"). Nessun errore.",
+  "figura": "tikz/corso-tre-parti.tikz e fedele: tre frecce con punta piena divergenti da un unico punto verso le tre voci sottolineate (una sale, una orizzontale, una scende), parentesi angolare '<' che si apre da \"algoritmi randomizzati\" verso Monte Carlo / Las Vegas, connettore a tilde da \"strutture dati compresse\" verso la glossa. Ordine delle tre voci corretto. La libreria calc usata da $(...)$ e caricata in preamble.tex riga 9. La figura compila senza overfull.",
+  "macro": "Il punto rimasto IRRISOLTO in NOTE-EDITORIALI.md per p.1 (\\MonteCarlo e \\LasVegas utilizzabili in corpo di testo?) si puo chiudere: preamble.tex righe 214-215 li definisce come \\newcommand{\\LasVegas}{Las~Vegas\\xspace} e \\newcommand{\\MonteCarlo}{Monte~Carlo\\xspace}, quindi sono macro di testo e l'uso attuale e corretto.",
+  "non_segnalato": "Lieve ridondanza fra riga 13-14 (\"tre parti, a ciascuna delle quali corrisponde un libro di riferimento\") e righe 44-45 (\"La numerazione dei testi ricalca quella delle tre parti del corso\"): valutata come scelta espositiva legittima (annuncio + ripresa), non come difetto. Analogamente l'attribuzione \"appunti (non ufficiali) del docente\" e un'interpretazione ben sostenuta daGli appunti del corso dell'anno precedente (frontespizio della dispensa incollato nella sua p.1)."
+ }
+}

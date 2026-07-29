@@ -1,0 +1,37 @@
+% allineamento-esempio -- pag. 42
+% Allineamento di sigma_1 = acgtcatca con sigma_2 = taagtgtca.
+% Tre righe incolonnate: sopra i caratteri di sigma_1, in mezzo (riquadrata)
+% l'edit string eta = i m s m m s d m m m, sotto i caratteri di sigma_2.
+% Colonna 1: solo sigma_2  -> inserzione (i);  colonna 7: solo sigma_1 -> cancellazione (d).
+\begin{tikzpicture}[
+    font=\small,
+    car/.style={inner sep=1pt},
+  ]
+
+  \def\dx{0.72}   % passo fra le colonne
+  \def\dy{0.66}   % distanza fra le righe
+
+  % ---- riga 1: sigma_1 (la colonna 1 e' vuota: e' l'inserzione) -------------
+  \foreach \c [count=\k from 2] in {a,c,g,t,c,a,t,c,a}
+    \node[car] at ({\k*\dx},\dy) {\texttt{\c}};
+
+  % ---- riga 2: l'allineamento eta ------------------------------------------
+  \foreach \c [count=\k from 1] in {i,m,s,m,m,s,d,m,m,m}
+    \node[car] at ({\k*\dx},0) {$\mathbf{\c}$};
+
+  % ---- riga 3: sigma_2 (la colonna 7 e' vuota: e' la cancellazione) ---------
+  \foreach \c [count=\k from 1] in {t,a,a,g,t,g}
+    \node[car] at ({\k*\dx},-\dy) {\texttt{\c}};
+  \foreach \c [count=\k from 8] in {t,c,a}
+    \node[car] at ({\k*\dx},-\dy) {\texttt{\c}};
+
+  % ---- il riquadro attorno alla sola edit string ----------------------------
+  \draw[line width=0.7pt]
+    ({0.5*\dx-0.06},-0.28) rectangle ({10.5*\dx+0.06},0.28);
+
+  % ---- etichette a sinistra -------------------------------------------------
+  \node[left,inner sep=2pt] at ({0.5*\dx-0.20},\dy)  {$\sigma_1 =$};
+  \node[left,inner sep=2pt] at ({0.5*\dx-0.20},-\dy) {$\sigma_2 =$};
+  \node[left,inner sep=2pt] at ({0.5*\dx-0.20},0)    {$\eta \;\Rightarrow$};
+
+\end{tikzpicture}

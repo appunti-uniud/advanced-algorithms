@@ -1,0 +1,102 @@
+{
+ "pagina": 2,
+ "latex": "\\scan{2}\n\n\\begin{definizione}[Pattern matching esatto]\\label{def:pattern-matching-esatto}\n\\emph{Input.} Un alfabeto $\\S$ di cardinalità finita e due stringhe $P,T\\in\\S^{*}$, con\n$\\abs{P}=n$ e $\\abs{T}=m$ (di norma $n\\le m$).\n\n\\emph{Output.} L'insieme delle posizioni\n\\[\n  \\set{\\, i \\mid \\sub{T}{i}{i+n-1}=P \\,}.\n\\]\n\\end{definizione}\n\nSi vogliono cioè \\emph{tutte} le occorrenze di $P$ (il \\emph{pattern}) all'interno di $T$\n(il \\emph{testo}), non soltanto la prima.\n\n\\begin{osservazione}\nLe stringhe sono indicizzate a partire da $1$ e $\\sub{S}{i}{j}$ denota il fattore\n$S[i]S[i+1]\\cdots S[j]$. Perché il confronto abbia senso deve essere $1\\le i\\le m-n+1$:\nle posizioni di allineamento del pattern sul testo sono dunque $m-n+1$.\n\\end{osservazione}\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/pm-allineamento.tikz}\n\\caption{Il pattern $P$ allineato sul testo $T$: le due stringhe vengono confrontate\ncarattere per carattere a partire dalla posizione corrente (le frecce), e poi $P$ scorre\nverso destra di una posizione alla volta.}\n\\label{fig:pm-allineamento}\n\\end{figure}\n\n\\paragraph{Algoritmo naive} L'idea è provare tutti gli allineamenti, uno per uno, con due\nloop innestati.\n\n\\begin{algorithm}[H]\n\\caption{Algoritmo naive per il pattern matching esatto}\n\\label{alg:naive}\n\\begin{algorithmic}[1]\n\\Require $T$ con $\\abs{T}=m$, $P$ con $\\abs{P}=n$\n\\For{$i \\gets 1$ \\textbf{to} $m-n+1$}\n    \\State \\Call{compare}{$P,\\ \\sub{T}{i}{i+n-1}$}\n      \\Comment{se eseguo $\\abs{P}$ confronti positivi, output $i$; altrimenti mi fermo}\n\\EndFor\n\\end{algorithmic}\n\\end{algorithm}\n\nLa procedura \\textsc{compare} confronta $P$ con il fattore $\\sub{T}{i}{i+n-1}$ carattere per\ncarattere, da sinistra a destra: è il secondo dei due loop innestati. O si arresta al primo\nmismatch --- e allora in posizione $i$ non c'è un'occorrenza --- oppure arriva in fondo dopo\n$\\abs{P}=n$ confronti tutti positivi, e in tal caso $i$ viene emesso in output.\n\n\\paragraph{Complessità del naive} Il ciclo esterno esegue $m-n+1$ iterazioni e ogni chiamata\na \\textsc{compare} costa al più $n$ confronti, da cui\n\\[\n  \\Oh(m\\cdot n).\n\\]\n\nIl limite è stretto (\\emph{tight}): basta considerare il caso\n\\[\n  P=a^{\\,n-1}b, \\qquad T=a^{\\,m},\n\\]\ncioè\n\\[\n  T=\\overbrace{a\\,a\\,a\\,\\cdots\\,a\\,a}^{m\\ \\text{volte}},\n  \\qquad\n  P=\\underbrace{a\\,a\\,\\cdots\\,a}_{n-1}\\,b .\n\\]\nPer ogni allineamento i primi $n-1$ confronti hanno successo e l'$n$-esimo fallisce: si\nspendono esattamente $n(m-n+1)$ confronti --- cioè $\\Th(m^{2})$ non appena $n=\\Th(m)$ ---\ne ciò nonostante l'output è vuoto.\n\nD'altra parte non si può scendere sotto il costo della lettura dell'input. Per esempio, con\n$n=1$ il naive costa $\\Oh(m\\cdot 1)=\\Oh(m)$ ed è già ottimo: qualunque algoritmo deve almeno\nleggere il tutto, e dunque\n\\[\n  \\Om(n+m).\n\\]\n\nPer questo motivo la complessità $\\Oh(m\\cdot n)$ dell'algoritmo naive è detta\n\\emph{quadratica}.",
+ "note": [
+  {
+   "tipo": "correzione",
+   "pagina": 2,
+   "testo": "Il quaderno scrive «For i:=1 to m-n». Ho scritto «for i \\gets 1 to m-n+1» perché le posizioni di allineamento ammissibili sono m-n+1 (l'ultima è i=m-n+1, che confronta P con T[m-n+1..m]); con m-n l'ultimo allineamento verrebbe perso. Off-by-one classico, correzione certa.",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 2,
+   "testo": "Nell'Output lo studente scrive correttamente {i | T[i, i+n-1] = P}, con n = |P|. Gli appunti del corso dell'anno precedente (anomalia A1 della sintesi L01) scrivono invece T[i, i+m-1], che è un lapsus incompatibile con le convenzioni |T|=m, |P|=n fissate una riga sopra. Ho seguito lo studente, che qui ha ragione.",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 2,
+   "testo": "Il lower bound è scritto dallo studente con il simbolo corretto Ω(n+m) (nel quaderno «Ω(n+m)» sottolineato). Gli appunti del corso dell'anno precedente (anomalia A2) lo scrivevano con O. Ho mantenuto \\Om(n+m).",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 2,
+   "testo": "Il quaderno non esplicita né la convenzione di indicizzazione né il range di i nell'Output. Ho aggiunto un'osservazione con l'indicizzazione da 1 (coerente con Gusfield e con il resto degli appunti), la notazione S[i..j] e il vincolo 1 ≤ i ≤ m-n+1 con il conteggio m-n+1 degli allineamenti: serve anche a giustificare la correzione del bound del for.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 2,
+   "testo": "L'annotazione a margine collegata da una freccia alla riga «compare(P, T[i, i+n-1])» si legge «se eseguo |P| match → output i, altrimenti stop» (l'ultima parola, «stop», è sottolineata). L'ho resa come commento in linea nello pseudocodice («se eseguo |P| confronti positivi, output i; altrimenti mi fermo») e poi esplicitata in prosa nel paragrafo successivo, chiarendo che compare è il secondo dei «due loop innestati» dichiarati nel titolo. Nessun contenuto aggiunto oltre all'esplicitazione.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 2,
+   "testo": "Sotto «è tight!» il quaderno ha tre parole in corsivo che leggo «penso al caso» (la prima parola ha un solo discendente, quindi non è «peggio»/«peggior»; il profilo p-e-n-s-o è compatibile). Il senso è comunque univoco: l'esempio che segue (P=a^{n-1}b, T=a^m) è il testimone che rende stretto il bound. Ho reso con «basta considerare il caso», che non dipende dalla lettura esatta.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 2,
+   "testo": "L'annotazione a destra, schiacciata su due righe fra «O(m·1)» e «Ω(n+m)», si legge «devo almeno / leggere il tutto» (la seconda parola in basso a sinistra ha i due discendenti di «gg» di «leggere»; l'ultima è «il tutto», con le due t tagliate da un'unica barra). L'ho resa con «qualunque algoritmo deve almeno leggere il tutto». Lettura risolta.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 2,
+   "testo": "Il quaderno riporta il caso pessimo due volte: a sinistra in forma compatta «P = a^{n-1} b, T = a^m» e a destra in forma estesa «T = aaa…aa (graffa m, «m-volte»), P = aa…ab (graffa n-1)». Ho unito le due scritture in due display consecutivi, mantenendo entrambe le forme perché il quaderno le ha entrambe.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 2,
+   "testo": "Il quaderno afferma «è tight!» senza giustificarlo. Ho aggiunto la riga di analisi: per ogni allineamento n-1 confronti positivi e 1 negativo, totale n(m-n+1) confronti con output vuoto. È l'argomento standard e rende non gratuita l'affermazione; segnalato perché è un'aggiunta.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 2,
+   "testo": "Il quaderno chiude con «O(m·n) (è detta quadratica)» senza precisare rispetto a quale parametro. Ho aggiunto l'inciso «cioè Θ(m²) non appena n = Θ(m)» accanto al conteggio esatto dei confronti, così l'aggettivo «quadratica» risulta motivato.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 2,
+   "testo": "Figura in alto: due segmenti orizzontali (T lungo, P corto) allineati a sinistra, con i primi caratteri «a b c …» scritti sopra ciascuno e una freccetta verso l'alto sotto il primo carattere di entrambi, allineate verticalmente. L'ho interpretata come lo schema di allineamento del naive: P viene sovrapposto a T e i caratteri si confrontano posizione per posizione a partire da quella indicata dalle frecce; le stesse lettere «a b c» compaiono sopra entrambe le stringhe perché il disegno è generico (illustra le stringhe come sequenze indicizzate, non un'istanza concreta). Ho reso il messaggio nella didascalia includendo lo scorrimento di una posizione, che è il comportamento del ciclo esterno scritto subito sotto.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 2,
+   "testo": "Il secondo «disegno» (T = aaa…aa con graffa superiore etichettata m, P = aa…ab con graffa inferiore etichettata n-1) non è stato reso in TikZ ma direttamente in LaTeX con \\overbrace/\\underbrace: è una formula, non una figura, e la resa tipografica è fedele.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 2,
+   "testo": "Titolo del quaderno: «PROBLEMA (algoritmico)» seguito da «Pattern matching esatto» sottolineato. Non avendo potuto usare \\section, ho trasformato il blocco Input/Output in un ambiente definizione intitolato «Pattern matching esatto»; il termine «PROBLEMA» resta implicito nella definizione. Le due intestazioni interne del quaderno («Algoritmo Naive», «Complessità di \"naive\"?») sono rese con \\paragraph, come previsto dalle convenzioni per i titoli espliciti.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 2,
+   "testo": "«Voglio tutte le occorrenze di P (pattern) in T (testo)», con «tutte» sottolineato, è stato reso in prosa con «tutte» in corsivo e con l'aggiunta di «non soltanto la prima», che esplicita il motivo della sottolineatura senza introdurre contenuto nuovo.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "pm-allineamento",
+   "pagina": 2,
+   "didascalia": "Il pattern P allineato sul testo T: le due stringhe vengono confrontate carattere per carattere a partire dalla posizione corrente (le frecce), e poi P scorre verso destra di una posizione alla volta.",
+   "tipo": "schema di stringhe",
+   "specifica": "Schema a due righe che illustra l'allineamento del pattern sul testo nell'algoritmo naive.\n\nGEOMETRIA (coordinate suggerite, unità = cm).\n- Riga superiore (TESTO): segmento orizzontale spesso (line width ~1pt) da (0,0) a (9,0). Subito a destra dell'estremo destro, alla stessa quota, l'etichetta in matematica $T$ a (9.6,0).\n- Riga inferiore (PATTERN): segmento orizzontale spesso da (0,-1.5) a (3.6,-1.5). Subito a destra, l'etichetta $P$ a (4.2,-1.5).\n- I due segmenti sono allineati a sinistra: entrambi partono da x=0 (nel manoscritto il testo comincia leggermente più a sinistra, ma i primi caratteri e le frecce sono incolonnati; incolonnare a x=0 è la lettura corretta).\n\nCARATTERI.\n- Sopra il segmento superiore, appoggiati alla linea, i primi caratteri della stringa scritti in sequenza a passo costante: $a$ a (0.3,0.28), $b$ a (0.9,0.28), $c$ a (1.5,0.28), poi i puntini $\\cdots$ a (2.15,0.24). Il resto del segmento resta vuoto: la stringa continua.\n- Sopra il segmento inferiore, identicamente: $a$ a (0.3,-1.22), $b$ a (0.9,-1.22), $c$ a (1.5,-1.22), $\\cdots$ a (2.15,-1.26).\n- Le lettere sono le stesse nelle due righe perché il disegno è generico (illustra che entrambe le stringhe sono sequenze di caratteri indicizzate da 1), non una particolare istanza.\n\nFRECCE.\n- Sotto il segmento superiore, in corrispondenza del primo carattere: freccetta verticale corta che punta VERSO L'ALTO alla linea, da (0.3,-0.55) a (0.3,-0.12).\n- Sotto il segmento inferiore, stessa cosa: da (0.3,-2.05) a (0.3,-1.62).\n- Le due frecce sono perfettamente incolonnate sulla stessa ascissa x=0.3: è il punto chiave del disegno, marcano la posizione corrente di confronto, che è la stessa in T e in P.\n\nSTILE. Tutto in nero (o nel colore di default del documento); nessun colore aggiuntivo; niente riquadri. Testo interno in italiano (qui compaiono solo simboli matematici e lettere dell'alfabeto).\n\nSIGNIFICATO ALGORITMICO. Il pattern P è una finestra sovrapposta al testo T; per ogni posizione di allineamento i si confrontano P[1..n] e T[i..i+n-1] carattere per carattere da sinistra a destra; al termine (match completo o primo mismatch) la finestra scorre di una posizione a destra. È il disegno che precede immediatamente lo pseudocodice del naive.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina si chiude constatando il divario fra l'upper bound O(m·n) del naive («è detta quadratica») e il lower bound banale Ω(n+m), senza colmarlo: resta in sospeso la domanda se il naive sia migliorabile. La pagina 3 riparte esattamente da lì con «Esiste un algoritmo sub-quadratico?» e la risposta Θ(n+m), introducendo Knuth–Morris–Pratt: la figura dello shift basato sul più lungo prefisso-suffisso α, e i due passi dell'algoritmo (pre-processing del pattern che per ogni prefisso P[1..j] calcola max{k<j | P[1..k]=P[j-k+1..j]}, poi scansione di T in cui a ogni passo avanza il punto di confronto oppure si sposta il pattern), con la conclusione Θ(m+n). Notare che il simbolo i, qui usato per la posizione di inizio dell'allineamento, in pagina 3 verrà riusato per la posizione corrente di confronto nel testo: in fase di cucitura conviene distinguere i due ruoli (per esempio introducendo s per l'allineamento).",
+ "confidenza": "alta"
+}

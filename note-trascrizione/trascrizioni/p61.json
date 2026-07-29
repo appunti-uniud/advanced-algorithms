@@ -1,0 +1,66 @@
+{
+ "pagina": 61,
+ "latex": "\\scan{61}\n\nRappresenteremo una BPP come un \\emph{albero binario} i cui nodi interni sono coppie\n\\[\n  (r,\\ \\ell)\n\\]\ndove $r$ è la \\emph{regione} associata al nodo e $\\ell$ è il \\emph{limite}, cioè la retta che divide $r$: i due figli del nodo corrispondono alle due sottoregioni in cui $\\ell$ taglia $r$. Ogni foglia è etichettata dal segmento — o dalla porzione di segmento — contenuto nella regione corrispondente.\n\nLe foglie sono più di $n$.\n\n\\begin{esempio}\nSia $S=\\{s_1,s_2,s_3\\}$. La prima retta $\\ell_1$ attraversa $s_3$ e lo spezza nelle due porzioni $s_{3,1}$ e $s_{3,2}$: da una parte di $\\ell_1$ restano $s_1$ e $s_{3,1}$, che vengono separati da $\\ell_2$; dall'altra restano $s_2$ e $s_{3,2}$, separati da $\\ell_3$. L'albero ha allora tre nodi interni e \\emph{quattro} foglie, una in più dei tre segmenti di partenza, proprio perché $s_3$ è stato spezzato.\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/bpp-albero.tikz}\n\\caption{Una BPP di $S=\\{s_1,s_2,s_3\\}$ (a sinistra la scena, a destra l'albero che la rappresenta). La retta $\\ell_1$ spezza $s_3$ in $s_{3,1}$ e $s_{3,2}$: le foglie sono quattro, una più dei segmenti.}\n\\end{figure}\n\\end{esempio}\n\n\\begin{osservazione}\nL'albero che rappresenta la $\\mathrm{BPP}(S)$ è sempre un albero binario con un numero di foglie pari a\n\\[\n  \\#\\text{foglie} \\;=\\; n + \\#\\text{tagli},\n\\]\ndove $\\#\\text{tagli}$ conta i tagli che spezzano un segmento: ogni segmento spezzato produce una porzione in più, e quindi una foglia in più. Questo numero non dipende solo da $S$, ma dalle scelte fatte, cioè dalle rette con cui si decide di partizionare.\n\\end{osservazione}\n\n\\begin{center}\n\\fbox{\\textbf{Goal:} tenere \\emph{basso} il numero di tagli.}\n\\end{center}\n\n\\begin{domanda}[Problema aperto]\nEsiste sempre una $\\mathrm{BPP}(S)$ con $\\Oh(\\abs{S})$ foglie?\n\\dubbioinl{negli appunti «Problema aperto» è seguito da una parola fra parentesi, di lettura incerta: forse un nome proprio, «Clark»}\n\\end{domanda}\n\nDiamo un algoritmo randomizzato, \\textsc{RandAuto}, che dimostra che esiste sempre una $\\mathrm{BPP}(S)$ con $\\Oh(\\abs{S}\\log\\abs{S})$ foglie.",
+ "note": [
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 61,
+   "testo": "Riga 2-3, glossa alla coppia (r, l): il quaderno scrive due parole con frecce verso le due componenti, «regione» (certa) e una parola che leggo «limite», seguita da «(retta che divide r)». La grafia mostra l-i-m-(it)-e: ho escluso «linea» perché il penultimo grafema ha un'asta alta con occhiello (b/t) incompatibile con «-ea». Ho scritto «il limite, cioè la retta che divide r»: qualunque sia la parola esatta, il senso è fissato dalla parentesi esplicativa del quaderno, quindi non ho messo marcatori.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 61,
+   "testo": "Riga 4: il quaderno scrive letteralmente «Le foglie sono più di ℓ», con lo stesso grafema (asta con occhiello) usato per le rette ℓ, ℓ1, ℓ2, ℓ3 — confrontato pixel a pixel con la ℓ di (r, ℓ): identico, e diverso dalla «n» che compare poco sotto in «n + (numero di tagli)». Ho scritto «Le foglie sono più di n» perché: (a) è il punto dell'esempio che segue (3 segmenti, 4 foglie); (b) coincide con l'Osservazione sottostante (#foglie = n + #tagli) e con p.60, dove il numero di segmenti è n; (c) Gli appunti del corso dell'anno precedente (L15, §1.4) riportano l'osservazione come «le foglie sono più di |S|». Lettura alternativa possibile ma meno pertinente: «più delle rette ℓ», cioè #foglie = #nodi interni + 1; ho scartato questa perché sarebbe un'osservazione banale sugli alberi binari e non spiegherebbe l'esempio.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 61,
+   "testo": "Il quaderno introduce l'esempio con il solo marcatore «es.:» e due disegni, senza testo. Ho scritto il paragrafo dell'ambiente esempio (ruolo di ℓ1, ℓ2, ℓ3, spezzamento di s3, conteggio tre nodi interni / quattro foglie) leggendo la geometria del disegno e l'albero disegnato accanto; è testo aggiunto per rendere leggibile la figura, tutto il contenuto è dedotto dai disegni.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 61,
+   "testo": "Interpretazione dei due disegni (scena a destra in alto, albero al centro). Ho verificato la coerenza geometrica: la retta tratteggiata che scende da sinistra in alto verso destra in basso (etichetta ℓ1, in basso a destra) interseca effettivamente il segmento spesso s3, separando s1 (sopra) da s2 (sotto); ℓ2 parte da un punto di ℓ1 e sale verso destra separando s1 da s3,1; ℓ3 parte da ℓ1 e scende quasi verticale separando s2 da s3,2. Questo riproduce esattamente la struttura dell'albero disegnato (radice (r1,ℓ1); figli (r2,ℓ2) e (r3,ℓ3); foglie s1, s3,1 | s2, s3,2). È in sostanza la Figure 1.2 di Motwani–Raghavan ridisegnata. Nel quaderno i due disegni sono affiancati (albero a sinistra, scena a destra); nella ricostruzione li ho messi in un'unica figura a due pannelli con la scena a sinistra e l'albero a destra, ordine più naturale per la lettura.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 61,
+   "testo": "«Problema aperto (…):» — la parola fra parentesi è scritta con inchiostro ripassato e resta illeggibile anche a 600 DPI. Le lettere leggibili sono c/d, l, a, poi un grumo e un'asta alta con occhiello; le ipotesi migliori sono «Clark» (attribuzione) o «clash». Non essendoci in letteratura un'attribuzione standard di questo problema aperto (il riferimento noto è Paterson–Yao 1990 per il bound O(n log n), Tóth per il lower bound), non ho potuto risolverla: lasciata come \\dubbioinl nel testo.",
+   "risolto": false
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 61,
+   "testo": "Glossa con freccia sotto «(numero di tagli)»: il quaderno scrive «i tagli di segmenti che sono stati spezzati (in funzione delle mie scelte)». L'ho resa come «#tagli conta i tagli che spezzano un segmento: ogni segmento spezzato produce una porzione in più, e quindi una foglia in più… dipende dalle scelte fatte». Verificato sull'esempio: n=3, un solo segmento spezzato, foglie = 3+1 = 4 (mentre il numero di rette usate è 3, quindi «numero di tagli» NON significa «numero di rette»: senza la glossa la formula sarebbe sbagliata).",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 61,
+   "testo": "Scelte editoriali minori: «es.:» reso con l'ambiente esempio; «Osservazione:» (sottolineato) con l'ambiente osservazione; il riquadro manoscritto «Goal: tenere basso il numero di tagli» con un \\fbox centrato, mantenendo l'enfasi (sottolineatura) su «basso» come \\emph; «Problema aperto» (sottolineato) con l'ambiente domanda. Il quaderno scrive «randAuto»: normalizzato in \\textsc{RandAuto} come in Motwani–Raghavan e come a p.62, dove lo studente stesso scrive «RandAuto». Non esiste una macro \\RandAuto nel preambolo (c'è solo \\RandQS), quindi ho scritto \\textsc{RandAuto} per esteso.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 61,
+   "testo": "Ultima frase: il quaderno scrive «Noi diamo un algoritmo randomizzato randAuto che dimostra che esiste sempre una BPP(S) con O(|S| log|S|) foglie». Ho tolto il «Noi» pleonastico («Diamo un algoritmo…»); nessun'altra modifica. Notare che il quaderno usa qui |S| e poco sopra n: sono la stessa quantità (p.60: «dati n segmenti»), ho lasciato entrambe le notazioni come nell'originale.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "bpp-albero",
+   "pagina": 61,
+   "didascalia": "Una BPP di S={s1,s2,s3} (a sinistra la scena, a destra l'albero che la rappresenta). La retta l1 spezza s3 in s3,1 e s3,2: le foglie sono quattro, una più dei segmenti.",
+   "tipo": "schema geometrico + albero binario (due pannelli affiancati)",
+   "specifica": "Figura a DUE PANNELLI affiancati (scena a sinistra, albero a destra), separati da uno spazio orizzontale; opzionalmente sottodidascalie (a) e (b), ma non necessarie.\n\nPANNELLO (a) — LA SCENA. Sistema di riferimento consigliato: box di circa 7x7.5 unità, x verso destra, y verso l'alto. Nessun asse, nessuna cornice.\nSegmenti (tratto SPESSO, continuo, colore scuro/nero, line width ~1.4pt):\n  - s1: da (2.3, 6.0) a (4.3, 6.8) — quasi orizzontale, leggermente in salita verso destra, in alto a sinistra. Etichetta 's_1' appena SOPRA il segmento, vicino al suo estremo sinistro/centro, in (3.0, 7.1).\n  - s2: da (1.3, 5.85) a (2.4, 3.8) — ripido, scende verso destra, a sinistra. Etichetta 's_2' a SINISTRA del segmento, in (1.0, 4.9).\n  - s3: da (4.4, 3.2) a (5.8, 5.05) — obliquo, sale verso destra, a destra della scena. Etichetta 's_3' a DESTRA del segmento, in (6.1, 4.3).\nRette di taglio (tratteggiate, tratto medio, dash pattern ben visibile ~ 'dashed' o 'densely dashed'):\n  - l1 (la prima, radice dell'albero): retta lunga che va da (0.8, 7.05) in alto a sinistra fino a (6.5, 2.1) in basso a destra (pendenza circa -0.87). ATTRAVERSA s3 nel punto (4.73, 3.68), che deve cadere VISIBILMENTE all'interno di s3 (s3 va da (4.4,3.2) a (5.8,5.05)), dividendolo in una porzione corta in basso a sinistra e una lunga in alto a destra. Etichetta 'l_1' (ell corsivo, $\\ell_1$) alla fine della retta, in basso a destra, in (6.75, 1.8).\n  - l2: SEMIRETTA che parte da un punto di l1, circa (4.0, 4.3), e sale verso destra fino a (6.1, 6.85) (pendenza circa +1.24). Deve lasciare s1 da un lato (a sinistra/sopra) e la porzione superiore di s3 dall'altro (a destra/sotto). Etichetta 'l_2' ($\\ell_2$) all'estremo superiore, in (6.4, 7.1).\n  - l3: SEMIRETTA che parte da un punto di l1, circa (3.5, 4.75), e scende quasi verticalmente (leggerissima inclinazione verso destra) fino a (3.85, 1.15). Deve lasciare s2 a sinistra e la porzione inferiore di s3 (s3,2) a destra. Etichetta 'l_3' ($\\ell_3$) all'estremo inferiore, in (3.9, 0.75).\nOpzionale (NON presente nel manoscritto, aggiungere solo se non appesantisce): etichettine 's_{3,1}' accanto alla porzione alta di s3 e 's_{3,2}' accanto alla porzione bassa, in grigio, per collegare la scena alle foglie dell'albero.\nNota importante per il disegno: l2 e l3 vanno disegnate SOLO nel semipiano di rispettiva competenza (cioè partono da l1 e non la oltrepassano), perché sono i tagli delle due regioni figlie; nel manoscritto sono infatti tratteggi che si fermano su l1.\n\nPANNELLO (b) — L'ALBERO BINARIO. Tre livelli, disegno con nodi ellittici per i nodi interni e nodi circolari (più piccoli) per le foglie, archi rettilinei semplici (nessuna freccia).\n  - Radice: ellisse contenente '$r_1\\ \\ \\ell_1$' (nel manoscritto i due simboli sono scritti dentro la stessa ellisse, affiancati e separati da uno spazio, senza virgola né parentesi).\n  - Figlio sinistro: ellisse '$r_2\\ \\ \\ell_2$'.\n  - Figlio destro: ellisse '$r_3\\ \\ \\ell_3$'.\n  - Foglie del figlio sinistro (da sinistra a destra): cerchio '$s_1$', cerchio '$s_{3,1}$'.\n  - Foglie del figlio destro (da sinistra a destra): cerchio '$s_2$', cerchio '$s_{3,2}$'.\nLayout: albero bilanciato, radice in alto al centro; nel manoscritto il sottoalbero sinistro è disegnato leggermente più in basso del destro, ma conviene disegnarlo simmetrico e regolare. Distanza fra i livelli sufficiente a non far toccare le ellissi.\nSignificato algoritmico da rendere evidente: 3 nodi interni (= 3 rette di taglio) e 4 foglie = 3 segmenti + 1 spezzamento; le due foglie $s_{3,1}$ e $s_{3,2}$ sono le due porzioni dello stesso segmento $s_3$, finite in regioni diverse perché $\\ell_1$ lo attraversa. Se possibile, evidenziare le due foglie $s_{3,1}$ e $s_{3,2}$ con lo stesso colore/riempimento leggero per far vedere che vengono dallo stesso segmento.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina chiude annunciando l'algoritmo randomizzato RandAuto, che garantirà una BPP con O(|S| log |S|) foglie: restano quindi in sospeso (i) la definizione di autopartizione, (ii) lo pseudocodice di RandAuto e (iii) la dimostrazione del bound. Resta inoltre aperto il problema se esista sempre una BPP di dimensione lineare O(|S|). La pagina 62 riprende esattamente da lì: prima l'applicazione «Painter's algorithm» (l'albero BPP usato come struttura dati, con l'occhio dell'osservatore), poi il titolo «Autopartizione» con la definizione (ogni l_i è una delle rette su cui giace un segmento o una sua parte) e la nota su come si sceglie a quale regione assegnare il segmento che sta sul limite, infine il riquadro «Algorithm: RandAuto» con Input/Output e i due passi (permutazione uniforme pi di {1,...,n}; while esiste una regione con più di una porzione di segmento, taglia con l(s_i) con i minimo). Il simbolo l usato qui per il «limite» è lo stesso che a p.62 diventa l(s_i), la retta che prolunga il segmento s_i.",
+ "confidenza": "alta"
+}

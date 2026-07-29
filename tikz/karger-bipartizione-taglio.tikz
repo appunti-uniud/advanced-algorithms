@@ -1,0 +1,42 @@
+% karger-bipartizione-taglio -- pag. 56
+% La bipartizione di V indotta dalle n-2 contrazioni: a sinistra i nodi fusi nel
+% super-nodo a, a destra quelli fusi in b. La linea ondulata e' il taglio F
+% restituito dall'algoritmo: ogni cammino da un a_i a un b_j e' costretto ad
+% attraversarla.  (Nel quaderno questo insieme e' chiamato C; nel capitolo C e'
+% riservato al taglio minimo fissato per l'analisi.)
+% NB: nel quaderno i pedici sono k e h; qui sono p e q, per non collidere con
+% k = |C| e con l'h del numero di ripetizioni.
+\begin{tikzpicture}[x=1cm,y=1cm,line join=round,line cap=round,font=\footnotesize]
+
+  % sagoma dell'insieme V (contorno irregolare, "a mano libera")
+  \def\sagoma{plot[smooth cycle,tension=0.72] coordinates {
+      (2.60,0.05) (2.35,0.72) (1.65,1.18) (0.75,1.36) (-0.35,1.40) (-1.35,1.28)
+      (-2.10,0.88) (-2.48,0.30) (-2.36,-0.28) (-2.46,-0.92) (-1.65,-1.30)
+      (-0.55,-1.44) (0.60,-1.40) (1.75,-1.18) (2.45,-0.62)}}
+
+  \draw[line width=0.9pt] \sagoma;
+
+  % ---- il taglio F: frontiera ondulata fra le due classi -------------------
+  % la serpentina si disegna piu' lunga della sagoma e si taglia sul bordo
+  \begin{scope}
+    \clip \sagoma;
+    \draw[line width=0.8pt] plot[domain=-1.70:1.70,samples=140,smooth]
+          ({-0.28+0.09*sin(\x*430)},{\x});
+  \end{scope}
+  \node[anchor=south,inner sep=1.5pt] at (-0.55,1.38) {$F$};
+
+  % ---- classe dei nodi contratti su a (a sinistra del taglio) --------------
+  \node[inner sep=1pt] at (-1.56,-0.70) {$a_{1}$};
+  \fill (-1.29,-0.28) circle (0.85pt);
+  \fill (-1.17,-0.14) circle (0.85pt);
+  \fill (-1.05, 0.00) circle (0.85pt);
+  \node[inner sep=1pt] at (-0.80, 0.42) {$a_{p}$};
+
+  % ---- classe dei nodi contratti su b (a destra del taglio) ---------------
+  \node[inner sep=1pt] at ( 0.42,-0.70) {$b_{1}$};
+  \fill ( 0.60,-0.24) circle (0.85pt);
+  \fill ( 0.68,-0.04) circle (0.85pt);
+  \fill ( 0.76, 0.16) circle (0.85pt);
+  \node[inner sep=1pt] at ( 0.94, 0.62) {$b_{q}$};
+
+\end{tikzpicture}

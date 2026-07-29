@@ -1,0 +1,92 @@
+{
+ "pagina": 29,
+ "latex": "\\scan{29}\n\nKarp--Rabin ci insegna che, guardando con attenzione il \\emph{modello di calcolo} --- e scegliendo bene il primo $q$ ---, si possono disegnare algoritmi nuovi: là la ricetta era \\emph{codifico in numeri e manipolo numeri}.\n\nL'algoritmo \\emph{Shift--And} nasce dalla stessa idea, con una codifica diversa: \\emph{codifico in stringhe di bit e manipolo stringhe di bit}. Il guadagno verrà dal parallelismo che la parola di macchina regala sulle operazioni bit a bit.\n\nFissiamo le notazioni per tutto il capitolo: il pattern è $P=\\sub{P}{1}{n}$ e il testo è $T=\\sub{T}{1}{m}$, entrambi su un alfabeto $\\S$; dunque $\\abs{P}=n$ e $\\abs{T}=m$.\n\n\\begin{definizione}[Matrice di bit, o \\emph{dot-plot}]\n\\label{def:dot-plot}\nLa \\emph{matrice di bit} di $P$ contro $T$ è la matrice $D$ con $n$ righe --- una per ogni posizione del pattern --- e $m$ colonne --- una per ogni posizione del testo --- definita da\n\\[\n  D[i,j]\\;=\\;\n  \\begin{cases}\n    1 & \\text{se } P[i]=T[j] \\quad \\text{(\\emph{match})},\\\\[2pt]\n    0 & \\text{se } P[i]\\neq T[j] \\quad \\text{(\\emph{mismatch})},\n  \\end{cases}\n  \\qquad 1\\le i\\le n,\\quad 1\\le j\\le m .\n\\]\n\\end{definizione}\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/shift-and-dotplot.tikz}\n\\caption{La matrice di bit (\\emph{dot-plot}) di $P$ contro $T$: righe indicizzate dal pattern, colonne dal testo. La cella $(i,j)$ vale $1$ se e solo se $P[i]=T[j]$.}\n\\label{fig:shift-and-dotplot}\n\\end{figure}\n\n\\begin{osservazione}\nIl dot-plot è l'oggetto con cui, in bioinformatica, si confrontano a occhio due sequenze: un tratto \\emph{diagonale} di $1$ --- che scende verso destra --- segnala un match fra un fattore di $P$ e un fattore di $T$, mentre un tratto \\emph{antidiagonale} --- che sale verso destra --- segnala un match \\emph{invertito}, cioè un match fra un fattore di $P$ e un fattore di $T$ letto al contrario.\n\\end{osservazione}\n\nCostruire la matrice per intero costa\n\\[\n  \\text{tempo per costruirla}\\;\\longrightarrow\\;\\Oh(n\\cdot m),\n  \\qquad\n  \\text{spazio occupato}\\;\\longrightarrow\\;\\Oh(n\\cdot m)\\ \\text{bit}.\n\\]\n\n\\begin{dubbio}\nAccanto alla parola «bit», sottolineata, il quaderno riporta un'annotazione marginale di una o due parole che non è stato possibile decifrare.\n\\end{dubbio}\n\nE allora: questa matrice serve davvero a fare \\emph{pattern matching}? La risposta sta tutta nel fatto che non occorre tenerla in memoria per intero: basta muoversi \\emph{per colonne}.\n\n\\begin{figure}[H]\n\\centering\n\\input{tikz/shift-and-colonne.tikz}\n\\caption{Dall'array al tempo $j$ all'array al tempo $j+1$: uno \\textsc{shift} verso il basso, che fa scendere di una posizione gli $1$ già accesi, seguito da un \\textsc{and}. L'$1$ disegnato sull'ultima riga corrisponde a un'occorrenza del pattern.}\n\\label{fig:shift-and-colonne}\n\\end{figure}\n\nLa $j$-esima colonna è un array di $n$ bit, uno per ciascuna posizione del pattern. Per passare dall'array al tempo $j$ a quello al tempo $j+1$ bastano due operazioni bit a bit: uno \\textsc{shift}, che fa scendere di una posizione tutti gli $1$ già accesi, e un \\textsc{and} con una maschera che dipende dal carattere di testo appena letto --- maschera che sarà definita fra poco. Un $1$ che arrivi fino all'ultima riga segnala un'occorrenza di $P$ in $T$.",
+ "note": [
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 29,
+   "testo": "CONVENZIONE m/n — punto più delicato della pagina. Il quaderno a p.29 etichetta le colonne T[1] T[2] … T[j] … T[n] e le righe P[1] P[2] … P[i] … P[m] (verificato a 600 DPI): quindi |T|=n, |P|=m, coerentemente con p.28 (Karp–Rabin: «O(n)+O(m(v+k))», che è corretto solo con n=|T|, m=|P|). A p.30, però, lo stesso studente scrive esplicitamente «|T|=m, |P|=n» e usa «if M[n]==1» e «O(n) bit (working space)», che hanno senso solo con n=|P|; è anche la convenzione dell'anno precedente (L07) e di Gusfield. Poiché pp.29–30 formano un unico capitolo, ho armonizzato la p.29 alla convenzione dichiarata a p.30 (P=P[1..n], T=T[1..m]) e l'ho resa esplicita in apertura; le etichette della figura sono state riscritte di conseguenza (ultima colonna T[m], ultima riga P[n]). Le complessità O(m·n) non cambiano perché simmetriche. Chi cuce il documento deve sapere che il capitolo Karp–Rabin (pp.26–28) usa la convenzione opposta.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 29,
+   "testo": "La matrice del primo disegno non ha nome nel quaderno (nella cella c'è solo «0/1»). L'ho chiamata D. Ho evitato di proposito la lettera M perché a p.30 M[i,j] denota una matrice DIVERSA (quella dello Shift–And: M[i,j]=1 sse P[1..i] è suffisso di T[1..j]). NeGli appunti del corso dell'anno precedente lo stesso simbolo M è usato per entrambe (anomalia n.5 della sintesi L07) ed è il punto in cui uno studente si perde: la separazione D (dot-plot) / M (Shift–And) rimuove l'ambiguità e vale sempre M ≤ D componente per componente.",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 29,
+   "testo": "Primo disegno: dentro la cornice ci sono due tratti a scaletta etichettati. Il primo scende verso destra a circa 45° (da riga 1/colonna 1 verso riga 4/colonna 3) ed è etichettato «match». Il secondo sale verso destra a circa 45° ed è etichettato «match» seguito da una seconda parola corta e molto incerta (letta più volte a 600 DPI: sembra «inv.»/«inverso»). Ho sciolto in «match inverso» sulla base della geometria, che è decisiva a prescindere dai grafemi: in un dot-plot un tratto antidiagonale significa esattamente match con la sequenza rovesciata (inversione). Ho aggiunto una breve osservazione in prosa per rendere leggibile ciò che nel quaderno è solo un'etichetta accanto a una curva.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 29,
+   "testo": "Sotto «O(m·n) bit» (con «bit» sottolineato) parte un tratto a gomito verso il basso a sinistra, seguito da due glifi a zig-zag (compatibili con «2 2», «z z» o due cifre) e da una parola corsiva di 5–6 lettere con due punti sovrascritti, terminante con un'ansa alta (letture provate: «rovine», «vicine», «visione», «milione», «noise»). Nessuna lettura regge il confronto con il contesto. Ho marcato la cosa con un box `dubbio` senza inventare contenuto; è un'annotazione marginale, la matematica della pagina non ne dipende.",
+   "risolto": false
+  },
+  {
+   "tipo": "figura",
+   "pagina": 29,
+   "testo": "Secondo disegno: il quaderno etichetta le due strisce verticali «array tempo i» e «array tempo i+1». Ho cambiato l'indice in j e j+1 perché su questa pagina (e a p.30) i indicizza le RIGHE (pattern) e j le COLONNE (testo): tenere «i» per il tempo avrebbe collisi con l'indice di riga usato dieci righe sopra. Ho anche aggiunto etichette discrete T[1]/T[m] e P[1]/P[n] al bordo del rettangolo (assenti nel quaderno) perché altrimenti la figura è un rettangolo nudo.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 29,
+   "testo": "Nel secondo disegno c'è un «1» isolato appena sopra il bordo inferiore, a destra delle due strisce, senza glossa. L'ho interpretato come «1 sull'ultima riga = occorrenza di P», che è il criterio di output enunciato a p.30 («if M[n]==1 then output»); l'ho detto in prosa e in didascalia. È una lettura del disegno, non testo del quaderno.",
+   "risolto": true
+  },
+  {
+   "tipo": "lacuna",
+   "pagina": 29,
+   "testo": "Nel secondo disegno l'operazione AND è etichettata ma la maschera con cui si fa l'AND non è definita da nessuna parte in p.29 (le maschere U_x compaiono a p.30). Non ho anticipato la definizione: ho scritto «un AND con una maschera che dipende dal carattere di testo appena letto — maschera che sarà definita fra poco», così la pagina resta autosufficiente e il rimando in avanti è esplicito.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 29,
+   "testo": "Il quaderno ha un titolo esplicito sottolineato «Algoritmo Shift-And» a metà della prima banda. Non l'ho reso con \\subsection perché il capitolo si chiamerà comunque «Shift--And» (capitoli.json, id 07) e il titolo sarebbe duplicato a due righe di distanza; l'ho assorbito nella prosa («L'algoritmo Shift--And nasce dalla stessa idea…»).",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 29,
+   "testo": "Trascrizione letterale delle prime quattro righe (per confronto): «K.R. ci insegna che guardando attentamente il modello di calcolo (scegliendo bene q) possiamo disegnare nuovi algoritmi ↳ codifico in numeri e manipolo numeri» / «Algoritmo Shift-And ↳ codifico in stringhe di bit e manipolo stringhe di bit». Ho espanso «K.R.» in «Karp--Rabin» ed esplicitato che q è il primo scelto nell'algoritmo di Karp--Rabin (p.28); ho mantenuto il verbo «disegnare» dello studente invece del più consueto «progettare».",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 29,
+   "testo": "L'alfabeto Σ non compare in p.29; l'ho introdotto nella riga delle convenzioni perché serve subito dopo (maschere U_x per x ∈ Σ, p.30) e perché la definizione di dot-plot lo presuppone. Integrazione minima, segnalata qui.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 29,
+   "testo": "Lo studente scrive «O(m·n)» in entrambe le righe di costo; ho riordinato in $\\Oh(n\\cdot m)$ (identico, ma coerente con l'ordine pattern-testo adottato). Non ho ripreso la dicitura «quadratica» usata dagli appunti dell'anno precedente (L07 §7.1), che è impropria: m·n è quadratico solo se m ≍ n. Su p.29 la dicitura non c'è, quindi non c'era nulla da correggere.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "shift-and-dotplot",
+   "pagina": 29,
+   "didascalia": "La matrice di bit (dot-plot) di $P$ contro $T$: righe indicizzate dal pattern, colonne dal testo. La cella $(i,j)$ vale $1$ se e solo se $P[i]=T[j]$.",
+   "tipo": "matrice / schema di stringhe (dot-plot)",
+   "specifica": "SCHEMA GENERALE. Un rettangolo largo circa 9 cm e alto circa 6 cm che rappresenta la matrice D (righe = pattern, colonne = testo). NON disegnare la griglia completa: nel manoscritto la matrice è solo accennata: bordo tratteggiato sottile oppure nessun bordo, con poche linee-guida orizzontali sottili che partono dalle etichette di riga e corrono verso destra. Preferire un frame leggerissimo (grigio 40%) senza celle.\n\nETICHETTE DI COLONNA (sopra il bordo superiore, allineate al bordo, da sinistra a destra): $T[1]$, $T[2]$, poi puntini orizzontali $\\dots$, poi a circa il 60% della larghezza $T[j]$, poi $\\dots$, e all'estremo destro $T[m]$.\n\nETICHETTE DI RIGA (a sinistra del bordo sinistro, dall'alto in basso): $P[1]$, $P[2]$, puntini verticali $\\vdots$, $P[i]$, puntini verticali $\\vdots$, $P[n]$. La riga $P[i]$ sta a circa il 55% dell'altezza; $P[n]$ è l'ultima, in basso.\n\nLINEE DI RIFERIMENTO. Una linea verticale PUNTEGGIATA scende dall'etichetta $T[j]$ attraversando tutta l'altezza del rettangolo. Una linea orizzontale TRATTEGGIATA parte dall'etichetta $P[i]$ e corre verso destra, oltrepassa la verticale punteggiata e prosegue fuori dal rettangolo fino a raggiungere, alla stessa altezza, l'etichetta $0/1$ (scritta come frazione o come «0/1»). Le due linee individuano la cella $(i,j)$.\n\nBIFORCAZIONE. Da $0/1$ partono due segmenti rettilinei che formano una «<» aperta verso destra: il segmento SUPERIORE sale verso destra e termina nella cifra $0$; alla sua destra la glossa $P[i]\\neq T[j]$ (eventualmente con «(mismatch)» in tondo piccolo). Il segmento INFERIORE scende verso destra e termina nella cifra $1$; alla sua destra la glossa $P[i]=T[j]$ (eventualmente con «(match)»).\n\nTRATTI INTERNI (il contenuto semantico del disegno).\n(a) Nella zona in alto a sinistra della matrice, un tratto a scaletta/ondulato inclinato a circa 45° che DISCENDE da sinistra verso destra, all'incirca dal punto (colonna 1, riga 1) al punto (colonna 3, riga 4) in coordinate relative; disegnarlo come polilinea a gradini leggermente irregolare, tratto pieno. Sopra di esso, in corsivo piccolo, l'etichetta «match».\n(b) Poco più a destra, un secondo tratto a scaletta/ondulato inclinato a circa 45° che SALE da sinistra verso destra, all'incirca dal punto (colonna 4, riga 6) al punto (colonna 6, riga 4). Sopra di esso, su due righe, l'etichetta «match inverso».\nI due tratti servono a mostrare che in un dot-plot un allineamento diretto compare come diagonale discendente e un allineamento invertito come antidiagonale ascendente. Nel manoscritto ci sono anche due o tre segmenti verticali accessori attorno al secondo tratto (delimitazioni tracciate a mano): sono inessenziali e possono essere omessi.\n\nSTILE. Tutto il testo in italiano; gli indici in math mode. Nessun colore necessario (il manoscritto è monocromo blu).",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "shift-and-colonne",
+   "pagina": 29,
+   "didascalia": "Dall'array al tempo $j$ all'array al tempo $j+1$: uno SHIFT verso il basso, che fa scendere di una posizione gli $1$ già accesi, seguito da un AND. L'$1$ disegnato sull'ultima riga corrisponde a un'occorrenza del pattern.",
+   "tipo": "matrice / schema di colonne di bit",
+   "specifica": "SCHEMA GENERALE. Un rettangolo pieno di bordo (linee continue, leggermente irregolari nel manoscritto: va benissimo tracciarle diritte), largo circa 9 cm e alto circa 6 cm; rappresenta l'intera matrice, righe = posizioni del pattern, colonne = posizioni del testo. Nessuna griglia interna.\n\nETICHETTE DI ORIENTAMENTO (NON presenti nel manoscritto, aggiunte per leggibilità: renderle piccole e grigie). Sopra il bordo superiore, all'estrema sinistra $T[1]$ e all'estrema destra $T[m]$. A sinistra del bordo sinistro, in alto $P[1]$ e in basso $P[n]$.\n\nLE DUE STRISCE. Tre linee verticali sottili, ravvicinate, poste appena a sinistra del centro del rettangolo, che vanno dal bordo superiore al bordo inferiore e delimitano DUE strisce strette e adiacenti (larghe ciascuna circa 1/12 della larghezza totale): la striscia sinistra è la colonna $j$, la striscia destra è la colonna $j+1$.\n\nFRECCE DALL'ALTO. Sopra il rettangolo, due frecce curve che scendono a puntare sul bordo superiore delle strisce. La freccia sinistra parte da sinistra, curva verso destra e poi in basso, atterrando sul bordo superiore della striscia sinistra; sopra e a sinistra di essa l'etichetta su due righe «array al tempo $j$». La freccia destra parte da destra, curva verso sinistra e poi in basso, atterrando sul bordo superiore della striscia destra; sopra e a destra di essa l'etichetta su due righe «array al tempo $j+1$».\n\nGLI 1 E LO SPOSTAMENTO. Dentro la striscia SINISTRA, a circa il 45% dell'altezza, la cifra $1$. Immediatamente sotto di essa, una freccia cortissima TRATTEGGIATA/punteggiata che punta verso il basso (spostamento di una posizione). Dentro la striscia DESTRA, a circa il 52% dell'altezza (cioè una «riga» più in basso della precedente), un'altra cifra $1$: l'occhio deve leggere che l'1 è sceso di una posizione passando da $j$ a $j+1$.\n\nL'OCCORRENZA. A circa il 70% della larghezza (quindi ben a destra delle due strisce), appena SOPRA il bordo inferiore, un'altra cifra $1$ isolata: rappresenta un 1 sull'ultima riga, cioè un'occorrenza del pattern.\n\nFRECCE DAL BASSO. Sotto il bordo inferiore, due frecce curve che puntano verso l'ALTO. Quella di sinistra parte dalla parola \\textsc{shift} (scritta in maiuscoletto sotto il rettangolo, a sinistra) e punta al bordo inferiore della striscia sinistra. Quella di destra punta al bordo inferiore della striscia destra e porta a destra la parola \\textsc{and} (maiuscoletto).\n\nSTILE. Testo in italiano; SHIFT e AND in maiuscoletto come nel manoscritto. Nessun colore necessario.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "La pagina 29 si chiude con il disegno delle due colonne adiacenti e con le due parole SHIFT e AND, ma lascia in sospeso tutto ciò che le rende operative: (i) la maschera con cui si esegue l'AND non è definita (a p.30 sarà $U_x[i]=1$ se e solo se $P[i]=x$, per $x\\in\\Sigma$); (ii) non è enunciato l'invariante che dà senso alla matrice dello Shift--And, cioè $M[i,j]=1$ se e solo se $P[1..i]$ è suffisso di $T[1..j]$ — sulla p.29 c'è solo il dot-plot $D$, che è una matrice diversa e più «grezza» ($M\\le D$); (iii) non è detto in che direzione si fa lo shift né che deve immettere un $1$ in testa; (iv) manca lo pseudocodice e manca la complessità reale (p.29 dà solo il costo di costruire la matrice per intero, $\\Oh(n\\cdot m)$ tempo e $\\Oh(n\\cdot m)$ bit). La pagina 30 riprende esattamente da qui: definizione delle maschere $U_x$, condizioni (a) «devo avere 1 in $M[i-1,j-1]$» $\\to$ SHIFT e (b) «deve essere $P[i]=T[j]$» $\\to$ AND, pseudocodice del loop su $j$ con test sull'ultima riga, e complessità $\\Oh(n\\cdot m)$ tempo con $\\Oh(n)$ bit di working space. Attenzione al passaggio di simbolo: la $D$ introdotta a p.29 (dot-plot) NON è la $M$ di p.30 (matrice dello Shift--And); e la convenzione $|P|=n$, $|T|=m$ adottata qui va mantenuta a p.30 (dove è dichiarata esplicitamente) ma è opposta a quella del capitolo Karp--Rabin (pp. 26--28).",
+ "confidenza": "alta"
+}

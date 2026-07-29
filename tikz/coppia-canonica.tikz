@@ -1,0 +1,46 @@
+% Coppie di riferimento canoniche e non canoniche.
+% Catena di stati impliciti (cerchietti vuoti, archi tratteggiati) che scende da
+% s, attraversa il branching point s' e prosegue: (s,abcd) e' canonica,
+% (s,abcdeabc) no, perche' scavalca s'.
+\begin{tikzpicture}[
+    scale=1.05,
+    >={Stealth[length=4.5pt]},
+    font=\footnotesize,
+    esplicito/.style={circle,draw,fill=white,inner sep=0pt,minimum size=4.6mm},
+    implicito/.style={circle,draw,fill=white,inner sep=0pt,minimum size=3.4pt},
+    catena/.style={dashed,dash pattern=on 2pt off 1.6pt},
+    ann/.style={black!55}]
+
+  % ---- nodi -----------------------------------------------------------------
+  \node[esplicito,double,double distance=0.7pt] (s)  at (0.00, 0.00) {};
+  \node[implicito] (i1) at (0.65,-0.52) {};
+  \node[implicito] (i2) at (1.30,-1.04) {};
+  \node[implicito] (i3) at (1.95,-1.56) {};
+  \node[implicito] (i4) at (2.60,-2.08) {};
+  \node[esplicito] (sp) at (3.25,-2.60) {};
+  \node[implicito] (j1) at (3.90,-3.12) {};
+  \node[implicito] (j2) at (4.55,-3.64) {};
+  \node[implicito] (fin) at (5.20,-4.16) {};
+
+  \node at ($(s)+(0.34,0.30)$)  {$s$};
+  \node at ($(sp)+(0.44,0.34)$) {$s'$};
+
+  % ---- archi ----------------------------------------------------------------
+  \draw (-0.62,0.50) -- (s);                 % arco entrante dal padre
+  \draw (sp) -- (2.62,-3.16);                % s' e' un branching point
+  \foreach \da/\db/\lab in {s/i1/a, i1/i2/b, i2/i3/c, i3/i4/d, i4/sp/e,
+                            sp/j1/a, j1/j2/b, j2/fin/c}
+    \draw[catena] (\da) -- node[pos=0.5,above right=-4pt and -4pt] {$\lab$} (\db);
+
+  % ---- annotazioni ----------------------------------------------------------
+  % coppia canonica: da s si legge abcd senza incontrare branching point
+  \fill (i4) circle (1.7pt);
+  \node[ann,anchor=east] at (0.35,-2.00) {$(s,abcd)$};
+  \draw[ann,->] (0.45,-2.02) to[out=-12,in=180] (i4);
+
+  % coppia non canonica: il cammino attraversa il branching point s'
+  % (il punto indicato e' implicito: l'unico branching point della catena e' s')
+  \fill (fin) circle (1.7pt);
+  \node[ann,anchor=west] at (3.30,-0.30) {$(s,abcdeabc)$};
+  \draw[ann,->] (4.20,-0.60) to[out=-80,in=25] (fin);
+\end{tikzpicture}

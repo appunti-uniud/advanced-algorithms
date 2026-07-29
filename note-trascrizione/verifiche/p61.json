@@ -1,0 +1,27 @@
+{
+ "pagina": 61,
+ "esito": "problemi-minori",
+ "problemi": [
+  {
+   "gravita": "media",
+   "categoria": "errore-logico",
+   "dove": "lezioni/13-randauto.tex, blocco \\scan{61}, riga isolata subito prima di \\begin{esempio}: \"Le foglie sono piu di $n$.\"",
+   "descrizione": "Trasformata in enunciato assoluto, la frase e falsa: le foglie sono SEMPRE almeno n, ma possono essere esattamente n (p.es. n segmenti paralleli, o due segmenti separabili da una retta). La frase contraddice inoltre l'osservazione che la segue tre righe dopo, #foglie = n + #tagli, dove #tagli puo essere 0. Sul manoscritto la frase e telegrafica (\"Le foglie sono piu di ...\") e va letta, come conferma la sintesi degli appunti dell'anno precedente (\"Ci sono casi in cui le foglie dell'albero BPP sono piu di |S|\"), come possibilita e non come legge generale.",
+   "correzione": "Sostituire con \"Le foglie possono essere piu di $n$.\" (oppure \"In generale le foglie sono almeno $n$, e possono essere di piu.\")"
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "errore-matematico",
+   "dove": "lezioni/13-randauto.tex, ambiente osservazione dopo l'esempio, giustificazione della formula #foglie = n + #tagli",
+   "descrizione": "La giustificazione dice \"ogni segmento spezzato produce una porzione in piu, e quindi una foglia in piu\", ma la formula conta i TAGLI, non i segmenti spezzati: un segmento attraversato da k rette produce k porzioni in piu. Con la lettura letterale della giustificazione la formula sarebbe #foglie = n + #{segmenti spezzati}, che e falsa non appena un segmento viene tagliato piu di una volta. Il manoscritto e corretto: la freccia glossa \"i tagli di segmenti che sono stati spezzati\".",
+   "correzione": "Riscrivere: \"dove #tagli conta i tagli che spezzano un segmento: ogni taglio che spezza un segmento produce una porzione in piu, e quindi una foglia in piu\"."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "errore-logico",
+   "dove": "lezioni/13-randauto.tex, frase \"Il problema e tuttora aperto.\" subito dopo l'ambiente domanda[problema aperto]",
+   "descrizione": "Aggiunta editoriale non presente sul foglio (il manoscritto scrive solo \"Problema aperto\", come Motwani-Raghavan 1995) e con ogni probabilita non piu vera: per segmenti disgiunti nel piano la complessita nel caso peggiore di una BPP e nota essere Theta(n log n / log log n) (Toth, upper bound 2003 e lower bound per BSP arbitrarie), quindi una BPP di dimensione O(n) NON esiste sempre. Affermare al presente che il problema e aperto introduce nel testo una tesi che gli appunti non sostengono.",
+   "correzione": "Togliere l'avverbio temporale e restare fedeli al foglio, p.es. \"Negli appunti il problema e dato per aperto.\"; eventualmente aggiungere una nota a pie di pagina: il bound O(n log n) e di Paterson-Yao (1990), poi migliorato a O(n log n / log log n) da Toth, che ha anche mostrato esempi che richiedono Omega(n log n / log log n)."
+  }
+ ]
+}

@@ -1,0 +1,42 @@
+{
+ "pagina": 47,
+ "esito": "problemi-minori",
+ "file_scritto": "/home/rob/UNI/algoritmi_avanzati/lezioni/09-distanze-allineamento.tex",
+ "problemi": [
+  {
+   "gravita": "media",
+   "categoria": "notazione",
+   "dove": "09-distanze-allineamento.tex, riga 553-554 (chiusa della sezione \\section{Riepilogo}): \"dove $m$ è la lunghezza del pattern e $n$ quella del testo.\"",
+   "descrizione": "La glossa su m e n (aggiunta dal trascrittore: il quaderno scrive solo O(m+n) e O(m×n) senza definire i simboli) INVERTE la convenzione usata in tutto il resto del documento. Cap. 01 riga 63: «$\\abs{P}=n$ e $\\abs{T}=m$ (di norma $n\\le m$)»; cap. 02 righe 6-7: «poniamo $n=\\abs{P}$ e $m=\\abs{T}$, con $n\\le m$»; cap. 03 riga 10: «$m=\\abs{T},\\ n=\\abs{P}$»; cap. 10 riga 15: «$m=\\abs{T}$ e $n=\\abs{P}$». Quindi nel corpus n = lunghezza del pattern e m = lunghezza del testo, esattamente il contrario di quanto scritto qui. Poiché m+n e m×n sono simmetrici il valore numerico non cambia, ma il lettore che arriva al riepilogo trova la convenzione ribaltata proprio nel punto in cui viene esplicitata per la prima volta in modo discorsivo.",
+   "correzione": "Scrivere: «dove $n$ è la lunghezza del pattern e $m$ quella del testo.» (oppure, per uniformarsi anche graficamente a cap. 01-03-10: «dove $n=\\abs{P}$ e $m=\\abs{T}$»)."
+  },
+  {
+   "gravita": "media",
+   "categoria": "figura",
+   "dove": "09-distanze-allineamento.tex, righe 514-517, caption di \\label{fig:landau-vishkin-banda} (figura tikz/landau-vishkin-banda.tikz)",
+   "descrizione": "La caption trascrive letteralmente le tre frecce del disegno («al più di $d$ a sinistra, di $d$ a destra e di $d$ verso il basso») invece di spiegarle, e così facendo afferma due cose non vere: (i) un cammino di allineamento nella matrice DP non si sposta MAI «a sinistra» (le mosse sono solo →, ↓, ↘): lo spostamento di al più d è quello dell'INDICE DI DIAGONALE rispetto alla diagonale di partenza, non una traslazione della cella; (ii) non esiste alcun limite d allo spostamento «verso il basso»: il cammino attraversa tutte le $\\abs{\\sigma}$ righe, e infatti la figura lo disegna dal bordo superiore a quello inferiore. Inoltre il vincolo è riferito alla diagonale di PARTENZA, non «da una cella generica» (da una cella già a metà cammino il budget residuo di errori può essere minore). Il corpo del testo poco sopra (riga 507) dice invece la cosa giusta («non può allontanarsi di più di $d$ diagonali da quella di partenza»), e così pure la caption della figura gemella nel cap. 10 (righe 38-41: «può scostarsene di al più $k$ posizioni in ciascuna direzione»): la caption di p.47 è l'unico punto in cui l'enunciato è sbagliato.",
+   "correzione": "Riscrivere la caption, ad es.: «Landau--Vishkin: ogni mossa non diagonale sposta il cammino di esattamente una diagonale, quindi con al più $d$ differenze il cammino si scosta di al più $d$ diagonali --- a sinistra o a destra --- da quella di partenza e resta confinato nella banda di $2d+1$ diagonali delimitata dalle due rette grigie; le tre frecce marcate $d$ indicano questo scostamento massimo.» (La figura TikZ in sé è fedele al disegno: rettangolo $\\sigma\\times T$, banda fra due rette parallele, cammino a scaletta interno alla banda, cella marcata con le tre frecce $d$: non va toccata.)"
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "trascrizione-errata",
+   "dove": "09-distanze-allineamento.tex, righe 538 e 545 (\\section{Riepilogo}): «pattern matching \\textbf{esatto}» e «pattern matching \\textbf{approssimato}»",
+   "descrizione": "Il quaderno scrive, in entrambe le righe dello schema riassuntivo, «allineamento esatto» e «allineamento approssimato» (lettura verificata ingrandendo p47_b3: le due parole sono chiaramente «allineamento», con la doppia -ll- e la desinenza -mento). La trascrizione le ha sostituite con «pattern matching» senza registrarlo in NOTE-EDITORIALI (la policy 3 impone di loggare ogni sostituzione). La sostituzione è difendibile per la prima riga (KMP/BM/AC sono pattern matching), ma nella seconda riga il termine del quaderno è quello giusto: ciò che costa O(m×n) è proprio l'allineamento (matrice DP), ed è il filo conduttore del capitolo.",
+   "correzione": "Ripristinare la parola del quaderno --- «$\\Oh(m+n)$ --- allineamento \\textbf{esatto}» e «$\\Oh(m\\times n)$ --- allineamento \\textbf{approssimato}» --- oppure mantenere «pattern matching» ma annotare la sostituzione in NOTE-EDITORIALI."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "notazione",
+   "dove": "09-distanze-allineamento.tex, righe 205-208, voce \\item[Convesso:] della description",
+   "descrizione": "La condizione è scritta con l'indice $i$ libero: «$\\gamma(i+1)-\\gamma(i)\\le\\gamma(i)-\\gamma(i-1)$», senza quantificatore. Come definizione di una classe di funzioni di costo è mal posta finché non si dice che deve valere per ogni $i$ (in tutte le altre definizioni del capitolo il quantificatore c'è: cfr. riga 259 «$\\Dm{i}{0}=i\\ \\forall i$», riga 463 «$\\Dm{0}{j}=0\\ \\forall j$»). Gusfield e le fonti standard scrivono «for all q».",
+   "correzione": "Aggiungere il quantificatore, ad es. «$\\gamma(i+1)-\\gamma(i)\\;\\le\\;\\gamma(i)-\\gamma(i-1) \\qquad \\forall\\, i\\ge 1$»."
+  },
+  {
+   "gravita": "bassa",
+   "categoria": "omissione",
+   "dove": "09-distanze-allineamento.tex, riga 535-537, inizio della \\section{Riepilogo}",
+   "descrizione": "Il riepilogo (metà inferiore di p.47: lo schema con la graffa KMP/BM/AC/Ukkonen e le due righe O(m+n) / O(m×n)) è il terzo blocco di contenuto proveniente da p.47, ma non porta alcun \\scan{...}: nel PDF finisce su una pagina a sé (p.86) priva di rimando alla scansione. Il file stesso adotta la pratica di ripetere il marcatore quando il contenuto di una pagina riprende dopo un'interruzione (\\scan{43} a riga 156 e ripetuto a riga 226; \\scan{44} a riga 271 e ripetuto a riga 424), quindi qui la traccia manca per svista.",
+   "correzione": "Inserire \\scan{47}% subito dopo \\section{Riepilogo}, prima dell'\\begin{itemize}."
+  }
+ ]
+}

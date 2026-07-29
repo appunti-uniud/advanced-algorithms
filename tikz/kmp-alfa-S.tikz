@@ -1,0 +1,34 @@
+% kmp-alfa-S -- il massimo prefisso-suffisso alpha del prefisso S_i (pag. 4).
+% alpha compare una volta in testa a S e una volta in coda a S_i, e |alpha|=sp_i(S).
+\begin{tikzpicture}[
+    x=0.85cm, y=1cm,
+    font=\footnotesize,
+    linea/.style={line width=0.8pt},
+    tacca/.style={gray!70!black, line width=0.5pt},
+    graffa/.style={decorate, decoration={brace, amplitude=5pt}, gray!70!black},
+  ]
+
+  % --- la stringa S -----------------------------------------------------
+  \draw[linea] (0,0) -- (10,0);
+  \node[right,inner sep=3pt] at (10,0) {$S$};
+
+  % --- confini fra caratteri --------------------------------------------
+  \foreach \x in {0,2.4,4.4,6.8}{\draw[tacca] (\x,-0.18) -- (\x,0.18);}
+
+  % --- le due occorrenze di alpha, della stessa lunghezza ---------------
+  \draw[graffa] (0,0.26) -- (2.4,0.26)
+        node[midway,above=6pt,black] {$\alpha$};
+  \draw[graffa] (4.4,0.26) -- (6.8,0.26)
+        node[midway,above=6pt,black] {$\alpha$};
+
+  % --- posizioni ---------------------------------------------------------
+  \node[below,inner sep=4pt] at (0,-0.18)   {$1$};
+  \node[below,inner sep=4pt] at (2.4,-0.18) {$\spv{i}(S)$};
+  \node[below,inner sep=4pt] at (4.4,-0.18) {$i-\spv{i}(S)+1$};
+  \node[below,inner sep=4pt] at (6.8,-0.18) {$i$};
+
+  % --- il prefisso S_i ---------------------------------------------------
+  \draw[graffa,decoration={mirror}] (0,-0.90) -- (6.8,-0.90)
+        node[midway,below=6pt,black] {$S_i = \pre{S}{i}$};
+
+\end{tikzpicture}

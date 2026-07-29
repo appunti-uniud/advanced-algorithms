@@ -1,0 +1,122 @@
+{
+ "pagina": 23,
+ "latex": "\\scan{23}\n\n\\noindent\\textbf{ii)} Per costruire $\\STree{}(T^{\\,i})$ a partire da $\\STree{}(T^{\\,i-1})$ dovrò\n\\emph{reintrodurre stati}.\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/p23-boundary-path.tikz}\n  \\caption{Il \\emph{boundary path} (bp) percorso quando si estende l'albero con il carattere\n  $t_i$: parte dallo stato \\textsf{top}, il più profondo (quello che rappresenta tutto il\n  prefisso $T^{\\,i-1}$), e risale di suffix link in suffix link fino allo stato ausiliario\n  $\\bot$. Il cammino si spezza in tre tratti: finché gli stati incontrati sono foglie basta\n  \\emph{appendere a foglia} (l'arco è etichettato $T[j,\\infty]$, quindi non c'è nulla da\n  aggiornare); dall'\\emph{active point} --- il primo stato non foglia --- fino all'\\emph{end\n  point} si \\emph{appendono nuove foglie}; dall'\\emph{end point} in poi \\emph{non serve\n  appendere nulla}, perché la $t_i$-transizione c'è già.}\n\\end{figure}\n\n\\paragraph{Idea.} Introduciamo due tipi di stato:\n\\begin{itemize}\n  \\item stati \\emph{espliciti} (\\emph{tree}): i nodi branching --- e le foglie --- che\n        sopravvivono nell'albero compattato;\n  \\item stati \\emph{impliciti} (\\emph{trie-only}): quelli che esistono nel trie ma non\n        nell'albero, perché cadono all'interno di un arco compattato.\n\\end{itemize}\n\nIl \\STree è allora un nuovo automa tale che\n\\[\n  g'(s,w) = r\n  \\qquad\\text{ovvero}\\qquad\n  g'\\bigl(s,(k,p)\\bigr) = r ,\n\\]\navendo identificato la stringa $w$ con la coppia di interi $(k,p)$, cioè $w = \\sub{T}{k}{p}$.\n\n\\begin{osservazione}\nDi $w$ interessa soltanto il \\emph{primo carattere}: è quello che decide quale arco uscente da\n$s$ imboccare. Se $t_k = a$ chiamiamo la transizione una \\emph{$a$-transizione}.\n\\end{osservazione}\n\n\\begin{definizione}[Il \\STree come automa]\n\\[\n  \\STree{}(T) \\;=\\; \\bigl(\\, Q' \\cup \\{\\bot\\},\\ \\mathit{root},\\ g',\\ f' \\,\\bigr),\n\\]\ndove $Q'$ è l'insieme degli stati espliciti, $g'$ la funzione di transizione su stringhe\nappena definita e $f'$ la funzione dei suffix link ristretta a $Q'$.\n\nGli stati --- impliciti ed espliciti --- sono dati da \\emph{reference pair}: coppie $(s,w)$\ncon $s$ stato branching (nello \\STrie) e $w$ stringa; rappresentando $w$ con la coppia di\ninteri si scrive $(s,(k,p))$.\n\\end{definizione}\n\n\\medskip\n\\noindent\\textbf{es.}\\ \\lacunainl{gli schizzi sono troncati dal bordo inferiore del foglio}\n\n\\begin{figure}[H]\n  \\centering\n  \\input{tikz/p23-reference-pair.tikz}\n  \\caption{Due reference pair per uno stesso stato implicito: lo stato branching $s$ (nodo\n  pieno) e la stringa $w$ letta scendendo lungo l'arco, i cui stati intermedi (i cerchietti\n  vuoti) sono impliciti. Entrambe le coppie sono rappresentazioni lecite (il segno di spunta);\n  quale sia quella \\emph{canonica} è la questione discussa subito dopo.}\n\\end{figure}",
+ "note": [
+  {
+   "tipo": "ricostruzione",
+   "pagina": 23,
+   "testo": "La pagina si apre con «ii) per costruire STree(T^i) a partire da STree(T^{i-1}) dovrò reintrodurre stati». È la prosecuzione dell'elenco iniziato a p.22 («2 ingredienti: i) soli nodi branching; ii) w ↝ [i,j]» e poi «Domanda: come uso (i) e (ii) nella definizione e costruzione del STree? i) non è un problema: ...»). Ho trascritto l'etichetta come \\textbf{ii)} in linea, senza aprire un ambiente enumerate, perché l'elenco è a cavallo di due pagine e la struttura si decide in cucitura. Verificato al 450 dpi che i pallini sono due (non tre): è «ii)», non «iii)».",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 23,
+   "testo": "Figura grande di metà pagina. Nel manoscritto è una lunga linea a zig-zag («dente di sega») che sale in diagonale da sinistra-basso a destra-alto, con curve lisce a fare da graffe. L'ho identificata come lo schema classico del boundary path di Ukkonen: catena di stati collegati da suffix link, dal più profondo (l'intero prefisso T^{i-1}) fino a ⊥. Le tre annotazioni presenti («appendiamo a foglia», «appendiamo nuove foglie», «non serve appendere nulla») corrispondono esattamente alla tripartizione di Ukkonen: prefisso di stati-foglia (estensione gratuita dell'arco aperto), tratto active point → end point (creazione di nuove foglie), coda dopo l'end point (esiste già la t_i-transizione). Le due tacche scure che attraversano la catena marcano rispettivamente active point ed end point ed è a esse che puntano le due frecce provenienti dalle ellissi.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 23,
+   "testo": "Il nodo in basso a sinistra è etichettato «top»; il simbolo all'estremo opposto della catena è un'asta verticale poggiata su una barra orizzontale. L'ho letto ⊥ (non ⊤) sia per la forma del glifo sia perché in Ukkonen lo stato ausiliario padre della radice è ⊥ e il boundary path vi termina; «top» è allora il nome che il quaderno dà allo stato più profondo del cammino (duale di ⊥). Confermato dal quadro complessivo: gli stati vicini a «top» sono foglie («appendiamo a foglia»), quelli vicini a ⊥ hanno già la transizione («non serve appendere nulla»).",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 23,
+   "testo": "Dettaglio staccato a sinistra della figura: tre nodi su una spezzata; il tratto lungo e chiaro è etichettato «T[j,∞]» (il glifo dopo la virgola è un ∞ scritto in fretta), il tratto corto e scuro è etichettato con due lettere che ho letto «bp» (confronto diretto con il «bp» scritto in alto nella stessa figura dopo «boundary path»: stessa b con asta+occhiello e stessa p con discendente). Resta un margine di dubbio sulla seconda etichetta, che però non ha peso matematico: l'informazione portante è che l'arco verso la foglia ha etichetta aperta T[j,∞], ed è questo che rende gratuito l'«appendiamo a foglia». Ho riportato solo T[j,∞] nella didascalia; «bp» compare nella specifica della figura.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 23,
+   "testo": "Accanto all'ellisse «active point» il quaderno scrive soltanto «primo stato» (verificato: la riga non prosegue oltre). Nella didascalia l'ho completato in «il primo stato non foglia», che è il significato inequivocabile e che il quaderno stesso esplicita a p.24 («primo nodo nel b.p. che non è una foglia»).",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 23,
+   "testo": "Il connettivo scritto fra le due forme della transizione, «g'(s,w) = r  ⟵  ??? , g(s,(k,p)) = r», è una parola di due lettere che al massimo ingrandimento sembra «Da,» (D con occhiello + a + virgola). Nessuna lettura letterale è convincente in italiano; ho scritto «ovvero», che è il connettivo semanticamente richiesto (le due scritture denotano la stessa transizione, una con la stringa e una con la coppia di interi). Nessun marcatore nel testo perché la matematica non dipende dalla parola.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 23,
+   "testo": "Il quaderno scrive la seconda forma senza apice: «g(s,(k,p)) = r», mentre a sinistra usa g'. Ho uniformato a g' in entrambe, perché la tupla finale della pagina è (Q'∪{⊥}, root, g', f'): g' è la funzione di transizione del STree, g quella del STrie (transizioni su singoli caratteri). È un semplice lapsus di trascrizione.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 23,
+   "testo": "Nell'ultima riga il quaderno scrive la reference pair compattata come «(s, [r,p])»: il glifo è chiaramente una r (asta + spalla), non una k (la k, verificata due righe sopra in «(k,p)», ha la gamba diagonale). Ma r è già impegnata come stato d'arrivo in g'(s,w)=r, e l'indice sinistro dell'intervallo è k («stringa ⟺ (k,p)»). Ho quindi scritto (s,(k,p)). Ho anche uniformato le parentesi: il quaderno alterna [i,j] (p.22) e (k,p) (qui); ho tenuto la forma (k,p) di Ukkonen, coerente con g'(s,(k,p)).",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 23,
+   "testo": "«- stati (impliciti/espliciti) sono da reference pairs — (s,w) con s stato branching (in STrie) e w stringa ⤳ (s,[r,p])»: la scrittura «sono da» è ellittica per «sono dati da», che è come l'ho espansa. Ho reso «reference pairs» con il singolare «reference pair» nella prosa italiana, mantenendo il termine inglese come nel quaderno (dove è sottolineato).",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 23,
+   "testo": "Glosse aggiunte, non presenti nel quaderno ma implicate da esso e coincidenti con Ukkonen 1995: (a) «Q' è l'insieme degli stati espliciti» — segue dalla riga precedente «Introduciamo stati espliciti (tree-branching) / impliciti (trie-only)»; (b) «f' la funzione dei suffix link ristretta a Q'»; (c) la spiegazione di «impliciti (trie-only)» come «esistono nel trie ma non nell'albero perché cadono all'interno di un arco compattato» — segue dalla compattazione di p.22; (d) nell'Osservazione, «è quello che decide quale arco uscente da s imboccare», motivazione implicita del perché interessi solo il primo carattere di w.",
+   "risolto": true
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 23,
+   "testo": "Abbreviazioni espanse secondo la policy: «t.c.» → «tale che»; «Oss.:» reso con l'ambiente osservazione; «es.» mantenuto come tale perché introduce direttamente gli schizzi. La parola «Idea», evidenziata con l'evidenziatore azzurro nel quaderno, è resa con \\paragraph{Idea.} (titolo esplicito del manoscritto).",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 23,
+   "testo": "In fondo alla pagina, dopo «es.», due schizzi affiancati sono tagliati dal bordo inferiore del foglio: se ne vedono solo la parte alta (nodo pieno, inizio dei due archi, i primi cerchietti vuoti, la curva a graffa e il segno di spunta). Ho marcato la lacuna con \\lacunainl e ricostruito il significato in base alla p.24, che riprende esattamente da lì definendo quando una reference pair (s,w) è canonica. Il segno di spunta accanto a entrambi gli schizzi indica che entrambe le coppie sono rappresentazioni lecite dello stesso stato.",
+   "risolto": false
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 23,
+   "testo": "Nella tupla ho verificato al massimo ingrandimento che dentro le graffe c'è ⊥ (asta verticale su barra orizzontale) e non «1» o «⊤»: «STree(T) = (Q' ∪ {⊥}, root, g', f')», doppiamente sottolineato nel quaderno. Coincide alla lettera con Ukkonen 1995, §4.",
+   "risolto": true
+  },
+  {
+   "tipo": "divergenza-anno-prec",
+   "pagina": 23,
+   "testo": "Gli appunti del corso dell'anno precedente della L05 (2024) non coprono questo materiale: la L05 si ferma al titolo «Strategia per la costruzione di un Suffix Tree» e la costruzione è rimandata. Il contenuto di p.23 corrisponde punto per punto a Ukkonen 1995 (boundary path, active point, end point, stati espliciti/impliciti, reference pair, STree(T) = (Q'∪{⊥}, root, g', f')), che ho usato come riferimento di controllo per disambiguare i glifi. Nessuna divergenza da segnalare, solo assenza di copertura.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 23,
+   "testo": "Nella figura del boundary path compaiono, in grigio-matita, alcune tracce di un disegno precedente cancellato («T[i,j]», «T[j,z]» con linee ondulate verso pallini). Non fanno parte del disegno definitivo a penna blu e le ho ignorate; le segnalo per completezza.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 23,
+   "testo": "Nel manoscritto una lunga freccia curva collega l'osservazione «mi interessa il primo carattere di w» alla w di «g'(s,w) = r». Ho reso il collegamento con la sola giustapposizione (equazione seguita dall'ambiente osservazione), senza tentare di riprodurre la freccia.",
+   "risolto": true
+  }
+ ],
+ "figure": [
+  {
+   "id": "p23-boundary-path",
+   "pagina": 23,
+   "didascalia": "Il boundary path percorso nell'estensione con t_i: dallo stato top fino a ⊥, con le tre zone «appendiamo a foglia», «appendiamo nuove foglie», «non serve appendere nulla», separate da active point ed end point.",
+   "tipo": "schema di cammino su suffix trie (catena di stati + suffix link) con graffe e annotazioni",
+   "specifica": "SCOPO: schematizzare il boundary path di STrie(T^{i-1}) percorso quando si estende il prefisso con il carattere t_i, e la sua tripartizione (Ukkonen).\n\nNEL MANOSCRITTO il cammino è una lunga linea a zig-zag («dente di sega») che sale in diagonale da sinistra-basso a destra-alto, affiancata da curve lisce che fanno da graffe. IN TIKZ conviene raddrizzarlo: disegnare una CATENA VERTICALE di nodi, dal basso verso l'alto, e mettere le annotazioni ai lati. Mantenere però l'idea di «cammino lungo con stati omessi».\n\nELEMENTI:\n1) CATENA PRINCIPALE: circa 9 nodi (cerchietti piccoli, vuoti) allineati in verticale, collegati da frecce che vanno dal nodo più basso verso quello più alto (sono i suffix link f, cioè la relazione «togli il primo carattere»). Due tratti della catena (uno nella zona bassa, uno nella zona alta) vanno resi con linea puntinata o con tre puntini fra due nodi, per dire «molti stati omessi».\n2) ESTREMO INFERIORE: nodo PIENO; a sinistra, alla sua altezza, l'etichetta «top» (in tondo, minuscolo, non corsivo matematico). È lo stato più profondo del boundary path, quello che rappresenta l'intero prefisso T^{i-1}. Volendo aggiungere fra parentesi, in piccolo e più a sinistra, «= T^{i-1}».\n3) ESTREMO SUPERIORE: ultimo nodo della catena, PIENO; immediatamente sopra/a destra il simbolo matematico ⊥ (\\bot), grande, senza cerchietto attorno. La freccia finale della catena entra in questo nodo: il boundary path termina in ⊥.\n4) ETICHETTA «boundary path (bp)» su due righe, in alto a destra, staccata; da essa scende una linea curva SENZA punta che va a toccare la catena poco sotto ⊥ (nel manoscritto è una curva sottile scura).\n5) DUE TACCHE sulla catena, rese come un trattino scuro che attraversa obliquamente la linea (nel manoscritto una piccola «X»):\n   - tacca BASSA = active point, posta circa a 1/3 dell'altezza;\n   - tacca ALTA = end point, posta circa a 2/3 dell'altezza.\n   Da un'ellisse a destra della catena, all'altezza della tacca bassa, contenente su due righe «active point», parte una freccia curva che punta alla tacca bassa; subito a destra dell'ellisse, sulla stessa riga, la scritta «primo stato».\n   Da una seconda ellisse a destra della catena, all'altezza della tacca alta, contenente su due righe «end point», parte una freccia curva che punta alla tacca alta.\n6) TRE ZONE, ciascuna con una graffa (decorations.pathreplacing, brace) e la sua etichetta:\n   - ZONA A, dal nodo «top» fino alla tacca dell'active point (esclusa): graffa sul lato destro/basso, etichetta «appendiamo a foglia» posta in basso a destra della graffa;\n   - ZONA B, dalla tacca dell'active point fino alla tacca dell'end point (esclusa): graffa sul lato SINISTRO, etichetta su due righe «appendiamo / nuove foglie» a sinistra;\n   - ZONA C, dalla tacca dell'end point fino a ⊥: graffa sul lato DESTRO, etichetta su due righe «non serve appendere / nulla» a destra.\n7) DETTAGLIO STACCATO, in basso a sinistra, fuori dalla catena e senza collegamenti con essa: tre nodi allineati lungo una spezzata che scende verso sinistra-basso. Dal nodo più in alto (pallino piccolo) parte un segmento LUNGO, tratto sottile, fino a un nodo intermedio (pallino pieno); dal nodo intermedio parte un segmento CORTO, tratto più marcato, fino a un terzo nodo (pallino pieno) in basso a sinistra. Etichetta a sinistra del segmento lungo: $T[j,\\infty]$. Etichetta a sinistra del segmento corto: «bp». Significato: l'arco che porta alla foglia ha etichetta APERTA T[j,∞], perciò appendere t_i a una foglia non richiede alcuna modifica dell'etichetta.\n\nSIGNIFICATO ALGORITMICO da rendere leggibile: risalendo il boundary path da top verso ⊥, (a) finché lo stato è una foglia l'estensione con t_i è gratuita (etichette aperte); (b) dal primo stato non foglia — l'active point — fino al primo stato che possiede già una t_i-transizione — l'end point — bisogna creare una nuova foglia per ciascuno stato; (c) dall'end point in poi non c'è nulla da fare, perché la t_i-transizione esiste già (e quindi esisterà anche per tutti i suffissi più corti).\n\nTUTTO IL TESTO IN FIGURA IN ITALIANO, esattamente: «top», «boundary path (bp)», «active point», «primo stato», «end point», «appendiamo a foglia», «appendiamo nuove foglie», «non serve appendere nulla»; simboli matematici: ⊥ e T[j,∞].",
+   "fattibile_tikz": true
+  },
+  {
+   "id": "p23-reference-pair",
+   "pagina": 23,
+   "didascalia": "Due reference pair (s,w) per uno stesso stato implicito: lo stato branching s e la stringa w letta lungo l'arco; entrambe sono rappresentazioni lecite.",
+   "tipo": "schema di albero (due piccoli schizzi affiancati)",
+   "specifica": "ATTENZIONE: nel manoscritto i due schizzi sono TRONCATI dal bordo inferiore del foglio; se ne vede solo la parte alta. Quella che segue è la ricostruzione, coerente con la p.24 (dove si definisce quando una reference pair è canonica).\n\nDue schizzi AFFIANCATI, identici come struttura, separati da spazio orizzontale; a destra di ciascuno un segno di spunta ✓ (tratto a penna, non un simbolo di font, ma va bene $\\checkmark$).\n\nOGNI SCHIZZO:\n- un NODO PIENO in alto (stato branching esplicito): etichettarlo $s$ appena sopra/a sinistra;\n- da esso scende verso sinistra-basso un arco breve, tratto semplice, che termina senza nodo (è l'altro figlio del nodo branching, disegnato solo per mostrare che s è branching);\n- da esso scende verso destra-basso un arco LUNGO lungo il quale sono disegnati 3–4 CERCHIETTI VUOTI equispaziati: sono gli stati impliciti, cioè gli stati che il trie ha e che l'albero compattato non rappresenta perché interni all'arco;\n- a destra dell'arco lungo, una curva liscia a graffa che lo accompagna dal nodo pieno fino a uno dei cerchietti: è la stringa $w$ della reference pair. Etichettare la graffa con $w$.\n\nDIFFERENZA FRA I DUE SCHIZZI: nel secondo la graffa scende più in basso lungo l'arco (w più lunga) rispetto al primo. Entrambi hanno il segno di spunta, a indicare che entrambe le coppie $(s,w)$ sono rappresentazioni lecite.\n\nTesto in figura in italiano (o solo simboli): $s$, $w$, $\\checkmark$. Non aggiungere etichette che il manoscritto non ha, se non $s$ e $w$ per leggibilità.",
+   "fattibile_tikz": true
+  }
+ ],
+ "continuita": "Resta in sospeso la scelta fra le diverse reference pair che rappresentano lo stesso stato: la pagina si chiude con «es.» e due schizzi troncati dal bordo del foglio, entrambi marcati con un segno di spunta, senza dire quale sia la rappresentazione da preferire. La p.24 riprende esattamente da lì: definisce quando $(s,w)$ è \\emph{canonica} (da $s$, leggendo $w$, non si incontrano branching point, cioè $s$ è il più profondo possibile), osserva che per uno stato branching $s$ la coppia canonica è $(s,\\varepsilon)$, poi disegna active point ed end point come reference pair sul boundary path e passa a modificare la costruzione di $\\STrie(T^{\\,i})$ in una costruzione di $\\STree(T^{\\,i})$ (numero di stati ridotto, uso di active/end point per limitare il lavoro). Restano inoltre da definire, e la p.24 lo fa, i suffix link $f'$ sugli stati espliciti.",
+ "confidenza": "alta"
+}

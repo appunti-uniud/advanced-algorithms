@@ -1,0 +1,81 @@
+{
+ "pagina": 77,
+ "latex": "\\scan{77}\n\nSe \\emph{penso} allo spazio degli stati come a un grafo, le componenti fortemente connesse\n(SCC) che ne ottengo sono correlate con le nozioni di stato \\emph{transiente} e di stato\n\\emph{persistente}.\n\n\\begin{definizione}[SCC finale]\\label{def:scc-finale}\n  Una componente fortemente connessa si dice \\emph{finale} se è priva di archi uscenti.\n\\end{definizione}\n\n\\begin{definizione}[Catena irriducibile]\\label{def:mc-irriducibile}\n  Una catena di Markov è \\emph{irriducibile} se ha una sola SCC --- che è allora,\n  necessariamente, finale --- ossia se il suo grafo di transizione è fortemente connesso.\n\\end{definizione}\n\nLe catene irriducibili sono le catene di Markov che sappiamo trattare meglio: è per esse\nche vale il teorema fondamentale enunciato nel seguito.\n\n\\begin{osservazione}\n  In una catena finita il legame fra le SCC e la classificazione degli stati è questo: gli\n  stati che stanno in una SCC finale sono persistenti (non nulli), tutti gli altri sono\n  transienti. Il quaderno definisce l'irriducibilità chiedendo che vi sia \\emph{una sola\n  SCC finale}; la condizione corretta è più forte, cioè che vi sia una sola SCC in tutto.\n  La differenza non è innocua: il teorema fondamentale della pagina seguente afferma che\n  $\\pi_i > 0$ per \\emph{ogni} stato $i$, e questo è falso non appena esistono SCC non\n  finali, i cui stati sono transienti e hanno probabilità stazionaria nulla.\n\\end{osservazione}\n\n\\begin{definizione}[State probability vector]\\label{def:state-probability-vector}\n  Il \\emph{vettore di probabilità di stato} al tempo $t$ è il vettore riga\n  \\[\n    \\vec{q}^{\\,(t)} \\;=\\; \\bigl(q^{(t)}_{1},\\, \\dots,\\, q^{(t)}_{n}\\bigr),\n  \\]\n  dove $q^{(t)}_{i}$ è la probabilità che la catena si trovi nello stato $i$ al tempo $t$.\n\\end{definizione}\n\nIl vettore $\\vec{q}^{\\,(t)}$ è dunque la distribuzione dello stato al tempo $t$: rappresenta\nla distribuzione della probabilità di visita di un random walk su $G$.\n\nIl passo della catena si ottiene moltiplicando il vettore (riga) di stato per la matrice di\ntransizione:\n\\[\n  \\vec{q}^{\\,(t+1)} \\;=\\; \\vec{q}^{\\,(t)} \\times P ,\n  \\qquad\\text{e quindi}\\qquad\n  \\vec{q}^{\\,(t)} \\;=\\; \\vec{q}^{\\,(0)}\\, P^{t} .\n\\]\n\n\\begin{definizione}[Distribuzione stazionaria]\\label{def:distribuzione-stazionaria}\n  Un vettore di probabilità $\\vec{\\pi}$ è una \\emph{distribuzione stazionaria} della catena\n  di matrice di transizione $P$ se\n  \\[\n    \\vec{\\pi} \\;=\\; \\vec{\\pi} P .\n  \\]\n\\end{definizione}\n",
+ "note": [
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 77,
+   "testo": "Prima riga: il quaderno scrive «Se \"penso\" allo stato come ad un grafo». «allo stato ... come ad un grafo» non regge (uno stato non è un grafo); ho scritto «allo spazio degli stati come a un grafo», che è ciò che l'autore intende (gli stati sono i nodi del grafo di transizione, come sulla p. 76 dove le SCC sono introdotte come classi di equivalenza della mutua raggiungibilità).",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 77,
+   "testo": "Seconda riga, parola dopo «sono»: i grafemi si segmentano in s + t(barrato) + r + e + tt(due occhielli barrati) + e, cioè letteralmente «strette», che in italiano non regge con «con le nozioni…»; la larghezza (228 px a 300 DPI, ~27 px/lettera sulla stessa riga) suggerisce 8-9 lettere, quindi anche «correlate»/«collegate». Ho scritto «correlate», che è il senso obbligato («le SCC sono correlate con le nozioni transiente/persistente»). La parola esatta resta indecisa: vale la pena riguardare la scansione.",
+   "risolto": false
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 77,
+   "testo": "Il quaderno scrive «Def: M.C. irriducibile se ha 1 sola SCC finale». Ho scritto «se ha una sola SCC (che è allora necessariamente finale)»: la definizione standard (Motwani–Raghavan, Def. 6.4) è che il grafo sottostante sia costituito da un'unica componente fortemente connessa. «Una sola SCC finale» è la condizione più debole di unichain, compatibile con l'esistenza di stati transienti, e sarebbe incoerente con il punto 2) del teorema fondamentale di p. 78 ($\\forall i\\ \\pi_i > 0$). La divergenza è segnalata esplicitamente nell'osservazione inserita nel testo.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 77,
+   "testo": "Nell'osservazione ho esplicitato il legame «SCC finale ⇒ stati persistenti / SCC non finale ⇒ stati transienti», che il quaderno lascia implicito in «sono correlate con le nozioni transiente/persistente». È un'aggiunta, ma serve a giustificare la correzione della definizione di irriducibilità.",
+   "risolto": true
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 77,
+   "testo": "Sotto la definizione di irriducibile, una graffa rimanda a «sono le M.C. che (sappiamo trattare) meglio» (le due parole sono cerchiate a penna: lettura sicura, s-a-pp-i-a-m-o e t-r-a-tt-a-r-e). La riga immediatamente sotto legge, con buona probabilità, «abbiamo un teo[rema]» (bowl + due occhielli + «-iamo»; ultima parola: t barrata + vocale + tratto di uscita, plausibile abbreviazione di «teorema»). L'ho reso con «è per esse che vale il teorema fondamentale enunciato nel seguito», coerente con p. 78 che enuncia il «Teorema fondamentale sulle M.C.». Da riguardare.",
+   "risolto": false
+  },
+  {
+   "tipo": "lettura-incerta",
+   "pagina": 77,
+   "testo": "La freccia verticale che scende da $\\vec q^{\\,(t)}$ alle formule di aggiornamento porta un'etichetta di due parole, leggibili come «stato» e «matr[ice]». L'ho resa in prosa con «Il passo della catena si ottiene moltiplicando il vettore (riga) di stato per la matrice di transizione». La lettura dell'etichetta non è certa.",
+   "risolto": false
+  },
+  {
+   "tipo": "correzione",
+   "pagina": 77,
+   "testo": "Il quaderno scrive la forma chiusa come $\\vec q_0 P^t$ (indice 0 in basso). Ho uniformato a $\\vec q^{\\,(0)} P^{t}$ per coerenza con la notazione ad apice usata nella riga precedente e nella definizione.",
+   "risolto": true
+  },
+  {
+   "tipo": "ricostruzione",
+   "pagina": 77,
+   "testo": "Nella definizione di state probability vector ho aggiunto la glossa «dove $q_i^{(t)}$ è la probabilità che la catena si trovi nello stato $i$ al tempo $t$»: nel quaderno la componente non è definita, ma le due note a margine («rappresenta la distribuzione della prob. di visita di un r.w. su G» e «la distribuzione dello stato al tempo t») dicono esattamente questo. Entrambe le note sono state fuse nella frase che segue la definizione.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 77,
+   "testo": "Nella formula della distribuzione stazionaria la $\\pi$ porta sia la freccia sia una tilde ($\\vec{\\tilde\\pi}$), mentre nella riga di definizione porta la sola freccia; anche p. 78 usa $\\tilde\\pi$. Ho normalizzato ovunque a $\\vec\\pi$. Se la trascrizione di p. 78 dovesse adottare $\\tilde\\pi$, uniformare in cucitura.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 77,
+   "testo": "Abbreviazioni espanse secondo la policy: «M.C.» → «catena di Markov», «r.w.» → «random walk», «SCC» mantenuto (sigla usata anche a p. 76, dove è glossata come strongly connected component). «State probability vector» era sottolineato in inglese nel quaderno: l'ho tenuto come titolo della definizione, con la traduzione italiana nel corpo; «row-vector» reso «vettore riga».",
+   "risolto": true
+  },
+  {
+   "tipo": "figura",
+   "pagina": 77,
+   "testo": "La pagina non contiene disegni: le uniche marche grafiche sono graffe e frecce di rimando (dalla definizione di irriducibile al commento; dal vettore $\\vec q^{\\,(t)}$ alle note «row-vector», «la distribuzione dello stato al tempo t» e alla nota a margine destra) e un'ellisse a penna attorno a «sappiamo trattare». Tutto reso in prosa; nessuna figura TikZ necessaria.",
+   "risolto": true
+  },
+  {
+   "tipo": "altro",
+   "pagina": 77,
+   "testo": "Gli appunti del corso dell'anno precedente forniti (.build/supporto/L16_sintesi.md) riguardano la lezione su complessità randomizzata, random walk di Gamow e SAT/CNF: non coprono le catene di Markov e non sono stati utilizzabili per disambiguare questa pagina. Il riferimento bibliografico pertinente resta Feller, vol. I, cap. XV (citato a fine p. 72), e Motwani–Raghavan cap. 6 per «state probability vector», irriducibilità e distribuzione stazionaria.",
+   "risolto": true
+  }
+ ],
+ "figure": [],
+ "continuita": "La pagina prosegue senza soluzione di continuità da p. 76, che si chiude con «SCC = classi di equivalenza della relazione di mutua raggiungibilità» e un abbozzo a matita del grafo con le sue componenti: la prima riga di p. 77 tira le somme di quel disegno collegando le SCC alle nozioni di stato transiente/persistente introdotte sempre a p. 76 ($f_{ii}<1$ vs $f_{ii}=1$, $h_{ii}<\\infty$ vs $h_{ii}=\\infty$). Si chiude con la definizione di distribuzione stazionaria $\\vec\\pi = \\vec\\pi P$, che è esattamente il punto di attacco di p. 78 («Quando raggiungiamo la distribuzione stazionaria non ci sono più \"sorprese\" → steady state»), la quale prosegue con periodicità, aperiodicità, ergodicità e il Teorema fondamentale sulle catene di Markov — il teorema a cui rimanda l'annotazione di questa pagina sulle catene irriducibili. La notazione $\\vec q^{\\,(t)}$, $P$, $\\vec\\pi$ va tenuta allineata con p. 78.",
+ "confidenza": "alta"
+}

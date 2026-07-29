@@ -1,0 +1,19 @@
+% La piu' lunga sottostringa ripetuta: due occorrenze di beta in T, sentinella $ in coda.
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % la stringa T
+  \draw[line width=1.1pt] (0,0) -- (10,0);
+  \node[anchor=south] at (9.6,0.12) {$T$};
+
+  % sentinella, vistosamente piu' grande del testo
+  \node[anchor=west,inner sep=1pt] at (10.05,0) {\Large$\$$};
+
+  % prima occorrenza di beta
+  \draw[decorate,decoration={brace,mirror,amplitude=5pt}] (1.4,-0.12) -- (3.6,-0.12);
+  \node[anchor=north] at (2.5,-0.42) {$\b$};
+
+  % seconda occorrenza di beta (stessa lunghezza)
+  \draw[decorate,decoration={brace,mirror,amplitude=5pt}] (5.0,-0.12) -- (7.2,-0.12);
+  \node[anchor=north] at (6.1,-0.42) {$\b$};
+
+\end{tikzpicture}
